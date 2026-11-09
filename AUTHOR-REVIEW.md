@@ -58,6 +58,7 @@ Already reconciled during drafting:
 - [ ] **Title.** The README calls it "Vibe Coding, Done Right." Change it if you prefer something else.
 - [ ] **Length.** Modules run 5,000–8,000 words, longer than the 3,000–5,500 target, because the topic list was big. Candidates to trim: module 01 (the long prehistory), 05 ("Going deeper"), 07, 08, and the workplace playbook (~9k words; "Common rollout failures" and "The human side" partly repeat the phase risk tables).
 - [ ] **Publishing.** Options: keep it as a GitHub repo, turn on GitHub Pages (MkDocs or similar), or publish a private web version to share by link.
+- [ ] **GitHub Actions billing.** The CI workflow (`.github/workflows/checks.yml`) is in place, but GitHub won't start jobs on this account: "recent account payments have failed or your spending limit needs to be increased." Until that's fixed, runs show as failed without executing. PR #1 was checked locally instead (`python3 scripts/check_links.py` and `python3 scripts/build_reference.py` with no diff).
 - [ ] **Repo location.** You mentioned this project should live under `~/Developer`. It's currently a T3 Code project at `~/.t3/projects/vibe-code-tutorial`. Moving it is best done through T3 Code's project settings, so the app's bindings don't break.
 
 ## 5. Keeping it current
