@@ -1,18 +1,14 @@
 # Engineer path
 
-> **For:** working software engineers who ship code daily, from "I tried Copilot in 2024 and wasn't impressed" to "I use an agent but I'm not sure I'm using it well."
-> **Time:** about 6–8 hours of reading, then a two-week practice plan on your real work.
+This path is for working software engineers who ship code daily, from "I tried Copilot in 2024 and wasn't impressed" to "I use an agent but I'm not sure I'm using it well." Plan on about 6–8 hours of reading, then a two-week practice plan on your real work.
 
 ## The pitch, in one paragraph
 
-The tools changed more in 2025–2026 than in the decade before. If your last serious try was chat-and-paste or autocomplete, you tried a different product. A modern coding agent reads your repository, runs your tests, and iterates until they pass. The skill is no longer "writing good prompts." It's controlling context, giving the agent checks it can run, reviewing efficiently, and knowing where it breaks. That's engineering, and you already have most of the instincts for it. The evidence on productivity is honestly mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), and the gains go to people with good habits. This path is about the habits.
+If your last serious try was chat-and-paste or autocomplete, repository-aware agents are worth a fresh look. A modern coding agent reads your repository, runs your tests, and iterates until they pass. Prompt wording matters less than it used to. What matters now is controlling context, giving the agent checks it can run, reviewing efficiently, and knowing where it breaks. That's engineering, and you already have most of the instincts for it. The evidence on productivity is honestly mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), and results depend on the task, tool, and workflow. This path gives you habits to test on your own work.
 
 ## How to read each module
 
-- **Skim** Foundations. You'll know some of it; read the parts you don't.
-- **Read** In practice closely. It's written for you.
-- **Read** Going deeper for the modules you care most about. That's where the open debates are.
-- **Read** Bryan's take as one experienced practitioner's opinion, not gospel. Several are contested and the modules say so.
+Skim Foundations and read the parts you don't already know. Read In practice closely, since it's written for you. Read Going deeper for the modules you care most about, because that's where the open debates are. Read Bryan's take as one experienced practitioner's opinion, not gospel. Several are contested, and the modules say so.
 
 ## The path
 
@@ -53,7 +49,7 @@ The tools changed more in 2025–2026 than in the decade before. If your last se
 
 ## Two-week practice plan
 
-Reading doesn't change habits. Doing it on real work does. Pick tasks from your actual backlog.
+Reading doesn't change habits. Doing the work does, so pick tasks from your actual backlog.
 
 ### Week 1: one supervised agent
 
@@ -77,14 +73,14 @@ Reading doesn't change habits. Doing it on real work does. Pick tasks from your 
 
 ## Common traps for experienced engineers
 
-- **Judging today's tools by 2024's.** Re-test. The gap is large.
-- **Over-specifying in prose.** Long instruction files cost more context than they're worth. Prefer runnable checks and short, specific rules.
-- **Under-specifying the goal.** "Fix the flaky test" leads to deleted tests. "Make this test pass reliably without changing its assertions" doesn't.
-- **Reviewing less because the agent seems confident.** Confidence is a writing style, not evidence.
-- **Turning on full autonomy too early.** Turn the dial up one notch at a time, only as fast as your automated checks can catch what you stop looking at ([module 08](../modules/08-agentic-workflows.md#the-autonomy-spectrum)).
-- **Tool churn.** Switching tools every week feels productive and isn't. Keep one primary tool and one warm backup ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)).
+- Judging today's tools by 2024's. Re-test, because the gap is large.
+- Over-specifying in prose. Long instruction files cost more context than they're worth. Prefer runnable checks and short, specific rules.
+- Under-specifying the goal. "Fix the flaky test" can lead to deleted tests. "Make this test pass reliably without changing its assertions" gives a clearer constraint, which you still need to verify.
+- Reviewing less because the agent seems confident. Confidence is a writing style, not evidence.
+- Turning on full autonomy too early. Turn the dial up one notch at a time, only as fast as your automated checks can catch what you stop looking at ([module 08](../modules/08-agentic-workflows.md#the-autonomy-spectrum)).
+- Switching tools every week. It feels productive and isn't. Keep one primary tool and one warm backup ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)).
 
 ## Where to go next
 
-- If you're the one pushing your team to adopt this: the [leads path](leads.md) and the [workplace playbook](../workplace/ai-first-playbook.md).
-- If you want to mentor others: run a session from the [session series](../workplace/session-series.md).
+- If you're the one pushing your team to adopt this, read the [leads path](leads.md) and the [workplace playbook](../workplace/ai-first-playbook.md).
+- If you want to mentor others, run a session from the [session series](../workplace/session-series.md).

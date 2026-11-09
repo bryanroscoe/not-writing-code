@@ -1,21 +1,20 @@
 # 06: Harnesses, tools, and MCP
 
-> **Audience:** everyone · **Reading time:** ~35 min · **Last verified:** 2026-11-08
-> **Depth guide:** Students: Foundations + the decision table in In practice. Engineers: skim Foundations, read In practice and Going deeper. Leads: the history table, the closed-products table, and "How to choose a harness."
+*About a 35-minute read. Last checked November 8, 2026.*
 
 **TL;DR**
-- A **harness** is everything around the model: the agent loop, the tools, the permission system, context management, and the user interface. Agent = model + harness. The same model can feel brilliant in one harness and clumsy in another.
-- Coding tools went through five overlapping generations: autocomplete (2021), chat (2022), IDE agents (2023–2025), terminal (CLI) agents (2025), and cloud or background agents (2024–2025). Then came a sixth layer in 2026: desktop apps and orchestrators that drive several CLI agents at once.
-- **MCP** (Model Context Protocol) is the open standard for plugging tools and data into any harness. Anthropic released it in November 2024. OpenAI, Google and Microsoft adopted it in 2025, and it moved to the Linux Foundation's Agentic AI Foundation in December 2025. Its main costs are context bloat and security risk.
-- Modern harnesses share a common kit: instruction files, **skills**, **subagents**, **hooks**, slash commands, plugins, permission modes and sandboxes, git worktrees, and checkpoints. Learn the concepts once. They transfer across tools.
-- Closed products such as Claude Design, Claude in Chrome, ChatGPT agent and Google Antigravity bundle a model, a harness and tools into one experience. They are convenient, and you can't easily see inside them or swap their parts.
-- Choose a harness for model access, cost model, privacy, extensibility, and what your team already uses. Don't choose on demo videos.
+- A harness is everything around the model: the agent loop, the tools, the permission system, context management, and the user interface. Agent = model + harness, and the same model can feel brilliant in one harness and clumsy in another.
+- Coding tools went through five overlapping generations: autocomplete (2021), chat (2022), IDE agents (2023–2025), terminal (CLI) agents (2025), and cloud or background agents (2024–2025). A sixth layer arrived in 2025–2026: desktop apps and orchestrators that drive several CLI agents at once.
+- MCP (Model Context Protocol) is the open standard for connecting tools and data to compatible harnesses. Anthropic released it in November 2024. OpenAI, Google and Microsoft adopted it in 2025, and it moved to the Linux Foundation's Agentic AI Foundation in December 2025. Its main costs are context bloat and security risk.
+- Modern harnesses share a common kit: instruction files, skills, subagents, hooks, slash commands, plugins, permission modes and sandboxes, git worktrees, and checkpoints. Learn the concepts once and they transfer across tools.
+- Closed products such as Claude Design, Claude in Chrome, ChatGPT agent and Google Antigravity bundle a model, a harness and tools into one experience. They're convenient, but you can't easily see inside them or swap their parts.
+- Pick a harness on model access, cost model, privacy, extensibility, and what your team already uses, not on demo videos.
 
 ## Foundations
 
 ### What a harness is
 
-A large language model (LLM) on its own does one thing. It takes text in and predicts text out (see [module 01](./01-what-is-an-llm.md)). It cannot open a file, run a test, or remember yesterday's conversation. Everything that turns that text predictor into something that edits your codebase is the **harness**.
+On its own, a large language model (LLM) does one thing: it takes text in and [predicts text out](./01-what-is-an-llm.md). It can't open a file, run a test, or remember yesterday's conversation. Everything that turns that text predictor into something that edits your codebase is the **harness**.
 
 A useful working definition:
 
@@ -32,7 +31,7 @@ Each part, in plain terms:
 | **Context management** | Decides what goes into the model's limited context window and what gets summarized or dropped | Loading instruction files, compacting long sessions, giving subagents fresh windows |
 | **User interface** | How you see and steer the work | Terminal UI, IDE panel, web dashboard, desktop app, Slack bot |
 
-The loop itself is simple. Most agents today are a variant of the **ReAct** pattern (reason, then act, then observe), described by [Yao et al. (2022)](https://arxiv.org/abs/2210.03629):
+The loop itself is simple. Most agents today are a variant of the ReAct pattern (reason, then act, then observe), described by [Yao et al. (2022)](https://arxiv.org/abs/2210.03629):
 
 ```mermaid
 flowchart LR
@@ -43,23 +42,23 @@ flowchart LR
     M -->|says done| R[Answer, diff, or PR]
 ```
 
-Analogy: the model is an engine. The harness is the rest of the car: steering, brakes, dashboard, fuel system. A great engine in a badly built car is still a bad car.
+If the model is the engine, the harness is the rest of the car: steering, brakes, dashboard, fuel system. A great engine in a badly built car is still a bad car.
 
 ### Why the same model behaves differently in different harnesses
 
 People often say "model X is bad at Y" when the real cause is the harness. Several harness choices change results a lot:
 
-- **Tool design.** The SWE-agent paper ([Yang et al., 2024](https://arxiv.org/abs/2405.15793)) showed that giving a model a purpose-built "agent-computer interface" (compact file viewers, a search tool, an editor that lints on save) made the same model much better at fixing real GitHub issues than giving it a raw shell.
-- **System prompt and defaults.** In April 2026 Anthropic published a [postmortem](https://www.anthropic.com/engineering/april-23-postmortem) on user complaints that Claude Code had gotten worse. The cause wasn't the model weights. It was three harness-level changes: a lower default reasoning effort, a context-management bug that cleared earlier reasoning on every turn, and a system-prompt line that capped how much the model wrote between tool calls. All three were reverted or fixed.
-- **Context management.** How a harness compacts history, loads instruction files, and returns tool output decides what the model can "see" at each step (see [module 07](./07-context-engineering.md)).
-- **Permissions and interruptions.** A harness that asks for approval on every command trains you to click "yes" without reading. One that never asks can do damage. Both change outcomes.
-- **Benchmarks.** Agentic benchmark scores depend on the scaffold used to run them. When two vendors report the same benchmark with different harnesses, the numbers aren't directly comparable (see [module 05](./05-judging-models.md)).
+- Tool design. The SWE-agent paper ([Yang et al., 2024](https://arxiv.org/abs/2405.15793)) showed that giving a model a purpose-built "agent-computer interface" (compact file viewers, a search tool, an editor that lints on save) made the same model much better at fixing real GitHub issues than giving it a raw shell.
+- The system prompt and defaults. In April 2026 Anthropic published a [postmortem](https://www.anthropic.com/engineering/april-23-postmortem) on user complaints that Claude Code had gotten worse. It traced the problem to three harness-level changes rather than the model weights: a lower default reasoning effort, a context-management bug that cleared earlier reasoning on every turn, and a system-prompt line that capped how much the model wrote between tool calls. All three were reverted or fixed.
+- Context management decides what the model can "see" at each step: how the harness compacts history, loads instruction files, and returns tool output ([module 07](./07-context-engineering.md)).
+- Permission prompts. A harness that asks for approval on every command trains you to click "yes" without reading, and one that never asks can do damage.
+- Benchmark scores depend on the scaffold too. When two vendors report the same agentic benchmark with different harnesses, the numbers aren't directly comparable ([module 05](./05-judging-models.md)).
 
-The practical lesson: when you evaluate a model for coding, evaluate it **in the harness you will actually use**.
+So when you evaluate a model for coding, evaluate it in the harness you'll actually use.
 
 ### A short history: from autocomplete to orchestrators
 
-The generations overlap. Every one of them is still in use.
+The generations overlap, and every one is still in use.
 
 | Generation | Arrived | Examples | What you do | What the tool does |
 | --- | --- | --- | --- | --- |
@@ -70,24 +69,24 @@ The generations overlap. Every one of them is still in use.
 | **5. Cloud / background agents** | 2024–2025 | Devin (2024), Codex cloud (May 2025), [Copilot coding agent](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/) (May 19, 2025), Jules (2025), [Claude Code on the web](https://claude.com/blog/claude-code-on-the-web) (Oct 20, 2025), Cursor cloud agents | Assign an issue or task, walk away | Works in a remote sandbox, opens a pull request |
 | **6. Desktop GUIs and orchestrators** | 2025–2026 | Conductor, [T3 Code](https://github.com/pingdotgg/t3code), Codex app (Feb 2, 2026), Claude desktop app, Gas Town, OpenHands Agent Canvas | Supervise several agents at once | Runs many CLI agents in parallel, each in its own git worktree, and shows their diffs side by side |
 
-A few points of detail worth knowing:
+A few details behind the table:
 
-- **Why the terminal won in 2025.** The shell is the universal tool. An agent that can run any command can build, test, lint, query a database and call `gh` without anyone writing a special integration. CLI agents also run headless, so the same agent works in CI, in scripts, and in cloud sandboxes.
-- **Generation 6 wraps generation 4.** Tools like Conductor and T3 Code are not agents themselves. They drive the CLI agents you already have installed and signed into, and they add a GUI, parallel sessions, and diff review. T3 Code describes itself as an "agent harness control surface." It is MIT-licensed, comes from Theo Browne's company (the `pingdotgg` GitHub organization), and supports Claude Code, Codex, Cursor, OpenCode, Antigravity and others. Its README calls it "very very early." Conductor (from Melty Labs) is a Mac app that runs parallel Claude Code, Codex and Cursor agents in isolated workspaces.
-- **Gas Town** (Steve Yegge, January 2026) is an orchestrator for 20–30 agents with named roles: a "Mayor" coordinator, "polecat" workers, and a "Refinery" merge queue. It sits at the top of Yegge's eight-stage ladder of AI coding workflows (see [module 08](./08-agentic-workflows.md) and [module 13](./13-open-source-ecosystem.md)).
+- The terminal won in 2025 because the shell is the universal tool. An agent that can run any command can build, test, lint, query a database and call `gh` without anyone writing a special integration. CLI agents also run headless, so the same agent works in CI, in scripts, and in cloud sandboxes.
+- Generation 6 wraps generation 4. Tools like Conductor and T3 Code aren't agents themselves. They drive the CLI agents you already have installed and signed into, and add a GUI, parallel sessions and diff review. T3 Code describes itself as an "agent harness control surface." It is MIT-licensed, comes from Theo Browne's company (the `pingdotgg` GitHub organization), and supports Claude Code, Codex, Cursor, OpenCode, Antigravity and others. Its README calls it "very very early." Conductor (from Melty Labs) is a Mac app that runs parallel Claude Code, Codex and Cursor agents in isolated workspaces.
+- Gas Town (Steve Yegge, January 2026) is an orchestrator for 20–30 agents with named roles: a "Mayor" coordinator, "polecat" workers, and a "Refinery" merge queue. It sits at the top of Yegge's eight-stage ladder of AI coding workflows ([module 08](./08-agentic-workflows.md), [module 13](./13-open-source-ecosystem.md)).
 
-**Status changes worth knowing (as of November 2026).** This market consolidates fast. Check before you standardize on anything.
+This market consolidates fast, so check before you standardize on anything. The status changes as of November 2026:
 
-- **Gemini CLI** is now aimed at enterprise Gemini Code Assist on Google Cloud. On June 18, 2026, free individual access and the Google AI Pro/Ultra plans moved to Google's **Antigravity CLI** (`agy`), per the [Gemini CLI README](https://github.com/google-gemini/gemini-cli).
-- **Cursor** was [acquired by SpaceX](https://cursor.com/blog/joining-spacex) on August 14, 2026.
-- **Windsurf** split in July 2025. Google licensed its technology and hired its leaders, and the team went on to build Antigravity. Cognition (maker of Devin) acquired the rest of the company.
-- **Roo Code**, a popular open-source IDE agent, [shut down its extension on May 15, 2026](https://github.com/RooCodeInc/Roo-Code). **Continue** is [archived and read-only](https://github.com/continuedev/continue). See [module 13](./13-open-source-ecosystem.md).
-- **Amp** [spun out of Sourcegraph](https://ampcode.com/news/amp-inc) as its own company in late 2025.
-- **Codex** started as a CLI (April 2025) and a cloud agent (May 2025). By late 2026, OpenAI's docs list Codex across the ChatGPT desktop, web and mobile apps plus the CLI, IDE extension and cloud ([learn.chatgpt.com](https://learn.chatgpt.com/docs)).
+- Gemini CLI is now aimed at enterprise Gemini Code Assist on Google Cloud. On June 18, 2026, free individual access and the Google AI Pro/Ultra plans moved to Google's Antigravity CLI (`agy`), per the [Gemini CLI README](https://github.com/google-gemini/gemini-cli).
+- Cursor was [acquired by SpaceX](https://cursor.com/blog/joining-spacex) on August 14, 2026.
+- Windsurf split in July 2025. Google licensed its technology and hired its leaders, and the team went on to build Antigravity. Cognition (maker of Devin) acquired the rest of the company.
+- Roo Code, a popular open-source IDE agent, [shut down its extension on May 15, 2026](https://github.com/RooCodeInc/Roo-Code), and Continue is [archived and read-only](https://github.com/continuedev/continue) ([module 13](./13-open-source-ecosystem.md)).
+- Amp [spun out of Sourcegraph](https://ampcode.com/news/amp-inc) as its own company in late 2025.
+- Codex started as a CLI (April 2025) and a cloud agent (May 2025). By late 2026, OpenAI's docs list Codex across the ChatGPT desktop, web and mobile apps plus the CLI, IDE extension and cloud ([learn.chatgpt.com](https://learn.chatgpt.com/docs)).
 
 ### Tools: how a model "does" things
 
-A **tool** is a function the harness exposes to the model. The harness sends the model a list of tool definitions. Each definition has a name, a plain-English description, and a JSON Schema for the inputs. When the model wants to act, it outputs a structured **tool call**. The harness checks permissions, runs the function, and puts the result back into the context.
+A tool is a function the harness exposes to the model. The harness sends the model a list of tool definitions, each with a name, a plain-English description, and a JSON Schema for the inputs. When the model wants to act, it outputs a structured **tool call**. The harness checks permissions, runs the function, and puts the result back into the context.
 
 ```json
 {
@@ -104,16 +103,14 @@ A **tool** is a function the harness exposes to the model. The harness sends the
 
 Two things follow from this design:
 
-1. **Tool descriptions are prompts.** The model chooses tools from their names and descriptions. Vague descriptions produce wrong tool choices. Anthropic's guide [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) (September 2025) treats tool design as a core engineering task.
-2. **Every tool definition costs context.** Definitions are sent on every model call. Fifty tools can eat a large share of the window before you type anything. This is the root of the "MCP bloat" problem below.
+1. Tool descriptions are prompts. The model picks tools by their names and descriptions, so vague descriptions produce wrong choices. Anthropic's guide [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) (September 2025) treats tool design as a core engineering task.
+2. Loaded tool definitions cost context. Unless the harness uses lazy discovery, definitions go along with every model call, and fifty tools can eat a large share of the window before you type anything. That's the root of the "MCP bloat" problem.
 
 ### MCP: the Model Context Protocol
 
 Before MCP, every harness needed custom code for every integration. Ten harnesses times a hundred services meant a thousand integrations. MCP turns that into ten clients plus a hundred servers.
 
-**What it is.** MCP is an open protocol that Anthropic [announced on November 25, 2024](https://www.anthropic.com/news/model-context-protocol). It standardizes how an AI application discovers and calls external tools and data. Anthropic's own analogy is a USB-C port for AI applications.
-
-**The pieces:**
+MCP is an open protocol that Anthropic [announced on November 25, 2024](https://www.anthropic.com/news/model-context-protocol). It standardizes how an AI application discovers and calls external tools and data; Anthropic's own analogy is a USB-C port for AI applications. The pieces:
 
 | Term | Meaning |
 | --- | --- |
@@ -138,9 +135,9 @@ flowchart LR
     S2 <--> API[GitHub API]
 ```
 
-**A minimal mental model.** An MCP server is a small adapter. It says "here are my tools and their schemas," then it executes calls and returns results. The harness turns those tools into entries in the model's tool list. From the model's point of view, an MCP tool looks like any other tool.
+An MCP server is just a small adapter. It says "here are my tools and their schemas," then executes calls and returns results. The harness turns those tools into entries in the model's tool list, so to the model an MCP tool looks like any other tool.
 
-**A tiny config example.** Most harnesses configure servers in a JSON or TOML file. In Claude Code, a project-level `.mcp.json` might look like this. The first server runs locally over stdio. The second is GitHub's hosted server over HTTP, with the token read from an environment variable rather than written into the file:
+Most harnesses configure servers in a JSON or TOML file. In Claude Code, a project-level `.mcp.json` might look like this. The first server runs locally over stdio. The second is GitHub's hosted server over HTTP, with the token read from an environment variable instead of written into the file:
 
 ```json
 {
@@ -166,23 +163,24 @@ command = "npx"
 args = ["@playwright/mcp@latest"]
 ```
 
-Writing a server is also small. With the official Python SDK, a working server is about ten lines (check the [SDK docs](https://modelcontextprotocol.io/docs/getting-started/intro) for the current API):
+With Python 3.11+ and version 2 of the official `mcp` Python SDK installed, this minimal server exposes one tool backed by sample data (check the [SDK docs](https://py.sdk.modelcontextprotocol.io/) for the current API):
 
 ```python
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 
-mcp = FastMCP("tickets")
+mcp = MCPServer("tickets")
+tickets = {"platform": ["Fix session timeout", "Add rate-limit tests"]}
 
 @mcp.tool()
 def open_tickets(team: str) -> list[str]:
     """List open ticket titles for a team. Use before planning work."""
-    return lookup_tickets(team)  # your code here
+    return tickets.get(team, [])
 
 if __name__ == "__main__":
-    mcp.run()  # stdio transport by default
+    mcp.run(transport="stdio")
 ```
 
-**How it spread.** MCP went from one company's spec to industry plumbing in about a year:
+MCP went from one company's spec to industry plumbing in about a year:
 
 | When | What happened |
 | --- | --- |
@@ -198,20 +196,20 @@ if __name__ == "__main__":
 
 The stateless redesign matters to people who run servers. A stateless server can sit behind an ordinary load balancer, which makes hosted MCP much easier to scale. The three primitives you build with (tools, resources, prompts) are unchanged.
 
-**Criticisms, and they are fair:**
+The criticisms are fair:
 
-- **Context bloat.** Every connected server's tool definitions load into context. Anthropic's [advanced tool use post](https://www.anthropic.com/engineering/advanced-tool-use) (November 2025) gives a typical five-server setup as "58 tools consuming approximately 55K tokens before the conversation even starts." It also reports seeing 134K tokens of tool definitions internally before optimization. Large tool lists also make tool selection less accurate.
-- **Security.** An MCP server is code you run with your credentials. A malicious or compromised server can lie in its tool descriptions ("tool poisoning"), change behavior after you approve it, or exfiltrate data. Any server that reads untrusted content (web pages, issues, emails) is a prompt-injection channel. [Hou et al. (2025)](https://arxiv.org/abs/2503.23278) survey the threat landscape, and [module 11](./11-security-and-prompt-injection.md) covers defenses.
-- **Quality varies.** Many community servers are thin API wrappers with poor descriptions and huge outputs. The official reference servers are labeled educational examples, "not production-ready solutions" ([modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)).
-- **"Just use the CLI."** Many engineers find that an agent with shell access does better with `gh`, `psql` or `kubectl` than with an MCP wrapper of the same service. The model already knows those CLIs from training, and their output can be filtered with `grep` or `jq` before it hits context.
+- Context bloat. In harnesses without lazy discovery, connected servers' tool definitions load into context. Anthropic's [advanced tool use post](https://www.anthropic.com/engineering/advanced-tool-use) (November 2025) gives a typical five-server setup as "58 tools consuming approximately 55K tokens before the conversation even starts." It also reports seeing 134K tokens of tool definitions internally before optimization. Large tool lists also make tool selection less accurate.
+- Security. An MCP server is code you run with your credentials. A malicious or compromised server can lie in its tool descriptions ("tool poisoning"), change behavior after you approve it, or exfiltrate data. Any server that reads untrusted content (web pages, issues, emails) is a prompt-injection channel. [Hou et al. (2025)](https://arxiv.org/abs/2503.23278) survey the threat landscape, and [module 11](./11-security-and-prompt-injection.md) covers defenses.
+- Quality varies. Many community servers are thin API wrappers with poor descriptions and huge outputs. The official reference servers are labeled educational examples, "not production-ready solutions" ([modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)).
+- "Just use the CLI." Many engineers find that an agent with shell access does better with `gh`, `psql` or `kubectl` than with an MCP wrapper of the same service. The model already knows those CLIs from training, and their output can be filtered with `grep` or `jq` before it hits context.
 
-**Code execution with MCP ("code mode").** Two posts in late 2025 proposed the same fix for bloat. Cloudflare's [Code Mode](https://blog.cloudflare.com/code-mode/) (September 26, 2025) converts MCP tools into a TypeScript API and has the model write code that calls it, in a sandbox. Its argument: "LLMs are better at writing code to call MCP, than at calling MCP directly." Anthropic's [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) (November 4, 2025) presents servers as code files on a filesystem that the agent browses on demand. In its example, token use dropped "from 150,000 tokens to 2,000 tokens," a 98.7% saving, because intermediate data stayed in the sandbox instead of passing through the model. Related harness features include **tool search** (load a small search tool first and fetch definitions only when needed; Anthropic reported an 85% token reduction) and **programmatic tool calling**.
+Two posts in late 2025 proposed the same fix for bloat: code execution with MCP, or "code mode." Cloudflare's [Code Mode](https://blog.cloudflare.com/code-mode/) (September 26, 2025) converts MCP tools into a TypeScript API and has the model write code that calls it, in a sandbox. Its argument is that "LLMs are better at writing code to call MCP, than at calling MCP directly." Anthropic's [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) (November 4, 2025) presents servers as code files on a filesystem that the agent browses on demand. In its example, token use dropped "from 150,000 tokens to 2,000 tokens," a 98.7% saving, because intermediate data stayed in the sandbox instead of passing through the model. Related harness features include **tool search** (load a small search tool first and fetch definitions only when needed; Anthropic reported an 85% token reduction) and programmatic tool calling.
 
-**A2A, for contrast.** Google announced the **Agent2Agent (A2A)** protocol in April 2025 and gave it to the Linux Foundation that June ([a2a-protocol.org](https://a2a-protocol.org/)). MCP connects an agent to tools and data. A2A connects one agent to another agent, possibly built by a different vendor, so they can delegate tasks and exchange results. In coding work you will meet MCP daily and A2A rarely.
+For contrast, Google announced the **Agent2Agent (A2A)** protocol in April 2025 and gave it to the Linux Foundation that June ([a2a-protocol.org](https://a2a-protocol.org/)). MCP connects an agent to tools and data. A2A connects one agent to another agent, possibly from a different vendor, so they can delegate tasks and exchange results. In coding work you'll run into MCP daily and A2A rarely.
 
 ### The rest of the harness toolkit
 
-By 2026 the major harnesses had converged on a shared set of features. Names differ slightly between products, and the ideas are the same. Examples here use Claude Code's terms because its [docs](https://code.claude.com/docs/en/features-overview) are detailed. Codex, Cursor, OpenCode and others have close equivalents.
+By 2026 the major harnesses had converged on a shared set of features. The names differ a little between products, but the ideas are the same. The examples use Claude Code's terms because its [docs](https://code.claude.com/docs/en/features-overview) are detailed; Codex, Cursor, OpenCode and others have close equivalents.
 
 | Feature | What it is | Use it for | Watch out for |
 | --- | --- | --- | --- |
@@ -227,13 +225,13 @@ By 2026 the major harnesses had converged on a shared set of features. Names dif
 | **Checkpoints** | Automatic snapshots of file edits (and conversation) you can rewind | Undoing a bad turn quickly | Not a replacement for git commits |
 | **Scheduling and loops** | Re-run a prompt on an interval (`/loop`), until a condition holds (`/goal`), or on a cloud schedule | Babysitting CI, nightly triage | Runaway token spend ([module 07](./07-context-engineering.md)) |
 
-Three of these deserve more explanation.
+Three of these need more explanation.
 
-**Skills.** Anthropic introduced [Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) on October 16, 2025 and published the format as an open standard at [agentskills.io](https://agentskills.io) on December 18, 2025. On October 22, 2026 it [donated the standard to the AAIF](https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation), reporting that more than 70 agent platforms had integrated it, including ChatGPT, Cursor, GitHub Copilot and VS Code. The key idea is **progressive disclosure**. The agent sees a one-line description of every skill and reads the full instructions only when a task calls for them. That lets you keep dozens of procedures available without paying for them in every prompt.
+Start with skills. Anthropic introduced [Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) on October 16, 2025 and published the format as an open standard at [agentskills.io](https://agentskills.io) on December 18, 2025. On October 22, 2026 it [donated the standard to the AAIF](https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation), reporting that more than 70 agent platforms had integrated it, including ChatGPT, Cursor, GitHub Copilot and VS Code. The key idea is **progressive disclosure**. The agent sees a one-line description of every skill and reads the full instructions only when a task calls for them. That lets you keep dozens of procedures available without paying for them in every prompt.
 
-**Hooks.** Hooks are the deterministic part of an otherwise probabilistic system. Prose in an instruction file is a request. A hook is a rule that runs every time. Claude Code's docs say so directly: instruction files are treated "as context, not enforced configuration," and to block an action regardless of what the model decides, you use a hook ([memory docs](https://code.claude.com/docs/en/memory)).
+Hooks are the deterministic part of an otherwise probabilistic system. Prose in an instruction file is a request; a hook is a rule that runs every time. Claude Code's docs say so directly: instruction files are treated "as context, not enforced configuration," and to block an action regardless of what the model decides, you use a hook ([memory docs](https://code.claude.com/docs/en/memory)).
 
-A formatter hook, from the [hooks guide](https://code.claude.com/docs/en/hooks-guide), runs Prettier after every file edit:
+A formatter hook, adapted from the [hooks guide](https://code.claude.com/docs/en/hooks-guide), runs Prettier after every file edit:
 
 ```json
 {
@@ -242,7 +240,7 @@ A formatter hook, from the [hooks guide](https://code.claude.com/docs/en/hooks-g
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "jq -r '.tool_input.file_path' | xargs npx prettier --write" }
+          { "type": "command", "command": "jq -j '.tool_input.file_path, \"\\u0000\"' | xargs -0 npx prettier --write --" }
         ]
       }
     ]
@@ -250,7 +248,7 @@ A formatter hook, from the [hooks guide](https://code.claude.com/docs/en/hooks-g
 }
 ```
 
-A `Stop` hook runs when the agent tries to end its turn. If the hook returns `{"decision": "block", "reason": "..."}`, the agent keeps working and sees the reason. This script refuses to let the agent declare victory while CI is still running on the current branch:
+A `Stop` hook runs when the agent tries to end its turn. If the hook returns `{"decision": "block", "reason": "..."}`, the agent keeps working and sees the reason. This teaching example blocks once when it sees unfinished runs among the five latest runs on the branch. It lets the agent stop on the next attempt, to avoid a loop; it isn't an enforced CI gate and doesn't check whether completed runs passed:
 
 ```bash
 #!/usr/bin/env bash
@@ -267,13 +265,13 @@ fi
 exit 0
 ```
 
-**Permission modes and auto mode.** Approval prompts sound safe, but people stop reading them. Anthropic [reported](https://www.anthropic.com/engineering/claude-code-auto-mode) in March 2026 that users approve 93% of permission prompts. Its "auto mode" hands routine approvals to a classifier model and keeps hard blocks for risky actions. Anthropic was candid about the limits: the full pipeline still missed 17% of "overeager" actions in its tests, and it is "not a drop-in replacement for careful human review on high-stakes infrastructure." The safer pattern for long unattended runs is a real sandbox (container, VM, or cloud environment) with limited credentials.
+Then there are permission modes and auto mode. Approval prompts sound safe, but people stop reading them. Anthropic [reported](https://www.anthropic.com/engineering/claude-code-auto-mode) in March 2026 that users approve 93% of permission prompts. Its "auto mode" hands routine approvals to a classifier model and keeps hard blocks for risky actions. Anthropic was candid about the limits: the full pipeline still missed 17% of "overeager" actions in its tests, and it is "not a drop-in replacement for careful human review on high-stakes infrastructure." The safer pattern for long unattended runs is a real sandbox (container, VM, or cloud environment) with limited credentials.
 
 ## In practice
 
 ### Closed products that bundle model, harness and tools
 
-Some products hide the harness entirely. You get one experience in which the vendor picked the model, the loop, the tools and the UI. These are often the fastest way to get a specific job done. You can't swap the model, inspect the prompts, or move your workflow elsewhere easily. Model tiers behind each product change often; see [module 03](./03-model-landscape.md).
+Some products hide the harness entirely. The vendor picked the model, the loop, the tools and the UI, and you get one experience. They're often the fastest way to get a specific job done. Model choice, prompt visibility and workflow portability vary by product and can be limited, and the model tiers behind each one change often ([module 03](./03-model-landscape.md)).
 
 | Product | Maker, launch | What it is | Good for |
 | --- | --- | --- | --- |
@@ -290,8 +288,8 @@ Some products hide the harness entirely. You get one experience in which the ven
 
 Two cautions apply to all of them:
 
-- **Browser and computer-use agents are the riskiest category.** They read untrusted web content while holding your logged-in sessions. Anthropic's own Chrome launch post reported a 23.6% prompt-injection attack success rate without mitigations and 11.2% with them in its tests. Better, and still not zero. Read [module 11](./11-security-and-prompt-injection.md) before you point one at your email or bank.
-- **Bundled products change underneath you.** The vendor can change the model, the prompts or the limits at any time. That is fine for prototypes. For a workflow your team depends on, prefer tools whose configuration you can see and version.
+- Browser and computer-use agents are the riskiest category, because they read untrusted web content while holding your logged-in sessions. Anthropic's own Chrome launch post reported a 23.6% prompt-injection attack success rate without mitigations and 11.2% with them in its tests. That's better, but it isn't zero. Read [module 11](./11-security-and-prompt-injection.md) before you point one at your email or bank.
+- Bundled products change underneath you. The vendor can change the model, the prompts or the limits at any time. That's fine for prototypes, but for a workflow your team depends on, prefer tools whose configuration you can see and version.
 
 ### How to choose a harness
 
@@ -308,7 +306,7 @@ No harness is best for everyone. Score the candidates against what your team nee
 | **Where the work happens** | Fit with how people already work | Terminal, IDE, browser, GitHub issues, Slack |
 | **Vendor durability** | Tools get acquired, pivot, or shut down | Open-source license, foundation governance, a portable configuration format |
 
-Some starting recommendations by situation:
+Some places to start:
 
 | If you are... | Start with... | Because... |
 | --- | --- | --- |
@@ -322,23 +320,23 @@ Some starting recommendations by situation:
 
 A setup checklist that works in most harnesses:
 
-1. **Pick one primary CLI agent** and learn its permission modes before you raise autonomy.
-2. **Write a short `AGENTS.md`** (or `CLAUDE.md`) with build, test and lint commands and the few conventions an agent can't infer. Aim for well under 200 lines ([module 07](./07-context-engineering.md)).
-3. **Add hooks for what must always happen:** a formatter after edits, a guard against destructive commands, a check that tests pass before the agent says "done."
-4. **Connect one to three MCP servers you actually need.** Prefer an existing CLI when the agent already knows it. Check the context cost of each server with your harness's context view (in Claude Code, `/context`).
-5. **Move repeated procedures into skills** instead of pasting them into the instruction file.
-6. **Use worktrees** before running two agents on one repository.
-7. **Turn on a sandbox** before you turn off approvals.
-8. **Commit often.** Checkpoints are convenient. Git is the real safety net.
+1. Pick one primary CLI agent and learn its permission modes before you raise autonomy.
+2. Write a short `AGENTS.md` (or `CLAUDE.md`) with build, test and lint commands and the few conventions an agent can't infer. Aim for well under 200 lines ([module 07](./07-context-engineering.md)).
+3. Add hooks for what must always happen: a formatter after edits, a guard against destructive commands, a check that tests pass before the agent says "done."
+4. Connect the one to three MCP servers you actually need. Prefer an existing CLI when the agent already knows it, and check each server's context cost with your harness's context view (in Claude Code, `/context`).
+5. Move repeated procedures into skills instead of pasting them into the instruction file.
+6. Set up worktrees before you run two agents on one repository.
+7. Turn on a sandbox before you turn off approvals.
+8. Commit often. Checkpoints are convenient, but git is the real safety net.
 
 ### Common failure modes
 
-- **Too many MCP servers.** Context fills with tool definitions, tool choice gets worse, and costs rise. Disconnect what you don't use this week.
-- **Trusting a server or skill because it is popular.** Popularity is not an audit. In early 2026, hundreds of malicious skills appeared on OpenClaw's public skill registry ([module 13](./13-open-source-ecosystem.md)).
-- **Approval fatigue.** You click "yes" on the fortieth prompt without reading it. Use allowlists and sandboxes so the prompts that remain matter.
-- **Blaming the model for a harness problem.** Before you switch models, check the harness version, the effort setting, recent instruction-file edits, and connected servers.
-- **Harness lock-in by accident.** Team knowledge locked in one vendor's proprietary format is expensive to move. Prefer `AGENTS.md`, Agent Skills and MCP.
-- **Leaving worktrees and sandboxes behind.** Parallel agents create many checkouts and build directories. Clean them up when a task is done.
+- Too many MCP servers. Context fills with tool definitions, tool choice gets worse, and costs rise. Disconnect what you don't use this week.
+- Trusting a server or skill because it's popular. Popularity isn't an audit. In early 2026, hundreds of malicious skills appeared on OpenClaw's public skill registry ([module 13](./13-open-source-ecosystem.md)).
+- Approval fatigue. You click "yes" on the fortieth prompt without reading it. Use allowlists and sandboxes so the prompts that remain matter.
+- Blaming the model for a harness problem. Before you switch models, check the harness version, the effort setting, recent instruction-file edits, and connected servers.
+- Accidental lock-in. Team knowledge stuck in one vendor's proprietary format is expensive to move, so prefer `AGENTS.md`, Agent Skills and MCP.
+- Leaving worktrees and sandboxes behind. Parallel agents create lots of checkouts and build directories. Clean them up when a task is done.
 
 ## Going deeper
 
@@ -346,25 +344,25 @@ A setup checklist that works in most harnesses:
 
 Two 2026 essays named the work of improving the harness. Mitchell Hashimoto's [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey) (February 5, 2026) calls it "harness engineering": whenever an agent makes a mistake, engineer a fix so it never makes that mistake again. OpenAI's [Harness engineering](https://openai.com/index/harness-engineering/) post (February 11, 2026) describes a team that shipped an internal product of about a million lines with no hand-written code, by investing in docs, linters, structural tests and feedback loops for Codex. [Module 07](./07-context-engineering.md) places this on the larger buzzword ladder.
 
-Anthropic's engineering posts show how much harness design matters for long tasks. [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) (November 2025) and [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) (March 2026) describe initializer agents, progress files, and separate evaluator agents. Cursor's [self-driving codebases](https://cursor.com/blog/self-driving-codebases) research (February 2026) ran a planner, sub-planner and worker hierarchy for about a week to build a web browser. Its finding: agents follow instructions closely, including bad ones, and infrastructure such as disk I/O became the bottleneck.
+Anthropic's engineering posts show how much harness design matters for long tasks. [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) (November 2025) and [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) (March 2026) describe initializer agents, progress files, and separate evaluator agents. Cursor's [self-driving codebases](https://cursor.com/blog/self-driving-codebases) research (February 2026) ran a planner, sub-planner and worker hierarchy for about a week to build a web browser. It found that agents follow instructions closely, including bad ones, and that infrastructure such as disk I/O became the bottleneck.
 
 ### Why harness features converge
 
-Look at the feature table above and you will find nearly every item in every major harness by late 2026. Features are cheap to copy, and the good ideas are visible in open-source projects ([module 13](./13-open-source-ecosystem.md)). Aider's repository map, the Ralph loop, worktree-per-agent orchestration, and skills all spread within months. Two consequences follow. Your skills transfer between tools. And no harness keeps a feature lead for long, so durable advantages come from the model, the integration with where work already happens, and the price.
+By late 2026 nearly every item in the feature table above shows up in every major harness. Features are cheap to copy, and the good ideas are visible in open-source projects ([module 13](./13-open-source-ecosystem.md)). Aider's repository map, the Ralph loop, worktree-per-agent orchestration and skills all spread within months. So your skills transfer between tools, and no harness keeps a feature lead for long. The lasting advantages come from the model, the integration with where work already happens, and the price.
 
 ### MCP vs. CLIs vs. code: an open debate
 
 There are three ways to give an agent a capability:
 
-1. **An MCP tool.** Structured, discoverable, works in hosts with no shell (chat apps, IDEs), supports OAuth for remote services. Costs context; quality varies.
-2. **A CLI the agent runs in a shell.** Uses knowledge from training, composes with pipes, costs nothing until used. Needs a shell and a sandbox, and has no standard auth story.
-3. **Code against an API, in a sandbox ("code mode").** Most token-efficient for multi-step data work. Needs a secure execution environment.
+1. An MCP tool. Structured, discoverable, works in hosts with no shell (chat apps, IDEs), supports OAuth for remote services. Costs context; quality varies.
+2. A CLI the agent runs in a shell. Uses knowledge from training, composes with pipes, costs nothing until used. Needs a shell and a sandbox, and has no standard auth story.
+3. Code against an API, in a sandbox ("code mode"). Most token-efficient for multi-step data work. Needs a secure execution environment.
 
 The trend through 2026 has been toward hybrids. Harnesses load tool definitions lazily (tool search), present MCP servers as code APIs, and let skills bundle scripts. If you're building an integration for others, MCP is the portable choice. If you're giving your own agent a capability, try the CLI first.
 
 ### Permission systems are a security boundary, not a UX detail
 
-The permission system is where the harness meets [module 11](./11-security-and-prompt-injection.md). An agent that can read untrusted input, access private data, and communicate externally has all three parts of Simon Willison's "lethal trifecta." Permission modes, network allowlists, credential scoping and sandboxes are how you break at least one leg. Anthropic's [How we contain Claude across products](https://www.anthropic.com/engineering/how-we-contain-claude) (May 2026) is a useful look at how a vendor layers these defenses.
+The permission system is where the harness meets [module 11](./11-security-and-prompt-injection.md). An agent that can read untrusted input, access private data, and communicate externally has all three parts of Simon Willison's "lethal trifecta." Permission modes, network allowlists, credential scoping and sandboxes are how you break at least one leg. Anthropic's [How we contain Claude across products](https://www.anthropic.com/engineering/how-we-contain-claude) (May 2026) shows how one vendor layers these defenses.
 
 ## Bryan's take
 

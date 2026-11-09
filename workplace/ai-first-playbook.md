@@ -1,24 +1,25 @@
 # The AI-first playbook for an engineering team
 
-> **Audience:** leads, managers, and AI champions · **Reading time:** ~45 min · **Last verified:** 2026-11-08
-> **Read first:** the [leads path](../paths/leads.md). **Use with:** the [objections guide](objections.md), the [session series](session-series.md), and the [policy template](policy-template.md).
+This playbook is for leads, managers, and AI champions, and takes about 45 minutes to read. Start with the [leads path](../paths/leads.md), and use it alongside the [objections guide](objections.md), the [session series](session-series.md), and the [policy template](policy-template.md).
+
+*Last checked November 8, 2026.*
 
 **TL;DR**
-- **AI-first means reaching for AI by default and knowing when not to.** It doesn't mean AI-only, and it doesn't mean usage quotas. A named human still owns every change.
-- Roll out in four phases. **Phase 0** sets the ground rules (data policy, approved tools, paid seats, security controls, a baseline). **Phase 1** is a champions pilot on real backlog work, with written learnings. **Phase 2** gives everyone a shared baseline: a short instruction file, a review rule, cross-model review, and training. **Phase 3** adds parallel agents, background agents for well-tested chores, and CI automation on API budgets.
-- Each phase has entry criteria, exit criteria, and named risks. Don't move on because the calendar says so. Move on because the exit criteria are met.
-- Measure outcomes you can count: review latency, PR size, escaped defects, change failure and revert rate, and cost. Don't target lines of code, PR counts, or "% written by AI." Treat surveys as a ceiling: in one of the most careful studies, developers felt 20% faster and were 19% slower.
-- The research is honestly mixed. Good habits and strong verification predict the gains. Your job is to build those habits and then measure your own team.
+- AI-first means reaching for AI by default and knowing when not to. It doesn't mean AI-only or usage quotas, and a named human still owns every change.
+- Roll out in four phases. Phase 0 sets the ground rules (data policy, approved tools, paid seats, security controls, a baseline). Phase 1 is a champions pilot on real backlog work that ends in written learnings. Phase 2 gives everyone the same short instruction file, review rule, cross-model review, and training. Phase 3 adds parallel agents, background agents for well-tested chores, and CI automation on API budgets.
+- Each phase has entry criteria, exit criteria, and named risks. Move on when the exit criteria are met, not when the calendar says so.
+- Measure outcomes you can count: review latency, PR size, escaped defects, change failure and revert rate, and cost. Don't target lines of code, PR counts, or "% written by AI." Check surveys against measurements. In one of the most careful studies, developers felt 20% faster and were 19% slower.
+- The research is mixed. Good habits and strong verification predict the gains, so build those habits and then measure your own team.
 
 ## What "AI-first, not AI-only" means
 
-**AI-first** means that for each task, the default first move is to ask "how would an agent help here?" Engineers use agents to read unfamiliar code, plan, write tests, implement, review, debug from logs, and draft tickets. They know the tool's failure modes and they verify its work.
+On an **AI-first** team, the first question on any task is "how would an agent help here?" Engineers use agents to read unfamiliar code, plan, write tests, implement, review, debug from logs, and draft tickets. They know how the tool fails, and they check its work.
 
-**AI-only** is something else. It means nobody can work without the tool, nobody reads the diffs, and the team's skills quietly erode. Module 15 calls this out directly: "Being AI-first means reaching for the tool by default and knowing how to use it well. It doesn't mean never working without it" ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)).
+**AI-only** is what you get when nobody can work without the tool, nobody reads the diffs, and the team's skills quietly wear away. [Module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side) puts it directly: "Being AI-first means reaching for the tool by default and knowing how to use it well. It doesn't mean never working without it."
 
 | AI-first looks like | AI-first does **not** look like |
 | --- | --- |
-| Every engineer has a paid, approved agent and uses it daily | A mandate that "80% of code must be AI-written" |
+| Every engineer has access to an approved agent and knows when it helps | A mandate that "80% of code must be AI-written" |
 | Agents explore, plan, write tests, and implement; humans specify, review, and decide | Merging diffs nobody read because the tests are green |
 | A fresh context or a different model reviews every change before a human does | The same session that wrote the code grading itself |
 | Juniors use AI as a tutor while they learn and as an accelerator once they can verify | Juniors delegating everything and learning nothing |
@@ -27,7 +28,7 @@
 
 > **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding: engineering with a human in charge, not blind acceptance of whatever the model produces.
 
-This playbook assumes the ground rules in [module 00](../modules/00-orientation.md#ground-rules-we-assume-throughout). They make a decent starting team policy on their own. The [policy template](policy-template.md) turns them into something you can get approved.
+This playbook assumes the [ground rules in module 00](../modules/00-orientation.md#ground-rules-we-assume-throughout), which make a decent starting team policy by themselves. The [policy template](policy-template.md) turns them into something you can get approved.
 
 ## The rollout at a glance
 
@@ -46,13 +47,13 @@ flowchart LR
 | 2. Team-wide baseline | 6–10 weeks | Everyone | Shared practices in every main repo; training complete; metrics stable |
 | 3. Advanced | Ongoing | Volunteers first, then anyone ready | Parallel and background workflows with budgets and guardrails |
 
-The lengths are suggestions for a team of roughly 5–30 engineers. A larger organization can run several pilots in parallel, but each team still goes through the phases.
+The lengths are suggestions for a team of roughly 5–30 engineers. A bigger organization can run several pilots at once, but each team still goes through every phase.
 
-The arrow back from Phase 3 matters. If stability metrics get worse, step back. Module 08's stages are the same: "Moving down is allowed" ([module 08](../modules/08-agentic-workflows.md#steve-yegges-eight-stages)).
+Note the arrow back from Phase 3. If stability metrics get worse, step back. [Module 08's stages](../modules/08-agentic-workflows.md#steve-yegges-eight-stages) work the same way: "Moving down is allowed."
 
 ## Phase 0: Prerequisites
 
-The point of Phase 0 is that nobody's first serious experience with these tools is on a free tier, with an unclear data policy, on a laptop full of production credentials.
+Phase 0 makes sure nobody's first serious experience with these tools is on a free tier, under an unclear data policy, on a laptop full of production credentials.
 
 ### Entry criteria
 
@@ -61,12 +62,12 @@ The point of Phase 0 is that nobody's first serious experience with these tools 
 
 ### Activities
 
-**1. Write the data policy first.** Decide what may go into which tool before anyone pastes anything. Start from the [policy template](policy-template.md). The questions that matter most:
+**1. Write the data policy first.** Decide what may go into which tool before anyone pastes anything, starting from the [policy template](policy-template.md). These questions matter most:
 - Which data classes (public, internal, confidential source code, restricted data such as credentials and personal data) may go into which tools and plans?
-- Is training on your content off, and is that in the contract, not just a setting? Anthropic's and OpenAI's business and API terms default to no training; consumer plans differ and change ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
-- What is retained, for how long, and do you need zero data retention for any use ([module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting))?
+- Is training on your content off, and is that written into the contract or only a setting? Anthropic's and OpenAI's business and API terms default to no training; consumer plans differ and change ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
+- What gets retained, and for how long? Do you need zero data retention for anything ([module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting))?
 
-**2. Pick the approved tools.** One primary agent plus a second from a different lab is a good default. The primary is what everyone learns. The second keeps you from depending on one vendor and makes cross-model review possible ([module 06](../modules/06-harnesses-and-tools.md#how-to-choose-a-harness), [module 14](../modules/14-keeping-up.md#when-to-switch-tools)). Score candidates on model access, cost model, privacy terms, team standardization (does it read `AGENTS.md`, support skills, MCP, and managed settings?), and safety features (permission modes, sandboxing, audit logs).
+**2. Pick the approved tools.** A good default is one primary agent plus a second from a different lab. Everyone learns the primary. The second keeps you off a single vendor and makes cross-model review possible ([module 06](../modules/06-harnesses-and-tools.md#how-to-choose-a-harness), [module 14](../modules/14-keeping-up.md#when-to-switch-tools)). Score candidates on model access, cost model, privacy terms, team standardization (does it read `AGENTS.md`, support skills, MCP, and managed settings?), and safety features (permission modes, sandboxing, audit logs).
 
 > **Bryan's take:** For coding, Claude and Codex are the best in my opinion. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding. Different models are better for different use cases.
 
@@ -79,11 +80,11 @@ That opinion is contested and dated. Public benchmarks in late 2026 put some Goo
 - Secret scanning with push protection.
 - No production credentials reachable from machines that run agents.
 - Managed settings that disable skip-permissions ("YOLO") modes outside a sandbox. The Nx "s1ngularity" malware in August 2025 invoked developers' own AI CLIs with exactly those flags to hunt for secrets ([module 11](../modules/11-security-and-prompt-injection.md#real-incidents-20252026)).
-- Deny rules that keep agents from reading secret files (`.env`, key directories).
+- Secret files kept out of the agent's readable environment, with deny rules as a second layer; test both file-tool and shell reads.
 
-**5. Record a baseline.** You can't show improvement without one. Pull the last three to six months of: time to first review, time to merge, PR size distribution, change failure rate, revert rate, and escaped defects by severity. See [How to measure](#how-to-measure).
+**5. Record a baseline.** You can't show improvement without one. Pull the last three to six months of the [metrics worth watching](#how-to-measure): time to first review, time to merge, PR size distribution, change failure rate, revert rate, and escaped defects by severity.
 
-**6. Choose champions.** Three to six people. Include enthusiasts, but also at least one respected skeptic. A skeptic who comes back saying "it's useful for these three things" persuades more people than any enthusiast.
+**6. Choose champions.** Pick three to six people. Include enthusiasts, but get at least one respected skeptic too. A skeptic who comes back saying "it's useful for these three things" persuades more people than any enthusiast.
 
 ### Exit criteria
 
@@ -104,7 +105,7 @@ That opinion is contested and dated. Public benchmarks in late 2026 put some Goo
 
 ## Phase 1: Champions pilot
 
-The pilot answers one question: **what works on our codebase, for our kind of work?** Launch posts can't answer that. Neither can this knowledge base. Your champions can.
+The pilot finds out what works on your codebase, for your kind of work. Launch posts and this knowledge base can't tell you that. Your champions can.
 
 ### Entry criteria
 
@@ -113,7 +114,7 @@ The pilot answers one question: **what works on our codebase, for our kind of wo
 
 ### Activities
 
-**1. Work real tickets, and write everything down.** Each champion keeps a pilot log. One row per task. Failures are as valuable as wins. (The rows below are illustrative.)
+**1. Work real tickets, and write everything down.** Each champion keeps a pilot log with one row per task, and failures count as much as wins. The rows below are made-up examples.
 
 ```markdown
 | Date | Task (ticket) | Type | Tool / model / effort | Outcome | Time vs. estimate | What went wrong | Again? |
@@ -123,28 +124,28 @@ The pilot answers one question: **what works on our codebase, for our kind of wo
 | 11-14 | Characterization tests before refactor (#1398) | tests | Second tool, medium | Merged | ~1 h vs 3 h est. | Two tests asserted current buggy output; caught in review | Yes, review assertions |
 ```
 
-Time-vs-estimate is a self-report. Treat it as a rough signal, not a measurement ([module 05](../modules/05-judging-models.md#self-report-vs-measurement)).
+Time-vs-estimate is self-reported, so it's a rough signal, not a measurement ([module 05](../modules/05-judging-models.md#self-report-vs-measurement)).
 
-**2. Cover a spread of task types.** Bug fixes, small features, refactors, test writing, a migration, a code review, and non-coding chores: reading unfamiliar code, debugging from logs, drafting tickets, building an incident timeline ([module 08](../modules/08-agentic-workflows.md#ai-first-beyond-writing-code)). Many engineers trust agents first on that last group.
+**2. Cover a spread of task types.** Try bug fixes, small features, refactors, test writing, a migration, a code review, and non-coding chores like reading unfamiliar code, debugging from logs, drafting tickets, and building an incident timeline ([module 08](../modules/08-agentic-workflows.md#ai-first-beyond-writing-code)). Many engineers first trust agents on that last group.
 
 **3. Use the core loop.** Explore (read-only), plan, write a failing test, implement, verify with evidence, commit small ([module 08](../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Champions who skip the loop produce pilot data about the wrong thing.
 
-**4. Build a golden-task set.** Turn 10–20 merged PRs into replayable tasks with hidden tests, using the template in [module 05](../modules/05-judging-models.md#build-your-own-eval). This is how you'll compare tools now and evaluate new releases later.
+**4. Build a golden-task set.** Turn 10–20 merged PRs into replayable tasks with hidden tests, using the template in [module 05](../modules/05-judging-models.md#build-your-own-eval). It's how you'll compare tools now and judge new releases later.
 
-**5. Draft the team artifacts.** By the end of the pilot, champions should have drafted:
-- A short shared instruction file ([below](#the-starter-team-instruction-file)).
-- A review rule for AI-written PRs ([below](#review-policy-for-ai-written-prs)).
+**5. Draft the team artifacts.** By the end of the pilot, champions should have drafts of:
+- A short shared [instruction file](#the-starter-team-instruction-file).
+- A [review rule](#review-policy-for-ai-written-prs) for AI-written PRs.
 - Any hooks or deny rules that turned out to matter.
 
 **6. Try a review bot on one repository.** Write a three-rule review instruction file first. Label every bot comment as acted on, dismissed (wrong), or dismissed (not worth it) ([module 10](../modules/10-ai-code-review.md#try-it)).
 
-**7. Track cost.** Champions run [ccusage](https://github.com/ryoppippi/ccusage) or the vendor's usage dashboard weekly and record API-equivalent cost alongside their subscription price ([module 12](../modules/12-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding)).
+**7. Track cost.** Champions check [ccusage](https://github.com/ryoppippi/ccusage) or the vendor's usage dashboard weekly and record API-equivalent cost next to their subscription price ([module 12](../modules/12-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding)).
 
-**8. Meet weekly for 30 minutes.** Each champion shares one win, one failure, and one rule they'd adopt. Collect the objections and policy questions that come up.
+**8. Meet weekly for 30 minutes.** Each champion shares one win, one failure, and one rule they'd adopt. Write down the objections and policy questions that come up.
 
 ### The written learnings
 
-The pilot ends with a short document, not a slide deck. Two to four pages:
+The pilot ends with a two-to-four-page document, not a slide deck:
 
 ```markdown
 # AI pilot learnings: <team>, <dates>
@@ -166,7 +167,7 @@ The pilot ends with a short document, not a slide deck. Two to four pages:
 ## Recommendation for Phase 2
 ```
 
-Share it with the whole team, then hold a demo session. The [session series](session-series.md) opens with a demo-first session built for exactly this audience.
+Share it with the whole team, then hold a demo. The [session series](session-series.md) opens with a demo-first session built for exactly that.
 
 ### Exit criteria
 
@@ -189,7 +190,7 @@ Share it with the whole team, then hold a demo session. The [session series](ses
 
 ## Phase 2: Team-wide baseline
 
-Phase 2 turns the pilot's learnings into shared practice. Everyone gets the same tools, the same short instruction file, the same review rule, and the same training.
+Phase 2 turns the pilot's learnings into shared practice: everyone gets the same tools, short instruction file, review rule, and training.
 
 ### Entry criteria
 
@@ -201,23 +202,23 @@ Phase 2 turns the pilot's learnings into shared practice. Everyone gets the same
 
 **1. Give everyone a seat and a setup.** Standard installation, managed settings, the approved permission defaults, and a sandbox where your tools support one ([module 06](../modules/06-harnesses-and-tools.md#a-sane-baseline-setup)).
 
-**2. Merge the shared instruction file** into each main repository. Keep it short. See [the starter file](#the-starter-team-instruction-file).
+**2. Merge the shared instruction file** into each main repository. Keep it as short as [the starter file](#the-starter-team-instruction-file).
 
-**3. Turn on the review rule.** Put it in branch protection, the PR template, and `CODEOWNERS` where needed. See [the review policy](#review-policy-for-ai-written-prs).
+**3. Turn on the review rule.** Enforce [the review policy](#review-policy-for-ai-written-prs) through branch protection, the PR template, and `CODEOWNERS` where needed.
 
-**4. Set up cross-model review.** At minimum, every change gets a review from a fresh context before a human looks at it. Better, it gets one from a model made by a different lab, because models tend to rate their own output higher ([module 09](../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)). Licensing the second tool at least for review is usually cheap.
+**4. Set up cross-model review.** At minimum, a fresh context reviews every change before a human looks at it. Better, a model from a different lab reviews it, because models tend to rate their own output higher ([module 09](../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)). Licensing the second tool at least for review is usually cheap.
 
 > **Bryan's take:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
-**5. Run the training series.** The [session series](session-series.md) has eight sessions of 45–60 minutes each, from "what an LLM actually is" to parallel agents. Champions facilitate. Every hands-on exercise uses your own repository.
+**5. Run the training series.** The [session series](session-series.md) has eight sessions of 45–60 minutes each, from "what an LLM actually is" to parallel agents. Champions facilitate, and every hands-on exercise uses your own repository.
 
-**6. Make help easy to get.** A weekly office hour with a champion. A team chat channel for "the agent did something weird." Pair each new user with a champion for their first real task.
+**6. Make help easy to get.** Run a weekly office hour with a champion and a team chat channel for "the agent did something weird." Pair each new user with a champion for their first real task.
 
-**7. Share a small library.** Prompts, skills, and hooks that worked, kept in a repository and reviewed like code. Keep it small. Anything the whole team needs every time belongs in the instruction file or a hook. Anything needed sometimes belongs in a skill ([module 07](../modules/07-context-engineering.md#current-best-practice)).
+**7. Share a small library.** Keep the prompts, skills, and hooks that worked in a repository, reviewed like code, and keep it small. Anything the whole team needs every time belongs in the instruction file or a hook. Anything needed sometimes belongs in a skill ([module 07](../modules/07-context-engineering.md#current-best-practice)).
 
 **8. Review metrics monthly** against the Phase 0 baseline. Watch stability as closely as throughput. DORA's 2025 report found AI adoption linked to higher throughput but still to lower delivery stability ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)).
 
-**9. Start the team AI radar.** See [Keeping it current](#keeping-it-current).
+**9. Start the team AI radar** described in [Keeping it current](#keeping-it-current).
 
 ### Exit criteria
 
@@ -242,7 +243,7 @@ Phase 2 turns the pilot's learnings into shared practice. Everyone gets the same
 
 ## Phase 3: Advanced use
 
-Phase 3 is where the speed gains get larger and so does the risk. It isn't a destination everyone must reach. Some engineers will live happily at one supervised agent. Others will run several in parallel. Both are fine if review and stability hold.
+In Phase 3 the speed gains get bigger, and so does the risk. Not everyone has to get here. Some engineers will be happy with one supervised agent while others run several in parallel, and both are fine if review and stability hold.
 
 ### Entry criteria
 
@@ -252,7 +253,7 @@ Phase 3 is where the speed gains get larger and so does the risk. It isn't a des
 
 ### Activities
 
-**1. Parallel supervised agents.** Volunteers run two to five agents at once, each on its own task, in its own git worktree, on its own branch ([module 08](../modules/08-agentic-workflows.md#worktrees-and-parallel-agents)). Rules that keep it sane:
+**1. Parallel supervised agents.** Volunteers run two to five agents at once, each on its own task, in its own git worktree, on its own branch ([module 08](../modules/08-agentic-workflows.md#worktrees-and-parallel-agents)). These rules keep it sane:
 - One task, one agent, one worktree, one branch.
 - Pick tasks that touch different files. Reading parallelizes well; writing on one codebase usually doesn't ([module 09](../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
 - Keep a written task list.
@@ -261,7 +262,7 @@ Phase 3 is where the speed gains get larger and so does the risk. It isn't a des
 
 > **Bryan's take:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, managed by hand.
 
-**2. Background agents for well-tested chores.** Hand off a task and get a PR back later. Good candidates share four properties: a strong automated check, a small and reversible diff, low blast radius, and a normal human review at the PR. Examples:
+**2. Background agents for well-tested chores.** You hand off a task and get a PR back later. Good candidates have a strong automated check, a small and reversible diff, a low blast radius, and a normal human review at the PR. For example:
 - Dependency updates with a full test run (plus your dependency policy for new packages).
 - Lint and type-error cleanup.
 - Mechanical migrations, one file or module per run, tried on three units before the rest ([module 08](../modules/08-agentic-workflows.md#background-and-unattended-runs)).
@@ -270,9 +271,9 @@ Phase 3 is where the speed gains get larger and so does the risk. It isn't a des
 
 Before any unattended run, answer Anthropic's five questions: does it know what done looks like, can it check its own work, what may it touch, what stops it, and where does the result go and who signs off ([module 08](../modules/08-agentic-workflows.md#background-and-unattended-runs)).
 
-**3. CI automation on API budgets.** Review bots, issue triage, nightly test-fixing jobs. These run unattended and shared, so they need API keys, not consumer subscriptions; vendor terms require it, and the API gives you spend controls ([module 12](../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)). Design each workflow against the Rule of Two before you build it ([module 11](../modules/11-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)):
+**3. CI automation on API budgets.** Review bots, issue triage, and nightly test-fixing jobs run unattended and shared, so they need API keys rather than consumer subscriptions. Vendor terms require it, and the API gives you spend controls ([module 12](../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)). Check each workflow's design against the Rule of Two before you build it ([module 11](../modules/11-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)):
 - CI agents that read public or untrusted input run with read-only tokens, no secrets, isolated caches, and limited network.
-- Never interpolate untrusted text (issue titles, PR bodies) into a privileged agent's prompt. "Clinejection" and "Comment and Control" both lived here ([module 11](../modules/11-security-and-prompt-injection.md#real-incidents-20252026)).
+- Never interpolate untrusted text (issue titles, PR bodies) into a privileged agent's prompt. "Clinejection" and "Comment and Control" both exploited exactly this ([module 11](../modules/11-security-and-prompt-injection.md#real-incidents-20252026)).
 - Pin agent CLI versions and model snapshots. Upgrade deliberately, after a smoke test ([module 14](../modules/14-keeping-up.md#silent-changes-and-how-to-pin-things)).
 - Set a spend limit per workflow and review cost weekly for the first month.
 
@@ -280,14 +281,14 @@ Before any unattended run, answer Anthropic's five questions: does it know what 
 
 ### What stays on "Hold"
 
-Some practices should stay on hold until your own evidence says otherwise:
-- **Auto-merging agent PRs** without human approval.
-- **Agents with production write access.**
-- **Fully autonomous pipelines** ("software factories") on your existing product codebase.
+Keep these on hold until your own evidence says otherwise:
+- Auto-merging agent PRs without human approval.
+- Agents with production write access.
+- Fully autonomous pipelines ("software factories") on your existing product codebase.
 
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-The strongest counterpoint, from [module 08](../modules/08-agentic-workflows.md#bryans-take): the trend lines are steep, Anthropic reports that Claude writes more than 80% of the code it merges, and teams like StrongDM have serious answers to "tests can be gamed." A fair position for late 2026 is that full autonomy works for well-specified, oracle-rich, greenfield problems, and that the boundary is moving. Recheck in six months.
+The strongest counterpoint is in [module 08](../modules/08-agentic-workflows.md#bryans-take). The trend lines are steep, Anthropic reports that Claude writes more than 80% of the code it merges, and the reported case studies offer answers to "tests can be gamed." A fair position for late 2026 is that full autonomy works for well-specified, oracle-rich, greenfield problems, and that the boundary is moving. Recheck in six months.
 
 ### Exit criteria (per workflow, not per phase)
 
@@ -310,11 +311,11 @@ Phase 3 doesn't end. Each new workflow graduates from Trial to Adopt on your rad
 
 ## The starter team instruction file
 
-Every main repository gets one short, shared instruction file: `AGENTS.md` (read by most harnesses) or `CLAUDE.md` (Claude Code reads `AGENTS.md` when no `CLAUDE.md` exists). The research on these files is sobering. In an ETH Zurich study, LLM-generated context files didn't improve success rates and raised costs by about 20–23%; developer-written files helped a little, not significantly ([module 07](../modules/07-context-engineering.md#the-fall-late-20252026)). The lesson: keep it short, human-written, and limited to what an agent can't learn from the repository.
+Every main repository gets one short, shared instruction file: `AGENTS.md` (read by most harnesses) or `CLAUDE.md` (current Claude Code can read `AGENTS.md` when no `CLAUDE.md` or `CLAUDE.local.md` exists on the project path; verify loading with `/memory`). The research on these files is sobering. In an ETH Zurich study, LLM-generated context files didn't improve success rates and raised costs by about 20–23%; developer-written files helped a little, not significantly ([module 07](../modules/07-context-engineering.md#the-fall-late-20252026)). So keep it short, human-written, and limited to what an agent can't learn from the repository.
 
 ### A good starter file
 
-About 25 lines. Replace the commands and gotchas with your own.
+It's about 25 lines. Swap in your own commands and gotchas.
 
 ```markdown
 # AGENTS.md
@@ -346,11 +347,7 @@ About 25 lines. Replace the commands and gotchas with your own.
 - The PR description lists anything you could not verify.
 ```
 
-Why this works:
-- **Commands come first.** An agent that can run the right check stops guessing.
-- **Every gotcha is something the code misleads about.** A frozen directory that looks live, a convention you can't infer, a generated folder.
-- **It points to deeper docs instead of pasting them.** Skills and docs load only when needed.
-- **It defines done** in terms the agent can check and show you.
+Commands come first, because an agent that can run the right check stops guessing. Each gotcha is something the code misleads about: a frozen directory that looks live, a convention you can't infer, a generated folder. Deeper docs are linked, not pasted, so they load only when needed. And "done" is defined in terms the agent can check and show you.
 
 ### Where everything else goes
 
@@ -364,7 +361,7 @@ Why this works:
 | Discoverable from the code | "We use React"; the directory tree | Nowhere. Delete it |
 | A personal preference | "Keep explanations short" | Each person's user-level file |
 
-Claude Code's docs put the reason plainly: a line in `CLAUDE.md` is followed "nearly every time," while a hook or deny rule applies every time ([module 08](../modules/08-agentic-workflows.md#tests-as-the-agents-contract)).
+Claude Code's docs give the reason. A line in `CLAUDE.md` is followed "nearly every time," while a hook or deny rule applies every time ([module 08](../modules/08-agentic-workflows.md#tests-as-the-agents-contract)).
 
 ### The anti-pattern: the committee file
 
@@ -388,25 +385,25 @@ You are an elite staff engineer who writes flawless, production-grade code.
 ## Our style guide (pasted from the wiki)       <- 400 lines on every task
 ```
 
-It fails for reasons the research has measured. Every line costs attention on every task. Instruction-following drops as instructions pile up: in one benchmark, even the best models reached only 68% accuracy with 500 instructions ([module 07](../modules/07-context-engineering.md#the-fall-late-20252026)). Shouting doesn't help either: Claude Code's docs say piling on capitals and "IMPORTANT" "mostly makes Claude over-apply the rule" ([module 07](../modules/07-context-engineering.md#prompting-basics-that-still-matter)).
+The research has measured why this fails. Every line costs attention on every task, and instruction-following drops as instructions pile up. In one benchmark, even the best models reached only 68% accuracy with 500 instructions ([module 07](../modules/07-context-engineering.md#the-fall-late-20252026)). Shouting doesn't help either. Claude Code's docs say piling on capitals and "IMPORTANT" "mostly makes Claude over-apply the rule" ([module 07](../modules/07-context-engineering.md#prompting-basics-that-still-matter)).
 
 ### Keeping the file healthy
 
-- **One owner per repository** and a line budget. Claude Code's guide says to target under 200 lines; the starter above is about 25.
-- **Changes go through PRs** and get reviewed like CI configuration. Instruction files are trusted context, so a malicious edit is a prompt-injection channel ([module 07](../modules/07-context-engineering.md#context-files-are-a-security-surface)).
-- **The "corrected twice" rule.** Add a line only after you've had to correct the agent on the same thing twice.
-- **Prune quarterly.** For each line, ask: "Could the agent figure this out by reading the repository?" If yes, delete it.
-- **Test changes.** Rerun a few golden tasks with and without a proposed change when it's significant.
+- Give each repository one owner and a line budget. Claude Code's guide says to stay under 200 lines; the starter above is about 25.
+- Send changes through PRs and review them like CI configuration. Instruction files are trusted context, so a malicious edit is a prompt-injection channel ([module 07](../modules/07-context-engineering.md#context-files-are-a-security-surface)).
+- Follow the "corrected twice" rule: add a line only after you've had to correct the agent on the same thing twice.
+- Prune every quarter. For each line, ask "Could the agent figure this out by reading the repository?" If so, delete it.
+- For a significant change, rerun a few golden tasks with and without it.
 
 ## Review policy for AI-written PRs
 
-This is the rule your branch protection and PR template should enforce. It's adapted from [module 10](../modules/10-ai-code-review.md). Copy it into your contributing guide and adjust the numbers.
+Your branch protection and PR template should enforce this rule, adapted from [module 10](../modules/10-ai-code-review.md). Copy it into your contributing guide and adjust the numbers.
 
-1. **Same bar as any PR.** There is no separate lane for AI-written code, with lower standards or higher ones.
+1. **Same bar as any PR.** AI-written code gets no separate lane, with lower standards or higher ones.
 2. **A named human author opens the PR and can explain every line.** "The agent did it that way" is not an answer to a review question. If the author can't explain a line, it doesn't merge ([module 10](../modules/10-ai-code-review.md#make-the-author-explain-the-change)).
 3. **A named human approves the merge, and owns the result.** Bot reviews never count as approvals. Branch protection requires at least one human approval on default branches ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
-4. **Independent review comes before human review.** At minimum, a fresh context that didn't see the conversation. Preferably, a model from a different lab. The author verifies each finding (a failing test or a clear refutation) before acting on it ([module 10](../modules/10-ai-code-review.md#verify-findings-before-acting)).
-5. **Keep PRs small.** Soft limit: `[a few hundred]` changed lines, excluding generated files and lockfiles. Larger work is split or stacked. On Anthropic's own review tool, 84% of PRs over 1,000 lines got findings, against 31% of PRs under 50 lines ([module 10](../modules/10-ai-code-review.md#keep-prs-small)).
+4. **Independent review comes before human review.** At minimum, a fresh context that didn't see the conversation; preferably, a model from a different lab. The author verifies each finding (a failing test or a clear refutation) before acting on it ([module 10](../modules/10-ai-code-review.md#verify-findings-before-acting)).
+5. **Keep PRs small.** The soft limit is `[a few hundred]` changed lines, excluding generated files and lockfiles. Split or stack anything larger. On Anthropic's own review tool, 84% of PRs over 1,000 lines got findings, against 31% of PRs under 50 lines ([module 10](../modules/10-ai-code-review.md#keep-prs-small)).
 6. **Read the test diff first.** No deleted, skipped, or loosened tests without a stated reason. New behavior has a test that was seen failing.
 7. **New dependencies are called out and verified.** Each one exists, is spelled right, is maintained, is needed, and has a compatible license. Models invent package names, and attackers register them ([module 11](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
 8. **Evidence, not claims.** The PR description includes the commands run and their results, and screenshots for UI changes.
@@ -439,18 +436,18 @@ Reviewers use the checklist in [module 10](../modules/10-ai-code-review.md#how-h
 
 ### Start with honest expectations
 
-The productivity evidence is mixed, and the reasons are well understood. Here are the studies your skeptics will cite, and the ones your enthusiasts will cite, from [module 05](../modules/05-judging-models.md#real-world-productivity-evidence):
+The productivity evidence is mixed, partly because studies measure different tasks and outcomes. These are the studies your skeptics and your enthusiasts will cite, from [module 05](../modules/05-judging-models.md#real-world-productivity-evidence):
 
 | Study | Finding | What to take from it |
 | --- | --- | --- |
-| Peng et al., 2023 | 55.8% faster on one small greenfield task | Old autocomplete, toy task. Upper-bound anecdote |
+| Peng et al., 2023 | 55.8% faster on one small greenfield task | Controlled experiment on one task; limited generalization |
 | Cui, Demirer et al., 2025 (4,867 developers) | +26% completed tasks; bigger gains for less experienced developers | Counts output, not value |
 | METR RCT, 2025 (16 experienced maintainers, own repos, early-2025 tools) | **19% slower**. They expected 24% faster and afterward *believed* they were 20% faster | The perception gap is the durable lesson. METR now calls the result out of date |
 | METR follow-up, Feb 2026 (late-2025 tools) | 18% and 4% faster for two groups, confidence intervals include zero | METR calls it an unreliable signal: 30–50% of developers withheld tasks they didn't want to do without AI, which biases the estimate toward zero |
 | DORA 2025 (~5,000 professionals) | 90% use AI; more than 80% *believe* it raised productivity; adoption linked to higher throughput and lower stability | "AI amplifies what's already there" |
-| METR on Anthropic, Nov 2026 | Measured progress ~2x faster than 2024–25 (plausibly 1.3x–3x); staff *self-reported* ~12x | Even at an AI lab, self-reports run far ahead of measurement |
+| METR on Anthropic, Nov 2026 | Measured progress ~2x faster than 2024–25 (plausibly 1.3x–3x); staff *self-reported* ~12x | Individual uplift and organizational acceleration are different quantities; do not divide these estimates |
 
-What to tell your team and your leadership, in four sentences: careful studies show real speedups on some work and real slowdowns on other work. The biggest predictors are the type of task, the developer's skill with the tools, and the team's verification practices. Self-reported gains run well ahead of measured ones. So we will build the habits, then measure ourselves instead of quoting the most convenient study.
+For your team and your leadership, four sentences cover it. Careful studies show real speedups on some work and real slowdowns on other work. The biggest predictors are the type of task, the developer's skill with the tools, and the team's verification practices. Self-reported gains run well ahead of measured ones. So we will build the habits, then measure ourselves instead of quoting the most convenient study.
 
 ### What to watch
 
@@ -465,7 +462,7 @@ What to tell your team and your leadership, in four sentences: careful studies s
 | **Bot comment acted-on rate** | A proxy for reviewer precision; falling rates mean growing noise. Industrial studies saw about 39% to 74% | Label a sample |
 | **Golden-task results** | The only apples-to-apples comparison of tools and models on your code | Your eval set |
 | **Spend vs. budget, per workflow** | Catches runaway loops and cap problems early | Vendor dashboards, ccusage |
-| **Developer-reported friction** (short monthly pulse) | Finds problems metrics miss. Treat any self-reported speedup as a ceiling | A five-question survey |
+| **Developer-reported friction** (short monthly pulse) | Finds problems metrics miss. Compare reported speedups with measured outcomes | A five-question survey |
 
 ### What not to measure (or never to target)
 
@@ -484,34 +481,34 @@ Goodhart's law applies to all of this: when a measure becomes a target, it stops
 
 ### A lightweight measurement plan
 
-1. **Baseline** in Phase 0: three to six months of the "watch" metrics.
-2. **Monthly** from Phase 1: the same metrics, plus pilot logs and spend.
-3. **Golden tasks** whenever you change a default tool, model, or major setting, and monthly against anything on the radar's Trial ring.
-4. **A five-question pulse** monthly: What did an agent help with most? What wasted your time? Did you ship anything you didn't fully understand? Is review keeping up? What should we change?
-5. **A quarterly write-up** for leadership: what changed against the baseline, what it cost, what you're changing next. Show your assumptions, especially in any ROI estimate.
+1. Record a baseline in Phase 0 from three to six months of the metrics above.
+2. From Phase 1 on, pull the same metrics monthly, plus pilot logs and spend.
+3. Run golden tasks whenever you change a default tool, model, or major setting, and monthly against anything on the radar's Trial ring.
+4. Send a five-question pulse each month: What did an agent help with most? What wasted your time? Did you ship anything you didn't fully understand? Is review keeping up? What should we change?
+5. Send leadership a quarterly write-up: what changed against the baseline, what it cost, and what you're changing next. Show your assumptions, especially in any ROI estimate.
 
 ## Budgeting
 
-The full treatment is in [module 12](../modules/12-costs-subscriptions-and-apis.md). The summary for a lead:
+This is a lead's summary of [module 12](../modules/12-costs-subscriptions-and-apis.md).
 
-**Three ways to pay.** Chat and agent subscriptions from the labs, tool subscriptions (Cursor, Copilot, and others), and the API, billed per token ([module 12](../modules/12-costs-subscriptions-and-apis.md#three-ways-to-pay)).
+There are three ways to pay: chat and agent subscriptions from the labs, tool subscriptions (Cursor, Copilot, and others), and the API, billed per token ([module 12](../modules/12-costs-subscriptions-and-apis.md#three-ways-to-pay)).
 
-**Why agents are expensive on the API.** Every turn re-sends the whole conversation, so cost grows roughly with the square of session length. Prompt caching cuts most of it. In module 12's worked example, one hour of steady agentic coding on a frontier model cost about $24 uncached and about $3.73 cached at API prices; a full-time month of that is roughly $630 for one agent at a time (as of November 2026; [worked example](../modules/12-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding)). Parallel agents multiply it.
+Agents are expensive on the API because every turn re-sends the whole conversation, so cost grows roughly with the square of session length. Prompt caching cuts most of that. In module 12's worked example, one hour of steady agentic coding on a frontier model cost about $24 uncached and about $3.73 cached at API prices; a full-time month of that is roughly $630 for one agent at a time (as of November 2026; [worked example](../modules/12-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding)). Parallel agents multiply it.
 
-**The default split:**
-- **Seats on business plans** for everyone who uses agents interactively. Standard seats for most, premium seats or pooled credits for the heaviest users.
-- **API keys with budgets** for CI, automation, batch jobs, and anything shared or unattended. Consumer subscriptions are for one person's interactive use; CI and shared automation need the API by contract, not just by preference ([module 12](../modules/12-costs-subscriptions-and-apis.md#the-subscription-subsidy-and-its-limits)).
-- **Pay-as-you-go** may be cheaper for light users who run a few short tasks a week.
+By default, split it like this:
+- Business-plan seats for everyone who uses agents interactively: standard seats for most people, premium seats or pooled credits for the heaviest users.
+- API keys with budgets for CI, automation, batch jobs, and anything shared or unattended. Use an automation offering the vendor's current terms permit; this playbook defaults to budgeted API access for CI and shared workloads ([module 12](../modules/12-costs-subscriptions-and-apis.md#the-subscription-subsidy-and-its-limits)).
+- Pay-as-you-go for light users who run a few short tasks a week, since it may be cheaper.
 
 > **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
-The counterpoints, from [module 12](../modules/12-costs-subscriptions-and-apis.md#bryans-take): caps and throttling are the price of a subscription, vendors have tightened caps and changed terms several times in a year, you can't build automation on one, and for a team with uneven usage, pooled API credits plus good caching and routing can beat buying top-tier seats for everyone.
+[Module 12](../modules/12-costs-subscriptions-and-apis.md#bryans-take) lists the counterpoints. Caps and throttling are the price of a subscription. Vendors have tightened caps and changed terms several times in a year. Not every plan permits shared automation. And for a team with uneven usage, pooled API credits plus good caching and routing can beat buying top-tier seats for everyone.
 
-**ROI arithmetic.** Module 12 works it through with a loaded cost of about $100 per engineer-hour: a $200-a-month seat costs about two engineer-hours a month, and a 10-person team on $200 seats is about $24,000 a year, roughly 13% of one loaded engineer ([team budgeting](../modules/12-costs-subscriptions-and-apis.md#team-budgeting)). The weak link is always the assumed productivity gain. Show the assumptions, and replace them with your measured numbers after Phase 2.
+For ROI, module 12 assumes a loaded cost of about $100 per engineer-hour, so a $200-a-month seat costs about two engineer-hours a month, and a 10-person team on $200 seats is about $24,000 a year, roughly 13% of one loaded engineer ([team budgeting](../modules/12-costs-subscriptions-and-apis.md#team-budgeting)). The weak link is always the assumed productivity gain, so show your assumptions and replace them with measured numbers after Phase 2.
 
-**Judge cost per finished task**, not price per token. A cheaper model that takes three times as many turns can cost more in tokens and much more in your engineers' attention ([module 12](../modules/12-costs-subscriptions-and-apis.md#cost-per-task-not-cost-per-token)).
+Judge cost per finished task, not price per token. A cheaper model that takes three times as many turns can cost more in tokens and much more in your engineers' attention ([module 12](../modules/12-costs-subscriptions-and-apis.md#cost-per-task-not-cost-per-token)).
 
-**Controls to set on day one:** spend limits and alerts per workspace and key; separate keys per app, environment, and team; caching on; small models for easy work; turn and effort caps on automated runs; and a weekly cost review for the first month of any new workflow ([module 12](../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
+Set these controls on day one: spend limits and alerts per workspace and key; separate keys per app, environment, and team; caching on; small models for easy work; turn and effort caps on automated runs; and a weekly cost review for the first month of any new workflow ([module 12](../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
 
 A budget worksheet to fill in:
 
@@ -528,58 +525,58 @@ A budget worksheet to fill in:
 
 ## Security controls
 
-The full treatment is in [module 11](../modules/11-security-and-prompt-injection.md). The short version: a coding agent on a laptop reads untrusted content (web pages, issues, dependency code), can reach private data (your repository and secrets), and can change state (a shell, `git push`). That's all three legs of Meta's "Agents Rule of Two," by default. Prompt injection is not solved; adaptive attacks bypassed most published defenses at success rates above 90% in one 2025 study ([module 11](../modules/11-security-and-prompt-injection.md#why-it-is-still-unsolved)). Defenses have to be architectural.
+This is the short version of [module 11](../modules/11-security-and-prompt-injection.md). A coding agent on a laptop reads untrusted content (web pages, issues, dependency code), can reach private data (your repository and secrets), and can change state (a shell, `git push`). By default, that's all three legs of Meta's "Agents Rule of Two." Prompt injection is not solved; adaptive attacks bypassed most published defenses at success rates above 90% in one 2025 study ([module 11](../modules/11-security-and-prompt-injection.md#why-it-is-still-unsolved)). The defenses have to be architectural.
 
 Controls by phase:
 
 | Phase | Controls |
 | --- | --- |
-| **0** | Business plans with no-training terms; branch protection with human approval; secret scanning with push protection; no production credentials on agent machines; managed settings that disable skip-permissions modes outside sandboxes; deny reads of secret files |
+| **0** | Business plans with no-training terms; branch protection with human approval; secret scanning with push protection; no production credentials on agent machines; managed settings that disable skip-permissions modes outside sandboxes; remove secret files from agent environments and test read restrictions |
 | **1** | Pilot champions use sandboxes where available; an incident path for "an agent may have read a secret"; review new MCP servers, skills, and plugins before installing |
 | **2** | A standard sandboxed environment (dev container or cloud agent); an approved, pinned list of MCP servers, skills, and plugins with owners; a dependency policy (lockfiles, review new packages, delay brand-new releases); the security items in the review checklist; agent tool updates on a cadence |
 | **3** | A written Rule-of-Two design per automated workflow; read-only tokens, no secrets, and isolated caches for CI agents that read untrusted input; egress allowlists; fine-grained, short-lived, per-agent tokens; usage telemetry retained for audit |
 
 Three incidents worth retelling to the team, all documented in [module 11](../modules/11-security-and-prompt-injection.md#real-incidents-20252026):
-- **Nx "s1ngularity" (August 2025).** A compromised build tool's install script drove developers' installed AI CLIs with skip-permissions flags to search for secrets. Lesson: those flags are a gift to malware.
-- **An agent deleted a production database (July 2025)** during a code freeze, with no attacker involved. Lesson: separate dev from prod, and require approval for destructive actions.
-- **"Clinejection" (December 2025 to February 2026).** An AI triage bot put issue titles straight into its prompt; an attacker used that to reach release secrets. Lesson: never put untrusted text into a privileged agent's prompt in CI.
+- In the Nx "s1ngularity" attack (August 2025), a compromised build tool's install script drove developers' installed AI CLIs with skip-permissions flags to search for secrets. Those flags are a gift to malware.
+- In July 2025, an agent deleted a production database during a code freeze, with no attacker involved. Separate dev from prod, and require approval for destructive actions.
+- In "Clinejection" (December 2025 to February 2026), an AI triage bot put issue titles straight into its prompt, and an attacker used that to reach release secrets. Never put untrusted text into a privileged agent's prompt in CI.
 
-Generated code also needs the same security review as a stranger's PR. In one user study, people with an AI assistant wrote less secure code and were *more* confident in it ([module 11](../modules/11-security-and-prompt-injection.md#insecure-generated-code)).
+Generated code needs the same security review you'd give a stranger's PR. In one user study, people with an AI assistant wrote less secure code and were *more* confident in it ([module 11](../modules/11-security-and-prompt-injection.md#insecure-generated-code)).
 
 ## Juniors and learning
 
 This is the problem leads ask about most, and the evidence is clearer than you might expect.
 
-**What the evidence says** ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says)):
-- In a 2026 randomized trial with 52 mostly junior engineers learning a new library, the AI group scored 50% on a follow-up quiz against 67% for hand-coders, and wasn't significantly faster. The biggest gap was in **debugging**.
-- *How* they used the AI mattered. People who asked conceptual questions, or generated code and then asked follow-up questions to understand it, scored 65% or higher. People who delegated scored below 40%. (Small subgroups: suggestive, not proof.)
+[Module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says) summarizes the evidence:
+- In a 2026 randomized trial with 52 mostly junior engineers learning a new library, the AI group scored 50% on a follow-up quiz against 67% for hand-coders, and wasn't significantly faster. The biggest gap was in debugging.
+- *How* they used the AI mattered. People who asked conceptual questions, or generated code and then asked follow-up questions to understand it, scored 65% or higher. People who delegated scored below 40%. The subgroups were small, so this is suggestive, not proof.
 - In a high-school field experiment, an AI that gave answers hurt later exam scores; an AI prompted to tutor with hints didn't.
 - Higher confidence in the AI was associated with less critical thinking in a survey of knowledge workers.
 
-So the risk is real, and it's about the pattern of use, not the tool. There's also a **supervision paradox**: supervising agents well takes judgment built by doing the work, and the skill most at risk (debugging) is the one supervision needs most ([module 15](../modules/15-learning-careers-and-responsibility.md#deskilling-real-risk-or-old-panic)).
+So the risk is real, and it's about how people use the tool. There's also a supervision paradox. Supervising agents well takes judgment you build by doing the work, and the skill most at risk, debugging, is the one supervision needs most ([module 15](../modules/15-learning-careers-and-responsibility.md#deskilling-real-risk-or-old-panic)).
 
-**Practices for the team:**
+What the team can do about it:
 
-1. **Label work by learning value.** Borrow module 15's three tiers. *AI-free* for a small set of fundamentals reps and some onboarding tasks. *AI-as-tutor* while someone learns a new codebase, language, or domain: explanations, hints, and review, but they write the code. *AI-accelerated* once they can verify what the agent produces.
-2. **Use the learning modes.** Claude Code's Learning output style (`/output-style learning`) explains its choices and leaves small pieces of real work marked `TODO(human)`. ChatGPT has a study mode ([module 15](../modules/15-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning)).
-3. **Debug first, then ask.** Juniors form a hypothesis before asking the agent. Debugging showed the largest gap in the trial.
-4. **Pair on supervision.** A senior and a junior run an agent session together. The senior narrates what they reject and why. Supervision is a skill you can watch someone do.
-5. **Explain-back in review.** Ask every author, and juniors especially, "why this approach?" and "what happens when this input is empty?" in review. Rule 2 of the review policy already requires it.
-6. **Keep a "didn't understand" log.** One line each time someone accepts something they don't fully understand. Review it in 1:1s.
-7. **Protect onboarding tasks.** Some open-source projects ask that newcomer "good first issues" be done without AI, because they exist to teach ([module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). Do the same with your starter tickets.
-8. **Evaluate juniors on judgment, not volume.** Specs, review findings, tests, debugging write-ups, and the moments they overrode the agent.
+1. Label work by learning value with module 15's three tiers: *AI-free* for a small set of fundamentals reps and some onboarding tasks, *AI-as-tutor* while someone learns a new codebase, language, or domain (explanations, hints, and review, but they write the code), and *AI-accelerated* once they can verify what the agent produces.
+2. Turn on the learning modes. Claude Code's Learning output style (`/output-style learning`) explains its choices and leaves small pieces of real work marked `TODO(human)`. ChatGPT has a study mode ([module 15](../modules/15-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning)).
+3. Debug first, then ask. Juniors form a hypothesis before asking the agent, since debugging showed the largest gap in the trial.
+4. Pair on supervision. A senior and a junior run an agent session together, and the senior says out loud what they reject and why. Supervision is a skill you can watch someone do.
+5. Use explain-back in review. Ask every author, juniors especially, "why this approach?" and "what happens when this input is empty?" Rule 2 of the review policy already requires it.
+6. Keep a "didn't understand" log: one line each time someone accepts something they don't fully understand, reviewed in 1:1s.
+7. Protect onboarding tasks. Some open-source projects ask that newcomer "good first issues" be done without AI, because they exist to teach ([module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). Do the same with your starter tickets.
+8. Evaluate juniors on judgment rather than volume: their specs, review findings, tests, debugging write-ups, and the times they overrode the agent.
 
 These habits apply to senior engineers moving into an unfamiliar codebase too. The trial's participants were professionals.
 
-On hiring: payroll data show employment of 22–25-year-olds in AI-exposed occupations about 19% below trend by mid-2026, mostly through fewer hires ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says-about-early-career-jobs)). The cause is debated. Module 15 states the long-run problem plainly: if companies stop hiring juniors, they eventually run out of seniors. That's a decision above most leads' pay grade, but it's worth raising.
+On hiring, payroll data show employment of 22–25-year-olds in AI-exposed occupations about 19% below trend by mid-2026, mostly through fewer hires ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says-about-early-career-jobs)). The cause is debated. The long-run problem, as module 15 puts it, is that companies that stop hiring juniors eventually run out of seniors. That decision is above most leads' pay grade, but it's worth raising.
 
 ## The human side
 
-- **Don't mandate usage.** Quotas produce theater and resentment. Make the tools good, the training real, and the results visible.
-- **Watch for intensity.** Research summarized in Harvard Business Review argued that AI tools tend to intensify work rather than reduce it. Running several agents means constant context switches ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)). Warning signs: approving diffs nobody read, losing track of agents, no deep-focus time.
-- **No workslop.** Don't send what you haven't read: not a 2,000-line PR, not a design doc that sounds right and says nothing.
-- **Make failure safe to share.** The pilot log and the team channel should be full of "the agent did something dumb." That's how the instruction file and hooks improve.
-- **Respect skeptics.** Many of their objections are partly right. The [objections guide](objections.md) starts with what's true in each.
+- Don't mandate usage; quotas produce theater and resentment. Make the tools good, the training real, and the results visible.
+- Watch for overload. Research summarized in Harvard Business Review argued that AI tools tend to intensify work rather than reduce it, and running several agents means constant context switches ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)). Warning signs include approving diffs nobody read, losing track of agents, and no deep-focus time.
+- Don't send workslop: anything you haven't read, whether a 2,000-line PR or a design doc that sounds right and says nothing.
+- Make failure safe to share. The pilot log and the team channel should be full of "the agent did something dumb," because that's how the instruction file and hooks get better.
+- Respect skeptics, because many of their objections are partly right. The [objections guide](objections.md) starts each one with what's true.
 
 ## A 30/60/90-day checklist for a lead
 
@@ -598,10 +595,10 @@ On hiring: payroll data show employment of 22–25-year-olds in AI-exposed occup
 ### Days 31–60: learn (Phase 1)
 
 - [ ] Hold weekly 30-minute champion syncs; collect wins, failures, rules, and objections.
-- [ ] Get a golden-task set of 10–20 tasks built and run on both candidate tools.
+- [ ] Build a golden-task set of 10–20 tasks and run it on both candidate tools.
 - [ ] Trial one review bot on one repository with a three-rule configuration; label its comments.
 - [ ] Record cost per champion per week.
-- [ ] Get the learnings document written and shared.
+- [ ] Write and share the learnings document.
 - [ ] Merge drafts of the instruction file and review rule as PRs for team comment.
 - [ ] Update the policy with what the pilot found; get v1 approved.
 - [ ] Make the written go, adjust, or stop decision for Phase 2.
@@ -619,9 +616,9 @@ On hiring: payroll data show employment of 22–25-year-olds in AI-exposed occup
 
 ## Keeping it current
 
-The tools change monthly. The practices change slowly. Keep the second stable and evaluate the first on evidence ([module 14](../modules/14-keeping-up.md)).
+The tools change monthly and the practices change slowly. Keep the practices stable, and judge new tools on evidence ([module 14](../modules/14-keeping-up.md)).
 
-**Run a team AI radar.** Borrow the Thoughtworks format, as [module 14](../modules/14-keeping-up.md#team-ai-radar) describes:
+Run a team AI radar in the Thoughtworks format that [module 14](../modules/14-keeping-up.md#team-ai-radar) describes:
 - **Adopt:** proven on our golden tasks; the recommended default.
 - **Trial:** promising; a few people use it on real work.
 - **Assess:** worth an afternoon; someone is testing it.
@@ -641,7 +638,7 @@ Keep it in a shared repository as `docs/ai-radar.md`. Rotate a monthly scout who
 | Auto-merge of agent PRs | Hold | <month> | Review stays mandatory | <name> | <date> |
 ```
 
-**A cadence that doesn't take over anyone's week:**
+A cadence that doesn't take over anyone's week:
 
 | Cadence | Who | What |
 | --- | --- | --- |
@@ -649,11 +646,11 @@ Keep it in a shared repository as `docs/ai-radar.md`. Rotate a monthly scout who
 | Monthly, 30 min | Team | Radar review; golden tasks on anything in Trial; one tool, plugin, or MCP server removed if unused |
 | Quarterly, half a day | Lead and champions | Tool and cost review; refresh golden tasks; prune instruction files; review security settings and the policy |
 
-**Rules that prevent churn:**
-- **The two-week rule.** Unless a release solves a problem you have today, wait two weeks. Opus 5's reputation looked very different at week two than on launch day ([module 14](../modules/14-keeping-up.md#a-sustainable-routine)).
-- **One change at a time.** Don't change model, harness, and configuration in the same week.
-- **Keep a second tool warm.** When Anthropic suspended Claude Fable 5 for all users for nearly three weeks in 2026 over export controls, people with a configured second tool kept working ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)).
-- **Diagnose before you switch.** When the tool feels worse, check the status page, then your harness version and settings, then your golden tasks, then whether today's task is just harder ([module 14](../modules/14-keeping-up.md#is-it-the-model-the-task-or-the-harness)).
+A few rules keep churn down:
+- Use the two-week rule. Unless a release solves a problem you have today, wait two weeks. Opus 5's reputation looked very different at week two than on launch day ([module 14](../modules/14-keeping-up.md#a-sustainable-routine)).
+- Change one thing at a time. Don't switch model, harness, and configuration in the same week.
+- Keep a second tool warm. When Anthropic suspended Claude Fable 5 for all users for nearly three weeks in 2026 over export controls, people with a configured second tool kept working ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)).
+- Diagnose before you switch. When the tool feels worse, check the status page, then your harness version and settings, then your golden tasks, then whether today's task is just harder ([module 14](../modules/14-keeping-up.md#is-it-the-model-the-task-or-the-harness)).
 
 > **Bryan's take:** Claude and Codex have both had ups and downs.
 

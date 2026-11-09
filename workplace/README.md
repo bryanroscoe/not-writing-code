@@ -1,8 +1,10 @@
 # Workplace: AI-first adoption for engineering teams
 
-> **Audience:** leads, managers, AI champions, and the skeptical engineers they work with · **Last verified:** 2026-11-08
+This folder is for leads, managers, AI champions, and the skeptical engineers they work with.
 
-This folder turns the [modules](../modules/) into material a team can use to adopt AI-accelerated engineering well: going AI-first while a named human stays accountable for every change. It's written for "an engineering team" in general. Adapt the examples, numbers, and placeholders to yours.
+*Last checked November 8, 2026.*
+
+This folder turns the [modules](../modules/) into material for adopting AI-accelerated engineering on a team. That means going AI-first while a named human stays accountable for every change. It's written for a generic engineering team, so adapt the examples, numbers, and placeholders to yours.
 
 ## What's here
 
@@ -16,7 +18,7 @@ This folder turns the [modules](../modules/) into material a team can use to ado
 ## Suggested order
 
 **If you're a lead:**
-1. The [leads path](../paths/leads.md) (about three hours of module reading).
+1. The [leads path](../paths/leads.md), about three hours of module reading.
 2. The [playbook](ai-first-playbook.md), start to finish.
 3. The [policy template](policy-template.md), filled in and sent for review.
 4. Skim the [objections](objections.md) so you know what's coming.
@@ -31,11 +33,11 @@ This folder turns the [modules](../modules/) into material a team can use to ado
 
 ## Principles behind this material
 
-- **AI-first, not AI-only.** Reach for the tool by default, and keep the skills to work without it ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)).
-- **A human owns every change.** Tools can write, review, and fix. A person approves and answers for the result ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
-- **Evidence over enthusiasm.** The productivity research is mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)). Measure your own team.
-- **Opinions are labelled.** Bryan Roscoe's views appear as "Bryan's take" callouts. Everything else links to a sourced module section.
+- Reach for the tool by default, and keep the skills to work without it. AI-first doesn't mean AI-only ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)).
+- Tools can write, review, and fix code, but a person approves every change and answers for the result ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
+- The productivity research is mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), so measure your own team.
+- Bryan Roscoe's opinions appear only in "Bryan's take" callouts. Everything else links to a sourced module section.
 
 ## Keeping it fresh
 
-Prices, plans, and model names here are as of November 2026 and live mainly in [module 03](../modules/03-model-landscape.md) and [module 12](../modules/12-costs-subscriptions-and-apis.md). The practices change more slowly. Review your copies of these documents quarterly, alongside your team AI radar ([module 14](../modules/14-keeping-up.md#team-ai-radar)).
+Prices, plans, and model names here are as of November 2026 and live mainly in [module 03](../modules/03-model-landscape.md) and [module 12](../modules/12-costs-subscriptions-and-apis.md). The practices change more slowly. Review your copies of these documents quarterly, alongside your [team AI radar](../modules/14-keeping-up.md#team-ai-radar).

@@ -1,18 +1,20 @@
 # Lab 8: Contribute to open source, responsibly
 
-> **Course:** [syllabus](../syllabus.md), starts week 9, phase 2 by week 11, due week 14 · **Tier:** AI-as-tutor, or stricter if the project's policy is stricter · **Time:** 8–12 hours spread over five weeks · **Last verified:** 2026-11-08
+This lab starts in week 9 of the [syllabus](../syllabus.md), reaches phase 2 by week 11, and is due in week 14. It's AI-as-tutor, or stricter if the project's own policy is stricter. Expect 8–12 hours spread over five weeks.
+
+*Last checked November 8, 2026.*
 
 ## Goal
 
 Make one small, well-tested, disclosed contribution to a real open-source project, following that project's rules and the etiquette in [module 13](../../modules/13-open-source-ecosystem.md#etiquette-for-contributing-with-ai), or to the course's private class repository. Learn how a real codebase and its maintainers work.
 
-**Public or private is your choice.** An upstream contribution is public. The [class repository](#the-fallback-the-class-repository) is private, and choosing it costs you nothing in grading. See [Privacy](#privacy-contributing-in-public) before you decide.
+Public or private is your choice. An upstream contribution is public. The [class repository](#the-fallback-the-class-repository) is private, and choosing it costs you nothing in grading. Read [Privacy](#privacy-contributing-in-public) before you decide.
 
 **You're graded on the process and your learning log, not on whether the pull request is merged.** Maintainers' time and decisions aren't yours to control. For a course, the log is the evidence of learning ([module 13](../../modules/13-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly)).
 
-**Why this lab is careful.** AI tools made it nearly free to produce a plausible-looking pull request, and the cost moved to volunteer maintainers who have to read every one. curl ended its bug bounty in January 2026 after the share of real reports fell below one in twenty ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). Your contribution must be worth more to the project than the time it takes to review it, which is LLVM's golden rule.
+This lab is careful for a reason. AI tools made it nearly free to produce a plausible-looking pull request, and the cost moved to volunteer maintainers who have to read every one. curl ended its bug bounty in January 2026 after the share of real reports fell below one in twenty ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). Your contribution must be worth more to the project than the time it takes to review it, which is LLVM's golden rule.
 
-**Tier note.** By default this lab is **AI-as-tutor**: use AI to understand the codebase, explain errors, and critique your work, but write the code and all text yourself. (Module 13 allows heavily revising an agent's draft. This course is stricter here, because under the [AI-use policy](../syllabus.md#the-three-tiers) AI-as-tutor work may not contain AI-written code.) **The project's policy wins when it's stricter.** If the project bans AI-generated contributions, everything you submit to it is AI-free.
+By default this lab is **AI-as-tutor**: use AI to understand the codebase, explain errors, and critique your work, but write the code and all text yourself. (Module 13 allows heavily revising an agent's draft. This course is stricter here, because under the [AI-use policy](../syllabus.md#the-three-tiers) AI-as-tutor work may not contain AI-written code.) **The project's policy wins when it's stricter.** If the project bans AI-generated contributions, follow its exact scope: a ban on all AI assistance requires an entirely AI-free contribution; a ban on generated submissions prohibits generated content.
 
 ## The rules
 
@@ -24,7 +26,7 @@ These come from [module 13](../../modules/13-open-source-ecosystem.md#etiquette-
 4. **Small and focused.** One logical change. No "while I was there" cleanups.
 5. **Understand every line.** If you can't explain the change and its edge cases without AI open, you aren't ready to submit it.
 6. **Reproduce bugs yourself,** on a real build, and write a failing test before fixing anything.
-7. **Run the project's tests and linters locally.** Don't make maintainers' CI find what you could have found.
+7. **Run the project's required checks locally.** Don't make maintainers' CI find what you could have found.
 8. **Write the PR description and every reply yourself.** Disclose AI help even where the project doesn't require it.
 9. **Never let an agent post** to an issue tracker, pull request, or mailing list on your behalf.
 10. **Accept "no."** If a maintainer declines, thank them and stop. Don't reopen the same change with a new prompt.
@@ -42,10 +44,10 @@ Upstream contributions are public and hard to remove. Your account name, commits
 
 ## Prerequisites and setup
 
-- [Labs 3, 4, and 7](lab-03-plan-test-build.md) done. You'll use the test-first loop and the review skills.
+- [Lab 3](lab-03-plan-test-build.md) and [Lab 4](lab-04-review-ai-code.md) done before phase 1. Use [Lab 7](lab-07-multi-agent-review.md) when you reach phase 3’s independent review. It doesn't need to be finished at the week 9 kickoff.
 - A GitHub (or other forge) account, set up for signed or attributed commits the way the project requires. It may be pseudonymous where the project's rules permit ([Privacy](#privacy-contributing-in-public)).
 - If the project requires a contributor license agreement (CLA) or a Developer Certificate of Origin sign-off, you sign it yourself. In the Linux kernel's words, "AI agents MUST NOT add Signed-off-by tags"; only a human can certify ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). `[Check the institution's policy on intellectual property in student work.]`
-- The instructor's vetted project list: `[link]`. You may propose a project that isn't on it.
+- The instructor's vetted project list: `[link]`. You can propose a project that isn't on it.
 
 ## Background reading
 
@@ -94,8 +96,8 @@ The instructor approves it or suggests changes.
 
 ### Phase 2: claim an issue and get a go-ahead (by week 11)
 
-1. Pick an existing issue: a bug, a small feature, or a documentation fix the maintainers have asked for. Or, if you found a real bug yourself, file it first: reproduce it by hand, on a real build, and write the report yourself. Don't forward a model's speculation ([module 13](../../modules/13-open-source-ecosystem.md#etiquette-for-contributing-with-ai)).
-2. Reproduce it before you comment.
+1. Pick an existing issue: a bug, a small feature, or a documentation fix the maintainers have asked for. If you found a real bug yourself, file it first. Reproduce it by hand on a real build and write the report yourself. Don't forward a model's speculation ([module 13](../../modules/13-open-source-ecosystem.md#etiquette-for-contributing-with-ai)).
+2. Reproduce the bug before you comment. For documentation, demonstrate the incorrect or missing example instead.
 3. Comment on the issue, in your own words. Adapt this to the project's tone:
 
    ```text
@@ -108,13 +110,13 @@ The instructor approves it or suggests changes.
    Mentioning that this is coursework is optional. If you do, add that a merge isn't required.
 
 4. Wait for a maintainer's go-ahead. One polite follow-up after about a week is fine. More than that isn't.
-5. **If you have no go-ahead by `[week 11 date]`,** switch to the [class repository](#the-fallback-the-class-repository). Don't open a PR without one. Record what happened in your log; it's useful evidence about how projects work.
+5. **If you have no go-ahead by `[week 11 date]`,** switch to the [class repository](#the-fallback-the-class-repository). Don't open a PR without one. Record what happened in your log. It's useful evidence about how projects work.
 
 ### Phase 3: do the work (weeks 11–13, 4–6 hours)
 
 Follow the steps from [module 13](../../modules/13-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly):
 
-1. **Use AI to understand, not to submit.** Where the policy allows it, ask an agent to explain the architecture, trace a request through the code, or explain why a test fails. Check what it tells you against the code.
+1. Use AI to understand, not to submit. Where the policy allows it, ask an agent to explain the architecture, trace a request through the code, or explain why a test fails. Check what it tells you against the code.
 
    ```text
    I'm new to this codebase and want to understand it, not change it.
@@ -123,18 +125,18 @@ Follow the steps from [module 13](../../modules/13-open-source-ecosystem.md#how-
    numbers. Don't propose changes.
    ```
 
-2. **Write a failing test** that reproduces the bug, in the project's test style. Run it and save the failure.
-3. **Write the fix yourself.** An agent may explain, hint, and critique your code, but it doesn't draft the code you submit (see the tier note). Delete what you can't defend.
-4. **Keep it small.** Check `git diff --stat` before every commit.
-5. **Run the project's full test suite and linters** locally, the way its contributing guide says. Save the output.
-6. **Get a second opinion before the maintainers' opinion.** Have a classmate, or a model from a different lab, review your diff ([module 10](../../modules/10-ai-code-review.md#a-layered-review-workflow)). Verify each finding before acting on it.
-7. **Write the PR description yourself,** using the project's template if it has one. If not, cover: what and why, linked to the issue; how you verified it (commands and results); what AI did and what you did; and risks. Disclose AI help in the form the project asks for, or in a short sentence if it doesn't specify one ([module 15](../../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
-8. **Pre-flight check.** Before you open the PR, a TA or the instructor spends ten minutes on your diff and description. This protects maintainers' time. It isn't a grade.
+2. For a bug fix, write a failing test that reproduces it, in the project’s test style. Run it and save the failure. For a feature, add acceptance tests. For documentation, save the before/after example and run the project’s documentation checks instead.
+3. Write the fix yourself. An agent may explain, hint, and critique your code, but under this lab's tier it doesn't draft the code you submit. Delete what you can't defend.
+4. Keep it small. Check `git diff --stat` before every commit.
+5. Run the project's full test suite and linters locally, the way its contributing guide says. Save the output.
+6. Get a second opinion before the maintainers' opinion. Have a classmate, or a model from a different lab, review your diff ([module 10](../../modules/10-ai-code-review.md#a-layered-review-workflow)). Verify each finding before acting on it.
+7. Write the PR description yourself, using the project's template if it has one. If not, cover: what and why, linked to the issue; how you verified it (commands and results); what AI did and what you did; and risks. Disclose AI help in the form the project asks for, or in a short sentence if it doesn't specify one ([module 15](../../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
+8. Before you open the PR, a TA or the instructor does a ten-minute pre-flight check of your diff and description. This protects maintainers' time, and it isn't a grade.
 
 ### Phase 4: open the PR, handle review, follow up (weeks 13–14)
 
 1. Open the pull request. Link the issue and the maintainer's go-ahead.
-2. **Answer review comments yourself,** from your own understanding. If you don't know, say so and find out ([module 13](../../modules/13-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly)).
+2. Answer review comments yourself, from your own understanding. If you don't know, say so and find out ([module 13](../../modules/13-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly)).
 3. Make requested changes in small, clear commits, or follow the project's preference for squashing.
 4. If the maintainers decline, thank them and close it.
 5. Keep the PR going after the course ends if you want to. Your grade doesn't depend on it.
@@ -167,7 +169,7 @@ Contribute to the class-run repository if you'd rather keep your work private, o
 
 - The Phase 1 proposal and the instructor's approval.
 - Links to your issue comment, the maintainer's go-ahead, and your PR (upstream or class repository), with screenshots in case anything is deleted later.
-- The failing-test output, the passing local test and lint output, and the final `git diff --stat`.
+- The failing-test output (or documentation before/after evidence), the passing required-check output, and the final `git diff --stat`.
 - The second-opinion review and how you handled each finding.
 - Your PR description and review replies, as posted.
 - `lab8-log.md`.
@@ -181,27 +183,27 @@ Contribute to the class-run repository if you'd rather keep your work private, o
 | Criterion | Points | Full credit means |
 | --- | --- | --- |
 | Project selection | 10 | Eligible project; policy quoted and correctly interpreted; build and tests confirmed locally |
-| Issue and go-ahead | 15 | Bug reproduced by hand before commenting; clear, honest comment in your own words; go-ahead received (or a timely switch to the fallback) |
-| The contribution | 25 | One logical change; failing test first; project's tests and linters pass locally; you can explain every line |
+| Issue and go-ahead | 15 | Bug reproduced by hand, or documentation problem demonstrated, before commenting; clear, honest comment in your own words; go-ahead received (or a timely switch to the fallback) |
+| The contribution | 25 | One logical change; failing test first for bugs, acceptance tests for features, or documentation evidence; required checks pass locally; you can explain every line |
 | Disclosure and description | 15 | Written by you; AI use disclosed in the project's required form; verification and risks stated |
-| Handling review | 10 | Replies in your own words; requested changes made cleanly; a "no" accepted gracefully |
+| Handling review | 10 | Replies in your own words; requested changes made cleanly; a "no" accepted gracefully. If no review arrives, document the wait; no penalty for maintainer silence |
 | Learning log and reflection | 25 | Regular dated entries; specific lessons about the code and the community; honest about AI's role |
 | **Total** | **100** | Merge status isn't graded. |
 
 ## If you finish early
 
-- **Help someone else.** Review a classmate's diff before their pre-flight check, using the module 10 checklist.
-- **Read the history.** Find the oldest open issue in your project and read the full thread. Write a paragraph on why it's still open.
-- **Take a maintainer shift** in the class repository even if you contributed upstream.
-- **Compare policies.** Read three AI-contribution policies from [module 13's table](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden) side by side and draft one for a project you'd maintain. Which rules would you keep, and why?
+- Help someone else by reviewing a classmate's diff before their pre-flight check, using the module 10 checklist.
+- Find the oldest open issue in your project and read the full thread. Write a paragraph on why it's still open.
+- Take a maintainer shift in the class repository even if you contributed upstream.
+- Read three AI-contribution policies from [module 13's table](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden) side by side and draft one for a project you'd maintain. Which rules would you keep, and why?
 
 ## Instructor notes
 
 - **Do the privacy review before the term.** Confirm with `[the registrar or privacy office]` that public contributions as a course activity are allowed and what notice or consent is needed. Never require public work, accept a choice of the class repository without question, and keep the class repository private.
-- **Vet the list every term.** Policies change, and projects go quiet. Re-read each linked policy before week 9 ([refresh checklist](../instructor-guide.md#refresh-checklist-for-each-term)).
-- **Cap students per project.** A whole class arriving at one project is itself a maintainer burden. Two per project is a reasonable default.
-- **Build in slack.** Some maintainers reply in hours, some in weeks. Hold the week 11 fallback deadline firmly so nobody is stuck at the end of term.
-- **Run the pre-flight check.** Ten minutes per student catches oversized diffs, missing tests, and descriptions that read like agent output before a maintainer has to.
-- **If a maintainer complains,** take it seriously. Have the student apologize and withdraw if asked, and consider whether that project should stay on the list.
-- **Integrity.** A short walkthrough of the change ("why did you put the check here and not in the caller?") is the best check that the student understands it.
-- **The class repository needs maintainers.** Schedule TA time for go-aheads and reviews, and rotate student maintainer shifts. It's also a good stretch role for experienced students ([instructor guide](../instructor-guide.md#the-existing-engineer)).
+- Vet the list every term. Policies change, and projects go quiet. Re-read each linked policy before week 9 ([refresh checklist](../instructor-guide.md#refresh-checklist-for-each-term)).
+- Cap students per project. A whole class arriving at one project is itself a maintainer burden. Two per project is a reasonable default.
+- Some maintainers reply in hours, some in weeks. Hold the week 11 fallback deadline firmly so nobody is stuck at the end of term.
+- Ten minutes of pre-flight check per student catches oversized diffs, missing tests, and descriptions that read like agent output before a maintainer has to.
+- If a maintainer complains, take it seriously. Have the student apologize and withdraw if asked, and consider whether that project should stay on the list.
+- For integrity, a short walkthrough of the change ("why did you put the check here and not in the caller?") is the best check that the student understands it.
+- The class repository needs maintainers. Schedule TA time for go-aheads and reviews, and rotate student maintainer shifts. It's also a good stretch role for experienced students ([instructor guide](../instructor-guide.md#the-existing-engineer)).

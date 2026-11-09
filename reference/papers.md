@@ -1,6 +1,6 @@
 # Papers: an annotated reading list
 
-> **Last verified:** 2026-11-08 · 180+ papers cited across the modules, grouped by the module that cites them first.
+*Last checked November 8, 2026. 180+ papers cited across the modules, grouped by the module that cites them first.*
 
 Research papers are the slowest-moving layer of this field. Product names churn monthly; a good paper stays useful for years. You don't need to read them all. Start with the short list below, read the abstract and figures first, and come back to the full lists by topic.
 
@@ -127,8 +127,12 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [Persona Features Control Emergent Misalignment](https://arxiv.org/abs/2506.19823) (Wang et al., 2025)
 - [Poisoning Attacks on LLMs Require a Near-constant Number of Poison Samples](https://arxiv.org/abs/2510.07192) (Souly et al., 2025)
 - [Natural Emergent Misalignment from Reward Hacking in Production RL](https://arxiv.org/abs/2511.18397) (MacDiarmid et al., 2025)
+- [End-to-End Test-Time Training for Long Context](https://arxiv.org/abs/2512.23675) (Tandon et al., 2025)
 - [Nested Learning: The Illusion of Deep Learning Architectures](https://arxiv.org/abs/2512.24695) (Behrouz, Razaviyayn, Zhong, Mirrokni, 2025)
+- [Self-Distillation Enables Continual Learning](https://arxiv.org/abs/2601.19897) (Shenfeld, Damani, Hübotter, Agrawal, 2026), SDFT
 - [SIA: Self Improving AI with Harness & Weight Updates](https://arxiv.org/abs/2605.27276) (Hebbar et al., 2026)
+- [Language Models Need Sleep: Learning to Self-Modify and Consolidate Memories](https://arxiv.org/abs/2606.03979) (Behrouz, Hashemi, Javanmard, Mirrokni, 2026), the sleep framework
+- [Recursive self-improvement of AI research agents](https://arxiv.org/abs/2609.26457) (Srikanth et al., 2026), AIDE²
 
 ## 03: The model landscape
 

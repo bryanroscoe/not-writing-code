@@ -54,8 +54,7 @@ Every module follows this shape so readers can skip to the depth they need:
 ```markdown
 # NN: Title
 
-> **Audience:** everyone · **Reading time:** ~25 min · **Last verified:** 2026-11-08
-> **Depth guide:** Students: Foundations + In practice. Engineers: skim Foundations.
+*About a 25-minute read. Last checked November 8, 2026.*
 
 **TL;DR**
 - Three to six bullets a busy person can stop after.
@@ -87,13 +86,17 @@ Use `###` subheadings freely inside each level.
 
 ## Voice
 
-- Plain, direct, practical. Write for a smart reader who is new to the topic.
-- Short sentences. Active voice. Second person ("you") is fine.
-- No hype words ("revolutionary," "game-changing," "unlock"). Show, don't sell.
-- Teach mental models that will survive the next model release, then give the
-  current specifics as examples.
-- Be honest about what doesn't work. Skeptical readers trust material that
-  admits limits.
+Write the way Bryan talks: an experienced engineer explaining this to a smart colleague or a student over lunch.
+
+- Direct and plain. Short sentences, everyday words, contractions. Say the thing.
+- Conversational, not cute. "Kind of," "pretty good," "goes off the rails" are fine where they fit naturally. Don't force it.
+- Candid about limits. "Nobody really knows yet" beats a stack of hedges. Keep the one qualifier that's true.
+- Practical. What to do, what breaks, why it matters on a real team.
+- Talk to the reader as "you."
+- Teach mental models that will survive the next model release, then give the current specifics as examples.
+- No AI slop: no "it's important to note," "let's dive in," "unlock," "leverage," "robust," "seamless," "game-changer," reflexive "it's not X, it's Y," or every paragraph ending on a tidy moral.
+- Running text can sound like Bryan, but don't put experiences or opinions in his mouth. Those go in callouts, in his words.
+- Avoid microcopy: UI-style labels ("Note:", "Tip:", "Key point:"), badges, breadcrumb asides like "(see above)", "click here," decorative bold and arrows. Fold them into a sentence or cut them.
 
 ## Opinions vs facts
 
@@ -112,7 +115,7 @@ and they are opinions. Mark them:
 
 This field changes monthly. To keep the material useful:
 
-- Put `Last verified: YYYY-MM-DD` in each module header.
+- Put "*About an N-minute read. Last checked Month D, YYYY.*" under each module title, and update the date when you re-check facts. No other labels in the header; the [learning paths](paths/) say who should read what.
 - Mark volatile facts inline: "(as of November 2026)."
 - Keep specific model versions, prices, and leaderboard numbers mostly in
   [module 03](modules/03-model-landscape.md), [module 12](modules/12-costs-subscriptions-and-apis.md),

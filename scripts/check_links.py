@@ -75,6 +75,11 @@ def main():
                     continue
                 path_part, _, frag = target.partition("#")
                 dest = md if not path_part else (md.parent / path_part).resolve()
+                # Slides link to site URLs (../modules/NN-slug/); accept them when NN-slug.md exists.
+                if path_part.endswith("/") and not dest.exists():
+                    as_md = dest.parent / (dest.name + ".md")
+                    if as_md.exists():
+                        dest = as_md
                 problem = None
                 if not dest.exists():
                     problem = "missing file"

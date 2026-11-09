@@ -1,6 +1,6 @@
 # Timeline
 
-> **Last verified:** 2026-11-08 · Covers June 2017 to early November 2026.
+*Last checked November 8, 2026. It covers January 2017 to early November 2026.*
 
 This page lists dated events in AI-accelerated software engineering: key papers, model launches, tools, standards and incidents. Each row links to a primary source where one exists, or to reputable reporting where it doesn't.
 
@@ -98,7 +98,7 @@ How to read it:
 | 2025-05-16 | OpenAI Codex cloud agent (research preview) | Parallel coding tasks in cloud sandboxes | [OpenAI](https://openai.com/index/introducing-codex/) |
 | 2025-05-19 | GitHub Copilot coding agent | Assign an issue, get a pull request | [GitHub](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/) |
 | 2025-05-22 | Claude Opus 4 and Sonnet 4; Claude Code generally available | Claude Code becomes a mainstream tool | [Anthropic](https://www.anthropic.com/news/claude-4) |
-| 2025-06-12 | SEAL, "Self-Adapting Language Models" (MIT) | Research on models that write their own weight updates | [arXiv](https://arxiv.org/abs/2506.10943) |
+| 2025-06-12 | SEAL, "Self-Adapting Language Models" (MIT) | Models generate fine-tuning data and update directives; an optimizer updates the weights | [arXiv](https://arxiv.org/abs/2506.10943) |
 | 2025-06-19 | Tobi Lütke popularizes "context engineering" (Karpathy follows on Jun 25) | Shift from prompt wording to managing everything in the context | [X (Lütke)](https://x.com/tobi/status/1935533422589399127), [X (Karpathy)](https://x.com/karpathy/status/1937902205765607626) |
 | 2025-06-25 | Google Gemini CLI (open source) | Third major terminal agent, with a free tier | [Google](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/) |
 | 2025-07-09 | xAI Grok 4 | xAI's first model at the top of several benchmarks | [xAI](https://x.ai/news/grok-4) |
@@ -108,7 +108,7 @@ How to read it:
 | 2025-07-23 | America's AI Action Plan encourages open models | US policy turns explicitly pro-open-weight | [White House (PDF)](https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf) |
 | 2025-07-28 | Z.ai GLM-4.5 | GLM becomes a leading open coding model | [Z.ai](https://z.ai/blog/glm-4.5) |
 | 2025-08-04 | Nathan Lambert launches the ATOM Project | Argued the US had lost open-model leadership to China | [Interconnects](https://www.interconnects.ai/p/atom-project) |
-| 2025-08-05 | OpenAI gpt-oss-120b and 20b (Apache 2.0) | OpenAI's first open weights since GPT-2 | [OpenAI](https://openai.com/index/introducing-gpt-oss/), [Hugging Face](https://huggingface.co/openai/gpt-oss-120b) |
+| 2025-08-05 | OpenAI gpt-oss-120b and 20b (Apache 2.0) | OpenAI's first open-weight language models since GPT-2 | [OpenAI](https://openai.com/index/introducing-gpt-oss/), [Hugging Face](https://huggingface.co/openai/gpt-oss-120b) |
 | 2025-08-05 | Claude Opus 4.1 | Incremental coding upgrade | [Anthropic](https://www.anthropic.com/news/claude-opus-4-1) |
 | 2025-08-07 | GPT-5 launches; router outage, "chart crime," GPT-4o backlash | A rocky launch; 4o restored for paid users within a day | [OpenAI](https://openai.com/index/introducing-gpt-5/), [TechCrunch](https://techcrunch.com/2025/08/08/sam-altman-addresses-bumpy-gpt-5-rollout-bringing-4o-back-and-the-chart-crime/) |
 | 2025-08 | AGENTS.md published as a shared format for agent instructions | One file for many agents instead of CLAUDE.md, .cursorrules and others | [agents.md](https://agents.md/) |
@@ -199,7 +199,7 @@ How to read it:
 ## Patterns worth noticing
 
 - **The release interval shrank.** Big launches came about yearly in 2020–2023 and quarterly in 2024–2025. By 2026 each top lab shipped something roughly every month.
-- **Open weights trail by months, not years.** Epoch's estimate fell from about a year (2024) to 6–7 months on cyber tasks (2026).
+- **Open–closed gaps depend on the task.** Epoch estimated about a year across its 2024 benchmark sample and 6–7 months on cyber tasks in 2026; these are different measures.
 - **Leadership in open weights moved to China** after DeepSeek-R1 in January 2025. US and European labs answered in 2025–2026 with gpt-oss, Gemma 4, Nemotron, Inkling, Muse and Mistral Large 4.
 - **Agent tooling standardized.** MCP (2024), AGENTS.md (2025) and Agent Skills (2025) all ended up at the Agentic AI Foundation.
 - **Incidents are part of the history.** Sycophancy rollbacks, infrastructure bugs, suspended launches and an agent that escaped its sandbox all happened at the frontier labs themselves. See [module 11](../modules/11-security-and-prompt-injection.md) and [module 14](../modules/14-keeping-up.md).

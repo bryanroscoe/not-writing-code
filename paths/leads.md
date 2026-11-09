@@ -1,11 +1,10 @@
 # Leads path
 
-> **For:** engineering managers, tech leads, staff engineers, and anyone asked to "get the team using AI."
-> **Time:** about 3 hours of reading, then the [workplace playbook](../workplace/ai-first-playbook.md).
+This path is for engineering managers, tech leads, staff engineers, and anyone asked to "get the team using AI." It's about 3 hours of reading, then the [workplace playbook](../workplace/ai-first-playbook.md).
 
 ## Your job is different from your engineers'
 
-Your engineers need to learn the tools. You need to decide which tools, under what rules, at what cost, and how you'll know whether it's working. You also have to bring along skeptics without either steamrolling them or letting the team stall. This path pulls out the parts of each module that bear on those decisions.
+Your engineers need to learn the tools. You need to decide which tools, under what rules, at what cost, and how you'll know whether it's working. You also have to bring along skeptics without either steamrolling them or letting the team stall. This path pulls out the parts of each module that matter for those decisions.
 
 ## The path
 
@@ -16,22 +15,22 @@ Your engineers need to learn the tools. You need to decide which tools, under wh
 | [05 How to tell if a model is good](../modules/05-judging-models.md) | Real-world productivity evidence, Vibes are data too, Build your own eval | What the studies actually show, so you can set expectations and resist both hype and dismissal |
 | [10 AI code review](../modules/10-ai-code-review.md) | Why it matters now, A layered review workflow, Accountability, Team metrics | Review becomes the bottleneck when AI writes code. What to measure and what not to |
 | [11 Security and prompt injection](../modules/11-security-and-prompt-injection.md) | TL;DR, Real incidents, Team checklist | The risks that are actually new, and the controls you need before you widen access |
-| [12 Costs](../modules/12-costs-subscriptions-and-apis.md) | Three ways to pay, the worked example, Cost per task, Team budgeting | Subscriptions vs API, per-seat vs pooled, and how to frame ROI honestly |
+| [12 Costs](../modules/12-costs-subscriptions-and-apis.md) | Three ways to pay, the worked example, Cost per task, not cost per token, Team budgeting | Subscriptions vs API, per-seat vs pooled, and how to frame ROI honestly |
 | [03 The model landscape](../modules/03-model-landscape.md) | TL;DR, Best model for the job, How to pick a model next month | Enough to make a tool decision and to know when to revisit it |
 | [14 Keeping up](../modules/14-keeping-up.md) | Ups and downs are normal, When to switch tools, Team AI radar | How to keep a team current without constant churn |
-| [15 Learning, careers, and responsibility](../modules/15-learning-careers-and-responsibility.md) | What the evidence says, Responsible use, The human side | Junior development, deskilling, data handling, and burnout from supervising many agents |
+| [15 Learning, careers, and responsibility](../modules/15-learning-careers-and-responsibility.md) | What the evidence says, What the evidence says about early-career jobs, Responsible use, The human side | Junior development, deskilling, data handling, and burnout from supervising many agents |
 
 ## Decisions you'll have to make
 
-Each links to where the material helps.
+Each links to the material that helps.
 
-1. **Which tool(s), and do we standardize?** One primary agent with a second for cross-review is a good default ([module 06](../modules/06-harnesses-and-tools.md#how-to-choose-a-harness), [module 09](../modules/09-multi-agent-systems.md)).
-2. **How do we pay?** Seats on subscription plans for daily users; API keys with budgets for automation and CI ([module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting)).
-3. **What data can go into which tool?** Decide this before rollout, write it down, and get it approved ([module 15](../modules/15-learning-careers-and-responsibility.md#responsible-use), [policy template](../workplace/policy-template.md)).
-4. **What can agents do without a human?** Start with "nothing irreversible." Widen only as sandboxing and checks mature ([module 11](../modules/11-security-and-prompt-injection.md#team-checklist)).
-5. **How do we review AI-written code?** Same bar as human code, smaller PRs, author must be able to explain it, a different model reviews first ([module 10](../modules/10-ai-code-review.md)).
-6. **How will we know it's working?** Track review latency, escaped defects, revert rate, and developer-reported friction. Don't track lines of code or "% AI-written" as goals ([module 10](../modules/10-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)).
-7. **How do juniors still learn?** Protect some AI-free or AI-as-tutor work, and pair juniors with seniors on agent sessions ([module 15](../modules/15-learning-careers-and-responsibility.md)).
+1. Which tool(s), and do we standardize? One primary agent with a second for cross-review is a good default ([module 06](../modules/06-harnesses-and-tools.md#how-to-choose-a-harness), [module 09](../modules/09-multi-agent-systems.md)).
+2. How do we pay? Seats on subscription plans for daily users, and API keys with budgets for automation and CI ([module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting)).
+3. What data can go into which tool? Decide this before rollout, write it down, and get it approved ([module 15](../modules/15-learning-careers-and-responsibility.md#responsible-use), [policy template](../workplace/policy-template.md)).
+4. What can agents do without a human? Start with "nothing irreversible." Widen only as sandboxing and checks mature ([module 11](../modules/11-security-and-prompt-injection.md#team-checklist)).
+5. How do we review AI-written code? Same bar as human code, smaller PRs, author must be able to explain it, a different model reviews first ([module 10](../modules/10-ai-code-review.md)).
+6. How will we know it's working? Track review latency, escaped defects, revert rate, and developer-reported friction. Don't track lines of code or "% AI-written" as goals ([module 10](../modules/10-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)).
+7. How do juniors still learn? Protect some AI-free or AI-as-tutor work, and pair juniors with seniors on agent sessions ([module 15](../modules/15-learning-careers-and-responsibility.md)).
 
 ## What "AI-first" should mean on your team
 
@@ -47,4 +46,4 @@ AI-first means reaching for AI by default and knowing when not to. It doesn't me
 
 ## Next
 
-Go to the [workplace playbook](../workplace/ai-first-playbook.md) for a phased rollout plan, the [session series](../workplace/session-series.md) for a ready-made internal training program, and the [policy template](../workplace/policy-template.md).
+The [workplace playbook](../workplace/ai-first-playbook.md) has a phased rollout plan, the [session series](../workplace/session-series.md) is a ready-made internal training program, and there's a [policy template](../workplace/policy-template.md).

@@ -13,4 +13,4 @@ Eight hands-on labs that go with the [course](../README.md). None needs a GPU, m
 | [7](lab-07-multi-agent-review.md) | Multi-agent, cross-model review (doubles as the project review) | 13 |
 | [8](lab-08-open-source-contribution.md) | An open-source contribution, done respectfully | see [syllabus](../syllabus.md) |
 
-Self-paced? Read the safety review in [Lab 5](lab-05-prompt-injection.md) before you start it, even without an instructor.
+Working alone, read the safety review in [Lab 5](lab-05-prompt-injection.md) before you start it.

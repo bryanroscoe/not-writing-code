@@ -8,4 +8,4 @@ Pick the path that fits you. Each one says what to read in full, what to skim, a
 | A working engineer | [Engineer path](engineers.md) | About 6–8 hours, plus a two-week practice plan |
 | A lead, manager, or AI champion | [Leads path](leads.md) | About 3 hours, plus the [workplace playbook](../workplace/ai-first-playbook.md) |
 
-Everyone should read [00: Orientation](../modules/00-orientation.md) first.
+Everyone should start with [00: Orientation](../modules/00-orientation.md).

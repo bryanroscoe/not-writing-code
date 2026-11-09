@@ -1,6 +1,6 @@
 # Glossary
 
-> **Last verified:** 2026-11-08 · Built from the "Terms introduced" list at the end of each module.
+*Last checked November 8, 2026. Built from the "Terms introduced" list at the end of each module.*
 
 Every term defined anywhere in the knowledge base, in one or two sentences, with links to the modules that use it. When two modules define the same term, the first one's definition is shown. If a term is missing, add it to the "Terms introduced" list of the module that explains it. This page is regenerated from those lists.
 
@@ -53,7 +53,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Best-of-N**: Running the same task N times and keeping the best or majority result. ([09](../modules/09-multi-agent-systems.md))
 - **Blind A/B evaluation**: Comparing outputs with model identities hidden from the grader. ([05](../modules/05-judging-models.md))
 - **Brevity bias / context collapse**: Loss of useful detail when contexts are repeatedly summarized or rewritten. ([07](../modules/07-context-engineering.md))
-- **Brooks's law**: Fred Brooks's observation that adding people to a late software project makes it later, because coordination costs grow with team size. It applies to adding agents too. ([15](../modules/15-learning-careers-and-responsibility.md))
+- **Brooks's law**: Fred Brooks's observation that adding people to a late software project makes it later, because coordination costs grow with team size. Coordination overhead can affect agent teams too. ([15](../modules/15-learning-careers-and-responsibility.md))
 - **Byte-pair encoding (BPE)**: A tokenization method that builds a vocabulary by repeatedly merging the most frequent adjacent symbol pairs. ([01](../modules/01-what-is-an-llm.md))
 
 ## C
@@ -161,6 +161,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Harness**: The software around a model that manages context, tools, and the loop. ([01](../modules/01-what-is-an-llm.md), [06](../modules/06-harnesses-and-tools.md))
 - **Harness (scaffold, agent)**: The program around a model that supplies prompts and tools and runs the loop; part of what any agentic score measures. ([05](../modules/05-judging-models.md))
 - **Harness engineering**: Improving the agent's environment so mistakes are prevented, caught or corrected automatically. ([07](../modules/07-context-engineering.md))
+- **Harness-level self-improvement**: An agent improving its own scaffold code, prompts, and tools while the underlying model's weights stay fixed (e.g., Darwin Gödel Machine, AIDE²). ([02](../modules/02-training-and-tuning.md))
 - **Homogeneous / heterogeneous team**: Agents that all use one model vs agents that use different models. ([09](../modules/09-multi-agent-systems.md))
 - **Hook**: A user-defined command the harness runs at a lifecycle event, giving deterministic control. ([06](../modules/06-harnesses-and-tools.md))
 - **Human accountability**: The principle that a named person, not a tool, answers for any change that is shipped. ([15](../modules/15-learning-careers-and-responsibility.md))
@@ -208,6 +209,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **MCP (Model Context Protocol)**: An open JSON-RPC protocol for connecting AI applications to tools, resources and prompts provided by servers. ([06](../modules/06-harnesses-and-tools.md))
 - **MCP Apps**: An MCP extension that lets tools return interactive UI rendered by the host. ([06](../modules/06-harnesses-and-tools.md))
 - **MCP host / client / server**: The AI app; the connector inside it for one server; the program exposing capabilities. ([06](../modules/06-harnesses-and-tools.md))
+- **Memory consolidation**: Moving what a model has picked up in fast, temporary memory (its context or fast-changing parameters) into slower, more stable weights. ([02](../modules/02-training-and-tuning.md))
 - **Mid-training**: A loosely defined phase between bulk pretraining and post-training, focused on high-quality or specialized data and longer context. ([02](../modules/02-training-and-tuning.md))
 - **MIT / Apache-2.0**: Permissive open-source licenses; Apache-2.0 adds an explicit patent grant. ([13](../modules/13-open-source-ecosystem.md))
 - **Mixture of experts (MoE)**: An architecture where a router sends each token through only a few of many expert sub-networks. ([01](../modules/01-what-is-an-llm.md), [04](../modules/04-open-vs-closed-weights.md))
@@ -223,7 +225,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Multi-head attention**: Running several attention operations in parallel so the model can track different relationships at once. ([01](../modules/01-what-is-an-llm.md))
 - **Multimodal model**: A model that handles more than text, such as images or audio. ([01](../modules/01-what-is-an-llm.md))
 - **Muse**: Meta Superintelligence Labs' model family (from April 2026), mostly closed, with two open-weight members. ([03](../modules/03-model-landscape.md))
-- **Mythos-class**: Anthropic's tier above Opus, introduced June 2026, released as Fable (general) and Mythos (vetted access). ([03](../modules/03-model-landscape.md))
+- **Mythos-class**: Anthropic's tier above Opus, previewed to vetted partners in April 2026 (Project Glasswing) and released in June 2026 as Fable (general) and Mythos (vetted access). ([03](../modules/03-model-landscape.md))
 
 ## N
 
@@ -308,13 +310,16 @@ Model names and product names change fast. Entries for specific models describe 
 - **Saturation**: When top models score near a benchmark's ceiling, so it no longer separates them. ([05](../modules/05-judging-models.md))
 - **Scaling laws**: Empirical power-law relationships between model size, data, compute, and loss. ([01](../modules/01-what-is-an-llm.md))
 - **Scope creep (agent)**: An agent changing things outside the task it was given. ([08](../modules/08-agentic-workflows.md))
+- **Self-distillation fine-tuning (SDFT)**: A continual-learning method in which a model shown a demonstration acts as its own teacher, reported to forget less than ordinary supervised fine-tuning. ([02](../modules/02-training-and-tuning.md))
 - **Self-edit (SEAL)**: Training data and update instructions a model writes for itself, applied as a weight update. ([02](../modules/02-training-and-tuning.md))
 - **Self-preference bias**: A model judge's tendency to rate its own (or familiar-looking) outputs higher. ([09](../modules/09-multi-agent-systems.md))
+- **Self-tuning (weight self-modification)**: A model producing the training data, edits, or settings that a training step then uses to update its own parameters. ([02](../modules/02-training-and-tuning.md))
 - **Severity triage**: Sorting findings by impact (high, medium, low, noise) to decide what blocks a merge. ([10](../modules/10-ai-code-review.md))
 - **Signed-off-by / DCO**: A commit tag by which a human certifies the Developer Certificate of Origin; the Linux kernel forbids AI agents from adding it. ([13](../modules/13-open-source-ecosystem.md))
 - **Skill**: A folder with a `SKILL.md` and optional scripts that an agent loads only when relevant. ([06](../modules/06-harnesses-and-tools.md))
 - **Skill formation**: Building durable ability through practice, as distinct from completing a task. ([15](../modules/15-learning-careers-and-responsibility.md))
 - **Skill registry**: A public catalog of installable agent skills, which is a software supply chain. ([13](../modules/13-open-source-ecosystem.md))
+- **Sleep framework**: Google's 2026 continual-learning method in which a model alternates between active use and offline phases that consolidate new knowledge into its weights and rehearse it with self-generated practice data ("dreaming"). ([02](../modules/02-training-and-tuning.md))
 - **Slopsquatting**: Registering package names that models hallucinate, so that AI-suggested installs fetch malware. ([11](../modules/11-security-and-prompt-injection.md))
 - **Society of Mind**: Minsky's 1986 theory of intelligence as many simple interacting agents; an early framing for multi-agent AI. ([09](../modules/09-multi-agent-systems.md))
 - **Software factory / dark factory**: A pipeline where agents write and check code from specs with no human writing or reviewing code. ([08](../modules/08-agentic-workflows.md))
@@ -383,6 +388,7 @@ Model names and product names change fast. Entries for specific models describe 
 ## W
 
 - **Warm backup**: A second tool kept configured and in occasional use, so you can switch quickly. ([14](../modules/14-keeping-up.md))
+- **Weight-space programming**: A model reading and editing another neural network's weights directly, as numbers, without gradient-based training. ([02](../modules/02-training-and-tuning.md))
 - **Weights (parameters)**: The learned numbers that define a model's behavior. ([04](../modules/04-open-vs-closed-weights.md))
 - **Workflow (vs. agent)**: An LLM system following predefined code paths, as opposed to one that directs its own process. ([07](../modules/07-context-engineering.md), [09](../modules/09-multi-agent-systems.md))
 - **Workslop**: AI-generated work that looks complete but lacks substance, shifting effort to whoever receives it. ([15](../modules/15-learning-careers-and-responsibility.md))

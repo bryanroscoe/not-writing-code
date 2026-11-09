@@ -1,19 +1,20 @@
 # Team AI usage policy: a template
 
-> **Audience:** leads, security, legal, and privacy reviewers · **Reading time:** ~25 min · **Last verified:** 2026-11-08
-> **Use with:** [Phase 0 of the playbook](ai-first-playbook.md#phase-0-prerequisites).
+This template is for leads and for security, legal, and privacy reviewers, and takes about 25 minutes to read. It's part of [Phase 0 of the playbook](ai-first-playbook.md#phase-0-prerequisites).
+
+*Last checked November 8, 2026.*
 
 > [!IMPORTANT]
 > **This is not legal advice.** It is a starting draft for an engineering team's AI usage policy. Your security, legal, and privacy teams (or outside counsel) must review it before adoption. Laws, vendor terms, and your own contracts vary and change. Nothing here replaces your organization's existing security, privacy, acceptable-use, or open-source policies; this policy should point to them, not contradict them.
 
 ## How to use this template
 
-- **Placeholders** look like `[[ORG: ...]]`. Replace every one. Search the finished document for `[[ORG:` before you publish it.
-- **Guidance notes** are the blockquotes that start with "Guidance." They explain a choice. Delete them from the published policy.
-- **Keep it short.** A policy people read beats a complete one they don't. Cut sections that don't apply.
-- **Version it.** Keep the policy in a repository, change it by pull request, and record each change in [section 18](#18-review-cadence-and-changes).
-- **Start provisional.** Ship version 1 with a short approved-tools list and a review date a few months out. Tighten it as you learn. A long approval process pushes people toward unapproved tools.
-- **Background** for each section is in the modules, especially [module 11](../modules/11-security-and-prompt-injection.md) (security), [module 12](../modules/12-costs-subscriptions-and-apis.md) (costs and terms), and [module 15](../modules/15-learning-careers-and-responsibility.md#responsible-use) (responsible use).
+- Placeholders look like `[[ORG: ...]]`. Replace every one, and search the finished document for `[[ORG:` before you publish.
+- Guidance notes are the blockquotes that start with "Guidance." They explain a choice; delete them from the published policy.
+- Keep it short, and cut sections that don't apply. A policy people read beats a complete one they don't.
+- Keep the policy in a repository, change it by pull request, and record each change in [section 18](#18-review-cadence-and-changes).
+- Start provisional. Ship version 1 with a short approved-tools list and a review date a few months out, then tighten it as you learn. A long approval process pushes people toward unapproved tools.
+- The modules have background for each section, especially [module 11](../modules/11-security-and-prompt-injection.md) (security), [module 12](../modules/12-costs-subscriptions-and-apis.md) (costs and terms), and [module 15](../modules/15-learning-careers-and-responsibility.md#responsible-use) (responsible use).
 
 ---
 
@@ -67,9 +68,9 @@ Only the tools and plans listed here may be used with company code or data.
 - MCP servers, plugins, skills, and extensions not on the approved list in [section 6](#6-agent-permissions-and-environments).
 - `[[ORG: anything else]]`
 
-**Requesting a new tool:** use the checklist in [Appendix B](#appendix-b-new-tool-request-checklist) and send it to `[[ORG: owner or channel]]`. Expect a decision within `[[ORG: time]]`.
+To request a new tool, send the checklist in [Appendix B](#appendix-b-new-tool-request-checklist) to `[[ORG: owner or channel]]`. Expect a decision within `[[ORG: time]]`.
 
-> **Guidance:** One primary agent plus a second from a different lab is a good default: the second enables cross-model review and keeps people working through an outage or a regression ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)). Paid business plans matter: they add admin controls and no-training defaults, and free tiers create both data risk and a bad first impression.
+> **Guidance:** A good default is one primary agent plus a second from a different lab. The second makes cross-model review possible and keeps people working through an outage or a regression ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)). Pay for business plans. They add admin controls and no-training defaults, while free tiers bring data risk and a bad first impression.
 
 ## 4. Data classification
 
@@ -84,12 +85,12 @@ Use the organization's existing data classes if it has them, and map them to thi
 
 Rules that apply to every class:
 
-- **Treat anything you paste, attach, or let an agent read as sent to the vendor.** Agents read files on their own. A file in the working tree is effectively in the prompt.
-- **Logs, stack traces, and database exports often contain restricted data.** Scrub or sample them before sharing. Use copies of data with personal data removed for debugging.
-- **Customer contracts may restrict AI use** on their code or data. Check `[[ORG: where contract restrictions are recorded]]` before using AI on customer-specific work.
-- **When unsure, treat data as the higher class** and ask `[[ORG: contact]]`.
+- Treat anything you paste, attach, or let an agent read as sent to the vendor. Agents read files on their own, so a file in the working tree is effectively in the prompt.
+- Logs, stack traces, and database exports often contain restricted data. Scrub or sample them before sharing, and debug with copies that have personal data removed.
+- Customer contracts may restrict AI use on their code or data. Check `[[ORG: where contract restrictions are recorded]]` before using AI on customer-specific work.
+- When unsure, treat data as the higher class and ask `[[ORG: contact]]`.
 
-> **Guidance:** Decide this table before rollout and get it approved ([leads path](../paths/leads.md#decisions-youll-have-to-make)). Consumer and business terms from the same lab often differ; for example, Anthropic's consumer terms let individual users choose whether their sessions are used for training, while its business and API terms exclude training by default ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)). If some code truly cannot leave your network, see [module 04](../modules/04-open-vs-closed-weights.md#privacy-data-residency-and-compliance) on self-hosted open-weight models and their trade-offs.
+> **Guidance:** Decide this table before rollout and get it approved ([leads path](../paths/leads.md#decisions-youll-have-to-make)). Consumer and business terms from the same lab often differ; for example, Anthropic's consumer terms let individual users choose whether their sessions are used for training, while its business and API terms exclude training by default ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)). If some code truly can't leave your network, [module 04](../modules/04-open-vs-closed-weights.md#privacy-data-residency-and-compliance) covers self-hosted open-weight models and their trade-offs.
 
 ## 5. Required settings
 
@@ -108,19 +109,19 @@ Every approved tool must be configured as follows. Admins enforce these through 
 - [ ] **Public-code matching filter:** `[[ORG: on / off / where available]]`
 - [ ] **Commit attribution:** the tool's default co-author trailer stays on unless [section 9](#9-disclosure-and-attribution) says otherwise.
 
-> **Guidance:** The data-terms questions to ask a vendor in writing are in [module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting). The security controls behind these settings are in the [module 11 team checklist](../modules/11-security-and-prompt-injection.md#team-checklist).
+> **Guidance:** [Module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting) lists the data-terms questions to ask a vendor in writing, and the [module 11 team checklist](../modules/11-security-and-prompt-injection.md#team-checklist) covers the security controls behind these settings.
 
 ## 6. Agent permissions and environments
 
 - **No production credentials** may be reachable from any environment where an agent runs, including developer laptops. Production changes go through the same review and deploy pipeline as any other change.
-- **Agents use development or staging credentials only**, scoped to the minimum: fine-grained, short-lived, one repository where possible, separate per agent or workflow.
-- **Risky work runs in a sandbox:** a dev container, VM, or approved cloud agent with no access to home directories, SSH keys, or cloud credentials. Opening an untrusted repository with an agent counts as risky work.
-- **Network egress** from agent sandboxes and CI runners is limited to `[[ORG: allowlisted destinations, e.g., package registry, git host, documentation sites]]`.
-- **Parallel agents** each use their own git worktree and branch. Remove worktrees when their branches merge.
-- **Extensions are dependencies.** Only MCP servers, plugins, and skills on the approved list may be installed. Each entry is pinned by version or hash and has an owner. Approved list: `[[ORG: link]]`.
-- **Instruction files** (`AGENTS.md`, `CLAUDE.md`, rules, skills) are trusted context for agents. Changes to them are reviewed like CI configuration.
+- If agents need service credentials, use development credentials only, never production, scoped to synthetic data and isolated services. Any staging access needs an approved exception because staging may contain real data. Credentials are scoped to the minimum: fine-grained, short-lived, one repository where possible, separate per agent or workflow.
+- Risky work runs in a sandbox (a dev container, VM, or approved cloud agent with no access to home directories, SSH keys, or cloud credentials). Opening an untrusted repository with an agent counts as risky work.
+- Network egress from agent sandboxes and CI runners is limited to `[[ORG: allowlisted destinations, e.g., package registry, git host, documentation sites]]`.
+- Parallel agents each use their own git worktree and branch. Remove worktrees when their branches merge.
+- Extensions are dependencies. Only MCP servers, plugins, and skills on the approved list may be installed, and each entry is pinned by version or hash and has an owner. Approved list: `[[ORG: link]]`.
+- Instruction files (`AGENTS.md`, `CLAUDE.md`, rules, skills) can direct agents and must be reviewed before use. Their contents do not override this policy, and changes to them are reviewed like CI configuration.
 
-> **Guidance:** Use Meta's "Agents Rule of Two" when deciding permissions: an agent should combine at most two of untrusted input, access to sensitive data or systems, and the ability to change state or communicate externally, unless a human approves its actions ([module 11](../modules/11-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)).
+> **Guidance:** When deciding permissions, use Meta's "Agents Rule of Two." Unless a human approves its actions, an agent should combine at most two of untrusted input, access to sensitive data or systems, and the ability to change state or communicate externally ([module 11](../modules/11-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)).
 
 ## 7. Human approval for irreversible actions
 
@@ -142,7 +143,7 @@ Branch protection enforces the first rule technically: `[[ORG: required approval
 
 ## 8. Code review requirements
 
-All AI-assisted changes follow the team's review rule. In summary (full version in the [playbook](ai-first-playbook.md#review-policy-for-ai-written-prs)):
+All AI-assisted changes follow the team's review rule, summarized here. The [playbook](ai-first-playbook.md#review-policy-for-ai-written-prs) has the full version.
 
 1. A named human author opens the PR and can explain every line.
 2. A named human approves the merge. AI review tools never count as an approval.
@@ -161,13 +162,13 @@ All AI-assisted changes follow the team's review rule. In summary (full version 
 - **Pull requests:** the PR template's "What the agent did vs. what I did" section is filled in for every AI-assisted PR.
 - **Documentation and other written work:** `[[ORG: disclosure expectations, if any]]`
 - **Customer-facing material:** `[[ORG: rules for disclosing AI-generated content to customers, if any]]`
-- **Attribution does not move responsibility.** The human author remains the author of record ([module 15](../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
+- Attribution does not move responsibility. The human author remains the author of record ([module 15](../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
 
 ## 10. Secrets handling
 
 - Never paste credentials, tokens, keys, connection strings, or session cookies into any AI tool.
 - Keep secrets out of the working tree. Use `[[ORG: secrets manager]]`, not `.env` files in the repository.
-- Agents are denied read access to secret files ([section 5](#5-required-settings)). Don't ask an agent to run commands that print the environment or secret files (`env`, `printenv`, `cat .env`).
+- Secret files are outside agents’ readable environments; tested read restrictions provide a second layer ([section 5](#5-required-settings)). Don't ask an agent to run commands that print the environment or secret files (`env`, `printenv`, `cat .env`).
 - Secret scanning with push protection is on for all repositories: `[[ORG: tool]]`.
 - Agent session transcripts and logs may contain anything the agent read. Treat them as `[[ORG: data class, e.g., Confidential]]` and don't share them outside approved locations.
 - **If an agent may have read a secret, treat the secret as exposed:** rotate it and report it under [section 16](#16-incident-reporting).
@@ -188,15 +189,15 @@ All AI-assisted changes follow the team's review rule. In summary (full version 
 
 These rules apply to any AI that runs unattended or is shared: review bots, issue triage, scheduled agents, nightly jobs, and AI features in internal tools.
 
-- **API keys only.** Individual or consumer subscriptions may not be used for CI, shared automation, or products; vendor terms generally prohibit it ([module 12](../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
-- **One key per workflow and environment**, with a spend limit and alerts: `[[ORG: default monthly limit, alert threshold, who gets alerts]]`.
-- **Every workflow has a named owner** and a short written design that says which leg of the Rule of Two it removes ([section 6](#6-agent-permissions-and-environments)).
-- **Workflows that read untrusted input** (public issues, PR titles and bodies from outside contributors, web content) run with read-only tokens, no secrets, isolated caches, and limited network.
+- Budgeted API access is this policy's default. Use another automation offering only after approval and verification of the vendor's current terms; do not assume that an individual subscription permits CI, shared automation, or products ([module 12](../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
+- Use one key per workflow and environment, with a spend limit and alerts: `[[ORG: default monthly limit, alert threshold, who gets alerts]]`.
+- Every workflow has a named owner and a short written design that says which leg of the Rule of Two it removes ([section 6](#6-agent-permissions-and-environments)).
+- Workflows that read untrusted input (public issues, PR titles and bodies from outside contributors, web content) run with read-only tokens, no secrets, isolated caches, and limited network.
 - **Never insert untrusted text into the prompt of an agent that holds privileges.** Real attacks used issue titles and PR comments to hijack CI agents ([module 11](../modules/11-security-and-prompt-injection.md#real-incidents-20252026)).
-- **Pin** agent tool versions and model snapshots. Upgrade deliberately after a smoke test.
-- **Set stop conditions:** caps on turns, run time, and spend per run.
-- **Output goes through normal review.** Automation opens pull requests or comments; it does not merge, deploy, or close issues on its own `[[ORG: unless an exception is approved]]`.
-- **Logs** of automated agent runs are retained for `[[ORG: period]]`.
+- Pin agent tool versions and model snapshots, and upgrade deliberately after a smoke test.
+- Set stop conditions: caps on turns, run time, and spend per run.
+- Output goes through normal review. Automation opens pull requests or comments; it does not merge, deploy, or close issues on its own `[[ORG: unless an exception is approved]]`.
+- Logs of automated agent runs are retained for `[[ORG: period]]`.
 
 ## 13. Generated code and intellectual property
 
@@ -224,7 +225,7 @@ These rules apply to any AI that runs unattended or is shared: review bots, issu
 
 - Before using AI tools on company code, each person completes `[[ORG: e.g., Sessions 0–2 of the internal series, or equivalent]]` and acknowledges this policy ([session series](session-series.md)).
 - New team members get `[[ORG: setup guide, office hours, a buddy]]`.
-- **Learning time is protected.** Managers may label onboarding and learning tasks as "AI-free" or "AI-as-tutor" (AI may explain and review but not write the submitted code). Juniors and anyone new to a codebase are encouraged to use learning modes and to debug before asking ([playbook](ai-first-playbook.md#juniors-and-learning)).
+- Learning time is protected. Managers may label onboarding and learning tasks as "AI-free" or "AI-as-tutor" (AI may explain and review but not write the submitted code). Juniors and anyone new to a codebase are encouraged to use learning modes and to debug before asking ([playbook](ai-first-playbook.md#juniors-and-learning)).
 
 ## 16. Incident reporting
 
@@ -245,7 +246,7 @@ These rules apply to any AI that runs unattended or is shared: review bots, issu
 4. Report, with what you know so far. Partial reports are welcome.
 5. `[[ORG: follow the organization's incident response process from here]]`
 
-**No blame for reporting.** Reports are how we find control gaps. Post-incident reviews ask "what control failed, and what did review miss?" rather than "who used AI?"
+Reporting is blame-free. Reports are how we find control gaps, and post-incident reviews ask "what control failed, and what did review miss?" rather than "who used AI?"
 
 ## 17. Exceptions
 
@@ -276,7 +277,7 @@ Exceptions are requested from `[[ORG: owner]]` in writing, with the reason, scop
 | Use approved tools on company plans, signed in with SSO | Use personal or free accounts for company work |
 | Keep secrets out of the working tree and out of prompts | Paste credentials, personal data, or restricted data into any tool |
 | Run agents in a sandbox for anything risky | Use skip-permissions modes outside a sandbox |
-| Approve every push, deploy, deletion, publish, send, and spend yourself | Give agents production credentials |
+| Approve protected-branch pushes, merges, deploys, deletions, publishing, external messages, and spending beyond budget | Give agents production credentials |
 | Give agents a check to run, and ask for the evidence | Merge code you can't explain |
 | Get an independent review (ideally a different model) before human review | Count a bot review as an approval |
 | Verify every new package an agent suggests | Install unapproved MCP servers, plugins, or skills |

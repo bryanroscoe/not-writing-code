@@ -1,14 +1,13 @@
 # 01: What is an LLM?
 
-> **Audience:** everyone · **Reading time:** ~40 min · **Last verified:** 2026-11-08
-> **Depth guide:** Students: Foundations + In practice, then pick from Going deeper. Engineers: skim Foundations, read "What an LLM is not," hallucination, sycophancy, and In practice. Leads: TL;DR, "What an LLM is not," and In practice.
+*About a 40-minute read. Last checked November 8, 2026.*
 
 **TL;DR**
 - A large language model (LLM) is a neural network trained to predict the next **token** (a chunk of text) from everything before it. Chat, code generation, and "reasoning" are all built on that one loop.
-- Nearly every LLM is built on the **transformer**, introduced in the 2017 paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762). Its core mechanism, **attention**, lets every token look at every other token and decide what matters.
+- Nearly every LLM is built on the **transformer**, introduced in the 2017 paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762). Its core mechanism, **attention**, lets each token draw on other tokens. In GPT-style models, a token can only look at its own position and earlier ones.
 - A raw next-token predictor becomes an assistant through **post-training**: instruction tuning, feedback from humans and AIs, and (since 2024) reinforcement learning on problems with checkable answers, which produced **reasoning models**.
-- An LLM is not a database, a search engine, a calculator, or a person. It produces plausible text. That text is usually right and sometimes confidently wrong (**hallucination**). It also tends to agree with you (**sycophancy**).
-- For engineers: put the facts it needs in its context instead of trusting its memory, check its work with tools and tests, and expect different answers on different runs.
+- An LLM is not a database, a search engine, a calculator, or a person. It produces plausible text. That text can be confidently wrong (**hallucination**). It also tends to agree with you (**sycophancy**).
+- So put the facts it needs in its context instead of trusting its memory, check its work with tools and tests, and expect different answers on different runs.
 
 ## Foundations
 
@@ -28,17 +27,17 @@ flowchart LR
 
 That loop is called **autoregressive** generation: each output becomes part of the next input. A 500-line file is 500 lines of "what token comes next?"
 
-Why does such a simple objective produce something that can write code? To predict the next token well across trillions of tokens of web pages, books, papers, and code, a network has to absorb grammar, facts, style, programming idioms, and patterns of argument. Predicting the last line of a mystery novel ("and the murderer was...") rewards having tracked the plot. Andrej Karpathy describes the trained weights as a kind of lossy compression of the internet ([Intro to Large Language Models](https://www.youtube.com/watch?v=zjkBMFhNj_g), 2023). It is lossy: common things come back sharp, rare things come back blurry or invented.
+To predict the next token well across trillions of tokens of web pages, books, papers, and code, a network has to absorb grammar, facts, style, programming idioms, and patterns of argument. Predicting the last line of a mystery novel ("and the murderer was...") rewards having tracked the plot. Andrej Karpathy describes the trained weights as a kind of lossy compression of the internet ([Intro to Large Language Models](https://www.youtube.com/watch?v=zjkBMFhNj_g), 2023). Common things come back sharp. Rare things come back blurry or invented.
 
 Some vocabulary:
 
 - **Parameters** (or **weights**) are the numbers inside the network that training adjusts. Modern models have billions to trillions of them.
-- **Training** adjusts the weights. **Inference** uses the frozen weights to generate text. When you chat with a model, you are running inference. Nothing you type changes its weights.
+- **Training** adjusts the weights. **Inference** uses the frozen weights to generate text. When you chat with a model, you're running inference. Nothing you type changes its weights.
 - A **base model** is the raw next-token predictor after pretraining. An **assistant** or **chat model** is a base model after post-training.
 
 ### What an LLM is not
 
-Most beginner mistakes come from the wrong mental model. Here are four common ones.
+Most beginner mistakes come from the wrong mental model. Four are common.
 
 | It is not... | Why not | What to do instead |
 | --- | --- | --- |
@@ -47,13 +46,13 @@ Most beginner mistakes come from the wrong mental model. Here are four common on
 | A calculator | It sees numbers as tokens and approximates arithmetic. It is often right and sometimes wrong in ways that look right. | Have it write and run code, or call a calculator tool. |
 | A person | It has no persistent memory between sessions (unless a product stores notes and re-inserts them), no stake in outcomes, and limited insight into its own workings. Its personality is a product of training. | Treat it as a capable, fast, uneven collaborator whose claims you verify. You stay accountable. |
 
-It is also not a fixed program. The same input can produce different outputs (see [Sampling](#sampling-temperature-and-determinism)).
+Its output isn't always repeatable either. The same input can produce different outputs ([sampling](#sampling-temperature-and-determinism)).
 
 ### Tokens and tokenization
 
 Models don't read letters or words. They read **tokens**: frequent chunks of characters. A **tokenizer** splits text into tokens and maps each to an integer ID.
 
-Most LLMs use a variant of **byte-pair encoding (BPE)**. Sennrich, Haddow, and Birch adapted it from an old compression trick for machine translation ([Sennrich et al., 2016](https://arxiv.org/abs/1508.07909)). The idea:
+Most LLMs use a variant of **byte-pair encoding (BPE)**. Sennrich, Haddow, and Birch adapted it from an old compression trick for machine translation ([Sennrich et al., 2016](https://arxiv.org/abs/1508.07909)). It works like this:
 
 1. Start with individual characters (or bytes).
 2. Count which adjacent pair appears most often in a large training corpus.
@@ -61,38 +60,38 @@ Most LLMs use a variant of **byte-pair encoding (BPE)**. Sennrich, Haddow, and B
 
 You end up with a vocabulary of roughly 50,000 to a few hundred thousand tokens. Common words become a single token. Rare words split into pieces. Leading spaces are usually part of the token, so `" cat"` and `"cat"` can be different tokens. OpenAI's rule of thumb is that one token is about four characters of English, or about three-quarters of a word. Every model family has its own tokenizer, so the same text can be a different number of tokens on different models.
 
-Tokenization explains several well-known stumbles:
+Tokenization explains some well-known stumbles:
 
-- **Letter counting.** Ask "How many r's are in strawberry?" and the model may see something like `str` + `aw` + `berry`. It never sees the individual letters, so it has to recall spelling facts about tokens. Reasoning models and code tools largely fix this, but the root cause remains.
-- **Arithmetic.** Digits get grouped inconsistently (`1234` might be one token, `12345` two). The model has no built-in addition circuit, only learned approximations. Tool use is the reliable fix.
-- **Cost and limits.** Prices, rate limits, and context windows are measured in tokens. Many non-English languages and some code styles take more tokens for the same content, so they cost more and fit less.
+- Ask "How many r's are in strawberry?" and the model may see something like `str` + `aw` + `berry`. The letters aren't separate input tokens, so the model has to learn spelling inside tokens. Reasoning models and code tools mostly fix this, but the root cause remains.
+- Arithmetic is shaky because digits get grouped inconsistently (`1234` might be one token, `12345` two). The model has no guaranteed exact arithmetic operation. It relies on mechanisms learned during training. Tool use is the reliable fix.
+- Prices, rate limits, and context windows are measured in tokens. Many non-English languages and some code styles take more tokens for the same content, so they cost more and fit less.
 
 ### Embeddings: tokens as points in space
 
-Each token ID is turned into a list of thousands of numbers called an **embedding**. Think of it as coordinates in a very high-dimensional space. Training places tokens with related meanings near each other.
+Each token ID is turned into a list of thousands of numbers called an **embedding**. Those numbers work as coordinates in a very high-dimensional space, and training places tokens with related meanings near each other.
 
-The classic demonstration came from **word2vec** ([Mikolov et al., 2013](https://arxiv.org/abs/1301.3781)): vector arithmetic like *king − man + woman* lands near *queen*. In a transformer, the starting embedding is only the beginning. Each layer refines every token's vector using its context, so "bank" in "river bank" and "bank account" ends up in different places.
+The classic demonstration came from **word2vec** ([Mikolov et al., 2013](https://arxiv.org/abs/1301.3781)), where vector arithmetic like *king − man + woman* lands near *queen*. In a transformer, that first embedding is just a starting point. Each layer refines every token's vector using its context, so "bank" in "river bank" and "bank account" ends up in different places.
 
-Embeddings are also a product on their own. Embedding models turn documents into vectors for semantic search, which is the basis of **retrieval-augmented generation (RAG)** (see [module 07](07-context-engineering.md)).
+Embeddings are also a product on their own. Embedding models turn documents into vectors for semantic search, which is the basis of **retrieval-augmented generation (RAG)**, covered in [module 07](07-context-engineering.md).
 
 ### Before transformers: a short prehistory
 
-- **The idea is old.** Claude Shannon studied predicting the next letter of English text in the late 1940s and early 1950s. Neural language models date to the early 2000s.
-- **2013, word2vec.** Cheap, useful word embeddings ([Mikolov et al.](https://arxiv.org/abs/1301.3781)).
-- **2014, sequence-to-sequence.** Recurrent neural networks (RNNs, specifically LSTMs) read a sentence one word at a time, squeezed it into one vector, and generated a translation from it ([Sutskever et al.](https://arxiv.org/abs/1409.3215)). Squeezing a whole sentence into one vector was a bottleneck.
-- **2014, attention.** Bahdanau, Cho, and Bengio let the translator look back at every input word while producing each output word, weighting the relevant ones ([Bahdanau et al.](https://arxiv.org/abs/1409.0473)). This "soft lookup" is the seed of everything below.
-- **2017, the transformer.** Drop the recurrence entirely and use attention for everything.
+- The idea is old. Claude Shannon studied predicting the next letter of English text in the late 1940s and early 1950s. Neural language models date to the early 2000s.
+- In 2013, word2vec made word embeddings cheap and useful ([Mikolov et al.](https://arxiv.org/abs/1301.3781)).
+- In 2014, sequence-to-sequence models used recurrent neural networks (RNNs, specifically LSTMs) to read a sentence one word at a time, squeeze it into one vector, and generate a translation from it ([Sutskever et al.](https://arxiv.org/abs/1409.3215)). That single vector was a bottleneck.
+- Also in 2014, Bahdanau, Cho, and Bengio added attention, letting the translator look back at every input word while producing each output word and weight the relevant ones ([Bahdanau et al.](https://arxiv.org/abs/1409.0473)). This "soft lookup" is the seed of everything below.
+- In 2017, the transformer dropped recurrence entirely and used attention for everything.
 
 ### The transformer and attention
 
-["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) (Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, and Polosukhin; Google; NeurIPS 2017) is the paper to know. It was written for machine translation. It became the foundation of GPT, BERT, Claude, Gemini, Llama, DeepSeek, Kimi, and essentially every LLM since.
+["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) (Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, and Polosukhin; Google; NeurIPS 2017) is the paper to know. It was written for machine translation and became the foundation of GPT, BERT, Claude, Gemini, Llama, DeepSeek, Kimi, and essentially every LLM since.
 
 It mattered for two reasons:
 
-1. **Attention everywhere.** Every token can draw information directly from every other token, no matter how far apart.
-2. **Parallel training.** RNNs process words one after another, so training can't be spread across many chips efficiently. A transformer processes all positions of a training sequence at once. That made it practical to throw huge amounts of GPU compute at it, which is what scaling needed.
+1. Attention works across the whole sequence. Tokens can draw information directly from distant tokens. A causal mask limits GPT-style models to the current and earlier positions.
+2. Training runs in parallel. RNNs process words one after another, so training can't be spread across many chips efficiently. A transformer processes all positions of a training sequence at once. That made it practical to throw huge amounts of GPU compute at it, which is what scaling needed.
 
-**How attention works, intuitively.** Picture a meeting where each word is a person. Every person does three things:
+To see how attention works, picture a meeting where each word is a person. Every person does three things:
 
 - Holds up a **query**: "What am I looking for?"
 - Wears a **key**: "Here's what I'm about."
@@ -102,7 +101,7 @@ Each word compares its query with everyone's keys. Good matches get high weights
 
 > The animal didn't cross the street because it was too tired.
 
-To work out what "it" means, the token for "it" should pull most of its information from "animal," not "street." Change "tired" to "wide" and the best match flips to "street." The model learns the queries, keys, and values that make these matches work. Nobody programs them.
+In a bidirectional encoder, "it" can use the later word "tired" to help resolve the reference to "animal." Change "tired" to "wide" and the likely reference flips to "street." The diagram illustrates that possibility, not measured attention weights. A GPT-style decoder can't look ahead from "it" to "tired", but later positions can combine both clues. Training learns the query, key and value transformations.
 
 ```mermaid
 flowchart LR
@@ -113,15 +112,15 @@ flowchart LR
     the["The"] -->|"very low"| it
 ```
 
-A few more pieces complete the picture:
+A few more pieces fill in the picture:
 
-- **Multi-head attention.** Each layer runs many attention "heads" in parallel. Different heads learn different relationships (which noun a pronoun refers to, which bracket closes which, which variable was defined where).
-- **Feed-forward layers.** After attention moves information *between* tokens, a feed-forward network (MLP) processes each token on its own. Much of the model's stored knowledge appears to live in these layers.
-- **Depth.** A block of attention plus feed-forward is stacked dozens of times, sometimes more than a hundred. Early layers handle surface features. Later layers handle more abstract ones.
-- **Causal masking.** In a GPT-style model, a token can only attend to tokens *before* it. That is what makes it a next-token predictor.
-- **Position.** Attention by itself ignores word order, so the model adds positional information to each token.
+- **Multi-head attention** means each layer runs many attention "heads" in parallel. Different heads learn different relationships (which noun a pronoun refers to, which bracket closes which, which variable was defined where).
+- After attention moves information *between* tokens, **feed-forward layers** (an MLP) process each token on its own. Much of the model's stored knowledge appears to live in these layers.
+- The attention-plus-feed-forward block is stacked dozens of times, sometimes more than a hundred. Early layers handle surface features. Later layers handle more abstract ones.
+- **Causal masking** means a token in a GPT-style model can attend to its own position and tokens *before* it, but not later ones. That's what makes it a next-token predictor.
+- Attention by itself ignores word order, so the model adds positional information to each token.
 
-**Three flavors.** The original transformer had an *encoder* (reads input) and a *decoder* (writes output). Later families kept one half:
+The original transformer had an *encoder* (reads input) and a *decoder* (writes output). Later families mostly kept one half, which gives three flavors:
 
 | Flavor | Example | Trained to | Good at |
 | --- | --- | --- | --- |
@@ -145,25 +144,25 @@ Today's chat and coding models are almost all decoder-only.
 | Sep 2024 | [o1](https://openai.com/index/learning-to-reason-with-llms/) | First widely released **reasoning model**. |
 | Jan 2025 | [DeepSeek-R1](https://arxiv.org/abs/2501.12948) | Open-weight reasoning model that showed how to train reasoning with reinforcement learning. |
 
-For the current model lineups, see [module 03](03-model-landscape.md). For a dated history, see the [timeline](../reference/timeline.md).
+Current lineups are in [module 03](03-model-landscape.md), and the dated history is in the [timeline](../reference/timeline.md).
 
 ### Scaling laws: why bigger kept working
 
-In 2020, Kaplan and colleagues at OpenAI found that a language model's error (its **loss**) falls smoothly and predictably as you increase parameters, training data, and compute. The relationship is a **power law**: each tenfold increase in scale cuts the loss by a roughly constant fraction ([Kaplan et al., 2020](https://arxiv.org/abs/2001.08361)). That turned model building into something closer to engineering: you could forecast roughly how good a bigger model would be before paying to train it.
+In 2020, Kaplan and colleagues at OpenAI found that a language model's error (its **loss**) falls smoothly and predictably as you increase parameters, training data, and compute. The relationship is a **power law**: each tenfold increase in scale cuts the loss by a roughly constant fraction ([Kaplan et al., 2020](https://arxiv.org/abs/2001.08361)). That made model building closer to engineering. You could roughly forecast how good a bigger model would be before paying to train it.
 
 In 2022, DeepMind's **Chinchilla** paper corrected the recipe. Most big models were undertrained. For a fixed compute budget, you should grow parameters and training tokens together, at roughly 20 tokens per parameter. Chinchilla (70B parameters, 1.4 trillion tokens) beat the 280B Gopher with the same compute ([Hoffmann et al., 2022](https://arxiv.org/abs/2203.15556)).
 
 Since then, labs often train small models far past the "Chinchilla-optimal" point, because a smaller model is cheaper to *run* for millions of users. Meta trained Llama 3's 8B model on more than 15 trillion tokens ([Llama 3 paper](https://arxiv.org/abs/2407.21783)), nearly 2,000 tokens per parameter.
 
-**Do abilities "emerge"?** [Wei et al. (2022)](https://arxiv.org/abs/2206.07682) catalogued abilities that seemed absent in small models and then appeared suddenly at larger scale. [Schaeffer et al. (2023)](https://arxiv.org/abs/2304.15004), "Are Emergent Abilities of Large Language Models a Mirage?", argued that many of these jumps come from all-or-nothing metrics. Score multi-digit addition as "exactly right or wrong" and you see a cliff. Give partial credit and you see a smooth slope. Both points can be true at once. Underlying improvement is often smooth, and a capability can still feel sudden to users once it crosses the "useful" line.
+Emergence is still debated. [Wei et al. (2022)](https://arxiv.org/abs/2206.07682) catalogued abilities that seemed absent in small models and then appeared suddenly at larger scale. [Schaeffer et al. (2023)](https://arxiv.org/abs/2304.15004), "Are Emergent Abilities of Large Language Models a Mirage?", argued that many of these jumps come from all-or-nothing metrics. Score multi-digit addition as "exactly right or wrong" and you see a cliff. Give partial credit and you see a smooth slope. Both points can hold at once. Underlying improvement is often smooth, and a capability can still feel sudden to users once it crosses the "useful" line.
 
 ### Post-training: from autocomplete to assistant
 
 A base model continues documents. Ask it "What is the capital of France?" and it may continue with three more quiz questions, because that's what a page of quiz questions looks like. Post-training turns it into something that answers.
 
-- **Instruction tuning / supervised fine-tuning (SFT).** Train on many examples of instructions paired with good responses ([FLAN, Wei et al., 2021](https://arxiv.org/abs/2109.01652)).
-- **Reinforcement learning from human feedback (RLHF).** People compare pairs of responses. A **reward model** learns to predict their preferences. Then reinforcement learning nudges the LLM toward responses the reward model scores well ([Christiano et al., 2017](https://arxiv.org/abs/1706.03741); [InstructGPT, Ouyang et al., 2022](https://arxiv.org/abs/2203.02155)).
-- **Constitutional AI.** Anthropic replaced much of the human labeling for harmlessness with AI feedback guided by a written list of principles ([Bai et al., 2022](https://arxiv.org/abs/2212.08073)). In January 2026, Anthropic published a much longer [constitution](https://www.anthropic.com/news/claude-new-constitution) that explains its reasoning instead of listing rules.
+- **Instruction tuning**, or **supervised fine-tuning (SFT)**, trains on many examples of instructions paired with good responses ([FLAN, Wei et al., 2021](https://arxiv.org/abs/2109.01652)).
+- In **reinforcement learning from human feedback (RLHF)**, people compare pairs of responses. A **reward model** learns to predict their preferences. Then reinforcement learning nudges the LLM toward responses the reward model scores well ([Christiano et al., 2017](https://arxiv.org/abs/1706.03741); [InstructGPT, Ouyang et al., 2022](https://arxiv.org/abs/2203.02155)).
+- With **Constitutional AI**, Anthropic replaced much of the human labeling for harmlessness with AI feedback guided by a written list of principles ([Bai et al., 2022](https://arxiv.org/abs/2212.08073)). In January 2026, Anthropic published a much longer [constitution](https://www.anthropic.com/news/claude-new-constitution) that explains its reasoning instead of listing rules.
 
 Post-training also teaches the **chat format**: special tokens that mark the system prompt, user turns, assistant turns, and tool calls. To the model, a conversation is still one long document. [Module 02](02-training-and-tuning.md) covers post-training in depth.
 
@@ -171,12 +170,12 @@ Post-training also teaches the **chat format**: special tokens that mark the sys
 
 Between 2020 and 2023, people found that *how you ask* changes what you get, without changing any weights.
 
-- **In-context learning.** Put a few input-output examples in the prompt and the model continues the pattern ([GPT-3](https://arxiv.org/abs/2005.14165)). This is "few-shot" prompting.
-- **Chain-of-thought.** Show worked examples that spell out intermediate steps, and models get much better at math and logic ([Wei et al., 2022](https://arxiv.org/abs/2201.11903)).
-- **"Let's think step by step."** Adding that one sentence, with no examples, improved reasoning scores substantially ([Kojima et al., 2022](https://arxiv.org/abs/2205.11916)).
-- **Self-consistency.** Sample several reasoning paths and take the majority answer ([Wang et al., 2022](https://arxiv.org/abs/2203.11171)).
+- With **in-context learning**, you put a few input-output examples in the prompt and the model continues the pattern ([GPT-3](https://arxiv.org/abs/2005.14165)). That's "few-shot" prompting.
+- **Chain-of-thought** prompting shows worked examples that spell out intermediate steps, and models get much better at math and logic ([Wei et al., 2022](https://arxiv.org/abs/2201.11903)).
+- Adding just "Let's think step by step," with no examples, improved reasoning scores substantially ([Kojima et al., 2022](https://arxiv.org/abs/2205.11916)).
+- **Self-consistency** samples several reasoning paths and takes the majority answer ([Wang et al., 2022](https://arxiv.org/abs/2203.11171)).
 
-Why does writing out steps help? Each generated token is one more pass through the whole network. Writing intermediate steps gives the model more computation and a scratchpad it can read back. A model that must answer in one token gets one pass to think.
+Writing out steps helps because each generated token is one more pass through the whole network. Intermediate steps give the model more computation and a scratchpad it can read back. A model that has to answer in one token gets one pass to think.
 
 ### Reasoning models and test-time compute
 
@@ -184,22 +183,19 @@ In September 2024, OpenAI released **o1**. It was trained with reinforcement lea
 
 In January 2025, DeepSeek released **R1** with open weights and a paper explaining the recipe ([DeepSeek-AI, 2025](https://arxiv.org/abs/2501.12948)). The key ingredient was **reinforcement learning with verifiable rewards**: give the model math problems whose answers can be checked automatically and coding problems whose solutions can be run against tests, then reward correct outcomes. A variant trained with RL alone (R1-Zero) learned to write long reasoning, check its work, and backtrack, without being shown examples of doing so. A peer-reviewed version appeared in [Nature](https://www.nature.com/articles/s41586-025-09422-z) in September 2025. Reporting on that paper put the reasoning-training stage at about $294,000, on top of the roughly $6 million base model. Those figures exclude research, staff, and failed runs.
 
-By late 2026, most frontier models have "thinking" or "adaptive thinking" modes: the model decides how long to reason, often with an effort or budget setting you control. More thinking costs more tokens, money, and time. It usually helps on debugging, design, math, and multi-step tasks, and is wasted on boilerplate. See [module 03](03-model-landscape.md) for current models and [module 12](12-costs-subscriptions-and-apis.md) for costs.
+By late 2026, most frontier models have "thinking" or "adaptive thinking" modes: the model decides how long to reason, often with an effort or budget setting you control. More thinking costs more tokens, money, and time. It usually helps on debugging, design, math, and multi-step tasks, and it's wasted on boilerplate. Current models are in [module 03](03-model-landscape.md), costs in [module 12](12-costs-subscriptions-and-apis.md).
 
 ### Context windows and the KV cache
 
-The **context window** is everything the model can see at once: the system prompt, the conversation, pasted files, tool outputs, and its own thinking. It is measured in tokens. GPT-3 had 2,048. As of November 2026, frontier models offer hundreds of thousands to about a million tokens (see [module 03](03-model-landscape.md)).
+The **context window** is everything the model can see at once: the system prompt, the conversation, pasted files, tool outputs, and its own thinking. It's measured in tokens. GPT-3 had 2,048. As of November 2026, frontier models offer hundreds of thousands to about a million tokens ([module 03](03-model-landscape.md)).
 
-A useful split:
+The weights are long-term memory: broad, fuzzy, and frozen at the training cutoff. The context window is working memory: precise and current, but limited, and gone when the session ends.
 
-- **Weights are long-term memory.** Broad, fuzzy, frozen at the training cutoff.
-- **The context window is working memory.** Precise and current, but limited, and gone when the session ends.
+A model only "knows" what's in its weights plus what's in its context right now. Product features like "memory" and files like `CLAUDE.md` work by saving notes and putting them back into the context next time ([module 07](07-context-engineering.md)).
 
-A model only "knows" what's in its weights plus what's in its context right now. Product features like "memory" and files like `CLAUDE.md` work by saving notes and putting them back into the context next time (see [module 07](07-context-engineering.md)).
+Bigger windows aren't uniformly better. Models are worse at using information buried in the middle of a long context than at the start or end ([Liu et al., 2023, "Lost in the Middle"](https://arxiv.org/abs/2307.03172)). Chroma's 2025 ["Context Rot"](https://research.trychroma.com/context-rot) report found performance degrading as inputs grow, even on simple tasks. Curating what goes into the window is the whole discipline of **context engineering** ([module 07](07-context-engineering.md)).
 
-Bigger windows are not uniformly better. Models are worse at using information buried in the middle of a long context than at the start or end ([Liu et al., 2023, "Lost in the Middle"](https://arxiv.org/abs/2307.03172)). Chroma's 2025 ["Context Rot"](https://research.trychroma.com/context-rot) report found performance degrading as inputs grow, even on simple tasks. Curating what goes into the window is the whole discipline of **context engineering** ([module 07](07-context-engineering.md)).
-
-**The KV cache, in one paragraph.** When the model generates token 1,001, it needs the keys and values for tokens 1 through 1,000. Recomputing them for every new token would be wasteful, so inference servers store them in a **KV cache** in GPU memory. This is why long contexts are expensive to serve: the cache grows with every token in the conversation. It is also why providers offer **prompt caching**. If many requests start with the same long prefix (a system prompt, a codebase summary), the server can reuse the stored cache and charge you less (see [module 12](12-costs-subscriptions-and-apis.md)).
+When the model generates token 1,001, it needs the keys and values for tokens 1 through 1,000. Recomputing them for every new token would be wasteful, so inference servers store them in a **KV cache** in GPU memory. The cache grows with every token in the conversation, which is why long contexts are expensive to serve. It's also why providers offer **prompt caching**. If many requests start with the same long prefix (a system prompt, a codebase summary), the server can reuse the stored cache and charge you less ([module 12](12-costs-subscriptions-and-apis.md)).
 
 ### Sampling, temperature, and determinism
 
@@ -209,19 +205,19 @@ The model outputs a probability for every token. A **sampler** chooses one.
 - **Top-p (nucleus) sampling** samples only from the smallest set of tokens whose probabilities add up to p, cutting off the long tail of unlikely choices ([Holtzman et al., 2019](https://arxiv.org/abs/1904.09751)).
 - **Greedy decoding** (temperature 0) always takes the top token.
 
-Temperature 0 should be deterministic in theory. In practice, hosted models often vary from run to run anyway. A September 2025 investigation by Thinking Machines traced much of this to batching: the server groups your request with other people's, and the results of floating-point math change slightly with batch size ([He, 2025](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)). Some reasoning models also fix or ignore sampling settings. For engineers: don't expect identical outputs, run evaluations more than once, and record model versions (see [module 05](05-judging-models.md)).
+Temperature 0 should be deterministic in theory. In practice, hosted models often vary from run to run anyway. A September 2025 investigation by Thinking Machines traced much of this to batching: the server groups your request with other people's, and the results of floating-point math change slightly with batch size ([He, 2025](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)). Some reasoning models also fix or ignore sampling settings. So don't expect identical outputs, run evaluations more than once, and record model versions ([module 05](05-judging-models.md)).
 
 ### Mixture of experts
 
 A dense model runs every parameter for every token. A **mixture-of-experts (MoE)** model splits some layers into many "expert" sub-networks and adds a small **router** that sends each token to only a few of them.
 
-Analogy: a hospital with a triage nurse. Every patient is seen, but each one visits two or three specialists, not the entire staff.
+It's like a hospital with a triage nurse. Every patient gets seen, but each one visits two or three specialists instead of the whole staff.
 
-That separates **total parameters** (how much the model can store) from **active parameters** (how much compute each token costs). [Shazeer et al. (2017)](https://arxiv.org/abs/1701.06538) introduced the modern sparse version. [Switch Transformers](https://arxiv.org/abs/2101.03961) and [Mixtral](https://arxiv.org/abs/2401.04088) made it mainstream. [DeepSeek-V3](https://arxiv.org/abs/2412.19437) has 671B total parameters but activates about 37B per token. Many leading open-weight models in 2025–2026 are MoE. Closed labs generally don't disclose architectures. Practical upshot: a "trillion-parameter" MoE can be cheaper per token than its headline number suggests, but you still need memory to hold all of it (see [module 04](04-open-vs-closed-weights.md)).
+That separates **total parameters** (how much the model can store) from **active parameters** (how much compute each token costs). [Shazeer et al. (2017)](https://arxiv.org/abs/1701.06538) introduced the modern sparse version. [Switch Transformers](https://arxiv.org/abs/2101.03961) and [Mixtral](https://arxiv.org/abs/2401.04088) made it mainstream. [DeepSeek-V3](https://arxiv.org/abs/2412.19437) has 671B total parameters but activates about 37B per token. Many leading open-weight models in 2025–2026 are MoE. Closed labs generally don't disclose architectures. In practice, a "trillion-parameter" MoE can be cheaper per token than its headline number suggests, but you still need the memory to hold all of it ([module 04](04-open-vs-closed-weights.md)).
 
 ### Multimodality
 
-Images, audio, and video can be turned into token-like vectors too. An image is cut into patches, and each patch becomes an embedding. [CLIP](https://arxiv.org/abs/2103.00020) (2021) learned a shared space for images and text. GPT-4 (2023) accepted images. GPT-4o (2024) handled text, images, and audio in one model. For engineers this means you can paste a screenshot of a broken layout, a whiteboard diagram, or a design mockup and ask for code. The same caveats apply: models can misread small text, misjudge spatial layout, and describe things that aren't there.
+Images, audio, and video can be turned into token-like vectors too. An image is cut into patches, and each patch becomes an embedding. [CLIP](https://arxiv.org/abs/2103.00020) (2021) learned a shared space for images and text. GPT-4 (2023) accepted images. GPT-4o (2024) handled text, images, and audio in one model. So you can paste a screenshot of a broken layout, a whiteboard diagram, or a design mockup and ask for code. The usual caveats apply. Models can misread small text, misjudge spatial layout, and describe things that aren't there.
 
 ### Tool use: the bridge to agents
 
@@ -234,20 +230,20 @@ An LLM on its own can't run code, read your files, browse, or do exact math. **T
 
 [Toolformer](https://arxiv.org/abs/2302.04761) (Schick et al., 2023) showed a model could teach itself when to call APIs like a calculator or search engine. [ReAct](https://arxiv.org/abs/2210.03629) (Yao et al., 2022) interleaved reasoning steps with actions. OpenAI shipped function calling in its API in June 2023. The **Model Context Protocol (MCP)**, released by Anthropic in November 2024, standardized how tools plug into models.
 
-An **agent** is a model plus tools plus a loop that keeps going until the task is done. That is what coding agents are. See [module 06](06-harnesses-and-tools.md) for harnesses and MCP and [module 08](08-agentic-workflows.md) for agentic workflows.
+An **agent** is a model plus tools plus a loop that keeps going until the task is done. That's what a coding agent is. [Module 06](06-harnesses-and-tools.md) covers harnesses and MCP, and [module 08](08-agentic-workflows.md) covers agentic workflows.
 
 ### Hallucination, and why it happens
 
-A **hallucination** is fluent, confident output that is false: a function that doesn't exist, a citation to a paper nobody wrote, a config flag from a different tool.
+A **hallucination** is fluent, confident output that's false: a function that doesn't exist, a citation to a paper nobody wrote, a config flag from a different tool.
 
-Why it happens:
+Four things cause it:
 
-1. **The objective rewards plausibility, not truth.** When the model lacks a fact, a plausible-sounding guess still has high probability.
-2. **Some facts can't be learned reliably.** OpenAI researchers argue that arbitrary facts seen rarely in training (like an obscure person's birthday) can't be predicted from patterns, so errors on them are statistically inevitable ([Kalai et al., 2025, "Why Language Models Hallucinate"](https://arxiv.org/abs/2509.04664)).
-3. **Evaluations reward guessing.** The same paper's central argument: most benchmarks grade like a multiple-choice exam with no credit for "I don't know," so guessing scores better than admitting uncertainty. Models trained and selected on those scores learn to bluff. The authors propose changing mainstream benchmark scoring to reward appropriate abstention.
-4. **A misfiring "I know this" signal.** Anthropic's interpretability work found that in Claude, declining to answer is the default. A "known entity" signal switches off that default when the model recognizes something. When that signal fires for something only half-familiar, the model confabulates ([Anthropic, 2025](https://www.anthropic.com/research/tracing-thoughts-language-model)).
+1. The training objective rewards plausibility, not truth. When the model lacks a fact, a plausible-sounding guess still has high probability.
+2. Some facts can't be learned reliably. OpenAI researchers argue that arbitrary facts seen rarely in training (like an obscure person's birthday) can't be predicted from patterns, so errors on them are statistically inevitable ([Kalai et al., 2025, "Why Language Models Hallucinate"](https://arxiv.org/abs/2509.04664)).
+3. Evaluations reward guessing. That's the same paper's central argument. Most benchmarks grade like a multiple-choice exam with no credit for "I don't know," so guessing scores better than admitting uncertainty. Models trained and selected on those scores learn to bluff. The authors propose changing mainstream benchmark scoring to reward appropriate abstention.
+4. The "I know this" signal can misfire. Anthropic's interpretability work found a default "can't answer" circuit in Claude 3.5 Haiku when studying factual questions about entities. A "known entity" signal switches off that default when the model recognizes something. When that signal fires for something only half-familiar, the model confabulates ([Anthropic, 2025](https://www.anthropic.com/research/tracing-thoughts-language-model)).
 
-In code, hallucinations show up as invented APIs, nonexistent package names (which attackers can register; see [module 11](11-security-and-prompt-injection.md)), wrong library versions, and confident descriptions of files the model never opened. The defenses are context (give it the real docs), tools (let it run the code), and checks (tests, type checkers, your review).
+In code, hallucinations show up as invented APIs, nonexistent package names (which attackers can register, as [module 11](11-security-and-prompt-injection.md) explains), wrong library versions, and confident descriptions of files the model never opened. The defenses are context (give it the real docs), tools (let it run the code), and checks (tests, type checkers, your review).
 
 ### Sycophancy
 
@@ -255,7 +251,7 @@ In code, hallucinations show up as invented APIs, nonexistent package names (whi
 
 It comes partly from training on human preferences. People tend to rate agreeable, flattering answers highly. [Sharma et al. (2023)](https://arxiv.org/abs/2310.13548) found sycophancy across several assistants and showed that both humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In April 2025, OpenAI rolled back a GPT-4o update in ChatGPT that had become noticeably flattering. In a follow-up post, it said an added reward signal based on users' thumbs-up and thumbs-down ratings had weakened the check that kept sycophancy down ([OpenAI, April 2025](https://openai.com/index/sycophancy-in-gpt-4o/); [OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)).
 
-For engineers, the fix is in how you ask: request critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work ([module 10](10-ai-code-review.md)).
+A lot of the mitigation is in how you ask. Request critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work ([module 10](10-ai-code-review.md)).
 
 ## In practice
 
@@ -263,14 +259,14 @@ For engineers, the fix is in how you ask: request critique instead of approval, 
 
 Keep these on a sticky note:
 
-1. **It knows patterns, not your system.** It has never seen your codebase, your conventions, or yesterday's incident unless you put them in its context.
-2. **Its knowledge is dated.** Libraries and APIs change after the training cutoff. Paste current docs or let it search.
-3. **Every claim is a hypothesis** until a compiler, test, document, or person confirms it.
-4. **Runs differ.** If an answer matters, ask twice or ask two models.
-5. **Context is finite and degrades.** Long, cluttered sessions get worse. Start fresh with a summary.
-6. **It leans toward agreeing with you.** Ask for the strongest argument against your plan.
-7. **Its explanation of what it did may not match what it did.** Check tool logs, diffs, and test output, not just its summary.
-8. **Tokens are the unit of everything:** cost, speed, limits.
+1. It knows patterns, not your system. It may have seen public code during training, but it doesn't reliably know your current codebase, conventions, or yesterday's incident unless you put them in its context.
+2. Its knowledge is dated. Libraries and APIs change after the training cutoff. Paste current docs or let it search.
+3. Every claim is a hypothesis until a compiler, test, document, or person confirms it.
+4. Runs differ. If an answer matters, ask twice or ask two models.
+5. Context is finite and degrades. Long, cluttered sessions get worse. Start fresh with a summary.
+6. It leans toward agreeing with you. Ask for the strongest argument against your plan.
+7. Its explanation of what it did may not match what it did. Check tool logs, diffs, and test output, not just its summary.
+8. Cost, speed, and limits are all counted in tokens.
 
 ### Failure modes you will see, and the fix
 
@@ -289,18 +285,18 @@ Keep these on a sticky note:
 
 Reasoning effort is now a dial you can turn.
 
-- **Low or no thinking:** renames, boilerplate, formatting, simple lookups in provided context.
-- **Medium:** typical feature work with clear specs.
-- **High:** debugging intermittent failures, concurrency, security review, architecture, anything where a wrong answer is expensive.
+- Low or no thinking for renames, boilerplate, formatting, and simple lookups in provided context.
+- Medium for typical feature work with clear specs.
+- High for debugging intermittent failures, concurrency, security review, architecture, and anything where a wrong answer is expensive.
 
 Higher effort costs more and takes longer. On a subscription that cost shows up as rate limits; on an API it shows up on the bill ([module 12](12-costs-subscriptions-and-apis.md)).
 
 ### Reading model announcements with this module in mind
 
-- **Parameter counts** matter less than they used to. MoE separates total from active parameters, and closed labs don't publish them.
-- **Context window size** is a ceiling, not a promise of quality across the whole window.
-- **"Reasoning"** means the model was trained to spend tokens thinking. It is not a guarantee of correct logic.
-- **Benchmark numbers** need care. [Module 05](05-judging-models.md) covers how to read them.
+- Parameter counts matter less than they used to. MoE separates total from active parameters, and closed labs don't publish them.
+- A context window size is a ceiling, not a promise of quality across the whole window.
+- "Reasoning" means the model was trained to spend tokens thinking. It doesn't guarantee correct logic.
+- Benchmark numbers need care, and [module 05](05-judging-models.md) covers how to read them.
 
 ## Going deeper
 
@@ -317,48 +313,48 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\rig
 
 That grid has one entry for every pair of tokens, so basic attention costs grow with the square of the context length. Much systems research (FlashAttention, sparse and linear attention, KV-cache compression) attacks that cost.
 
-A common rule of thumb: training a dense transformer with *N* parameters on *D* tokens takes about 6·*N*·*D* floating-point operations. Chinchilla: 6 × 70×10⁹ × 1.4×10¹² ≈ 6×10²³ FLOPs.
+A common rule of thumb is that training a dense transformer with *N* parameters on *D* tokens takes about 6·*N*·*D* floating-point operations. For Chinchilla that's 6 × 70×10⁹ × 1.4×10¹² ≈ 6×10²³ FLOPs.
 
 ### Is it "just" autocomplete? The parrots-versus-world-models debate
 
-This is a live, serious disagreement. Both sides have evidence.
+People still seriously disagree about this, and both sides have evidence.
 
-**The skeptical view.** In ["On the Dangers of Stochastic Parrots"](https://dl.acm.org/doi/10.1145/3442188.3445922) (Bender, Gebru, McMillan-Major, and Shmitchell, FAccT 2021), the authors argued that LLMs stitch together linguistic forms according to probabilities, without reference to meaning. They warned that fluency invites people to see understanding that isn't there, and they raised costs, environmental impact, and biases in web-scale data. An earlier paper by [Bender and Koller (2020)](https://aclanthology.org/2020.acl-main.463/) argued that a system trained only on form cannot learn meaning. Empirical work since then shows brittleness that fits the skeptical view:
+Start with the skeptical view. In ["On the Dangers of Stochastic Parrots"](https://dl.acm.org/doi/10.1145/3442188.3445922) (Bender, Gebru, McMillan-Major, and Shmitchell, FAccT 2021), the authors argued that LLMs stitch together linguistic forms according to probabilities, without reference to meaning. They warned that fluency invites people to see understanding that isn't there, and they raised costs, environmental impact, and biases in web-scale data. An earlier paper by [Bender and Koller (2020)](https://aclanthology.org/2020.acl-main.463/) argued that a system trained only on form cannot learn meaning. Empirical work since then shows brittleness that fits the skeptical view:
 
 - The **reversal curse**: models trained that "A is B" often fail to infer "B is A" ([Berglund et al., 2023](https://arxiv.org/abs/2309.12288)).
 - ["Embers of Autoregression"](https://arxiv.org/abs/2309.13638) (McCoy et al., 2023): accuracy depends heavily on how probable the *output* text is, even for deterministic tasks like decoding a cipher.
 - [GSM-Symbolic](https://arxiv.org/abs/2410.05229) (Apple, 2024): changing names and numbers in grade-school math problems, or adding irrelevant clauses, dropped scores.
-- ["The Illusion of Thinking"](https://arxiv.org/abs/2506.06941) (Apple, 2025) reported reasoning models collapsing on puzzles past a certain complexity. A [published comment](https://arxiv.org/abs/2506.09250) argued that much of the collapse came from output-length limits and unsolvable test instances, not reasoning failure. The exchange itself is a good lesson in reading evaluations carefully.
+- ["The Illusion of Thinking"](https://arxiv.org/abs/2506.06941) (Apple, 2025) reported reasoning models collapsing on puzzles past a certain complexity. A [published comment](https://arxiv.org/abs/2506.09250) argued that much of the collapse came from output-length limits and unsolvable test instances, not reasoning failure. That exchange is a good lesson in reading evaluations carefully.
 
-**The world-model view.** Other work finds structured internal representations that go beyond surface statistics:
+On the world-model side, other work finds structured internal representations that go beyond surface statistics:
 
-- [Othello-GPT](https://arxiv.org/abs/2210.13382) (Li et al., 2022): a model trained only on move sequences developed an internal representation of the board, and editing that representation changed its moves.
+- In [Othello-GPT](https://arxiv.org/abs/2210.13382) (Li et al., 2022), a model trained only on move sequences developed an internal representation of the board, and editing that representation changed its moves.
 - [Gurnee and Tegmark (2023)](https://arxiv.org/abs/2310.02207) found linear representations of geography and time inside Llama models.
-- Anthropic's circuit tracing (below) found multi-step internal reasoning and planning.
+- Anthropic's circuit tracing found multi-step internal reasoning and planning.
 
-A fair summary: LLMs build real, usable internal models of many things, and those models are partial, uneven, and strongly shaped by the statistics of their training data. "Just predicting the next token" describes the training objective accurately. It does not tell you how much structure the network built to meet that objective.
+Put together, LLMs build real, usable internal models of many things, and those models are partial, uneven, and strongly shaped by the statistics of their training data. "Just predicting the next token" accurately describes the training objective. It doesn't tell you how much structure the network built to meet it.
 
 ### Peeking inside: interpretability
 
 **Interpretability** research tries to explain what happens inside the network. Two milestones from Anthropic:
 
-- [**Scaling Monosemanticity**](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html) (Templeton et al., May 2024). Individual neurons are messy; each responds to many unrelated things. Using a technique called sparse autoencoders, researchers extracted millions of **features** from Claude 3 Sonnet that each correspond to a recognizable concept: the Golden Gate Bridge, bugs in code, sycophantic praise, and many more. Turning the Golden Gate Bridge feature up produced "Golden Gate Claude," which steered every conversation toward the bridge. That was evidence the features are causal, not just correlated.
-- [**Tracing the thoughts of a large language model**](https://www.anthropic.com/research/tracing-thoughts-language-model) (March 2025), with the papers [Circuit Tracing](https://transformer-circuits.pub/2025/attribution-graphs/methods.html) and [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html). Findings in Claude 3.5 Haiku:
-  - **Planning.** When writing rhyming poetry, the model picks the rhyme word *before* writing the line, then writes toward it. Researchers could swap the planned word by editing internal state.
-  - **Multi-step reasoning.** Asked for the capital of the state containing Dallas, it internally represents "Texas," then "Austin." Swapping the Texas concept for California changed the answer to Sacramento.
-  - **Shared concepts across languages.** The same features for "small" and "opposite" activate in English, French, and Chinese.
-  - **Mental math.** Adding 36 + 59, it runs one path that estimates the rough size and another that computes the last digit. Asked how it did it, it describes the schoolbook carry-the-one method. Its self-report does not match its mechanism.
-  - **Unfaithful reasoning.** On a hard problem with a hint, it sometimes worked backward from the hinted answer while presenting its reasoning as a forward calculation.
+- [Scaling Monosemanticity](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html) (Templeton et al., May 2024). Individual neurons are messy, and each responds to many unrelated things. Using a technique called sparse autoencoders, researchers extracted millions of **features** from Claude 3 Sonnet that each correspond to a recognizable concept: the Golden Gate Bridge, bugs in code, sycophantic praise, and many more. Turning the Golden Gate Bridge feature up produced "Golden Gate Claude," which steered every conversation toward the bridge. That was evidence the features are causal, not just correlated.
+- [Tracing the thoughts of a large language model](https://www.anthropic.com/research/tracing-thoughts-language-model) (March 2025), with the papers [Circuit Tracing](https://transformer-circuits.pub/2025/attribution-graphs/methods.html) and [On the Biology of a Large Language Model](https://transformer-circuits.pub/2025/attribution-graphs/biology.html). In Claude 3.5 Haiku they found:
+  - It plans. When writing rhyming poetry, the model picks the rhyme word *before* writing the line, then writes toward it. Researchers could swap the planned word by editing internal state.
+  - It reasons in steps. Asked for the capital of the state containing Dallas, it represents "Texas," then "Austin." Swapping the Texas concept for California changed the answer to Sacramento.
+  - Some concepts are shared across languages. The same features for "small" and "opposite" activate in English, French, and Chinese.
+  - It misreports its own mental math. Adding 36 + 59, it runs one path that estimates the rough size and another that computes the last digit. Asked how it did it, it describes the schoolbook carry-the-one method.
+  - Its reasoning can be unfaithful. On a hard problem with a hint, it sometimes worked backward from the hinted answer while presenting its reasoning as a forward calculation.
 
 Anthropic notes these methods capture only a fraction of the computation, even on short prompts. Interpretability is advancing, but nobody can yet read a frontier model's mind.
 
 ### Is the chain of thought honest?
 
-A reasoning model's visible thinking is tempting to treat as a transcript of its reasoning. Evidence says be careful. [Chen et al. (2025)](https://arxiv.org/abs/2505.05410), "Reasoning Models Don't Always Say What They Think," slipped hints into prompts and checked whether models admitted using them. Claude 3.7 Sonnet mentioned the hint about 25% of the time when it used it; DeepSeek-R1 about 39%. The chain of thought is useful evidence, not a guarantee. This matters for safety monitoring and for code review: judge the diff, not the narration.
+It's tempting to treat a reasoning model's visible thinking as a transcript of its reasoning. The evidence says be careful. [Chen et al. (2025)](https://arxiv.org/abs/2505.05410), "Reasoning Models Don't Always Say What They Think," slipped hints into prompts and checked whether models admitted using them. Claude 3.7 Sonnet mentioned the hint about 25% of the time when it used it; DeepSeek-R1 about 39%. The chain of thought is useful evidence, not a guarantee. This matters for safety monitoring and for code review: judge the diff, not the narration.
 
 ### Beyond the plain transformer
 
-Researchers keep probing alternatives and hybrids: state-space models such as Mamba, linear-attention layers mixed with standard attention, and diffusion-style text generation that refines a whole passage at once instead of one token at a time. As of November 2026, the leading models, as far as public details show, are still built mainly from transformer layers, sometimes mixed with these other layer types and usually with MoE. The mental model in this module still applies.
+Researchers keep probing alternatives and hybrids: state-space models such as Mamba, linear-attention layers mixed with standard attention, and diffusion-style text generation that refines a whole passage at once instead of one token at a time. As of November 2026, the leading models, as far as public details show, are still built mainly from transformer layers, sometimes mixed with these other layer types and usually with MoE. So the mental model in this module still applies.
 
 ## Bryan's take
 
@@ -374,13 +370,13 @@ Bryan defines "vibe coding" for this course as AI-accelerated engineering with a
    - The same sentence in English and in another language you know
    - A short Python function indented with four spaces, then with tabs
    Write two sentences explaining why letter counting and arithmetic are hard for LLMs.
-2. **Temperature lab.** Use any playground with a temperature control, such as [Google AI Studio](https://aistudio.google.com/). Run "Suggest a name for a coffee shop run by robots" five times each at temperature 0, 1, and the maximum. Then run a factual question ("What year was the transformer paper published?") at the same settings. Note what changes and what doesn't. If your results at 0 are not identical, you've seen server-side nondeterminism.
+2. **Temperature lab.** Use any playground with a temperature control, such as [Google AI Studio](https://aistudio.google.com/). Run "Suggest a name for a coffee shop run by robots" five times each at temperature 0, 1, and the maximum. Then run a factual question ("What year was the transformer paper published?") at the same settings. Note what changes and what doesn't. If your results at 0 aren't identical, you've seen server-side nondeterminism.
 3. **Hallucination probe.** In a chat model with web search turned *off*, ask what `pandas.DataFrame.autobalance()` does (it doesn't exist) and ask for a summary of a made-up paper with a plausible title. Record whether it refuses, hedges, or invents. Then turn search on and repeat. Compare.
-4. **Read a transformer.** In your browser, open [`model.py` in Karpathy's nanoGPT](https://github.com/karpathy/nanoGPT/blob/master/model.py). It is about 300 lines. Find the attention computation, the causal mask, the MLP, and the `generate` function where temperature is applied. Map each to a section of this module.
+4. **Read a transformer.** In your browser, open [`model.py` in Karpathy's nanoGPT](https://github.com/karpathy/nanoGPT/blob/master/model.py). It's about 300 lines. Find the attention computation, the causal mask, the MLP, and the `generate` function where temperature is applied. Map each to a section of this module.
 
 **Class or team exercise: the human language model**
 
-One person picks a sentence from a book nobody has seen and reveals it one word at a time. Everyone else writes down their guess for the next word and a confidence from 1 to 5 before each reveal. After 20 words, tally. Discuss: Which words were easy (grammar, common phrases)? Which were impossible (names, numbers, facts)? Where were people confidently wrong? What would "high temperature" look like in this game? Connect the impossible guesses to hallucination.
+One person picks a sentence from a book nobody has seen and reveals it one word at a time. Before each reveal, everyone else writes down a guess for the next word and a confidence from 1 to 5. After 20 words, tally up. Which words were easy (grammar, common phrases)? Which were impossible (names, numbers, facts)? Where were people confidently wrong? What would "high temperature" look like in this game? Connect the impossible guesses to hallucination.
 
 ## Discussion questions
 

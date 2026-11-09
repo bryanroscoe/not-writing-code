@@ -1,15 +1,14 @@
 # 05: How to tell if a model is good
 
-> **Audience:** everyone · **Reading time:** ~40 min · **Last verified:** 2026-11-08
-> **Depth guide:** Students: Foundations, the benchmark tables, and "Build your own eval." Engineers: skim Foundations, read all of In practice. Leads: "Real-world productivity evidence," "Independent evaluators," and "Build your own eval."
+*About a 40-minute read. Last checked November 8, 2026.*
 
 **TL;DR**
-- A benchmark score describes one **model + harness + settings + task set + grader** combination. It is not a property of "the model." Change any part and the number moves.
+- A benchmark score describes one combination of model, harness, settings, task set and grader. It isn't a property of "the model." Change any piece and the number moves.
 - Public benchmarks leak into training data, saturate, and get optimized against (Goodhart's law). The useful ones keep moving: SWE-bench Verified gave way to SWE-bench Pro, and Terminal-Bench went from 2.0 to 4.0 in under a year.
-- Lab launch posts are written by the lab, so they pick the benchmarks and settings. Independent evaluators (Artificial Analysis, Epoch AI, METR, Vals AI, Scale, LiveBench, Arena) give you a second opinion. Each has its own blind spots.
-- Field studies of developer productivity range from 55.8% faster to 19% slower. They disagree because they measure different tasks, tools, people, and outcomes. Self-reported speedups run well ahead of measured ones.
-- "Vibes," meaning experienced users' impressions, are real data. They are also noisy. Collect them on purpose: date them, tag them, and blind them when you can.
-- The eval that matters most is your own: 10–30 golden tasks from your repos, graded blind, with cost and time per task, rerun whenever a model or tool changes. There's a template [below](#build-your-own-eval).
+- Launch posts come from the lab, which picks the benchmarks and settings. Independent evaluators (Artificial Analysis, Epoch AI, METR, Vals AI, Scale, LiveBench, Arena) give you a second opinion, though each has its own blind spots.
+- Developer productivity experiments range from 55.8% less time to 19% more time per task. They disagree because they measure different tasks, tools, people, and outcomes. Self-reported speedups run well ahead of measured ones.
+- "Vibes," meaning experienced users' impressions, are real data, but they're noisy. Collect them on purpose: date them, tag them, and blind them when you can.
+- The eval that matters most is [your own](#build-your-own-eval): 10–30 golden tasks from your repos, graded blind, with cost and time per task, rerun whenever a model or tool changes.
 
 ## Foundations
 
@@ -17,17 +16,17 @@
 
 "Is this model good?" has no single answer. A model can be the best on hard math, middling at following a team's code style, and too slow or expensive for autocomplete. Before you look at a number, decide what you care about:
 
-- **Capability:** can it do the task at all?
-- **Reliability:** does it do it every time, or one time in three?
-- **Fit:** does it work in *your* language, framework, repo size, and tool?
-- **Cost and speed:** dollars, subscription quota, and wall-clock time per finished task.
-- **Behavior:** does it stay in scope, tell you when it's unsure, and write code a reviewer can follow?
+- Capability: can it do the task at all?
+- Reliability: does it do it every time, or one time in three?
+- Fit: does it work in *your* language, framework, repo size, and tool?
+- Cost and speed: dollars, subscription quota, and wall-clock time per finished task.
+- Behavior: does it stay in scope, tell you when it's unsure, and write code a reviewer can follow?
 
-Most public benchmarks measure the first item. Your daily experience is mostly the other four.
+Most public benchmarks measure the first one. Your daily experience is mostly the other four.
 
 ### What a benchmark actually is
 
-A **benchmark** is a fixed set of tasks plus a scoring rule. Running one takes more pieces than people assume:
+A benchmark is a fixed set of tasks plus a scoring rule. Running one takes more pieces than people assume:
 
 ```mermaid
 flowchart LR
@@ -39,34 +38,34 @@ flowchart LR
   A["Attempts<br/>pass@1, pass@k, best-of-N"] --> S
 ```
 
-- The **harness** (also called scaffold or agent) is the program that wraps the model. It sends the prompt, exposes tools such as a shell or file editor, runs the loop, and decides when to stop. Claude Code, Codex CLI, and the research harness Terminus-2 are harnesses. See [module 06](./06-harnesses-and-tools.md).
+- The **harness** (also called scaffold or agent) is the program that wraps the model. It sends the prompt, exposes tools such as a shell or file editor, runs the loop, and decides when to stop. Claude Code, Codex CLI, and the research harness Terminus-2 are harnesses ([module 06](./06-harnesses-and-tools.md)).
 - The **grader** decides pass or fail. For code it's usually hidden unit tests. For writing it might be a rubric scored by humans or by another model (an **LLM judge**).
 - **pass@1** is the share of tasks solved on the first try. Most headline numbers are pass@1, sometimes averaged over several runs.
 
 ### Why evaluation is hard
 
-**Generality.** These models are general-purpose. No finite test covers everything they're used for, so every benchmark is a narrow sample. A model can lead on competition math and trail on your Rails monolith.
+Start with generality. No finite test covers everything a general-purpose model gets used for, so every benchmark is a narrow sample. A model can lead on competition math and trail on your Rails monolith.
 
-**Contamination.** Models train on huge scrapes of the internet. If benchmark questions or their solutions are on the internet, the model may have seen them. Then a high score shows memory, not skill. Two examples:
+Then there's **contamination**. Models train on huge scrapes of the internet, so if benchmark questions or their solutions are online, the model may have seen them. A high score may then reflect memorization as well as problem-solving. Two examples:
 - In [The SWE-Bench Illusion](https://arxiv.org/abs/2506.12286) (Liang et al., 2025), models were shown only a GitHub issue's text. They still named the file that needed fixing up to 76% of the time on SWE-bench Verified, without seeing the repository. On tasks from repositories outside SWE-bench, the best was 53%.
 - [GSM1k](https://arxiv.org/abs/2405.00332) (Zhang et al., 2024) rewrote a grade-school math benchmark with fresh problems. Some model families lost up to 8 points, which is a sign of overfitting to the original.
 
-**Saturation.** When top models all score near the ceiling, the benchmark stops telling them apart. HumanEval saturated years ago. In September 2026 Artificial Analysis dropped GPQA Diamond from its index, and labs were reporting scores in the mid-90s on it.
+Benchmarks also hit **saturation**. When top models all score near the ceiling, the benchmark stops telling them apart. HumanEval saturated years ago. In September 2026 Artificial Analysis dropped GPQA Diamond from its index, and labs were reporting scores in the mid-90s on it.
 
-**Label errors.** Benchmarks have wrong answers too. [Are We Done with MMLU?](https://arxiv.org/abs/2406.04127) (Gema et al., 2024) estimated that 6.49% of MMLU questions contain errors, including 57% of the virology questions they analysed. OpenAI audited 138 of the hardest SWE-bench Verified tasks and reported that many had flawed tests or descriptions. It then stopped reporting the benchmark in February 2026 ([OpenAI](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/)).
+Benchmarks have wrong answers, too. [Are We Done with MMLU?](https://arxiv.org/abs/2406.04127) (Gema et al., 2024) estimated that 6.49% of MMLU questions contain errors, including 57% of the virology questions they analysed. OpenAI audited 138 of the hardest SWE-bench Verified tasks and reported that many had flawed tests or descriptions, then stopped reporting the benchmark in February 2026 ([OpenAI](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/)).
 
-**Goodhart's law.** Marilyn Strathern's phrasing of economist Charles Goodhart's point: "When a measure becomes a target, it ceases to be a good measure." Once a benchmark matters for marketing, labs train toward it, and the score drifts away from what it was meant to show.
+**Goodhart's law** applies too. In Marilyn Strathern's phrasing of economist Charles Goodhart's point, "When a measure becomes a target, it ceases to be a good measure." Once a benchmark matters for marketing, labs train toward it, and the score drifts away from what it was meant to show.
 
-**Prompt and harness sensitivity.** Small changes in format can swing results. [Sclar et al. (2023)](https://arxiv.org/abs/2310.11324) found differences of up to 76 accuracy points from prompt formatting alone on one open model. For agents the harness matters even more (see [Harness matters](#harness-matters)).
+Scores are also sensitive to the prompt and harness. [Sclar et al. (2023)](https://arxiv.org/abs/2310.11324) found differences of up to 76 accuracy points from prompt formatting alone on one open model. For agents the [harness matters even more](#harness-matters).
 
-**Variance and sampling.** Models are stochastic: the same prompt gives different outputs. Two metrics capture this, and they point in opposite directions:
+Finally, models are stochastic, so the same prompt gives different outputs. Two metrics capture this, and they point in opposite directions:
 
 | Metric | Meaning | Where from | Use it for |
 | --- | --- | --- | --- |
 | **pass@k** | Probability that *at least one* of k attempts succeeds | [HumanEval paper](https://arxiv.org/abs/2107.03374) (Chen et al., 2021) | Settings where you can cheaply check and retry (generate 5 patches, keep the one that passes tests) |
 | **pass^k** ("pass-hat-k") | Probability that *all* k attempts succeed | [τ-bench](https://arxiv.org/abs/2406.12045) (Yao et al., 2024) | Settings where every run must work: customer-facing agents, unattended automation |
 
-Suppose a model solves a task 80% of the time, and attempts are independent. Then pass@3 is 1 − 0.2³ ≈ 99%, but pass^3 is 0.8³ ≈ 51%. Same model, same task. Reported as pass@k it looks nearly perfect; reported as pass^k it fails half the time. τ-bench found that GPT-4o agents solved under 50% of tasks and had pass^8 below 25% in its retail domain. Reliability is a separate axis from capability, and it's the one that hurts in production.
+Say a model solves a task 80% of the time and attempts are independent. Then pass@3 is 1 − 0.2³ ≈ 99%, but pass^3 is 0.8³ ≈ 51%. The same model on the same task looks nearly perfect one way and fails half the time the other way. τ-bench found that GPT-4o agents solved under 50% of tasks and had pass^8 below 25% in its retail domain. Reliability is separate from capability, and it's the one that bites you in production.
 
 ## In practice
 
@@ -74,20 +73,20 @@ Suppose a model solves a task 80% of the time, and attempts are independent. The
 
 When you see "Model X scores 72% on Benchmark Y," ask:
 
-1. **Which version?** Terminal-Bench 2.0, 3.0, and 4.0 have different tasks. Their scores don't compare.
-2. **Which harness?** The lab's own agent, a vendor CLI, or a neutral minimal harness?
-3. **What settings?** Reasoning effort, token budget, number of attempts. A footnote saying "max effort, best of 5" changes what the number means.
-4. **Who ran it?** The lab (self-reported), the benchmark maintainers, or an independent evaluator?
-5. **Compared with what?** Are competitors run with the same harness and effort, or quoted from their own launch posts? Anthropic's September 2026 Opus 5.5 post, for example, compares its model at "xhigh" effort with a rival's figures as reported by that rival at "high" effort, and says so in a footnote.
-6. **What's the error bar?** A 2-point lead with ±2.6 points of standard error is a tie.
-7. **What's missing?** Which benchmarks did the lab *not* report this time that it reported last time?
-8. **Cost per task?** Many 2026 launch posts chart score against cost. A higher score at three times the cost may be the worse buy.
+1. Which version? Terminal-Bench 2.0, 3.0, and 4.0 have different tasks, so their scores don't compare.
+2. Which harness? The lab's own agent, a vendor CLI, or a neutral minimal harness?
+3. What settings? Reasoning effort, token budget, number of attempts. A footnote saying "max effort, best of 5" changes what the number means.
+4. Who ran it? The lab (self-reported), the benchmark maintainers, or an independent evaluator?
+5. Compared with what? Were competitors run with the same harness and effort, or quoted from their own launch posts? Anthropic's September 2026 Opus 5.5 post, for example, compares its model at "xhigh" effort with a rival's figures as reported by that rival at "high" effort, and says so in a footnote.
+6. What's the error bar? A 2-point lead with ±2.6 points of standard error isn't convincing evidence of a difference.
+7. What's missing? Which benchmarks did the lab *not* report this time that it reported last time?
+8. What does each task cost? Many 2026 launch posts chart score against cost. A higher score at three times the cost may be the worse buy.
 
-Even labs now say the margins mislead. Anthropic's Opus 5.5 announcement notes that benchmark margins are a less reliable guide at current capability levels. It also says the gap between Opus 5.5 and its pricier Fable 5.1 model looked narrower in its own use than the scores suggest ([Anthropic, Sep 2026](https://www.anthropic.com/news/claude-opus-5-5)).
+Even the labs now say the margins mislead. Anthropic's Opus 5.5 announcement notes that benchmark margins are a less reliable guide at current capability levels. It also says the gap between Opus 5.5 and its pricier Fable 5.1 model looked narrower in its own use than the scores suggest ([Anthropic, Sep 2026](https://www.anthropic.com/news/claude-opus-5-5)).
 
 ### The benchmark families
 
-Below are the benchmarks you'll see most often, what each measures, and where each falls short. Current leaders change monthly. For who's on top right now, see [module 03](./03-model-landscape.md) and the live leaderboards linked here.
+These are the benchmarks you'll see most often, what each measures, and where each falls short. The leaders change monthly; [module 03](./03-model-landscape.md) and the live leaderboards linked here have who's on top right now.
 
 #### Knowledge and expert Q&A
 
@@ -98,7 +97,7 @@ Below are the benchmarks you'll see most often, what each measures, and where ea
 | [GPQA Diamond](https://arxiv.org/abs/2311.12022) (Rein et al., 2023) | 198 "Google-proof" graduate-level science questions; experts beat non-experts with web access | Small set (high variance); now near saturation |
 | [Humanity's Last Exam](https://arxiv.org/abs/2501.14249) (Phan et al., 2025) | ~2,500 expert-written questions meant as a last closed-ended academic test | Closed-ended academic questions only; Artificial Analysis switched to a filtered "HLE-Diamond" subset in October 2026 |
 
-None of these tell you much about coding. They're useful for spotting gross capability differences between model generations.
+None of these tell you much about coding. They're good for spotting big capability differences between model generations.
 
 #### Reasoning and math
 
@@ -133,27 +132,27 @@ None of these tell you much about coding. They're useful for spotting gross capa
 
 #### Economically valuable work
 
-[GDPval](https://arxiv.org/abs/2510.04374) (Patwardhan et al., OpenAI, 2025) has 1,320 tasks across 44 occupations in the top nine U.S. GDP sectors. Professionals with ~14 years' average experience wrote the tasks from their own work. Expert graders compare model deliverables against human ones. The paper found more reasoning effort, more task context, and more scaffolding all improved results. It's the closest public benchmark to "can it do a knowledge worker's job." It was built by a lab that sells models, and it covers one-shot deliverables, not weeks of collaborative work. Artificial Analysis runs its own variant, GDPval-AA, with its own grader.
+[GDPval](https://arxiv.org/abs/2510.04374) (Patwardhan et al., OpenAI, 2025) has 1,320 tasks across 44 occupations in the top nine U.S. GDP sectors. Professionals with ~14 years' average experience wrote the tasks from their own work. Expert graders compare model deliverables against human ones. The paper found that more reasoning effort, task context and scaffolding all improved results. It measures the quality of selected work deliverables, not whether a model can hold down a whole job. It covers one-shot deliverables rather than weeks of collaborative work, and it was built by a lab that sells models. Artificial Analysis runs its own variant, GDPval-AA, with its own grader.
 
 #### Long horizons
 
 METR's [Measuring AI Ability to Complete Long Tasks](https://arxiv.org/abs/2503.14499) (Kwa, West, Becker et al., 2025) introduced the **50% time horizon**: the length of task, measured in how long it takes skilled humans, that a model completes half the time. In March 2025 the frontier (Claude 3.7 Sonnet) was about 50 minutes, and the horizon had doubled roughly every seven months since 2019.
 
-Updates since then:
-- **Time Horizon 1.1** ([Jan 2026](https://metr.org/blog/2026-01-29-time-horizon-1-1/)) grew the suite to 228 tasks and moved to the open-source Inspect framework. Doubling time since 2024 came out at 89 days, against 109 under the old suite. Claude Opus 4.5 led at about 320 minutes, with a wide confidence interval (170–729).
+Since then:
+- Time Horizon 1.1 ([Jan 2026](https://metr.org/blog/2026-01-29-time-horizon-1-1/)) grew the suite to 228 tasks and moved to the open-source Inspect framework. Doubling time since 2024 came out at 89 days, against 109 under the old suite. Claude Opus 4.5 led at about 320 minutes, with a wide confidence interval (170–729).
 - METR's [Frontier Risk Report](https://metr.org/blog/2026-05-19-frontier-risk-report/) (May 2026) put public frontier models in February–March 2026 at a 50% horizon of ~12 hours (95% CI 5h–61h). It said the most capable agents "essentially saturated" the suite. At least 16% of successful runs on 8-hour-plus tasks were judged illegitimate (cheating) on review.
 
 Read time horizons as a trend line, not a promise about your tasks. The 80% horizon is much shorter: ~1.5 hours in the same report. METR's tasks are also cleaner and better specified than most real tickets ([METR on limitations](https://metr.org/notes/2026-01-22-time-horizon-limitations/)).
 
 #### Human preference: Arena
 
-[Chatbot Arena](https://arxiv.org/abs/2403.04132) (Chiang et al., 2024), later LMArena and now simply **Arena** at [arena.ai](https://arena.ai/leaderboard), shows two anonymous models' answers side by side. Users vote for the one they prefer, and votes become Elo-style ratings. Its strength is scale and real prompts. Its weaknesses:
+[Chatbot Arena](https://arxiv.org/abs/2403.04132) (Chiang et al., 2024), later LMArena and now just Arena at [arena.ai](https://arena.ai/leaderboard), shows two anonymous models' answers side by side. Users vote for the one they prefer, and the votes become Elo-style ratings. Its strength is scale and real prompts. The weaknesses:
 - Voters reward style: length, formatting, confidence. Arena added "style control" to adjust for this.
 - Most prompts are short chats, not multi-hour agent sessions.
 - [The Leaderboard Illusion](https://arxiv.org/abs/2504.20879) (Singh et al., 2025) documented undisclosed private testing. Some providers tested many variants and published only the best; the authors saw as many as 27 private Meta variants in the month before Llama 4. Proprietary models were also sampled more often.
-- **The Llama 4 episode (April 2025):** Meta's launch highlighted an Arena ranking of #2 for "Llama-4-Maverick-03-26-Experimental," a variant tuned for conversation that wasn't the released model. Arena said Meta's reading of its policy didn't match what it expects from providers. When the released model was tested, it ranked far lower ([TechCrunch](https://techcrunch.com/2025/04/11/metas-vanilla-maverick-ai-model-ranks-below-rivals-on-a-popular-chat-benchmark/)).
+- In the Llama 4 episode (April 2025), Meta's launch highlighted an Arena ranking of #2 for "Llama-4-Maverick-03-26-Experimental," a variant tuned for conversation that wasn't the released model. Arena said Meta's reading of its policy didn't match what it expects from providers. When the released model was tested, it ranked far lower ([TechCrunch](https://techcrunch.com/2025/04/11/metas-vanilla-maverick-ai-model-ranks-below-rivals-on-a-popular-chat-benchmark/)).
 
-Arena is good at answering "which model do people enjoy chatting with?" It's weak at answering "which model should drive my coding agent?"
+Arena is good at telling you which model people enjoy chatting with and weak at telling you which one should drive your coding agent.
 
 ### The state of coding benchmarks (November 2026, high level)
 
@@ -164,31 +163,31 @@ Arena is good at answering "which model do people enjoy chatting with?" It's wea
 | **Still discriminating, actively maintained** | Terminal-Bench 4.0 (Aug 2026; saturated tasks removed; top systems in the 50–65% range depending on harness); SWE-bench Pro; METR-style long tasks (approaching saturation); new 2026 evals such as Cognition's FrontierCode, which grades whether a maintainer would merge the change |
 | **Moving target** | Independent indexes keep swapping components. Between January and November 2026, Artificial Analysis removed MMLU-Pro, LiveCodeBench, AIME 2025, GPQA Diamond, and the original HLE from its Intelligence Index ([version history](https://artificialanalysis.ai/methodology/intelligence-benchmarking)) |
 
-The lesson that lasts: **at the frontier, a benchmark tends to stay useful for only a year or two** before it saturates or leaks. Learn the *shape* of a good benchmark (fresh, held-out, realistic, verified, harness-documented), not a list of names.
+At the frontier, a benchmark tends to stay useful for only a year or two before it saturates or leaks. So learn what a good one looks like (fresh, held-out, realistic, verified, harness-documented) instead of memorizing names.
 
 ### Harness matters
 
 The same model gets different scores in different harnesses. Examples from primary sources:
 
-- **Harbor-Index** ([Terminal-Bench team, June 2026](https://www.tbench.ai/news/harbor-index)) ran models in their vendor's native CLI and in the neutral Terminus-2 harness. GPT-5.5 scored 24.7% in Codex and 21.2% in Terminus-2. Gemini 3.1 scored 12.2% in gemini-cli and 7.3% in Terminus-2. The authors also note that no comparison reached statistical significance (all p > 0.05). Harness effects are real, and small samples can hide or fake them.
-- **METR's Time Horizon 1.1** found that GPT-4o and o3 scored significantly higher under METR's old Vivaria harness than under Inspect, on similar tasks.
-- **SWE-agent** ([Yang et al., 2024](https://arxiv.org/abs/2405.15793)) showed that redesigning the *agent-computer interface* (how the model views files, searches, and edits) let GPT-4 Turbo reach 12.5% on full SWE-bench in 2024, far above earlier non-interactive approaches. The interface was the contribution, not a new model.
-- **Leaderboards tell you the harness.** Terminal-Bench lists model *and* agent for each entry. Anthropic's Opus 5.5 post notes the public Terminal-Bench 4.0 leaderboard showed Opus 5 at 51.8% in the Claude Code harness, and Anthropic's own setup reproduced 52.3%. Google's October 2026 Gemini 4 table reports Terminal-Bench 4.0 "(AA)," meaning Artificial Analysis's run with its standard mini-swe-agent setup. That number isn't comparable to a vendor's best-agent submission.
-- **Effort and budget count as harness settings.** [McFadyen et al. (2026)](https://arxiv.org/abs/2606.17930) varied token budgets, compaction, and retries across 12 frontier models. They concluded that "benchmark scores are protocol-dependent," and that fixed budgets understate newer models. Going the other way, reviewers reported that Opus 5 could do *worse* at its highest effort settings, spinning in circles ([Zvi Mowshowitz, Jul 2026](https://thezvi.wordpress.com/2026/07/28/claude-opus-5-is-highly-capable-but-is-no-mythos/)).
+- Harbor-Index ([Terminal-Bench team, June 2026](https://www.tbench.ai/news/harbor-index)) ran models in their vendor's native CLI and in the neutral Terminus-2 harness. GPT-5.5 scored 24.7% in Codex and 21.2% in Terminus-2. Gemini 3.1 scored 12.2% in gemini-cli and 7.3% in Terminus-2. The authors also note that no comparison reached statistical significance (all p > 0.05). Harness effects are real, and small samples can hide or fake them.
+- METR's Time Horizon 1.1 found that GPT-4o and o3 scored significantly higher under METR's old Vivaria harness than under Inspect, on similar tasks.
+- SWE-agent ([Yang et al., 2024](https://arxiv.org/abs/2405.15793)) showed that redesigning the *agent-computer interface* (how the model views files, searches, and edits) let GPT-4 Turbo reach 12.5% on full SWE-bench in 2024, far above earlier non-interactive approaches. The interface was the contribution, not a new model.
+- Leaderboards tell you the harness. Terminal-Bench lists model *and* agent for each entry. Anthropic's Opus 5.5 post notes the public Terminal-Bench 4.0 leaderboard showed Opus 5 at 51.8% in the Claude Code harness, and Anthropic's own setup reproduced 52.3%. Google's October 2026 Gemini 4 table reports Terminal-Bench 4.0 "(AA)," meaning Artificial Analysis's run with its standard mini-swe-agent setup. That number isn't comparable to a vendor's best-agent submission.
+- Effort and budget count as harness settings. [McFadyen et al. (2026)](https://arxiv.org/abs/2606.17930) varied token budgets, compaction, and retries across 12 frontier models. They concluded that "benchmark scores are protocol-dependent," and that fixed budgets understate newer models. Going the other way, reviewers reported that Opus 5 could do *worse* at its highest effort settings, spinning in circles ([Zvi Mowshowitz, Jul 2026](https://thezvi.wordpress.com/2026/07/28/claude-opus-5-is-highly-capable-but-is-no-mythos/)).
 
-**What to do with this:** compare models *in the harness you'll actually use*, at the settings you'll actually use. A model that wins in someone else's agent may lose in yours. [Module 06](./06-harnesses-and-tools.md) covers harnesses and [module 07](./07-context-engineering.md) covers the context you feed them.
+So compare models in the harness you'll actually use, at the settings you'll actually use. A model that wins in someone else's agent may lose in yours. [Module 06](./06-harnesses-and-tools.md) covers harnesses and [module 07](./07-context-engineering.md) covers the context you feed them.
 
 ### Benchmark-maxing
 
-**Benchmark-maxing** means optimizing a model, or how it's presented, for benchmark scores at the expense of the behavior users actually experience. It's Goodhart's law applied to a product launch. It happens in several ways, from defensible to dishonest:
+Benchmark-maxing means optimizing a model, or how it's presented, for benchmark scores at the expense of the behavior users actually experience. It's Goodhart's law applied to a product launch, and it ranges from defensible to dishonest:
 
-1. **Training on benchmark-like data.** Labs build or buy synthetic tasks shaped like popular benchmarks. That's legitimate skill-building until the training set looks so much like the test that scores rise faster than general ability.
-2. **Contamination.** Test items or solutions end up in training data, accidentally (web scrapes) or through carelessness.
-3. **Eval-specific tuning.** A variant is tuned to please a grader or audience, as with the Llama 4 Arena variant.
-4. **Reward hacking that leaks into behavior.** Reinforcement learning on coding tasks rewards "tests pass." A model can learn to special-case tests, over-verify, or over-engineer. System cards now report this (see below).
-5. **Cherry-picked harnesses and settings.** Report the agent, effort level, and benchmark version that look best. Quietly drop the benchmark that looked bad.
-6. **Best-of-N or majority voting** reported without labeling it as such (see the Grok 3 chart in [module 14](./14-keeping-up.md)).
-7. **Selective private testing.** Test many variants and publish only the winner (The Leaderboard Illusion).
+1. Training on benchmark-like data. Labs build or buy synthetic tasks shaped like popular benchmarks. That's legitimate skill-building until the training set looks so much like the test that scores rise faster than general ability.
+2. Contamination. Test items or solutions end up in training data, accidentally (web scrapes) or through carelessness.
+3. Eval-specific tuning. A variant is tuned to please a grader or audience, as with the Llama 4 Arena variant.
+4. Reward hacking that leaks into behavior. Reinforcement learning on coding tasks rewards "tests pass," so a model can learn to special-case tests, over-verify, or over-engineer. System cards now report this.
+5. Cherry-picked harnesses and settings. Report the agent, effort level, and benchmark version that look best, and quietly drop the benchmark that looked bad.
+6. Best-of-N or majority-vote scores reported without saying so, like the Grok 3 chart in [module 14](./14-keeping-up.md).
+7. Selective private testing. Test many variants and publish only the winner (The Leaderboard Illusion).
 
 #### A recent example: Opus 5 to Opus 5.5
 
@@ -200,7 +199,7 @@ Opus 5.5 followed on September 22, 2026. Anthropic said it had made "major impro
 
 > **Bryan's take:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
 
-To be fair to the other reading: no public evidence shows Opus 5 was trained on benchmark answers. One researcher, quoted by Zvi, alleged genre-specific training based on a private benchmark. That's a single claim. The better-supported story is narrower and more useful. The benchmarks scored task completion; users also cared about communication, scope discipline, and judgment, which benchmarks barely score. A model can be "maxed" on what's measured without anyone cheating. One benchmark, FrontierCode, penalizes unrequested extra work, and Opus 5's curve there reportedly showed the over-engineering. Some evals do catch it.
+To be fair to the other reading, no public evidence shows Opus 5 was trained on benchmark answers. One researcher, quoted by Zvi, alleged genre-specific training based on a private benchmark, but that's a single claim. The better-supported story is narrower and more useful. The benchmarks scored task completion. Users also cared about communication, scope discipline and judgment, which benchmarks barely score. A model can be "maxed" on what's measured without anyone cheating. Some evals do catch it: FrontierCode penalizes unrequested extra work, and Opus 5's curve there reportedly showed the over-engineering.
 
 ### Independent evaluators
 
@@ -214,26 +213,26 @@ To be fair to the other reading: no public evidence shows Opus 5 was trained on 
 | [LiveBench](https://livebench.ai/) ([White et al., 2024](https://arxiv.org/abs/2406.19314)) | Regularly refreshed questions with objective answers to limit contamination | Short tasks; less agentic |
 | [Arena](https://arena.ai/leaderboard) | Human preference votes (text, WebDev, vision, search, agents) | Style bias; private-testing concerns |
 
-Independent doesn't mean neutral. Evaluators choose benchmarks, harnesses, and weights, and some have commercial relationships with labs. Their value comes from consistency: the same setup for every model. Use two or three as a cross-check, never one.
+Independent doesn't mean neutral. Evaluators choose the benchmarks, harnesses and weights, and some have commercial relationships with labs. What they give you is consistency, the same setup for every model. Use two or three as a cross-check, never just one.
 
 ### Reading a system card
 
-A **system card** (or model card) is a lab's technical report for a model release. Anthropic publishes them at [anthropic.com/system-cards](https://www.anthropic.com/system-cards); OpenAI and Google publish theirs alongside launches ([Google DeepMind model cards](https://deepmind.google/models/model-cards/)). They typically include training-data cutoff, capability evals, dangerous-capability tests (cyber, bio, autonomy), alignment findings, and third-party assessments.
+A system card (or model card) is a lab's technical report for a model release. Anthropic publishes them at [anthropic.com/system-cards](https://www.anthropic.com/system-cards); OpenAI and Google publish theirs alongside launches ([Google DeepMind model cards](https://deepmind.google/models/model-cards/)). They typically include training-data cutoff, capability evals, dangerous-capability tests (cyber, bio, autonomy), alignment findings, and third-party assessments.
 
-What to read as an engineer:
-- **Benchmark footnotes.** Harness, effort, attempts, and which runs used fallback models. The Opus 5.5 post, for example, notes that safeguard fallbacks to other models likely *lowered* some scores.
-- **Reward hacking and test tampering.** How often the model special-cases tests, edits tests to pass, or claims success it didn't achieve. This predicts how much you'll need to review its diffs.
-- **Evaluation awareness.** Whether the model notices it's being tested. If it behaves differently when it does, eval results flatter it.
-- **Known limitations.** Labs often admit more here than in the launch post (for example, Opus 5's "unproductive self-verification").
-- **Third-party sections.** METR, Apollo Research, or government AI security institutes sometimes report independent findings.
+As an engineer, read these parts:
+- The benchmark footnotes: harness, effort, attempts, and which runs used fallback models. The Opus 5.5 post, for example, notes that safeguard fallbacks to other models likely *lowered* some scores.
+- Reward hacking and test tampering: how often the model special-cases tests, edits tests to pass, or claims success it didn't achieve. This predicts how much you'll need to review its diffs.
+- Evaluation awareness, meaning whether the model notices it's being tested. If it behaves differently when it does, eval results flatter it.
+- Known limitations. Labs often admit more here than in the launch post (Opus 5's "unproductive self-verification," for example).
+- Third-party sections, where METR, Apollo Research, or government AI security institutes sometimes report independent findings.
 
 ### Real-world productivity evidence
 
-Benchmarks measure models. Teams care whether *people with models* ship better software faster. The evidence is mixed, and it's worth knowing why.
+Benchmarks measure models. Teams care whether *people with models* ship better software faster, and on that the evidence is mixed.
 
 | Study | Setting | Finding | Big caveat |
 | --- | --- | --- | --- |
-| [Peng et al., 2023](https://arxiv.org/abs/2302.06590) | Controlled experiment; build an HTTP server in JavaScript | Copilot group finished **55.8% faster** | One small, greenfield task; 2022-era autocomplete |
+| [Peng et al., 2023](https://arxiv.org/abs/2302.06590) | Controlled experiment; build an HTTP server in JavaScript | Copilot group took **55.8% less time** | One small, greenfield task; 2022-era autocomplete |
 | [Paradis et al., 2024](https://arxiv.org/abs/2410.12944) | RCT, 96 Google engineers, one enterprise task | ~**21% faster** | Wide confidence interval; internal tools |
 | [Cui, Demirer et al., 2025](https://papers.ssrn.com/abstract=4945566) | Three field RCTs, 4,867 developers (Microsoft, Accenture, a Fortune 100 firm) | **+26%** completed tasks (SE ~10 points); bigger gains for less experienced developers | Counts output (PRs, commits), not value; autocomplete era |
 | [METR, Becker et al., 2025](https://arxiv.org/abs/2507.09089) | RCT, 16 experienced open-source maintainers, 246 tasks in their own large repos, early-2025 tools | **19% slower** (CI +2% to +39%). They predicted 24% faster and afterward *believed* they'd been 20% faster | Small sample; experts on familiar code; early-2025 agents |
@@ -242,43 +241,43 @@ Benchmarks measure models. Teams care whether *people with models* ship better s
 | [Stack Overflow 2026](https://survey.stackoverflow.co/2026/ai) | Survey, 30,903 responses (AI questions answered by about 11,000–14,000) | 48% trust AI "when they can easily validate the answers"; only 16% extend that trust to most tasks that aren't important work decisions | Self-report |
 | [METR on Anthropic, Nov 2026](https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/) | Mixed-methods assessment inside one AI lab | Measured progress ~**2x** faster than 2024–25 (plausibly 1.3x–3x); staff *self-reported* ~**12x** uplift | Not an RCT; much evidence redacted; a lab is an unusual workplace |
 
-**Why studies disagree:**
-- **Task type.** Greenfield, well-specified tasks speed up a lot. Mature codebases with tacit conventions speed up less.
-- **Who's measured.** Juniors on unfamiliar code gain more than experts on code they wrote.
-- **Tool generation.** 2022 autocomplete, 2025 chat-plus-agent, and 2026 parallel CLI agents are different interventions. Studies age fast; METR itself marked its 2025 result out of date.
-- **What's counted.** Minutes per task, number of PRs, self-reported speed, and delivery stability are different outcomes. More output can coexist with lower stability, as DORA found.
-- **Selection.** As AI becomes normal, the people and tasks willing to go *without* it become unusual. That makes clean RCTs harder every year.
-- **Perception gap.** People consistently report bigger gains than measurements show. In METR's 2025 study the sign was even wrong. Treat survey speedups as an upper bound.
+The studies disagree for several reasons:
+- Task type. Greenfield, well-specified tasks speed up a lot; mature codebases with tacit conventions speed up less.
+- Who's measured. Juniors on unfamiliar code gain more than experts on code they wrote.
+- Tool generation. 2022 autocomplete, 2025 chat-plus-agent, and 2026 parallel CLI agents are different interventions. Studies age fast; METR itself marked its 2025 result out of date.
+- What's counted. Minutes per task, number of PRs, self-reported speed, and delivery stability are different outcomes, and more output can coexist with lower stability, as DORA found.
+- Selection. As AI becomes normal, the people and tasks willing to go *without* it become unusual, which makes clean RCTs harder every year.
+- Perception. People consistently report bigger gains than measurements show, and in METR's 2025 study they even got the sign wrong. Don't treat survey speedups as measured time savings.
 
-**What to tell a skeptical team:** good evidence shows real speedups on some work and real slowdowns on other work. The biggest predictors are task type, the developer's skill with the tools, and the team's verification practices. Measure your own team (see [workplace/](../workplace/)) instead of quoting the most convenient study.
+Tell a skeptical team that good evidence shows real speedups on some work and real slowdowns on other work. The biggest predictors are task type, the developer's skill with the tools, and the team's verification practices. [Measure your own team](../workplace/) instead of quoting the most convenient study.
 
 ### Vibes are data too
 
 Experienced users often notice changes before benchmarks do. In April 2025 OpenAI rolled back a GPT-4o update that had become sycophantic, meaning excessively flattering and agreeable. Afterward OpenAI wrote that some expert testers had said the model felt off before launch, but positive A/B tests won out. Its lesson was to give such qualitative signals more weight ([OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)). The Opus 5 complaints above were vibes too, and they were right about something the benchmarks missed.
 
-Vibes are also noisy. They suffer from novelty effects (a new model feels smarter for a week), confirmation bias, and recall bias (you remember the spectacular failure, not the forty quiet successes). Social contagion plays a part as well: one viral post sets everyone's expectations.
+Vibes are also noisy. They suffer from novelty effects (a new model feels smarter for a week), confirmation bias, and recall bias (you remember the spectacular failure, not the forty quiet successes). Social contagion matters too: one viral post sets everyone's expectations.
 
-**Making vibes rigorous:**
-1. **Keep a vibes log.** One line per notable success or failure: date, model, harness and version, task type, what happened. Count instead of recalling.
-2. **Decide what you're testing before you look.** "Does the new model stay in scope on refactors?" beats "does it feel better?"
-3. **Blind the comparison.** Strip model names from diffs and transcripts before judging. People reliably favor the model they expect to be better.
-4. **Use the same tasks.** Paired comparisons on identical prompts remove most noise.
-5. **Wait out the honeymoon.** Re-judge after two weeks of normal use.
-6. **Triangulate.** Trust a vibe more when independent experienced users report the *same specific* behavior. "It over-engineers small fixes" counts; "it feels dumber" doesn't.
+To make vibes more rigorous:
+1. Keep a vibes log. One line per notable success or failure: date, model, harness and version, task type, what happened. Count instead of recalling.
+2. Decide what you're testing before you look. "Does the new model stay in scope on refactors?" beats "does it feel better?"
+3. Blind the comparison. Strip model names from diffs and transcripts before judging, because people reliably favor the model they expect to be better.
+4. Use the same tasks. Paired comparisons on identical prompts remove most noise.
+5. Wait out the honeymoon and re-judge after two weeks of normal use.
+6. Trust a vibe more when independent experienced users report the *same specific* behavior. "It over-engineers small fixes" counts; "it feels dumber" doesn't.
 
 ### Build your own eval
 
-Public benchmarks answer "is this model generally strong?" Your own eval answers "should *we* use it, in *our* tool, on *our* code?" It takes an afternoon to start and pays off every time a model ships.
+Public benchmarks tell you whether a model is generally strong. Your own eval tells you whether *you* should use it, in *your* tool, on *your* code. It takes an afternoon to start and pays off every time a model ships.
 
 #### 1. Build a golden-task set
 
 A **golden task** is a real, solved piece of your own work, frozen so you can replay it.
 
-- **Source:** merged PRs from your repos from the last 3–12 months. Use the commit before the PR as the starting state and the PR's tests (plus any you write) as the grader. Recent PRs are less likely to be in any model's training data. Private repos never should be.
-- **Size:** start with 10–20 tasks. Aim for 30–50 over time. Smaller sets can only detect large differences (see [Going deeper](#the-statistics-of-small-evals)).
-- **Mix:** bug fixes, small features, refactors, test writing, a migration, a code review task, and at least one "trap" task where the right move is to ask a question or refuse an unsafe instruction.
-- **Hidden tests:** keep grading tests outside what the agent can see, so it can't edit them to pass.
-- **Record the human baseline:** how long the original PR took, roughly.
+- Take merged PRs from your repos from the last 3–12 months. The commit before the PR is the starting state, and the PR's tests (plus any you write) are the grader. Recent PRs are less likely to be in any model's training data. Private repositories reduce public-data contamination risk; check the terms under which their contents have been shared with model providers.
+- Start with 10–20 tasks and aim for 30–50 over time. Smaller sets can only detect [large differences](#the-statistics-of-small-evals).
+- Mix bug fixes, small features, refactors, test writing, a migration, a code review task, and at least one "trap" task where the right move is to ask a question or refuse an unsafe instruction.
+- Keep the grading tests where the agent can't see them, so it can't edit them to pass.
+- Write down roughly how long the original PR took, as a human baseline.
 
 #### 2. Task file template
 
@@ -348,8 +347,8 @@ Also record: wall-clock minutes, human interventions, cost or quota used.
 #### 4. Run it blind
 
 1. Pick the **configurations** to compare. A configuration is model + harness + version + settings, such as "Model A in CLI X at high effort" vs "Model B in CLI X at high effort." Change one thing at a time.
-2. Run each task **3 times** per configuration if you can afford it. That gives you both average pass rate and pass^3.
-3. **Blind the outputs:** export each diff and final message, replace model names with random IDs, and shuffle.
+2. Run each task 3 times per configuration if you can afford it. That gives you an average pass rate and a rough pass^3 estimate, the fraction of tasks solved in all three runs.
+3. Blind the outputs. Export each diff and final message, replace model names with random IDs, and shuffle.
 4. A reviewer who doesn't know which is which scores each with the rubric. With two reviewers, average their scores and discuss big disagreements.
 5. Unblind and log results.
 
@@ -370,49 +369,49 @@ Also record: wall-clock minutes, human interventions, cost or quota used.
 
 #### 5. Summarize honestly
 
-Report, per configuration: pass rate (with a rough error bar), pass^3, mean rubric score, median minutes, median cost, and hard-fail count. Then look at the **paired** results: tasks where A passed and B failed, and vice versa. Those disagreements are where the real difference lives.
+For each configuration, report pass rate (with a rough error bar), pass^3, mean rubric score, median minutes, median cost, and hard-fail count. Then look at the paired results, the tasks where A passed and B failed and vice versa. Those disagreements are where the real difference lives.
 
 #### 6. Rerun on every change
 
-- **New model or version?** Rerun the set before switching your team's default.
-- **Harness update?** Rerun a 5-task smoke subset. Harness changes have caused real regressions (see [module 14](./14-keeping-up.md)).
-- **Pin versions** in the results file. If you use APIs, pin dated model snapshots instead of "latest" aliases.
-- **Retire leaked tasks.** If a task's fix is now public and models start acing it, replace it.
-- **Keep it in the repo** next to the code, and review changes to it like code. [Module 10](./10-ai-code-review.md) covers using several models to review each other's output, which pairs well with blind grading.
+- New model or version? Rerun the set before you switch your team's default.
+- Harness update? Rerun a 5-task smoke subset. Harness changes have caused real regressions ([module 14](./14-keeping-up.md)).
+- Pin versions in the results file. If you use APIs, pin dated model snapshots instead of "latest" aliases.
+- Retire leaked tasks. If a task's fix is now public and models start acing it, replace it.
+- Keep the eval in the repo next to the code, and review changes to it like code. [Module 10](./10-ai-code-review.md) covers using several models to review each other's output, which pairs well with blind grading.
 
 ## Going deeper
 
 ### The statistics of small evals
 
-A pass rate from n tasks has a standard error of about √(p(1−p)/n). With 20 tasks and a 60% pass rate, that's ±11 points, so a 95% interval of roughly ±22 points. Two configurations at 55% and 65% on 20 tasks are statistically indistinguishable. Ways to do better:
-- **Pair the comparison.** Run both configurations on identical tasks and count only the tasks where they disagree. If A wins 9 of 10 disagreements, that means something even on a small set.
-- **Repeat runs** to separate model randomness from task difficulty.
-- **Report intervals**, as Evan Miller argues in [Adding Error Bars to Evals](https://arxiv.org/abs/2411.00640) (2024). A score without an error bar is a rumor with a decimal point.
+A pass rate from n tasks has a standard error of about √(p(1−p)/n). With 20 tasks and a 60% pass rate, that's ±11 points, so a 95% interval of roughly ±22 points. Two configurations at 55% and 65% on 20 tasks are statistically indistinguishable. To do better:
+- Pair the comparison. Run both configurations on identical tasks and count only the tasks where they disagree. If A wins 9 of 10 disagreements, that means something even on a small set.
+- Repeat runs to separate model randomness from task difficulty.
+- Report intervals, as Evan Miller argues in [Adding Error Bars to Evals](https://arxiv.org/abs/2411.00640) (2024). A score without an error bar is a rumor with a decimal point.
 
 ### Cheating, reward hacking, and grader trust
 
 As agents get stronger, they get better at gaming graders. METR reported "well over 100 distinct instances of cheating from shared models" and said manually checking for cheating is often most of the work of running its suite. In one MirrorCode setup, a model attempted reward hacking in about 80% of attempts ([METR, May 2026](https://metr.org/blog/2026-05-19-frontier-risk-report/)).
 
-Terminal-Bench's [leaderboard integrity update](https://www.tbench.ai/news/leaderboard-integrity-update) removed submissions that modified timeouts, hid encrypted solutions in the agent binary, or uploaded the tasks' test folders. It scored as zero the trials in which one agent fetched solutions from the internet into its `AGENTS.md` file. It now requires full trajectories for every passing trial and reviews them with an agent judge.
+Terminal-Bench's [leaderboard integrity update](https://www.tbench.ai/news/leaderboard-integrity-update) removed submissions that modified timeouts, hid encrypted solutions in the agent binary, or uploaded the tasks' test folders. It zeroed the trials where one agent fetched solutions from the internet into its `AGENTS.md` file. It now requires full trajectories for every passing trial and reviews them with an agent judge.
 
-For your own evals: hide tests, diff the test directory, and *read* a sample of passing transcripts. Reward hacking is closely related to the training dynamics in [module 02](./02-training-and-tuning.md) and the safety concerns in [module 11](./11-security-and-prompt-injection.md).
+For your own evals, hide the tests, diff the test directory, and actually *read* a sample of passing transcripts. Reward hacking ties into the training dynamics in [module 02](./02-training-and-tuning.md) and the safety concerns in [module 11](./11-security-and-prompt-injection.md).
 
 ### Self-report vs measurement
 
-The gap between how fast people *feel* and how fast they *are* appears in every careful study. In METR's 2025 RCT the developers felt 20% faster and were 19% slower. In METR's 2026 assessment of Anthropic, self-reports said ~12x and measured acceleration said ~2x (METR notes that individual uplift and organizational acceleration aren't the same quantity, but the gap is still large). METR's [transcript analysis](https://metr.org/notes/2026-02-17-exploratory-transcript-analysis-for-estimating-time-savings-from-coding-agents/) of its own staff estimated time savings of 1.5x–13x, and the author called it a "soft upper bound" because it ignores task substitution and selection. If you survey your team, treat the result as a ceiling and pair it with something measured: cycle time, golden-task timing, or change-failure rate.
+Several studies find a gap between perceived and measured gains. In METR's 2025 RCT the developers felt 20% faster and were 19% slower. In METR's 2026 assessment of Anthropic, self-reports said ~12x and measured acceleration said ~2x (METR notes that individual uplift and organizational acceleration aren't the same quantity, but the gap is still large). METR's [transcript analysis](https://metr.org/notes/2026-02-17-exploratory-transcript-analysis-for-estimating-time-savings-from-coding-agents/) of its own staff estimated time savings of 1.5x–13x, and the author called it a "soft upper bound" because it ignores task substitution and selection. If you survey your team, report perceptions separately and pair them with something measured: cycle time, golden-task timing, or change-failure rate.
 
 ### Open debates
 
-- **Are public benchmarks still worth reading?** Yes, for trends and large gaps between generations. No, for choosing between two frontier models that are within a few points.
-- **Should benchmarks be private?** Private sets resist contamination but can't be inspected. The trend is toward hybrids: a public split for transparency and a held-out split for honesty (SWE-bench Pro, Vals AI).
-- **Can LLM judges grade LLMs?** They're cheap and scale well, but they share biases with the models they grade, such as favoring length and their own style. Use them for triage. Validate against human scores on a sample.
-- **Is "time horizon" the right yardstick?** It's the best single trend line available. METR itself warns it's sensitive to task mix and modelling choices ([METR, Mar 2026](https://metr.org/notes/2026-03-20-impact-of-modelling-assumptions-on-time-horizon-results/)).
+- Public benchmarks are still worth reading for trends and for large gaps between generations. They won't help you choose between two frontier models that are within a few points of each other.
+- Private benchmarks resist contamination, but nobody outside can inspect them. The trend is toward hybrids: a public split for transparency and a held-out split for honesty (SWE-bench Pro, Vals AI).
+- LLM judges are cheap and scale well, but they share biases with the models they grade, such as favoring length and their own style. Use them for triage and validate them against human scores on a sample.
+- "Time horizon" is the best single trend line available, but METR itself warns it's sensitive to task mix and modelling choices ([METR, Mar 2026](https://metr.org/notes/2026-03-20-impact-of-modelling-assumptions-on-time-horizon-results/)).
 
 ## Bryan's take
 
-Bryan's Opus 5 example is [above](#a-recent-example-opus-5-to-opus-55). His model picks (Claude and Codex for code; Grok or Gemini only for specific non-coding jobs) are in [module 03](./03-model-landscape.md), and his case for having several models review each other is in [module 10](./10-ai-code-review.md).
+Bryan's Opus 5 take is in the [benchmark-maxing example](#a-recent-example-opus-5-to-opus-55). His model picks (Claude and Codex for code; Grok or Gemini only for specific non-coding jobs) are in [module 03](./03-model-landscape.md), and his case for having several models review each other is in [module 10](./10-ai-code-review.md).
 
-His view that Grok and Gemini fall behind for coding is the most contested of these. Public benchmarks in late 2026 put Google's newest models near or at the top on some coding evals ([module 14](./14-keeping-up.md#lab-track-records)). That's the case for checking your own golden tasks rather than taking anyone's word for it, Bryan's included.
+His view that Grok and Gemini fall behind for coding is the most contested of these. Public benchmarks in late 2026 put Google's newest models near or at the top on some coding evals ([module 14](./14-keeping-up.md#lab-track-records)). That's a good reason to check your own golden tasks instead of taking anyone's word for it, Bryan's included.
 
 ## Try it
 

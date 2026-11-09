@@ -1,6 +1,6 @@
 # Slides
 
-> **Last verified:** 2026-11-08
+*Last checked November 8, 2026.*
 
 One slide deck per module, written in [Marp](https://marp.app/) Markdown. Each deck is a 30–50 minute talk or class session. The module it's built from is the reading that goes with it.
 

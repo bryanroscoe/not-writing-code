@@ -1,14 +1,13 @@
 # 13: The open-source ecosystem
 
-> **Audience:** everyone · **Reading time:** ~35 min · **Last verified:** 2026-11-08
-> **Depth guide:** Students: Foundations, the harness table, and "How students can contribute responsibly." Engineers: all of In practice. Leads: the stack map, "Churn and capture," and the AI-contribution policies.
+*About a 35-minute read. Last checked November 8, 2026.*
 
 **TL;DR**
 - "Open source" in AI tooling covers several layers: inference runtimes, agent frameworks, harnesses, MCP servers, skills, orchestrators and eval tools. An open-source harness can drive a closed model, and an open-weight model can run in a closed harness.
-- Notable open-source coding harnesses include OpenCode, Aider, Cline, Kilo Code, goose, OpenHands, Crush, and the open-source CLIs from OpenAI (Codex CLI) and Google (Gemini CLI). The field churns: Roo Code shut down in May 2026 and Continue was archived.
-- OpenClaw (formerly Clawdbot, then Moltbot) became one of GitHub's most-starred projects in early 2026. It showed real demand for personal agents that live in your messaging apps. It also showed what happens when such an agent ships with exposed defaults and an unvetted skill registry.
-- You rarely need an agent framework to start. A working agent loop is about 30 lines. Reach for LangGraph, Pydantic AI, the OpenAI Agents SDK, the Claude Agent SDK and similar tools when you need durable state, tracing, many tools, or many agents.
-- AI has added a heavy burden on maintainers. curl ended its bug bounty in January 2026 after confirmed reports fell below 1 in 20. Projects now publish AI policies ranging from outright bans (Gentoo, QEMU) to "disclose it and own it" (LLVM, Ghostty, the Linux kernel).
+- Notable open-source coding harnesses include OpenCode, Aider, Cline, Kilo Code, goose, OpenHands, and the open-source CLIs from OpenAI (Codex CLI) and Google (Gemini CLI). The field churns. Roo Code shut down in May 2026, and Continue was archived.
+- OpenClaw (formerly Clawdbot, then Moltbot) became one of GitHub's most-starred projects in early 2026. It showed real demand for personal agents that live in your messaging apps, and what happens when one is exposed to the internet and uses an unvetted skill registry.
+- You rarely need an agent framework to start, since a working agent loop is about 30 lines. Reach for LangGraph, Pydantic AI, the OpenAI Agents SDK, the Claude Agent SDK and similar tools when you need durable state, tracing, many tools, or many agents.
+- AI has put a heavy load on maintainers. curl ended its bug bounty in January 2026 after confirmed reports fell below 1 in 20. Projects now publish AI policies ranging from outright bans (Gentoo, QEMU) to "disclose it and own it" (LLVM, Ghostty, the Linux kernel).
 - Contribute with AI the way you'd want others to contribute to your project: understand every line, disclose AI use, keep pull requests small, write the description yourself, and follow the project's policy.
 
 ## Foundations
@@ -30,14 +29,11 @@ Licenses you'll meet:
 | **Apache-2.0** | Almost anything, with attribution, plus an explicit patent grant | Codex CLI, Gemini CLI, Aider, Cline, goose |
 | **FSL-1.1-MIT** (Functional Source License) | Source-available: use and modify, but no competing commercial product; each release converts to MIT after two years | Crush |
 
-Some projects mix licenses. For example, Cline's JetBrains plugin is not open source even though the VS Code extension is ([Cline README](https://github.com/cline/cline)). Read the license file, not the marketing page.
+Some projects mix licenses. Cline's JetBrains plugin isn't open source, for example, even though its VS Code extension is ([Cline README](https://github.com/cline/cline)). Read the license file, not the marketing page.
 
-**Why open source matters for this work:**
+Open source matters here for a few reasons. You can read a harness's system prompt and tool code, which is the best way to understand what it does. You can run it where your code lives, including air-gapped or on-premises environments with local models. It's also the industry's research lab: ideas such as Aider's repository map, the Ralph loop, worktree-per-agent orchestration, and git-backed agent memory appeared in open projects first and were copied everywhere within months.
 
-- **You can read the prompts and tool definitions.** The best way to understand what a harness does is to read its system prompt and tool code.
-- **You can run it where your code lives,** including air-gapped or on-premises environments with local models.
-- **It is the industry's research lab.** Ideas such as Aider's repository map, the Ralph loop, worktree-per-agent orchestration, and git-backed agent memory appeared in open projects first and were copied everywhere within months.
-- **It protects against vendor churn,** up to a point. An archived open-source tool still runs. A shut-down service doesn't.
+And it protects you against vendor churn, up to a point. An archived open-source tool still runs. A shut-down service doesn't.
 
 ### A map of the stack
 
@@ -63,7 +59,7 @@ You don't need every layer. A typical engineer uses one harness, a few MCP serve
 
 ### Open-source coding harnesses
 
-Statuses and star counts are as of November 2026. Stars measure attention, not quality.
+Statuses and star counts are as of November 2026. Stars measure attention, not quality. Crush is included for comparison but is source-available under the FSL, not open source.
 
 | Project | Maintainer | Form | License | Notes |
 | --- | --- | --- | --- | --- |
@@ -82,13 +78,13 @@ Statuses and star counts are as of November 2026. Stars measure attention, not q
 
 Other labs ship open-source CLIs too. Alibaba's Qwen Code, for example, was one of the three agents in the ETH Zurich `AGENTS.md` study ([module 07](./07-context-engineering.md)).
 
-**How to choose among them.** If you want one terminal agent that works with any model, start with OpenCode or Aider. If you live in VS Code and want approve-each-diff control, try Cline or Kilo Code. If you want a general desktop agent, try goose. If you want to run and compare several agents, try OpenHands or T3 Code. Whichever you pick, check its last release date and open-issue count first.
+For one terminal agent that works with any model, start with OpenCode or Aider. If you live in VS Code and want to approve each diff, try Cline or Kilo Code. goose is the general desktop agent, and OpenHands or T3 Code let you run and compare several agents. Whichever you pick, check its last release date and open-issue count first.
 
 ### Case study: OpenClaw and personal agents
 
 OpenClaw is an open-source personal assistant agent by Peter Steinberger. It runs on your own machine, connects to a model of your choice, and talks to you through messaging apps such as Signal, Telegram, Discord and WhatsApp. It can act on your email, calendar, files and accounts, and it extends itself with skills (folders with a `SKILL.md`, the same format as Agent Skills).
 
-Its naming history ([Wikipedia](https://en.wikipedia.org/wiki/OpenClaw)) is a story in itself:
+It changed names four times in about two months ([Wikipedia](https://en.wikipedia.org/wiki/OpenClaw)):
 
 | Date | Name |
 | --- | --- |
@@ -98,17 +94,17 @@ Its naming history ([Wikipedia](https://en.wikipedia.org/wiki/OpenClaw)) is a st
 | Jan 27, 2026 | Renamed **Moltbot** after trademark complaints from Anthropic |
 | Jan 30, 2026 | Renamed **OpenClaw** |
 
-It grew faster than almost any project before it, passing 247,000 GitHub stars by early March 2026. Moltbook, a social network for AI agents launched by Matt Schlicht, rode the same wave. On February 14, 2026, Steinberger announced he was joining OpenAI and that a non-profit OpenClaw Foundation would steward the project. OpenClaw 2.0 shipped on August 30, 2026.
+It grew faster than almost any project before it, passing 247,000 GitHub stars by early March 2026. Moltbook, a social network for AI agents launched by Matt Schlicht, rode the same wave. On February 14, 2026, Steinberger announced a move to OpenAI and said a non-profit OpenClaw Foundation would steward the project. OpenClaw 2.0 shipped on August 30, 2026.
 
-**What it showed about personal agents:**
+What it showed about personal agents:
 
-- **Demand is real.** People want an agent that lives where they already talk, keeps memory between sessions, and can act across their accounts. It is a different product from a coding agent.
-- **It is the lethal trifecta in one package.** A personal agent reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous ([module 11](./11-security-and-prompt-injection.md)).
-- **Defaults are security policy.** Security researchers reported tens of thousands of OpenClaw instances exposed to the internet in late January and early February 2026. The figures differ by researcher: Censys reported about 21,600 and Bitsight more than 30,000. Early versions bound the gateway to all network interfaces by default.
-- **A skill registry is a software supply chain.** Koi Security reported auditing 2,857 skills on the public ClawHub registry and flagging 341 as malicious, attributed to one campaign that delivered password-stealing malware to macOS and Windows users ([BleepingComputer](https://www.bleepingcomputer.com/news/security/malicious-moltbot-skills-used-to-push-password-stealing-malware/)). The maintainers responded with reporting tools, malware scanning, and minimum account ages for uploaders.
-- **Institutions noticed.** In March 2026 Chinese authorities reportedly restricted state agencies and state-owned firms from running OpenClaw on office computers. Reviewers of the 2.0 release still criticized it for not enabling its sandbox by default and not encrypting stored secrets.
+- People want an agent that lives where they already talk, keeps memory between sessions, and can act across their accounts. That's a different product from a coding agent.
+- A personal agent is the lethal trifecta in one package. It reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous ([module 11](./11-security-and-prompt-injection.md)).
+- Deployment configuration is security policy. Security researchers reported tens of thousands of OpenClaw instances exposed to the internet in late January and early February 2026. [Censys counted 21,639 on January 31](https://censys.com/blog/openclaw-in-the-wild-mapping-the-public-exposure-of-a-viral-ai-assistant/), while [Bitsight reported more than 30,000](https://www.bitsight.com/blog/openclaw-ai-security-risks-exposed-instances). Censys explicitly says the default listener was localhost, so the public exposure came from deployment choices, not an all-interfaces default.
+- A skill registry is a software supply chain. Koi Security reported auditing 2,857 skills on the public ClawHub registry and flagging 341 as malicious, most of them reportedly tied to one campaign that delivered password-stealing malware to macOS and Windows users ([BleepingComputer](https://www.bleepingcomputer.com/news/security/malicious-moltbot-skills-used-to-push-password-stealing-malware/)). The maintainers responded with reporting tools, malware scanning, and minimum account ages for uploaders.
+- Institutions noticed. In March 2026 Chinese authorities reportedly restricted state agencies and state-owned firms from running OpenClaw on office computers. Reviewers of the 2.0 release still criticized it for not enabling its sandbox by default and not encrypting stored secrets.
 
-The lesson for anyone building or running agents: an agent that can do everything on your behalf needs sandboxing, least-privilege credentials, vetted extensions, and confirmation before irreversible actions. Most early users had none of these.
+An agent that can do everything on your behalf needs sandboxing, least-privilege credentials, vetted extensions, and confirmation before irreversible actions. The exposure counts alone don't tell you how many users had those controls.
 
 ### Inference runtimes (running models yourself)
 
@@ -144,7 +140,7 @@ A **framework** gives you building blocks for agents: model clients, tool defini
 
 #### Framework or just a loop?
 
-Anthropic's [Building effective agents](https://www.anthropic.com/research/building-effective-agents) warns that frameworks "often create extra layers of abstraction that can obscure the underlying prompts," and suggests starting with direct API calls. Here is a complete agent loop with one tool, a permission check, a crude context limit and a turn budget, using the Anthropic Python SDK. Other providers' SDKs look very similar.
+Anthropic's [Building effective agents](https://www.anthropic.com/research/building-effective-agents) warns that frameworks "often create extra layers of abstraction that can obscure the underlying prompts," and suggests starting with direct API calls. Here's a minimal agent loop with one tool, a permission check, truncated tool output and a turn budget, using the Anthropic Python SDK. Other providers' SDKs look about the same.
 
 ```python
 import os, subprocess
@@ -183,51 +179,51 @@ for turn in range(30):  # a budget, so it can't run forever
     ]})
 ```
 
-Everything a harness adds (better tools, sandboxing, compaction, hooks, a UI) is an improvement on these 30 lines. Writing this once is the fastest way to understand [module 06](./06-harnesses-and-tools.md).
+This teaching example has no sandbox, total-context limit, or error recovery, and the shell tool runs whatever command you approve, so run it only in a disposable environment without real credentials. A production harness adds controls such as sandboxing, compaction, hooks, and recovery ([module 06](./06-harnesses-and-tools.md)).
 
-**Use a plain loop** when there is one agent, a handful of tools, and short sessions. **Use a framework or SDK** when you need state that survives restarts, tracing and observability in production, many tools or many agents, human approval steps in the middle of a workflow, or systematic prompt optimization (DSPy). **Use an existing harness** (Claude Agent SDK, Codex CLI in headless mode, OpenCode) when what you want is "a coding agent, but scripted."
+A plain loop is enough when there's one agent, a handful of tools, and short sessions. Move to a framework or SDK when you need state that survives restarts, tracing and observability in production, many tools or many agents, human approval steps in the middle of a workflow, or systematic prompt optimization (DSPy). If what you want is "a coding agent, but scripted," use an existing harness such as the Claude Agent SDK, Codex CLI in headless mode, or OpenCode.
 
 ### MCP servers worth knowing
 
-[Module 06](./06-harnesses-and-tools.md) explains MCP. A short list of servers worth knowing:
+[Module 06](./06-harnesses-and-tools.md) explains MCP; here are servers worth knowing:
 
-- **The reference servers** in [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers): Everything (a test server), Fetch, Filesystem, Git, Memory, Sequential Thinking and Time. Many earlier reference servers (GitHub, Slack, Postgres, Puppeteer and others) moved to an archive repository as vendors shipped official ones. The README calls the reference servers educational examples, "not production-ready solutions."
-- **[GitHub's official MCP server](https://github.com/github/github-mcp-server):** issues, pull requests, code search and Actions, runnable locally or as a hosted server.
-- **[Playwright MCP](https://github.com/microsoft/playwright-mcp)** (Microsoft): browser automation through the page's accessibility tree, so an agent can test the web app it just built.
-- **[Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp)** (Google): console logs, network requests and performance traces from a real Chrome instance.
-- **The [MCP Registry](https://registry.modelcontextprotocol.io):** the official catalog for finding published servers.
+- The reference servers in [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers): Everything (a test server), Fetch, Filesystem, Git, Memory, Sequential Thinking and Time. Many earlier reference servers (GitHub, Slack, Postgres, Puppeteer and others) moved to an archive repository as vendors shipped official ones. The README calls the reference servers educational examples, "not production-ready solutions."
+- [GitHub's official MCP server](https://github.com/github/github-mcp-server) covers issues, pull requests, code search and Actions, and runs locally or as a hosted server.
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp) (Microsoft) automates a browser through the page's accessibility tree, so an agent can test the web app it just built.
+- [Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp) (Google) gives an agent console logs, network requests and performance traces from a real Chrome instance.
+- The [MCP Registry](https://registry.modelcontextprotocol.io) is the official catalog for finding published servers.
 
-Prefer servers maintained by the vendor of the service. Read the tool descriptions before connecting a server, since they go straight into your agent's context. Give each server the narrowest credentials that work.
+Prefer servers maintained by the service's own vendor. Read a server's tool descriptions before you connect it, because they go straight into your agent's context, and give each server the narrowest credentials that work.
 
 ### Skill collections
 
-- **[anthropics/skills](https://github.com/anthropics/skills)** (about 190K stars): Anthropic's examples, including the document skills (Word, PDF, PowerPoint, Excel) behind Claude's file features, a skill template, and the specification. Install in Claude Code with `/plugin marketplace add anthropics/skills`. Check each skill's license.
-- **[obra/superpowers](https://github.com/obra/superpowers)** (Jesse Vincent): a popular community library of workflow skills such as test-driven development, planning and systematic debugging.
-- **The [Agent Skills specification](https://agentskills.io):** the open format, now governed by the Agentic AI Foundation, so a skill written for one harness works in others.
+- [anthropics/skills](https://github.com/anthropics/skills) (about 190K stars) holds Anthropic's examples, including the document skills (Word, PDF, PowerPoint, Excel) behind Claude's file features, a skill template, and the specification. Install it in Claude Code with `/plugin marketplace add anthropics/skills`, and check each skill's license.
+- [obra/superpowers](https://github.com/obra/superpowers) (Jesse Vincent) is a popular community library of workflow skills such as test-driven development, planning and systematic debugging.
+- The [Agent Skills specification](https://agentskills.io) is the open format, now governed by the Agentic AI Foundation, so a skill written for one harness works in others.
 
-A skill is instructions plus, often, scripts that your agent will run. The ClawHub incident above shows what happens when people install skills like browser bookmarks. Read a skill before you install it, and pin versions for team use.
+A skill is instructions, often with scripts your agent will run. The ClawHub incident shows what happens when people install skills like browser bookmarks. Read a skill before you install it, and pin versions for team use.
 
 ### Orchestration projects
 
-- **[Gas Town](https://github.com/steveyegge/gastown)** (Steve Yegge, January 2026, MIT): a workspace manager for running 20–30 coding agents at once. Its vocabulary is deliberately colorful. A **Mayor** agent takes your request and assigns work. **Polecats** are worker agents. **Rigs** wrap repositories. A **Witness** watches for stuck agents. A **Refinery** batches and verifies finished work before merging. Claude Code is the default runtime, and it supports Codex, Gemini, Cursor, Amp, OpenCode and others. Yegge's eight-stage ladder of AI coding workflows, from the same launch essay, is covered in [module 08](./08-agentic-workflows.md).
-- **[Beads](https://github.com/steveyegge/beads)** (Steve Yegge, MIT): a graph issue tracker for agents, backed by the version-controlled database Dolt. Agents create tasks, record dependencies, find unblocked work, claim it and close it. It replaces sprawling markdown plan files with structured memory that many agents can share, and Gas Town depends on it.
-- **[OpenHands Agent Canvas](https://github.com/OpenHands/OpenHands)** and **[T3 Code](https://github.com/pingdotgg/t3code)** sit one level down: GUIs for running and supervising several agents, without Gas Town's autonomous coordination.
+- [Gas Town](https://github.com/steveyegge/gastown) (Steve Yegge, January 2026, MIT) is a workspace manager for running 20–30 coding agents at once, with a deliberately colorful vocabulary. A Mayor agent takes your request and assigns work. Polecats are worker agents, Rigs wrap repositories, and a Witness watches for stuck agents. A Refinery batches and verifies finished work before merging. Claude Code is the default runtime, and Gas Town also supports Codex, Gemini, Cursor, Amp, OpenCode and others. Yegge's eight-stage ladder of AI coding workflows, from the same launch essay, is in [module 08](./08-agentic-workflows.md).
+- [Beads](https://github.com/steveyegge/beads) (Steve Yegge, MIT) is a graph issue tracker for agents, backed by the version-controlled database Dolt. Agents create tasks, record dependencies, find unblocked work, claim it and close it. It replaces sprawling markdown plan files with structured memory that many agents can share, and Gas Town depends on it.
+- [OpenHands Agent Canvas](https://github.com/OpenHands/OpenHands) and [T3 Code](https://github.com/pingdotgg/t3code) sit one level down. They're GUIs for running and supervising several agents, without Gas Town's autonomous coordination.
 
 ### Evaluation tooling
 
-[Module 05](./05-judging-models.md) explains benchmarks and how to build your own evals. Open tools for doing it:
+[Module 05](./05-judging-models.md) explains benchmarks and how to build your own evals. These open tools run them:
 
-- **[SWE-bench](https://github.com/SWE-bench/SWE-bench) harness** ([Jimenez et al., 2023](https://arxiv.org/abs/2310.06770)): runs an agent's patch against a real repository's tests in Docker. Use it to reproduce published numbers or to test your own harness changes.
-- **[Inspect](https://github.com/UKGovernmentBEIS/inspect_ai)** (UK AI Security Institute, MIT): a Python framework for evaluations including tool use, multi-turn dialogue and model-graded scoring, with more than 200 ready-made evaluations.
-- **[promptfoo](https://github.com/promptfoo/promptfoo):** a CLI for testing prompts and models against test cases and for red-teaming. OpenAI announced it would acquire Promptfoo on March 9, 2026, and said the open-source project would continue.
+- The [SWE-bench](https://github.com/SWE-bench/SWE-bench) harness ([Jimenez et al., 2023](https://arxiv.org/abs/2310.06770)) runs an agent's patch against a real repository's tests in Docker. Use it to reproduce published numbers or to test changes to your own harness.
+- [Inspect](https://github.com/UKGovernmentBEIS/inspect_ai) (UK AI Security Institute, MIT) is a Python framework for evaluations including tool use, multi-turn dialogue and model-graded scoring, with more than 200 ready-made evaluations.
+- [promptfoo](https://github.com/promptfoo/promptfoo) is a CLI for testing prompts and models against test cases and for red-teaming. OpenAI announced it would acquire Promptfoo on March 9, 2026, and said the open-source project would continue.
 
 ### The other side: AI slop and maintainer burden
 
 Open source runs on volunteer review time. AI tools made it nearly free to produce a plausible-looking pull request or bug report, and the cost moved to maintainers, who must read every one.
 
-**curl.** Daniel Stenberg, curl's founder and lead developer, had complained about AI-generated security reports since early 2024. On January 26, 2026 he [announced the end of curl's bug bounty](https://daniel.haxx.se/blog/2026/01/26/the-end-of-the-curl-bug-bounty/), effective January 31. Over its life the program had confirmed 87 vulnerabilities and paid more than $100,000. But the share of reports that turned out to be real fell from above 15% in earlier years to below 5% from 2025 on: "Not even one in twenty was real." His reasoning was that the money drew in low-effort submissions, and that "the never-ending slop submissions take a serious mental toll to manage." curl now takes reports through GitHub's private vulnerability reporting and email, with no payouts. The problem wasn't AI as such. It was reports nobody had checked.
+Daniel Stenberg, curl's founder and lead developer, had complained about AI-generated security reports since early 2024. In January 2026, Stenberg announced the end of curl's bug bounty, effective January 31, and [explained why on his blog](https://daniel.haxx.se/blog/2026/01/26/the-end-of-the-curl-bug-bounty/) on January 26. Over its life the program had confirmed 87 vulnerabilities and paid more than $100,000. But the share of reports that turned out to be real fell from above 15% in earlier years to below 5% from 2025 on: "Not even one in twenty was real." The money, Stenberg argued, drew in low-effort submissions, and "the never-ending slop submissions take a serious mental toll to manage." curl now takes reports through GitHub's private vulnerability reporting and email, with no payouts. The problem was reports nobody had checked, not AI as such.
 
-**How projects responded.** Policies fall on a spectrum:
+Project policies fall on a spectrum:
 
 | Project | Policy | Key rules |
 | --- | --- | --- |
@@ -237,59 +233,59 @@ Open source runs on volunteer review time. AI tools made it nearly free to produ
 | **Linux kernel** | [Human accountability](https://docs.kernel.org/process/coding-assistants.html) | "AI agents MUST NOT add Signed-off-by tags." Only a human can certify the Developer Certificate of Origin, and the human submitter takes full responsibility |
 | **Ghostty** | [Disclose and understand](https://github.com/ghostty-org/ghostty/blob/main/AI_POLICY.md) | "All AI usage in any form must be disclosed." You must fully understand your code. No AI-generated media. First-time contributors need a maintainer to "vouch" for them, or their PRs are closed automatically. "Bad AI drivers will be denounced" on a public list |
 
-The trend through 2026 has been away from blanket bans and toward **disclosure, accountability and protecting maintainer time**. The common thread: a human must understand, stand behind, and be able to discuss every line they submit.
+Through 2026 the trend has been away from blanket bans and toward disclosure, accountability and protecting maintainer time. In all of them, a human must understand, stand behind, and be able to discuss every line they submit.
 
 ### Etiquette for contributing with AI
 
 Before you open a pull request or issue on someone else's project:
 
-1. **Read the project's `CONTRIBUTING.md` and AI policy.** If they ban AI-generated contributions, don't submit them. If they require disclosure, disclose.
-2. **Understand every line.** If you can't explain the change and its edge cases without the AI open, you aren't ready to submit it.
-3. **Reproduce the problem yourself.** For bug and security reports especially, show a real reproduction on a real build. Don't forward a model's speculation.
-4. **Keep it small and focused.** One logical change per PR. Don't let an agent "also clean up" unrelated files.
-5. **Run the project's tests and linters locally.** Never make maintainers' CI find what you could have found.
-6. **Write the description and review replies yourself.** Explain what you changed, why, and what you didn't verify. Maintainers want to talk to you, not your agent.
-7. **Disclose AI assistance,** even where it isn't required. Name the tool and say roughly how it was used.
-8. **Respect the maintainers' time.** If a maintainer says no, accept it. Don't open the same PR again with a new prompt.
-9. **Never let an agent post autonomously** to an issue tracker, pull request or mailing list on your behalf.
+1. Read the project's `CONTRIBUTING.md` and AI policy. If they ban AI-generated contributions, don't submit them. If they require disclosure, disclose.
+2. Understand every line. If you can't explain the change and its edge cases without the AI open, you aren't ready to submit it.
+3. Reproduce the problem yourself. For bug and security reports especially, show a real reproduction on a real build. Don't forward a model's speculation.
+4. Keep it small and focused, with one logical change per PR. Don't let an agent "also clean up" unrelated files.
+5. Run the project's tests and linters locally. Never make the maintainers' CI find what you could have found.
+6. Write the description and review replies yourself. Explain what you changed, why, and what you didn't verify. Maintainers want to talk to you, not your agent.
+7. Disclose AI assistance even where it isn't required. Name the tool and say roughly how you used it.
+8. Respect the maintainers' time. If a maintainer says no, accept it, and don't open the same PR again with a new prompt.
+9. Never let an agent post autonomously to an issue tracker, pull request or mailing list on your behalf.
 
 ### How students can contribute to open source with AI, responsibly
 
-Contributing to open source is one of the best ways for a student to learn real engineering. AI can make it easier, if you use it to learn, not to skip the learning.
+Contributing to open source is one of the best ways for a student to learn real engineering. AI can make it easier if you use it to learn, not to skip the learning.
 
-1. **Pick a project you use.** You'll understand its users and you'll care about the result.
-2. **Read the contributing guide and AI policy first.** Note what's banned, what must be disclosed, and how to claim an issue.
-3. **Use AI to understand, not to submit.** Ask an agent to explain the architecture, trace a request through the code, or explain why a test is failing. This is the highest-value, lowest-risk use.
-4. **Choose an issue and say you're working on it** before you write code. Some projects, LLVM for example, ask that newcomer "good first issues" be done without AI, because they exist to teach.
-5. **Reproduce the bug by hand.** Write a failing test before you fix anything.
-6. **Write or heavily revise the fix yourself.** If an agent drafts it, rework it until you could have written it, then delete what you can't defend.
-7. **Get a second opinion before the maintainers' opinion.** Ask a different model, or a classmate, to review your diff ([module 10](./10-ai-code-review.md)).
-8. **Write the PR description in your own words,** and disclose how you used AI.
-9. **Handle review feedback yourself.** Answer questions from your own understanding. If you don't know, say so and go find out.
-10. **Keep a log** of what you learned. For a course, that log, not the merged PR, is the evidence of learning ([module 15](./15-learning-careers-and-responsibility.md)).
+1. Pick a project you use. You'll understand its users, and you'll care about the result.
+2. Read the contributing guide and AI policy first. Note what's banned, what must be disclosed, and how to claim an issue.
+3. Use AI to understand the code, not to submit it. Ask an agent to explain the architecture, trace a request through the code, or explain why a test is failing. This is the highest-value, lowest-risk use.
+4. Choose an issue and say you're working on it before you write code. Some projects, LLVM for example, ask that newcomer "good first issues" be done without AI, because they exist to teach.
+5. Reproduce the bug by hand, and write a failing test before you fix anything.
+6. Write or heavily revise the fix yourself. If an agent drafts it, rework it until you could have written it, then delete what you can't defend.
+7. Get a second opinion before the maintainers' opinion. Ask a different model or a classmate to review your diff ([module 10](./10-ai-code-review.md)).
+8. Write the PR description in your own words, and disclose how you used AI.
+9. Handle review feedback yourself. Answer questions from your own understanding, and if you don't know, say so and go find out.
+10. Keep a log of what you learned. For a course, that log, not the merged PR, is the evidence of learning ([module 15](./15-learning-careers-and-responsibility.md)).
 
 ## Going deeper
 
 ### Open source as the field's R&D lab
 
-Many harness ideas that are now standard appeared first in open projects or public experiments. Aider's repository map (a compact summary of a codebase's symbols) showed that agents need a map rather than whole files. The Ralph loop showed that a dumb outer loop with fresh contexts can get surprising mileage. Beads and Gas Town pushed git-backed, structured memory for many agents. The skills format began in Anthropic's public repository and, within a year, was adopted by a growing list of other agent products ([client showcase](https://agentskills.io/clients)). Vendors watch these projects closely, and good ideas move into commercial products within months ([module 06](./06-harnesses-and-tools.md)).
+Many harness ideas that are now standard appeared first in open projects or public experiments. Aider's repository map (a compact summary of a codebase's symbols) showed that agents need a map rather than whole files. The Ralph loop showed how far a dumb outer loop with fresh contexts can go. Beads and Gas Town pushed git-backed, structured memory for many agents. The skills format began in Anthropic's public repository, and within a year a growing list of other agent products had adopted it ([client showcase](https://agentskills.io/clients)). Vendors watch these projects closely, and good ideas show up in commercial products within months ([module 06](./06-harnesses-and-tools.md)).
 
 ### Churn and capture
 
 2026 was hard on open-source AI tooling:
 
-- **Roo Code** shut down its extension, cloud and router on May 15, 2026 and pivoted to a hosted product.
-- **Continue** was archived.
-- **Gemini CLI** stayed open source but stopped serving individual users, who moved to Google's Antigravity CLI.
-- **AutoGen** was archived in favor of Microsoft Agent Framework.
-- **Promptfoo** was bought by OpenAI, which said it would keep the project open.
-- **OpenClaw's** creator joined OpenAI, and the project moved to a foundation.
+- Roo Code shut down its extension, cloud and router on May 15, 2026 and pivoted to a hosted product.
+- Continue was archived.
+- Gemini CLI stayed open source but stopped serving individual users, who moved to Google's Antigravity CLI.
+- AutoGen was archived in favor of Microsoft Agent Framework.
+- Promptfoo was bought by OpenAI, which said it would keep the project open.
+- OpenClaw's creator joined OpenAI, and the project moved to a foundation.
 
-The pattern is familiar from earlier open-source eras. Venture-funded companies build open tools to win adoption, then pivot, sell or shut down. Being open source means you can fork an abandoned project. It doesn't mean anyone will maintain the fork. Neutral foundations such as the Agentic AI Foundation, which now hosts MCP, AGENTS.md, goose and Agent Skills, are one response. When you choose a tool, weigh its governance (one company, or a foundation with several members) as well as its features.
+The pattern is familiar from earlier open-source eras. Venture-funded companies build open tools to win adoption, then pivot, sell or shut down. Open source means you can fork an abandoned project, but it doesn't mean anyone will maintain the fork. Neutral foundations such as the Agentic AI Foundation, which now hosts MCP, AGENTS.md, goose and Agent Skills, are one response. When you choose a tool, weigh its governance (one company, or a foundation with several members) as well as its features.
 
 ### Open client, closed model
 
-Several of the most-starred harnesses are open-source clients for closed models, such as Codex CLI and Gemini CLI. (Claude Code itself is not open source, although its SDK wrappers are published on GitHub.) With an open client you can read every prompt and tool, but the model remains a remote service with its own terms, rate limits and data policies. That still has real value: you can audit what's sent, fork the client, and swap in a different model where the harness allows it. It is not the same as a fully open stack. If you need one, combine a model-agnostic harness, an open-weight model and a local runtime ([module 04](./04-open-vs-closed-weights.md)).
+Several of the most-starred harnesses, such as Codex CLI and Gemini CLI, are open-source clients for closed models. Claude Code itself isn't open source, although its SDK wrappers are published on GitHub. With an open client you can read every prompt and tool, but the model is still a remote service with its own terms, rate limits and data policies. That's still worth a lot. You can audit what's sent, fork the client, and swap in a different model where the harness allows it. It just isn't a fully open stack. For that, combine a model-agnostic harness, an open-weight model and a local runtime ([module 04](./04-open-vs-closed-weights.md)).
 
 ### Extensions are dependencies
 
@@ -309,7 +305,7 @@ MCP servers, skills and plugins run with your agent's permissions. Treat them li
 3. Write a half-page comparison of your loop and the real harness.
 
 **Class or team exercise: the maintainer's chair (one session).**
-The instructor prepares ten pull requests against a small project the class knows. Some are careful human work, some are careful AI-assisted work with disclosure, and some are unreviewed AI output. Students act as maintainers. Time how long each review takes, decide accept, revise or reject, and guess which were unreviewed AI output. Then discuss: what made a PR cheap or expensive to review? Draft an AI-contribution policy for the project, and compare it with LLVM's and Ghostty's.
+The instructor prepares ten pull requests against a small project the class knows. Some are careful human work, some are careful AI-assisted work with disclosure, and some are unreviewed AI output. Students act as maintainers: they time each review, decide accept, revise or reject, and guess which PRs were unreviewed AI output. Then discuss: what made a PR cheap or expensive to review? Draft an AI-contribution policy for the project, and compare it with LLVM's and Ghostty's.
 
 ## Discussion questions
 

@@ -2,11 +2,11 @@
 
 # A Brief Introduction to Not Writing Code
 
-**A knowledge base and short course on AI-accelerated software engineering.** It goes from "what is a language model?" to running several coding agents in parallel and having them review each other's work, while you stay the one accountable for what ships.
+A knowledge base and short course on AI-accelerated software engineering. It goes from "what is a language model?" to running several coding agents in parallel and having them review each other's work, while you stay the one accountable for what ships.
 
-The title is a joke with a point. You'll write a lot less code by hand, and do a lot more engineering. "Vibe coding" originally meant prompting an AI and never reading the code. This material uses the popular name and teaches the disciplined version: AI does most of the typing; humans decide, verify, and own the result. See [what we mean by vibe coding](modules/00-orientation.md#what-we-mean-by-vibe-coding).
+The title is a joke with a point. You'll write a lot less code by hand, so the engineering matters more. "Vibe coding" originally meant prompting an AI and never reading the code. This material uses the popular name for [the disciplined version](modules/00-orientation.md#what-we-mean-by-vibe-coding), where AI does most of the typing and humans decide, verify, and own the result.
 
-> **Status:** first full draft, November 2026. Facts are dated in each module's header. The field moves monthly, so check the **Last verified** date before you rely on a specific model name or price.
+This is the first full draft (November 2026). Facts are dated in each module's header. The field moves monthly, so check the Last checked date before you rely on a specific model name or price.
 
 ## Start here
 
@@ -20,7 +20,7 @@ Everyone should read [00: Orientation](modules/00-orientation.md) first. It's 20
 
 ## The modules
 
-Every module has the same layers: **Foundations** (no background assumed), **In practice** (what working engineers do), **Going deeper** (research and open debates), plus hands-on exercises and discussion questions. Read the layers that fit you.
+Every module has the same layers: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates), plus hands-on exercises and discussion questions. Read the layers that fit you.
 
 | # | Module | What you'll learn |
 | --- | --- | --- |
@@ -43,19 +43,19 @@ Every module has the same layers: **Foundations** (no background assumed), **In 
 
 ## Also in this repo
 
-- **[Course](course/)**: a 15-week course proposal with a [syllabus](course/syllabus.md), an [instructor guide](course/instructor-guide.md), and eight labs.
-- **[Workplace](workplace/)**: an [AI-first rollout playbook](workplace/ai-first-playbook.md), [honest answers to common objections](workplace/objections.md), a ready-to-run [internal session series](workplace/session-series.md), and a [team policy template](workplace/policy-template.md).
-- **[Reference](reference/)**: a [glossary](reference/glossary.md) of 300+ terms, an annotated [reading list](reference/papers.md) of 180+ research papers (start with the short list of eighteen), and a dated [timeline](reference/timeline.md) from 2017 to now.
+- A 15-week [course](course/) proposal with a [syllabus](course/syllabus.md), an [instructor guide](course/instructor-guide.md), and eight labs.
+- [Workplace](workplace/) material with an [AI-first rollout playbook](workplace/ai-first-playbook.md), [honest answers to common objections](workplace/objections.md), a ready-to-run [internal session series](workplace/session-series.md), and a [team policy template](workplace/policy-template.md).
+- [Reference](reference/) pages with a [glossary](reference/glossary.md) of 300+ terms, an annotated [reading list](reference/papers.md) of 180+ research papers (start with the short list of eighteen), and a dated [timeline](reference/timeline.md) from 2017 to now.
 
 ## Conventions
 
-- **Bryan's take** callouts are the author's opinions from daily use, clearly labelled. Everything else should be sourced. When credible people disagree, the module says so.
-- **Last verified** dates appear at the top of each module. Specific model names, prices, and benchmark numbers are kept mostly in [module 03](modules/03-model-landscape.md), [module 12](modules/12-costs-subscriptions-and-apis.md), and the [timeline](reference/timeline.md) so they're easy to refresh.
+- Bryan's take callouts are the author's opinions from daily use, clearly labelled. Everything else should be sourced. When credible people disagree, the module says so.
+- Each module has a Last checked date at the top. Specific model names, prices, and benchmark numbers are kept mostly in [module 03](modules/03-model-landscape.md), [module 12](modules/12-costs-subscriptions-and-apis.md), and the [timeline](reference/timeline.md) so they're easy to refresh.
 - Papers are linked wherever a claim rests on research.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the module template, voice, and sourcing rules. Found something wrong or stale? That's a bug; please open an issue or a pull request with a source.
+[CONTRIBUTING.md](CONTRIBUTING.md) has the module template, voice, and sourcing rules. Anything wrong or stale is a bug, so please open an issue or a pull request with a source.
 
 ## License
 

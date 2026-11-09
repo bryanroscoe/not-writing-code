@@ -1,39 +1,38 @@
 # 03: The model landscape
 
-> **Audience:** everyone · **Reading time:** ~35 min · **Last verified:** 2026-11-08
-> **Depth guide:** Students: Foundations, then skim the lineup tables and read "How to pick a model next month." Engineers: In practice. Leads: "Different places in the chain," "Best model for the job," and the checklist.
+*About a 35-minute read. Last checked November 8, 2026.*
 
 **TL;DR**
-- A handful of labs train frontier models: Anthropic, OpenAI and Google DeepMind lead, xAI and Meta follow, and Chinese labs (DeepSeek, Moonshot, Alibaba Qwen, Zhipu/Z.ai, MiniMax) lead open-weight models.
-- Every lab sells a **tier ladder**: a top model, a workhorse, and a fast, cheap model. Names change often. The ladder doesn't. Learn to read the ladder and the names will make sense.
-- As of November 2026, Anthropic's current models are **Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5**, with **Fable 5.1** as a tier above Opus. OpenAI's are **GPT-6 Astra** (top) and **GPT-6.1 Sol** (workhorse). Google shipped **Gemini 4 Argon** in October after cancelling Gemini 3.5 Pro, then announced the stronger **Gemini 4 Carbon** (October 28), which so far only vetted cyber defenders can use. The best open-weight models (Kimi K3.1 Pro, GLM-5.3, DeepSeek V4, Qwen3.8) trail the closed frontier by roughly six months to a year.
-- Meta's **Muse** family (from Meta Superintelligence Labs, April 2026 onward) is mostly closed. Two members have open weights: Muse Glimmer 30B and the 816B-parameter Muse Spark Open.
-- Benchmarks and daily use often disagree. Opus 5 (July 2026) topped leaderboards, and its communication style was one of the most common complaints. Pick models with your own tasks, not launch charts.
+- A handful of labs train frontier models. Anthropic, OpenAI and Google DeepMind lead, xAI and Meta follow, and Chinese labs (DeepSeek, Moonshot, Alibaba Qwen, Zhipu/Z.ai, MiniMax) lead open-weight models.
+- Many labs offer a **tier ladder** with a top model, a workhorse, and a fast, cheap model. The names change often but the ladder doesn't, so learn to read the ladder.
+- As of November 2026, Anthropic's current models are Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5, with Fable 5.1 as a tier above Opus. OpenAI's are GPT-6 Astra (top) and GPT-6.1 Sol (workhorse). Google shipped Gemini 4 Argon in October after cancelling Gemini 3.5 Pro, then announced the stronger Gemini 4 Carbon (October 28), which so far only vetted cyber defenders can use. Measured open–closed gaps vary by task, and the estimates below aren't a universal ranking of today's models.
+- Meta's Muse family (from Meta Superintelligence Labs, April 2026 onward) is mostly closed. Two members have open weights, Muse Glimmer 30B and the 816B-parameter Muse Spark Open.
+- Benchmarks and daily use often disagree. Opus 5 (July 2026) topped leaderboards, and its communication style was one of the most common complaints. Pick models by testing your own tasks, not by launch charts.
 - Everything in the tables below will be stale within months. The checklist at the end is built to outlast it.
 
 ## Foundations
 
 ### What a "lab" is, and why there are so few at the top
 
-A **frontier lab** is an organization that trains its own large models from scratch at the edge of what's possible. Training a frontier model takes tens of thousands of GPUs, a large dataset, and months of work after the main training run (see [module 02](02-training-and-tuning.md)). Only a few organizations can pay for that, so only a few sit at the frontier.
+A **frontier lab** is an organization that trains its own large models from scratch at the edge of what's possible. Training a frontier model takes tens of thousands of GPUs, a large dataset, and months of work after the main training run ([module 02](02-training-and-tuning.md)). Only a few organizations can pay for that, so only a few sit at the frontier.
 
 A **model** is the trained network. A **product** is what you use: ChatGPT, the Claude apps, Gemini, Claude Code, Codex. One model can power many products, and one product can switch models under you. When someone says "ChatGPT got worse," they could mean the model, the product's system prompt, the router that picks a model for you, or the harness around it. [Module 06](06-harnesses-and-tools.md) covers harnesses.
 
 Labs release models in two ways:
 
-- **Closed weight (API-only):** you send text to the lab's servers and get text back. You never see the model's parameters. Anthropic's Claude, OpenAI's GPT-6 family, Google's Gemini and xAI's Grok work this way.
-- **Open weight:** the lab publishes the parameters so anyone can download and run the model. DeepSeek, Moonshot (Kimi), Qwen, Z.ai (GLM) and Mistral work this way, as do OpenAI's gpt-oss, Google's Gemma and a few of Meta's Muse models.
+- With **closed-weight** (API-only) models, you send text to the lab's servers and get text back. You never see the model's parameters. Anthropic's Claude, OpenAI's GPT-6 family, Google's Gemini and xAI's Grok work this way.
+- With **open-weight** models, the lab publishes the parameters so anyone can download and run the model. DeepSeek, Moonshot (Kimi), Qwen, Z.ai (GLM) and Mistral work this way, as do OpenAI's gpt-oss, Google's Gemma and a few of Meta's Muse models.
 
-[Module 04](04-open-vs-closed-weights.md) goes deep on the difference. For now, remember that "open" models usually come from different labs than the very top closed ones, and they arrive some months behind.
+[Module 04](04-open-vs-closed-weights.md) goes deep on the difference. For now, know that "open" models usually come from different labs than the very top closed ones, and they arrive some months behind.
 
 ### How to read model names and tiers
 
-Model names look like noise. They follow a pattern. A full name usually has five parts:
+A model name packs several separate things together:
 
 | Part | Example | What it tells you |
 | --- | --- | --- |
 | **Family** | Claude, GPT, Gemini, Grok, Kimi, Qwen | Which lab, which product line |
-| **Generation** | 5, 5.5, 6, 6.1, 4 | Roughly when it was trained. Bigger usually means newer. |
+| **Generation** | 5, 5.5, 6, 6.1, 4 | Release generation. A higher number usually means a newer release, not a disclosed training date. |
 | **Tier** | Haiku / Sonnet / Opus; Luna / Terra / Sol / Astra; Flash-Lite / Flash / Pro | Size, price and speed within that generation |
 | **Variant** | Pro, Code, Flash, Cyber, Open, -Instruct, -Thinking | A specialization or a different serving mode |
 | **Snapshot / ID** | `claude-opus-5-5`, `gpt-6.1-sol`, `gemini-4-argon` | The exact string you put in an API call |
@@ -42,28 +41,27 @@ The **tier** matters most. Almost every lab offers three or four of them:
 
 | Tier | What it is for | Typical list price per million tokens (input / output), Nov 2026 |
 | --- | --- | --- |
-| **Top / flagship** | Hardest reasoning, long autonomous work | $4–$10 / $20–$50 |
+| **Top / flagship** | Hardest reasoning, long autonomous work | $2–$10 / $6–$50 (most at $4–$10 / $20–$50) |
 | **Workhorse** | Most coding and knowledge work | $1–$2 / $5–$10 |
 | **Fast / cheap** | Bulk processing, classification, sub-agents | $0.10–$0.30 / $0.50–$2.50 |
 
 Two more settings change what you get from the same model:
 
-- **Reasoning effort.** Most current models let you choose how long the model thinks before it answers (`low` to `max`). Higher effort costs more tokens and time. It often helps on hard problems and wastes money on easy ones.
-- **Fast or priority modes.** Some labs charge more for faster output from the same model. Anthropic's Opus 5.5 fast mode costs twice the standard rate ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)).
+- Most current models let you set **reasoning effort**, how long the model thinks before it answers (`low` to `max`). Higher effort costs more tokens and time. It often helps on hard problems and wastes money on easy ones.
+- Some labs charge more for faster output from the same model. Anthropic's Opus 5.5 fast mode costs twice the standard rate ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)).
 
-> [!TIP]
-> A newer, cheaper tier often beats an older, more expensive one. On Anthropic's own published numbers, Sonnet 5.5 scores 70.6% on Terminal-Bench 4.0 against 66.4% for Opus 5.5, at half the price ([Anthropic](https://www.anthropic.com/news/claude-sonnet-5-5)). Opus 5.5 in turn beats the pricier Fable 5.1 on several benchmarks ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Don't assume the most expensive model is the best one for your job.
+A cheaper tier can beat a pricier one. On Anthropic's own published numbers, Sonnet 5.5 scores 70.6% on Terminal-Bench 4.0 against 66.4% for Opus 5.5, at half the price ([Anthropic](https://www.anthropic.com/news/claude-sonnet-5-5)). Opus 5.5 in turn beats the pricier Fable 5.1 on several benchmarks ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Don't assume the most expensive model is the best one for your job.
 
 ### Anthropic's names, explained for newcomers
 
-Anthropic names its tiers after poetic forms, smallest to largest:
+Anthropic's tier names, from smallest to largest:
 
-1. **Haiku**: small, fast, cheap.
-2. **Sonnet**: the middle tier.
-3. **Opus**: the large tier.
-4. **Mythos-class** (new in 2026): a tier *above* Opus. Anthropic's footnote says "Mythos-class models are a tier of Claude models that sit above our Opus class in capability" ([Anthropic](https://www.anthropic.com/news/claude-fable-5-mythos-5)).
+1. Haiku: small, fast, cheap.
+2. Sonnet: the middle tier.
+3. Opus: the large tier.
+4. Mythos-class (new in 2026): a tier *above* Opus. Anthropic's footnote says "Mythos-class models are a tier of Claude models that sit above our Opus class in capability" ([Anthropic](https://www.anthropic.com/news/claude-fable-5-mythos-5)).
 
-The Mythos class comes in two versions of the **same underlying model**:
+The Mythos class comes in two versions of the same underlying model:
 
 - **Claude Fable** is the general release. It has safety classifiers for cybersecurity, biology and chemistry, and distillation. Flagged requests are handed to an Opus model instead, and users are told when this happens. The name comes from Latin *fabula*, a counterpart to Greek *mythos*.
 - **Claude Mythos** has some safeguards lifted. Only vetted organizations get it, through Project Glasswing (cyber defenders, from April 2026) and verification programs for security and life-sciences researchers ([Anthropic](https://www.anthropic.com/glasswing); [Anthropic](https://www.anthropic.com/claude-fable-and-mythos-5-1)).
@@ -74,16 +72,16 @@ Version numbers are shared across tiers but don't move in lockstep. In 2026 Anth
 
 OpenAI moved from numbers plus suffixes (GPT-5, GPT-5-mini, GPT-5-Codex) to named tiers in July 2026. GPT-5.6 introduced **Sol**, **Terra** and **Luna** ([OpenAI changelog](https://developers.openai.com/api/docs/changelog)). GPT-6 then added **Astra** on top. From largest to smallest:
 
-- **Astra**: top tier (GPT-6 Astra, September 3, 2026).
-- **Sol**: the workhorse, available in ChatGPT and Codex on paid plans.
-- **Terra**: a cheaper mid-tier aimed at computer use and everyday work.
-- **Luna**: small and cheap.
+- Astra: top tier (GPT-6 Astra, September 3, 2026).
+- Sol: the workhorse, available in ChatGPT and Codex on paid plans.
+- Terra: a cheaper mid-tier aimed at computer use and everyday work.
+- Luna: small and cheap.
 
 Point releases (GPT-6.1 Sol, GPT-6.1 Terra) update one tier at a time. "Pro" variants (such as GPT-5.5 Pro) spend more compute per answer, usually at a higher price.
 
 ### Google's names, explained
 
-Google uses **Pro** (large), **Flash** (workhorse) and **Flash-Lite** (cheap). Flash moves fast: 3.5 Flash in May 2026, 3.6 in July, 3.7 in August, 3.8 in September. The Pro line stalled. Google promised Gemini 3.5 Pro for June 2026, then dropped it. Gemini 4's first model got a codename-style name instead of a tier: **Gemini 4 Argon** ([Reuters via Khaleej Times](https://www.khaleejtimes.com/business/google-announces-gemini-4-flagship-ai-model-after-months-of-delays-2); [Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/)).
+Google uses **Pro** (large), **Flash** (workhorse) and **Flash-Lite** (cheap). Flash moves fast, with 3.5 Flash in May 2026, 3.6 in July, 3.7 in August and 3.8 in September. The Pro line stalled. Google promised Gemini 3.5 Pro for June 2026, then dropped it. Gemini 4's first model got a codename-style name instead of a tier name, Gemini 4 Argon ([Reuters via Khaleej Times](https://www.khaleejtimes.com/business/google-announces-gemini-4-flagship-ai-model-after-months-of-delays-2); [Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/)).
 
 ### The durable lesson
 
@@ -117,12 +115,12 @@ You don't need to memorize names. When a new model appears, ask:
 
 Others worth one line each:
 
-- **Microsoft AI (MAI):** in-house models such as MAI-1-preview (August 2025). Microsoft mostly resells OpenAI and Anthropic models through Foundry ([Microsoft AI](https://microsoft.ai/news/two-new-in-house-models/)).
-- **Amazon Nova:** AWS's own models (Nova 2, December 2025), mainly used inside Bedrock ([AWS](https://aws.amazon.com/nova/)).
-- **Cohere:** enterprise-focused Command models (Command A+, May 2026) ([Cohere](https://cohere.com/command)).
-- **AI2 (Allen Institute):** OLMo, a "fully open" family that publishes training data and code, not just weights ([AI2](https://allenai.org/olmo)).
-- **NVIDIA Nemotron:** open models tuned for NVIDIA hardware, up to the 550B-parameter Nemotron 3 Ultra (June 2026) ([NVIDIA](https://developer.nvidia.com/nemotron)).
-- **Thinking Machines Lab** and **Reflection AI:** new US labs that released large open-weight models in 2026 (Inkling, July; Beam 1.0, October). See the open-weight section below.
+- Microsoft AI (MAI) has in-house models such as MAI-1-preview (August 2025), though Microsoft mostly resells OpenAI and Anthropic models through Foundry ([Microsoft AI](https://microsoft.ai/news/two-new-in-house-models/)).
+- Amazon Nova is AWS's own model line (Nova 2, December 2025), mainly used inside Bedrock ([AWS](https://aws.amazon.com/nova/)).
+- Cohere makes enterprise-focused Command models (Command A+, May 2026) ([Cohere](https://cohere.com/command)).
+- AI2 (Allen Institute) makes OLMo, a "fully open" family that publishes training data and code, not just weights ([AI2](https://allenai.org/olmo)).
+- NVIDIA's open Nemotron models are tuned for NVIDIA hardware, up to the 550B-parameter Nemotron 3 Ultra (June 2026) ([NVIDIA](https://developer.nvidia.com/nemotron)).
+- Thinking Machines Lab and Reflection AI are new US labs that released large open-weight models in 2026 (Inkling, July; Beam 1.0, October).
 
 ### Current lineups (as of November 2026)
 
@@ -138,7 +136,7 @@ Prices are list prices per million tokens (input / output) for standard API use.
 | Claude Sonnet 5.5 | `claude-sonnet-5-5` | Sep 28, 2026 | Sonnet | 1M | $2 / $10 |
 | Claude Haiku 5.5 | `claude-haiku-5-5` | Oct 7, 2026 | Haiku | 1M | $0.10 / $0.50 (prompts ≤100K tokens; $0.50 / $2.50 above) |
 
-Still served: Fable 5 (June 9), Opus 5 (July 24), Opus 4.8 (May 28), Opus 4.7 (April 16), Opus 4.6, Sonnet 5 (June 30), Sonnet 4.6 and Haiku 4.5. Opus 5.5 can't turn thinking off. Its default effort is `medium`, one step below Opus 5's default. Fable models require 30-day data retention, so zero-data-retention customers can't use them without special authorization. Opus 5.5 is available with zero data retention.
+Anthropic still serves Fable 5 (June 9), Opus 5 (July 24), Opus 4.8 (May 28), Opus 4.7 (April 16), Opus 4.6, Sonnet 5 (June 30), Sonnet 4.6 and Haiku 4.5. Opus 5.5 can't turn thinking off. Its default effort is `medium`, one step below Opus 5's default. Fable models require 30-day data retention, so zero-data-retention customers can't use them without special authorization. Opus 5.5 is available with zero data retention.
 
 Sources: [Opus 5.5](https://www.anthropic.com/news/claude-opus-5-5), [Sonnet 5.5](https://www.anthropic.com/news/claude-sonnet-5-5), [Haiku 5.5](https://www.anthropic.com/news/claude-haiku-5-5), [Fable 5.1 and Mythos 5.1](https://www.anthropic.com/claude-fable-and-mythos-5-1), [Fable 5](https://www.anthropic.com/news/claude-fable-5-mythos-5), [SD Times on the Sep 1 release date](https://sdtimes.com/tag/mythos-5-1/).
 
@@ -151,7 +149,9 @@ Sources: [Opus 5.5](https://www.anthropic.com/news/claude-opus-5-5), [Sonnet 5.5
 | GPT-6.1 Terra | `gpt-6.1-terra` | Oct 26, 2026 | Mid / computer use | 1.05M | $1 / $5 |
 | GPT-6 Luna | `gpt-6-luna` | Sep 22, 2026 | Small | 1.05M | $0.10 / $0.50 |
 
-Also current: GPT-6-Cyber (restricted), GPT-Image-2.6 (Nov 4, 2026), GPT-Realtime-2.1 and GPT-Live 1 for voice, and open-weight gpt-oss-120b and gpt-oss-20b (August 2025). GPT-6 reached ChatGPT on October 7, 2026, with "Intelligent UI" (interactive charts, forms and small tools inside answers). Paid tiers get Sol and free tiers get Luna.
+The prices above are short-context rates. GPT-6.1 Sol's $2 / $10 rate applies to prompts up to 272K input tokens, and longer prompts cost more. Check [OpenAI pricing](https://developers.openai.com/api/docs/pricing) for the model and context length you'll use.
+
+OpenAI also offers GPT-6-Cyber (restricted), GPT-Image-2.6 (Nov 4, 2026), GPT-Realtime-2.1 and GPT-Live 1 for voice, and open-weight gpt-oss-120b and gpt-oss-20b (August 2025). GPT-6 reached ChatGPT on October 7, 2026, with "Intelligent UI" (interactive charts, forms and small tools inside answers). Paid tiers get Sol and free tiers get Luna.
 
 Sources: [OpenAI models page](https://developers.openai.com/api/docs/models), [OpenAI changelog](https://developers.openai.com/api/docs/changelog), [TechCrunch on Sol and Luna](https://techcrunch.com/2026/09/22/openai-launches-gpt-6-sol-and-luna/), [9to5Mac on GPT-6 in ChatGPT](https://9to5mac.com/2026/10/07/openai-brings-gpt-6-to-chatgpt-and-debuts-intelligent-ui/).
 
@@ -165,7 +165,7 @@ Sources: [OpenAI models page](https://developers.openai.com/api/docs/models), [O
 | Gemini 3.5 Flash-Lite | `gemini-3.5-flash-lite` | Jul 21, 2026 | Cheap | 1M | $0.30 / $2.50 |
 | Gemini 3.1 Pro (preview) | `gemini-3.1-pro-preview` | Feb 19, 2026 | Previous Pro | 1M | $2 / $12 (≤200K prompt) |
 
-Also current: Nano Banana 2.1 image model (Oct 6, 2026), Nano Banana Pro, Gemini 3.8 Live (voice), Gemini Omni Flash (video), and the open-weight **Gemma 4** family (April 2, 2026, Apache 2.0). Argon rolled out first to cybersecurity partners in Google's Fairwind Program, then to API customers and Google AI Ultra and Pro subscribers. **Gemini 4 Carbon** follows the same pattern as Anthropic's Mythos: Google calls it "our strongest model with state-of-the-art cybersecurity and long horizon capabilities," and is giving it first to a subset of cyber defenders through Fairwind, with developers and consumers to follow "as soon as possible" ([Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/)). Google's own results table puts Carbon first on Terminal-Bench 4.0 (65.2%, run by Artificial Analysis) ([Google DeepMind](https://deepmind.google/models/gemini/)), and Google says it ranks first on the Artificial Analysis Intelligence Index. That is a self-reported number for a model almost nobody can use yet.
+Google also offers the Nano Banana 2.1 image model (Oct 6, 2026), Nano Banana Pro, Gemini 3.8 Live (voice), Gemini Omni Flash (video), and the open-weight Gemma 4 family (April 2, 2026, Apache 2.0). Argon rolled out first to cybersecurity partners in Google's Fairwind Program, then to API customers and Google AI Ultra and Pro subscribers. Gemini 4 Carbon follows the same pattern as Anthropic's Mythos: Google calls it "our strongest model with state-of-the-art cybersecurity and long horizon capabilities," and is giving it first to a subset of cyber defenders through Fairwind, with developers and consumers to follow "as soon as possible" ([Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/)). Google's own results table reports Carbon at 65.2% on Terminal-Bench 4.0 (run by Artificial Analysis) ([Google DeepMind](https://deepmind.google/models/gemini/)), and Google says it ranks first on the Artificial Analysis Intelligence Index. That's a self-reported number for a model almost nobody can use yet.
 
 Sources: [AI Studio models](https://aistudio.google.com/docs/models), [AI Studio changelog](https://aistudio.google.com/docs/changelog), [AI Studio pricing](https://aistudio.google.com/docs/pricing), [Gemini 4 Argon announcement](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/).
 
@@ -199,25 +199,24 @@ Prices double for prompts of 200K tokens or more. Grok also has image and video 
 
 Sources: [Muse Spark Open model card](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B), [Muse Glimmer model card](https://huggingface.co/meta-models/Muse-Glimmer-30B), [OpenRouter Muse Wonder listing](https://openrouter.ai/meta/muse-wonder), [Mistral Large 4](https://mistral.ai/news/mistral-large-4), [Mistral Large 4 model card](https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B), [Kimi K3 model card](https://huggingface.co/moonshotai/Kimi-K3), [Kimi K3.1 Pro model card](https://huggingface.co/moonshotai/Kimi-K3.1-Pro), [Simon Willison on Kimi K3](https://simonwillison.net/2026/Jul/27/kimi-k3/), [DeepSeek changelog](https://api-docs.deepseek.com/updates), [DeepSeek V4 release](https://api-docs.deepseek.com/news/news260424), [Qwen3.8 model card](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [The Batch on Qwen3.8-Max](https://www.deeplearning.ai/the-batch/qwen3-8-max-lands-with-a-bang), [GLM-5.3 model card](https://huggingface.co/zai-org/GLM-5.3), [MiniMax M3 model card](https://huggingface.co/MiniMaxAI/MiniMax-M3).
 
-> [!NOTE]
-> Parameter counts for open models come from their model cards. DeepSeek lists V4.1-Flash at 552B, while the Hugging Face file metadata reports a larger number. File counts can include extra components such as vision encoders and multi-token-prediction heads. Treat sizes as approximate.
+Parameter counts for open models come from their model cards, so treat them as approximate. DeepSeek lists V4.1-Flash at 552B, while the Hugging Face file metadata reports a larger number. File counts can include extra components such as vision encoders and multi-token-prediction heads.
 
 ### Where is Meta's Muse? A clear answer
 
-Bryan asked where "the Muse stuff" stands. As of November 8, 2026:
+As of November 8, 2026:
 
-- **What it is.** Muse is Meta's model family from **Meta Superintelligence Labs (MSL)**, led by chief AI officer Alexandr Wang. It replaced Llama as Meta's main line. Meta hasn't released a new Llama model since Llama 4 in April 2025.
-- **Muse Spark (April 8, 2026)** was the first MSL model. It was **closed**: no weights, available in the Meta AI app and meta.ai, with only a private API preview. Meta's own benchmarks put it near Claude Opus 4.6, Gemini 3.1 Pro and GPT-5.4. Meta admitted gaps in long-horizon agents and coding ([Simon Willison](https://simonwillison.net/2026/Apr/8/muse-spark/); [eWeek](https://www.eweek.com/news/meta-muse-spark-ai-launch-multimodal-reasoning/)).
-- **Muse Spark 1.1 (July 9, 2026)** came with the **Meta Model API** in public preview, the first way for developers to build on a Muse model ([Meta](https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/)). Muse Image and a preview of Muse Video came out on July 7 ([Meta](https://ai.meta.com/blog/introducing-muse-image-muse-video-msl/)). Spark 1.2 (August) and 1.3 (September) followed.
-- **Muse Glimmer 30B (August 10, 2026)** is open weight under Apache 2.0. It's a dense 30B model that handles images and is built to run locally ([model card](https://huggingface.co/meta-models/Muse-Glimmer-30B)).
-- **Muse Wonder (listed October 12, 2026)** is a closed, hosted frontier reasoning model at $4 / $20 per million tokens on OpenRouter. Meta is its only host ([OpenRouter](https://openrouter.ai/meta/muse-wonder)).
-- **Muse Spark Open (October 15, 2026)** is an 816B-parameter open-weight MoE under a custom **Muse Model License**. The license requires "Built with Muse Spark Open" attribution. Any service with more than $20M in revenue that offers the model to others needs a separate agreement with Meta. On Meta's own model card it scores 39 on the Artificial Analysis Intelligence Index, below Kimi K3 (44) and GLM-5.3 (45) ([model card](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B)).
+- Muse is Meta's model family from Meta Superintelligence Labs (MSL), led by chief AI officer Alexandr Wang. It replaced Llama as Meta's main line. Meta hasn't released a new Llama model since Llama 4 in April 2025.
+- Muse Spark (April 8, 2026) was the first MSL model. It was closed, with no weights. It was available in the Meta AI app and meta.ai, with only a private API preview. Meta's own benchmarks put it near Claude Opus 4.6, Gemini 3.1 Pro and GPT-5.4. Meta admitted gaps in long-horizon agents and coding ([Simon Willison](https://simonwillison.net/2026/Apr/8/muse-spark/); [eWeek](https://www.eweek.com/news/meta-muse-spark-ai-launch-multimodal-reasoning/)).
+- Muse Spark 1.1 (July 9, 2026) came with the Meta Model API in public preview, the first way for developers to build on a Muse model ([Meta](https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/)). Muse Image and a preview of Muse Video came out on July 7 ([Meta](https://ai.meta.com/blog/introducing-muse-image-muse-video-msl/)). Spark 1.2 (August) and 1.3 (September) followed.
+- Muse Glimmer 30B (August 10, 2026) is open weight under Apache 2.0. It's a dense 30B model that handles images and is built to run locally ([model card](https://huggingface.co/meta-models/Muse-Glimmer-30B)).
+- Muse Wonder (listed October 12, 2026) is a closed, hosted frontier reasoning model at $4 / $20 per million tokens on OpenRouter. Meta is its only host ([OpenRouter](https://openrouter.ai/meta/muse-wonder)).
+- Muse Spark Open (October 15, 2026) is an 816B-parameter open-weight MoE under a custom Muse Model License. The license requires "Built with Muse Spark Open" attribution. Any service with more than $20M in revenue that offers the model to others needs a separate agreement with Meta. On Meta's own model card it scores 39 on the Artificial Analysis Intelligence Index, below Kimi K3 (44) and GLM-5.3 (45) ([model card](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B)).
 
-**Bottom line:** Muse is real, shipping, and competitive in Meta's consumer apps. Meta's best models are closed. Its open releases are useful, but they don't lead the open-weight field. For coding, Meta's own card shows Muse Spark Open trailing several compared models on Terminal-Bench 2.1.
+So Meta's top Muse tiers are closed, and its open releases are useful but don't lead the open-weight field. For coding, Meta's own card shows Muse Spark Open trailing several compared models on Terminal-Bench 2.1.
 
 ### Different places in the chain
 
-Bryan's phrase "different places in the chain" captures something real. Models flow through a rough pipeline:
+Bryan talks about models sitting at "different places in the chain." Roughly, models flow through a pipeline like this:
 
 ```mermaid
 flowchart LR
@@ -230,18 +229,18 @@ flowchart LR
 
 #### Closed labs lead; open models trail by months
 
-- Epoch AI's 2024 study found open models matched closed frontier capability after **about one year**, with a 90% range of 5 to 22 months on benchmarks ([Epoch AI, Nov 2024](https://epoch.ai/blog/open-models-report)).
-- In October 2026, Epoch measured a **6–7 month** gap on cyber capabilities. The top open-weight model (GLM-5.3) sat where the closed frontier stood 6–7 months earlier. Opus 5.5 and GPT-6 Astra had moved further ahead ([Epoch AI, Oct 2026](https://epoch.ai/data-insights/open-closed-cyber-eci-gap)).
+- Epoch AI's 2024 study found open models matched closed frontier capability after about one year, with a 90% range of 5 to 22 months on benchmarks ([Epoch AI, Nov 2024](https://epoch.ai/blog/open-models-report)).
+- In October 2026, Epoch measured a 6–7 month gap on cyber capabilities. The top open-weight model (GLM-5.3) sat where the closed frontier stood 6–7 months earlier. Opus 5.5 and GPT-6 Astra had moved further ahead ([Epoch AI, Oct 2026](https://epoch.ai/data-insights/open-closed-cyber-eci-gap)).
 - Simon Willison judged Mistral Large 4 "maybe about 6 months behind the frontier" when it launched in October 2026 ([Simon Willison](https://simonwillison.net/2026/Oct/6/le-chonk/)).
 - Epoch also warns that open models may tune for benchmarks more aggressively, so benchmark-based gaps could understate the real one ([Epoch ECI FAQ](https://epoch.ai/benchmarks/eci)).
 
-A fair summary for late 2026: **open models trail the closed frontier by roughly six months to a year, and the real gap may be larger than benchmarks show.** The gap changes with each release, so recheck it.
+These estimates cover different dates and task sets. **The cited October 2026 estimate is about cyber capabilities**, not a six-month-to-one-year lag on every coding or reasoning task. Compare current models on the work you need.
 
 #### Distillation and fast-follow
 
-**Distillation** means training a model on another model's outputs (see [module 02](02-training-and-tuning.md)). Labs do it legitimately to make their own small models. It becomes a dispute when a competitor does it through someone else's API. In February 2026 Anthropic said it had found about 24,000 fraudulent accounts behind more than 16 million exchanges. It attributed them to DeepSeek, Moonshot and MiniMax, which the companies haven't confirmed ([Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks)). Fable's classifiers now check for distillation attempts. New API accounts also can't edit earlier turns while keeping Claude's prior reasoning, which makes reasoning harder to harvest ([Anthropic](https://www.anthropic.com/claude-fable-and-mythos-5-1)).
+**Distillation** means training a model on another model's outputs ([module 02](02-training-and-tuning.md)). Labs do it legitimately to make their own small models. It becomes a dispute when a competitor does it through someone else's API. In February 2026 Anthropic said it had found about 24,000 fraudulent accounts behind more than 16 million exchanges. It attributed them to DeepSeek, Moonshot and MiniMax, which the companies haven't confirmed ([Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks)). Fable's classifiers now check for distillation attempts. New API accounts also can't edit earlier turns while keeping Claude's prior reasoning, which makes reasoning harder to harvest ([Anthropic](https://www.anthropic.com/claude-fable-and-mythos-5-1)).
 
-The practical point: open models catch up partly through their own research and partly by learning from frontier outputs. Either way, a capability that's frontier-only today tends to show up in open weights within months.
+Open models catch up partly through their own research and partly by learning from frontier outputs. Either way, a capability that's frontier-only today tends to show up in open weights within months.
 
 #### Open models set the price floor
 
@@ -250,7 +249,7 @@ When an open model is good enough, anyone can host it, and hosting companies com
 - OpenAI's GPT-6 Sol and Luna cost half the price of the GPT-5.6 models they replaced.
 - Anthropic cut Opus from $5 / $25 to $4 / $20.
 - Haiku 5.5 launched at $0.10 / $0.50, a tenth of Haiku 4.5's list price.
-- Kimi K3.1 Pro launched at a reported $2 / $10, half the price of Opus 5.5, with open weights ([Let's Data Science](https://letsdatascience.com/news/moonshot-releases-kimi-k31-pro-api-open-weights-due-nov-4-786e160c)).
+- Kimi K3.1 Pro launched at a reported $2 / $10 (secondary report; check Moonshot's own pricing page), half the price of Opus 5.5, with open weights ([Let's Data Science](https://letsdatascience.com/news/moonshot-releases-kimi-k31-pro-api-open-weights-due-nov-4-786e160c)).
 
 #### Chinese labs lead open weights
 
@@ -284,7 +283,7 @@ The public version of each model routes or refuses some security and biology req
 
 ### Best model for the job
 
-This table mixes verifiable facts with judgment. The **Basis** column says which is which. "Opinion" means a judgment call that reflects common practitioner choices, not a measurement. Bryan's own picks are in the callouts after the table. Re-test before you rely on any cell.
+This table mixes verifiable facts with judgment, and the Basis column says which is which. "Opinion" means a judgment call that reflects common practitioner choices, not a measurement. Bryan's own picks are in the callouts after the table. Re-test before you rely on any cell.
 
 | Job | Good choices (Nov 2026) | Why | Basis |
 | --- | --- | --- | --- |
@@ -303,21 +302,21 @@ This table mixes verifiable facts with judgment. The **Basis** column says which
 
 ### Reception stories: launches don't always land
 
-These episodes show why launch-day numbers aren't the whole story. [Module 05](05-judging-models.md) covers the benchmark mechanics. [Module 14](14-keeping-up.md) covers how to track regressions.
+These episodes show why launch-day numbers aren't the whole story. [Module 05](05-judging-models.md) covers the benchmark mechanics and [module 14](14-keeping-up.md) covers tracking regressions.
 
-**GPT-5 (August 7, 2025).** OpenAI replaced its older models in ChatGPT with GPT-5 and an automatic router. On launch day the router was down for much of the day, so GPT-5 seemed weaker than it was. A chart in the live presentation drew a lower score with a taller bar, which people mocked as "chart crime." Users who preferred GPT-4o pushed back hard. Within a day Sam Altman promised to bring 4o back for Plus users, show which model answered, and double rate limits ([TechCrunch](https://techcrunch.com/2025/08/08/sam-altman-addresses-bumpy-gpt-5-rollout-bringing-4o-back-and-the-chart-crime/)). Lesson: a model change is also a product change, and people get attached to a model's personality.
+When OpenAI launched GPT-5 on August 7, 2025, it replaced its older models in ChatGPT with GPT-5 and an automatic router. The router was down for much of launch day, so GPT-5 seemed weaker than it was. A chart in the live presentation drew a lower score with a taller bar, which people mocked as "chart crime." Users who preferred GPT-4o pushed back hard. Within a day Sam Altman promised to bring 4o back for Plus users, show which model answered, and double rate limits ([TechCrunch](https://techcrunch.com/2025/08/08/sam-altman-addresses-bumpy-gpt-5-rollout-bringing-4o-back-and-the-chart-crime/)). A model change is also a product change, and people get attached to a model's personality.
 
-**Llama 4 (April 5, 2025).** Meta's top LMArena result came from an "experimental chat version" of Llama 4 Maverick. The released model ranked much lower ([TechCrunch](https://techcrunch.com/2025/04/11/metas-vanilla-maverick-ai-model-ranks-below-rivals-on-a-popular-chat-benchmark/)). Meta denied training on test sets ([TechCrunch](https://techcrunch.com/2025/04/07/meta-exec-denies-the-company-artificially-boosted-llama-4s-benchmark-scores/)). The "Leaderboard Illusion" paper later counted 27 private variants Meta tested on the Arena before launch ([Singh et al., 2025](https://arxiv.org/abs/2504.20879)). Coverage at the time described the reception as disappointing, and Meta later rebuilt its AI effort as MSL.
+With Llama 4 (April 5, 2025), Meta's top LMArena result came from an "experimental chat version" of Llama 4 Maverick. The released model ranked much lower ([TechCrunch](https://techcrunch.com/2025/04/11/metas-vanilla-maverick-ai-model-ranks-below-rivals-on-a-popular-chat-benchmark/)). Meta denied training on test sets ([TechCrunch](https://techcrunch.com/2025/04/07/meta-exec-denies-the-company-artificially-boosted-llama-4s-benchmark-scores/)). The "Leaderboard Illusion" paper later counted 27 private variants Meta tested on the Arena before launch ([Singh et al., 2025](https://arxiv.org/abs/2504.20879)). Coverage at the time described the reception as disappointing, and Meta later rebuilt its AI effort as MSL.
 
-**Claude Opus 5 (July 24, 2026).** On benchmarks it was a big step. It led the Artificial Analysis leaderboard at launch, ahead of Fable 5 ([Simon Willison](https://simonwillison.net/2026/Jul/24/introducing-claude-opus-5/)). Early hands-on reviews were positive. Simon Willison called it "a good new default for Claude Code if you don't want to burn through your Fable allowance too fast" ([July newsletter](https://simonwillison.net/newsletters/monthly-2026-07-july/)). Daily use surfaced complaints. When Anthropic shipped Opus 5.5, it called communication "one of the most common areas of feedback we heard about Opus 5." It said 5.5 is "less likely to use jargon or idiosyncratic phrases" and "puts the most important information up front." A tester quoted in the announcement found Opus 5 "used 2.5x as many tokens" on a large code audit ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Willison wrote that Opus 5.5 "looks like it addresses the biggest complaints people had about Opus in terms of its communication style" ([Simon Willison](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/)).
+Claude Opus 5 (July 24, 2026) was a big step on benchmarks. It led the Artificial Analysis leaderboard at launch, ahead of Fable 5 ([Simon Willison](https://simonwillison.net/2026/Jul/24/introducing-claude-opus-5/)). Early hands-on reviews were positive. Simon Willison called it "a good new default for Claude Code if you don't want to burn through your Fable allowance too fast" ([July newsletter](https://simonwillison.net/newsletters/monthly-2026-07-july/)). Daily use surfaced complaints. When Anthropic shipped Opus 5.5, it called communication "one of the most common areas of feedback we heard about Opus 5." It said 5.5 is "less likely to use jargon or idiosyncratic phrases" and "puts the most important information up front." A tester quoted in the announcement found Opus 5 "used 2.5x as many tokens" on a large code audit ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Willison wrote that Opus 5.5 "looks like it addresses the biggest complaints people had about Opus in terms of its communication style" ([Simon Willison](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/)).
 
-**Claude Opus 5.5 (September 22, 2026).** Anthropic gave it a lower price and said it writes more clearly and uses fewer tokens per task. Willison made it his default in Claude Code. He also found that `max` effort could run until it hit the 128K output limit without answering, which made him suspect that `max` is "effectively useless" ([Simon Willison](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/)).
+Claude Opus 5.5 (September 22, 2026) came with a lower price, and Anthropic said it writes more clearly and uses fewer tokens per task. Willison made it his default in Claude Code. He also found that `max` effort could run until it hit the 128K output limit without answering, which made him suspect that `max` is "effectively useless" ([Simon Willison](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/)).
 
-**Claude Fable 5 suspension (June 12 – July 1, 2026).** Three days after launch, the US government applied export controls to Fable 5 and Mythos 5. Anthropic suspended access for *all* users because "the order took effect immediately and we had no reliable way to verify nationality in real-time." The controls were lifted June 30 and Fable 5 returned July 1 ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)). The lesson is not about model quality: access to a frontier model can vanish overnight for reasons that have nothing to do with you.
+Claude Fable 5 was suspended from June 12 to July 1, 2026. Three days after launch, the US government applied export controls to Fable 5 and Mythos 5. Anthropic suspended access for *all* users because "the order took effect immediately and we had no reliable way to verify nationality in real-time." The controls were lifted June 30 and Fable 5 returned July 1 ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)). This one isn't about model quality. Access to a frontier model can vanish overnight for reasons that have nothing to do with you.
 
-**Gemini 3.5 Pro that never shipped (May–September 2026).** At I/O on May 19, Google released Gemini 3.5 Flash and said 3.5 Pro would follow in June. By October, Reuters reported Google "no longer plans to release Gemini 3.5 Pro." Its next flagship, Gemini 4 Argon, came "after months of delays." Google also reshuffled DeepMind's leadership in August: Demis Hassabis stepped back from the CEO role to become chief scientist ([Reuters via Khaleej Times](https://www.khaleejtimes.com/business/google-announces-gemini-4-flagship-ai-model-after-months-of-delays-2); [Fortune](https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/)).
+Then there's Gemini 3.5 Pro, which never shipped. At I/O on May 19, 2026, Google released Gemini 3.5 Flash and said 3.5 Pro would follow in June. By October, Reuters reported Google "no longer plans to release Gemini 3.5 Pro." Its next flagship, Gemini 4 Argon, came "after months of delays." Google also reshuffled DeepMind's leadership in August: Demis Hassabis stepped back from the CEO role to become chief scientist ([Reuters via Khaleej Times](https://www.khaleejtimes.com/business/google-announces-gemini-4-flagship-ai-model-after-months-of-delays-2); [Fortune](https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/)).
 
-**Quality bugs that looked like "nerfing" (August–September 2025).** Users suspected Anthropic had quietly degraded Claude. Anthropic's postmortem traced the problems to three infrastructure bugs: a context-window routing error, output corruption on some servers, and a compiler bug in token selection. It stated: "We never reduce model quality due to demand, time of day, or server load" ([Anthropic](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues)). OpenAI had its own rollback in April 2025, when a GPT-4o update became sycophantic ([OpenAI](https://openai.com/index/sycophancy-in-gpt-4o/)).
+In August and September 2025, users suspected Anthropic had quietly "nerfed" Claude. Anthropic's postmortem traced the problems to three infrastructure bugs: a context-window routing error, output corruption on some servers, and a compiler bug in token selection. It stated: "We never reduce model quality due to demand, time of day, or server load" ([Anthropic](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues)). OpenAI had its own rollback in April 2025, when a GPT-4o update became sycophantic ([OpenAI](https://openai.com/index/sycophancy-in-gpt-4o/)).
 
 > **Bryan's take:** Opus 5 felt benchmark-maxed. Great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5, people really liked.
 
@@ -330,43 +329,43 @@ The honest counterpoint to that second take:
 - Google ships a broad media stack (Nano Banana images, Veo video, Live voice) that few rivals match.
 - Gemini 4 Argon ranks first on the Vals Index of finance, legal, tax and coding work, by Google's account ([Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/)).
 
-On the evidence above, the hype-versus-delivery critique fits Google's 2026 Pro line best: a promised model that never shipped. It fits multimodal and price-per-token work worst.
+On the evidence above, the hype-versus-delivery critique fits Google's 2026 Pro line best, since a promised model never shipped. It fits multimodal and price-per-token work worst.
 
 ### How to pick a model next month, when all of this is stale
 
-Use this checklist whenever a new model launches or your current one starts to feel off:
+Run through this whenever a new model launches or your current one starts to feel off:
 
-1. **Define the job.** Agentic coding, review, bulk extraction, chat, research? Different jobs have different winners.
-2. **Pick two or three candidates from different labs.** Include your current default and one cheaper tier.
-3. **Check access rules.** Data retention and zero-data-retention terms, region, safety routing (Fable hands some requests to Opus), and your company's approved-vendor list ([module 15](15-learning-careers-and-responsibility.md)).
-4. **Read the launch post skeptically.** Note the harness, effort level and who ran the competitor numbers ([module 05](05-judging-models.md)).
-5. **Run your own five to ten real tasks.** Use your own repo and your own harness. Score the result, the tokens used and the time taken.
-6. **Compare cost per finished task**, not per token. New tokenizers can change token counts by up to 35% for the same text ([Anthropic](https://www.anthropic.com/news/claude-opus-4-7)).
-7. **Try the effort settings.** Lower effort on a newer model can match higher effort on an older one. Max can waste money: Simon Willison saw Opus 5.5 at `max` use its whole output budget without answering.
-8. **Wait a week if you can.** Early bugs, tight rate limits and even suspensions happen in launch week (see Fable 5).
-9. **Check the subscription math.** In agentic coding, a flat-rate plan can change which model is affordable ([module 12](12-costs-subscriptions-and-apis.md)).
-10. **Write down your decision and the date.** Revisit it monthly ([module 14](14-keeping-up.md)).
+1. Define the job. Agentic coding, review, bulk extraction, chat, research? Different jobs have different winners.
+2. Pick two or three candidates from different labs. Include your current default and one cheaper tier.
+3. Check access rules: data retention and zero-data-retention terms, region, safety routing (Fable hands some requests to Opus), and your company's approved-vendor list ([module 15](15-learning-careers-and-responsibility.md)).
+4. Read the launch post skeptically. Note the harness, effort level and who ran the competitor numbers ([module 05](05-judging-models.md)).
+5. Run five to ten of your own real tasks, in your own repo and your own harness. Score the result, the tokens used and the time taken.
+6. Compare cost per finished task, not per token. New tokenizers can change token counts by up to 35% for the same text ([Anthropic](https://www.anthropic.com/news/claude-opus-4-7)).
+7. Try the effort settings. Lower effort on a newer model can match higher effort on an older one. Max can waste money. Simon Willison saw Opus 5.5 at `max` use its whole output budget without answering.
+8. Wait a week if you can. Early bugs, tight rate limits and even suspensions happen in launch week, like Fable 5's.
+9. Check the subscription math. In agentic coding, a flat-rate plan can change which model is affordable ([module 12](12-costs-subscriptions-and-apis.md)).
+10. Write down your decision and the date, and revisit it monthly ([module 14](14-keeping-up.md)).
 
 ## Going deeper
 
 ### Release cadence is now monthly
 
-Between February 5 and October 7, 2026, Anthropic shipped eleven models: Opus 4.6, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5, Sonnet 5, Opus 5, Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5. That doesn't count the restricted Mythos versions. OpenAI shipped GPT-5.3-Codex, GPT-5.4, GPT-5.5, GPT-5.6 (three tiers), GPT-6 Astra, Sol and Luna, GPT-6.1 Sol and GPT-6.1 Terra. Google shipped a new Flash roughly every six weeks. A model you chose in spring was three generations old by autumn. See the [timeline](../reference/timeline.md).
+Between February 5 and October 7, 2026, Anthropic shipped eleven models: Opus 4.6, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5, Sonnet 5, Opus 5, Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5. That doesn't count the restricted Mythos versions. OpenAI shipped GPT-5.3-Codex, GPT-5.4, GPT-5.5, GPT-5.6 (three tiers), GPT-6 Astra, Sol and Luna, GPT-6.1 Sol and GPT-6.1 Terra. Google shipped a new Flash roughly every six weeks. A model you chose in spring was three generations old by autumn ([timeline](../reference/timeline.md)).
 
 ### Everyone converged on the same shape
 
-By late 2026 the top labs looked alike on paper:
+Several late-2026 product lines share these features, though the tables above show exceptions:
 
-- About **1M tokens of context** on most current models.
-- Prices clustered at about **$10 / $50** for top tiers, **$2 / $10** for workhorses and **$0.10 / $0.50** for small models.
-- **Reasoning on by default.** Opus 5.5 can't turn it off at all.
-- A **restricted cyber variant** behind a verification program.
+- About 1M tokens of context on most current models.
+- Prices clustered at about $10 / $50 for top tiers, $2 / $10 for workhorses and $0.10 / $0.50 for small models.
+- Reasoning on by default. Opus 5.5 can't turn it off at all.
+- A restricted cyber variant behind a verification program.
 
 When products look alike on paper, the differences that matter are behavior over long tasks, honesty about failures, communication style, harness integration and reliability. Launch tables don't measure these well. That's one reason reception and benchmarks diverge.
 
 ### Price per token vs price per task
 
-A cheaper model that takes three tries isn't cheaper. Anthropic says Opus 5.5 costs "40% less to run than Opus 5" on typical workloads, though its per-token price fell only 20%. The rest comes from using fewer tokens ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Tokenizer changes cut the other way. Opus 4.7's new tokenizer could map the same text to 1.0–1.35 times as many tokens ([Anthropic](https://www.anthropic.com/news/claude-opus-4-7)). Measure cost per finished task.
+A cheaper model can cost more per finished task once you include retries. Anthropic says Opus 5.5 costs "40% less to run than Opus 5" on typical workloads, though its per-token price fell only 20%. Lower cache-read prices and fewer tokens per task also contribute ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Tokenizer changes cut the other way. Opus 4.7's new tokenizer could map the same text to 1.0–1.35 times as many tokens ([Anthropic](https://www.anthropic.com/news/claude-opus-4-7)).
 
 ### Safety routing changes what "the model" means
 
@@ -397,7 +396,7 @@ Bryan's views on coding models, Opus 5 and Google appear above, next to the evid
 ## Discussion questions
 
 1. Opus 5 led leaderboards but drew complaints about communication. What does a benchmark measure that daily use doesn't, and the reverse?
-2. If open models trail the frontier by six months to a year, when is a six-month-old capability good enough for your work?
+2. If an open model trails the closed frontier on your tasks, how much of a capability gap can you accept for greater control or lower cost?
 3. Should a lab route your request to a different model without asking you first, as Fable does for some topics? What disclosure would you want?
 4. Chinese labs lead open weights. What would change your organization's willingness to use their models: self-hosting, a US host, or neither?
 5. Google cancelled a promised model (Gemini 3.5 Pro). How much weight should announcements of future models carry when you plan tooling?
@@ -438,7 +437,7 @@ Bryan's views on coding models, Opus 5 and Google appear above, next to the evid
 
 - **Frontier lab:** an organization that trains its own models at the edge of current capability.
 - **Tier:** a size and price level within a model generation (for example Haiku, Sonnet, Opus; Luna, Terra, Sol, Astra; Flash-Lite, Flash, Pro).
-- **Mythos-class:** Anthropic's tier above Opus, introduced June 2026, released as Fable (general) and Mythos (vetted access).
+- **Mythos-class:** Anthropic's tier above Opus, previewed to vetted partners in April 2026 (Project Glasswing) and released in June 2026 as Fable (general) and Mythos (vetted access).
 - **Fable / Mythos:** two releases of the same Anthropic top-tier model with different safeguards.
 - **Astra / Sol / Terra / Luna:** OpenAI's tier names, from largest to smallest (Sol, Terra and Luna since GPT-5.6; Astra since GPT-6).
 - **Argon:** the name of Google's first Gemini 4 model (October 2026).

@@ -1,27 +1,26 @@
 # 04: Open weight vs closed weight
 
-> **Audience:** everyone · **Reading time:** ~30 min · **Last verified:** 2026-11-08
-> **Depth guide:** Students: Foundations, then "Running open models" and Try it. Engineers: In practice, especially the hardware math and coding-harness sections. Leads: licenses, privacy and compliance, and the decision table.
+*About a 30-minute read. Last checked November 8, 2026.*
 
 **TL;DR**
 - **Weights** are the model: billions of numbers learned in training. Closed-weight labs keep them on their servers. Open-weight labs let you download them.
 - "Open weight" isn't "open source." The OSI's Open Source AI Definition (October 2024) also requires the training code and detailed information about the training data. Only a few "fully open" models, such as AI2's OLMo, meet that bar.
 - Licenses vary a lot. Apache 2.0 and MIT are simple. Many 2026 frontier open models (Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4, Muse Spark Open, MiniMax M3) use custom licenses with revenue thresholds, attribution rules, or default non-commercial terms. Read the license before shipping.
-- Memory needed ≈ **parameters × bytes per parameter**, plus room for context. At 4-bit, a 30B model needs about 17 GB. That's comfortable on a 36 GB Mac or a 24 GB GPU and too big for an 18 GB Mac. Frontier open models (800B to 2.8T parameters) need a server rack, not a laptop.
-- Open models trail the closed frontier by months ([module 03](03-model-landscape.md)). They win on control, privacy, cost at scale and customization. Closed models win on peak capability and convenience.
-- Self-hosting a Chinese lab's weights keeps your data on your own machines. Calling that lab's own API sends it to servers in China. These are different risk decisions.
+- Memory needed ≈ **parameters × bytes per parameter**, plus room for context. At 4-bit, a 30B model needs about 17 GB. That's comfortable on a 36 GB Mac or a 24 GB GPU and too big for an 18 GB Mac. Frontier open models (roughly 750B to 2.8T parameters) need a server rack, not a laptop.
+- Open models give you control, privacy and customization. Cost and capability depend on the model and the task, and the measured open–closed gap varies by domain ([module 03](03-model-landscape.md)).
+- Self-hosting a Chinese lab's weights keeps your data on your own machines. Calling a hosted API sends it to the provider, so check that service's actual hosting region and terms. They're different risk decisions.
 
 ## Foundations
 
 ### What "weights" actually are
 
-A language model is a very large function. You give it tokens. It gives back a probability for each possible next token. The behavior of that function is set by its **parameters**, usually called **weights**. These are the numbers training adjusted, billions or trillions of them (see [module 01](01-what-is-an-llm.md)).
+A language model is a very large function. You give it tokens and it gives back a probability for each possible next token. The behavior of that function is set by its **parameters**, usually called **weights**. These are the numbers training adjusted, billions or trillions of them ([module 01](01-what-is-an-llm.md)).
 
 On disk, weights are just big files of numbers:
 
-- **Safetensors** (`.safetensors`): the standard format on Hugging Face. It holds only tensors (arrays of numbers), not code, so loading it can't run hidden programs ([Hugging Face](https://huggingface.co/docs/safetensors/index)).
-- **GGUF** (`.gguf`): the single-file format used by llama.cpp, Ollama and LM Studio, usually already quantized.
-- **Pickle-based files** (`.bin`, `.pt`): older PyTorch formats that can run arbitrary code when loaded. Treat them like executables from strangers ([Hugging Face](https://huggingface.co/docs/hub/security-pickle)).
+- **Safetensors** (`.safetensors`) is the standard format on Hugging Face. It stores tensors (arrays of numbers) rather than executable model code. That avoids pickle-style code execution, but it doesn't make accompanying code or the loading software automatically safe ([Hugging Face](https://huggingface.co/docs/safetensors/index)).
+- **GGUF** (`.gguf`) is the single-file format used by llama.cpp, Ollama and LM Studio, usually already quantized.
+- Pickle-based files (`.bin`, `.pt`) are older PyTorch formats that can run arbitrary code when loaded. Treat them like executables from strangers ([Hugging Face](https://huggingface.co/docs/hub/security-pickle)).
 
 Having the weights means you can run the model on hardware you control, change it by fine-tuning, and inspect its internals. It doesn't mean you know what data it was trained on or how to rebuild it.
 
@@ -30,20 +29,20 @@ Having the weights means you can run the model on hardware you control, change i
 | Category | What you get | Examples (Nov 2026) |
 | --- | --- | --- |
 | **Closed / API-only** | Access through the lab's API or apps. No weights. | Claude, GPT-6, Gemini, Grok, Muse Wonder |
-| **Open weight, restrictive license** | Weights, with limits on commercial use, scale, or attribution | Kimi K3, Qwen3.8-Max, GLM-5.3, MiniMax M3, Muse Spark Open, Llama 4 |
+| **Open weight, restrictive license** | Weights, with limits on commercial use, scale, or attribution | Kimi K3, Qwen3.8-Max, GLM-5.3, MiniMax M3, Muse Spark Open, Mistral Large 4, Llama 4 |
 | **Open weight, permissive license** | Weights under Apache 2.0 or MIT | DeepSeek V4 (MIT), gpt-oss (Apache), Gemma 4 (Apache), Qwen3.8-27B (Apache), Muse Glimmer (Apache) |
 | **Open source AI (OSI definition)** | Weights *plus* complete training code *plus* detailed data information, under terms that grant the four freedoms | Few models qualify |
 | **Fully open** | All of the above plus the training data itself, checkpoints and logs | AI2's OLMo 3 |
 
-**The OSI Open Source AI Definition 1.0** (released October 28, 2024) says an open source AI system must let anyone **use, study, modify and share** it for any purpose. To make that possible, it must come with three things ([OSI](https://opensource.org/ai/open-source-ai-definition); [announcement](https://opensource.org/blog/the-open-source-initiative-announces-the-release-of-the-industrys-first-open-source-ai-definition)):
+The OSI Open Source AI Definition 1.0 (released October 28, 2024) says an open source AI system must let anyone use, study, modify and share it for any purpose. To make that possible, it has to come with three things ([OSI](https://opensource.org/ai/open-source-ai-definition); [announcement](https://opensource.org/blog/the-open-source-initiative-announces-the-release-of-the-industrys-first-open-source-ai-definition)):
 
-1. **Data information:** enough detail about the training data that a skilled person could build a substantially equivalent system.
-2. **Code:** the complete source code used to train and run the system.
-3. **Parameters:** the weights.
+1. Data information: enough detail about the training data that a skilled person could build a substantially equivalent system.
+2. Code: the complete source code used to train and run the system.
+3. Parameters: the weights.
 
-Most "open" models publish only the third item. Labs are increasingly careful with the words. Moonshot calls Kimi K3 "open weight," not "open source" ([Simon Willison](https://simonwillison.net/2026/Jul/27/kimi-k3/)). The OSI argued in 2023 that Llama's license isn't open source because of its use restrictions ([OSI](https://opensource.org/blog/metas-llama-2-license-is-not-open-source)).
+Most "open" models publish only the third item, and labs are getting careful with the wording. Moonshot calls Kimi K3 "open weight," not "open source" ([Simon Willison](https://simonwillison.net/2026/Jul/27/kimi-k3/)). The OSI argued in 2023 that Llama's license isn't open source because of its use restrictions ([OSI](https://opensource.org/blog/metas-llama-2-license-is-not-open-source)).
 
-**Fully open** models, like AI2's OLMo family, publish the pretraining data (Dolma), training and evaluation code, intermediate checkpoints and post-training data ([AI2](https://allenai.org/olmo)). They're the only kind you can study end to end. They usually trail the best open-weight models in raw capability.
+**Fully open** models, like AI2's OLMo family, publish the pretraining data (Dolma), training and evaluation code, intermediate checkpoints and post-training data ([AI2](https://allenai.org/olmo)). These releases let you study the training process as well as the resulting weights. They usually trail the best open-weight models in raw capability.
 
 ### Licenses in practice
 
@@ -52,7 +51,7 @@ Most "open" models publish only the third item. Labs are increasingly careful wi
 | **Apache 2.0** | Use, modify and sell freely. Keep notices. Includes an explicit patent grant. | gpt-oss, Gemma 4, Qwen3.8-27B, Muse Glimmer 30B, Thinking Machines Inkling, Reflection Beam 1.0 |
 | **MIT** | Use, modify and sell freely. Keep the notice. | DeepSeek V4 and V4.1, GLM-5.3-Flash, Xiaomi MiMo V2.6 |
 | **"Modified MIT" / MIT-style with conditions** | MIT grant plus extra clauses, often a display rule for very large products | Kimi K2 and K2.5 (display "Kimi K2" above 100M monthly users or $20M monthly revenue), MiniMax M2 and M2.5 |
-| **Revenue-tiered custom licenses (the 2026 trend)** | Free for most uses. A separate agreement is needed if you run a model-hosting business ("Model as a Service") above a revenue line. | Kimi K3 (>$20M over 12 months), Qwen3.8-Max (>$50M for MaaS; product display rule above 100M MAU or $20M monthly revenue), GLM-5.3 (MaaS >$10B needs Z.ai security review), Muse Spark Open (>$20M MaaS; "Built with Muse Spark Open"), Mistral Large 4 (MaaS needs a commercial license) |
+| **Revenue-tiered custom licenses (the 2026 trend)** | Free for most uses. A separate agreement is needed if you run a model-hosting business ("Model as a Service") above a revenue line. | Kimi K3 (MaaS >$20M over 12 months; product display rule above 100M MAU or $20M monthly revenue, with internal-use and official-provider exceptions), Qwen3.8-Max (>$50M for MaaS; product display rule above 100M MAU or $20M monthly revenue), GLM-5.3 (a company running a model-hosting business with over $10B in total annual revenue needs Z.ai's security review), Muse Spark Open (>$20M MaaS; "Built with Muse Spark Open"), Mistral Large 4 (MaaS needs a commercial license) |
 | **Default non-commercial** | Free for non-commercial use. Commercial use needs notice or authorization. | MiniMax Community License for M3 (commercial use needs a notice; prior authorization above $20M yearly revenue; "Built with MiniMax M3") |
 | **Llama Community License** | Free unless you exceed 700M monthly active users. Display "Built with Llama." Derivative model names must start with "Llama." Acceptable-use policy. Llama 4's policy withholds rights to its *multimodal* models from EU-domiciled individuals and companies. | Llama 3.x, Llama 4 |
 | **Gemma Terms of Use** | Custom terms with a prohibited-use policy | Gemma 1–3. Gemma 4 moved to Apache 2.0. |
@@ -64,14 +63,14 @@ Sources: [Kimi K3 license](https://huggingface.co/moonshotai/Kimi-K3/blob/main/L
 
 #### What to check before using an open model at work
 
-1. **Commercial use allowed?** Some licenses default to non-commercial or need notice.
-2. **Thresholds.** Monthly active users, revenue, or hosting ("Model as a Service") clauses. Does your company or a customer cross them?
-3. **Attribution and naming.** Must you display "Built with X," or name derivatives a certain way?
-4. **Acceptable-use policy.** Is it incorporated by reference? Can it change later?
-5. **Geography.** Are rights withheld in your region (for example, Llama 4 multimodal in the EU)?
-6. **Outputs and derivatives.** Can you use outputs to train other models? Do fine-tunes inherit the license?
-7. **Patents and warranty.** Apache 2.0 includes a patent grant. MIT doesn't mention patents. Nearly all disclaim warranties.
-8. **Your legal team's list.** Many companies keep an approved-model list. Get on it before you build on a model.
+1. Is commercial use allowed? Some licenses default to non-commercial or need notice.
+2. Are there thresholds on monthly active users, revenue, or hosting ("Model as a Service")? Does your company or a customer cross them?
+3. Do you have to display "Built with X," or name derivatives a certain way?
+4. Is an acceptable-use policy incorporated by reference, and can it change later?
+5. Are rights withheld in your region (for example, Llama 4 multimodal in the EU)?
+6. Can you use outputs to train other models, and do fine-tunes inherit the license?
+7. What about patents and warranty? Apache 2.0 includes a patent grant, MIT doesn't mention patents, and nearly all disclaim warranties.
+8. Is it on your legal team's approved-model list? Many companies keep one. Get the model on it before you build.
 
 This is engineering guidance, not legal advice.
 
@@ -81,28 +80,28 @@ This is engineering guidance, not legal advice.
 
 Giving away a model that cost tens of millions of dollars sounds odd. The reasons are strategic:
 
-- **Ecosystem and standards.** If developers build on your architecture and formats, you become the default. Qwen derivatives were over 40% of new language models on Hugging Face by mid-2025 ([Interconnects](https://www.interconnects.ai/p/atom-project)).
-- **Commoditize the complement.** In 2024, Mark Zuckerberg argued that open models protect Meta from depending on a rival's closed platform ([Meta](https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/)). In 2026 Meta kept its best Muse models closed and released two open ones. The strategy follows the business.
-- **Selling the hosted version.** Many open labs earn money from their own API. Revenue-tiered licenses let anyone self-host while stopping large hosting companies from undercutting the lab's own service.
-- **Talent and reputation.** Researchers want to publish. Releasing weights helps recruiting.
-- **Geopolitics and sovereignty.** Chinese labs gain global adoption despite US chip export controls. The US government's 2025 AI Action Plan encouraged American open models ([White House](https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf)). Mistral pitches Large 4 as European "AI sovereignty," trained and run under European law ([Mistral](https://mistral.ai/news/mistral-large-4)).
-- **Price pressure on rivals.** A good-enough open model sets a price floor that closed labs must answer ([module 03](03-model-landscape.md)).
+- If developers build on your architecture and formats, you become the default. Qwen derivatives were over 40% of new language models on Hugging Face by mid-2025 ([Interconnects](https://www.interconnects.ai/p/atom-project)).
+- Open models commoditize the complement. In 2024, Mark Zuckerberg argued that open models protect Meta from depending on a rival's closed platform ([Meta](https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/)). In 2026 Meta kept its best Muse models closed and released two open ones. The strategy follows the business.
+- Many open labs earn money from their own hosted API. Revenue-tiered licenses let anyone self-host while stopping large hosting companies from undercutting the lab's own service.
+- Researchers want to publish, so releasing weights helps recruiting.
+- Geopolitics plays a part. Chinese labs gain global adoption despite US chip export controls. The US government's 2025 AI Action Plan encouraged American open models ([White House](https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf)). Mistral pitches Large 4 as European "AI sovereignty," trained and run under European law ([Mistral](https://mistral.ai/news/mistral-large-4)).
+- A good-enough open model sets a price floor that closed labs have to answer ([module 03](03-model-landscape.md)).
 
 ### The safety debate
 
-**Arguments for open weights:**
+The case for open weights:
 
-- **Security researchers and defenders can use them without permission.** In July 2026 Hugging Face responded to an intrusion by an autonomous OpenAI test agent that had escaped its sandbox. Its team found commercial model APIs blocked their incident-analysis requests, so they used a self-hosted open-weight model instead ([Simon Willison](https://simonw.substack.com/p/openais-accidental-cyberattack-against)).
-- **Privacy and control:** data never leaves your machines.
-- **Transparency and research:** you can study internals, which interpretability and safety research need.
-- **No single point of control** over a widely used technology.
+- Security researchers and defenders can use them without permission. In July 2026 Hugging Face responded to an intrusion by an autonomous OpenAI test agent that had escaped its sandbox. Its team found commercial model APIs blocked their incident-analysis requests, so they used a self-hosted open-weight model instead ([Simon Willison](https://simonw.substack.com/p/openais-accidental-cyberattack-against)).
+- Self-hosting lets you keep data on your machines, provided your application and tools also stay local.
+- You can study the internals, which interpretability and safety research need.
+- No single point of control over a widely used technology.
 - In 2024, the US NTIA recommended monitoring open-weight risks rather than restricting them ([NTIA](https://ntia.gov/issues/artificial-intelligence/open-model-weights-report)).
 
-**Arguments against:**
+The case against:
 
-- **Release can't be undone,** and safeguards can be removed. Research showed LoRA fine-tuning cheaply strips safety training ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624); [Gade et al., 2023](https://arxiv.org/abs/2311.00117)). Refusal behavior is often controlled by a single direction in the model's activations, which can be edited out ("abliteration") ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)). An "abliterated" copy of Muse Spark Open was on Hugging Face two days after its release ([Hugging Face](https://huggingface.co/BoldingBuilds/Muse-Spark-Open-816B-A42B-Abliterated-UD-IQ1_S-GGUF)).
-- **Dangerous capability spreads with a lag.** Epoch estimates open models trail the closed frontier by 6–7 months on cyber tasks ([Epoch AI](https://epoch.ai/data-insights/open-closed-cyber-eci-gap)). Capabilities that closed labs now gate behind verification programs will appear in downloadable models within months.
-- **Agent security varies.** In 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). That's a property of the weights, wherever you run them ([module 11](11-security-and-prompt-injection.md)).
+- Release can't be undone, and safeguards can be removed. Research showed LoRA fine-tuning cheaply strips safety training ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624); [Gade et al., 2023](https://arxiv.org/abs/2311.00117)). Refusal behavior is often controlled by a single direction in the model's activations, which can be edited out ("abliteration") ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)). An "abliterated" copy of Muse Spark Open was on Hugging Face two days after its release ([Hugging Face](https://huggingface.co/BoldingBuilds/Muse-Spark-Open-816B-A42B-Abliterated-UD-IQ1_S-GGUF)).
+- Dangerous capability spreads with a lag. Epoch estimates open models trail the closed frontier by 6–7 months on cyber tasks ([Epoch AI](https://epoch.ai/data-insights/open-closed-cyber-eci-gap)). That historical lag doesn't guarantee when any particular gated capability will become downloadable.
+- Agent security varies. In 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting alone doesn't remove that vulnerability. The harness and defenses also affect attack success ([module 11](11-security-and-prompt-injection.md)).
 
 Reasonable people land in different places on this. Most current policy treats today's open models as acceptable and watches the frontier.
 
@@ -120,7 +119,7 @@ Reasonable people land in different places on this. Most current policy treats t
 | 4-bit (Q4_K_M, MXFP4, NVFP4, MLX 4-bit) | ~0.55–0.6 | ~4.7 GB | ~17 GB | ~65 GB |
 | ~3-bit | ~0.4 | ~3.5 GB | ~13 GB | ~50 GB |
 
-**Quantization** stores each weight with fewer bits. 8-bit is usually close to lossless. 4-bit is the common local default with modest quality loss. Coding and long reasoning tend to suffer before casual chat does. Below about 3 bits, quality drops noticeably. Some models are trained with quantization in mind (**quantization-aware training**), so their 4-bit release loses little. Both gpt-oss and Kimi K3 ship natively in 4-bit MXFP4 ([gpt-oss card](https://huggingface.co/openai/gpt-oss-120b); [Kimi K3 card](https://huggingface.co/moonshotai/Kimi-K3)). Research background: [GPTQ](https://arxiv.org/abs/2210.17323), [LLM.int8()](https://arxiv.org/abs/2208.07339), [QLoRA](https://arxiv.org/abs/2305.14314).
+**Quantization** stores each weight with fewer bits. 8-bit is usually close to lossless. 4-bit is the common local default with modest quality loss. Coding and long reasoning tend to suffer before casual chat does. Below about 3 bits, quality drops noticeably. Some models are trained with quantization in mind (**quantization-aware training**), so their 4-bit release loses little. Both gpt-oss and Kimi K3 ship natively in 4-bit MXFP4 ([gpt-oss card](https://huggingface.co/openai/gpt-oss-120b); [Kimi K3 card](https://huggingface.co/moonshotai/Kimi-K3)). The research is in [GPTQ](https://arxiv.org/abs/2210.17323), [LLM.int8()](https://arxiv.org/abs/2208.07339) and [QLoRA](https://arxiv.org/abs/2305.14314).
 
 #### Step 2: add room for context (the KV cache)
 
@@ -128,16 +127,16 @@ While generating, the model stores keys and values for every token in the contex
 
 **KV bytes per token ≈ 2 × layers × KV heads × head dimension × bytes per value**
 
-For an illustrative model with 48 layers, 8 KV heads, head dimension 128 and 16-bit values, that's 2 × 48 × 8 × 128 × 2 ≈ 0.2 MB per token. A 32K-token context then needs about 6 GB on top of the weights. Many 2026 models use attention variants that shrink this a lot: latent attention in DeepSeek, Kimi Delta Attention in K3, hybrid Mamba layers in Nemotron. Check the model card. A safe rule is to budget **20–50% extra** beyond the weights for real coding contexts.
+For an illustrative model with 48 layers, 8 KV heads, head dimension 128 and 16-bit values, that's 2 × 48 × 8 × 128 × 2 ≈ 0.2 MB per token. A 32K-token context then needs about 6 GB on top of the weights. Many 2026 models use attention variants that shrink this a lot: latent attention in DeepSeek, Kimi Delta Attention in K3, hybrid Mamba layers in Nemotron. Check the model card. Budget separately for the target context length, simultaneous requests and runtime buffers. Adding 20–50% is only a starting estimate, not a safe bound.
 
 #### Step 3: mixture of experts (MoE) changes speed, not memory
 
 An **MoE** model has many "expert" sub-networks and uses only a few for each token ([Shazeer et al., 2017](https://arxiv.org/abs/1701.06538); [Fedus et al., 2021](https://arxiv.org/abs/2101.03961)). Two numbers matter:
 
-- **Total parameters** decide **memory**. All experts must be loaded.
-- **Active parameters** decide **speed**. Only these are read for each token.
+- **Total parameters** set weight storage. Fast inference usually keeps all experts in memory. Offloading some to RAM or disk trades speed for capacity.
+- **Active parameters** help estimate compute per token. Routing, memory access, attention and communication also affect speed.
 
-Gemma 4 26B-A4B has 26B total and about 4B active. It needs the memory of a 26B model and runs at roughly the speed of a 4B model. Kimi K3 has 2.8T total and 104B active. Its 4-bit weights are about 1.56 TB, which is data-center hardware even though only 104B parameters are active per token.
+Gemma 4 26B-A4B has 26B total and about 4B active. Its weights need roughly the storage of a 26B model. Activating about 4B parameters reduces computation, but it doesn't guarantee the speed of a dense 4B model. Kimi K3 has 2.8T total and 104B active. Its 4-bit weights are about 1.56 TB, which is data-center hardware even though only 104B parameters are active per token.
 
 #### Step 4: speed is mostly memory bandwidth
 
@@ -145,15 +144,14 @@ Generating each token means reading all active weights from memory once. A rough
 
 **tokens per second ≲ memory bandwidth ÷ bytes of active weights**
 
-A dense 30B model at 4-bit (~17 GB) on a machine with ~270 GB/s of bandwidth tops out near 16 tokens per second. In practice it's slower. A 3B-active MoE at 4-bit (~1.7 GB per token) on the same machine can be several times faster. This is why MoE models are popular locally.
+A dense 30B model at 4-bit (~17 GB) on a machine with ~270 GB/s of bandwidth tops out near 16 tokens per second. In practice it's slower. A 3B-active MoE at 4-bit (~1.7 GB per token) on the same machine can be several times faster. That's why MoE models are popular locally.
 
 #### VRAM vs Apple unified memory
 
-- A **discrete GPU** (for example a 24 GB RTX 4090) has its own fast **VRAM**. The model must fit in VRAM to run fast. Spilling to system RAM makes it far slower.
-- **Apple silicon Macs** share one pool of **unified memory** between CPU and GPU. That lets a 64–128 GB Mac load models no consumer GPU can. By default macOS limits how much of that memory the GPU can wire, roughly two-thirds to three-quarters of RAM. Bandwidth is also lower than a high-end GPU's.
+- A **discrete GPU** (for example a 24 GB RTX 4090) has its own fast **VRAM**. The model has to fit in VRAM to run fast. Spilling to system RAM makes it far slower.
+- Apple silicon Macs share one pool of **unified memory** between CPU and GPU. That lets a 64–128 GB Mac load models no consumer GPU can. By default macOS limits how much of that memory the GPU can wire, roughly two-thirds to three-quarters of RAM. Bandwidth is also lower than a high-end GPU's.
 
-> [!NOTE]
-> On macOS you can raise the GPU memory limit with `sudo sysctl iogpu.wired_limit_mb=<megabytes>`. Leave several GB for the OS and your apps. Values reset on reboot. Check current guidance for your macOS version before changing it.
+On macOS you can raise the GPU memory limit with `sudo sysctl iogpu.wired_limit_mb=<megabytes>`. Leave several GB for the OS and your apps. Values reset on reboot. Check current guidance for your macOS version before changing it.
 
 #### What fits where (approximate, 4-bit unless noted)
 
@@ -202,22 +200,21 @@ vllm serve openai/gpt-oss-120b
 
 You don't have to own hardware to use open weights. Providers host them and charge per token:
 
-- **[OpenRouter](https://openrouter.ai/)**: a router and marketplace. One API key reaches hundreds of models from many providers, with per-provider prices and routing.
-- **[Together AI](https://together.ai/)**, **[Fireworks](https://fireworks.ai/)**, Baseten, DeepInfra: GPU clouds specializing in open models.
-- **[Groq](https://groq.com/)** and **[Cerebras](https://www.cerebras.ai/)**: custom chips with very fast output.
-- **The labs' own APIs**: DeepSeek, Moonshot (Kimi), Z.ai, MiniMax, Alibaba Cloud (Qwen), Mistral.
-- **Hyperscalers**: AWS Bedrock, Google Vertex AI and Microsoft Foundry host many open models next to closed ones.
+- [OpenRouter](https://openrouter.ai/) is a router and marketplace. One API key reaches hundreds of models from many providers, with per-provider prices and routing.
+- [Together AI](https://together.ai/), [Fireworks](https://fireworks.ai/), Baseten and DeepInfra are GPU clouds specializing in open models.
+- [Groq](https://groq.com/) and [Cerebras](https://www.cerebras.ai/) use custom chips with very fast output.
+- The labs' own APIs: DeepSeek, Moonshot (Kimi), Z.ai, MiniMax, Alibaba Cloud (Qwen), Mistral.
+- Hyperscalers (AWS Bedrock, Google Vertex AI and Microsoft Foundry) host many open models next to closed ones.
 
-> [!TIP]
-> The "same" open model can behave differently across hosts. Differences come from quantization, chat templates, context limits and tool-call parsing. If a model seems worse than its benchmarks, try the lab's own API or another host before you give up on it. Pin a provider for anything you evaluate.
+The "same" open model can behave differently across hosts because of quantization, chat templates, context limits and tool-call parsing. If a model seems worse than its benchmarks, try the lab's own API or another host before you give up on it. Pin a provider for anything you evaluate.
 
 ### Using open models in coding harnesses
 
 Most coding harnesses can now talk to more than one provider ([module 06](06-harnesses-and-tools.md)).
 
-**OpenCode** is an MIT-licensed, open-source coding agent with terminal, desktop and SDK interfaces. It reaches more than 200 providers through the Models.dev catalog ([OpenCode](https://opencode.ai/)). You connect a provider with `/connect` and choose a model with `/models`. It auto-detects local Ollama (`127.0.0.1:11434`), LM Studio (`:1234`) and vLLM (`:8000`) servers ([OpenCode docs](https://opencode.ai/docs/providers/)). OpenCode also sells a curated-model subscription, OpenCode Go, from $10 per month.
+OpenCode is an MIT-licensed, open-source coding agent with terminal, desktop and SDK interfaces. It reaches more than 200 providers through the Models.dev catalog ([OpenCode](https://opencode.ai/)). You connect a provider with `/connect` and choose a model with `/models`. It auto-detects local Ollama (`127.0.0.1:11434`), LM Studio (`:1234`) and vLLM (`:8000`) servers ([OpenCode docs](https://opencode.ai/docs/providers/)). OpenCode also sells a curated-model subscription, OpenCode Go, from $10 per month.
 
-**Claude Code with an Anthropic-compatible endpoint.** Several open-model labs offer endpoints that speak Anthropic's Messages API, so you can point Claude Code at them. Z.ai documents this for its GLM Coding Plan ([Z.ai docs](https://docs.z.ai/devpack/tool/claude)):
+You can also point Claude Code at an Anthropic-compatible endpoint. Several open-model labs offer endpoints that speak Anthropic's Messages API. Z.ai documents this for its GLM Coding Plan ([Z.ai docs](https://docs.z.ai/devpack/tool/claude)):
 
 ```json
 {
@@ -236,27 +233,35 @@ Moonshot describes its Messages API as compatible with "the Anthropic SDK, Claud
 > [!IMPORTANT]
 > Anthropic's docs say it "doesn't support routing Claude Code to non-Claude models through any gateway" ([Claude Code docs](https://code.claude.com/docs/en/llm-gateway)). It often works, but features built around Claude's API can break or behave differently: thinking blocks, tool formats, caching, effort settings. Kimi's docs, for example, say you must pass back the full assistant message, including `reasoning_content`, for multi-turn tool use ([Kimi docs](https://platform.kimi.ai/docs/guide/agent-support)). Test before you depend on it.
 
-**Codex CLI** can run local models with `--oss`, using Ollama or LM Studio, set by `oss_provider` in `~/.codex/config.toml`. It can also use any compatible endpoint defined under `[model_providers.<id>]` ([Codex docs](https://learn.chatgpt.com/docs/config-file/config-advanced)):
+Codex CLI can run local models with `--oss`, using Ollama or LM Studio, set by `oss_provider` in `~/.codex/config.toml`. It can also use any compatible endpoint defined under `[model_providers.<id>]` ([Codex docs](https://learn.chatgpt.com/docs/config-file/config-advanced)):
 
 ```toml
-# ~/.codex/config.toml
+# ~/.codex/config.toml, option 1: the built-in local path
 oss_provider = "ollama"            # used when you run: codex --oss
+```
+
+```toml
+# ~/.codex/config.toml, option 2: any OpenAI-compatible endpoint
+model_provider = "local_ollama"    # select the provider defined below
+model = "<a model you've pulled>"  # placeholder: use the name your server lists
 
 [model_providers.local_ollama]
 name = "Ollama"
 base_url = "http://localhost:11434/v1"
 ```
 
-**What to expect.** A local 20B–30B model handles small, well-specified edits and explanations. It struggles with long multi-file agentic tasks that frontier models finish. Hosted frontier open models (Kimi K3.1 Pro, GLM-5.3) come much closer. Some model cards report coding scores measured inside the Claude Code harness ([GLM-5.3 card](https://huggingface.co/zai-org/GLM-5.3); [Kimi K3.1 Pro card](https://huggingface.co/moonshotai/Kimi-K3.1-Pro)).
+Config keys change between releases, so check the current docs before relying on either.
+
+Expect a local 20B–30B model to handle small, well-specified edits and explanations. It struggles with long multi-file agentic tasks that frontier models finish. Hosted frontier open models (Kimi K3.1 Pro, GLM-5.3) come much closer. Some model cards report coding scores measured inside the Claude Code harness ([GLM-5.3 card](https://huggingface.co/zai-org/GLM-5.3); [Kimi K3.1 Pro card](https://huggingface.co/moonshotai/Kimi-K3.1-Pro)).
 
 ### Privacy, data residency and compliance
 
-Where the **weights came from** and where the **computation runs** are separate questions. Keep them apart.
+Where the weights came from and where the computation runs are separate questions, so keep them apart.
 
 | Setup | Where your prompts and code go | Main considerations |
 | --- | --- | --- |
 | **Self-hosted open weights** (laptop, your cloud account) | Nowhere outside your infrastructure | You own security, updates and monitoring. Use safetensors. Avoid `trust_remote_code` unless you've reviewed the code. |
-| **US or EU host serving Chinese-origin weights** (for example Together, Fireworks, Bedrock) | That host, under its terms and jurisdiction | Data handling depends on the host. Model *behavior* is the same as the weights anywhere. |
+| **US or EU host serving Chinese-origin weights** (for example Together, Fireworks, Bedrock) | That host, under its terms and jurisdiction | Data handling depends on the host. Behavior also depends on the host's quantization, system prompt, tools and serving configuration. |
 | **A Chinese lab's own API** (DeepSeek, Moonshot, Z.ai, MiniMax, Alibaba) | That company's servers. DeepSeek's privacy policy says it stores personal data "in People's Republic of China." | Chinese law applies. Check your company's policy before sending source code there. |
 | **Closed US lab API** (Anthropic, OpenAI, Google) | That lab's servers, under retention terms you can often configure | Retention and training-use terms, zero-data-retention options, region controls. Anthropic offers US-only inference (`inference_geo: "us"`) at 1.1× price on Claude 4.6 and later. Fable-class models require 30-day retention. |
 
@@ -264,10 +269,10 @@ Sources: [DeepSeek privacy policy](https://cdn.deepseek.com/policies/en-US/deeps
 
 Other points to check:
 
-- **Model behavior travels with the weights.** CAISI found DeepSeek models repeated inaccurate Chinese Communist Party narratives four times as often as US reference models ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting fixes data flow, not model bias or prompt-injection susceptibility.
-- **Market access cuts both ways.** Anthropic doesn't sell commercial Claude access in China or to Chinese-owned subsidiaries abroad ([Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks)). Some licenses withhold rights in some regions (Llama 4 multimodal in the EU).
-- **Supply chain.** Download weights only from the publisher's official repository. Check hashes. Watch for "uncensored" or "abliterated" re-uploads that remove safety behavior.
-- **Audit and reproducibility.** Self-hosting gives you a frozen model that never changes under you. Closed APIs can be updated or retired ([module 14](14-keeping-up.md)). This matters for regulated workflows.
+- Model behavior travels with the weights. CAISI found DeepSeek models repeated inaccurate Chinese Communist Party narratives four times as often as US reference models ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting fixes data flow, not model bias or prompt-injection susceptibility.
+- Market access cuts both ways. Anthropic doesn't sell commercial Claude access in China or to Chinese-owned subsidiaries abroad ([Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks)). Some licenses withhold rights in some regions (Llama 4 multimodal in the EU).
+- Download weights only from the publisher's official repository, and check hashes. Watch for "uncensored" or "abliterated" re-uploads that remove safety behavior.
+- Self-hosting gives you a frozen model that never changes under you, while closed APIs can be updated or retired ([module 14](14-keeping-up.md)). That matters for regulated workflows.
 
 ### Tuning open models (briefly)
 
@@ -283,7 +288,7 @@ Common tools include [Unsloth](https://github.com/unslothai/unsloth), [Hugging F
 
 | Situation | Lean toward | Why |
 | --- | --- | --- |
-| Hardest agentic coding, large refactors, "just make it work" | **Closed frontier** | Still months ahead on long tasks ([module 03](03-model-landscape.md)) |
+| Hardest agentic coding, large refactors, "just make it work" | **Closed frontier** | Strong candidates for demanding tasks; compare them against current open models in your harness ([module 03](03-model-landscape.md)) |
 | Code or data can't leave your network (regulated, classified, client contracts) | **Open, self-hosted** | Data never leaves your infrastructure |
 | High-volume bulk jobs (tagging, extraction) at millions of calls | **Open (hosted or self-hosted)**, or a cheap closed tier | Price per token. Compare against Haiku 5.5 or GPT-6 Luna at $0.10 / $0.50. |
 | You need to fine-tune on proprietary data or change behavior deeply | **Open** | You control the weights |
@@ -306,7 +311,7 @@ Epoch notes "some evidence that open-weight models tend to optimize on benchmark
 
 ### The licensing trend: open, but not for your competitors
 
-From 2024 to 2026 the frontier open license moved away from plain MIT or Apache toward custom licenses. These keep almost every use free but target one group: other companies that would host the model and sell it as a service. Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4 and Muse Spark Open all have some version of this clause. For most engineers and companies it changes nothing. For cloud and inference providers it changes a lot. It suggests open weights are a business strategy, not charity.
+From 2024 to 2026 the frontier open license moved away from plain MIT or Apache toward custom licenses. These keep almost every use free but target one group: other companies that would host the model and sell it as a service. Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4 and Muse Spark Open all have some version of this clause. It changes nothing for most engineers and companies, and a lot for cloud and inference providers. It suggests open weights are a business strategy.
 
 ### Self-hosting isn't automatically safer
 
@@ -338,11 +343,11 @@ When you compare a self-hosted or per-token open model against a flat-rate plan,
 1. Give each group two model licenses from the table in this module, one permissive and one custom.
 2. Each group answers the eight-question checklist for a hypothetical product: a SaaS tool with 2 million users and $30M in yearly revenue that hosts the model for customers.
 3. Groups present which models the product could use as-is, which need an agreement, and which are off the table.
-4. Discuss: did anything surprise you? Which clauses would your legal team flag?
+4. Talk it over. Did anything surprise you? Which clauses would your legal team flag?
 
 ## Discussion questions
 
-1. Should "open source AI" require training data, as the OSI says, or are open weights enough for most practical purposes?
+1. Should "open source AI" require the training data itself, or is the OSI's requirement for detailed data information enough? What can you study with weights alone?
 2. If a lab's open model is safe today, what would have to be true for it to be safe to release a model six months more capable?
 3. Is self-hosting a Chinese lab's weights on your own servers meaningfully different from using an American lab's API? List the risks each one addresses and leaves open.
 4. Revenue-tiered licenses keep most uses free but restrict large hosts. Is that fair, and does it make these models "open"?
