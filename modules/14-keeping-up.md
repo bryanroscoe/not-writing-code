@@ -70,7 +70,7 @@ People usually blame the bottom layer ("they nerfed the model"). In the document
 | Aug–Sep 2025 | Some Claude users got noticeably worse answers for weeks | Three infrastructure bugs: a context-window routing error, output corruption from a misconfiguration, and a TPU compiler miscompilation ([Anthropic postmortem, Sep 17, 2025](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues)) | The lab's own evals missed it; user reports were right |
 | Sep–Oct 2025 | Reports that Codex "got worse" after GPT-5-Codex launched | No single cause: some older hardware, long sessions degraded by repeated compaction, a sampling bug, and changing usage patterns such as more MCP tools ([OpenAI Codex team, Oct 31, 2025](https://docs.google.com/document/d/1fDJc1e0itJdh0MXMFJtkRiBcxGEFtye6Xc6Ui7eMX4o/mobilebasic)) | Long, cluttered sessions hurt; keep conversations short and focused |
 | Mar–Apr 2026 | About six weeks of Claude Code quality complaints | Three product-layer changes: a lower default reasoning effort, a bug that wiped the model's reasoning history every turn, and a verbosity-limiting system prompt. API and weights were unaffected ([Anthropic, Apr 23, 2026](https://www.anthropic.com/engineering/april-23-postmortem)) | The harness can regress while the model doesn't |
-| May 2026 | Reported degradation of GPT-5.5 in Codex. The Codex lead said on X that two issues were found and fixed, and reset usage limits | Reported; no detailed public postmortem found | Same pattern, different vendor |
+| May 2026 | Reported degradation of GPT-5.5 in Codex. The Codex lead said on X that two issues were found and fixed, and reset usage limits | Reported; no detailed public postmortem found for this episode | Same pattern, different vendor |
 | Jun–Jul 2026 | Claude Fable 5 was suspended for *all* users from June 12 to July 1 ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)) | US export controls applied immediately, and Anthropic had no real-time way to verify nationality | Access can disappear overnight for reasons that have nothing to do with quality |
 | Jul–Sep 2026 | Opus 5 posted strong benchmarks but got mixed daily-use reviews. Opus 5.5, eight weeks later, was widely liked ([module 05](./05-judging-models.md#a-recent-example-opus-5-to-opus-55)) | Model behavior: verbosity, scope, communication | Newer isn't always better *for you*. Test before switching |
 
@@ -131,7 +131,7 @@ A launch post is marketing written by people who also do science. Read it the wa
 2. **Chosen comparisons.** Which benchmarks were reported last time but not this time? Which competitor model is missing from the chart?
 3. **Demos.** A demo shows the best of many tries. Ask whether it was live, edited, or sped up.
 4. **Availability.** "Available today" may mean a limited set of organizations, one tier, or the API only. OpenAI's GPT-6 Astra launch in September 2026 started with "a limited set of organizations" ([OpenAI](https://openai.com/index/gpt-6-astra/)).
-5. **Customer quotes.** These are testimonials, usually from partners with early access. Anthropic's Opus 5 post itself notes its customer figures were not independently verified.
+5. **Customer quotes.** These are testimonials, usually from partners with early access, and launch posts rarely say whether anyone checked the figures in them. Treat lab-run numbers the same way: Anthropic's Opus 5 post labels its headline Frontier-Bench results as "an internal run."
 6. **Wait for independent numbers.** Artificial Analysis, Epoch AI, Arena, and others usually post results within days ([module 05](./05-judging-models.md#independent-evaluators)).
 
 ### Lab track records
@@ -150,7 +150,7 @@ Some documented episodes:
 
 The record cuts both ways. Against Google:
 - In December 2023 its "Hands-on with Gemini" video turned out to be staged. Google acknowledged it had fed the model still frames and text prompts rather than live video and voice ([TechCrunch](https://techcrunch.com/2023/12/07/googles-best-gemini-demo-was-faked/)).
-- In a June 2026 independent comparison, Gemini 3.1 trailed GPT-5.5 on the Terminal-Bench team's Harbor-Index in both a native and a neutral harness ([Terminal-Bench](https://www.tbench.ai/news/harbor-index)).
+- In a June 2026 independent comparison, Gemini 3.1 trailed GPT-5.5 on the Terminal-Bench team's Harbor-Index in both a native and a neutral harness, though the post notes that none of its pairwise comparisons reached statistical significance ([Terminal-Bench](https://www.tbench.ai/news/harbor-index)).
 
 For Google:
 - Its July 2025 International Mathematical Olympiad gold-medal result was "officially graded and certified by IMO coordinators" ([Google DeepMind](https://deepmind.google/discover/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/)). That's a higher bar of verification than many lab claims get.
@@ -168,8 +168,8 @@ Whether that shows up in *your* coding work is exactly what an afternoon with yo
 
 **OpenAI.**
 - The GPT-4o sycophancy rollback and the GPT-5 model-picker reversal (both above).
-- In the other column: OpenAI publicly retired SWE-bench Verified, a benchmark it had created, once it judged the benchmark contaminated (February 2026, [module 05](./05-judging-models.md#the-state-of-coding-benchmarks-november-2026-high-level)).
-- Its Codex team published a detailed degradation investigation.
+- In the other column: OpenAI publicly retired SWE-bench Verified, a benchmark it had created, after an audit found many of its hardest tasks had flawed tests or descriptions, amid contamination concerns (February 2026, [module 05](./05-judging-models.md#the-state-of-coding-benchmarks-november-2026-high-level)).
+- Its Codex team published a detailed degradation investigation, [Ghosts in the Codex Machine](https://docs.google.com/document/d/1fDJc1e0itJdh0MXMFJtkRiBcxGEFtye6Xc6Ui7eMX4o/mobilebasic) (October 2025). The May 2026 episode above got no comparable write-up.
 
 **Anthropic.**
 - Detailed public postmortems in September 2025 and April 2026, both after weeks in which users noticed problems before the company confirmed them.

@@ -93,7 +93,10 @@ Merge the findings from you, Reviewer 1, and Reviewer 2 into one list, deduplica
 The reviewer says: "<finding>". Don't fix it yet. First, write a test that
 demonstrates the failure, run it, and show me it fails. If you can't make it
 fail, explain why the scenario can't happen and we'll dismiss it.
+Don't install, add, or upgrade any dependencies.
 ```
+
+Approve each command yourself, and deny any install the agent proposes, for the reason in the warning above.
 
 Check by hand:
 

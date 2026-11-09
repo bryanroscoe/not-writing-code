@@ -4,7 +4,7 @@
 
 ## Goal
 
-Run the full explore → plan → implement → verify → commit loop on a small feature, with acceptance tests **you** wrote as the contract the agent must satisfy ([module 08](../../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). The instructor will grade your feature against hidden tests you never see, so your own tests need to be good.
+Run the full explore → plan → implement → verify → commit loop on a small feature, with acceptance tests **you** wrote as the contract the agent must satisfy ([module 08](../../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Your feature is graded against hidden tests you never see, so your own tests need to be good. In a course, the instructor writes them. Working alone, see [Self-paced: hidden tests](#self-paced-hidden-tests).
 
 **Tier note.**
 - **Part A (spec and acceptance tests): AI-as-tutor.** An agent may interview you and point out gaps. It may explain the test framework. It may not write the spec text or the tests you submit.
@@ -13,15 +13,16 @@ Run the full explore → plan → implement → verify → commit loop on a smal
 ## Prerequisites and setup
 
 - [Lab 2](lab-02-first-agent-session.md) done: your agent is installed, and you know its permission modes, plan mode, and context view.
-- The Lab 3 starter repository: `[link to Lab 3 starter]`. It contains a project skeleton, a test runner, and a feature menu. The instructor holds hidden acceptance tests for each feature.
-- Pick one feature from the starter's menu. If your instructor hasn't provided one, these work well because each has real edge cases:
+- The Lab 3 starter repository: `[link to Lab 3 starter]`. It contains a project skeleton, a test runner, and a feature menu. The instructor holds hidden acceptance tests for each feature. Clone it and work on a branch (`git switch -c lab3`), so the `main` comparisons in step 6 show your whole change.
+- Pick one feature from the starter's menu. **In a course, the instructor always provides the menu and its hidden tests;** the hidden-test criterion in the rubric depends on them.
+- **Working alone,** pick one of these fallback features. Each has a fixed signature (shown in Python; use the equivalent in your language) and a few required behaviors that any hidden tests will check. Everything else is a decision for your spec.
 
-  | Feature | Edge cases to think about |
-  | --- | --- |
-  | `parse_duration("1h30m")` returns seconds | Unit order, repeated units, whitespace, zero, empty string, invalid units, very large values |
-  | A token-bucket rate limiter with an injectable clock | Burst at start, refill timing, time going backwards, capacity of zero |
-  | A small `.env`-style config parser | Comments, quoting, escaped quotes, blank lines, duplicate keys, `=` inside values |
-  | `slugify(text, max_length)` | Unicode, punctuation runs, leading and trailing separators, truncating mid-word |
+  | Feature and signature | Required behavior | Decide in your spec |
+  | --- | --- | --- |
+  | `parse_duration(text: str) -> int`, total seconds | `"1h30m"` → 5400; `"45s"` → 45; `"2h"` → 7200; `""` and `"5x"` raise `ValueError` | Unit order, repeated units, whitespace, zero, very large values |
+  | `TokenBucket(capacity: int, refill_per_second: float, clock: Callable[[], float])` with `allow() -> bool` | Starts full, so `capacity` calls in a row return `True` and the next returns `False`; after `1 / refill_per_second` seconds on the injected clock, one more call returns `True`; capacity 0 always returns `False` | Time going backwards, fractional tokens, very long gaps |
+  | `parse_env(text: str) -> dict[str, str]` | `KEY=value` lines parsed; blank lines and lines starting with `#` ignored; `KEY="a b"` gives `a b`; `A=b=c` gives `b=c` | Escaped quotes, duplicate keys, `export` prefixes, whitespace around `=` |
+  | `slugify(text: str, max_length: int = 50) -> str` | `"Hello, World!"` → `"hello-world"`; runs of separators become one hyphen; no leading or trailing hyphen; result never longer than `max_length`; `""` → `""` | Unicode, truncating mid-word, `max_length` smaller than one word |
 
 ## Background reading
 
@@ -122,7 +123,16 @@ Fix only the confirmed ones, each with a test. Don't fix everything a reviewer r
 - Where did the plan change, and why?
 - Did the agent try to touch the tests, skip them, or claim success early?
 - What did your mutation check reveal about your tests?
-- After grading, compare with the hidden-test results: what did the instructor's tests catch that yours didn't, and what kind of case was it?
+- After grading, compare with the hidden-test results: what did the hidden tests catch that yours didn't, and what kind of case was it?
+
+## Self-paced: hidden tests
+
+Without an instructor, use one of these so the hidden-test criterion still means something:
+
+1. **A study partner (best).** Give your partner the feature's required behaviors and your `SPEC.md`, but not your tests. They write six to ten hidden tests and run them on your finished branch after step 8.
+2. **A holdout file (alone).** Before Part A, write four to six tests from the required behaviors only, and keep them somewhere the agent can't read (not inside or next to the repository; see [Lab 6](lab-06-your-own-eval.md#2-write-and-validate-each-task-then-hand-over-the-hidden-tests-90-minutes-each)). Add them only after step 8. It's weaker, because you wrote them, but it still catches an implementation tuned to your visible tests.
+
+If you can do neither, see the rubric note below.
 
 ## What to submit
 
@@ -141,11 +151,13 @@ Fix only the confirmed ones, each with a test. Don't fix everything a reviewer r
 | Spec | 15 | Written by you; inputs, outputs, edge and error cases, non-goals, and definition of done all present |
 | Acceptance tests | 20 | At least eight, written by you, including three edge or error cases; committed before any implementation; seen failing |
 | Plan | 10 | Fresh session; plan read and challenged at least once; saved |
-| Hidden acceptance tests | 20 | Scaled by pass rate on the instructor's hidden tests |
+| Hidden acceptance tests | 20 | Scaled by pass rate on the instructor's hidden tests (self-paced: a partner's tests or your holdout file) |
 | Verification | 15 | Your own test run; empty test diff; two mutations, each caught (or a new test added) |
 | Review | 10 | Fresh-context reviewer; every finding verified or refuted with evidence; only confirmed findings fixed |
 | Reflection and AI log | 10 | Specific, evidence-based, honest about what the agent did |
 | **Total** | **100** | |
+
+**Self-paced without a partner or holdout file:** move the 20 hidden-test points to Acceptance tests (10, judged against the required-behavior list) and Verification (10, for a third mutation that a test catches), and say so in your reflection.
 
 If the transcript or a walkthrough shows that an agent wrote your spec or tests, Part A (spec and tests, 35 points) gets no credit, and the [AI-use policy](../syllabus.md#ai-use-policy) applies.
 
@@ -164,6 +176,7 @@ If the transcript or a walkthrough shows that an agent wrote your spec or tests,
 
 ## Instructor notes
 
+- **Always provide the feature menu.** The hidden-test criterion depends on it. The fallback table in the setup section is for self-paced learners; if you use those features, write hidden tests that cover the required behaviors plus the edge cases students most often leave out of their specs.
 - **Hidden tests.** Write them to cover the edge cases students most often miss. Keep them out of the student repository and run them after the deadline. Share aggregate results in class: which kinds of cases did the class miss?
 - **Agent-written tests.** The most common integrity problem in this lab. The planning transcript, the commit order, and a quick walkthrough question ("why does this test expect an error rather than an empty result?") usually settle it.
 - **Tests that edit themselves.** Agents under pressure to pass sometimes loosen or skip tests ([module 08](../../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)). The empty test-diff check catches it. Make students show you that check, not just claim it.

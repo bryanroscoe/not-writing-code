@@ -122,7 +122,7 @@ The weird legacy corner nobody remembers is often where agents help most, starti
 - **Review the plan, not just the code.** The plan is the cheapest place to catch a wrong idea ([module 08](../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)).
 - **Review the test.** If you approved a failing test first, the diff mostly has to make it pass.
 - **Keep diffs small.** Ask for the smallest change.
-- **Let a bot take the first pass** on local bugs, so you spend your attention on intent, design, and risk ([module 10](../modules/10-ai-code-review.md#a-layered-review-workflow)). Another industrial study saw PR cycle time fall 30.8%.
+- **Let a bot take the first pass** on local bugs, so you spend your attention on intent, design, and risk ([module 10](../modules/10-ai-code-review.md#a-layered-review-workflow)). Another industrial study saw PR cycle time fall 30.8% ([module 10](../modules/10-ai-code-review.md#what-the-research-says)).
 
 And concede the rest: for a ten-line change in code you know cold, typing it yourself may well be faster. AI-first isn't AI-only. The wins are biggest on unfamiliar code, tests, migrations, glue scripts, and debugging from logs ([module 08](../modules/08-agentic-workflows.md#ai-first-beyond-writing-code)).
 
@@ -134,7 +134,7 @@ And concede the rest: for a ten-line change in code you know cold, typing it you
 
 **The answer.** Take all of it seriously, including what came after:
 - The tools were early-2025 agents. METR itself now marks the result out of date.
-- METR's February 2026 follow-up, with late-2025 tools, estimated tasks about 4% to 18% faster depending on the group, with confidence intervals that include zero. METR calls that an unreliable signal, likely biased toward zero, because 30–50% of developers withheld tasks they didn't want to do without AI ([module 08](../modules/08-agentic-workflows.md#the-case-against-or-at-least-not-yet)).
+- METR's February 2026 follow-up, with late-2025 tools, estimated tasks about 4% to 18% faster depending on the group, with confidence intervals that include zero. METR calls that an unreliable signal, likely biased toward zero, because 30–50% of developers withheld tasks they didn't want to do without AI ([module 08](../modules/08-agentic-workflows.md#the-case-against-or-at-least-not-yet), [module 05](../modules/05-judging-models.md#real-world-productivity-evidence)).
 - The finding that holds up across every study is the **perception gap**. METR's 2026 assessment of one AI lab found self-reported uplift of about 12x against a measured 2x ([module 05](../modules/05-judging-models.md#self-report-vs-measurement)).
 
 So the right conclusion isn't "it makes you slower." It's "don't trust how fast it feels, yours or anyone's." Experts on familiar code may see small gains. Nobody should promise 10x.
@@ -165,7 +165,7 @@ To be fair to the other reading: no public evidence shows that model was trained
 
 ### 11. "Fully autonomous agents are hype."
 
-**What's true.** For ordinary product work, mostly yes, today. The famous successes share four things: a strong automated oracle, greenfield code, a harness humans built, and a high tolerance for waste ([module 08](../modules/08-agentic-workflows.md#what-the-successes-have-in-common)). A C compiler built by parallel agents cost about $20,000 and its author lists serious limitations. A week-long agent-built browser drew sharp criticism about whether it even built. Steve Yegge describes his own orchestrator as "chaotic and sloppy" and "expensive as hell" ([module 08](../modules/08-agentic-workflows.md#the-case-against-or-at-least-not-yet)).
+**What's true.** For ordinary product work, mostly yes, today. The famous successes share four things: a strong automated oracle, greenfield code, a harness humans built, and a high tolerance for waste ([module 08](../modules/08-agentic-workflows.md#what-the-successes-have-in-common)). A C compiler built by parallel agents cost about $20,000 and its author lists serious limitations. A week-long agent-built browser drew sharp criticism about whether it even built. Steve Yegge describes his own orchestrator as "chaotic and sloppy" and "expensive as hell" ([module 08](../modules/08-agentic-workflows.md#the-case-against-or-at-least-not-yet), [module 08 on Yegge](../modules/08-agentic-workflows.md#steve-yegges-eight-stages)).
 
 **The answer.** You don't need to believe in full autonomy to get value. Most of it is in supervised agents and parallel supervised agents, where a human reviews every merge. Autonomy is a dial, not a switch: turn it up one notch at a time, only as fast as your automated checks can catch what you stop looking at ([module 08](../modules/08-agentic-workflows.md#the-autonomy-spectrum)).
 
@@ -220,7 +220,7 @@ Who typed the code is not the job. Someone still decides what to build, catches 
 
 ### 16. "This is just a way to squeeze more output out of us."
 
-**What's true.** The risk is real. Research in Harvard Business Review argued that AI tools tend to intensify work rather than reduce it. Running several agents means constant context switching, and some engineers find it more tiring than writing code themselves ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)). Headlines about labs merging several times more code per day invite exactly the wrong targets.
+**What's true.** The risk is real. Research in Harvard Business Review argued that AI tools tend to intensify work rather than reduce it. Running several agents means constant context switching, and some engineers find it more tiring than writing code themselves ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)). Headlines about what share of a lab's code agents wrote invite exactly the wrong targets ([module 08](../modules/08-agentic-workflows.md#the-case-for-full-autonomy)).
 
 **The answer.** A good rollout rejects that framing in writing. The [playbook](ai-first-playbook.md#how-to-measure) refuses lines of code, PR counts, and "% written by AI" as targets, measures stability and review quality alongside throughput, and tells people to run only as many agents as they can actually review. If anyone starts ranking engineers by tokens or PRs, that's a fair thing to push back on, and the modules back you: Goodhart's law applies, and these numbers reward bloat ([module 10](../modules/10-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)).
 

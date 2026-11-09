@@ -14,6 +14,12 @@ These `Bryan's take` callouts take your stated opinions a step further. Confirm,
 - [ ] [13](modules/13-open-source-ecosystem.md#bryans-take): your autonomy skepticism applied to OpenClaw, and multi-model review applied to PRs on other people's projects.
 - [ ] [00](modules/00-orientation.md#what-we-mean-by-vibe-coding) and [leads path](paths/leads.md#what-ai-first-should-mean-on-your-team): wording of the "vibe coding" definition and "the realistic goal right now is every engineer is a confident supervisor of agents."
 - [ ] [02](modules/02-training-and-tuning.md#bryans-take): currently just "Models that can tune their own weights are huge." Add a sentence on *why* you think so, in your words.
+- [ ] [08](modules/08-agentic-workflows.md#bryans-take), first callout: "That's where I've found the speed is real and the quality still holds, because I'm still the one deciding what gets merged."
+- [ ] [07](modules/07-context-engineering.md#bryans-take), first callout: "Each line felt free to add, so the files kept growing… past a point, the extra lines stop helping and start costing."
+- [ ] [04](modules/04-open-vs-closed-weights.md#bryans-take): "Open models like Kimi sit at a different place in the chain." You raised this as a topic. Check that it reads the way you meant it.
+- [ ] [00](modules/00-orientation.md#what-we-mean-by-vibe-coding): "That's the only version I'd teach."
+
+Independent reviewers checked every callout against your brain dump. Everything not listed here restates what you said.
 
 ## 2. Interpretations of the brain dump
 
@@ -37,6 +43,9 @@ The research agents hit the shared web-search limit near the end and finished by
 - [ ] **OWASP LLM Top 10 2026 ordering** (module 11).
 - [ ] **Bastani et al. (PNAS 2025)** details are from memory; the page was blocked (module 15).
 - [ ] **Gemini 4 Carbon at #1 on Arena** (module 14) is from the live leaderboard on Nov 8 and marked preliminary there.
+- [ ] **openai.com blocks automated fetches**, so these OpenAI claims rest on secondary coverage: the 138-task SWE-bench Verified audit (module 05), the harness-engineering post's "three engineers" and "~100-line AGENTS.md" details (module 07), GPT-5.3-Codex as OpenAI's first "High" cyber rating (module 11), and the URL of OpenAI's May 2025 sycophancy follow-up post (module 01).
+- [ ] **Yegge's eight stages** (module 08) were quoted from an archived copy because Medium blocks fetches. Worth a word-for-word check against the original.
+- [ ] **Smaller unsourced specifics** a reviewer couldn't confirm: Grok 4.3 "spring 2026" (03), Muse Spark 1.2/1.3 dates and price (03), Xiaomi MiMo V2.6, GLM-5.3-Flash, Mistral Medium 3.5 and Nemotron 3 Super (04), the OpenClaw exposed-instance counts from Censys and Bitsight (13), and OpenAI Business pricing (12).
 
 Already reconciled during drafting:
 - Fable 5's suspension (Jun 12 – Jul 1, 2026) was due to US export controls, not instability. Fixed in module 03 and the timeline.

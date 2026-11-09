@@ -1,10 +1,12 @@
 # Lab 7: Multi-agent and cross-model review
 
-> **Course:** [syllabus](../syllabus.md), week 11 (due week 13) · **Tier:** AI-accelerated · **Time:** 3–4 hours · **Last verified:** 2026-11-08
+> **Course:** [syllabus](../syllabus.md), week 11 (due week 13) · **Tier:** AI-accelerated · **Format:** individual lab on your term project. Together, your team's Lab 7 submissions are the project's cross-model review. · **Time:** 3–4 hours · **Last verified:** 2026-11-08
 
 ## Goal
 
 Build a review swarm by hand: several independent reviewers, each focused on one concern, then an adversarial verifier that tries to disprove each finding, using a model from a different lab where you can ([module 09](../../modules/09-multi-agent-systems.md#recipe-1-a-review-swarm)). Then measure whether it was worth the extra cost compared with one ordinary review.
+
+You'll do this on a real pull request from your term project, written by a teammate. There is no separate project cross-model-review deliverable: your team's Lab 7 submissions, and the fixes that come out of them, are it ([syllabus](../syllabus.md#deliverables)).
 
 Review is where multiple agents earn their keep. Reading parallelizes well; writing on one codebase usually doesn't ([module 09](../../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
 
@@ -15,7 +17,7 @@ Review is where multiple agents earn their keep. Reading parallelizes well; writ
 ## Prerequisites and setup
 
 - [Lab 4](lab-04-review-ai-code.md) done.
-- **A change to review,** 50 to 300 lines: your Lab 3 feature, a pull request from your term project, or one the instructor provides. It must have a spec or issue that says what it's supposed to do.
+- **A change to review:** one of your team's pull requests from week 10 onward that **you didn't write**, 50 to 300 lines. For a bigger one, review one coherent part and say which. Agree as a team so each member reviews a different PR, and pick the largest or riskiest ones. The PR must link an issue or spec that says what it's supposed to do. Working alone (self-paced): use your Lab 3 feature or another change of yours with a spec.
 - **Your main agent,** plus a model from a different lab if you can get one. Options: a second plan, the other lab's free tier (paste the diff into its chat), or a classmate's tool, with their permission. If none of these work, use a different model tier from your own lab, in a fresh session, and note the limitation. A much weaker reviewer adds confident noise, not diversity ([module 09](../../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)).
 - **A budget, set before you start.** For example: one baseline reviewer, three focused reviewers, at most one verifier per finding, and no more than 12 sessions in total. Stop early if a full pass produces no new confirmed finding ([module 09](../../modules/09-multi-agent-systems.md#budgets-and-stop-conditions)).
 
@@ -29,6 +31,8 @@ Review is where multiple agents earn their keep. Reading parallelizes well; writ
 ### 1. Freeze the target (10 minutes)
 
 Review a fixed commit, not a moving branch. Give every reviewer the same inputs.
+
+Check out the pull request's branch first. Keep the `review/` folder out of the project's history (for example, add it to `.git/info/exclude`) and submit it separately.
 
 ```bash
 mkdir -p review
@@ -97,7 +101,7 @@ Add columns to `findings.md`:
 
 ### 7. Decide and fix (30 minutes)
 
-Use [module 10's severity levels](../../modules/10-ai-code-review.md#severity-triage). Fix confirmed High and Medium findings, each with a test, in separate commits. File or note the rest. Don't fix everything: a reviewer asked to find problems will always find something, and fixing every finding adds layers and tests for cases that can't happen ([module 09](../../modules/09-multi-agent-systems.md#budgets-and-stop-conditions)).
+Use [module 10's severity levels](../../modules/10-ai-code-review.md#severity-triage). Fix confirmed High and Medium findings through your team's normal process: a pull request per fix, each with a test, approved by a teammate. Agree with the PR's author who makes each fix. File the rest as issues or note them. Don't fix everything: a reviewer asked to find problems will always find something, and fixing every finding adds layers and tests for cases that can't happen ([module 09](../../modules/09-multi-agent-systems.md#budgets-and-stop-conditions)).
 
 ### 8. Measure (20 minutes)
 
@@ -121,13 +125,13 @@ One page, in your own words:
 2. Which reviewer was noisiest? What would you change in its brief, or would you drop it ([module 09](../../modules/09-multi-agent-systems.md#budgets-and-stop-conditions))?
 3. Was the verifier step worth it? How many findings would you have acted on wrongly without it?
 4. Did the cross-model step change any verdict? If you couldn't use another lab's model, what do you think you missed?
-5. For your term project, which parts of this would you keep, and with what budget?
+5. For your team's final sprint, which parts of this would you keep, and with what budget? Share your answer with your team; the project README summarizes what the team's reviews found ([syllabus](../syllabus.md#deliverables)).
 
 ## What to submit
 
 - The `review/` folder: `sha.txt`, `diff.patch`, `diffstat.txt`, `spec.md`, `baseline.md`, every reviewer and verifier output, `findings.md`, and `costs.md`.
 - Your budget, written before you started.
-- The fix commits, each with a test.
+- Links to the fix pull requests (or issues, for findings you deferred), each fix with a test.
 - The write-up and your [AI log](../syllabus.md#ai-log-template), naming every model and tool used.
 
 ## Grading rubric
@@ -139,7 +143,7 @@ One page, in your own words:
 | Deduplication and verification | 25 | Findings merged by root cause; every finding sent to a verifier; verdicts backed by evidence |
 | Your check of the verifiers | 10 | At least three verdicts reproduced by hand, including one confirmed and one refuted |
 | Measurement | 20 | Honest counts and costs; comparison with the baseline; noisy reviewer identified |
-| Fixes | 10 | Confirmed High and Medium findings fixed with tests; low-value findings left alone with a reason |
+| Fixes | 10 | Confirmed High and Medium findings fixed with tests through reviewed PRs; low-value findings left alone with a reason |
 | Write-up and AI log | 10 | Specific, evidence-based answers; every model named |
 | **Total** | **100** | |
 
@@ -151,6 +155,7 @@ One page, in your own words:
 
 ## Instructor notes
 
+- **Assign the PRs.** In week 11, check that each team has given every member a different PR that member didn't write. Reviewing your own code defeats the point.
 - **Anchored reviewers.** The most common setup error is reviewing in the same session that wrote the code, or pasting the author's conversation into the reviewer. Check that every reviewer started fresh.
 - **Fixing everything.** Some students will apply every suggestion. Deduct when unverified fixes add complexity.
 - **Rubber-stamping verifiers.** A verifier that confirms everything is no better than none. The human check in step 6 exists to catch this.

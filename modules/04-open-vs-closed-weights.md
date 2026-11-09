@@ -19,7 +19,7 @@ A language model is a very large function. You give it tokens. It gives back a p
 
 On disk, weights are just big files of numbers:
 
-- **Safetensors** (`.safetensors`): the standard format on Hugging Face. It holds only tensors, not code, so loading it can't run hidden programs ([Hugging Face](https://huggingface.co/docs/safetensors/index)).
+- **Safetensors** (`.safetensors`): the standard format on Hugging Face. It holds only tensors (arrays of numbers), not code, so loading it can't run hidden programs ([Hugging Face](https://huggingface.co/docs/safetensors/index)).
 - **GGUF** (`.gguf`): the single-file format used by llama.cpp, Ollama and LM Studio, usually already quantized.
 - **Pickle-based files** (`.bin`, `.pt`): older PyTorch formats that can run arbitrary code when loaded. Treat them like executables from strangers ([Hugging Face](https://huggingface.co/docs/hub/security-pickle)).
 
@@ -164,8 +164,10 @@ A dense 30B model at 4-bit (~17 GB) on a machine with ~270 GB/s of bandwidth top
 | **36 GB Mac** | ~24–27 GB | The same 27B–32B dense models; Gemma 4 26B-A4B (fast); gpt-oss-20b with long context | ~35B MoE models |
 | **64 GB Mac** | ~45–48 GB | 70B-class dense at 4-bit (slow) | ~100B MoE at 3-bit |
 | **128 GB Mac or similar workstation** | ~96 GB+ | gpt-oss-120b (fits one 80 GB GPU as shipped); 120B-A12B MoE such as Nemotron 3 Super | Mistral Medium 3.5 (128B dense, slow) |
-| **8× 80 GB data-center GPUs** | ~640 GB | 300B–800B MoE at 4-bit or FP8: Muse Spark Open (NVFP4 ≈ 450–500 GB), GLM-5.3 at 4-bit (~420 GB), MiniMax M3 at FP8 | ~1T models at 4-bit, such as Mistral Large 4 (~550 GB) |
+| **8× 80 GB data-center GPUs** | ~640 GB | 300B–800B MoE at 4-bit or FP8: GLM-5.3 at 4-bit (~420 GB), MiniMax M3 at FP8 | ~1T models at 4-bit, such as Mistral Large 4 (~550 GB) |
 | **Multi-node clusters** | 1 TB+ | Kimi K3 / K3.1 Pro, DeepSeek V4-Pro, Qwen3.8-2.4T | — |
+
+Model cards can ask for more than the weight math suggests. By the math above, Muse Spark Open's 4-bit (NVFP4) weights come to roughly 450–500 GB, but Meta's card asks for at least 700 GB of GPU memory at NVFP4, or two M5 Ultra Mac Studios running MLX ([model card](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B)).
 
 The headline frontier open models (Kimi K3.1 Pro, DeepSeek V4-Pro, Qwen3.8-Max, GLM-5.3) can't run on a laptop at useful quality. Most people use them through hosted providers. "Local" usually means a model one or two tiers smaller.
 
@@ -304,7 +306,7 @@ Epoch notes "some evidence that open-weight models tend to optimize on benchmark
 
 ### The licensing trend: open, but not for your competitors
 
-From 2024 to 2026 the frontier open license moved away from plain MIT or Apache toward custom licenses. These keep almost every use free but target one group: other companies that would host the model and sell it as a service. Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4 and Muse Spark Open all have some version of this clause. For most engineers and companies it changes nothing. For cloud and inference providers it changes a lot. It shows open weights are a business strategy, not charity.
+From 2024 to 2026 the frontier open license moved away from plain MIT or Apache toward custom licenses. These keep almost every use free but target one group: other companies that would host the model and sell it as a service. Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4 and Muse Spark Open all have some version of this clause. For most engineers and companies it changes nothing. For cloud and inference providers it changes a lot. It suggests open weights are a business strategy, not charity.
 
 ### Self-hosting isn't automatically safer
 

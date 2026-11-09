@@ -14,7 +14,7 @@
 
 ### Why this exists
 
-Between early 2025 and late 2026, writing software changed more than it had in the previous twenty years. In January 2025, most developers used AI as fancy autocomplete or a chat window they pasted code into. By late 2026, many professional engineers spend their day directing several coding agents that read the codebase, run commands, write and test changes, and open pull requests. At Anthropic, the company reports that Claude wrote more than 80% of merged code by May 2026 ([module 08](08-agentic-workflows.md)).
+Between early 2025 and late 2026, writing software arguably changed more than it had in the previous twenty years. In January 2025, most developers used AI as fancy autocomplete or a chat window they pasted code into. By late 2026, many professional engineers spend their day directing several coding agents that read the codebase, run commands, write and test changes, and open pull requests. At Anthropic, the company reports that Claude wrote more than 80% of merged code by May 2026 ([module 08](08-agentic-workflows.md)).
 
 That shift leaves two groups behind:
 
@@ -52,7 +52,7 @@ Most of this course lives in the bold rows.
 
 A few data points, all covered in detail later:
 
-- In 2026 alone, Anthropic shipped more than a dozen models across four tiers, OpenAI shipped GPT-5.3 through GPT-6.1, and Google cancelled one flagship and launched two others ([module 03](03-model-landscape.md), [timeline](../reference/timeline.md)).
+- In 2026 alone, Anthropic shipped eleven generally available models across four tiers (more than a dozen counting the restricted Mythos versions), OpenAI shipped GPT-5.3 through GPT-6.1, and Google cancelled one flagship, launched another, and announced a third that only vetted cyber defenders can use so far ([module 03](03-model-landscape.md), [timeline](../reference/timeline.md)).
 - METR, an independent evaluator, measures how long a task (in human time) an AI agent can complete half the time. That "time horizon" has been doubling every few months, much faster than the roughly 7 months its original 2025 paper found ([module 05](05-judging-models.md)).
 - The vocabulary churns too: prompt engineering, then context engineering, harness engineering, loop engineering, and graph engineering, all within about eighteen months ([module 07](07-context-engineering.md)).
 - Tools appear, become essential, and disappear. Roo Code, a popular open-source agent, shut down in May 2026. Cursor was acquired by SpaceX in August 2026. Gemini CLI moved to enterprise-only in June 2026 ([module 06](06-harnesses-and-tools.md), [module 13](13-open-source-ecosystem.md)).

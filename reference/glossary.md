@@ -36,7 +36,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Approval fatigue**: Approving permission prompts without reading them because there are too many. ([06](../modules/06-harnesses-and-tools.md))
 - **Argon**: The name of Google's first Gemini 4 model (October 2026). ([03](../modules/03-model-landscape.md))
 - **`Assisted-by:` trailer**: A commit-message line disclosing that a tool helped produce the change. ([13](../modules/13-open-source-ecosystem.md))
-- **Astra / Sol / Terra / Luna**: OpenAI's tier names since GPT-5.6, from largest to smallest. ([03](../modules/03-model-landscape.md))
+- **Astra / Sol / Terra / Luna**: OpenAI's tier names, from largest to smallest (Sol, Terra and Luna since GPT-5.6; Astra since GPT-6). ([03](../modules/03-model-landscape.md))
 - **Attention / self-attention**: A mechanism that lets each token weigh and draw information from other tokens using queries, keys, and values. ([01](../modules/01-what-is-an-llm.md))
 - **Auto mode**: A permission mode in which a classifier model approves routine actions. ([06](../modules/06-harnesses-and-tools.md), [11](../modules/11-security-and-prompt-injection.md))
 - **Automation bias**: The tendency of people to over-trust an automated check and relax their own scrutiny. ([10](../modules/10-ai-code-review.md))

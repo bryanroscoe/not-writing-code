@@ -6,7 +6,7 @@
 **TL;DR**
 - There are three ways to pay: a **chat subscription** (Claude, ChatGPT), a **tool subscription** (Cursor, GitHub Copilot), or the **API**, billed per token. Subscriptions are flat fees with usage caps. The API is uncapped and metered.
 - Agentic coding is expensive on the API because the model is stateless: every turn re-sends the whole conversation, so cost grows roughly with the *square* of the number of turns in a session. **Prompt caching** cuts that by 80–90% in the worked example below. Without it, API pricing for heavy agent use is brutal.
-- With caching, one hour of steady agentic coding on a top-tier model costs a few dollars at API prices (as of November 2026). A full-time heavy user easily spends several hundred to a few thousand dollars a month. A $100–$200 subscription covers much of that, until you hit the weekly cap.
+- With caching, one hour of steady agentic coding costs roughly $4–$8 at frontier and top-tier API prices (as of November 2026). A full-time heavy user easily spends several hundred to a few thousand dollars a month. A $100–$200 subscription covers much of that, until you hit the weekly cap.
 - Judge **cost per finished task**, not price per token. A cheaper model that takes three times as many turns can cost more, and costs more of *your* time.
 - Use subscriptions for individual interactive work. Use the API for anything that runs in production, in CI, in batch, or for other users. The terms of service require it, and the API gives you controls a subscription doesn't.
 
@@ -106,7 +106,7 @@ Cursor's lineup was rebuilt around a shared subscription with xAI in late Octobe
 | OpenAI GPT-6.1 Sol (frontier) | $2 | none | $0.10 | $10 |
 | OpenAI GPT-6.1 Terra (mid) | $1 | none | $0.05 | $5 |
 | OpenAI GPT-6 Luna (small) | $0.10 | none | $0.01 | $0.50 |
-| Google Gemini 4 Argon (flagship) | $2 | storage fee | $0.10 | $10 |
+| Google Gemini 4 Argon (flagship) | $2 | none (implicit caching only) | $0.10 | $10 |
 | Google Gemini 3.8 Flash | $0.75 | storage fee | $0.075 | $3.75 |
 
 Sources: [Anthropic pricing docs](https://platform.claude.com/docs/en/about-claude/pricing), [OpenAI pricing docs](https://developers.openai.com/api/docs/pricing), [Google AI Studio pricing](https://aistudio.google.com/docs/pricing). Notes, all as of November 2026:
@@ -114,7 +114,7 @@ Sources: [Anthropic pricing docs](https://platform.claude.com/docs/en/about-clau
 - Batch is 50% off at all three. OpenAI's "Priority" tier was renamed **Fast mode** on 30 July 2026 and costs 2x; Anthropic's fast mode for Opus 5.5 is $8/$40.
 - OpenAI charges more above 272K input tokens. Haiku 5.5 charges 5x above 100K. Anthropic's other current models bill the full 1M context at the standard rate.
 - Google's page lists scheduled increases: Gemini 4 Argon prices double on 1 December 2026, and Gemini 3.8 Flash on 1 January 2027. Anthropic's Sonnet 5 launched with "introductory" pricing that was later made permanent. Launch prices are not promises.
-- Labs' most capable restricted models (for example Anthropic's Mythos tier for vetted security work) are priced separately and are not generally available.
+- Labs' most capable restricted models (for example Anthropic's Mythos tier for vetted security work) are listed separately and are not generally available. Mythos 5.1 has the same list price as Fable 5.1.
 
 ### Worked example: one hour of agentic coding
 
@@ -180,7 +180,7 @@ What is public is that vendors keep adjusting the caps:
 
 **Using subscriptions outside the vendor's own tools.** This changed in 2026 and differs by vendor:
 
-- **Anthropic** says OAuth sign-in from Free, Pro, Max, and Ultra plans is for Claude Code and Anthropic's own apps. Developers building products, including with the Agent SDK, must use API keys, and third parties may not route requests through subscription credentials ([Claude Code legal and compliance](https://code.claude.com/docs/en/legal-and-compliance)). Anthropic reportedly began blocking subscription tokens in third-party harnesses in January 2026, and it put the rule in its consumer terms in February 2026 ([The Register](https://www.theregister.com/2026/02/20/anthropic_clarifies_ban_third_party_claude_access)). Running the unmodified Claude Code binary with your own subscription is allowed, including where a platform hosts it.
+- **Anthropic** says OAuth sign-in from Free, Pro, Max, and Ultra plans is for Claude Code and Anthropic's own apps. Developers building products, including with the Agent SDK, must use API keys, and third parties may not route requests through subscription credentials ([Claude Code legal and compliance](https://code.claude.com/docs/en/legal-and-compliance)). Anthropic began actively blocking third-party tools that spoofed the Claude Code harness in January 2026, and in February 2026 it spelled the OAuth rule out on that compliance page; the consumer terms had already banned unauthorized automated access since at least 2024 ([The Register](https://www.theregister.com/2026/02/20/anthropic_clarifies_ban_third_party_claude_access)). Running the unmodified Claude Code binary with your own subscription is allowed, including where a platform hosts it.
 - **OpenAI** lets you sign into Codex with a ChatGPT plan for subscription access or with an API key for metered access ([docs](https://learn.chatgpt.com/docs/auth)). It has also been more open to third-party tools: it reportedly worked with the open-source OpenCode harness and, in September 2026, opened "Sign in with ChatGPT" so subscribers can spend their plan's allowance inside partner tools ([The New Stack](https://thenewstack.io/sign-in-with-chatgpt/)). Check the current terms before relying on this.
 
 These policies have changed several times in a year. If your workflow depends on using a consumer subscription in a third-party tool, have a fallback.
@@ -251,7 +251,7 @@ The reverse also happens. For well-specified, repetitive work (applying the same
 
 Then:
 - A $200/month seat costs about **2 engineer-hours a month**. A $20 seat costs about 12 minutes.
-- A heavy API user at $600/month (the cached frontier figure above) costs about **6 engineer-hours a month**.
+- A heavy API user at about $630/month (the cached frontier figure above) costs about **6 engineer-hours a month**.
 - A 10-person team on $200 seats is $24,000 a year, about 13% of one loaded engineer. If the tools raise the team's useful output by even 2%, that is ~$38,000 of engineering time.
 
 The weak link is the "if." In METR's 2025 randomized study, experienced open-source developers using early-2025 AI tools took 19% *longer* on their tasks while believing they were 20% faster ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). Tools and practices have changed a lot since, but the lesson about self-reports holds. Measure things you can count (cycle time, review turnaround, escaped defects, rework) before and after. See [module 08](./08-agentic-workflows.md) and the [workplace playbook](../workplace/).
@@ -269,7 +269,7 @@ The weak link is the "if." In METR's 2025 randomized study, experienced open-sou
 ### Cache economics
 
 - **Prefix only.** Caches match from the start of the prompt. Anything that changes early (a timestamp in the system prompt, a reordered tool list) invalidates everything after it. Put stable content first: tools, system instructions, project docs, then conversation.
-- **Write premium vs read discount.** Anthropic charges 1.25x to write a 5-minute cache entry and 2x for 1 hour; reads cost 0.1x base on most models and less on the newest (0.05x on Opus 5.5 and Sonnet 5.5, 0.025x on Fable 5.1). A 5-minute write pays for itself after one read. OpenAI caches automatically with no write premium. Google charges for cache storage per hour.
+- **Write premium vs read discount.** Anthropic charges 1.25x to write a 5-minute cache entry and 2x for 1 hour; reads cost 0.1x base on most models and less on the newest (0.05x on Opus 5.5 and Sonnet 5.5, 0.025x on Fable 5.1). A 5-minute write pays for itself after one read. OpenAI caches automatically with no write premium. Google charges for cache storage per hour on models that offer explicit caching.
 - **Vendors compete on cache price now.** For agentic workloads, the cache-read price can matter more than the headline input price, because most input tokens are cache reads. Compare that column first.
 
 ### Why output costs more

@@ -149,7 +149,7 @@ For the current model lineups, see [module 03](03-model-landscape.md). For a dat
 
 ### Scaling laws: why bigger kept working
 
-In 2020, Kaplan and colleagues at OpenAI found that a language model's error (its **loss**) falls smoothly and predictably as you increase parameters, training data, and compute. The relationship is a **power law** ([Kaplan et al., 2020](https://arxiv.org/abs/2001.08361)). That turned model building into something closer to engineering: you could forecast roughly how good a bigger model would be before paying to train it.
+In 2020, Kaplan and colleagues at OpenAI found that a language model's error (its **loss**) falls smoothly and predictably as you increase parameters, training data, and compute. The relationship is a **power law**: each tenfold increase in scale cuts the loss by a roughly constant fraction ([Kaplan et al., 2020](https://arxiv.org/abs/2001.08361)). That turned model building into something closer to engineering: you could forecast roughly how good a bigger model would be before paying to train it.
 
 In 2022, DeepMind's **Chinchilla** paper corrected the recipe. Most big models were undertrained. For a fixed compute budget, you should grow parameters and training tokens together, at roughly 20 tokens per parameter. Chinchilla (70B parameters, 1.4 trillion tokens) beat the 280B Gopher with the same compute ([Hoffmann et al., 2022](https://arxiv.org/abs/2203.15556)).
 
@@ -253,7 +253,7 @@ In code, hallucinations show up as invented APIs, nonexistent package names (whi
 
 **Sycophancy** is the tendency to tell you what you want to hear: agreeing with your wrong diagnosis, praising weak code, or caving when you push back on a correct answer.
 
-It comes partly from training on human preferences. People tend to rate agreeable, flattering answers highly. [Sharma et al. (2023)](https://arxiv.org/abs/2310.13548) found sycophancy across several assistants and showed that both humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In April 2025, OpenAI rolled back a GPT-4o update in ChatGPT that had become noticeably flattering. It said an added reward signal based on users' thumbs-up and thumbs-down ratings had weakened the check that kept sycophancy down ([OpenAI, 2025](https://openai.com/index/sycophancy-in-gpt-4o/)).
+It comes partly from training on human preferences. People tend to rate agreeable, flattering answers highly. [Sharma et al. (2023)](https://arxiv.org/abs/2310.13548) found sycophancy across several assistants and showed that both humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In April 2025, OpenAI rolled back a GPT-4o update in ChatGPT that had become noticeably flattering. In a follow-up post, it said an added reward signal based on users' thumbs-up and thumbs-down ratings had weakened the check that kept sycophancy down ([OpenAI, April 2025](https://openai.com/index/sycophancy-in-gpt-4o/); [OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)).
 
 For engineers, the fix is in how you ask: request critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work ([module 10](10-ai-code-review.md)).
 
@@ -447,7 +447,7 @@ One person picks a sentence from a book nobody has seen and reveals it one word 
 
 - OpenAI, [Introducing ChatGPT](https://openai.com/index/chatgpt/) (November 2022)
 - OpenAI, [Learning to reason with LLMs](https://openai.com/index/learning-to-reason-with-llms/) (September 2024)
-- OpenAI, [Sycophancy in GPT-4o: what happened and what we're doing about it](https://openai.com/index/sycophancy-in-gpt-4o/) (April 2025)
+- OpenAI, [Sycophancy in GPT-4o: what happened and what we're doing about it](https://openai.com/index/sycophancy-in-gpt-4o/) (April 2025) and [Expanding on what we missed with sycophancy](https://openai.com/index/expanding-on-sycophancy/) (May 2025)
 - Anthropic, [Tracing the thoughts of a large language model](https://www.anthropic.com/research/tracing-thoughts-language-model) (March 2025)
 - Anthropic, [Claude's new constitution](https://www.anthropic.com/news/claude-new-constitution) (January 2026)
 - Horace He / Thinking Machines, [Defeating Nondeterminism in LLM Inference](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/) (September 2025)

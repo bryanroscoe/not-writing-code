@@ -272,7 +272,7 @@ Contributing to open source is one of the best ways for a student to learn real 
 
 ### Open source as the field's R&D lab
 
-Many harness ideas that are now standard appeared first in open projects or public experiments. Aider's repository map (a compact summary of a codebase's symbols) showed that agents need a map rather than whole files. The Ralph loop showed that a dumb outer loop with fresh contexts can get surprising mileage. Beads and Gas Town pushed git-backed, structured memory for many agents. The skills format began in Anthropic's public repository and spread to more than 70 platforms in under a year. Vendors watch these projects closely, and good ideas move into commercial products within months ([module 06](./06-harnesses-and-tools.md)).
+Many harness ideas that are now standard appeared first in open projects or public experiments. Aider's repository map (a compact summary of a codebase's symbols) showed that agents need a map rather than whole files. The Ralph loop showed that a dumb outer loop with fresh contexts can get surprising mileage. Beads and Gas Town pushed git-backed, structured memory for many agents. The skills format began in Anthropic's public repository and, within a year, was adopted by a growing list of other agent products ([client showcase](https://agentskills.io/clients)). Vendors watch these projects closely, and good ideas move into commercial products within months ([module 06](./06-harnesses-and-tools.md)).
 
 ### Churn and capture
 

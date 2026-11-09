@@ -19,7 +19,7 @@ Do these in the four weeks before classes start.
    - Lab 2: a small project with a few tests.
    - Lab 3: a skeleton with a feature menu and **hidden acceptance tests** you keep out of the student repo.
    - Lab 4: a small web API with users, an admin-only endpoint, and tests.
-   - Lab 6: optionally, an "eval starter" repo with tagged base commits and hidden tests.
+   - Lab 6: an "eval starter" repo with tagged base commits and hidden tests, for self-paced learners and for teams whose project history is too thin. Lab 6 normally uses each team's own project history.
    - Lab 8 fallback: a class-run open-source repository with a `CONTRIBUTING.md`, a written AI policy, CI, and at least one sized, labelled issue per student, plus spares.
 3. **Vet a Lab 8 project list.** Five to fifteen projects with explicit AI-contribution policies, active maintainers, and runnable tests. Cap students per project (two is a reasonable default) so the class doesn't become a burden on any one maintainer team ([module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
 4. **Build a Lab 5 sandbox recipe** students can follow: a container or VM with no mounted home directory and no forwarded credentials. Test it on macOS, Windows (WSL), and Linux.
@@ -152,7 +152,7 @@ Each week lists a goal, talking points, a live demo, misconceptions to address, 
 
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-Present the counter-claims with equal care: OpenAI's harness team reports a million-line product without hand-written code, Cursor reports a week-long multi-agent run that built a working browser, and Anthropic reports that Claude writes most of its merged code ([module 07](../modules/07-context-engineering.md#bryans-take), [module 08](../modules/08-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
+Present the counter-claims with equal care: OpenAI's harness team reports a million-line product without hand-written code, Cursor reports a week-long multi-agent run that built a web browser (disputed: critics reported that a fresh clone failed to build and that most CI jobs failed; see [module 08's critique](../modules/08-agentic-workflows.md#the-case-against-or-at-least-not-yet)), and Anthropic reports that Claude writes most of its merged code ([module 07](../modules/07-context-engineering.md#bryans-take), [module 08](../modules/08-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
 
 **Live demo:** run the shape of the module 08 [sample session](../modules/08-agentic-workflows.md#a-sample-session) on a toy bug. Before it runs the tests, ask "is it done?" and let the class watch it claim success. Then ask for the command and output.
 
@@ -242,7 +242,7 @@ Present the counter-claims with equal care: OpenAI's harness team reports a mill
 - An agent reads support emails and updates the CRM. Which leg of the Rule of Two would you remove, and what does that cost the product?
 - If an agent you supervised leaked a secret because of text in a dependency's README, who is accountable?
 
-**Before Lab 5:** approve each student's sandbox plan before they run any attack. **AI-free check 2:** review a short diff by hand with the checklist, and label the trifecta legs in a scenario.
+**Before Lab 5:** approve each student's sandbox plan in week 8, before they run any attack. Students who want to run defense D2 with their harness's own sandbox may need the VM option rather than a container ([refresh checklist](#refresh-checklist-for-each-term)). **AI-free check 2:** review a short diff by hand with the checklist, and label the trifecta legs in a scenario.
 
 ### Week 9: the model landscape and reading claims
 
@@ -284,6 +284,8 @@ Present the counter-claims with equal care: OpenAI's harness team reports a mill
 
 **Live demo:** on the board, compute the error bar for 10 tasks at 60% and for 40 tasks at 60%. Then show a ten-line script that copies outputs to random IDs and writes the key to a separate file. Students will use the same idea in Lab 6.
 
+**Setting up Lab 6:** it runs on each team's project history and is the project's eval set. Before the run phase, collect every task's hidden tests through `[the course's private submission system]` and check that students deleted their local copies. An agent running as the student can read sibling and parent folders, so "outside the repository" isn't far enough. Release the tests only for the grade phase, after the runs are finished.
+
 **Misconceptions**
 - "Ten tasks can detect a five-point difference."
 - "If the hidden tests passed, the agent solved the task."
@@ -314,6 +316,8 @@ Present the counter-claims with equal care: OpenAI's harness team reports a mill
 - "If agents debate, they converge on the truth."
 - "A new session of the same model is an independent reviewer." It's the minimum, not the ideal.
 - "Giving agents roles like CEO and QA adds checks." It adds tokens ([module 09](../modules/09-multi-agent-systems.md#anti-patterns)).
+
+**Setting up Lab 7:** it's the project's cross-model review. In class, have each team give every member a different pull request from week 10 on that the member didn't write. The project's security review is also due this week.
 
 **Discussion prompts** ([module 09](../modules/09-multi-agent-systems.md#discussion-questions))
 - Why do review and research parallelize better than writing code?
@@ -469,6 +473,7 @@ Walkthroughs are the course's main integrity safeguard and its best teaching too
 ### Grading team work
 
 - Team deliverables get a team score, adjusted per person by individual evidence: commits, PR reviews written, AI logs per PR, and `[peer evaluation]`.
+- Lab 6 is a team lab with individual parts: each student's tasks, runs, and scoring are graded individually; the leak check, statistics, and decision are shared. Lab 7 is individual, on a teammate's PR.
 - Branch protection makes every merge traceable to a human approver. The approver owns that change too ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
 - Watch for one experienced member doing all the merging. Each member should author and approve merges.
 
@@ -489,7 +494,7 @@ Use the week 1 diagnostic and survey to sort students roughly into newcomers, in
 Newcomers can program but haven't used agents, or have used chat assistants mostly to get answers.
 
 - **Their risk:** dependence. They approve what they don't understand and skip the struggle that builds skill ([module 15](../modules/15-learning-careers-and-responsibility.md#producing-the-work-vs-learning-from-it)).
-- **What helps:** the habits in the [student path](../paths/students.md#habits-to-build-from-day-one): attempt first for 15 minutes, ask for hints instead of answers, keep a "didn't understand" log. Suggest a learning mode for the first labs. Treat their walkthroughs as coaching.
+- **What helps:** the habits in the [student path](../paths/students.md#habits-to-build-from-day-one) and [module 15](../modules/15-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning): attempt first before asking, ask for hints instead of answers, keep a "didn't understand" log. Suggest a learning mode for the first labs. Treat their walkthroughs as coaching.
 - **Scope:** each lab's core steps are the requirement. Extensions are optional and don't raise the ceiling of the grade.
 - **Watch for** git trouble. A newcomer who can't undo an agent's change will be afraid to let it make one. A short git clinic in week 2 pays off all term.
 
@@ -615,6 +620,9 @@ Work through this in the month before term. Keep a dated changelog at the top of
 | Every command named in a lab | Run each lab end to end; check vendor docs (plan mode, context view, checkpoints, `/clear`, review commands, output styles) | Labs 2–7 |
 | Permission, sandbox, and hook syntax | Docs linked from [module 11](../modules/11-security-and-prompt-injection.md#practical-defenses) and [module 06](../modules/06-harnesses-and-tools.md#the-rest-of-the-harness-toolkit) | Labs 2, 5, 6 |
 | Non-interactive mode and its flags | Vendor docs; [module 08](../modules/08-agentic-workflows.md#background-and-unattended-runs) | Lab 6 |
+| Deny rules vs the shell | In the current harness version, confirm that a deny rule on the file-reading tool still leaves `cat` and similar shell reads open ([module 11](../modules/11-security-and-prompt-injection.md#practical-defenses)). Update Lab 5's D1 text if the behavior changed. | Lab 5 (D1), demo 2 |
+| Harness sandboxes inside containers | Try each harness's own sandbox inside the recommended unprivileged container image. If it won't start, tell students to run D2 in a VM; never suggest `--privileged`. | Lab 5 (D2), the sandbox recipe |
+| Where hidden tests are held | Confirm the private submission route for Lab 6 hidden tests and blinding keys | Lab 6 |
 | Lab 1's free tools | Confirm the tokenizer page loads and a free playground still exposes temperature | Lab 1 |
 | Open-source AI policies | Re-read every policy linked in [module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden) and on your vetted list; drop inactive projects | Lab 8 |
 | Class repository | Issues ready and sized, CI green, maintainer shifts scheduled | Lab 8 fallback |

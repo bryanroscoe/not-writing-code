@@ -4,13 +4,15 @@
 
 ## Goal
 
-Make one small, well-tested, disclosed contribution to a real open-source project, following that project's rules and the etiquette in [module 13](../../modules/13-open-source-ecosystem.md#etiquette-for-contributing-with-ai). Learn how a real codebase and its maintainers work.
+Make one small, well-tested, disclosed contribution to a real open-source project, following that project's rules and the etiquette in [module 13](../../modules/13-open-source-ecosystem.md#etiquette-for-contributing-with-ai), or to the course's private class repository. Learn how a real codebase and its maintainers work.
+
+**Public or private is your choice.** An upstream contribution is public. The [class repository](#the-fallback-the-class-repository) is private, and choosing it costs you nothing in grading. See [Privacy](#privacy-contributing-in-public) before you decide.
 
 **You're graded on the process and your learning log, not on whether the pull request is merged.** Maintainers' time and decisions aren't yours to control. For a course, the log is the evidence of learning ([module 13](../../modules/13-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly)).
 
 **Why this lab is careful.** AI tools made it nearly free to produce a plausible-looking pull request, and the cost moved to volunteer maintainers who have to read every one. curl ended its bug bounty in January 2026 after the share of real reports fell below one in twenty ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). Your contribution must be worth more to the project than the time it takes to review it, which is LLVM's golden rule.
 
-**Tier note.** By default this lab is **AI-as-tutor**: use AI to understand the codebase, explain errors, and critique your work, but write or heavily revise the code yourself and write all text yourself. **The project's policy wins when it's stricter.** If the project bans AI-generated contributions, everything you submit to it is AI-free.
+**Tier note.** By default this lab is **AI-as-tutor**: use AI to understand the codebase, explain errors, and critique your work, but write the code and all text yourself. (Module 13 allows heavily revising an agent's draft. This course is stricter here, because under the [AI-use policy](../syllabus.md#the-three-tiers) AI-as-tutor work may not contain AI-written code.) **The project's policy wins when it's stricter.** If the project bans AI-generated contributions, everything you submit to it is AI-free.
 
 ## The rules
 
@@ -26,12 +28,22 @@ These come from [module 13](../../modules/13-open-source-ecosystem.md#etiquette-
 8. **Write the PR description and every reply yourself.** Disclose AI help even where the project doesn't require it.
 9. **Never let an agent post** to an issue tracker, pull request, or mailing list on your behalf.
 10. **Accept "no."** If a maintainer declines, thank them and stop. Don't reopen the same change with a new prompt.
-11. **Never pressure maintainers about your grade.** Say it's a course assignment, and say a merge isn't required.
+11. **Never pressure maintainers about your grade.** You don't have to mention the course. If you do, also say a merge isn't required.
+
+## Privacy: contributing in public
+
+Upstream contributions are public and hard to remove. Your account name, commits, issue comments, and review replies can be seen, searched, and archived by anyone, and they can show that you were a student in a particular course.
+
+- `[Institution: before the term, confirm with the registrar or privacy office that a public contribution as a course activity complies with student-privacy rules, such as FERPA in the US, and record any consent or notice they require.]`
+- **The course never requires you to contribute publicly.** The class repository is the private option. You may choose it from the start, for any reason, without explaining why.
+- **You don't have to reveal that you're a student,** or name the course or the institution, in any public place.
+- **Pseudonymous accounts are fine where the project allows them.** Some projects require a real name, for example for a Developer Certificate of Origin sign-off or a contributor license agreement. Read the rules first. If a project needs a name you don't want to give, choose another project or the class repository.
+- **Your grade and feedback stay private.** The instructor collects links and evidence through `[the course's private submission system]` and never posts them publicly.
 
 ## Prerequisites and setup
 
 - [Labs 3, 4, and 7](lab-03-plan-test-build.md) done. You'll use the test-first loop and the review skills.
-- A GitHub (or other forge) account in your own name, set up for signed or attributed commits the way the project requires.
+- A GitHub (or other forge) account, set up for signed or attributed commits the way the project requires. It may be pseudonymous where the project's rules permit ([Privacy](#privacy-contributing-in-public)).
 - If the project requires a contributor license agreement (CLA) or a Developer Certificate of Origin sign-off, you sign it yourself. In the Linux kernel's words, "AI agents MUST NOT add Signed-off-by tags"; only a human can certify ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). `[Check the institution's policy on intellectual property in student work.]`
 - The instructor's vetted project list: `[link]`. You may propose a project that isn't on it.
 
@@ -58,6 +70,9 @@ Check candidates against this list:
 - [ ] You can build it and run its tests on your machine.
 - [ ] It has open issues small enough for a first contribution, or a clear way to propose one.
 - [ ] No more than one other student in the class has chosen it (the instructor tracks this).
+- [ ] Its identity rules (real name, CLA, DCO) are ones you're comfortable with.
+
+Or choose the class repository now and skip to [the fallback](#the-fallback-the-class-repository).
 
 Submit a one-page proposal:
 
@@ -69,7 +84,8 @@ Submit a one-page proposal:
 - AI policy: <link> — "<quoted key lines>"
 - What the policy means for me: <allowed uses, required disclosure format,
   anything banned, any rules about first-time contributors>
-- Contribution guide: <link>; CLA or DCO required? <yes/no>
+- Contribution guide: <link>; CLA or DCO required? <yes/no>; real name required? <yes/no>
+- Account I'll use: <your name or a pseudonym, if the project allows it>
 - Build and test: <commands; confirmed working on my machine? yes/no>
 - Candidate issues: <two or three links, with one line each>
 ```
@@ -85,10 +101,11 @@ The instructor approves it or suggests changes.
    ```text
    Hi! I'd like to work on this. I can reproduce it on <version or commit>
    with <steps>. My plan is to <one or two sentences>, with a regression test
-   in <file>. I'm a student and this is part of a course assignment (a merge
-   isn't required for my grade). Per your AI policy, I'll <how you will or
-   won't use AI, and how you'll disclose it>. Would a PR for this be welcome?
+   in <file>. Per your AI policy, I'll <how you will or won't use AI, and how
+   you'll disclose it>. Would a PR for this be welcome?
    ```
+
+   Mentioning that this is coursework is optional. If you do, add that a merge isn't required.
 
 4. Wait for a maintainer's go-ahead. One polite follow-up after about a week is fine. More than that isn't.
 5. **If you have no go-ahead by `[week 11 date]`,** switch to the [class repository](#the-fallback-the-class-repository). Don't open a PR without one. Record what happened in your log; it's useful evidence about how projects work.
@@ -107,7 +124,7 @@ Follow the steps from [module 13](../../modules/13-open-source-ecosystem.md#how-
    ```
 
 2. **Write a failing test** that reproduces the bug, in the project's test style. Run it and save the failure.
-3. **Write the fix yourself,** or heavily revise anything an agent drafted until you could have written it. Delete what you can't defend.
+3. **Write the fix yourself.** An agent may explain, hint, and critique your code, but it doesn't draft the code you submit (see the tier note). Delete what you can't defend.
 4. **Keep it small.** Check `git diff --stat` before every commit.
 5. **Run the project's full test suite and linters** locally, the way its contributing guide says. Save the output.
 6. **Get a second opinion before the maintainers' opinion.** Have a classmate, or a model from a different lab, review your diff ([module 10](../../modules/10-ai-code-review.md#a-layered-review-workflow)). Verify each finding before acting on it.
@@ -137,11 +154,13 @@ Keep `lab8-log.md` with dated entries. This is the main thing you're graded on.
 
 ## The fallback: the class repository
 
-If no upstream project works out (no eligible project, no go-ahead in time, or a policy that doesn't fit), contribute to the class-run repository: `[link to class repository]`.
+Contribute to the class-run repository if you'd rather keep your work private, or if no upstream project works out (no eligible project, no go-ahead in time, or a policy that doesn't fit): `[link to class repository]`.
 
+- It's **private**: `[hosted so that only enrolled students and course staff can see it]`. Nothing you do there is public.
+- Choosing it at the start, for privacy or any other reason, is graded exactly like an upstream contribution.
 - It has a `CONTRIBUTING.md` and an AI policy modelled on LLVM's human-in-the-loop approach: you read and review all generated code before asking anyone else to; you label substantial AI help with an `Assisted-by:` trailer; you write your own PR description; and no autonomous agents post in project spaces ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
 - Issues are sized and labelled. Claim one with the same kind of comment as above, and wait for a maintainer (a TA, or a student on a maintainer shift) to give you the go-ahead.
-- Every rule, step, and rubric line in this lab applies unchanged. Fallback contributions are graded exactly the same way.
+- Every rule, step, and rubric line in this lab applies unchanged.
 - Students using the class repository also serve one **maintainer shift**: review two other students' pull requests against the policy and the [module 10 checklist](../../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs). Note how long each review took. This counts toward participation.
 
 ## What to submit
@@ -178,6 +197,7 @@ If no upstream project works out (no eligible project, no go-ahead in time, or a
 
 ## Instructor notes
 
+- **Do the privacy review before the term.** Confirm with `[the registrar or privacy office]` that public contributions as a course activity are allowed and what notice or consent is needed. Never require public work, accept a choice of the class repository without question, and keep the class repository private.
 - **Vet the list every term.** Policies change, and projects go quiet. Re-read each linked policy before week 9 ([refresh checklist](../instructor-guide.md#refresh-checklist-for-each-term)).
 - **Cap students per project.** A whole class arriving at one project is itself a maintainer burden. Two per project is a reasonable default.
 - **Build in slack.** Some maintainers reply in hours, some in weeks. Hold the week 11 fallback deadline firmly so nobody is stuck at the end of term.

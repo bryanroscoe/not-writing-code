@@ -5,7 +5,7 @@
 
 **TL;DR**
 - A **harness** is everything around the model: the agent loop, the tools, the permission system, context management, and the user interface. Agent = model + harness. The same model can feel brilliant in one harness and clumsy in another.
-- Coding tools went through five overlapping generations: autocomplete (2021), chat (2022), IDE agents (2024), terminal (CLI) agents (2025), and cloud or background agents (2025). Then came a sixth layer in 2026: desktop apps and orchestrators that drive several CLI agents at once.
+- Coding tools went through five overlapping generations: autocomplete (2021), chat (2022), IDE agents (2023–2025), terminal (CLI) agents (2025), and cloud or background agents (2024–2025). Then came a sixth layer in 2026: desktop apps and orchestrators that drive several CLI agents at once.
 - **MCP** (Model Context Protocol) is the open standard for plugging tools and data into any harness. Anthropic released it in November 2024. OpenAI, Google and Microsoft adopted it in 2025, and it moved to the Linux Foundation's Agentic AI Foundation in December 2025. Its main costs are context bloat and security risk.
 - Modern harnesses share a common kit: instruction files, **skills**, **subagents**, **hooks**, slash commands, plugins, permission modes and sandboxes, git worktrees, and checkpoints. Learn the concepts once. They transfer across tools.
 - Closed products such as Claude Design, Claude in Chrome, ChatGPT agent and Google Antigravity bundle a model, a harness and tools into one experience. They are convenient, and you can't easily see inside them or swap their parts.
@@ -267,7 +267,7 @@ fi
 exit 0
 ```
 
-**Permission modes and auto mode.** Approval prompts sound safe, but people stop reading them. Anthropic [reported](https://www.anthropic.com/engineering/claude-code-auto-mode) in March 2026 that users approve 93% of permission prompts. Its "auto mode" hands routine approvals to a classifier model and keeps hard blocks for risky actions. Anthropic was candid about the limits: the full pipeline still missed 17% of "overeager" actions in its tests, and it is "not a replacement for careful human review on high-stakes infrastructure." The safer pattern for long unattended runs is a real sandbox (container, VM, or cloud environment) with limited credentials.
+**Permission modes and auto mode.** Approval prompts sound safe, but people stop reading them. Anthropic [reported](https://www.anthropic.com/engineering/claude-code-auto-mode) in March 2026 that users approve 93% of permission prompts. Its "auto mode" hands routine approvals to a classifier model and keeps hard blocks for risky actions. Anthropic was candid about the limits: the full pipeline still missed 17% of "overeager" actions in its tests, and it is "not a drop-in replacement for careful human review on high-stakes infrastructure." The safer pattern for long unattended runs is a real sandbox (container, VM, or cloud environment) with limited credentials.
 
 ## In practice
 

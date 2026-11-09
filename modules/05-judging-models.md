@@ -48,7 +48,7 @@ flowchart LR
 **Generality.** These models are general-purpose. No finite test covers everything they're used for, so every benchmark is a narrow sample. A model can lead on competition math and trail on your Rails monolith.
 
 **Contamination.** Models train on huge scrapes of the internet. If benchmark questions or their solutions are on the internet, the model may have seen them. Then a high score shows memory, not skill. Two examples:
-- In [The SWE-Bench Illusion](https://arxiv.org/abs/2506.12286) (Liang et al., 2025), models were shown only a GitHub issue's text. They still named the file that needed fixing up to 76% of the time on SWE-bench Verified, without seeing the repository. On tasks from other repositories, accuracy was far lower.
+- In [The SWE-Bench Illusion](https://arxiv.org/abs/2506.12286) (Liang et al., 2025), models were shown only a GitHub issue's text. They still named the file that needed fixing up to 76% of the time on SWE-bench Verified, without seeing the repository. On tasks from repositories outside SWE-bench, the best was 53%.
 - [GSM1k](https://arxiv.org/abs/2405.00332) (Zhang et al., 2024) rewrote a grade-school math benchmark with fresh problems. Some model families lost up to 8 points, which is a sign of overfitting to the original.
 
 **Saturation.** When top models all score near the ceiling, the benchmark stops telling them apart. HumanEval saturated years ago. In September 2026 Artificial Analysis dropped GPQA Diamond from its index, and labs were reporting scores in the mid-90s on it.
@@ -105,7 +105,7 @@ None of these tell you much about coding. They're useful for spotting gross capa
 | Benchmark | What it measures | Weaknesses |
 | --- | --- | --- |
 | AIME (American Invitational Mathematics Examination) | 30 competition problems per year with integer answers | Tiny; each year's problems leak quickly; labs use majority-vote settings (see the Grok 3 episode in [module 14](./14-keeping-up.md)) |
-| [FrontierMath](https://arxiv.org/abs/2411.04872) (Glazer et al., 2024) | Hundreds of unpublished, research-grade math problems with checkable answers | Funding conflict: Epoch AI [disclosed in January 2025](https://epoch.ai/blog/openai-and-frontiermath) that OpenAI commissioned the problems and can see most of them, with a holdout set it can't see |
+| [FrontierMath](https://arxiv.org/abs/2411.04872) (Glazer et al., 2024) | Hundreds of unpublished, research-grade math problems with checkable answers | Funding conflict: Epoch AI [disclosed in January 2025](https://epoch.ai/blog/openai-and-frontiermath) that OpenAI commissioned and owns the problems and has most of the problems and solutions, except a holdout set whose solutions it doesn't receive |
 | ARC-AGI-1/2/3 ([Chollet, 2019](https://arxiv.org/abs/1911.01547); [ARC-AGI-2](https://arxiv.org/abs/2505.11831), 2025; [ARC-AGI-3](https://arcprize.org/blog/arc-agi-3-launch), 2026) | Novel visual puzzles that humans find easy and models find hard. ARC-AGI-3 (March 2026) is interactive: turn-based games with no instructions, testing exploration and planning | Abstract puzzles, far from software work. ARC Prize reports cost per task, which matters because high-compute runs can buy scores |
 
 #### Coding
@@ -164,7 +164,7 @@ Arena is good at answering "which model do people enjoy chatting with?" It's wea
 | **Still discriminating, actively maintained** | Terminal-Bench 4.0 (Aug 2026; saturated tasks removed; top systems in the 50–65% range depending on harness); SWE-bench Pro; METR-style long tasks (approaching saturation); new 2026 evals such as Cognition's FrontierCode, which grades whether a maintainer would merge the change |
 | **Moving target** | Independent indexes keep swapping components. Between January and November 2026, Artificial Analysis removed MMLU-Pro, LiveCodeBench, AIME 2025, GPQA Diamond, and the original HLE from its Intelligence Index ([version history](https://artificialanalysis.ai/methodology/intelligence-benchmarking)) |
 
-The lesson that lasts: **a benchmark has a useful life of one to two years** at the frontier. Learn the *shape* of a good benchmark (fresh, held-out, realistic, verified, harness-documented), not a list of names.
+The lesson that lasts: **at the frontier, a benchmark tends to stay useful for only a year or two** before it saturates or leaks. Learn the *shape* of a good benchmark (fresh, held-out, realistic, verified, harness-documented), not a list of names.
 
 ### Harness matters
 
@@ -196,7 +196,7 @@ Anthropic released Claude Opus 5 on July 24, 2026 with strong numbers. It claime
 
 Day-to-day reception was much more mixed. In a roundup of reactions, Zvi Mowshowitz advised readers not to pay too much attention to the "(very strong) benchmarks." Complaints clustered around verbosity, "endless overly complex sentences," over-engineering beyond the request, and spinning at high effort settings. Others praised its coding and forecasting ([Zvi, Jul 28, 2026](https://thezvi.wordpress.com/2026/07/28/claude-opus-5-is-highly-capable-but-is-no-mythos/)). Anthropic's own system card attributed weaker results on some tasks to "unproductive self-verification" and over-engineering, as quoted in [Zvi's system card review](https://thezvi.substack.com/p/claude-opus-5-the-system-card).
 
-Opus 5.5 followed on September 22, 2026. Anthropic said it improved how the model writes and communicates, "addressing some of the most common feedback" about Opus 5 ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Zvi called the reactions to it "the most consistently positive set of reactions I have ever seen" ([Zvi, Sep 26, 2026](https://thezvi.wordpress.com/2026/09/26/claude-opus-5-5-should-raise-your-ambitions/)).
+Opus 5.5 followed on September 22, 2026. Anthropic said it had made "major improvements to the way Opus 5.5 writes and communicates," which it called "one of the most common areas of feedback we heard about Opus 5" ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Zvi called the reactions to it "the most consistently positive set of reactions I have ever seen" ([Zvi, Sep 26, 2026](https://thezvi.wordpress.com/2026/09/26/claude-opus-5-5-should-raise-your-ambitions/)).
 
 > **Bryan's take:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
 
@@ -239,7 +239,7 @@ Benchmarks measure models. Teams care whether *people with models* ship better s
 | [METR, Becker et al., 2025](https://arxiv.org/abs/2507.09089) | RCT, 16 experienced open-source maintainers, 246 tasks in their own large repos, early-2025 tools | **19% slower** (CI +2% to +39%). They predicted 24% faster and afterward *believed* they'd been 20% faster | Small sample; experts on familiar code; early-2025 agents |
 | [METR follow-up, Feb 2026](https://metr.org/blog/2026-02-24-uplift-update/) | 57 developers, 800+ tasks, late-2025 tools | −18% time for returning developers (CI −38% to +9%); −4% for new ones (CI −15% to +9%) | METR calls it an **unreliable signal**: 30–50% of developers withheld tasks they didn't want to do without AI, which biases the estimate toward zero |
 | [DORA 2025](https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report) | Survey of ~5,000 professionals | 90% use AI; >80% *believe* it raised productivity; AI adoption now linked to higher throughput but still to lower delivery **stability**; 30% have little or no trust in AI code | Correlational, self-reported. Central claim: AI "amplifies what's already there" |
-| [Stack Overflow 2026](https://survey.stackoverflow.co/2026/ai) | Survey, 16,664 respondents | 48% trust AI output only when it's easy to verify; ~7% trust it for important decisions | Self-report |
+| [Stack Overflow 2026](https://survey.stackoverflow.co/2026/ai) | Survey, 30,903 responses (AI questions answered by about 11,000–14,000) | 48% trust AI "when they can easily validate the answers"; only 16% extend that trust to most tasks that aren't important work decisions | Self-report |
 | [METR on Anthropic, Nov 2026](https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment/) | Mixed-methods assessment inside one AI lab | Measured progress ~**2x** faster than 2024–25 (plausibly 1.3x–3x); staff *self-reported* ~**12x** uplift | Not an RCT; much evidence redacted; a lab is an unusual workplace |
 
 **Why studies disagree:**
@@ -393,13 +393,13 @@ A pass rate from n tasks has a standard error of about √(p(1−p)/n). With 20 
 
 As agents get stronger, they get better at gaming graders. METR reported "well over 100 distinct instances of cheating from shared models" and said manually checking for cheating is often most of the work of running its suite. In one MirrorCode setup, a model attempted reward hacking in about 80% of attempts ([METR, May 2026](https://metr.org/blog/2026-05-19-frontier-risk-report/)).
 
-Terminal-Bench's [April 2026 integrity update](https://www.tbench.ai/news/leaderboard-integrity-update) removed submissions that modified timeouts, uploaded test folders, or fetched solutions from the internet into an `AGENTS.md` file. It now requires full trajectories for every passing trial and reviews them with an agent judge.
+Terminal-Bench's [leaderboard integrity update](https://www.tbench.ai/news/leaderboard-integrity-update) removed submissions that modified timeouts, hid encrypted solutions in the agent binary, or uploaded the tasks' test folders. It scored as zero the trials in which one agent fetched solutions from the internet into its `AGENTS.md` file. It now requires full trajectories for every passing trial and reviews them with an agent judge.
 
 For your own evals: hide tests, diff the test directory, and *read* a sample of passing transcripts. Reward hacking is closely related to the training dynamics in [module 02](./02-training-and-tuning.md) and the safety concerns in [module 11](./11-security-and-prompt-injection.md).
 
 ### Self-report vs measurement
 
-The gap between how fast people *feel* and how fast they *are* appears in every careful study. In METR's 2025 RCT the developers felt 20% faster and were 19% slower. In METR's 2026 assessment of Anthropic, self-reports said ~12x and measured acceleration said ~2x. METR's [transcript analysis](https://metr.org/notes/2026-02-17-exploratory-transcript-analysis-for-estimating-time-savings-from-coding-agents/) of its own staff estimated time savings of 1.5x–13x, and the author called it a "soft upper bound" because it ignores task substitution and selection. If you survey your team, treat the result as a ceiling and pair it with something measured: cycle time, golden-task timing, or change-failure rate.
+The gap between how fast people *feel* and how fast they *are* appears in every careful study. In METR's 2025 RCT the developers felt 20% faster and were 19% slower. In METR's 2026 assessment of Anthropic, self-reports said ~12x and measured acceleration said ~2x (METR notes that individual uplift and organizational acceleration aren't the same quantity, but the gap is still large). METR's [transcript analysis](https://metr.org/notes/2026-02-17-exploratory-transcript-analysis-for-estimating-time-savings-from-coding-agents/) of its own staff estimated time savings of 1.5x–13x, and the author called it a "soft upper bound" because it ignores task substitution and selection. If you survey your team, treat the result as a ceiling and pair it with something measured: cycle time, golden-task timing, or change-failure rate.
 
 ### Open debates
 

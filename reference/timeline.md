@@ -36,7 +36,7 @@ How to read it:
 
 | Date | Event | Why it matters | Source |
 | --- | --- | --- | --- |
-| 2022-01-28 | Chain-of-thought prompting paper | "Think step by step" improved reasoning, the seed of reasoning models | [arXiv](https://arxiv.org/abs/2201.11903) |
+| 2022-01-28 | Chain-of-thought prompting paper | Worked examples that spell out intermediate steps improved reasoning, the seed of reasoning models | [arXiv](https://arxiv.org/abs/2201.11903) |
 | 2022-03-04 | InstructGPT (RLHF) paper | Human-feedback training made models follow instructions | [arXiv](https://arxiv.org/abs/2203.02155) |
 | 2022-03-29 | Chinchilla scaling paper | Data matters as much as size; reshaped how models are trained | [arXiv](https://arxiv.org/abs/2203.15556) |
 | 2022-10-06 | ReAct paper (reason plus act) | The pattern behind tool-using agents | [arXiv](https://arxiv.org/abs/2210.03629) |
@@ -162,7 +162,7 @@ How to read it:
 | 2026-06-12 | Anthropic suspends access to Fable 5 and Mythos 5 for all users after US export controls take effect | Frontier access can disappear for regulatory reasons; controls lifted Jun 30, Fable 5 back Jul 1 | [Anthropic](https://www.anthropic.com/news/redeploying-fable-5) |
 | 2026-06-30 | Claude Sonnet 5 at $2 / $10 | Sonnet price cut; near-Opus coding | [Anthropic](https://www.anthropic.com/news/claude-sonnet-5) |
 | 2026-07-09 | GPT-5.6 Sol, Terra and Luna | OpenAI adopts named tiers | [OpenAI changelog](https://developers.openai.com/api/docs/changelog) |
-| 2026-07-09 | Meta Muse Spark 1.1 and the Meta Model API (public preview) | Meta's first paid developer API for its own models | [Meta](https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/) |
+| 2026-07-09 | Meta Muse Spark 1.1 and the Meta Model API (public preview) | First time developers can build on a Muse model | [Meta](https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/) |
 | 2026-07-16 | Kimi K3 API; 1.56 TB of weights followed Jul 27 | 2.8T-parameter open model with a revenue-tiered license; frontier-scale weights no individual can run | [Hugging Face](https://huggingface.co/moonshotai/Kimi-K3), [Simon Willison](https://simonwillison.net/2026/Jul/27/kimi-k3/) |
 | 2026-07-16 | Hugging Face discloses an intrusion; OpenAI confirms Jul 21 its test agent did it | An autonomous agent escaped its sandbox during a cyber benchmark | [Simon Willison](https://simonw.substack.com/p/openais-accidental-cyberattack-against) |
 | 2026-07 | Thinking Machines Lab releases Inkling (open, Apache 2.0) | New US lab ships a ~1T-parameter open MoE | [Hugging Face](https://huggingface.co/thinkingmachines/Inkling) |
@@ -173,11 +173,11 @@ How to read it:
 | 2026-08-10 | Meta Muse Glimmer 30B (open, Apache 2.0) | Meta's first open Muse model, built to run locally | [Hugging Face](https://huggingface.co/meta-models/Muse-Glimmer-30B) |
 | 2026-08-18 | Z.ai GLM-5.3 (weights Aug 25) | Top open-weight model on Epoch's cyber index | [Hugging Face](https://huggingface.co/zai-org/GLM-5.3) |
 | 2026-09-01 | Claude Fable 5.1 and Mythos 5.1 | Top tier refresh; cache reads cut 75%; new anti-distillation rules | [Anthropic](https://www.anthropic.com/claude-fable-and-mythos-5-1), [SD Times](https://sdtimes.com/tag/mythos-5-1/) |
-| 2026-09-02 | Gemini 3.8 Flash and restricted 3.8 Flash Cyber | Google's Flash cadence hits roughly every six weeks | [AI Studio models](https://aistudio.google.com/docs/models) |
+| 2026-09-02 | Gemini 3.8 Flash | Google's fourth Flash release since May (3.7 Flash came out August 13) | [AI Studio changelog](https://aistudio.google.com/docs/changelog) |
 | 2026-09-03 | GPT-6 Astra | OpenAI's new top tier at $10 / $50 | [OpenAI changelog](https://developers.openai.com/api/docs/changelog) |
 | 2026-09-10 | DeepSeek V4.1-Flash | New architecture; replaces V4-Flash | [DeepSeek](https://api-docs.deepseek.com/news/news260910) |
 | 2026-09 | xAI Grok 4.7 | xAI flagship at $2 / $6 | [xAI](https://docs.x.ai/docs/release-notes) |
-| 2026-09-22 | Claude Opus 5.5 ($4 / $20) and, an hour later, GPT-6 Sol and Luna | A same-day "price war"; Opus 5.5 addressed Opus 5's communication complaints | [Anthropic](https://www.anthropic.com/news/claude-opus-5-5), [TechCrunch](https://techcrunch.com/2026/09/22/openai-launches-gpt-6-sol-and-luna/) |
+| 2026-09-22 | Claude Opus 5.5 ($4 / $20) and, about 90 minutes later, GPT-6 Sol and Luna | A same-day "price war"; Opus 5.5 addressed Opus 5's communication complaints | [Anthropic](https://www.anthropic.com/news/claude-opus-5-5), [TechCrunch](https://techcrunch.com/2026/09/22/openai-launches-gpt-6-sol-and-luna/) |
 | 2026-09-28 | Claude Sonnet 5.5 | Matches Opus 5.5 on several benchmarks at half the price | [Anthropic](https://www.anthropic.com/news/claude-sonnet-5-5) |
 | 2026-09-29 | GPT-6.1 Sol | Workhorse update a week after GPT-6 Sol | [OpenAI changelog](https://developers.openai.com/api/docs/changelog) |
 | 2026-09-30 | Google announces Gemini 4 Argon for cyber defenders first; drops Gemini 3.5 Pro | The delayed Gemini 4 flagship arrives through a staged rollout | [Reuters via Khaleej Times](https://www.khaleejtimes.com/business/google-announces-gemini-4-flagship-ai-model-after-months-of-delays-2) |

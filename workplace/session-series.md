@@ -236,7 +236,7 @@ In pairs, on your own repository:
 ### Demo script (17 minutes)
 
 1. **Watch the loop (5 minutes).** Ask: "Run the unit tests for `<module>` and summarize any failures." Point at each step: the model asks for a tool, the harness asks permission, the result goes back into context, the model decides what's next ([module 08](../modules/08-agentic-workflows.md#the-agent-loop)).
-2. **Permissions (5 minutes).** Approve the test command once, then add it to the allowlist so it stops asking. Then ask the agent to "show me the environment variables in `.env`" and show the deny rule blocking it. Explain why: anything the agent reads goes to the provider and into transcripts.
+2. **Permissions (5 minutes).** Approve the test command once, then add it to the allowlist so it stops asking. Then ask the agent to "show me the environment variables in `.env`" and show the deny rule blocking it. Explain why: anything the agent reads goes to the provider and into transcripts. If it tries a shell command such as `cat .env` instead, deny that too and make the point: rules match specific tools and command text, so a sandbox comes first and rules second ([module 11](../modules/11-security-and-prompt-injection.md#practical-defenses)).
 3. **Plan mode and checkpoints (4 minutes).** Switch to plan mode and ask for a small change: the agent reads and proposes, but edits nothing until you approve. Then make a small edit, rewind it with the harness's checkpoint feature, and note the limit: checkpoints don't cover changes made by shell commands, so git is the real safety net ([module 08](../modules/08-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints)).
 4. **Sandbox (3 minutes).** If your tool supports one, show a sandboxed command failing to reach a blocked network host. Say the rule: turn on a sandbox before you turn off approvals ([module 06](../modules/06-harnesses-and-tools.md#a-sane-baseline-setup)).
 
@@ -424,7 +424,7 @@ Ask each pair: Where did the agent drift? What did the plan review catch? Did it
    ```
    Show one confirmed and, if you get one, one refuted. Point out why this step matters: AI critics hallucinate bugs, and fixing every finding bloats the code.
 
-> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion, and multi-model review is valuable. So they review each other's work: one writes, the other reviews.
+> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion. Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
 Whichever pair you use, every finding still gets verified before anyone acts on it.
 

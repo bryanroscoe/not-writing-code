@@ -138,6 +138,13 @@ This field changes monthly. To keep the material useful:
 - Code blocks get a language tag.
 - One sentence per idea; keep paragraphs short.
 
+## Tooling
+
+Two small scripts with no dependencies beyond Python 3. CI runs both on every pull request.
+
+- `python3 scripts/check_links.py` checks that every relative link and heading anchor resolves.
+- `python3 scripts/build_reference.py` regenerates the generated halves of `reference/glossary.md` (from each module's "Terms introduced") and `reference/papers.md` (from each module's "Sources and further reading"). Text above the `BEGIN GENERATED` marker is hand-written and kept. Write terms as `- **Term**: definition`.
+
 ## Privacy
 
 Keep any specific employer, client, or private project out of this repository.
