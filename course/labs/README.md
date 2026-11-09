@@ -1,6 +1,6 @@
 # Labs
 
-Eight hands-on labs that go with the [course](../README.md). None needs a GPU, model downloads, or paid API keys beyond a standard subscription plan.
+Eight hands-on labs that go with the [course](../README.md). None needs a GPU, model downloads, or an API key. A standard subscription plan covers them.
 
 | Lab | Topic | Week |
 | --- | --- | --- |

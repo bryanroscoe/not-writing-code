@@ -64,7 +64,7 @@ footer: "A Brief Introduction to Not Writing Code · 08 Agentic workflows"
 
 - One idea per slide. At most six bullets, at most about twelve words each.
 - Prefer a table, a short code block, or a single sentence in large type over a wall of bullets.
-- Put the detail in **speaker notes**: an HTML comment at the end of the slide (`<!-- … -->`) becomes presenter notes. Notes should let someone other than Bryan give the talk.
+- Put the detail in **speaker notes**: an HTML comment at the end of the slide (`<!-- … -->`) becomes presenter notes. Notes are written in Bryan's voice, with enough detail that someone else could give the talk. If that's you, present his takes as his.
 - Facts, numbers, and dates come from the module, which is the source of truth. Don't add facts the module doesn't have.
 - Date anything volatile ("as of November 2026").
 - No images that need separate files. Marp doesn't render Mermaid, so redraw diagrams as tables, arrows in text (`explore → plan → implement → verify → commit`), or short lists.

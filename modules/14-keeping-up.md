@@ -22,7 +22,7 @@ Here's one three-month window in 2026. The [timeline](../reference/timeline.md) 
 - Sep 22: Claude Opus 5.5 and OpenAI's GPT-6 Sol and Luna, on the same day.
 - October: Google's Gemini 4 models.
 
-Meanwhile the harnesses ship constantly. OpenAI's Codex CLI was at version 0.167 by November 6, 2026 ([changelog](https://learn.chatgpt.com/docs/changelog)). Claude Code's [changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) moves just as quickly. Even the yardsticks move. Artificial Analysis revised its Intelligence Index twelve times between August 2025 and November 2026, eight of them changing which evaluations it includes ([version history](https://artificialanalysis.ai/methodology/intelligence-benchmarking)).
+Meanwhile the harnesses ship constantly. OpenAI's Codex CLI was at version 0.167 by November 6, 2026 ([changelog](https://learn.chatgpt.com/docs/changelog)). Claude Code's [changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) moves just as quickly. Artificial Analysis also revised its Intelligence Index twelve times between August 2025 and November 2026, eight of them changing which evaluations it includes ([version history](https://artificialanalysis.ai/methodology/intelligence-benchmarking)).
 
 [Module 03](./03-model-landscape.md) covers specific models and who leads where right now. This module is about coping with the pace.
 
@@ -120,7 +120,7 @@ Bad reasons:
 - A viral thread.
 - Fear of missing out.
 
-Either way, keep a second tool "warm": installed, configured, and used at least occasionally. The Fable 5 suspension and the 2025–2026 regressions all hit people who had only one option. Multi-vendor fluency is cheap insurance and makes multi-model review possible ([module 10](./10-ai-code-review.md)).
+Keep a second tool installed, configured, and used at least occasionally. The Fable 5 suspension and the 2025–2026 regressions all hit people who had only one option. Using more than one vendor gives you a fallback and makes multi-model review possible ([module 10](./10-ai-code-review.md)).
 
 ### Weighing launch claims
 
@@ -147,7 +147,7 @@ Some documented episodes:
 
 > **Bryan's take:** I don't trust Google's launch claims much. In my experience they overhype Gemini, and it underperforms what was promised, especially for coding. I'll use Gemini for some specific tasks, but not as my coding agent.
 
-The record cuts both ways. Against Google:
+Some evidence against trusting Google's claims:
 - In December 2023 its "Hands-on with Gemini" video turned out to be staged. Google acknowledged it had fed the model still frames and text prompts rather than live video and voice ([TechCrunch](https://techcrunch.com/2023/12/07/googles-best-gemini-demo-was-faked/)).
 - In a June 2026 independent comparison, Gemini 3.1 trailed GPT-5.5 on the Terminal-Bench team's Harbor-Index in both a native and a neutral harness, though the post notes that none of its pairwise comparisons reached statistical significance ([Terminal-Bench](https://www.tbench.ai/news/harbor-index)).
 
@@ -215,11 +215,11 @@ Every source type has a bias:
 Rules that prevent churn:
 - Follow the **two-week rule**. Unless a release solves a problem you have today, wait two weeks. Launch-week bugs get fixed, capacity improves, and the reaction settles. Opus 5's reputation looked very different at week two than on day one.
 - Change one thing at a time. Swap model, harness, and configuration in the same week and you won't know what helped.
-- A release earns a place in your workflow by winning on your tasks, not by being exciting.
+- Adopt a release when it performs better on your tasks.
 - Ignore small benchmark moves. A few points on a public benchmark is usually noise for your purposes ([module 05](./05-judging-models.md#the-statistics-of-small-evals)).
 - Mute freely. If a source mostly makes you anxious, drop it. You'll hear about anything big anyway.
 
-As for FOMO (fear of missing out), most releases don't change how you work. The few that do will still be there in two weeks, with better documentation and fewer bugs. Your ability to judge output is worth more than tracking every new product.
+As for FOMO (fear of missing out), most releases don't change how you work. The few that do will still be there in two weeks, with better documentation and fewer bugs.
 
 ### Team AI radar
 
@@ -262,7 +262,7 @@ The plan is time-boxed to four hours. You'll need the golden-task set from [modu
 | 3:15–3:45 | **Cost and limits.** Tokens or quota used per task, and speed. Compare with your current default ([module 12](./12-costs-subscriptions-and-apis.md)). |
 | 3:45–4:00 | **Decide and record.** Adopt, Trial, Assess again in two weeks, or Hold. Write three sentences with the evidence and a revisit date. Update the radar. |
 
-If the result is close, the answer is "not yet." Revisit in two weeks.
+If the result is close, wait and revisit in two weeks.
 
 ## Going deeper
 
@@ -290,7 +290,7 @@ Launch days are built for attention: leaks, countdowns, charts, viral demos. Ben
 
 ### How durable is your knowledge?
 
-Look back at 2023–2024 advice. "Prompt tricks" mostly aged badly. "Give the model examples, context, and a way to check its work" aged well. The specific tools on your radar will turn over every year or two. Your evaluation habits, verification discipline, and sense of where models fail will compound. [Module 15](./15-learning-careers-and-responsibility.md) covers what that means for learning and careers.
+Look back at 2023–2024 advice. "Prompt tricks" mostly aged badly. "Give the model examples, context, and a way to check its work" aged well. The specific tools on your radar will turn over every year or two. You can keep improving how you evaluate tools, verify output, and recognize model failures. [Module 15](./15-learning-careers-and-responsibility.md) covers what that means for learning and careers.
 
 ## Bryan's take
 

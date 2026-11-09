@@ -4,10 +4,10 @@
 
 **TL;DR**
 - A language model reads instructions and data through the same channel: text. Any text an agent reads (a web page, a GitHub issue, a README, a tool description) can try to give it orders. That's **prompt injection**, and as of November 2026 nobody has a reliable fix for it.
-- The danger is in combinations. An agent that can read your private data, also reads untrusted content, and can communicate externally (Simon Willison's "lethal trifecta") can be tricked into leaking your data. Meta's "Agents Rule of Two" adds "change state" and says to pick at most two, or put a human in the loop.
+- An agent that can read your private data, also reads untrusted content, and can communicate externally (Simon Willison's "lethal trifecta") can be tricked into leaking your data. Meta's "Agents Rule of Two" adds "change state" and says to pick at most two, or put a human in the loop.
 - A coding agent on your laptop has all of these by default: your repo and secrets, the open internet and dependency code, and a shell. Real attacks in 2025–2026 hit exactly this setup, including malware that drove developers' own AI CLIs to hunt for secrets.
 - AI-written code isn't automatically secure. Studies from 2021 to 2025 keep finding vulnerabilities in a large share of generated code, and people using assistants tend to be *more* confident in it.
-- Defenses are architectural, not clever prompts: sandboxes, least-privilege tokens, network egress limits, human approval for irreversible actions, separated agents, pinned dependencies, and secret scanning.
+- Use architectural defenses rather than clever prompts: sandboxes, least-privilege tokens, network egress limits, human approval for irreversible actions, separated agents, pinned dependencies, and secret scanning.
 
 ## Foundations
 
@@ -86,13 +86,13 @@ Run through the Rule of Two with a typical local coding agent:
 | Sensitive data/systems | Your source code, `.env` files, SSH keys, cloud credentials, browser cookies, CI tokens, production databases |
 | Change state / communicate | A shell, `git push`, package publishing, `curl`, any MCP tool that writes |
 
-That's all three, by default. It doesn't mean "don't use agents." It means you choose which leg to cut for each task and put deterministic controls around the rest instead of hoping.
+That's all three, by default. For each task, choose which leg to cut and put deterministic controls around the rest.
 
 ## In practice
 
 ### Real incidents, 2025–2026
 
-The links below include researcher and vendor reports, government advisories, and journalism. Tell controlled demonstrations apart from attacks observed in the wild. All of them are worth reading in full; the pattern repeats.
+The links below include researcher and vendor reports, government advisories, and journalism. Tell controlled demonstrations apart from attacks observed in the wild. Read the full reports for the details.
 
 | When | Incident | What happened | Lesson |
 | --- | --- | --- | --- |
@@ -113,7 +113,7 @@ The links below include researcher and vendor reports, government advisories, an
 
 **YOLO and skip-permissions modes.** Every major CLI agent has a way to stop asking: Claude Code's `--dangerously-skip-permissions`, Codex's `danger-full-access` sandbox mode with `approval_policy = "never"`, Gemini CLI's `--yolo`. They exist for good reasons (long unattended runs) and belong only inside a carefully isolated, disposable sandbox with restricted credentials and network access. A sandbox limits damage; it doesn't protect data or accounts you expose inside it. On your main laptop, these modes let an injected instruction run commands without your approval. The Nx malware relied on exactly these flags.
 
-**Permission classifiers in between.** In March 2026, Anthropic added an **auto mode** to Claude Code in which a separate classifier model approves or blocks each action; as of November 2026 it's the starting mode for interactive sessions ([Claude Code security docs](https://code.claude.com/docs/en/security)). It cuts prompt fatigue, which is a real security problem, because people who see 200 prompts a day stop reading them. But it's still a model judging text. Simon Willison [wrote](https://simonwillison.net/b/9394) that he trusts deterministic sandboxes far more than classifier-based protections whose judgments vary from run to run. Treat a classifier as a speed bump and a sandbox as the wall.
+**Permission classifiers in between.** In March 2026, Anthropic added an **auto mode** to Claude Code in which a separate classifier model approves or blocks each action; as of November 2026 it's the starting mode for interactive sessions ([Claude Code security docs](https://code.claude.com/docs/en/security)). It cuts prompt fatigue, which is a real security problem, because people who see 200 prompts a day stop reading them. But it's still a model judging text. Simon Willison [wrote](https://simonwillison.net/b/9394) that he trusts deterministic sandboxes far more than classifier-based protections whose judgments vary from run to run. Use a sandbox to enforce limits even when the classifier gets a decision wrong.
 
 **Secrets in context and logs.** Anything the agent reads goes into its context, gets sent to the model provider, may be stored in session transcripts on disk, and may appear in later output. An agent that runs `env`, `cat .env`, or `printenv` to "debug" has just put your keys into a transcript. Keep secrets out of the working tree, deny reads of secret files, and assume transcripts are sensitive.
 
@@ -129,14 +129,14 @@ The links below include researcher and vendor reports, government advisories, an
 
 ### Insecure generated code
 
-Apart from injection, there's the code itself. Agents write code in the style of their training data, and that includes a lot of insecure code.
+Agents also generate insecure code learned from their training data.
 
 - [Asleep at the Keyboard?](https://arxiv.org/abs/2108.09293) (Pearce et al., 2021): across 89 security-relevant scenarios, about 40% of 1,689 Copilot-generated programs were vulnerable.
 - [Do Users Write More Insecure Code with AI Assistants?](https://arxiv.org/abs/2211.03622) (Perry et al., 2022): in a user study, participants with an AI assistant wrote significantly less secure code than those without, *and* were more likely to believe their code was secure. People who trusted the AI less and reworked their prompts did better.
 - Veracode's [2025 GenAI Code Security Report](https://www.veracode.com/press-release/ai-generated-code-poses-major-security-risks-in-nearly-half-of-all-development-tasks-veracode-research-reveals/) (July 2025) tested more than 100 models on 80 tasks and found security flaws in 45% of cases, over 70% for Java, with cross-site scripting defenses failing 86% of the time. It reported that security performance had not improved with newer, larger models even as functional correctness did. This is a vendor report, not peer-reviewed.
 - [BaxBench](https://arxiv.org/abs/2502.11844) (Vero et al., ICML 2025): on 392 backend tasks, even the best model got only about 62% functionally correct, and the authors could exploit roughly half of the *correct* programs.
 
-Newer models have improved on many of these measures, and the specific numbers age quickly. Either way, **treat agent output as an untrusted contribution from a fast, confident junior engineer**, and run the same static analysis, dependency scanning, and review you'd run on a stranger's pull request. [Module 10](./10-ai-code-review.md) covers review tooling, including using a second model to review security.
+Newer models have improved on many of these measures, and the specific numbers age quickly. Treat agent output as an untrusted contribution, and run the same static analysis, dependency scanning, and review you'd run on a stranger's pull request. [Module 10](./10-ai-code-review.md) covers review tooling, including using a second model to review security.
 
 ### Frontier models as offense and defense
 
@@ -259,7 +259,7 @@ These lists are good for a shared vocabulary and threat modeling sessions. They'
 
 > **Bryan's take:** I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work ([module 08](./08-agentic-workflows.md#bryans-take)).
 
-That way of working fits the security picture in this module, whatever you think of autonomy in general. Human approval is an oversight measure when all three Rule of Two properties are needed; it doesn't remove one of them. A second model reviewing a diff is one more layer. It doesn't replace the sandbox. Teams that do run long autonomous loops make them safer by building the walls first (sandbox, scoped tokens, no production access, required review) and then widening autonomy inside them.
+That way of working fits the security picture in this module, whatever you think of autonomy in general. Human approval is an oversight measure when all three Rule of Two properties are needed; it doesn't remove one of them. A second model reviewing a diff is one more layer. It doesn't replace the sandbox. Teams running long autonomous loops first set up sandboxes, scoped tokens, required review, and no production access, then widen autonomy within those limits.
 
 ## Try it
 

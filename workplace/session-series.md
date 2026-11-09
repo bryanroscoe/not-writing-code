@@ -60,13 +60,13 @@ If you're short on time, a four-session track covers most of it: Session 0, then
 
 ## Session 0: Watch it work on our code
 
-Demo first, almost no slides, aimed at skeptics. It's the pitch, and it works by being honest.
+Use a demo with almost no slides to show skeptics what the tool can and can't do.
 
 **Goal.** Show, on your own code, what a supervised coding agent does well, where it fails, and how an engineer stays in charge. Leave people curious enough to try it on one real task.
 
 **Audience.** Everyone, especially people who tried AI tools in 2024 and gave up. Invite your most respected skeptic personally.
 
-**Pre-read.** None. Skeptics don't do homework for a pitch, and they shouldn't have to.
+**Pre-read.** None. Let people see the demo before asking them to do any reading.
 
 **Prep.** Choose a real, small bug from the backlog that you have reproduced but not fixed. It should have a clear symptom, live in one to three files, and have a test suite nearby. Also pick a second task you expect the agent to struggle with.
 
@@ -155,7 +155,7 @@ Then say: "So I'm not going to promise you a number. We're going to build the ha
 
 ## Session 1: What an LLM actually is
 
-**Goal.** Give everyone a mental model that explains the behavior they'll see: why the model is confidently wrong sometimes, why it agrees with you, why it gives different answers on different runs, and why context is everything.
+**Goal.** Give everyone a mental model that explains the behavior they'll see: why the model is confidently wrong sometimes, why it agrees with you, why it gives different answers on different runs, and why context matters.
 
 **Pre-read (20 minutes).**
 - [Module 00: Six ideas that outlast the hype](../modules/00-orientation.md#six-ideas-that-outlast-the-hype)
@@ -194,7 +194,7 @@ Close with the line from module 00: "The model only knows what's in its context.
 3. **Sycophancy (4 minutes).** Assert a wrong diagnosis with confidence: "I'm pretty sure the bug in `<feature>` is in the caching layer, right?" Show the agreement, if you get it. Then ask: "Argue the strongest case that I'm wrong. What evidence would show it?" Compare the quality of the two answers.
 4. **What fills the context (4 minutes).** Open your harness's context view (in Claude Code, `/context`) before typing anything. Show how much is already used by the system prompt, tool definitions, and instruction files ([module 07](../modules/07-context-engineering.md#what-actually-fills-an-agents-context-window)).
 
-Results vary from run to run and model to model. If a demo doesn't reproduce, say so, and explain what you expected and why. That's also a lesson about nondeterminism.
+Results vary from run to run and model to model. If a demo doesn't reproduce, say so, and explain what you expected and why. Discuss how nondeterminism affects the result.
 
 ### Hands-on: explain and verify (23 minutes)
 
@@ -311,7 +311,7 @@ Everyone, on their own machine, following the team's setup doc:
 
 - In an ETH Zurich study, LLM-generated context files didn't improve agent success and raised cost by about 20–23%. Developer-written files helped slightly, not significantly ([module 07](../modules/07-context-engineering.md#the-fall-late-20252026)).
 - Instruction-following degrades as instructions pile up. In one benchmark, even the best models reached only 68% accuracy with 500 instructions.
-- Agents *do* follow what the file says. So every line had better be right.
+- Agents follow the file's instructions, including incorrect ones.
 - For every line, ask "Could the agent figure this out by reading the repository?" If so, delete it.
 
 ### Hands-on: audit our instruction file (25 minutes)
@@ -549,7 +549,7 @@ Walk through the three parts people most need: which data classes may go into wh
    git worktree add ../.worktrees/example-repo/fix-lint -b chore/fix-lint
    ```
    Start an agent in each with a full task prompt (scope, done criteria, a check to run).
-2. **While they run (8 minutes).** Narrate where your attention goes. Check on each agent once, and answer a question from one while the other keeps working. Point out that parallelism multiplies unreviewed code as fast as it multiplies output.
+2. **While they run (8 minutes).** Narrate where your attention goes. Check on each agent once, and answer a question from one while the other keeps working. Point out that parallel agents can produce code faster than you can review it.
 3. **Cross-model review (5 minutes).** When the first branch finishes, review it with a model from a different lab in a fresh session, using the Session 5 brief. Verify one finding.
 4. **Merge one at a time and clean up (3 minutes).** Rebase, run the full suite, merge. Then remove the worktree:
    ```bash
@@ -596,7 +596,7 @@ Give the counterpoint its due. The successful autonomous projects all had a stro
 
 ### Measuring whether it worked
 
-Don't measure the series by attendance. Look for changes in practice, four to eight weeks later:
+Four to eight weeks later, check for changes in how people work, beyond attendance:
 - Do PR descriptions include verification evidence and the "what the agent did vs. what I did" section?
 - Is fresh-context or cross-model review running on most PRs?
 - Has PR size stayed reasonable?

@@ -42,7 +42,7 @@ flowchart LR
     M -->|says done| R[Answer, diff, or PR]
 ```
 
-If the model is the engine, the harness is the rest of the car: steering, brakes, dashboard, fuel system. A great engine in a badly built car is still a bad car.
+The model is the engine. The harness provides the steering, brakes, dashboard and fuel system, all of which affect how well it works.
 
 ### Why the same model behaves differently in different harnesses
 
@@ -54,7 +54,7 @@ People often say "model X is bad at Y" when the real cause is the harness. Sever
 - Permission prompts. A harness that asks for approval on every command trains you to click "yes" without reading, and one that never asks can do damage.
 - Benchmark scores depend on the scaffold too. When two vendors report the same agentic benchmark with different harnesses, the numbers aren't directly comparable ([module 05](./05-judging-models.md)).
 
-So when you evaluate a model for coding, evaluate it in the harness you'll actually use.
+Evaluate coding models in the harness you'll use.
 
 ### A short history: from autocomplete to orchestrators
 
@@ -101,10 +101,10 @@ A tool is a function the harness exposes to the model. The harness sends the mod
 }
 ```
 
-Two things follow from this design:
+Tool design affects both behavior and context use:
 
 1. Tool descriptions are prompts. The model picks tools by their names and descriptions, so vague descriptions produce wrong choices. Anthropic's guide [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) (September 2025) treats tool design as a core engineering task.
-2. Loaded tool definitions cost context. Unless the harness uses lazy discovery, definitions go along with every model call, and fifty tools can eat a large share of the window before you type anything. That's the root of the "MCP bloat" problem.
+2. Loaded tool definitions cost context. Unless the harness uses lazy discovery, definitions go along with every model call, and fifty tools can eat a large share of the window before you type anything. This causes "MCP bloat."
 
 ### MCP: the Model Context Protocol
 
@@ -196,7 +196,7 @@ MCP went from one company's spec to industry plumbing in about a year:
 
 The stateless redesign matters to people who run servers. A stateless server can sit behind an ordinary load balancer, which makes hosted MCP much easier to scale. The three primitives you build with (tools, resources, prompts) are unchanged.
 
-The criticisms are fair:
+MCP has several costs and limitations:
 
 - Context bloat. In harnesses without lazy discovery, connected servers' tool definitions load into context. Anthropic's [advanced tool use post](https://www.anthropic.com/engineering/advanced-tool-use) (November 2025) gives a typical five-server setup as "58 tools consuming approximately 55K tokens before the conversation even starts." It also reports seeing 134K tokens of tool definitions internally before optimization. Large tool lists also make tool selection less accurate.
 - Security. An MCP server is code you run with your credentials. A malicious or compromised server can lie in its tool descriptions ("tool poisoning"), change behavior after you approve it, or exfiltrate data. Any server that reads untrusted content (web pages, issues, emails) is a prompt-injection channel. [Hou et al. (2025)](https://arxiv.org/abs/2503.23278) survey the threat landscape, and [module 11](./11-security-and-prompt-injection.md) covers defenses.
@@ -205,7 +205,7 @@ The criticisms are fair:
 
 Two posts in late 2025 proposed the same fix for bloat: code execution with MCP, or "code mode." Cloudflare's [Code Mode](https://blog.cloudflare.com/code-mode/) (September 26, 2025) converts MCP tools into a TypeScript API and has the model write code that calls it, in a sandbox. Its argument is that "LLMs are better at writing code to call MCP, than at calling MCP directly." Anthropic's [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) (November 4, 2025) presents servers as code files on a filesystem that the agent browses on demand. In its example, token use dropped "from 150,000 tokens to 2,000 tokens," a 98.7% saving, because intermediate data stayed in the sandbox instead of passing through the model. Related harness features include **tool search** (load a small search tool first and fetch definitions only when needed; Anthropic reported an 85% token reduction) and programmatic tool calling.
 
-For contrast, Google announced the **Agent2Agent (A2A)** protocol in April 2025 and gave it to the Linux Foundation that June ([a2a-protocol.org](https://a2a-protocol.org/)). MCP connects an agent to tools and data. A2A connects one agent to another agent, possibly from a different vendor, so they can delegate tasks and exchange results. In coding work you'll run into MCP daily and A2A rarely.
+Google also announced the **Agent2Agent (A2A)** protocol in April 2025 and gave it to the Linux Foundation that June ([a2a-protocol.org](https://a2a-protocol.org/)). MCP connects an agent to tools and data. A2A connects one agent to another agent, possibly from a different vendor, so they can delegate tasks and exchange results. In coding work you'll run into MCP daily and A2A rarely.
 
 ### The rest of the harness toolkit
 
@@ -229,7 +229,7 @@ Three of these need more explanation.
 
 Start with skills. Anthropic introduced [Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) on October 16, 2025 and published the format as an open standard at [agentskills.io](https://agentskills.io) on December 18, 2025. On October 22, 2026 it [donated the standard to the AAIF](https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation), reporting that more than 70 agent platforms had integrated it, including ChatGPT, Cursor, GitHub Copilot and VS Code. The key idea is **progressive disclosure**. The agent sees a one-line description of every skill and reads the full instructions only when a task calls for them. That lets you keep dozens of procedures available without paying for them in every prompt.
 
-Hooks are the deterministic part of an otherwise probabilistic system. Prose in an instruction file is a request; a hook is a rule that runs every time. Claude Code's docs say so directly: instruction files are treated "as context, not enforced configuration," and to block an action regardless of what the model decides, you use a hook ([memory docs](https://code.claude.com/docs/en/memory)).
+Hooks run deterministic rules every time they're triggered. An instruction file only asks the model to follow a rule. Claude Code's docs say so directly: instruction files are treated "as context, not enforced configuration," and to block an action regardless of what the model decides, you use a hook ([memory docs](https://code.claude.com/docs/en/memory)).
 
 A formatter hook, adapted from the [hooks guide](https://code.claude.com/docs/en/hooks-guide), runs Prettier after every file edit:
 
@@ -288,12 +288,12 @@ Some products hide the harness entirely. The vendor picked the model, the loop, 
 
 Two cautions apply to all of them:
 
-- Browser and computer-use agents are the riskiest category, because they read untrusted web content while holding your logged-in sessions. Anthropic's own Chrome launch post reported a 23.6% prompt-injection attack success rate without mitigations and 11.2% with them in its tests. That's better, but it isn't zero. Read [module 11](./11-security-and-prompt-injection.md) before you point one at your email or bank.
+- Browser and computer-use agents are the riskiest category, because they read untrusted web content while holding your logged-in sessions. Anthropic's own Chrome launch post reported a 23.6% prompt-injection attack success rate without mitigations and 11.2% with them in its tests. Mitigations reduced the risk without eliminating it. Read [module 11](./11-security-and-prompt-injection.md) before you point one at your email or bank.
 - Bundled products change underneath you. The vendor can change the model, the prompts or the limits at any time. That's fine for prototypes, but for a workflow your team depends on, prefer tools whose configuration you can see and version.
 
 ### How to choose a harness
 
-No harness is best for everyone. Score the candidates against what your team needs:
+Score harnesses against what your team needs:
 
 | Question | Why it matters | What to look for |
 | --- | --- | --- |
@@ -318,7 +318,7 @@ Some places to start:
 
 ### A sane baseline setup
 
-A setup checklist that works in most harnesses:
+In most harnesses, you can begin with these steps:
 
 1. Pick one primary CLI agent and learn its permission modes before you raise autonomy.
 2. Write a short `AGENTS.md` (or `CLAUDE.md`) with build, test and lint commands and the few conventions an agent can't infer. Aim for well under 200 lines ([module 07](./07-context-engineering.md)).

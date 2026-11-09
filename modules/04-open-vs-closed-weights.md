@@ -81,7 +81,7 @@ This is engineering guidance, not legal advice.
 Giving away a model that cost tens of millions of dollars sounds odd. The reasons are strategic:
 
 - If developers build on your architecture and formats, you become the default. Qwen derivatives were over 40% of new language models on Hugging Face by mid-2025 ([Interconnects](https://www.interconnects.ai/p/atom-project)).
-- Open models commoditize the complement. In 2024, Mark Zuckerberg argued that open models protect Meta from depending on a rival's closed platform ([Meta](https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/)). In 2026 Meta kept its best Muse models closed and released two open ones. The strategy follows the business.
+- Open models commoditize the complement. In 2024, Mark Zuckerberg argued that open models protect Meta from depending on a rival's closed platform ([Meta](https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/)). In 2026 Meta kept its best Muse models closed and released two open ones. Its release strategy changed with its business priorities.
 - Many open labs earn money from their own hosted API. Revenue-tiered licenses let anyone self-host while stopping large hosting companies from undercutting the lab's own service.
 - Researchers want to publish, so releasing weights helps recruiting.
 - Geopolitics plays a part. Chinese labs gain global adoption despite US chip export controls. The US government's 2025 AI Action Plan encouraged American open models ([White House](https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf)). Mistral pitches Large 4 as European "AI sovereignty," trained and run under European law ([Mistral](https://mistral.ai/news/mistral-large-4)).
@@ -103,7 +103,7 @@ The case against:
 - Dangerous capability spreads with a lag. Epoch estimates open models trail the closed frontier by 6–7 months on cyber tasks ([Epoch AI](https://epoch.ai/data-insights/open-closed-cyber-eci-gap)). That historical lag doesn't guarantee when any particular gated capability will become downloadable.
 - Agent security varies. In 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting alone doesn't remove that vulnerability. The harness and defenses also affect attack success ([module 11](11-security-and-prompt-injection.md)).
 
-Reasonable people land in different places on this. Most current policy treats today's open models as acceptable and watches the frontier.
+People disagree about where to draw the line. Most current policy treats today's open models as acceptable while monitoring the frontier.
 
 ### Running open models: the hardware math
 
@@ -144,7 +144,7 @@ Generating each token means reading all active weights from memory once. A rough
 
 **tokens per second ≲ memory bandwidth ÷ bytes of active weights**
 
-A dense 30B model at 4-bit (~17 GB) on a machine with ~270 GB/s of bandwidth tops out near 16 tokens per second. In practice it's slower. A 3B-active MoE at 4-bit (~1.7 GB per token) on the same machine can be several times faster. That's why MoE models are popular locally.
+A dense 30B model at 4-bit (~17 GB) on a machine with ~270 GB/s of bandwidth tops out near 16 tokens per second. Actual output is slower. A 3B-active MoE at 4-bit (~1.7 GB per token) on the same machine can be several times faster. That's why MoE models are popular locally.
 
 #### VRAM vs Apple unified memory
 
@@ -256,7 +256,7 @@ Expect a local 20B–30B model to handle small, well-specified edits and explana
 
 ### Privacy, data residency and compliance
 
-Where the weights came from and where the computation runs are separate questions, so keep them apart.
+Check both where the weights came from and where the computation runs.
 
 | Setup | Where your prompts and code go | Main considerations |
 | --- | --- | --- |
@@ -276,7 +276,7 @@ Other points to check:
 
 ### Tuning open models (briefly)
 
-Open weights can be changed. The common methods:
+Common ways to change open weights include:
 
 - **LoRA** trains small add-on matrices instead of the whole model ([Hu et al., 2021](https://arxiv.org/abs/2106.09685)).
 - **QLoRA** does the same on top of a 4-bit base, so a single GPU can fine-tune a large model ([Dettmers et al., 2023](https://arxiv.org/abs/2305.14314)).
@@ -303,7 +303,7 @@ Common tools include [Unsloth](https://github.com/unslothai/unsloth), [Hugging F
 
 ### MoE and the shape of 2026 open models
 
-Almost every frontier open model of 2026 is a sparse MoE with roughly 2–6% of parameters active per token. Kimi K3 activates 104B of 2.8T. DeepSeek V4-Pro activates 49B of 1.6T. Muse Spark Open activates 42B of 816B. Reflection Beam activates 23B of 501B. This design makes training and serving cheaper per token. It also pushes the models out of reach of single machines, since memory scales with *total* parameters. The open models people actually run locally (Gemma 4, Qwen3.8-27B, gpt-oss-20b, Muse Glimmer 30B) are a separate, smaller class. This split is one reason "open" covers such different experiences.
+Almost every frontier open model of 2026 is a sparse MoE with roughly 2–6% of parameters active per token. Kimi K3 activates 104B of 2.8T. DeepSeek V4-Pro activates 49B of 1.6T. Muse Spark Open activates 42B of 816B. Reflection Beam activates 23B of 501B. This design makes training and serving cheaper per token. It also pushes the models out of reach of single machines, since memory scales with *total* parameters. The open models people actually run locally (Gemma 4, Qwen3.8-27B, gpt-oss-20b, Muse Glimmer 30B) are a separate, smaller class. Using those local models is very different from using frontier open models.
 
 ### Benchmark gaps may understate real gaps
 
@@ -311,7 +311,7 @@ Epoch notes "some evidence that open-weight models tend to optimize on benchmark
 
 ### The licensing trend: open, but not for your competitors
 
-From 2024 to 2026 the frontier open license moved away from plain MIT or Apache toward custom licenses. These keep almost every use free but target one group: other companies that would host the model and sell it as a service. Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4 and Muse Spark Open all have some version of this clause. It changes nothing for most engineers and companies, and a lot for cloud and inference providers. It suggests open weights are a business strategy.
+From 2024 to 2026 the frontier open license moved away from plain MIT or Apache toward custom licenses. These keep almost every use free but target one group: other companies that would host the model and sell it as a service. Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4 and Muse Spark Open all have some version of this clause. It changes nothing for most engineers and companies, and a lot for cloud and inference providers. Open weights appear to be a business strategy.
 
 ### Self-hosting isn't automatically safer
 

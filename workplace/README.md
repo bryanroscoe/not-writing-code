@@ -4,7 +4,7 @@ This folder is for leads, managers, AI champions, and the skeptical engineers th
 
 *Last checked November 8, 2026.*
 
-This folder turns the [modules](../modules/) into material for adopting AI-accelerated engineering on a team. That means going AI-first while a named human stays accountable for every change. It's written for a generic engineering team, so adapt the examples, numbers, and placeholders to yours.
+Use the [modules](../modules/) to adopt AI-accelerated engineering on a team, with a named human accountable for every change. It's written for a generic engineering team, so adapt the examples, numbers, and placeholders to yours.
 
 ## What's here
 
@@ -33,7 +33,7 @@ This folder turns the [modules](../modules/) into material for adopting AI-accel
 
 ## Principles behind this material
 
-- Reach for the tool by default, and keep the skills to work without it. AI-first doesn't mean AI-only ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)).
+- Reach for the tool by default, and keep the skills to work without it ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)).
 - Tools can write, review, and fix code, but a person approves every change and answers for the result ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
 - The productivity research is mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), so measure your own team.
 - Bryan Roscoe's opinions appear only in "Bryan's take" callouts. Everything else links to a sourced module section.

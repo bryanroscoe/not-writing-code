@@ -6,7 +6,7 @@ This lab runs in week 7 of the [syllabus](../syllabus.md) and is due in week 8. 
 
 ## Goal
 
-Find real bugs in plausible AI-written code, first by hand and then with AI reviewers, and measure which reviewer catches what. You'll also practice the step most people skip, verifying each finding before acting on it ([module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting)).
+Find real bugs in plausible AI-written code, first by hand and then with AI reviewers, and measure which reviewer catches what. You'll verify each finding before acting on it ([module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting)).
 
 You work in pairs. Each of you prepares a pull request with five planted bugs and reviews the other's.
 
@@ -76,7 +76,7 @@ For each finding, record:
 | # | File:line | What's wrong | Failure scenario (specific input or state → wrong behavior) | Severity | Minutes into review |
 | --- | --- | --- | --- | --- | --- |
 
-Stop at 45 minutes, even if you think you've missed something. That's data too.
+Stop at 45 minutes, even if you think you've missed something. Record what you found within the time limit.
 
 ### Part B: review with AI (45 minutes)
 

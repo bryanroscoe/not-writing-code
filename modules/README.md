@@ -1,6 +1,6 @@
 # Modules
 
-Sixteen modules, in reading order. Every module has the same layers: **Foundations** (no background assumed), **In practice** (what working engineers do), and **Going deeper** (research and open debates), plus exercises and discussion questions. The [learning paths](../paths/README.md) say which layers to read for your background.
+Sixteen modules, in reading order. Every module has the same layers: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates), plus exercises and discussion questions. The [learning paths](../paths/README.md) say which layers to read for your background.
 
 | # | Module | What you'll learn |
 | --- | --- | --- |

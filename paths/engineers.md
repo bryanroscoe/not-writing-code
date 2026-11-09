@@ -4,7 +4,7 @@ This path is for working software engineers who ship code daily, from "I tried C
 
 ## The pitch, in one paragraph
 
-If your last serious try was chat-and-paste or autocomplete, repository-aware agents are worth a fresh look. A modern coding agent reads your repository, runs your tests, and iterates until they pass. Prompt wording matters less than it used to. What matters now is controlling context, giving the agent checks it can run, reviewing efficiently, and knowing where it breaks. That's engineering, and you already have most of the instincts for it. The evidence on productivity is honestly mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), and results depend on the task, tool, and workflow. This path gives you habits to test on your own work.
+If your last serious try was chat-and-paste or autocomplete, repository-aware agents are worth a fresh look. A modern coding agent reads your repository, runs your tests, and iterates until they pass. Prompt wording matters less than it used to. What matters now is controlling context, giving the agent checks it can run, reviewing efficiently, and knowing where it breaks. The evidence on productivity is mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), and results depend on the task, tool, and workflow. This path gives you habits to test on your own work.
 
 ## How to read each module
 
@@ -49,7 +49,7 @@ Skim Foundations and read the parts you don't already know. Read In practice clo
 
 ## Two-week practice plan
 
-Reading doesn't change habits. Doing the work does, so pick tasks from your actual backlog.
+Practice on tasks from your actual backlog.
 
 ### Week 1: one supervised agent
 
@@ -78,7 +78,7 @@ Reading doesn't change habits. Doing the work does, so pick tasks from your actu
 - Under-specifying the goal. "Fix the flaky test" can lead to deleted tests. "Make this test pass reliably without changing its assertions" gives a clearer constraint, which you still need to verify.
 - Reviewing less because the agent seems confident. Confidence is a writing style, not evidence.
 - Turning on full autonomy too early. Turn the dial up one notch at a time, only as fast as your automated checks can catch what you stop looking at ([module 08](../modules/08-agentic-workflows.md#the-autonomy-spectrum)).
-- Switching tools every week. It feels productive and isn't. Keep one primary tool and one warm backup ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)).
+- Switching tools every week. Keep one primary tool and one backup you use occasionally ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)).
 
 ## Where to go next
 

@@ -4,7 +4,7 @@ This is a proposal for an upper-level undergraduate CS elective, not an approved
 
 *Last checked November 8, 2026.*
 
-A 15-week course built from this knowledge base's [modules](../modules/). Students build real software with coding agents and stay accountable for every line: they specify, test first, verify, review, secure, and explain. Some work is AI-free on purpose. Each team ships a small, real app.
+A 15-week course built from this knowledge base's [modules](../modules/). Students build real software with coding agents. They stay accountable for every line. They specify, test first, verify, review, secure, and explain. Some work is AI-free on purpose. Each team ships a small, real app.
 
 You need one frontier coding-agent plan (about $20/month as of November 2026) or an institutional license. No GPU, no model downloads, no API keys.
 
@@ -45,4 +45,4 @@ In a course, the instructor approves your Lab 5 sandbox before you run any injec
 
 If you can't check a box, stop and fix it, or have someone experienced look at your setup first.
 
-Every lab has the same parts: goal, time, setup, background reading, step-by-step instructions, what to submit, a grading rubric, an "if you finish early" extension, and instructor notes on common pitfalls.
+Each lab includes a goal, time, setup, background reading, step-by-step instructions, what to submit, grading rubric, "if you finish early" extension, and instructor notes on common pitfalls.

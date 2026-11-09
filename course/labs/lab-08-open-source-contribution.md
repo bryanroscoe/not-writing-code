@@ -12,7 +12,7 @@ Public or private is your choice. An upstream contribution is public. The [class
 
 **You're graded on the process and your learning log, not on whether the pull request is merged.** Maintainers' time and decisions aren't yours to control. For a course, the log is the evidence of learning ([module 13](../../modules/13-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly)).
 
-This lab is careful for a reason. AI tools made it nearly free to produce a plausible-looking pull request, and the cost moved to volunteer maintainers who have to read every one. curl ended its bug bounty in January 2026 after the share of real reports fell below one in twenty ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). Your contribution must be worth more to the project than the time it takes to review it, which is LLVM's golden rule.
+AI tools made it nearly free to produce a plausible-looking pull request, and the cost moved to volunteer maintainers who have to read every one. curl ended its bug bounty in January 2026 after the share of real reports fell below one in twenty ([module 13](../../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). Your contribution must be worth more to the project than the time it takes to review it, which is LLVM's golden rule.
 
 By default this lab is **AI-as-tutor**: use AI to understand the codebase, explain errors, and critique your work, but write the code and all text yourself. (Module 13 allows heavily revising an agent's draft. This course is stricter here, because under the [AI-use policy](../syllabus.md#the-three-tiers) AI-as-tutor work may not contain AI-written code.) **The project's policy wins when it's stricter.** If the project bans AI-generated contributions, follow its exact scope: a ban on all AI assistance requires an entirely AI-free contribution; a ban on generated submissions prohibits generated content.
 
@@ -129,7 +129,7 @@ Follow the steps from [module 13](../../modules/13-open-source-ecosystem.md#how-
 3. Write the fix yourself. An agent may explain, hint, and critique your code, but under this lab's tier it doesn't draft the code you submit. Delete what you can't defend.
 4. Keep it small. Check `git diff --stat` before every commit.
 5. Run the project's full test suite and linters locally, the way its contributing guide says. Save the output.
-6. Get a second opinion before the maintainers' opinion. Have a classmate, or a model from a different lab, review your diff ([module 10](../../modules/10-ai-code-review.md#a-layered-review-workflow)). Verify each finding before acting on it.
+6. Before submitting to maintainers, have a classmate or a model from a different lab review your diff ([module 10](../../modules/10-ai-code-review.md#a-layered-review-workflow)). Verify each finding before acting on it.
 7. Write the PR description yourself, using the project's template if it has one. If not, cover: what and why, linked to the issue; how you verified it (commands and results); what AI did and what you did; and risks. Disclose AI help in the form the project asks for, or in a short sentence if it doesn't specify one ([module 15](../../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
 8. Before you open the PR, a TA or the instructor does a ten-minute pre-flight check of your diff and description. This protects maintainers' time, and it isn't a grade.
 

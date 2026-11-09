@@ -23,7 +23,7 @@ Labs release models in two ways:
 - With **closed-weight** (API-only) models, you send text to the lab's servers and get text back. You never see the model's parameters. Anthropic's Claude, OpenAI's GPT-6 family, Google's Gemini and xAI's Grok work this way.
 - With **open-weight** models, the lab publishes the parameters so anyone can download and run the model. DeepSeek, Moonshot (Kimi), Qwen, Z.ai (GLM) and Mistral work this way, as do OpenAI's gpt-oss, Google's Gemma and a few of Meta's Muse models.
 
-[Module 04](04-open-vs-closed-weights.md) goes deep on the difference. For now, know that "open" models usually come from different labs than the very top closed ones, and they arrive some months behind.
+[Module 04](04-open-vs-closed-weights.md) explains the difference. "Open" models usually come from different labs than the very top closed ones, and they arrive some months behind.
 
 ### How to read model names and tiers
 
@@ -216,7 +216,7 @@ So Meta's top Muse tiers are closed, and its open releases are useful but don't 
 
 ### Different places in the chain
 
-Bryan talks about models sitting at "different places in the chain." Roughly, models flow through a pipeline like this:
+Bryan describes models at "different places in the chain." They roughly follow this pipeline:
 
 ```mermaid
 flowchart LR
@@ -302,7 +302,7 @@ This table mixes verifiable facts with judgment, and the Basis column says which
 
 ### Reception stories: launches don't always land
 
-These episodes show why launch-day numbers aren't the whole story. [Module 05](05-judging-models.md) covers the benchmark mechanics and [module 14](14-keeping-up.md) covers tracking regressions.
+Launch-day numbers missed parts of these releases. [Module 05](05-judging-models.md) covers the benchmark mechanics and [module 14](14-keeping-up.md) covers tracking regressions.
 
 When OpenAI launched GPT-5 on August 7, 2025, it replaced its older models in ChatGPT with GPT-5 and an automatic router. The router was down for much of launch day, so GPT-5 seemed weaker than it was. A chart in the live presentation drew a lower score with a taller bar, which people mocked as "chart crime." Users who preferred GPT-4o pushed back hard. Within a day Sam Altman promised to bring 4o back for Plus users, show which model answered, and double rate limits ([TechCrunch](https://techcrunch.com/2025/08/08/sam-altman-addresses-bumpy-gpt-5-rollout-bringing-4o-back-and-the-chart-crime/)). A model change is also a product change, and people get attached to a model's personality.
 
@@ -312,9 +312,9 @@ Claude Opus 5 (July 24, 2026) was a big step on benchmarks. It led the Artificia
 
 Claude Opus 5.5 (September 22, 2026) came with a lower price, and Anthropic said it writes more clearly and uses fewer tokens per task. Willison made it his default in Claude Code. He also found that `max` effort could run until it hit the 128K output limit without answering, which made him suspect that `max` is "effectively useless" ([Simon Willison](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/)).
 
-Claude Fable 5 was suspended from June 12 to July 1, 2026. Three days after launch, the US government applied export controls to Fable 5 and Mythos 5. Anthropic suspended access for *all* users because "the order took effect immediately and we had no reliable way to verify nationality in real-time." The controls were lifted June 30 and Fable 5 returned July 1 ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)). This one isn't about model quality. Access to a frontier model can vanish overnight for reasons that have nothing to do with you.
+Claude Fable 5 was suspended from June 12 to July 1, 2026. Three days after launch, the US government applied export controls to Fable 5 and Mythos 5. Anthropic suspended access for *all* users because "the order took effect immediately and we had no reliable way to verify nationality in real-time." The controls were lifted June 30 and Fable 5 returned July 1 ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)). Export controls can cut off access to a frontier model overnight, regardless of its quality or how you use it.
 
-Then there's Gemini 3.5 Pro, which never shipped. At I/O on May 19, 2026, Google released Gemini 3.5 Flash and said 3.5 Pro would follow in June. By October, Reuters reported Google "no longer plans to release Gemini 3.5 Pro." Its next flagship, Gemini 4 Argon, came "after months of delays." Google also reshuffled DeepMind's leadership in August: Demis Hassabis stepped back from the CEO role to become chief scientist ([Reuters via Khaleej Times](https://www.khaleejtimes.com/business/google-announces-gemini-4-flagship-ai-model-after-months-of-delays-2); [Fortune](https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/)).
+Gemini 3.5 Pro never shipped. At I/O on May 19, 2026, Google released Gemini 3.5 Flash and said 3.5 Pro would follow in June. By October, Reuters reported Google "no longer plans to release Gemini 3.5 Pro." Its next flagship, Gemini 4 Argon, came "after months of delays." Google also reshuffled DeepMind's leadership in August: Demis Hassabis stepped back from the CEO role to become chief scientist ([Reuters via Khaleej Times](https://www.khaleejtimes.com/business/google-announces-gemini-4-flagship-ai-model-after-months-of-delays-2); [Fortune](https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/)).
 
 In August and September 2025, users suspected Anthropic had quietly "nerfed" Claude. Anthropic's postmortem traced the problems to three infrastructure bugs: a context-window routing error, output corruption on some servers, and a compiler bug in token selection. It stated: "We never reduce model quality due to demand, time of day, or server load" ([Anthropic](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues)). OpenAI had its own rollback in April 2025, when a GPT-4o update became sycophantic ([OpenAI](https://openai.com/index/sycophancy-in-gpt-4o/)).
 
@@ -322,7 +322,7 @@ In August and September 2025, users suspected Anthropic had quietly "nerfed" Cla
 
 > **Bryan's take:** I don't trust some labs much. Google in particular tends to overhype its models, and they underperform in my use.
 
-The honest counterpoint to that second take:
+There is evidence against that second take:
 
 - Gemini 3 Pro launched at the top of LMArena (1501 Elo) in November 2025 ([Google](https://blog.google/products/gemini/gemini-3/)).
 - Gemini has been strong on video understanding and native multimodal input. Gemini 3 Pro launched with 87.6% on Video-MMMU. Its Flash models are among the cheapest capable models.
@@ -333,7 +333,7 @@ On the evidence above, the hype-versus-delivery critique fits Google's 2026 Pro 
 
 ### How to pick a model next month, when all of this is stale
 
-Run through this whenever a new model launches or your current one starts to feel off:
+When a new model launches or your current one starts to feel off:
 
 1. Define the job. Agentic coding, review, bulk extraction, chat, research? Different jobs have different winners.
 2. Pick two or three candidates from different labs. Include your current default and one cheaper tier.
@@ -373,7 +373,7 @@ With Fable, a classifier decides whether your request goes to Fable or to an Opu
 
 ### Corporate shifts can matter as much as models
 
-Google reorganized DeepMind's leadership in August 2026. Meta replaced Llama with MSL and Muse. Anthropic filed for an IPO in October 2026 ([Anthropic](https://www.anthropic.com/news/s1-sec)). OpenAI hired OpenClaw's creator in February 2026, and the Agentic AI Foundation took over MCP, AGENTS.md and Agent Skills. Both reshaped the tool ecosystem ([module 13](13-open-source-ecosystem.md)). Events like these can shape pricing, openness and roadmaps as much as any single benchmark.
+Google reorganized DeepMind's leadership in August 2026. Meta replaced Llama with MSL and Muse. Anthropic filed for an IPO in October 2026 ([Anthropic](https://www.anthropic.com/news/s1-sec)). OpenAI hired OpenClaw's creator in February 2026, and the Agentic AI Foundation took over MCP, AGENTS.md and Agent Skills. Both reshaped the tool ecosystem ([module 13](13-open-source-ecosystem.md)). These changes can affect pricing, openness and roadmaps as much as a benchmark result.
 
 ## Bryan's take
 

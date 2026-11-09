@@ -14,7 +14,7 @@
 
 ### What counts as "multi-agent"
 
-An **agent** is a model running in a loop with tools ([module 08](./08-agentic-workflows.md)). A **multi-agent system** has more than one, each with its own context window. In practice you'll run into four shapes:
+An **agent** is a model running in a loop with tools ([module 08](./08-agentic-workflows.md)). A **multi-agent system** has more than one, each with its own context window. You'll run into four common setups:
 
 | Shape | How it works | Example |
 | --- | --- | --- |
@@ -23,7 +23,7 @@ An **agent** is a model running in a loop with tools ([module 08](./08-agentic-w
 | **Separate sessions you coordinate** | You run several agents in different terminals or worktrees and carry information between them. | One session writes, another reviews; you paste findings back |
 | **Orchestrated pipeline** | Code (not a model) decides which agent runs when, and passes outputs along fixed paths. | A CI job that runs three review prompts and merges the results |
 
-Anthropic's "Building effective agents" draws the line that matters: **workflows** are "systems where LLMs and tools are orchestrated through predefined code paths," while **agents** direct their own process and tool use ([Schluntz and Zhang, 2024](https://www.anthropic.com/engineering/building-effective-agents)). Many systems marketed as multi-agent are workflows, which is often a good thing, since fixed paths are easier to test and debug.
+Anthropic's "Building effective agents" distinguishes the two: **workflows** are "systems where LLMs and tools are orchestrated through predefined code paths," while **agents** direct their own process and tool use ([Schluntz and Zhang, 2024](https://www.anthropic.com/engineering/building-effective-agents)). Many systems marketed as multi-agent are workflows, which is often a good thing, since fixed paths are easier to test and debug.
 
 Marvin Minsky's *The Society of Mind* (1986) described intelligence as the product of many simple, specialized agents interacting ([overview](https://en.wikipedia.org/wiki/Society_of_Mind)). The 2023 wave of LLM papers borrowed the framing directly; Du et al. called their debate method a "society of minds" approach.
 
@@ -45,9 +45,7 @@ The same docs add a caution: by default a subagent is "the same model (or a smal
 
 ### Building vs reviewing: the read/write asymmetry
 
-This is the most useful idea in the module.
-
-Reading parallelizes. Research, code review, verification, and debugging with competing hypotheses are all *read-heavy*. Each agent produces claims: "line 42 can divide by zero," "the bug is in the cache layer." Claims are cheap to merge. You deduplicate them, check them, and throw away the wrong ones. Two reviewers who disagree cost you a minute of checking, not a broken build.
+Reading parallelizes. Research, code review, verification, and debugging with competing hypotheses are all *read-heavy*. Each agent produces claims: "line 42 can divide by zero," "the bug is in the cache layer." You can combine those claims by deduplicating them, checking them, and throwing away the wrong ones. Two reviewers who disagree cost you a minute of checking, not a broken build.
 
 Writing usually doesn't. Every edit carries decisions: names, data shapes, error-handling style, where a helper lives. Yan's Flappy Bird example shows it. Split "build Flappy Bird" between two subagents, and one builds a Super Mario-style background while the other builds a bird that doesn't match the game. The final agent is stuck reconciling two incompatible halves. Parallel writers on one codebase also collide in git, and the decisions they made separately don't fit together.
 
@@ -104,9 +102,9 @@ flowchart TD
     K --> H{Human decides}
 ```
 
-**Step 1: freeze the target.** Review a specific commit or diff, not a moving branch. Give every reviewer the same inputs: the diff, the spec or issue, and read-only access to the repository.
+Step 1: freeze the target. Review a specific commit or diff, not a moving branch. Give every reviewer the same inputs: the diff, the spec or issue, and read-only access to the repository.
 
-**Step 2: fan out by concern.** One reviewer per concern keeps each one focused. Here's a reviewer brief that works:
+Step 2: fan out by concern. One reviewer per concern keeps each one focused. Here's a reviewer brief that works:
 
 ```text
 You are reviewing a change you did not write. Focus only on SECURITY.
@@ -117,9 +115,9 @@ Report only issues that would cause real harm. Skip style.
 If you find nothing, say so. Do not invent findings to seem useful.
 ```
 
-**Step 3: deduplicate.** Several reviewers will flag the same line. Merge by location and root cause.
+Step 3: deduplicate. Several reviewers will flag the same line. Merge by location and root cause.
 
-**Step 4: verify adversarially.** This step is the difference between a useful swarm and a noise generator. For each finding, start a fresh agent whose job is to *disprove* it:
+Step 4: verify adversarially. For each finding, start a fresh agent whose job is to *disprove* it:
 
 ```text
 A reviewer claims: "<finding>". Your job is to check whether it is real.
@@ -130,13 +128,13 @@ explain), or REFUTED (explain why the scenario can't happen).
 
 Claude Code's ultrareview does this: "every reported finding is independently reproduced and verified." The research supports it. OpenAI's CriticGPT work found that AI critics catch many bugs but also hallucinate some, and that human-plus-critic teams hallucinated less than critics alone ([McAleese et al., 2024](https://arxiv.org/abs/2407.00215)).
 
-**Step 5: rank and report.** Report confirmed findings, plus plausible ones only if they're high severity. The human should get a short ranked list instead of 40 comments ([module 10](./10-ai-code-review.md)).
+Step 5: rank and report. Report confirmed findings, plus plausible ones only if they're high severity. The human should get a short ranked list instead of 40 comments ([module 10](./10-ai-code-review.md)).
 
 ### Recipe 2: cross-model review
 
 Language models recognize their own writing and tend to prefer it. Panickssery et al. found that out-of-the-box models can tell their own outputs apart from others' with non-trivial accuracy, and that the stronger this self-recognition, the stronger the self-preference ([Panickssery et al., 2024](https://arxiv.org/abs/2404.13076)). Wataoka et al. traced the bias to familiarity. Judges score text with lower perplexity (more "familiar" text) higher, whoever wrote it ([Wataoka et al., 2024](https://arxiv.org/abs/2410.21819)). A model reviewing its own code is primed to like it.
 
-What to do about it:
+To reduce that bias:
 
 - At minimum, review in a fresh context. Never ask the session that wrote the code whether the code is good.
 - Better, review with a different lab's model. One lab's agent writes and another's reviews: for example, write with Claude Code and review with Codex (`/review` locally or `@codex review` on the PR), or the reverse. Panels drawn from "disjoint model families" show "less intra-model bias" than a single judge ([Verga et al., 2024](https://arxiv.org/abs/2404.18796)).
@@ -145,7 +143,7 @@ What to do about it:
 
 ### Recipe 3: parallel builders, when you must
 
-Sometimes you do want several agents writing at once: a large migration, a greenfield project with clear modules, or a backlog of independent chores.
+Several agents can write at once on a large migration, a greenfield project with clear modules, or a backlog of independent chores.
 
 1. Write the interfaces first. Types, API contracts, or function signatures go in a shared file, created by one human-reviewed change. Then split the work by module.
 2. Use one agent, one worktree, and one branch per module.
@@ -199,7 +197,7 @@ Before you start:
 | Inter-agent misalignment | Conversation reset; failing to ask for clarification; task derailment; information withholding; ignoring another agent's input; reasoning–action mismatch |
 | Task verification | Premature termination; no or incomplete verification; incorrect verification |
 
-The third row matters most. A multi-agent system without a real verification step is a fast way to produce confident, wrong output.
+Without a real verification step, a multi-agent system can produce confident, wrong output.
 
 **When adding agents helps.** "Single-agent or Multi-agent Systems? Why Not Both?" found that "the benefits of MAS over SAS diminish as LLM capabilities improve" ([Gao et al., 2025](https://arxiv.org/abs/2505.18286)). Kim et al., from Google Research, Google DeepMind and MIT, ran a controlled comparison: 260 configurations, six benchmarks, five architectures, and three model families, with tools, prompts and compute held constant ([Kim et al., 2025, revised 2026](https://arxiv.org/abs/2512.08296)). Their findings:
 
@@ -208,7 +206,7 @@ The third row matters most. A multi-agent system without a real verification ste
 - Centralized verification contains errors (4.4× trace-level amplification), while independent agents spread them (17.2×).
 - Results ranged from +80.8% on decomposable financial reasoning to −70% on sequential planning. "Architecture-task alignment, not number of agents, determines collaborative success."
 
-**Extreme decomposition.** MAKER solved a Towers of Hanoi task requiring over a million model steps with zero errors. It split the task into tiny subtasks handled by "focused microagents" and used multi-agent voting to correct each step ([Meyerson et al., 2025](https://arxiv.org/abs/2511.09030)). That generalizes beyond puzzles. Long processes get reliable when each step is small enough to check and errors are caught at every step instead of at the end.
+**Extreme decomposition.** MAKER solved a Towers of Hanoi task requiring over a million model steps with zero errors. It split the task into tiny subtasks handled by "focused microagents" and used multi-agent voting to correct each step ([Meyerson et al., 2025](https://arxiv.org/abs/2511.09030)). Checking small steps and catching errors as they happen makes long processes reliable beyond puzzles too.
 
 **Industry reports (2025–2026).** Anthropic's research system had a lead agent spawn parallel search subagents and "outperformed single-agent Claude Opus 4 by 90.2%" on an internal research evaluation, at roughly 15× chat token usage ([Anthropic, 2025](https://www.anthropic.com/engineering/multi-agent-research-system)). Cognition argued the opposite for coding agents the day before ([Yan, 2025](https://cognition.com/blog/dont-build-multi-agents)). The two posts contradict each other less than they seem to, because research is read-heavy and coding is write-heavy. In 2026, Cursor's planner/worker/judge hierarchy ([Lin, 2026](https://cursor.com/blog/scaling-agents)) and Anthropic's 16-agent compiler ([Carlini, 2026](https://www.anthropic.com/engineering/building-c-compiler)) showed parallel *writing* at scale. Both depended on strong automated oracles and both came with significant quality caveats ([module 08](./08-agentic-workflows.md)).
 

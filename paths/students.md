@@ -12,7 +12,7 @@ This path is for university students, bootcamp learners, and anyone who can prog
 
 ## How to read each module
 
-Every module has three depth levels. On this path, read Foundations and In practice, and skim Going deeper unless a topic grabs you or the syllabus says to read it. Do the "Try it" exercises. They're short, and they're where the learning happens. Read every TL;DR and Bryan's take, since they're short.
+Every module has three depth levels. On this path, read Foundations and In practice, and skim Going deeper unless a topic grabs you or the syllabus says to read it. Do the short "Try it" exercises to practice what you've read. Read every TL;DR and Bryan's take too.
 
 ## The path
 
@@ -48,7 +48,7 @@ Read the TL;DRs of every module, then read these four in full: [00](../modules/0
 3. Read every line you submit. If you can't explain it, you don't get to submit it.
 4. Make the agent prove it. "Run the tests and show me the output" beats "does it work?" ([module 08](../modules/08-agentic-workflows.md)).
 5. Keep a "surprised me" log. Every time a model does something you didn't expect, write one line. It becomes your personal eval set ([module 05](../modules/05-judging-models.md)) and your study guide.
-6. Follow your course's AI policy and say what you used. Disclosing is a professional habit, not a confession.
+6. Follow your course's AI policy and say what you used. Make disclosure a professional habit.
 
 ## Where to go next
 

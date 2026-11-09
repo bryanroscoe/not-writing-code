@@ -114,7 +114,7 @@ For each finding, decide whether it's real. Use the verify-first prompt from [mo
 | # | Finding | Severity | Real? | Evidence | Action |
 | --- | --- | --- | --- | --- | --- |
 
-Fix only the confirmed ones, each with a test. Don't fix everything a reviewer raises. That's how code bloats ([module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting)).
+Fix only confirmed findings, each with a test. Acting on unverified findings can bloat the code ([module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting)).
 
 **8. Commit (10 minutes).** Make small, separate commits: tests (already done), implementation, and each review fix. Write or check every message.
 

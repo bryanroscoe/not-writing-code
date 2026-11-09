@@ -16,9 +16,9 @@ This syllabus is for instructors, curriculum committees, and students. It's a pr
 
 ## Course description
 
-**Catalog description (draft).** Coding agents now read codebases, run commands, and write and test changes. This course teaches students to use them to build software faster without giving up engineering judgment. Topics include how language models work and fail; agent harnesses, tools, and context; a disciplined agent workflow (explore, plan, test first, implement, verify, commit); reviewing AI-written code; prompt injection and agent security; evaluating models on your own tasks; multi-agent and cross-model review; cost; open-source contribution; and the effects of AI on learning and careers. Some work is done without AI, to build and check fundamentals. Teams ship a small real application built with supervised agents and defend every line of it.
+Catalog description (draft). Coding agents now read codebases, run commands, and write and test changes. This course teaches students to use them to build software faster without giving up engineering judgment. Topics include how language models work and fail; agent harnesses, tools, and context; a disciplined agent workflow (explore, plan, test first, implement, verify, commit); reviewing AI-written code; prompt injection and agent security; evaluating models on your own tasks; multi-agent and cross-model review; cost; open-source contribution; and the effects of AI on learning and careers. Some work is done without AI, to build and check fundamentals. Teams ship a small real application built with supervised agents and defend every line of it.
 
-The phrase "vibe coding" originally meant accepting whatever a model writes without reading the code ([module 00](../modules/00-orientation.md#what-we-mean-by-vibe-coding)). This course teaches the opposite habit. Agents do much of the typing, but students decide what to build, write the checks, read what matters, and answer for the result.
+The phrase "vibe coding" originally meant accepting whatever a model writes without reading the code ([module 00](../modules/00-orientation.md#what-we-mean-by-vibe-coding)). Agents do much of the typing in this course. Students decide what to build, write the checks, read what matters, and answer for the result.
 
 > **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding: AI-accelerated engineering with a human in charge, not blind acceptance of whatever the model produces.
 
@@ -111,7 +111,7 @@ Read the listed sections before the week's first session. The default depth for 
 
 ### What you build
 
-Teams of three or four use supervised coding agents to build and ship a small, real application for a real user. "Real" means someone outside the team relies on it, such as a campus club, a nonprofit, a lab group, a local business, or other students using your tool. "Small" means one clear job done well. What matters most is how you specify, constrain, verify, review, and secure the agents' work, and what you learn doing it.
+Teams of three or four use supervised coding agents to build and ship a small, real application for a real user. "Real" means someone outside the team relies on it, such as a campus club, a nonprofit, a lab group, a local business, or other students using your tool. "Small" means one clear job done well. Assessment focuses on how you specify, constrain, verify, review, and secure the agents' work, and what you learn doing it.
 
 ### Constraints
 
@@ -167,7 +167,7 @@ The instructor or a TA may follow up any submission with a five-minute walkthrou
 
 ## AI-use policy
 
-This course requires AI tools, and it also requires work without them, on purpose. The research summarized in [module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says) finds that outsourcing the thinking weakens the skill you outsourced, while using AI to ask why, get hints, and check understanding mostly doesn't. Supervising agents also depends on skills you build by hand, like reading and debugging code. So the course mixes AI-free practice, AI-as-tutor learning, and full acceleration.
+This course requires both AI-assisted and AI-free work. The research summarized in [module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says) finds that outsourcing the thinking weakens the skill you outsourced, while using AI to ask why, get hints, and check understanding mostly doesn't. Supervising agents also depends on skills you build by hand, like reading and debugging code. So the course mixes AI-free practice, AI-as-tutor learning, and full acceleration.
 
 ### The three tiers
 
@@ -267,7 +267,7 @@ The course doesn't use AI-detection tools as evidence, because AI use is hard to
 
 ## Keeping this course current
 
-This field changes monthly, and parts of this syllabus will be wrong within a term ([module 14](../modules/14-keeping-up.md#how-fast-it-moves)). The habits last: verification, context control, security, review, and honest evaluation. Names, prices, commands, and policies don't. Before each term, re-verify:
+This field changes monthly, and parts of this syllabus will be wrong within a term ([module 14](../modules/14-keeping-up.md#how-fast-it-moves)). Verification, context control, security, review, and honest evaluation should outlast the current names, prices, commands, and policies. Before each term, re-verify:
 
 1. Plans and prices for the tools students will buy, and current education offers ([module 12](../modules/12-costs-subscriptions-and-apis.md#price-snapshot-as-of-2026-11-08)).
 2. Data and training terms for consumer and education plans ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).

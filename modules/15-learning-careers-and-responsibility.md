@@ -17,7 +17,7 @@ At work, the output is the point. A merged pull request that fixes the bug is a 
 
 In school, and whenever you're learning something new, the output is mostly a side effect. What matters is the change in your head, like the mental model of how async code works or the instinct for where a bug hides. That change comes from effortful processing: trying, failing, figuring out why, and trying again. If an AI does the effortful part, you get the artifact without the learning.
 
-That's the tension this module is about. The same tool that makes an experienced engineer faster can let a learner skip exactly the struggle that would have made them experienced.
+The same tool that makes an experienced engineer faster can let a learner skip exactly the struggle that would have made them experienced.
 
 ### What the evidence says
 
@@ -34,13 +34,13 @@ Research on AI and learning is young, fast-moving, and mostly short-term. Read e
 
 **Critical thinking at work (Lee et al., CHI 2025).** A Microsoft Research and Carnegie Mellon survey of 319 knowledge workers, covering 936 real examples of using generative AI at work, found that higher confidence in the AI was associated with less critical thinking, while higher confidence in one's *own* ability was associated with more ([The Impact of Generative AI on Critical Thinking](https://doi.org/10.1145/3706598.3713778), 2025). Critical thinking shifted from producing work toward verifying, integrating, and overseeing AI output. This is self-reported survey data, not a measurement of thinking.
 
-**"Your Brain on ChatGPT" (Kosmyna et al., 2025).** An MIT Media Lab study recorded EEG while 54 participants wrote essays with an LLM, with a search engine, or with no tools ([Your Brain on ChatGPT](https://arxiv.org/abs/2506.08872)). The LLM group showed the weakest brain connectivity, felt the least ownership of their essays, and often couldn't accurately quote what they had just written. The authors call the effect "cognitive debt." Read it carefully. It's a preprint with a small sample, and only 18 people completed the key fourth session. The task was essay writing, not programming, and EEG connectivity isn't a direct measure of learning. Media coverage overstated it ("ChatGPT rots your brain"). It's one interesting data point, not a verdict.
+**"Your Brain on ChatGPT" (Kosmyna et al., 2025).** An MIT Media Lab study recorded EEG while 54 participants wrote essays with an LLM, with a search engine, or with no tools ([Your Brain on ChatGPT](https://arxiv.org/abs/2506.08872)). The LLM group showed the weakest brain connectivity, felt the least ownership of their essays, and often couldn't accurately quote what they had just written. The authors call the effect "cognitive debt." Read it carefully. It's a preprint with a small sample, and only 18 people completed the key fourth session. The task was essay writing, not programming, and EEG connectivity isn't a direct measure of learning. Media coverage overstated it ("ChatGPT rots your brain"). It cannot settle the question on its own.
 
 **Perceived vs measured speed (METR, 2025).** In a randomized study, 16 experienced open-source developers took 19% longer on tasks in their own repositories when allowed to use early-2025 AI tools, while believing afterward that AI had made them about 20% faster ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). Tools have improved a lot since. What has held up is that people are poor judges of their own AI-assisted performance.
 
 **Overconfidence in security (Perry et al., 2022).** Participants with an AI assistant wrote less secure code *and* were more likely to believe it was secure ([Do Users Write More Insecure Code with AI Assistants?](https://arxiv.org/abs/2211.03622); [module 11](./11-security-and-prompt-injection.md)).
 
-Taken together, these studies don't show that AI always harms or always helps learning. They suggest that relying on generated answers can reduce later unaided performance, while asking questions and checking understanding can preserve or improve learning in some settings. And feeling productive isn't evidence of learning.
+Taken together, these studies don't show that AI always harms or always helps learning. They suggest that relying on generated answers can reduce later unaided performance, while asking questions and checking understanding can preserve or improve learning in some settings. Feeling productive doesn't show how much you learned.
 
 ## In practice
 
@@ -48,7 +48,7 @@ Taken together, these studies don't show that AI always harms or always helps le
 
 The studies above motivate these habits, though they don't test every recommendation or time limit here.
 
-1. Attempt it first. Give yourself a fixed time (15–30 minutes) to try on your own before asking, and write down where you got stuck. Your question will be better, and the struggle is where the learning happens.
+1. Attempt it first. Give yourself a fixed time (15–30 minutes) to try on your own before asking, and write down where you got stuck. That effort helps you learn and ask a better question.
 2. Ask for hints, not answers. Tell the model what you want from it:
 
    ```text
@@ -65,7 +65,7 @@ The studies above motivate these habits, though they don't test every recommenda
 8. Keep a "things I didn't understand" log. Every time you accept something you don't fully understand, write one line. Review the log weekly and close the gaps.
 9. Use the learning modes. Claude Code has a built-in Learning output style that explains its choices and leaves small pieces of real design work for you, marked `TODO(human)`, then waits for you to write them ([docs](https://code.claude.com/docs/en/output-styles)). Switch with `/output-style learning`. ChatGPT has a study mode that tutors step by step instead of answering, and other chat apps have similar modes.
 10. Turn off autocomplete when you're learning a new language. Inline suggestions are the most frictionless way to skip thinking. Turn them back on once you know the language.
-11. Practice without AI sometimes. Pilots still hand-fly. Do some exercises, timed problems, or a weekly hour of coding with no assistant at all.
+11. Practice without AI sometimes. Do some exercises, timed problems, or a weekly hour of coding with no assistant at all.
 
 Working engineers moving to a new language, framework, or codebase should use these habits too. The Anthropic trial's participants were professionals, not students.
 
@@ -145,7 +145,7 @@ The most-cited evidence comes from Stanford's Digital Economy Lab. Brynjolfsson,
 
 - Other explanations remain plausible and may combine: the post-2022 correction after pandemic over-hiring in tech, higher interest rates, offshoring, and companies pausing junior hiring while they figure out AI. The authors' controls address some of these, not all.
 - The US Bureau of Labor Statistics still projects software developer employment to grow 10% from 2025 to 2035, much faster than average ([BLS](https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm)). Projections can be wrong in both directions.
-- Developers themselves are cautious about the tools. In Stack Overflow's 2025 survey, 84% used or planned to use AI tools, but only 33% trusted their accuracy and 46% distrusted it; the top frustration (66%) was "AI solutions that are almost right, but not quite" ([survey](https://survey.stackoverflow.co/2025/ai)). Someone still has to catch the "almost right."
+- Developers themselves are cautious about the tools. In Stack Overflow's 2025 survey, 84% used or planned to use AI tools, but only 33% trusted their accuracy and 46% distrusted it; the top frustration (66%) was "AI solutions that are almost right, but not quite" ([survey](https://survey.stackoverflow.co/2025/ai)).
 - Nobody knows the long-run effect. If companies stop hiring juniors, they eventually run out of seniors. Some firms are betting that AI-fluent juniors are a bargain, and others are cutting junior roles.
 
 Entry-level software work is getting harder to find, and AI is a plausible part of why. Showing judgment beyond generated output is one way applicants can demonstrate their value.
@@ -234,7 +234,7 @@ Project policies vary too. Some open-source projects ban AI-generated contributi
 
 - Follow the project's rule. Some projects want a trailer such as `Co-Authored-By:` or `Assisted-by:` naming the tool, some want a note in the PR description, and some forbid AI use.
 - Many agents add attribution by default. Claude Code, for example, adds a co-author trailer to commits it creates unless configured otherwise. Leave it on unless your project says not to.
-- You're still the author of record. Attribution says how the work was made. It doesn't move responsibility to the tool.
+- You're still the author of record. Attribution explains the tool's role; you remain responsible.
 - Don't launder. Presenting heavy AI output as entirely your own work, where disclosure is expected, is the same integrity problem as presenting a classmate's work as your own.
 
 #### Environmental footprint
@@ -254,7 +254,7 @@ Agentic coding isn't a median chat prompt. One hour with an agent can be 60 or m
 
 #### Human accountability
 
-An agent can't be fired, sued, or held to a professional standard. You can. Whatever you merge, deploy, submit, or publish is yours, including the bugs, the security holes ([module 11](./11-security-and-prompt-injection.md)), and the license problems. "The AI wrote it" is an explanation, never an excuse. [Module 10](./10-ai-code-review.md) covers review practices that keep a named human accountable for every change.
+An agent can't be fired, sued, or held to a professional standard, but you can. Whatever you merge, deploy, submit, or publish is yours, including the bugs, the security holes ([module 11](./11-security-and-prompt-injection.md)), and the license problems. "The AI wrote it" doesn't excuse those problems. [Module 10](./10-ai-code-review.md) covers review practices that keep a named human accountable for every change.
 
 ## Going deeper
 
@@ -276,13 +276,13 @@ Researchers writing in HBR in September 2025 coined "workslop" for AI-generated 
 
 Imposter feelings are common too. Some people feel they aren't "real" engineers if an agent wrote the code. Others feel left behind by colleagues who seem to ship ten times as much. The work has shifted toward specification, judgment, and verification, and doing those well *is* engineering. And per the METR finding, other people's apparent speed may be partly perception.
 
-AI-first doesn't mean AI-only. Being AI-first means reaching for the tool by default and knowing how to use it well, while still being able to work without it. Keep skills you can use when the tools are down, wrong, or not allowed.
+Being AI-first means reaching for the tool by default and knowing how to use it well, while still being able to work without it. Keep skills you can use when the tools are down, wrong, or not allowed.
 
 ## Bryan's take
 
 > **Bryan's take:** "Vibe coding," as this course uses the phrase, means AI-accelerated engineering with a human in charge, not blind acceptance of whatever the model produces.
 
-In practice, "a human in charge" means what the responsible-use section describes: you understand what you ship, you protect other people's data, and you answer for the result. Yegge's stages are in [module 08](./08-agentic-workflows.md).
+A human in charge must understand what ships, protect other people's data, and answer for the result. Yegge's stages are in [module 08](./08-agentic-workflows.md).
 
 ## Try it
 

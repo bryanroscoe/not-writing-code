@@ -41,11 +41,11 @@ Early research on coding agents found that tool design matters as much as the mo
 
 Anthropic's Claude Code docs put it bluntly: "Claude stops when the work looks done." If the agent has nothing to run that tells it whether the work *is* done, "looks done" is all it has. "In practice that makes you the test suite" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)).
 
-That explains most of what goes wrong with agents, and most of this module's advice. Asking nicely won't make an agent reliable. Give it a check that returns pass or fail.
+Give the agent a check that returns pass or fail. Asking nicely won't make it reliable.
 
 ### What you control
 
-Whatever tool you use, you have four levers:
+You control four things, whatever tool you use:
 
 | Lever | What it means | Covered in |
 | --- | --- | --- |
@@ -67,7 +67,7 @@ Whatever tool you use, you have four levers:
 | 5. Background or cloud agents | You hand off a task and get a pull request back later | You or a reviewer, at the PR | Cloud agents, scheduled tasks, CI-triggered agents |
 | 6. Fully autonomous pipeline | Specs in, software out; no human reads the code | Automated checks only | "Software factories," "dark factories" |
 
-Two other versions of this map are worth knowing.
+There are two other common versions of this map.
 
 - Dan Shapiro's five levels (January 2026) borrow from self-driving cars. Level 0 is "your parents' Volvo," and level 3 is "a Waymo with a safety driver," where you spend your day reviewing AI-written code. Level 4 is "a robotaxi": you write specs and check whether the tests pass. Level 5 is the **dark factory**, named after lights-out factories that run without people ([Shapiro, 2026](https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/)).
 - Steve Yegge's eight stages describe the developer instead of the tool. They've become common shorthand, so they get their own section next.
@@ -103,9 +103,9 @@ Some cautions about reading the chart:
 
 The two leading coding-agent vendors recommend the same workflow. Anthropic's original Claude Code best-practices post (April 2025) called it "explore, plan, code, commit," with a test-driven variant: write tests, commit, then code and iterate. That post now redirects to the [current docs](https://code.claude.com/docs/en/best-practices), which emphasize writing a spec, giving the agent a check to run, and having someone who didn't write the code review it. OpenAI's [Codex best practices](https://learn.chatgpt.com/guides/best-practices) agree: "If the task is complex, ambiguous, or hard to describe well, ask Codex to plan before it starts coding," and "Codex can do this loop for you, but only if it knows what 'good' looks like."
 
-Here's the loop, with prompts you can adapt.
+You can adapt these prompts for each step.
 
-**1. Explore (read-only).** Have the agent build a picture before it touches anything.
+1. Explore (read-only). Have the agent build a picture before it touches anything.
 
 ```text
 Read src/auth/ and its tests. Don't change anything yet.
@@ -113,7 +113,7 @@ Explain how token refresh works, where session timeout is handled,
 and anything that looks surprising.
 ```
 
-**2. Plan.** Ask for a plan and read it. It's the cheapest place to catch a wrong idea. Claude Code has a **plan mode** (`Shift+Tab` until the status bar shows it) in which "Claude reads files and proposes a plan but makes no edits until you approve" ([Claude Code docs](https://code.claude.com/docs/en/common-workflows)). Codex has a Plan mode too. If you don't know yet what you want, have the agent interview you and write a spec:
+2. Plan. Ask for a plan and read it. It's the cheapest place to catch a wrong idea. Claude Code has a **plan mode** (`Shift+Tab` until the status bar shows it) in which "Claude reads files and proposes a plan but makes no edits until you approve" ([Claude Code docs](https://code.claude.com/docs/en/common-workflows)). Codex has a Plan mode too. If you don't know yet what you want, have the agent interview you and write a spec:
 
 ```text
 I want to add rate limiting to the public API but haven't thought it through.
@@ -122,20 +122,20 @@ Interview me until you could write the spec, then write it to SPEC.md.
 
 That example is straight from Anthropic's docs, which then suggest starting a *fresh* session to build from `SPEC.md`, "so the build begins with a clean context and a written definition of done."
 
-**3. Implement, tests first.** The test is the contract.
+3. Implement, tests first.
 
 ```text
 Write a failing test that reproduces the bug. Run it and show me the failure.
 Then make it pass without modifying the test. No new dependencies.
 ```
 
-**4. Verify.** Ask for evidence: the command it ran and what it printed. "All tests pass" on its own "tells you very little" (Anthropic docs). Then get an independent look from a fresh session or a review command that never saw the conversation ([module 10](./10-ai-code-review.md)). If there's a UI, look at it yourself.
+4. Verify. Ask for evidence: the command it ran and what it printed. "All tests pass" on its own "tells you very little" (Anthropic docs). Then get an independent look from a fresh session or a review command that never saw the conversation ([module 10](./10-ai-code-review.md)). If there's a UI, look at it yourself.
 
-**5. Commit.** Small, separate commits for the test and the fix. Write the message yourself or check the agent's.
+5. Commit. Small, separate commits for the test and the fix. Write the message yourself or check the agent's.
 
 ### Prototype first: draft-driven development
 
-The core loop assumes you know what you want. Often you don't until you see something. A prototype gives you something to see.
+The core loop assumes you know what you want. If you don't, build a prototype to find out.
 
 This is an old idea. Fred Brooks wrote in *The Mythical Man-Month* (1975): "plan to throw one away; you will, anyhow." What changed is the price. A throwaway version used to cost weeks, so teams argued over specs instead. Now an agent can build one in minutes, and you react to it instead of imagining it.
 
@@ -150,7 +150,7 @@ To do it well:
 2. Write what you learned into a short spec: decisions, surprises, what users said ([spec-driven development](./07-context-engineering.md#spec-driven-development-in-practice)).
 3. Rebuild or harden it on purpose. Either start fresh with the core loop, tests first, or keep the prototype and review it line by line as production code. Don't let it drift into production by default.
 
-The risk comes from the same place as the benefit. A prototype *looks* finished, so people (you included) start treating it as the real thing before anyone has checked error handling, security, or tests. In the 20th-anniversary edition (1995), Brooks himself called his throw-one-away advice too simple and argued for growing software incrementally. Today both ideas lead to the same habit: get to something concrete fast, then make the keeper solid.
+The risk comes from the same place as the benefit. A prototype *looks* finished, so people (you included) start treating it as the real thing before anyone has checked error handling, security, or tests. In the 20th-anniversary edition (1995), Brooks himself called his throw-one-away advice too simple and argued for growing software incrementally. You can build something concrete quickly, then improve it incrementally.
 
 > **Bryan's take:** I like draft-driven or prototype-driven development, and you can do it with AI now. From a coding point of view or an application point of view, it's easier to comment on something you can see than to conceptualize it from scratch.
 
@@ -158,7 +158,7 @@ The risk comes from the same place as the benefit. A prototype *looks* finished,
 
 **Test-driven development (TDD)** means writing a failing test before the code that makes it pass. It suits agents unusually well. As Simon Willison puts it, "Test-first development is particularly effective with agents that can iterate in a loop" ([Willison, 2025](https://simonwillison.net/2025/Oct/7/vibe-engineering/)).
 
-The contract only works if the agent can't quietly rewrite it. Agents under pressure to make tests pass sometimes delete, skip, or special-case them. Protect it:
+The contract only works if the agent can't quietly rewrite it. Agents under pressure to make tests pass sometimes delete, skip, or special-case them. To prevent that:
 
 - Write or approve the tests yourself before implementation starts, and commit them separately.
 - Make each test fail first. A test that never failed may not test anything.
@@ -330,13 +330,13 @@ Agent: Added IPv6 case. $ npm test -> PASS 42 suites, 319 tests.
        Committed: "fix: trust one proxy hop so rate limits are per client"
 ```
 
-It worked because of read-only exploration, a question back to the human, a plan that called out the security trap, a test that failed before it passed, evidence instead of claims, a two-file diff, and a reviewer that hadn't seen the conversation.
+The read-only exploration caught a security trap before any edits. The agent checked the proxy setup with the human, planned the fix, and showed a failing test followed by passing results. The diff touched two files, and a fresh reviewer checked it.
 
 ## Going deeper
 
 ### The case for full autonomy
 
-The people building fully autonomous pipelines aren't naive, and their evidence deserves a fair hearing.
+Fully autonomous pipelines have produced some substantial results.
 
 **Agents can now work for hours.** METR measures the length of software tasks (in human expert time) that a model completes with 50% reliability. It calls this the model's **time horizon**. Its original paper found the horizon doubling roughly every seven months from 2019 to 2025 ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)). Its January 2026 update (Time Horizon 1.1) estimated faster recent doubling: about 131 days for models since 2023, and about 89 days for models since 2024 ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). In May 2026 METR reported, in a post on X, that an early version of Anthropic's Claude Mythos Preview had a 50% horizon of "at least 16hrs (95% CI 8.5hrs to 55hrs)," "at the upper end of what we can measure without new tasks" ([METR on X, 2026](https://x.com/METR_Evals/status/2052896621760004602)). Model specifics live in [module 03](./03-model-landscape.md).
 
@@ -375,7 +375,7 @@ The people building fully autonomous pipelines aren't naive, and their evidence 
 | StrongDM factory | Holdout scenarios and digital twins of third-party services | Their own products | A whole team building the factory | $1,000 or more per engineer per day, by their own benchmark |
 | Gas Town | Yegge's own tests and judgment | His own projects | Four orchestrators rewritten in 2025 | "Some work gets lost"; multiple subscriptions |
 
-The pattern is that **autonomy scales with the strength of the automated oracle**. A C compiler is close to the best case, with a reference implementation to diff against and decades of conformance tests. Most product work has neither. Its real spec lives in product managers' heads, in customer contracts, and in the behavior users depend on. Until that spec is written down as checks an agent can't game, full autonomy means shipping whatever passes the tests you happened to write.
+Stronger automated oracles allow more autonomy. A C compiler is close to the best case, with a reference implementation to diff against and decades of conformance tests. Most product work has neither. Its real spec lives in product managers' heads, in customer contracts, and in the behavior users depend on. Until that spec is written down as checks an agent can't game, full autonomy means shipping whatever passes the tests you happened to write.
 
 ### Open questions
 

@@ -11,9 +11,9 @@ This template is for leads and for security, legal, and privacy reviewers, and t
 
 - Placeholders look like `[[ORG: ...]]`. Replace every one, and search the finished document for `[[ORG:` before you publish.
 - Guidance notes are the blockquotes that start with "Guidance." They explain a choice; delete them from the published policy.
-- Keep it short, and cut sections that don't apply. A policy people read beats a complete one they don't.
+- Keep it short, and cut sections that don't apply so people can read it.
 - Keep the policy in a repository, change it by pull request, and record each change in [section 18](#18-review-cadence-and-changes).
-- Start provisional. Ship version 1 with a short approved-tools list and a review date a few months out, then tighten it as you learn. A long approval process pushes people toward unapproved tools.
+- Publish a provisional version 1 with a short approved-tools list and a review date a few months out, then tighten it as you learn. A long approval process pushes people toward unapproved tools.
 - The modules have background for each section, especially [module 11](../modules/11-security-and-prompt-injection.md) (security), [module 12](../modules/12-costs-subscriptions-and-apis.md) (costs and terms), and [module 15](../modules/15-learning-careers-and-responsibility.md#responsible-use) (responsible use).
 
 ---
@@ -40,7 +40,7 @@ It covers any AI system used for engineering work, including chat assistants, ID
 
 ## 2. Principles
 
-1. **A named human is accountable for every change.** AI can suggest, write, review, and fix. A person approves and owns the result. "The AI wrote it" is an explanation, never an excuse.
+1. **A named human is accountable for every change.** AI can suggest, write, review, and fix. A person approves and owns the result, including AI-written work.
 2. **AI-first, not AI-only.** We use AI by default where it helps, and we keep the skills and judgment to work without it.
 3. **Same bar for all code.** AI-assisted changes meet the same review, testing, and security standards as any other change.
 4. **Protect data by default.** Only approved tools, only for the data classes they are approved for.
@@ -246,7 +246,7 @@ These rules apply to any AI that runs unattended or is shared: review bots, issu
 4. Report, with what you know so far. Partial reports are welcome.
 5. `[[ORG: follow the organization's incident response process from here]]`
 
-Reporting is blame-free. Reports are how we find control gaps, and post-incident reviews ask "what control failed, and what did review miss?" rather than "who used AI?"
+Reporting is blame-free. Use reports to find control gaps. Post-incident reviews examine which control failed and what review missed.
 
 ## 17. Exceptions
 

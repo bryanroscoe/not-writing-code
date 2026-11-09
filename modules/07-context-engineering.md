@@ -39,11 +39,11 @@ flowchart TB
 
 Prompt engineering is writing the instructions, examples and constraints you send to a model. It turned into a craft, and briefly a job title, once GPT-3 showed that a few examples in the prompt could steer a model without retraining ([Brown et al., 2020](https://arxiv.org/abs/2005.14165)). Chain-of-thought prompting showed that examples with the intermediate reasoning written out improved accuracy on reasoning tasks ([Wei et al., 2022](https://arxiv.org/abs/2201.11903)). [The Prompt Report](https://arxiv.org/abs/2406.06608) (Schulhoff et al., 2024) catalogs the many named techniques.
 
-Then two things changed. Models got much better at guessing what you meant, so many tricks stopped mattering, and [reasoning models](./01-what-is-an-llm.md) now think before answering without being asked. And in agentic work, your typed prompt became a small fraction of what the model sees. The rest is tool definitions, files, command output and history. That's why the next term showed up.
+Then two things changed. Models got much better at guessing what you meant, so many tricks stopped mattering, and [reasoning models](./01-what-is-an-llm.md) now think before answering without being asked. And in agentic work, your typed prompt became a small fraction of what the model sees. The rest is tool definitions, files, command output and history. "Context engineering" covers that wider input.
 
 ### Context engineering
 
-On June 19, 2025, Shopify CEO Tobi Lütke [wrote](https://simonwillison.net/2025/Jun/27/context-engineering/) that he preferred "context engineering" over "prompt engineering" because it "describes the core skill better: the art of providing all the context for the task to be plausibly solvable by the LLM." Six days later Andrej Karpathy added "+1," describing it as "the delicate art and science of filling the context window with just the right information for the next step." Simon Willison predicted the term would stick. It did.
+On June 19, 2025, Shopify CEO Tobi Lütke [wrote](https://simonwillison.net/2025/Jun/27/context-engineering/) that he preferred "context engineering" over "prompt engineering" because it "describes the core skill better: the art of providing all the context for the task to be plausibly solvable by the LLM." Six days later Andrej Karpathy added "+1," describing it as "the delicate art and science of filling the context window with just the right information for the next step." Simon Willison correctly predicted the term would stick.
 
 The definitions that followed agree:
 
@@ -58,7 +58,7 @@ On February 5, 2026, Mitchell Hashimoto (co-founder of HashiCorp, author of the 
 
 Six days later OpenAI published [Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/) (Ryan Lopopolo, February 11, 2026). A small team, three engineers at first, built an internal product of about a million lines over roughly five months with no hand-written code. They reported that one big instruction file didn't work, so they replaced it with a short `AGENTS.md` (about 100 lines) that acts as a map into a `docs/` directory of design docs and execution plans. Linters and structural tests check that the docs and the architecture stay consistent.
 
-That's a different question from context engineering. Instead of what the agent should see, it asks what the environment should prevent, measure and correct. [Module 06](./06-harnesses-and-tools.md) covers the harness itself.
+Harness engineering asks what the environment should prevent, measure and correct, beyond choosing what the agent sees. [Module 06](./06-harnesses-and-tools.md) covers the harness itself.
 
 ### Loop engineering
 
@@ -78,7 +78,7 @@ The harnesses shipped features for it. Claude Code has [`/loop`](https://code.cl
 
 On July 18, 2026, Peter Steinberger asked on X: "Are we still talking loops or did we shift to graphs yet?" Within hours, Hamel Husain posted an X article titled "Loop Engineering Is Dead. Enter Graph Engineering," and the term took off. Courses and roadmaps followed within days. [Turing Post](https://www.turingpost.com/p/is-graph-engineering-real-why-everyone-is-talking-about-it) traced where it came from and read Steinberger's post as a playful question, not a definition. It also checked a viral claim that Microsoft, Stanford and Anthropic had "discovered" graph engineering and found it false.
 
-The idea underneath is real, and it's older than the name. A **graph** here is a set of steps (nodes) connected by transitions (edges) with shared state. A loop is just a graph whose path returns to an earlier node. Anthropic's [Building effective agents](https://www.anthropic.com/research/building-effective-agents) (Erik Schluntz and Barry Zhang, December 19, 2024) described the common shapes, separating **workflows** ("systems where LLMs and tools are orchestrated through predefined code paths") from **agents** that direct their own process:
+The underlying idea predates the name. A **graph** here is a set of steps (nodes) connected by transitions (edges) with shared state. A loop is just a graph whose path returns to an earlier node. Anthropic's [Building effective agents](https://www.anthropic.com/research/building-effective-agents) (Erik Schluntz and Barry Zhang, December 19, 2024) described the common shapes, separating **workflows** ("systems where LLMs and tools are orchestrated through predefined code paths") from **agents** that direct their own process:
 
 - Prompt chaining: step A's output feeds step B, with checks between them.
 - Routing: classify the input, then send it to a specialized path.
@@ -99,7 +99,7 @@ It works best for medium-to-large features with clear acceptance criteria. For a
 
 ### A skeptical note: what is substance and what is relabeling?
 
-Every new term widened the scope and arrived with hype. A few ways to read the ladder honestly:
+Each term widened the scope and attracted hype. To assess the claims:
 
 - The skill that lasts is systems engineering around a stochastic component. Each rung names one part of that: the input (prompt), the working memory (context), the environment (harness), the control flow (loop), the topology (graph).
 - "X is dead" is always wrong. Prompts still matter inside context, context still matters inside a loop, and graphs contain loops.
@@ -182,7 +182,7 @@ Two mistakes come up a lot. One is preloading "just in case": pasting the whole 
 
 ### The rise and fall of giant CLAUDE.md and AGENTS.md files
 
-This is the clearest case study of context engineering in practice, and the whole cycle took about two years.
+The shift in advice about instruction files took about two years.
 
 #### The rise (2023–2025)
 
@@ -207,8 +207,6 @@ Each line felt free when you added it, and nobody deleted anything. Studies of r
 
 #### The fall (late 2025–2026)
 
-Then several things changed at once.
-
 **1. Every line costs attention, on every task.** An always-loaded file competes with the actual task for the model's focus, whether or not a given line is relevant. Claude Code's docs say every line "takes a little of Claude's attention on *every* task." Its memory guide says longer files "consume more context and reduce adherence."
 
 **2. Instruction-following decays as instructions pile up.** [How Many Instructions Can LLMs Follow at Once?](https://arxiv.org/abs/2507.11538) (Jaroslawicz et al., July 2025) introduced IFScale, a benchmark that adds up to 500 simple instructions to one task. Across 20 models, accuracy fell as instruction count rose. Even the best frontier models reached only 68% at 500 instructions. The paper also found a bias toward earlier instructions. That's a reason to test long rules files, though the benchmark's task is synthetic, not a repository workflow.
@@ -224,7 +222,7 @@ Then several things changed at once.
 
 **4. Progressive disclosure replaced always-on loading.** Agent Skills (October 2025) load only a name and description until needed. Path-scoped rules (`.claude/rules/` with path patterns, Cursor's scoped Project Rules, nested `AGENTS.md` files) load only when the agent touches matching files. A long release procedure no longer weighs on an unrelated bug fix.
 
-**5. Hooks replaced shouting.** A rule written in capitals is still a request. Claude Code's docs: "If you keep adding emphasis to a `CLAUDE.md` line and Claude still misses it, that's a sign the line belongs in a hook." Rules that must have zero exceptions (never read `.env`, always run the formatter, never edit `migrations/`) became hooks, deny rules or sandbox settings ([module 06](./06-harnesses-and-tools.md)).
+**5. Hooks replaced shouting.** Capital letters don't enforce a rule. Claude Code's docs: "If you keep adding emphasis to a `CLAUDE.md` line and Claude still misses it, that's a sign the line belongs in a hook." Rules that must have zero exceptions (never read `.env`, always run the formatter, never edit `migrations/`) became hooks, deny rules or sandbox settings ([module 06](./06-harnesses-and-tools.md)).
 
 **6. Models got better at exploring codebases.** Agents with good search tools find what they need. The ETH study found that architecture overviews didn't speed up file discovery. Claude Code's guidance now lists "describe your architecture and file layout in `CLAUDE.md`" under "what you can stop doing": "Claude reads the repo itself. Only write down what isn't in there."
 
@@ -337,7 +335,7 @@ flowchart LR
     B -->|yes| H[Stop and report to a human]
 ```
 
-A checklist for any loop:
+Any loop needs the following:
 
 1. A verifiable end state. "All tests in `test/auth` pass" works. "The code is good" doesn't. Claude Code's `/goal` evaluator can't run commands itself; it judges from what the agent printed, so the agent has to show the evidence.
 2. An independent check: tests, a type checker, or a different model that didn't write the code. A model grading its own work is optimistic.
@@ -349,7 +347,7 @@ A checklist for any loop:
 
 ### Graphs in practice
 
-Most coding work needs one or two of Anthropic's workflow patterns at most. Pick by the shape of the task, not by the buzzword:
+Most coding work needs at most one or two of Anthropic's workflow patterns. Choose what fits the task:
 
 | Pattern | Coding example | Use when | Skip when |
 | --- | --- | --- | --- |
@@ -405,7 +403,7 @@ Instruction files, skills and rules get loaded as trusted context. A malicious p
 
 > **Bryan's take:** Context management is important. Once context gets stale, that's bad. Don't keep the same thread around for a long time. Models get dumber the larger the context gets and the longer a session has been going. Start fresh sessions often.
 
-There's real counter-evidence, though. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These are real results from strong teams. They also rest on heavy investment in harnesses, tests and verification, and they come from the companies selling the tools. [Module 08](./08-agentic-workflows.md) gets into how much autonomy works in practice.
+Some reports support greater autonomy. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These results depend on heavy investment in harnesses, tests and verification, and come from companies selling the tools. [Module 08](./08-agentic-workflows.md) gets into how much autonomy works in practice.
 
 ## Try it
 

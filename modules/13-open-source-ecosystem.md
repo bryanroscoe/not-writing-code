@@ -4,7 +4,7 @@
 
 **TL;DR**
 - "Open source" in AI tooling covers several layers: inference runtimes, agent frameworks, harnesses, MCP servers, skills, orchestrators and eval tools. An open-source harness can drive a closed model, and an open-weight model can run in a closed harness.
-- Notable open-source coding harnesses include OpenCode, Aider, Cline, Kilo Code, goose, OpenHands, and the open-source CLIs from OpenAI (Codex CLI) and Google (Gemini CLI). The field churns. Roo Code shut down in May 2026, and Continue was archived.
+- Open-source coding harnesses include OpenCode, Aider, Cline, Kilo Code, goose, OpenHands, and the open-source CLIs from OpenAI (Codex CLI) and Google (Gemini CLI). Roo Code shut down in May 2026, and Continue was archived.
 - OpenClaw (formerly Clawdbot, then Moltbot) became one of GitHub's most-starred projects in early 2026. It showed real demand for personal agents that live in your messaging apps, and what happens when one is exposed to the internet and uses an unvetted skill registry.
 - You rarely need an agent framework to start, since a working agent loop is about 30 lines. Reach for LangGraph, Pydantic AI, the OpenAI Agents SDK, the Claude Agent SDK and similar tools when you need durable state, tracing, many tools, or many agents.
 - AI has put a heavy load on maintainers. curl ended its bug bounty in January 2026 after confirmed reports fell below 1 in 20. Projects now publish AI policies ranging from outright bans (Gentoo, QEMU) to "disclose it and own it" (LLVM, Ghostty, the Linux kernel).
@@ -33,7 +33,7 @@ Some projects mix licenses. Cline's JetBrains plugin isn't open source, for exam
 
 Open source matters here for a few reasons. You can read a harness's system prompt and tool code, which is the best way to understand what it does. You can run it where your code lives, including air-gapped or on-premises environments with local models. It's also the industry's research lab: ideas such as Aider's repository map, the Ralph loop, worktree-per-agent orchestration, and git-backed agent memory appeared in open projects first and were copied everywhere within months.
 
-And it protects you against vendor churn, up to a point. An archived open-source tool still runs. A shut-down service doesn't.
+Open source also offers some protection against vendor churn. You can still run an archived tool. A shut-down service is unavailable.
 
 ### A map of the stack
 
@@ -96,7 +96,7 @@ It changed names four times in about two months ([Wikipedia](https://en.wikipedi
 
 It grew faster than almost any project before it, passing 247,000 GitHub stars by early March 2026. Moltbook, a social network for AI agents launched by Matt Schlicht, rode the same wave. On February 14, 2026, Steinberger announced a move to OpenAI and said a non-profit OpenClaw Foundation would steward the project. OpenClaw 2.0 shipped on August 30, 2026.
 
-What it showed about personal agents:
+OpenClaw exposed several demands and risks:
 
 - People want an agent that lives where they already talk, keeps memory between sessions, and can act across their accounts. That's a different product from a coding agent.
 - A personal agent is the lethal trifecta in one package. It reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous ([module 11](./11-security-and-prompt-injection.md)).
@@ -185,7 +185,7 @@ A plain loop is enough when there's one agent, a handful of tools, and short ses
 
 ### MCP servers worth knowing
 
-[Module 06](./06-harnesses-and-tools.md) explains MCP; here are servers worth knowing:
+For background on MCP, read [module 06](./06-harnesses-and-tools.md). Some servers to know:
 
 - The reference servers in [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers): Everything (a test server), Fetch, Filesystem, Git, Memory, Sequential Thinking and Time. Many earlier reference servers (GitHub, Slack, Postgres, Puppeteer and others) moved to an archive repository as vendors shipped official ones. The README calls the reference servers educational examples, "not production-ready solutions."
 - [GitHub's official MCP server](https://github.com/github/github-mcp-server) covers issues, pull requests, code search and Actions, and runs locally or as a hosted server.
@@ -221,7 +221,7 @@ A skill is instructions, often with scripts your agent will run. The ClawHub inc
 
 Open source runs on volunteer review time. AI tools made it nearly free to produce a plausible-looking pull request or bug report, and the cost moved to maintainers, who must read every one.
 
-Daniel Stenberg, curl's founder and lead developer, had complained about AI-generated security reports since early 2024. In January 2026, Stenberg announced the end of curl's bug bounty, effective January 31, and [explained why on his blog](https://daniel.haxx.se/blog/2026/01/26/the-end-of-the-curl-bug-bounty/) on January 26. Over its life the program had confirmed 87 vulnerabilities and paid more than $100,000. But the share of reports that turned out to be real fell from above 15% in earlier years to below 5% from 2025 on: "Not even one in twenty was real." The money, Stenberg argued, drew in low-effort submissions, and "the never-ending slop submissions take a serious mental toll to manage." curl now takes reports through GitHub's private vulnerability reporting and email, with no payouts. The problem was reports nobody had checked, not AI as such.
+Daniel Stenberg, curl's founder and lead developer, had complained about AI-generated security reports since early 2024. In January 2026, Stenberg announced the end of curl's bug bounty, effective January 31, and [explained why on his blog](https://daniel.haxx.se/blog/2026/01/26/the-end-of-the-curl-bug-bounty/) on January 26. Over its life the program had confirmed 87 vulnerabilities and paid more than $100,000. But the share of reports that turned out to be real fell from above 15% in earlier years to below 5% from 2025 on: "Not even one in twenty was real." The money, Stenberg argued, drew in low-effort submissions, and "the never-ending slop submissions take a serious mental toll to manage." curl now takes reports through GitHub's private vulnerability reporting and email, with no payouts. The problem was unchecked reports.
 
 Project policies fall on a spectrum:
 
@@ -251,7 +251,7 @@ Before you open a pull request or issue on someone else's project:
 
 ### How students can contribute to open source with AI, responsibly
 
-Contributing to open source is one of the best ways for a student to learn real engineering. AI can make it easier if you use it to learn, not to skip the learning.
+Contributing to open source is one of the best ways for a student to learn real engineering. AI can help you understand the project before you contribute.
 
 1. Pick a project you use. You'll understand its users, and you'll care about the result.
 2. Read the contributing guide and AI policy first. Note what's banned, what must be disclosed, and how to claim an issue.
@@ -259,7 +259,7 @@ Contributing to open source is one of the best ways for a student to learn real 
 4. Choose an issue and say you're working on it before you write code. Some projects, LLVM for example, ask that newcomer "good first issues" be done without AI, because they exist to teach.
 5. Reproduce the bug by hand, and write a failing test before you fix anything.
 6. Write or heavily revise the fix yourself. If an agent drafts it, rework it until you could have written it, then delete what you can't defend.
-7. Get a second opinion before the maintainers' opinion. Ask a different model or a classmate to review your diff ([module 10](./10-ai-code-review.md)).
+7. Ask a different model or a classmate to review your diff before sending it to maintainers ([module 10](./10-ai-code-review.md)).
 8. Write the PR description in your own words, and disclose how you used AI.
 9. Handle review feedback yourself. Answer questions from your own understanding, and if you don't know, say so and go find out.
 10. Keep a log of what you learned. For a course, that log, not the merged PR, is the evidence of learning ([module 15](./15-learning-careers-and-responsibility.md)).
@@ -285,7 +285,7 @@ The pattern is familiar from earlier open-source eras. Venture-funded companies 
 
 ### Open client, closed model
 
-Several of the most-starred harnesses, such as Codex CLI and Gemini CLI, are open-source clients for closed models. Claude Code itself isn't open source, although its SDK wrappers are published on GitHub. With an open client you can read every prompt and tool, but the model is still a remote service with its own terms, rate limits and data policies. That's still worth a lot. You can audit what's sent, fork the client, and swap in a different model where the harness allows it. It just isn't a fully open stack. For that, combine a model-agnostic harness, an open-weight model and a local runtime ([module 04](./04-open-vs-closed-weights.md)).
+Several of the most-starred harnesses, such as Codex CLI and Gemini CLI, are open-source clients for closed models. Claude Code itself isn't open source, although its SDK wrappers are published on GitHub. With an open client you can read every prompt and tool, but the model is still a remote service with its own terms, rate limits and data policies. You can audit what's sent, fork the client, and swap in a different model where the harness allows it. The stack still depends on a closed model. For that, combine a model-agnostic harness, an open-weight model and a local runtime ([module 04](./04-open-vs-closed-weights.md)).
 
 ### Extensions are dependencies
 

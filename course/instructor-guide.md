@@ -48,15 +48,15 @@ Set the stance (AI-accelerated, human accountable), explain the tiers, and get e
 
 **Talking points**
 - Karpathy's original "vibe coding" meant not reading the code. This course teaches the opposite habit. Show the spectrum table and point out that most of the course sits in the supervised-agent rows ([module 00](../modules/00-orientation.md#what-we-mean-by-vibe-coding)).
-- The six ideas that outlast the hype are the spine of the course ([module 00](../modules/00-orientation.md#six-ideas-that-outlast-the-hype)).
+- The course builds on the six ideas that outlast the hype ([module 00](../modules/00-orientation.md#six-ideas-that-outlast-the-hype)).
 - In Anthropic's 2026 trial, the AI group scored 50% on a follow-up quiz against 67% for hand-coders, with the largest gap on debugging. That's why an AI course has AI-free work ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says)).
-- Walk through the AI-use policy and the AI log. Frame disclosure as a professional norm, not a confession.
+- Walk through the AI-use policy and the AI log. Explain that disclosure is a professional norm.
 - In the setup clinic, install one agent, sign in with the subscription (not an API key), and check the data-training setting.
 
 **Live demo:** a five-minute preview of the week 5 loop on a toy bug. Say out loud what you check before trusting it, so students see the target skill on day one.
 
 **Misconceptions**
-- "Vibe coding means I don't need to know how to code." It's the opposite. Supervising agents takes reading and debugging skill.
+- "Vibe coding means I don't need to know how to code." Supervising agents takes reading and debugging skill.
 - "In an AI course, everything is allowed." Each assignment has a tier.
 - "If I disclose AI use, I'll lose points." Missing disclosure costs points. Honest disclosure never does.
 
@@ -141,7 +141,7 @@ Context is the main lever, and a bigger window doesn't mean better attention.
 
 ### Week 5: agentic workflows
 
-Teach the core loop, tests as the contract, and autonomy as a dial.
+Teach the core loop and tests as the contract. Show how to adjust autonomy.
 
 **Talking points**
 - "Claude stops when the work looks done." Without a check to run, "looks done" is all the agent has ([module 08](../modules/08-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)).
@@ -228,7 +228,7 @@ Injection is unsolved, and defenses are architectural.
 - Indirect injection is the one that matters for coding agents ([module 11](../modules/11-security-and-prompt-injection.md#direct-vs-indirect-injection)). Jailbreaks are a different problem.
 - The lethal trifecta and the Rule of Two ([module 11](../modules/11-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)). A coding agent on a laptop has all three legs by default.
 - Pick two or three incidents from the [incident table](../modules/11-security-and-prompt-injection.md#real-incidents-20252026), for example the GitHub MCP toxic agent flow, Nx "s1ngularity," and Clinejection.
-- Classifier-based approval is a speed bump. A sandbox is the wall ([module 11](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
+- Classifier-based approval can miss unsafe actions. A sandbox enforces a boundary ([module 11](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
 
 **Live demo:** [prompt injection through a README](#demo-2-prompt-injection-through-a-readme).
 
@@ -301,7 +301,7 @@ Lab 6 runs on each team's project history and is the project's eval set. Use bas
 
 ### Week 11: multiple agents
 
-More agents help with reading and hurt with writing.
+Agents parallelize reading well but usually struggle to write on one codebase.
 
 **Talking points**
 - The read/write asymmetry: review and research parallelize, and writing on one codebase usually doesn't ([module 09](../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
@@ -425,10 +425,10 @@ When agents do much of the typing, the artifact tells you little about the stude
 3. The tests. Did they fail first? Do they test behavior, or do they echo mocks? Does a deliberate break make one fail?
 4. The reflection. Is it specific, tied to evidence, and honest about what the AI did and what it got wrong?
 
-Two rules make this fair:
+Apply these two grading rules:
 
-- **Grade what the student caught.** An agent's mistake costs the student nothing if they found it. A mistake that reached the submission is theirs.
-- **Never penalize honest disclosure.** Penalize missing disclosure. Otherwise students learn to hide AI use, which is the opposite of the professional norm ([module 15](../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
+- Grade what the student caught. An agent's mistake costs the student nothing if they found it. A mistake that reached the submission is theirs.
+- Never penalize honest disclosure. Penalize missing disclosure. Otherwise students learn to hide AI use, which is the opposite of the professional norm ([module 15](../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
 
 ### Shared rubric dimensions
 
@@ -542,7 +542,7 @@ It shows fluent, confident output about something that doesn't exist, and how to
 
 1. Ask: "What does `pandas.DataFrame.autobalance()` do? Show an example." (The method doesn't exist; this is the probe from [module 01](../modules/01-what-is-an-llm.md#try-it).)
 2. Whatever the answer, check it: `python3 -c "import pandas as pd; print(hasattr(pd.DataFrame, 'autobalance'))"`.
-3. Now give an agent with a shell the same request: "Write and run a short script that uses `DataFrame.autobalance()` on a small example." Watch it hit the error, read it, and correct course. Context, tools, and checks beat the model's memory.
+3. Now give an agent with a shell the same request: "Write and run a short script that uses `DataFrame.autobalance()` on a small example." Watch it hit the error, read it, and correct course. Tools let the agent check its answer against the installed library.
 4. Extension: ask for "a package that does X" for a niche X, then look the suggestion up on the registry's website. Don't install anything live. Explain slopsquatting ([module 11](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
 
 If it refuses or says the method doesn't exist, good. Show that too, then make the probe more plausible with a real method and a wrong parameter, a flag from a neighboring tool, or a config key from an older major version. Keep a running list of probes that worked from the class "surprised me" logs.
@@ -571,7 +571,7 @@ def is_leap_year(year: int) -> bool:
     return year % 4 == 0 and year % 100 != 0   # bug: forgets the 400-year rule
 ```
 
-1. Ask an agent: "Write unit tests for `is_leap_year` in `leap.py`. Make sure they pass." Read the tests with the class. Look for whether it asserted `is_leap_year(2000) is False` to make them pass, noticed the bug, or fixed the code without being asked. Any of the three is a teaching moment.
+1. Ask an agent: "Write unit tests for `is_leap_year` in `leap.py`. Make sure they pass." Read the tests with the class. Look for whether it asserted `is_leap_year(2000) is False` to make them pass, noticed the bug, or fixed the code without being asked. Discuss whichever happened.
 2. Show module 10's mock example on screen. It's a test that can never fail, because it checks a mock against itself.
 3. Do a mutation check by hand: change `!=` to `==` in the function and rerun the tests. If nothing fails, the tests weren't testing the behavior. Revert.
 4. Close with the counter-moves: write or approve tests first, see them fail, review the test diff.
@@ -589,7 +589,7 @@ Use a toy repository with two similar config files that disagree (for example `c
 1. In one session, state the convention at the start. Then spend 15 to 20 minutes on unrelated work: read large files, run a verbose test suite, paste a long log. Show the context view growing.
 2. Ask for a new function, and ask which timeout production uses. Check whether the convention held and whether it picked the right config.
 3. Start a fresh session with the convention in a short `AGENTS.md` and only the needed files. Ask the same two things. Compare the answers and the context size.
-4. End on the point that lasts: one task per session, state kept outside the window, and fresh starts with a summary ([module 08](../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)).
+4. Recommend one task per session. Keep state outside the window and start fresh with a summary ([module 08](../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)).
 
 If the long session gets everything right, show the context and token difference anyway. The cost is real every time, even when quality holds. Then show the [context-limits research table](../modules/07-context-engineering.md#context-limits-in-practice), which measured the effect systematically.
 

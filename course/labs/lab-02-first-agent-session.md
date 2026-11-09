@@ -54,7 +54,7 @@ Names and defaults change, so check the current docs. **Rules for this lab:** us
 
 Start a session in the repository. Before typing anything, open the context display (Claude Code: `/context`; Codex: `/status` and its context indicator). Record the breakdown your tool actually exposes. For Codex, use `/status` and the context indicator for before/after totals. If component counts aren't available, mark them “not exposed” instead of estimating. Don't ask the model to guess its own token usage. Save it as `context-before.txt` or a screenshot.
 
-Most people are surprised how much is used before they type a word ([module 07](../../modules/07-context-engineering.md#what-actually-fills-an-agents-context-window)).
+Context is already in use before you type a word ([module 07](../../modules/07-context-engineering.md#what-actually-fills-an-agents-context-window)).
 
 ### 5. Explore, read-only (25 minutes)
 
@@ -169,6 +169,6 @@ These come from [module 06's Try it](../../modules/06-harnesses-and-tools.md#try
 - Some students will sign in with an API key by accident and get billed per token. Check the sign-in method in the setup clinic.
 - Native Windows support varies by tool, so steer students to WSL early.
 - Students who already use agents may skip reading the diff out of habit. Grade it, and ask them to show you the `git add -p` session in a walkthrough.
-- The most common weak submission says "the agent explained the architecture" with no verification. The two-claim check is the point of step 5.
-- If a student's harness starts in an auto-approve mode, they should still be able to explain what the classifier allowed. Classifiers are a speed bump, not a sandbox ([module 11](../../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
+- The most common weak submission says "the agent explained the architecture" with no verification. Require the two claim checks in step 5.
+- If a student's harness starts in an auto-approve mode, they should still be able to explain what the classifier allowed. Classifiers can miss unsafe actions. They don't enforce isolation ([module 11](../../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
 - In your dry run, record how much of a $20 plan's limit this lab used. If students hit limits, the usual cause is a long, unfocused session, so suggest `/clear` or a fresh session between steps 5 and 7.

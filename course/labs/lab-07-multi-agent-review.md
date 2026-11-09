@@ -8,9 +8,9 @@ This lab runs in week 11 of the [syllabus](../syllabus.md) and is due in week 13
 
 Build a review swarm by hand: several independent reviewers, each focused on one concern, then an adversarial verifier that tries to disprove each finding, using a model from a different lab where you can ([module 09](../../modules/09-multi-agent-systems.md#recipe-1-a-review-swarm)). Then measure whether it was worth the extra cost compared with one ordinary review.
 
-You'll do this on a real pull request from your term project that a teammate wrote. There's no separate cross-model-review deliverable for the project. Your team's Lab 7 submissions, and the fixes that come out of them, are it ([syllabus](../syllabus.md#deliverables)).
+You'll do this on a real pull request from your term project that a teammate wrote. Your team's Lab 7 submissions and the resulting fixes fulfill the project's cross-model-review deliverable ([syllabus](../syllabus.md#deliverables)).
 
-Review is where multiple agents earn their keep. Reading parallelizes well, and writing on one codebase usually doesn't ([module 09](../../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
+Reading parallelizes well, while writing on one codebase usually doesn't ([module 09](../../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
 
 > **Bryan's take:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
@@ -20,7 +20,7 @@ Agents do the reviewing and verifying. You set it up, check the verifiers, decid
 
 - [Lab 4](lab-04-review-ai-code.md) done.
 - A change to review: one of your team's pull requests from week 10 onward that **you didn't write**, 50 to 300 lines. For a bigger one, review one coherent part and say which. Agree as a team so each member reviews a different PR, and pick the largest or riskiest ones. The PR must link an issue or spec that says what it's supposed to do. Working alone, use your Lab 3 feature or another change of yours with a spec.
-- Your main agent, plus a model from a different lab if you can get one, through a second plan, the other lab's free tier (paste the diff into its chat), or a classmate running their own tool on your shared diff (no account sharing). If none of these work, use a different model tier from your own lab in a fresh session, and note the limitation. A much weaker reviewer adds confident noise, not diversity ([module 09](../../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)).
+- Your main agent, plus a model from a different lab if you can get one, through a second plan, the other lab's free tier (paste the diff into its chat), or a classmate running their own tool on your shared diff (no account sharing). If none of these work, use a different model tier from your own lab in a fresh session, and note the limitation. A much weaker reviewer adds confident noise without diversity ([module 09](../../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)).
 - A budget, **set before you start**. For example, one baseline reviewer, three focused reviewers, at most one verifier per finding, and no more than 12 sessions in total. Stop early if a full pass produces no new confirmed finding ([module 09](../../modules/09-multi-agent-systems.md#budgets-and-stop-conditions)).
 
 ## Background reading

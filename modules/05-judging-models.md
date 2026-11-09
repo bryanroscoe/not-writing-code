@@ -65,7 +65,7 @@ Finally, models are stochastic, so the same prompt gives different outputs. Two 
 | **pass@k** | Probability that *at least one* of k attempts succeeds | [HumanEval paper](https://arxiv.org/abs/2107.03374) (Chen et al., 2021) | Settings where you can cheaply check and retry (generate 5 patches, keep the one that passes tests) |
 | **pass^k** ("pass-hat-k") | Probability that *all* k attempts succeed | [τ-bench](https://arxiv.org/abs/2406.12045) (Yao et al., 2024) | Settings where every run must work: customer-facing agents, unattended automation |
 
-Say a model solves a task 80% of the time and attempts are independent. Then pass@3 is 1 − 0.2³ ≈ 99%, but pass^3 is 0.8³ ≈ 51%. The same model on the same task looks nearly perfect one way and fails half the time the other way. τ-bench found that GPT-4o agents solved under 50% of tasks and had pass^8 below 25% in its retail domain. Reliability is separate from capability, and it's the one that bites you in production.
+Say a model solves a task 80% of the time and attempts are independent. Then pass@3 is 1 − 0.2³ ≈ 99%, but pass^3 is 0.8³ ≈ 51%. The same model on the same task looks nearly perfect one way and fails half the time the other way. τ-bench found that GPT-4o agents solved under 50% of tasks and had pass^8 below 25% in its retail domain. Production use needs reliability as well as capability.
 
 ## In practice
 
@@ -163,7 +163,7 @@ Arena is good at telling you which model people enjoy chatting with and weak at 
 | **Still discriminating, actively maintained** | Terminal-Bench 4.0 (Aug 2026; saturated tasks removed; top systems in the 50–65% range depending on harness); SWE-bench Pro; METR-style long tasks (approaching saturation); new 2026 evals such as Cognition's FrontierCode, which grades whether a maintainer would merge the change |
 | **Moving target** | Independent indexes keep swapping components. Between January and November 2026, Artificial Analysis removed MMLU-Pro, LiveCodeBench, AIME 2025, GPQA Diamond, and the original HLE from its Intelligence Index ([version history](https://artificialanalysis.ai/methodology/intelligence-benchmarking)) |
 
-At the frontier, a benchmark tends to stay useful for only a year or two before it saturates or leaks. So learn what a good one looks like (fresh, held-out, realistic, verified, harness-documented) instead of memorizing names.
+At the frontier, a benchmark tends to stay useful for only a year or two before it saturates or leaks. Look for fresh, held-out, realistic, verified tasks and a documented harness rather than memorizing benchmark names.
 
 ### Harness matters
 
@@ -199,7 +199,7 @@ Opus 5.5 followed on September 22, 2026. Anthropic said it had made "major impro
 
 > **Bryan's take:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
 
-To be fair to the other reading, no public evidence shows Opus 5 was trained on benchmark answers. One researcher, quoted by Zvi, alleged genre-specific training based on a private benchmark, but that's a single claim. The better-supported story is narrower and more useful. The benchmarks scored task completion. Users also cared about communication, scope discipline and judgment, which benchmarks barely score. A model can be "maxed" on what's measured without anyone cheating. Some evals do catch it: FrontierCode penalizes unrequested extra work, and Opus 5's curve there reportedly showed the over-engineering.
+No public evidence shows Opus 5 was trained on benchmark answers. One researcher, quoted by Zvi, alleged genre-specific training based on a private benchmark, but that's a single claim. The stronger evidence concerns what the benchmarks measured: task completion. Users also cared about communication, scope discipline and judgment, which benchmarks barely score. A model can be "maxed" on what's measured without anyone cheating. Some evals do catch it: FrontierCode penalizes unrequested extra work, and Opus 5's curve there reportedly showed the over-engineering.
 
 ### Independent evaluators
 
@@ -213,7 +213,7 @@ To be fair to the other reading, no public evidence shows Opus 5 was trained on 
 | [LiveBench](https://livebench.ai/) ([White et al., 2024](https://arxiv.org/abs/2406.19314)) | Regularly refreshed questions with objective answers to limit contamination | Short tasks; less agentic |
 | [Arena](https://arena.ai/leaderboard) | Human preference votes (text, WebDev, vision, search, agents) | Style bias; private-testing concerns |
 
-Independent doesn't mean neutral. Evaluators choose the benchmarks, harnesses and weights, and some have commercial relationships with labs. What they give you is consistency, the same setup for every model. Use two or three as a cross-check, never just one.
+Independent evaluators still choose the benchmarks, harnesses and weights, and some have commercial relationships with labs. What they give you is consistency, the same setup for every model. Use two or three as a cross-check, never just one.
 
 ### Reading a system card
 
@@ -253,7 +253,7 @@ Tell a skeptical team that good evidence shows real speedups on some work and re
 
 ### Vibes are data too
 
-Experienced users often notice changes before benchmarks do. In April 2025 OpenAI rolled back a GPT-4o update that had become sycophantic, meaning excessively flattering and agreeable. Afterward OpenAI wrote that some expert testers had said the model felt off before launch, but positive A/B tests won out. Its lesson was to give such qualitative signals more weight ([OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)). The Opus 5 complaints above were vibes too, and they were right about something the benchmarks missed.
+Experienced users often notice changes before benchmarks do. In April 2025 OpenAI rolled back a GPT-4o update that had become sycophantic, meaning excessively flattering and agreeable. Afterward OpenAI wrote that some expert testers had said the model felt off before launch, but positive A/B tests won out. Its lesson was to give such qualitative signals more weight ([OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)). The Opus 5 complaints above also caught problems the benchmarks missed.
 
 Vibes are also noisy. They suffer from novelty effects (a new model feels smarter for a week), confirmation bias, and recall bias (you remember the spectacular failure, not the forty quiet successes). Social contagion matters too: one viral post sets everyone's expectations.
 
@@ -267,7 +267,7 @@ To make vibes more rigorous:
 
 ### Build your own eval
 
-Public benchmarks tell you whether a model is generally strong. Your own eval tells you whether *you* should use it, in *your* tool, on *your* code. It takes an afternoon to start and pays off every time a model ships.
+Public benchmarks tell you whether a model is generally strong. Your own eval tells you whether to use it in your tool, on your code. It takes an afternoon to start and pays off every time a model ships.
 
 #### 1. Build a golden-task set
 
@@ -369,7 +369,7 @@ Also record: wall-clock minutes, human interventions, cost or quota used.
 
 #### 5. Summarize honestly
 
-For each configuration, report pass rate (with a rough error bar), pass^3, mean rubric score, median minutes, median cost, and hard-fail count. Then look at the paired results, the tasks where A passed and B failed and vice versa. Those disagreements are where the real difference lives.
+For each configuration, report pass rate (with a rough error bar), pass^3, mean rubric score, median minutes, median cost, and hard-fail count. Then look at the paired results, the tasks where A passed and B failed and vice versa. Inspect those disagreements to understand what separates the configurations.
 
 #### 6. Rerun on every change
 
@@ -386,7 +386,7 @@ For each configuration, report pass rate (with a rough error bar), pass^3, mean 
 A pass rate from n tasks has a standard error of about √(p(1−p)/n). With 20 tasks and a 60% pass rate, that's ±11 points, so a 95% interval of roughly ±22 points. Two configurations at 55% and 65% on 20 tasks are statistically indistinguishable. To do better:
 - Pair the comparison. Run both configurations on identical tasks and count only the tasks where they disagree. If A wins 9 of 10 disagreements, that means something even on a small set.
 - Repeat runs to separate model randomness from task difficulty.
-- Report intervals, as Evan Miller argues in [Adding Error Bars to Evals](https://arxiv.org/abs/2411.00640) (2024). A score without an error bar is a rumor with a decimal point.
+- Report intervals, as Evan Miller argues in [Adding Error Bars to Evals](https://arxiv.org/abs/2411.00640) (2024). Without an error bar, a score can look more precise than the evidence supports.
 
 ### Cheating, reward hacking, and grader trust
 

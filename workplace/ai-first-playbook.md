@@ -49,7 +49,7 @@ flowchart LR
 
 The lengths are suggestions for a team of roughly 5–30 engineers. A bigger organization can run several pilots at once, but each team still goes through every phase.
 
-Note the arrow back from Phase 3. If stability metrics get worse, step back. [Module 08's stages](../modules/08-agentic-workflows.md#steve-yegges-eight-stages) work the same way: "Moving down is allowed."
+Step back from Phase 3 if stability metrics get worse. [Module 08's stages](../modules/08-agentic-workflows.md#steve-yegges-eight-stages) work the same way: "Moving down is allowed."
 
 ## Phase 0: Prerequisites
 
@@ -105,7 +105,7 @@ That opinion is contested and dated. Public benchmarks in late 2026 put some Goo
 
 ## Phase 1: Champions pilot
 
-The pilot finds out what works on your codebase, for your kind of work. Launch posts and this knowledge base can't tell you that. Your champions can.
+The pilot lets champions test what works on your codebase and your tasks. Launch posts and this knowledge base can't answer that for you.
 
 ### Entry criteria
 
@@ -128,7 +128,7 @@ Time-vs-estimate is self-reported, so it's a rough signal, not a measurement ([m
 
 **2. Cover a spread of task types.** Try bug fixes, small features, refactors, test writing, a migration, a code review, and non-coding chores like reading unfamiliar code, debugging from logs, drafting tickets, and building an incident timeline ([module 08](../modules/08-agentic-workflows.md#ai-first-beyond-writing-code)). Many engineers first trust agents on that last group.
 
-**3. Use the core loop.** Explore (read-only), plan, write a failing test, implement, verify with evidence, commit small ([module 08](../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Champions who skip the loop produce pilot data about the wrong thing.
+**3. Use the core loop.** Explore (read-only), plan, write a failing test, implement, verify with evidence, commit small ([module 08](../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Keep the loop consistent so the pilot evaluates it.
 
 **4. Build a golden-task set.** Turn 10–20 merged PRs into replayable tasks with hidden tests, using the template in [module 05](../modules/05-judging-models.md#build-your-own-eval). It's how you'll compare tools now and judge new releases later.
 
@@ -253,7 +253,7 @@ In Phase 3 the speed gains get bigger, and so does the risk. Not everyone has to
 
 ### Activities
 
-**1. Parallel supervised agents.** Volunteers run two to five agents at once, each on its own task, in its own git worktree, on its own branch ([module 08](../modules/08-agentic-workflows.md#worktrees-and-parallel-agents)). These rules keep it sane:
+**1. Parallel supervised agents.** Volunteers run two to five agents at once, each on its own task, in its own git worktree, on its own branch ([module 08](../modules/08-agentic-workflows.md#worktrees-and-parallel-agents)). Follow these rules:
 - One task, one agent, one worktree, one branch.
 - Pick tasks that touch different files. Reading parallelizes well; writing on one codebase usually doesn't ([module 09](../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
 - Keep a written task list.
@@ -347,7 +347,7 @@ It's about 25 lines. Swap in your own commands and gotchas.
 - The PR description lists anything you could not verify.
 ```
 
-Commands come first, because an agent that can run the right check stops guessing. Each gotcha is something the code misleads about: a frozen directory that looks live, a convention you can't infer, a generated folder. Deeper docs are linked, not pasted, so they load only when needed. And "done" is defined in terms the agent can check and show you.
+Commands come first so the agent can run the right checks. The gotchas cover misleading code: a frozen directory that looks live, a convention you can't infer, a generated folder. Link deeper docs so they load only when needed. Define "done" with checks whose output you can inspect.
 
 ### Where everything else goes
 
@@ -447,7 +447,7 @@ The productivity evidence is mixed, partly because studies measure different tas
 | DORA 2025 (~5,000 professionals) | 90% use AI; more than 80% *believe* it raised productivity; adoption linked to higher throughput and lower stability | "AI amplifies what's already there" |
 | METR on Anthropic, Nov 2026 | Measured progress ~2x faster than 2024–25 (plausibly 1.3x–3x); staff *self-reported* ~12x | Individual uplift and organizational acceleration are different quantities; do not divide these estimates |
 
-For your team and your leadership, four sentences cover it. Careful studies show real speedups on some work and real slowdowns on other work. The biggest predictors are the type of task, the developer's skill with the tools, and the team's verification practices. Self-reported gains run well ahead of measured ones. So we will build the habits, then measure ourselves instead of quoting the most convenient study.
+Tell your team and leadership that careful studies show real speedups on some work and real slowdowns on other work. The biggest predictors are the type of task, the developer's skill with the tools, and the team's verification practices. Self-reported gains run well ahead of measured ones. So we will build the habits, then measure ourselves instead of quoting the most convenient study.
 
 ### What to watch
 
@@ -537,7 +537,7 @@ Controls by phase:
 | **3** | A written Rule-of-Two design per automated workflow; read-only tokens, no secrets, and isolated caches for CI agents that read untrusted input; egress allowlists; fine-grained, short-lived, per-agent tokens; usage telemetry retained for audit |
 
 Three incidents worth retelling to the team, all documented in [module 11](../modules/11-security-and-prompt-injection.md#real-incidents-20252026):
-- In the Nx "s1ngularity" attack (August 2025), a compromised build tool's install script drove developers' installed AI CLIs with skip-permissions flags to search for secrets. Those flags are a gift to malware.
+- In the Nx "s1ngularity" attack (August 2025), a compromised build tool's install script drove developers' installed AI CLIs with skip-permissions flags to search for secrets. Those flags let malware bypass approval prompts.
 - In July 2025, an agent deleted a production database during a code freeze, with no attacker involved. Separate dev from prod, and require approval for destructive actions.
 - In "Clinejection" (December 2025 to February 2026), an AI triage bot put issue titles straight into its prompt, and an attacker used that to reach release secrets. Never put untrusted text into a privileged agent's prompt in CI.
 
@@ -545,15 +545,13 @@ Generated code needs the same security review you'd give a stranger's PR. In one
 
 ## Juniors and learning
 
-This is the problem leads ask about most, and the evidence is clearer than you might expect.
-
 [Module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says) summarizes the evidence:
 - In a 2026 randomized trial with 52 mostly junior engineers learning a new library, the AI group scored 50% on a follow-up quiz against 67% for hand-coders, and wasn't significantly faster. The biggest gap was in debugging.
 - *How* they used the AI mattered. People who asked conceptual questions, or generated code and then asked follow-up questions to understand it, scored 65% or higher. People who delegated scored below 40%. The subgroups were small, so this is suggestive, not proof.
 - In a high-school field experiment, an AI that gave answers hurt later exam scores; an AI prompted to tutor with hints didn't.
 - Higher confidence in the AI was associated with less critical thinking in a survey of knowledge workers.
 
-So the risk is real, and it's about how people use the tool. There's also a supervision paradox. Supervising agents well takes judgment you build by doing the work, and the skill most at risk, debugging, is the one supervision needs most ([module 15](../modules/15-learning-careers-and-responsibility.md#deskilling-real-risk-or-old-panic)).
+The risk depends on how people use the tool. Supervising agents takes judgment built through doing the work, especially debugging, the skill most at risk ([module 15](../modules/15-learning-careers-and-responsibility.md#deskilling-real-risk-or-old-panic)).
 
 What the team can do about it:
 
@@ -654,7 +652,7 @@ A few rules keep churn down:
 
 > **Bryan's take:** Claude and Codex have both had ups and downs.
 
-The documented record in [module 14](../modules/14-keeping-up.md#a-field-guide-to-recent-ups-and-downs) backs that up for both vendors. It's the practical case for the warm backup and for golden tasks you can rerun in an afternoon.
+The incidents documented in [module 14](../modules/14-keeping-up.md#a-field-guide-to-recent-ups-and-downs) back that up for both vendors. Keep a configured backup and golden tasks you can rerun in an afternoon.
 
 ## Common rollout failures
 

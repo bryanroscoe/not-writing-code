@@ -5,7 +5,7 @@
 **TL;DR**
 - You pay through a chat subscription (Claude, ChatGPT), a tool subscription (Cursor, GitHub Copilot), or the API, billed per token. Subscriptions are flat fees with usage caps; the API is metered, with rate limits and account spending limits.
 - If an agent loop keeps appending history without compaction, total input tokens grow roughly with the *square* of the number of turns. Prompt caching cuts that by 80–90% in the worked example below. Without it, API pricing for heavy agent use is brutal.
-- With caching, the Anthropic frontier and top-tier scenarios worked below cost roughly $4–$8 an hour (as of November 2026). A full-time heavy user easily spends several hundred to a few thousand dollars a month. A $100–$200 subscription covers much of that until you hit the weekly cap.
+- With caching, the Anthropic frontier and top-tier examples below cost roughly $4–$8 an hour (as of November 2026). A full-time heavy user easily spends several hundred to a few thousand dollars a month. A $100–$200 subscription covers much of that until you hit the weekly cap.
 - Judge **cost per finished task**, not price per token. A cheaper model that takes three times as many turns can cost more money and more of *your* time.
 - Use subscriptions for your own interactive work and the API for production services and shared automation. Authentication rules vary by vendor and tool; not all of them ban automation on subscriptions.
 
@@ -28,7 +28,7 @@ A **token** is a chunk of text, about three-quarters of an English word on avera
 | **Input tokens** | Everything you send: system prompt, tool definitions, conversation history, files, tool results | Base price |
 | **Output tokens** | Everything the model writes | Usually 4–6x input |
 | **Reasoning / thinking tokens** | The model's hidden or summarized step-by-step reasoning | Billed as output |
-| **Cache write** | Storing a prompt prefix for reuse (Anthropic charges extra; OpenAI doesn't) | 1.25x input for a 5-minute cache at Anthropic, 2x for 1 hour |
+| **Cache write** | Storing a prompt prefix for reuse (Anthropic charges extra; at OpenAI it depends on the model and cache lifetime, see below) | 1.25x input for a 5-minute cache at Anthropic, 2x for 1 hour |
 | **Cache read (cached input)** | Re-sending a prefix that is already cached | 2.5–10% of input, depending on vendor and model |
 | **Batch** | Asynchronous jobs that finish within hours | 50% off at Anthropic, OpenAI, and Google |
 | **Fast / priority modes** | Faster or guaranteed processing | About 2x |
@@ -90,7 +90,7 @@ On 30 October 2026 Anthropic renamed Max 20x to Ultra at the same $200 price, an
 | GitHub Copilot ([plans](https://docs.github.com/en/copilot/get-started/plans)) | Free; Pro $10; Pro+ $39; Max $100; Business $19; Enterprise $39 | Allowances in "GitHub AI Credits" (1 credit = $0.01): Pro includes 1,500, Pro+ 7,000, Max 20,000, Business 1,900, Enterprise 3,900; cost per request depends on the model |
 | Cursor ([pricing](https://cursor.com/pricing)) | Free; Plus $8; Premium $30; Super $100; Ultra $200; Teams from $30 | Pools of usage that refresh weekly; Plus is limited to xAI's Grok models; Claude, GPT, and Gemini are billed separately at API list price |
 
-Cursor's lineup was rebuilt around a shared subscription with xAI in late October 2026 (reported), with older plans grandfathered. Tool pricing moves that fast.
+Cursor's lineup was rebuilt around a shared subscription with xAI in late October 2026 (reported), with older plans grandfathered.
 
 **API prices (USD per million tokens, standard tier)**
 
@@ -152,9 +152,7 @@ Here's the arithmetic for one realistic hour with a coding agent at API prices. 
 
 (168 hours = 8 hours a day for 21 working days, one agent at a time.)
 
-What this tells you:
-
-1. Caching is the difference between "unaffordable" and "plausible." Once it's on, output tokens become the largest single line.
+1. Caching makes this much cheaper. Once it's on, output tokens become the largest single line.
 2. A full-time heavy user on a frontier model costs hundreds of dollars a month at API prices, and three agents at once roughly triples the bill. That's why a $100–$200 subscription feels like a bargain to heavy users.
 3. Light users are cheaper on the API. Anthropic's docs use an example one-hour session of 50,000 input and 15,000 output tokens, which costs well under a dollar on Opus 5.5. If you use an agent for a few short tasks a week, pay-as-you-go may beat a $20 plan.
 4. Cache misses cost real money in big contexts. If you step away for more than five minutes (Anthropic's default cache lifetime), the next call re-writes the whole prefix, and a 150,000-token context costs $0.75 to re-cache at $5/MTok. Harnesses can use the 1-hour cache at 2x the write price. Changing the system prompt, tools, or settings mid-session also breaks the cache.
@@ -241,7 +239,7 @@ Set up these cost controls on day one:
 
 Per-seat pricing is predictable and easy to approve, but you pay for light users who don't need a seat, and heavy users still hit caps. Pooled usage (API credits, Enterprise usage billing, Copilot credits) tracks real use but needs budgets and alerts. Many teams mix the two: a standard seat for everyone, plus premium seats or pooled API credits for the heaviest users and for automation.
 
-When you make the ROI case, show your assumptions. Leadership will change them, and that's the point.
+Show your assumptions in the ROI case so leadership can adjust them.
 
 - The US median pay for software developers was $135,980 in May 2025 ([BLS](https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm)).
 - Assume benefits, taxes, equipment, and overhead bring the **loaded cost** to about 1.4x salary: ~$190,000 a year.
@@ -252,7 +250,7 @@ Then:
 - A heavy API user at about $630/month (the cached frontier figure above) costs about **6 engineer-hours a month**.
 - A 10-person team on $200 seats is $24,000 a year, about 13% of one loaded engineer. If the tools raise the team's useful output by even 2%, that is ~$38,000 of engineering time.
 
-The weak link is that "if." In METR's 2025 randomized study, experienced open-source developers using early-2025 AI tools took 19% *longer* on their tasks while believing they were 20% faster ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). Tools and practices have changed a lot since, but the lesson about self-reports holds. Measure things you can count (cycle time, review turnaround, escaped defects, rework) before and after. [Module 08](./08-agentic-workflows.md) covers the study and its follow-up, and the [workplace playbook](../workplace/) covers measuring a team.
+That assumes a productivity gain. In METR's 2025 randomized study, experienced open-source developers using early-2025 AI tools took 19% *longer* on their tasks while believing they were 20% faster ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). Tools and practices have changed a lot since, but self-reports still need checking. Measure things you can count (cycle time, review turnaround, escaped defects, rework) before and after. [Module 08](./08-agentic-workflows.md) covers the study and its follow-up, and the [workplace playbook](../workplace/) covers measuring a team.
 
 Before a team rollout, get written answers on procurement and data terms:
 - Is our content used for training? Anthropic's and OpenAI's business and API terms default to no. Consumer plans differ and change, as [module 15](./15-learning-careers-and-responsibility.md) explains.
@@ -288,7 +286,7 @@ Nobody outside the labs knows the unit economics. Vendors may treat heavy-user s
 
 > **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
-The arithmetic in this module backs that up for full-time use of frontier models. Even with caching, one heavy user can spend several hundred dollars a month at API prices, and parallel agents multiply it. The strongest counterpoints:
+The arithmetic in this module backs that up for full-time use of frontier models. Even with caching, one heavy user can spend several hundred dollars a month at API prices, and parallel agents multiply it. There are limits to that advantage:
 
 - A subscription is cheap until you hit the weekly limit on a Thursday. Caps and throttling are the real price, and heavy parallel use may need the top tier, extra credits, or a second vendor.
 - Subscription terms change. Weekly limits (2025), third-party harness restrictions (2026), and reduced allowances at existing price points (2026) all happened within about a year. API prices, by contrast, are published per token.

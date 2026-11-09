@@ -8,9 +8,9 @@ This lab runs in week 10 of the [syllabus](../syllabus.md) and is due in week 12
 
 Public benchmarks answer "is this model generally strong?" Your own eval answers "should *we* use it, in *our* tool, on *our* code?" ([module 05](../../modules/05-judging-models.md#build-your-own-eval)). Your team builds a set of golden tasks from your term project's own history, runs two agent configurations on them, scores the results blind, and reports what it found with honest error bars. Then you pick the configuration you'll use for the final sprint.
 
-There's no separate project eval-set deliverable. This lab is it ([syllabus](../syllabus.md#deliverables)).
+This lab fulfills the project eval-set deliverable ([syllabus](../syllabus.md#deliverables)).
 
-Who does what:
+Divide the work as follows:
 
 - Each student (individual credit) writes and validates at least three golden tasks, runs a share of the runs, and blind-scores runs of tasks they didn't write.
 - The team (shared credit) pools the tasks (at least nine for a team of three), writes the summary, and records the configuration decision.
@@ -288,11 +288,11 @@ Unblind and write `evals/summary.md` with, for each configuration:
 - pass^2, the share of tasks where both attempts passed. With reduced runs, compute it only on the preselected repeated-task subset and state that denominator. Never count single-attempt tasks as reliable successes.
 - Mean rubric score, median minutes, hard-fail count, leaked runs, interventions, and quota used.
 
-Then a paired table of the tasks where A passed and B failed, and the reverse. Those disagreements are where the real difference lives.
+Add a paired table of tasks where A passed and B failed, and the reverse, to show where the configurations differ.
 
 Finish with five sentences, from [module 05's Try it](../../modules/05-judging-models.md#try-it): which configuration won, by how much, on which task types, at what cost, and whether the difference is bigger than your error bar. If it isn't, say so plainly. "No detectable difference on 9 tasks" is a correct and useful result.
 
-Then add the decision: which configuration your team will use for the final sprint, and why. "No detectable difference, so we chose the cheaper one" is a good decision.
+State which configuration your team will use for the final sprint, and why. "No detectable difference, so we chose the cheaper one" is a good decision.
 
 Each of you also writes half a page on your own tasks: what they revealed, and one thing you'd change about how you wrote them.
 

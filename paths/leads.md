@@ -22,8 +22,6 @@ Your engineers need to learn the tools. You need to decide which tools, under wh
 
 ## Decisions you'll have to make
 
-Each links to the material that helps.
-
 1. Which tool(s), and do we standardize? One primary agent with a second for cross-review is a good default ([module 06](../modules/06-harnesses-and-tools.md#how-to-choose-a-harness), [module 09](../modules/09-multi-agent-systems.md)).
 2. How do we pay? Seats on subscription plans for daily users, and API keys with budgets for automation and CI ([module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting)).
 3. What data can go into which tool? Decide this before rollout, write it down, and get it approved ([module 15](../modules/15-learning-careers-and-responsibility.md#responsible-use), [policy template](../workplace/policy-template.md)).
@@ -34,7 +32,7 @@ Each links to the material that helps.
 
 ## What "AI-first" should mean on your team
 
-AI-first means reaching for AI by default and knowing when not to. It doesn't mean AI-only, and it doesn't mean mandated usage quotas. The most effective adoption pattern in this material looks like this:
+AI-first means reaching for AI by default and knowing when not to, without mandating usage quotas. The adoption pattern in this material is:
 
 - A few enthusiastic engineers go first and write down what works on *your* codebase.
 - The team adopts a short shared instruction file, a review rule, and a data policy.

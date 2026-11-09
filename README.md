@@ -2,9 +2,9 @@
 
 # A Brief Introduction to Not Writing Code
 
-A knowledge base and short course on AI-accelerated software engineering. It goes from "what is a language model?" to running several coding agents in parallel and having them review each other's work, while you stay the one accountable for what ships.
+A knowledge base and short course on AI-accelerated software engineering, from "what is a language model?" to running several coding agents in parallel and having them review each other's work. You're accountable for what ships.
 
-The title is a joke with a point. You'll write a lot less code by hand, so the engineering matters more. "Vibe coding" originally meant prompting an AI and never reading the code. This material uses the popular name for [the disciplined version](modules/00-orientation.md#what-we-mean-by-vibe-coding), where AI does most of the typing and humans decide, verify, and own the result.
+You'll write a lot less code by hand. You still have to do the engineering. "Vibe coding" originally meant prompting an AI and never reading the code. This material uses the popular name for [the disciplined version](modules/00-orientation.md#what-we-mean-by-vibe-coding), where AI does most of the typing and humans decide, verify, and own the result.
 
 This is the first full draft (November 2026). Facts are dated in each module's header. The field moves monthly, so check the Last checked date before you rely on a specific model name or price.
 
@@ -20,7 +20,7 @@ Everyone should read [00: Orientation](modules/00-orientation.md) first. It's 20
 
 ## The modules
 
-Every module has the same layers: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates), plus hands-on exercises and discussion questions. Read the layers that fit you.
+Every module has the same layers: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates), plus hands-on exercises and discussion questions. Read the parts you need.
 
 | # | Module | What you'll learn |
 | --- | --- | --- |

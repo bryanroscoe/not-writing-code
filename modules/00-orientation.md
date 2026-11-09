@@ -13,7 +13,7 @@
 
 ### Why this exists
 
-AI coding tools aren't just autocomplete and chat anymore. Coding agents read a codebase, run commands, write and test changes, and open pull requests. Anthropic reports that Claude wrote more than 80% of its merged code by May 2026 ([module 08](08-agentic-workflows.md)).
+AI coding tools have moved beyond autocomplete and chat. Coding agents read a codebase, run commands, write and test changes, and open pull requests. Anthropic reports that Claude wrote more than 80% of its merged code by May 2026 ([module 08](08-agentic-workflows.md)).
 
 That shift leaves two groups behind:
 
@@ -26,13 +26,13 @@ This is for both groups, plus leads who want their teams to adopt these tools we
 
 The phrase comes from a February 2, 2025 post by Andrej Karpathy, a founding member of OpenAI and former head of AI at Tesla. He described "a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists" ([Karpathy](https://twitter.com/karpathy/status/1886192184808149383)). You describe what you want, accept whatever the model writes, paste errors back in, and never read the diff.
 
-That's genuinely useful for throwaway projects, personal tools, and prototypes. It's a bad way to build software other people depend on. Simon Willison drew the line a month later: if you review, test, and can explain the code an LLM wrote, that's not vibe coding, it's software development with a powerful assistant ([Willison, "Not all AI-assisted programming is vibe coding"](https://simonwillison.net/2025/Mar/19/vibe-coding/)). In October 2025 he proposed "vibe engineering" for the disciplined version, and by early 2026 he reported that **"agentic engineering"** was winning as the name for it ([Willison, "Vibe engineering"](https://simonwillison.net/2025/Oct/7/vibe-engineering/)).
+That's useful for throwaway projects, personal tools, and prototypes. It's a bad way to build software other people depend on. Simon Willison drew the line a month later: if you review, test, and can explain the code an LLM wrote, that's not vibe coding, it's software development with a powerful assistant ([Willison, "Not all AI-assisted programming is vibe coding"](https://simonwillison.net/2025/Mar/19/vibe-coding/)). In October 2025 he proposed "vibe engineering" for the disciplined version, and by early 2026 he reported that **"agentic engineering"** was winning as the name for it ([Willison, "Vibe engineering"](https://simonwillison.net/2025/Oct/7/vibe-engineering/)).
 
 The popular phrase stuck anyway, so we use it and mean the disciplined version throughout. The title, *A Brief Introduction to Not Writing Code*, is the same joke from the other side: you'll type a lot less code by hand, which makes the engineering around it matter more.
 
 > **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding. The AI does most of the typing. A human still decides what to build, reads what matters, makes sure it's tested, and owns the result. That's the only version I'd teach.
 
-Here's the spectrum we'll keep coming back to:
+We'll return to this spectrum throughout the course:
 
 | Mode | Who writes the code | Who reads it | Good for |
 | --- | --- | --- | --- |
@@ -56,11 +56,11 @@ A few data points, each covered later:
 - The vocabulary churns too: prompt engineering, then context engineering, harness engineering, loop engineering, and graph engineering, all within about eighteen months ([module 07](07-context-engineering.md)).
 - Tools come and go fast. Roo Code, a popular open-source agent, shut down in May 2026. SpaceX acquired Cursor in August 2026. Gemini CLI went enterprise-only in June 2026 ([module 06](06-harnesses-and-tools.md), [module 13](13-open-source-ecosystem.md)).
 
-So don't bother memorizing the current lineup. What you want are mental models that still work when every name here is out of date, plus the habit of checking what's current ([module 14](14-keeping-up.md)).
+You don't need to memorize the current lineup. Learn mental models that still work when every name here is out of date, and get used to checking what's current ([module 14](14-keeping-up.md)).
 
 ### Six ideas that outlast the hype
 
-If you remember nothing else, remember these. Every module builds on at least one of them.
+Every module builds on at least one of these ideas.
 
 1. **A language model predicts the next token.** Everything else (chat, reasoning, coding agents) is built on that one trick plus a lot of training. It has no built-in sense of what's true, so it can be confidently wrong ([module 01](01-what-is-an-llm.md)).
 2. **Context is the model's working memory.** Training gives it general knowledge. Context gives it your task: your prompt, the files it read, the tool output it saw. Most of the skill in using agents is controlling that context ([module 07](07-context-engineering.md)).
@@ -154,13 +154,13 @@ Go ahead. Paste a module into whatever assistant you use and ask it to quiz you,
 
 ### Why "the human stays in charge" isn't just caution
 
-You could read this course's stance as caution that will age badly. It's more than that, for three reasons.
+Even if agents improve, there are three reasons to keep a human in charge.
 
 - Accountability doesn't transfer. A model can't be fired, sued, or paged at 3 a.m. Whoever merges the change owns it. That holds in a classroom (academic integrity), at work (on-call), and legally (licensing, security, privacy).
 - The evidence on productivity is mixed. Some of the most careful studies found experienced developers were *slower* with AI while believing they were faster. Newer studies show modest gains with wide error bars ([module 05](05-judging-models.md), [module 08](08-agentic-workflows.md)). None of them establish a universal gain, even for careful users.
 - Learning takes effort. Studies of students and new developers find that letting AI do the work can reduce what you learn, even when the output is better ([module 15](15-learning-careers-and-responsibility.md)). For a student, the point of an assignment is the skill you build.
 
-None of this means using AI less. It means using it so you keep getting better and someone can answer for the result.
+You can use AI while continuing to learn and keeping someone accountable for the result.
 
 ### What this material doesn't cover
 
@@ -170,7 +170,7 @@ None of this means using AI less. It means using it so you keep getting better a
 
 ### How this material was made
 
-This knowledge base was built AI-first too. Bryan supplied the outline and opinions. Coding agents researched each topic in parallel and drafted modules against a shared [style guide](../CONTRIBUTING.md), then other agents cross-checked facts and reviewed the result before a human did. It's a small example of [module 09](09-multi-agent-systems.md) in action, limits included. The research agents ran out of search budget, disagreed with each other on a few facts, and needed reconciling. Each module's Last checked date tells you when its facts were checked.
+This knowledge base was built AI-first too. Bryan supplied the outline and opinions. Coding agents researched each topic in parallel and drafted modules against a shared [style guide](../CONTRIBUTING.md), then other agents cross-checked facts and reviewed the result before a human did. The process illustrates [module 09](09-multi-agent-systems.md), including its limits. The research agents ran out of search budget, disagreed with each other on a few facts, and needed reconciling. Each module's Last checked date tells you when its facts were checked.
 
 ## Try it
 

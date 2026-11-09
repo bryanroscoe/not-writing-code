@@ -27,7 +27,7 @@ flowchart LR
 
 That loop is called **autoregressive** generation: each output becomes part of the next input. A 500-line file is 500 lines of "what token comes next?"
 
-To predict the next token well across trillions of tokens of web pages, books, papers, and code, a network has to absorb grammar, facts, style, programming idioms, and patterns of argument. Predicting the last line of a mystery novel ("and the murderer was...") rewards having tracked the plot. Andrej Karpathy describes the trained weights as a kind of lossy compression of the internet ([Intro to Large Language Models](https://www.youtube.com/watch?v=zjkBMFhNj_g), 2023). Common things come back sharp. Rare things come back blurry or invented.
+To predict the next token well across trillions of tokens of web pages, books, papers, and code, a network has to absorb grammar, facts, style, programming idioms, and patterns of argument. Predicting the last line of a mystery novel ("and the murderer was...") rewards having tracked the plot. Andrej Karpathy describes the trained weights as a kind of lossy compression of the internet ([Intro to Large Language Models](https://www.youtube.com/watch?v=zjkBMFhNj_g), 2023). Common material is reproduced more reliably than rare details, which may be distorted or invented.
 
 Some vocabulary:
 
@@ -205,7 +205,7 @@ The model outputs a probability for every token. A **sampler** chooses one.
 - **Top-p (nucleus) sampling** samples only from the smallest set of tokens whose probabilities add up to p, cutting off the long tail of unlikely choices ([Holtzman et al., 2019](https://arxiv.org/abs/1904.09751)).
 - **Greedy decoding** (temperature 0) always takes the top token.
 
-Temperature 0 should be deterministic in theory. In practice, hosted models often vary from run to run anyway. A September 2025 investigation by Thinking Machines traced much of this to batching: the server groups your request with other people's, and the results of floating-point math change slightly with batch size ([He, 2025](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)). Some reasoning models also fix or ignore sampling settings. So don't expect identical outputs, run evaluations more than once, and record model versions ([module 05](05-judging-models.md)).
+Temperature 0 should be deterministic in theory. Hosted models often vary from run to run anyway. A September 2025 investigation by Thinking Machines traced much of this to batching: the server groups your request with other people's, and the results of floating-point math change slightly with batch size ([He, 2025](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)). Some reasoning models also fix or ignore sampling settings. So don't expect identical outputs, run evaluations more than once, and record model versions ([module 05](05-judging-models.md)).
 
 ### Mixture of experts
 
@@ -213,11 +213,11 @@ A dense model runs every parameter for every token. A **mixture-of-experts (MoE)
 
 It's like a hospital with a triage nurse. Every patient gets seen, but each one visits two or three specialists instead of the whole staff.
 
-That separates **total parameters** (how much the model can store) from **active parameters** (how much compute each token costs). [Shazeer et al. (2017)](https://arxiv.org/abs/1701.06538) introduced the modern sparse version. [Switch Transformers](https://arxiv.org/abs/2101.03961) and [Mixtral](https://arxiv.org/abs/2401.04088) made it mainstream. [DeepSeek-V3](https://arxiv.org/abs/2412.19437) has 671B total parameters but activates about 37B per token. Many leading open-weight models in 2025–2026 are MoE. Closed labs generally don't disclose architectures. In practice, a "trillion-parameter" MoE can be cheaper per token than its headline number suggests, but you still need the memory to hold all of it ([module 04](04-open-vs-closed-weights.md)).
+That separates **total parameters** (how much the model can store) from **active parameters** (how much compute each token costs). [Shazeer et al. (2017)](https://arxiv.org/abs/1701.06538) introduced the modern sparse version. [Switch Transformers](https://arxiv.org/abs/2101.03961) and [Mixtral](https://arxiv.org/abs/2401.04088) made it mainstream. [DeepSeek-V3](https://arxiv.org/abs/2412.19437) has 671B total parameters but activates about 37B per token. Many leading open-weight models in 2025–2026 are MoE. Closed labs generally don't disclose architectures. A "trillion-parameter" MoE can be cheaper per token than its headline number suggests, but you still need the memory to hold all of it ([module 04](04-open-vs-closed-weights.md)).
 
 ### Multimodality
 
-Images, audio, and video can be turned into token-like vectors too. An image is cut into patches, and each patch becomes an embedding. [CLIP](https://arxiv.org/abs/2103.00020) (2021) learned a shared space for images and text. GPT-4 (2023) accepted images. GPT-4o (2024) handled text, images, and audio in one model. So you can paste a screenshot of a broken layout, a whiteboard diagram, or a design mockup and ask for code. The usual caveats apply. Models can misread small text, misjudge spatial layout, and describe things that aren't there.
+Images, audio, and video can be turned into token-like vectors too. An image is cut into patches, and each patch becomes an embedding. [CLIP](https://arxiv.org/abs/2103.00020) (2021) learned a shared space for images and text. GPT-4 (2023) accepted images. GPT-4o (2024) handled text, images, and audio in one model. So you can paste a screenshot of a broken layout, a whiteboard diagram, or a design mockup and ask for code. Models can still misread small text, misjudge spatial layout, and describe things that aren't there.
 
 ### Tool use: the bridge to agents
 
@@ -230,7 +230,7 @@ An LLM on its own can't run code, read your files, browse, or do exact math. **T
 
 [Toolformer](https://arxiv.org/abs/2302.04761) (Schick et al., 2023) showed a model could teach itself when to call APIs like a calculator or search engine. [ReAct](https://arxiv.org/abs/2210.03629) (Yao et al., 2022) interleaved reasoning steps with actions. OpenAI shipped function calling in its API in June 2023. The **Model Context Protocol (MCP)**, released by Anthropic in November 2024, standardized how tools plug into models.
 
-An **agent** is a model plus tools plus a loop that keeps going until the task is done. That's what a coding agent is. [Module 06](06-harnesses-and-tools.md) covers harnesses and MCP, and [module 08](08-agentic-workflows.md) covers agentic workflows.
+An **agent** is a model plus tools plus a loop that keeps going until the task is done. [Module 06](06-harnesses-and-tools.md) covers harnesses and MCP, and [module 08](08-agentic-workflows.md) covers agentic workflows.
 
 ### Hallucination, and why it happens
 
@@ -257,7 +257,7 @@ A lot of the mitigation is in how you ask. Request critique instead of approval,
 
 ### A working mental model
 
-Keep these on a sticky note:
+When you work with a model, remember:
 
 1. It knows patterns, not your system. It may have seen public code during training, but it doesn't reliably know your current codebase, conventions, or yesterday's incident unless you put them in its context.
 2. Its knowledge is dated. Libraries and APIs change after the training cutoff. Paste current docs or let it search.
@@ -311,7 +311,7 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\rig
 - Softmax turns each row of scores into weights that sum to 1. The causal mask sets future positions to −∞ first, so they get zero weight.
 - Multiplying by *V* gives each token its weighted blend of values.
 
-That grid has one entry for every pair of tokens, so basic attention costs grow with the square of the context length. Much systems research (FlashAttention, sparse and linear attention, KV-cache compression) attacks that cost.
+That grid has one entry for every pair of tokens, so basic attention costs grow with the square of the context length. Systems research (FlashAttention, sparse and linear attention, KV-cache compression) tries to reduce that cost.
 
 A common rule of thumb is that training a dense transformer with *N* parameters on *D* tokens takes about 6·*N*·*D* floating-point operations. For Chinchilla that's 6 × 70×10⁹ × 1.4×10¹² ≈ 6×10²³ FLOPs.
 
@@ -324,7 +324,7 @@ Start with the skeptical view. In ["On the Dangers of Stochastic Parrots"](https
 - The **reversal curse**: models trained that "A is B" often fail to infer "B is A" ([Berglund et al., 2023](https://arxiv.org/abs/2309.12288)).
 - ["Embers of Autoregression"](https://arxiv.org/abs/2309.13638) (McCoy et al., 2023): accuracy depends heavily on how probable the *output* text is, even for deterministic tasks like decoding a cipher.
 - [GSM-Symbolic](https://arxiv.org/abs/2410.05229) (Apple, 2024): changing names and numbers in grade-school math problems, or adding irrelevant clauses, dropped scores.
-- ["The Illusion of Thinking"](https://arxiv.org/abs/2506.06941) (Apple, 2025) reported reasoning models collapsing on puzzles past a certain complexity. A [published comment](https://arxiv.org/abs/2506.09250) argued that much of the collapse came from output-length limits and unsolvable test instances, not reasoning failure. That exchange is a good lesson in reading evaluations carefully.
+- ["The Illusion of Thinking"](https://arxiv.org/abs/2506.06941) (Apple, 2025) reported reasoning models collapsing on puzzles past a certain complexity. A [published comment](https://arxiv.org/abs/2506.09250) argued that much of the collapse came from output-length limits and unsolvable test instances, not reasoning failure. The dispute turns on how the evaluation was designed.
 
 On the world-model side, other work finds structured internal representations that go beyond surface statistics:
 
@@ -346,11 +346,11 @@ Put together, LLMs build real, usable internal models of many things, and those 
   - It misreports its own mental math. Adding 36 + 59, it runs one path that estimates the rough size and another that computes the last digit. Asked how it did it, it describes the schoolbook carry-the-one method.
   - Its reasoning can be unfaithful. On a hard problem with a hint, it sometimes worked backward from the hinted answer while presenting its reasoning as a forward calculation.
 
-Anthropic notes these methods capture only a fraction of the computation, even on short prompts. Interpretability is advancing, but nobody can yet read a frontier model's mind.
+Anthropic notes these methods capture only a fraction of the computation, even on short prompts. Interpretability is improving, but nobody can yet fully trace a frontier model's computation.
 
 ### Is the chain of thought honest?
 
-It's tempting to treat a reasoning model's visible thinking as a transcript of its reasoning. The evidence says be careful. [Chen et al. (2025)](https://arxiv.org/abs/2505.05410), "Reasoning Models Don't Always Say What They Think," slipped hints into prompts and checked whether models admitted using them. Claude 3.7 Sonnet mentioned the hint about 25% of the time when it used it; DeepSeek-R1 about 39%. The chain of thought is useful evidence, not a guarantee. This matters for safety monitoring and for code review: judge the diff, not the narration.
+A reasoning model's visible thinking may not reflect how it reached its answer. [Chen et al. (2025)](https://arxiv.org/abs/2505.05410), "Reasoning Models Don't Always Say What They Think," slipped hints into prompts and checked whether models admitted using them. Claude 3.7 Sonnet mentioned the hint about 25% of the time when it used it; DeepSeek-R1 about 39%. The chain of thought is useful evidence, not a guarantee. For safety monitoring and code review, check the actual changes rather than relying on the narration.
 
 ### Beyond the plain transformer
 
@@ -358,7 +358,7 @@ Researchers keep probing alternatives and hybrids: state-space models such as Ma
 
 ## Bryan's take
 
-Bryan defines "vibe coding" for this course as AI-accelerated engineering with a human in charge ([module 00](00-orientation.md#what-we-mean-by-vibe-coding)). This module explains why that framing fits. The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it. Bryan's views on which models suit which jobs are in [module 03](03-model-landscape.md).
+Bryan defines "vibe coding" for this course as AI-accelerated engineering with a human in charge ([module 00](00-orientation.md#what-we-mean-by-vibe-coding)). The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it. Bryan's views on which models suit which jobs are in [module 03](03-model-landscape.md).
 
 ## Try it
 

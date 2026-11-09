@@ -8,7 +8,7 @@ This lab runs in week 2 of the [syllabus](../syllabus.md) and is due in week 3. 
 
 Build a mental model of a language model good enough to predict its failures. You'll predict, then measure, three things: how text becomes tokens, what temperature does to the next-token choice, and how a model behaves when asked about something that doesn't exist.
 
-The models you probe are the subject of the experiment, so using them is the point. Everything you submit (predictions, analysis, write-up) is your own. You can ask an AI to explain a concept, but not to write your answers ([AI-use policy](../syllabus.md#ai-use-policy)).
+The models you probe are the subject of the experiment. Everything you submit (predictions, analysis, write-up) is your own. You can ask an AI to explain a concept, but not to write your answers ([AI-use policy](../syllabus.md#ai-use-policy)).
 
 ## Prerequisites and setup
 
@@ -197,7 +197,7 @@ Write one page, in your own words:
 ## Instructor notes
 
 - Some students will fill in predictions after checking. If that becomes a problem, ask for the prediction column as a timestamped first commit or a separate early submission.
-- Expect a lot of one-token-per-word predictions. "Tokens are words" is the misconception the lab exists to fix, so reward honest wrong predictions.
+- Expect a lot of one-token-per-word predictions. Reward honest wrong predictions that expose the "tokens are words" misconception.
 - Models now often refuse the fake method, and that's a valid result. Ask students to explain *why* this model might decline (a "known entity" signal that didn't fire; [module 01](../../modules/01-what-is-an-llm.md#hallucination-and-why-it-happens)) and to try a subtler probe, such as a real method with an invented parameter.
 - Insist on invented author names. Asking a model to summarize a fake paper attributed to a real researcher puts fabricated claims next to a real name.
 - Playground access changes, so re-check before term that a free playground with temperature control exists ([refresh checklist](../instructor-guide.md#refresh-checklist-for-each-term)). The fallback keeps the lab completable without one.
