@@ -17,7 +17,8 @@ section {
   color: var(--ink);
   background: var(--paper);
   padding: 56px 72px;
-  justify-content: flex-start;
+  /* The default theme centers vertically with place-content on a block layout. Top-align content slides. */
+  place-content: start;
 }
 
 h1, h2 { color: var(--ink); letter-spacing: -0.01em; }
@@ -41,16 +42,16 @@ footer, header { color: var(--muted); font-size: 16px; }
 section::after { color: var(--muted); font-size: 16px; }
 
 /* Title slide: <!-- _class: lead --> */
-section.lead { justify-content: center; }
+section.lead { place-content: safe center center; }
 section.lead h1 { font-size: 64px; border-bottom: none; }
 section.lead p { color: var(--muted); font-size: 30px; }
 
 /* Section divider: <!-- _class: divider --> */
-section.divider { background: var(--accent); color: #fff; justify-content: center; }
+section.divider { background: var(--accent); color: #fff; place-content: safe center center; }
 section.divider footer, section.divider::after { color: rgba(255, 255, 255, 0.85); }
 section.divider h1, section.divider h2 { color: #fff; border-bottom-color: #fff; }
 
 /* Bryan's take: <!-- _class: take --> */
-section.take { justify-content: center; }
+section.take { place-content: safe center center; }
 section.take blockquote { font-size: 34px; line-height: 1.4; }
 section.take h2 { color: var(--accent); }
