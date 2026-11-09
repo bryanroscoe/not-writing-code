@@ -143,7 +143,7 @@ Newer models have improved on many of these measures, and the specific numbers a
 The same capability that writes code also finds bugs in it. Two examples show how far this had gone by 2026:
 
 - On 7 April 2026 Anthropic announced [Project Glasswing](https://www.anthropic.com/glasswing): an unreleased model, Claude Mythos Preview, given to a small coalition of companies and open-source maintainers to find and fix vulnerabilities. Anthropic says it found thousands of high-severity flaws, including a 27-year-old remote crash bug in OpenBSD and a 16-year-old flaw in FFmpeg that automated testing had executed five million times without catching. Anthropic withheld general release and restricts its strongest cyber variants to vetted defenders through a verification program.
-- OpenAI's [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) (February 2026) was the first in which OpenAI treated a model as **High** capability in cybersecurity under its Preparedness Framework, which triggers extra safeguards and restricted access for high-risk uses.
+- OpenAI's [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) (February 2026) described its first launch treated as **High** capability in cybersecurity under its Preparedness Framework. This activated extra safeguards as a precaution: OpenAI said it lacked definitive evidence that the model reached the threshold, but could not rule it out.
 
 If you're a student, point these tools at *your own* code before you ship. If you're on a team, assume attackers have them too, and patch faster. [Module 03](./03-model-landscape.md) has current model names and access tiers.
 

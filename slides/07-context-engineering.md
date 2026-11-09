@@ -121,7 +121,7 @@ Context engineering. Six days after Lütke, Andrej Karpathy added "+1," calling 
 
 Harness engineering. Hashimoto, co-founder of HashiCorp and author of the Ghostty terminal, described it as step 5 of his adoption path. Sometimes the fix is a line in AGENTS.md; he writes that "each line in that file is based on a bad agent behavior." Sometimes it's a script, such as a screenshot tool or a filtered test runner.
 
-Six days later OpenAI's "Harness engineering" post (Ryan Lopopolo, February 11, 2026) described a small team, three engineers at first, building an internal product of about a million lines over roughly five months with no hand-written code. One large instruction file didn't work. They replaced it with a roughly 100-line AGENTS.md that acts as a map into a docs/ directory, with linters and structural tests keeping docs and architecture consistent. Module 06 covers the harness itself.
+Six days later OpenAI's "Harness engineering" post (Ryan Lopopolo, February 11, 2026) reported three engineers driving Codex, later seven, and about a million lines across code, infrastructure, tooling and documentation after five months, with no hand-written code. One large instruction file didn't work. They replaced it with a roughly 100-line AGENTS.md that acts as a map into a docs/ directory, with linters and structural tests keeping docs and architecture consistent. Module 06 covers the harness itself.
 -->
 
 ---
@@ -180,7 +180,7 @@ From simplest up, the loop patterns are a Ralph loop; an interval loop such as "
 
 ## Graph engineering is an old idea with a new name
 
-July 18, 2026, Steinberger on X: "Are we still talking loops or did we shift to graphs yet?"
+July 18, 2026 (UTC), [Steinberger on X](https://x.com/steipete/status/2078277297791189132): "Are we still talking loops or did we shift to graphs yet?"
 
 The shapes, as Anthropic described them in December 2024:
 
@@ -193,7 +193,7 @@ The shapes, as Anthropic described them in December 2024:
 | Evaluator-optimizer | Generate, critique, revise until tests pass |
 
 <!--
-Within hours of Steinberger's post, Hamel Husain posted an X article titled "Loop Engineering Is Dead. Enter Graph Engineering," and courses and roadmaps appeared within days. Turing Post traced the origin, treated Steinberger's post as a playful question rather than a definition, and found false a viral claim that Microsoft, Stanford and Anthropic had "discovered" graph engineering.
+Within hours of Steinberger's post, [Hamel Husain posted an X article](https://x.com/HamelHusain/status/2078346425621237935) titled "Loop Engineering Is Dead. Enter Graph Engineering." These posts helped popularize the label; they don't establish who first coined it. Turing Post reports that courses and roadmaps appeared within days. Turing Post traced the origin, treated Steinberger's post as a playful question rather than a definition, and found false a viral claim that Microsoft, Stanford and Anthropic had "discovered" graph engineering.
 
 The idea underneath is real and older than the name. A graph is a set of steps (nodes) joined by transitions (edges) with shared state; a loop is a graph whose path returns to an earlier node. Anthropic's "Building effective agents" (Erik Schluntz and Barry Zhang, December 19, 2024) separated workflows, "systems where LLMs and tools are orchestrated through predefined code paths," from agents that direct their own process. LangGraph (2024) made these graphs explicit in code, with checkpoints and human-approval nodes. In August 2026 a 35-author survey (Feng et al.) placed graph engineering after the other four rungs.
 

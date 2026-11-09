@@ -26,7 +26,7 @@ On an **AI-first** team, the first question on any task is "how would an agent h
 | Some work stays deliberately agent-free | Nobody can debug production when the tool is down |
 | The team measures outcomes and shares failures openly | Ranking engineers by tokens used or PRs merged |
 
-> **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding: engineering with a human in charge, not blind acceptance of whatever the model produces.
+> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 This playbook assumes the [ground rules in module 00](../modules/00-orientation.md#ground-rules-we-assume-throughout), which make a decent starting team policy by themselves. The [policy template](policy-template.md) turns them into something you can get approved.
 

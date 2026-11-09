@@ -49,7 +49,7 @@ Most "open" models publish only the third item, and labs are getting careful wit
 | License family | Typical terms | Examples |
 | --- | --- | --- |
 | **Apache 2.0** | Use, modify and sell freely. Keep notices. Includes an explicit patent grant. | gpt-oss, Gemma 4, Qwen3.8-27B, Muse Glimmer 30B, Thinking Machines Inkling, Reflection Beam 1.0 |
-| **MIT** | Use, modify and sell freely. Keep the notice. | DeepSeek V4 and V4.1, GLM-5.3-Flash, Xiaomi MiMo V2.6 |
+| **MIT** | Use, modify and sell freely. Keep the notice. | DeepSeek V4 and V4.1, [GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash), [Xiaomi MiMo V2.6 Flash MOPD](https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-MOPD) |
 | **"Modified MIT" / MIT-style with conditions** | MIT grant plus extra clauses, often a display rule for very large products | Kimi K2 and K2.5 (display "Kimi K2" above 100M monthly users or $20M monthly revenue), MiniMax M2 and M2.5 |
 | **Revenue-tiered custom licenses (the 2026 trend)** | Free for most uses. A separate agreement is needed if you run a model-hosting business ("Model as a Service") above a revenue line. | Kimi K3 (MaaS >$20M over 12 months; product display rule above 100M MAU or $20M monthly revenue, with internal-use and official-provider exceptions), Qwen3.8-Max (>$50M for MaaS; product display rule above 100M MAU or $20M monthly revenue), GLM-5.3 (a company running a model-hosting business with over $10B in total annual revenue needs Z.ai's security review), Muse Spark Open (>$20M MaaS; "Built with Muse Spark Open"), Mistral Large 4 (MaaS needs a commercial license) |
 | **Default non-commercial** | Free for non-commercial use. Commercial use needs notice or authorization. | MiniMax Community License for M3 (commercial use needs a notice; prior authorization above $20M yearly revenue; "Built with MiniMax M3") |
@@ -161,7 +161,7 @@ On macOS you can raise the GPU memory limit with `sudo sysctl iogpu.wired_limit_
 | **24 GB GPU** | ~22 GB VRAM | 27B–32B dense with moderate context: Qwen3.8-27B, Gemma 4 31B, Muse Glimmer 30B (its card says 4-bit fits 24–32 GB GPUs); gpt-oss-20b | Gemma 4 26B-A4B with long context |
 | **36 GB Mac** | ~24–27 GB | The same 27B–32B dense models; Gemma 4 26B-A4B (fast); gpt-oss-20b with long context | ~35B MoE models |
 | **64 GB Mac** | ~45–48 GB | 70B-class dense at 4-bit (slow) | ~100B MoE at 3-bit |
-| **128 GB Mac or similar workstation** | ~96 GB+ | gpt-oss-120b (fits one 80 GB GPU as shipped); 120B-A12B MoE such as Nemotron 3 Super | Mistral Medium 3.5 (128B dense, slow) |
+| **128 GB Mac or similar workstation** | ~96 GB+ | gpt-oss-120b (fits one 80 GB GPU as shipped); 120B-A12B MoE such as [Nemotron 3 Super](https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16) | [Mistral Medium 3.5](https://huggingface.co/mistralai/Mistral-Medium-3.5-128B) (128B dense, quantized; speed depends on hardware) |
 | **8× 80 GB data-center GPUs** | ~640 GB | 300B–800B MoE at 4-bit or FP8: GLM-5.3 at 4-bit (~420 GB), MiniMax M3 at FP8 | ~1T models at 4-bit, such as Mistral Large 4 (~550 GB) |
 | **Multi-node clusters** | 1 TB+ | Kimi K3 / K3.1 Pro, DeepSeek V4-Pro, Qwen3.8-2.4T | — |
 

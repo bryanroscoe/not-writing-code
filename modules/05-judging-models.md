@@ -52,7 +52,7 @@ Then there's **contamination**. Models train on huge scrapes of the internet, so
 
 Benchmarks also hit **saturation**. When top models all score near the ceiling, the benchmark stops telling them apart. HumanEval saturated years ago. In September 2026 Artificial Analysis dropped GPQA Diamond from its index, and labs were reporting scores in the mid-90s on it.
 
-Benchmarks have wrong answers, too. [Are We Done with MMLU?](https://arxiv.org/abs/2406.04127) (Gema et al., 2024) estimated that 6.49% of MMLU questions contain errors, including 57% of the virology questions they analysed. OpenAI audited 138 of the hardest SWE-bench Verified tasks and reported that many had flawed tests or descriptions, then stopped reporting the benchmark in February 2026 ([OpenAI](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/)).
+Benchmarks have wrong answers, too. [Are We Done with MMLU?](https://arxiv.org/abs/2406.04127) (Gema et al., 2024) estimated that 6.49% of MMLU questions contain errors, including 57% of the virology questions they analysed. OpenAI audited 138 SWE-bench Verified tasks that o3 did not consistently solve across 64 runs. It found material flaws in the tests or descriptions of 59.4% of that subset, and on February 23, 2026, announced it had stopped reporting the benchmark, also citing training contamination ([OpenAI](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/)).
 
 **Goodhart's law** applies too. In Marilyn Strathern's phrasing of economist Charles Goodhart's point, "When a measure becomes a target, it ceases to be a good measure." Once a benchmark matters for marketing, labs train toward it, and the score drifts away from what it was meant to show.
 

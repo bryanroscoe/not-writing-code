@@ -131,16 +131,16 @@ How to read it:
 
 | Date | Event | Why it matters | Source |
 | --- | --- | --- | --- |
-| 2026-01-01 | Steve Yegge, "Welcome to Gas Town" (eight stages of AI-assisted development) | A widely shared map of how developers move from autocomplete to agent fleets | [Medium](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) |
+| 2026-01-01 | Steve Yegge, "Welcome to Gas Town" (eight stages of AI-assisted development) | A widely shared map of how developers move from autocomplete to agent fleets | [Yegge, republication of the Medium original](https://yegge.ai/essays/welcome-to-gas-town/) |
 | 2026-01 | Claude Cowork (research preview) | Claude Code-style agent for non-coding knowledge work | [Claude](https://claude.com/blog/cowork-research-preview) |
 | 2026-01-14 | Cursor reports hundreds of agents building a browser from scratch | Showcase and stress test of long-running multi-agent coding; critics found quality gaps | [Cursor](https://cursor.com/blog/scaling-agents) |
 | 2026-01 | Kimi K2.5 (open) | Moonshot's multimodal agentic update | [Hugging Face](https://huggingface.co/moonshotai/Kimi-K2.5) |
-| 2026-01 (late) | Clawdbot, renamed Moltbot, becomes OpenClaw (reported) | Open-source personal agent that runs on your machine and talks through chat apps | [GitHub](https://github.com/openclaw/openclaw) |
+| 2026-01-30 | Clawdbot, renamed Moltbot Jan 27, becomes OpenClaw | Open-source personal agent that runs on your machine and talks through chat apps | [OpenClaw naming history](https://docs.openclaw.ai/start/lore) |
 | 2026-02-05 | Claude Opus 4.6 (1M context beta) | Start of Anthropic's rapid 2026 cadence | [Anthropic](https://www.anthropic.com/news/claude-opus-4-6) |
 | 2026-02-05 | GPT-5.3-Codex in Codex (API Feb 24) | OpenAI's coding-agent model | [OpenAI changelog](https://developers.openai.com/api/docs/changelog) |
 | 2026-02-05 | Anthropic: 16 parallel Claude agents build a C compiler | Concrete data on multi-agent cost (~$20K) and limits | [Anthropic](https://www.anthropic.com/engineering/building-c-compiler) |
 | 2026-02-11 | Z.ai GLM-5 (open, MIT) | Leading open coding model at release | [Hugging Face](https://huggingface.co/zai-org/GLM-5) |
-| 2026-02-15 | OpenClaw's creator Peter Steinberger joins OpenAI; project moves to a foundation | Big labs compete for agent-tool builders | [Steinberger](https://steipete.me/posts/2026/openclaw) |
+| 2026-02-14 | OpenClaw's creator Peter Steinberger announces he is joining OpenAI and plans a foundation | Big labs compete for agent-tool builders | [Steinberger](https://steipete.me/posts/2026/openclaw) |
 | 2026-02-17 | Claude Sonnet 4.6 | Mid-tier refresh at $3 / $15 | [Anthropic](https://www.anthropic.com/news/claude-sonnet-4-6) |
 | 2026-02-19 | Gemini 3.1 Pro (preview) | Google's last Pro release before Gemini 4 | [Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/) |
 | 2026-02-23 | Anthropic names DeepSeek, Moonshot and MiniMax in a distillation report | ~24,000 fraudulent accounts and 16M+ exchanges; distillation becomes a policy issue | [Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks) |
@@ -168,7 +168,7 @@ How to read it:
 | 2026-07 | Thinking Machines Lab releases Inkling (open, Apache 2.0) | New US lab ships a ~1T-parameter open MoE | [Hugging Face](https://huggingface.co/thinkingmachines/Inkling) |
 | 2026-07-21 | Gemini 3.6 Flash and 3.5 Flash-Lite | Google keeps shipping Flash while Pro stalls | [AI Studio changelog](https://aistudio.google.com/docs/changelog) |
 | 2026-07-24 | Claude Opus 5 | Led benchmarks at launch; communication style became the top complaint | [Anthropic](https://www.anthropic.com/news/claude-opus-5) |
-| 2026-08-03 | Alibaba Qwen3.8-Max (2.4T; weights about a week later) | First Max-tier Qwen with downloadable weights | [The Batch](https://www.deeplearning.ai/the-batch/qwen3-8-max-lands-with-a-bang), [Hugging Face](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B) |
+| 2026-08-03 | Alibaba Qwen3.8-Max (2.4T; repository records weight upload Aug 9) | First Max-tier Qwen with downloadable weights | [Qwen](https://qwen.ai/blog?id=qwen3.8), [upload history](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B/commits/main), [Hugging Face](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B) |
 | 2026-08-05 | Demis Hassabis steps back as Google DeepMind CEO | Leadership shake-up amid Gemini delays | [Fortune](https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/) |
 | 2026-08-10 | Meta Muse Glimmer 30B (open, Apache 2.0) | Meta's first open Muse model, built to run locally | [Hugging Face](https://huggingface.co/meta-models/Muse-Glimmer-30B) |
 | 2026-08-18 | Z.ai GLM-5.3 (weights Aug 25) | Top open-weight model on Epoch's cyber index | [Hugging Face](https://huggingface.co/zai-org/GLM-5.3) |
@@ -184,14 +184,14 @@ How to read it:
 | 2026-10-06 | Mistral Large 4 preview (~1T open MoE; weights Oct 29) | Strongest Western open model at launch, "about 6 months behind the frontier" | [Mistral](https://mistral.ai/news/mistral-large-4), [Simon Willison](https://simonwillison.net/2026/Oct/6/le-chonk/) |
 | 2026-10-07 | Claude Haiku 5.5 at $0.10 / $0.50 | Small-model prices fall about 90% | [Anthropic](https://www.anthropic.com/news/claude-haiku-5-5) |
 | 2026-10-07 | GPT-6 reaches ChatGPT with "Intelligent UI" | Answers can include interactive charts, forms and small tools | [9to5Mac](https://9to5mac.com/2026/10/07/openai-brings-gpt-6-to-chatgpt-and-debuts-intelligent-ui/) |
-| 2026-10-12 | Meta Muse Wonder listed (closed, $4 / $20) | Meta's frontier reasoning model reaches developers | [OpenRouter](https://openrouter.ai/meta/muse-wonder) |
+| 2026-10-12 | Meta announces Muse Wonder (closed, $4 / $20) | Meta's frontier reasoning model reaches developers | [Meta release index](https://ai.meta.com/research/), [Meta pricing](https://dev.meta.ai/docs/pricing-rate-limits) |
 | 2026-10-13 | Gemini 4 Argon generally available | Google's flagship back near the frontier, by its own benchmarks | [Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/) |
 | 2026-10-15 | Meta Muse Spark Open (816B open MoE, Muse Model License) | Meta's largest open release since Llama 4 | [Hugging Face](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B) |
 | 2026-10-15 | Anthropic's managed Code Review generally available | AI review moves from preview to product | [Claude](https://claude.com/resources/articles/code-review-is-now-generally-available) |
 | 2026-10-16 | Epoch: open models trail closed by 6–7 months on cyber | Updated estimate of the open-closed gap | [Epoch AI](https://epoch.ai/data-insights/open-closed-cyber-eci-gap) |
 | 2026-10 | Reflection AI Beam 1.0 (501B open MoE, Apache 2.0) | Another US open-weight frontier attempt | [Hugging Face](https://huggingface.co/reflection/Beam-1.0-501B-A23B) |
 | 2026-10-22 | Anthropic donates Agent Skills to the Agentic AI Foundation | Skills join MCP and AGENTS.md under neutral governance | [Anthropic](https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation) |
-| 2026-10-23 | Kimi K3.1 Pro API; weights posted to Hugging Face in early November | The open-weight frontier as of this writing, priced at half of Opus 5.5 | [Hugging Face](https://huggingface.co/moonshotai/Kimi-K3.1-Pro), [Let's Data Science](https://letsdatascience.com/news/moonshot-releases-kimi-k31-pro-api-open-weights-due-nov-4-786e160c) |
+| 2026-10-24 | Kimi K3.1 Pro announcement; repository records weight upload Nov 2 | The open-weight frontier as of this writing, priced at half of Opus 5.5 | [Hugging Face](https://huggingface.co/moonshotai/Kimi-K3.1-Pro), [Moonshot announcement](https://www.moonshot.ai/), [pricing](https://platform.kimi.ai/), [weight-upload history](https://huggingface.co/moonshotai/Kimi-K3.1-Pro/commits/main) |
 | 2026-10-26 | GPT-6.1 Terra ($1 / $5) | Cheaper mid-tier aimed at computer use | [OpenAI changelog](https://developers.openai.com/api/docs/changelog) |
 | 2026-10-26 | Anthropic files an S-1 for a proposed IPO | A frontier lab heads to public markets | [Anthropic](https://www.anthropic.com/news/s1-sec) |
 | 2026-10-28 | Google announces Gemini 4 Carbon, first to vetted cyber defenders | Google adopts the restricted-frontier pattern Anthropic used for Mythos | [Google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/) |

@@ -30,7 +30,7 @@ Research on AI and learning is young, fast-moving, and mostly short-term. Read e
 - How people used the AI mattered. Participants who asked only conceptual questions, asked for code together with explanations, or generated code and then asked follow-up questions to understand it scored 65% or higher. Those who delegated the task, relied more and more on AI as they went, or had the AI debug for them scored below 40%. These patterns come from small subgroups (2–7 people each), so they're suggestive, not proof.
 - The limits are a small sample, a quiz right after the task rather than long-term retention, and a chat-sidebar assistant rather than an autonomous agent. The authors expect agents could widen the gap.
 
-**High-school math (Bastani et al., PNAS 2025).** In a field experiment with roughly a thousand high-school students in Turkey, students got either a plain GPT-4 chat interface ("GPT Base"), a version prompted to act as a tutor that gives hints rather than answers ("GPT Tutor"), or no AI during practice sessions ([Generative AI without guardrails can harm learning](https://doi.org/10.1073/pnas.2422633122), 2025). Both AI groups did much better *during* practice. On a later exam without AI, the GPT Base group did about 17% worse than students who never had AI, while the GPT Tutor group showed no significant harm. Students in the GPT Base group largely used it to get answers.
+**High-school math (Bastani et al., PNAS 2025).** In a field experiment with nearly a thousand high-school students in Turkey, students got either a plain GPT-4 chat interface ("GPT Base"), a version prompted to act as a tutor that gives hints rather than answers ("GPT Tutor"), or no AI during practice sessions ([Generative AI without guardrails can harm learning](https://doi.org/10.1073/pnas.2422633122), 2025). Both AI groups did much better *during* practice. On a later exam without AI, the GPT Base group earned about 17% lower grades than students who never had AI, a relative reduction, not 17 percentage points. The GPT Tutor group showed no significant harm. Students in the GPT Base group largely used it to get answers.
 
 **Critical thinking at work (Lee et al., CHI 2025).** A Microsoft Research and Carnegie Mellon survey of 319 knowledge workers, covering 936 real examples of using generative AI at work, found that higher confidence in the AI was associated with less critical thinking, while higher confidence in one's *own* ability was associated with more ([The Impact of Generative AI on Critical Thinking](https://doi.org/10.1145/3706598.3713778), 2025). Critical thinking shifted from producing work toward verifying, integrating, and overseeing AI output. This is self-reported survey data, not a measurement of thinking.
 
@@ -280,7 +280,7 @@ Being AI-first means reaching for the tool by default and knowing how to use it 
 
 ## Bryan's take
 
-> **Bryan's take:** "Vibe coding," as this course uses the phrase, means AI-accelerated engineering with a human in charge, not blind acceptance of whatever the model produces.
+> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 A human in charge must understand what ships, protect other people's data, and answer for the result. Yegge's stages are in [module 08](./08-agentic-workflows.md).
 

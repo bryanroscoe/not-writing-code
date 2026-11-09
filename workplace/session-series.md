@@ -133,7 +133,7 @@ If it fails, say what would have caught it: a test, the plan review, the indepen
 
 Then say: "So I'm not going to promise you a number. We're going to build the habits and measure ourselves."
 
-> **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding: engineering with a human in charge, not blind acceptance of whatever the model produces.
+> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 **Objections (12 minutes).** Write every objection on the board. Answer the ones you can from the [objections guide](objections.md), and concede what's true first. Put the rest in the objections log with a promise to follow up.
 

@@ -110,7 +110,7 @@ On contamination, models train on internet scrapes. If test questions or solutio
 
 A saturated benchmark has every top model near the ceiling, so it stops separating them. HumanEval saturated years ago. Artificial Analysis dropped GPQA Diamond from its index in September 2026.
 
-On label errors, "Are We Done with MMLU?" estimated 6.49% of questions contain errors, including 57% of the virology questions analysed. OpenAI audited 138 of the hardest SWE-bench Verified tasks, found many flawed tests or descriptions, and stopped reporting it in February 2026.
+On label errors, "Are We Done with MMLU?" estimated 6.49% of questions contain errors, including 57% of the virology questions analysed. [OpenAI](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) audited 138 SWE-bench Verified tasks that o3 did not consistently solve across 64 runs. It found material flaws in 59.4% of that subset and announced on February 23, 2026, that it had stopped reporting the benchmark, also citing contamination.
 
 Goodhart's law is Marilyn Strathern's phrasing of economist Charles Goodhart's point. Once a benchmark sells models, labs train toward it.
 

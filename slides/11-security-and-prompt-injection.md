@@ -260,7 +260,7 @@ Newer models have improved on many of these measures, and the numbers age quickl
 
 - Project Glasswing (April 7, 2026) gave Claude Mythos Preview to defenders
 - Thousands of high-severity flaws found, including in OpenBSD and FFmpeg
-- GPT-5.3-Codex (February 2026) got OpenAI's first "High" cybersecurity rating
+- GPT-5.3-Codex (February 2026) was first treated as "High" cyber capability, as a precaution
 - Students, point these tools at your own code before you ship
 - Teams, assume attackers have them too, and patch faster
 
@@ -269,7 +269,7 @@ The same capability that writes code finds bugs in it.
 
 With Glasswing, Anthropic gave an unreleased model, Claude Mythos Preview, to a small coalition of companies and open-source maintainers to find and fix vulnerabilities. Anthropic says it found thousands of high-severity flaws, including a 27-year-old remote crash bug in OpenBSD and a 16-year-old flaw in FFmpeg that automated testing had executed five million times without catching. Anthropic withheld general release and restricts its strongest cyber variants to vetted defenders through a verification program.
 
-GPT-5.3-Codex's system card was the first in which OpenAI treated a model as High capability in cybersecurity under its Preparedness Framework, which triggers extra safeguards and restricted access for high-risk uses.
+The [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) described OpenAI's first launch treated as High capability in cybersecurity under its Preparedness Framework. Extra safeguards were precautionary: OpenAI lacked definitive evidence that it reached the threshold, but could not rule it out.
 
 Current model names and access tiers are in module 03.
 -->

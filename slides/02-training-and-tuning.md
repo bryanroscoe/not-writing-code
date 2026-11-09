@@ -314,11 +314,11 @@ Awake, it takes in new information. Asleep, it writes it into the weights.
 <!--
 From Behrouz, Hashemi, Javanmard, and Mirrokni. The paper appeared on arXiv in June 2026; Google Research's blog post followed on October 27, 2026. It builds on Google's Nested Learning and Hope architecture.
 
-The model alternates between being awake, taking in new information through its context and fast-changing memory, and asleep, offline phases that write that information into its weights. Consolidation distills what fast, short-term memory holds into slower, more stable parameters, including spare low-rank capacity brought into use as needed, then resets the short-term parameters. Dreaming has the model generate its own practice examples, use reinforcement learning to build a curriculum, filter, and fine-tune on the best. That part builds directly on SEAL.
+The model alternates between being awake, taking in new information through its context and fast-changing memory, and asleep, offline phases that write that information into its weights. Consolidation distills what fast, short-term memory holds into slower, more stable parameters, using pre-allocated low-rank experts unlocked during sleep, then resets the short-term parameters. Dreaming has the model generate its own practice examples, use reinforcement learning to build a curriculum, filter, and fine-tune on the best. That part builds directly on SEAL.
 
 The model doesn't decide when to sleep. It runs on a fixed schedule.
 
-The authors report 48.9% on SEAL's knowledge test for a single passage, compared with 46.7% for SEAL rerun in the same setup and 31.9% for the base model. Without dreaming the score falls to 35.7%, so most of the gain comes from self-generated practice. On SEAL's ARC subset, 80% versus 72.5%. On AIME 2024 with Qwen3-8B, 79.2%, versus 73.8% for the base model and 76.4% after standard RL. Google's blog also reports retaining long-context knowledge "up to 10M tokens" and near-zero forgetting when learning unfamiliar languages such as Manchu and Kalamang in stages.
+The authors report 48.9% on SEAL's knowledge test for a single passage, compared with 46.7% for SEAL rerun in the same setup and 31.9% for the base model. Without dreaming the score falls to 35.7%, so most of the gain comes from self-generated practice. On SEAL's ARC subset, 80% versus 72.5%. On AIME 2024 with Qwen3-8B, 79.2%, versus 73.8% for the base model and 76.4% after standard RL. [Google's blog](https://research.google/blog/the-sleep-framework-a-new-way-for-llms-to-retain-knowledge-in-continual-learning/) reports near-perfect scaling to 10M tokens on BABILong, using consolidation into weights, and a near-zero performance drop in multi-stage translation tests with Manchu and Kalamang.
 
 Google presents it as research. The blog doesn't discuss safety, deployment, or cost.
 
@@ -382,13 +382,13 @@ MiniMax M2.7 (March 2026) described something similar, with the model changing i
 - No current model is designated past it. All self-reported.
 
 <!--
-OpenAI set a goal in October 2025 of an "automated AI research intern" by September 2026. On September 6, 2026, it said it had met it, and reported that its research organization used about 3.1 agent-workdays of coding-agent effort per human workday as of mid-August. OpenAI called the measurements preliminary. It set, defined, measured, and graded the goal itself.
+OpenAI set a goal in October 2025 of an "automated AI research intern" by September 2026. On September 6, 2026, [it said it had met it](https://openai.com/index/research-acceleration-view-inside-openai/), and reported that its research organization used about 3.1 agent-workdays of coding-agent runtime per human workday, using an eight-hour day as of mid-August. OpenAI called the measurements preliminary. It set, defined, measured, and graded the goal itself.
 
-The same day, chief scientist Jakub Pachocki published "An Alien Mind." As reported in the press, he said it won't be long until AI systems can improve themselves without human intervention, and wrote: "I expect and hope for voluntary slowdowns to become commonplace until shared safety bars are established."
+The same day, chief scientist Jakub Pachocki published "[An Alien Mind](https://openai.com/index/an-alien-mind/)." Based on internal results, he expected progress could continue into recursive self-improvement, with systems increasingly driving their own development if progress continues. He urged extreme caution and hoped labs would voluntarily slow down until shared safety standards were established.
 
 Anthropic's essay "When AI builds itself" (June 2026, updated September) says more than 80% of merged code was authored by Claude as of May 2026, and: "We are not there yet, and recursive self-improvement is not inevitable. But it could come sooner than most institutions are prepared for."
 
-On November 2, 2026, Anthropic's amended IPO filing said its internal estimates about future models indicate it "may imminently meet" its Responsible Scaling Policy's definition of "dramatically accelerated progress attributable to AI," and that no current model has been designated as exceeding it. It also says Anthropic doesn't expect to safely use Claude to build successors "without meaningful human supervision or understanding." That's a risk disclosure based on the company's own estimates.
+On November 2, 2026, Anthropic's amended [IPO filing](https://www.sec.gov/Archives/edgar/data/2130357/000162828026068676/anthropicpbc-sx1ax1.htm) said its internal estimates about future models indicate it "may imminently meet" its Responsible Scaling Policy's definition of "dramatically accelerated progress attributable to AI," and that no current model has been designated as exceeding it. It also says Anthropic doesn't expect to safely use Claude to build successors fully autonomously without meaningful human oversight. That's a risk disclosure based on the company's own estimates.
 
 Skeptics push back. Brown's Michael Littman told IBM Think: "it's not clear to me that the concept is even logically coherent, let alone imminent."
 

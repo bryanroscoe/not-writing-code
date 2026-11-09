@@ -3,7 +3,7 @@ marp: true
 theme: not-writing-code
 paginate: true
 title: "00: Orientation"
-description: "What this course is, what we mean by vibe coding, and how to use it"
+description: "What this course is, why it isn't vibe coding, and how to use it"
 footer: "A Brief Introduction to Not Writing Code · 00 Orientation"
 ---
 
@@ -14,7 +14,7 @@ footer: "A Brief Introduction to Not Writing Code · 00 Orientation"
 What this course is, and how to use it
 
 <!--
-We start with what "vibe coding" means here, why the field moves so fast, six ideas that outlast the churn, and how to use the material.
+We start with why this is AI-accelerated coding and not vibe coding, why the field moves so fast, six ideas that outlast the churn, and how to use the material.
 
 Rough timing for a 40-minute session: Part 1 (the term and the stance) about 12 minutes, Part 2 (pace and the durable ideas) about 13 minutes, Part 3 (how to use the course) about 8 minutes, then the exercise and discussion.
 
@@ -64,7 +64,7 @@ The course starts at "what is a language model?" and ends at running several age
 
 # Part 1
 
-## What we mean by "vibe coding"
+## Where "vibe coding" came from
 
 <!--
 Part 1 is about the name, and the stance the whole course takes. About 12 minutes.
@@ -101,32 +101,32 @@ Simon Willison drew the line a month after Karpathy's post. If you review, test,
 
 In October 2025 he proposed "vibe engineering" for the disciplined version. By early 2026 he reported that "agentic engineering" was winning as the name.
 
-You'll hear all three. The last two mean the practice this course teaches.
+You'll hear all three. This course just calls it AI-accelerated coding.
 -->
 
 ---
 
-## So why keep the phrase?
+## This isn't a vibe coding course
 
-People search for "vibe coding course," not "agentic engineering course."
+People use "vibe coding" for any coding with AI now.
 
-We use the popular phrase and mean the disciplined version.
+Here it means Karpathy's version: you don't read the code.
 
-*A Brief Introduction to Not Writing Code* means you type much less code, so the engineering around it matters more.
+What we're doing is AI-accelerated coding.
 
 <!--
-This is a practical choice. The popular phrase stuck, so the course uses it and means the disciplined version throughout.
+You'll hear "vibe coding" used for everything. When I say it in this course, I mean the original thing: you never really read the code. That has its place, for throwaway stuff and personal tools. It's not what we're doing here.
 
-The course title is the same joke from the other side. You'll type much less code by hand. Deciding what to build, checking it, and answering for it become more of the job.
+The title, A Brief Introduction to Not Writing Code, is a joke with a point. You'll type a lot less code by hand. Deciding what to build, checking it, and answering for it become more of the job.
 -->
 
 ---
 
 <!-- _class: take -->
 
-## What "vibe coding" means in this course
+## AI-accelerated coding, not vibe coding
 
-> **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding. The AI does most of the typing. A human still decides what to build, reads what matters, makes sure it's tested, and owns the result. That's the only version I'd teach.
+> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 <!--
 These "Bryan's take" callouts are where my opinions go. Everything else should be sourced, so an unsourced or stale claim is a bug.

@@ -20,7 +20,7 @@ Read in this order. It's not quite numeric. You start using tools early, then co
 
 | Step | Module | Focus on | Lab |
 | --- | --- | --- | --- |
-| 1 | [00 Orientation](../modules/00-orientation.md) | "What we mean by vibe coding," the six durable ideas, ground rules | |
+| 1 | [00 Orientation](../modules/00-orientation.md) | "AI-accelerated coding, not vibe coding," the six durable ideas, ground rules | |
 | 2 | [01 What is an LLM?](../modules/01-what-is-an-llm.md) | Next-token prediction, tokens, "What an LLM is not," hallucination | [Lab 1](../course/labs/lab-01-tokens-and-temperature.md) |
 | 3 | [06 Harnesses, tools, and MCP](../modules/06-harnesses-and-tools.md) | What a harness is, the short history, "A sane baseline setup"; read module 11's [student checklist](../modules/11-security-and-prompt-injection.md#student-checklist) before running an agent | [Lab 2](../course/labs/lab-02-first-agent-session.md) |
 | 4 | [07 Context engineering](../modules/07-context-engineering.md) | Prompting basics, what fills the context window, context limits | |

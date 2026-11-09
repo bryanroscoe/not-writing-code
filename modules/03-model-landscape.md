@@ -174,30 +174,32 @@ Sources: [AI Studio models](https://aistudio.google.com/docs/models), [AI Studio
 | Model | API ID | Released | Tier | Context | Price (prompts under 200K tokens) |
 | --- | --- | --- | --- | --- | --- |
 | Grok 4.7 | `grok-4.7` | Sep 2026 | Flagship | 500K | $2 / $6 |
-| Grok 4.3 | `grok-4.3` | Spring 2026 | Cheaper long-context | 1M | $1.25 / $2.50 |
+| Grok 4.3 | `grok-4.3` | Available by May 15, 2026 | Cheaper long-context | 1M | $1.25 / $2.50 |
 | Grok Build 0.1 | `grok-build-0.1` | May 2026 (early access) | Coding | 256K | $1 / $2 |
 
-Prices double for prompts of 200K tokens or more. Grok also has image and video (Grok Imagine) and speech-to-speech voice models. The API docs don't mention Grok 5 as of this writing. Sources: [xAI models and pricing](https://docs.x.ai/docs/models), [xAI release notes](https://docs.x.ai/docs/release-notes).
+Prices double for prompts of 200K tokens or more. Grok also has image and video (Grok Imagine) and speech-to-speech voice models. The API docs don't mention Grok 5 as of this writing. Sources: [xAI models and pricing](https://docs.x.ai/docs/models), [xAI release notes](https://docs.x.ai/docs/release-notes), [May 15 migration guide](https://docs.x.ai/developers/migration/may-15-retirement).
 
 #### Meta, Mistral and the leading open-weight labs
 
 | Model | Released | Weights and license | Size (total / active) | Context | Hosted price |
 | --- | --- | --- | --- | --- | --- |
-| Meta Muse Wonder | Oct 12, 2026 (OpenRouter listing) | Closed | Not disclosed | 1M | $4 / $20 |
+| Meta Muse Wonder | Oct 12, 2026 | Closed | Not disclosed | 1M | $4 / $20 |
 | Meta Muse Spark 1.3 | Sep 2, 2026 | Closed | Not disclosed | 1M | $1.25 / $4.25 |
 | Meta Muse Spark Open | Oct 15, 2026 | Open; Muse Model License | 816B / 42B | 1M | Third-party hosts |
 | Meta Muse Glimmer 30B | Aug 10, 2026 | Open; Apache 2.0 | 30B dense | 131K | Third-party hosts |
 | Mistral Large 4 | Preview Oct 6; weights Oct 29, 2026 | Open; Mistral Ecosystem Open-Weight License | ~1T / ~49–52B | 1M | $0.70 / $2.10 |
-| Moonshot Kimi K3.1 Pro | API Oct 23; weights early Nov 2026 | Open; Kimi K3.1 Pro License | 2.8T / 104B | 1M | $2 / $10 (reported) |
+| Moonshot Kimi K3.1 Pro | Announced Oct 24; weight upload Nov 2, 2026 | Open; Kimi K3.1 Pro License | 2.8T / 104B | 1M | $2 / $10 |
 | Moonshot Kimi K3 | API Jul 16; weights Jul 27, 2026 | Open; Kimi K3 License | 2.8T / 104B | 1M | $3 / $15 |
 | DeepSeek V4-Pro | Preview Apr 24; GA Aug 13, 2026 | Open; MIT | 1.6T / 49B | 1M | See DeepSeek pricing |
 | DeepSeek V4.1-Flash | Sep 10 (update Oct 17), 2026 | Open; MIT | 552B MoE | 1M | See DeepSeek pricing |
-| Alibaba Qwen3.8-Max | API Aug 3; weights ~Aug 10, 2026 | Open; Qwen3.8-Max License | 2.4T / 95B | 1M hosted | $2 / $6 (reported) |
+| Alibaba Qwen3.8-Max | API Aug 3; weight upload Aug 9, 2026 | Open; Qwen3.8-Max License | 2.4T / 95B | 1M hosted | $2 / $6 (US deployment) |
 | Alibaba Qwen3.8-27B | Aug 2026 | Open; Apache 2.0 | 27B dense | 262K | Cheap |
 | Z.ai GLM-5.3 | API Aug 18; weights Aug 25, 2026 | Open; GLM-5.3 License | 753B MoE | 1M | Varies |
 | MiniMax M3 | Jun 2026 | Open; MiniMax Community License | 428B / 23B | 1M | $0.30 / $1.20 |
 
-Sources: [Muse Spark Open model card](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B), [Muse Glimmer model card](https://huggingface.co/meta-models/Muse-Glimmer-30B), [OpenRouter Muse Wonder listing](https://openrouter.ai/meta/muse-wonder), [Mistral Large 4](https://mistral.ai/news/mistral-large-4), [Mistral Large 4 model card](https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B), [Kimi K3 model card](https://huggingface.co/moonshotai/Kimi-K3), [Kimi K3.1 Pro model card](https://huggingface.co/moonshotai/Kimi-K3.1-Pro), [Simon Willison on Kimi K3](https://simonwillison.net/2026/Jul/27/kimi-k3/), [DeepSeek changelog](https://api-docs.deepseek.com/updates), [DeepSeek V4 release](https://api-docs.deepseek.com/news/news260424), [Qwen3.8 model card](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [The Batch on Qwen3.8-Max](https://www.deeplearning.ai/the-batch/qwen3-8-max-lands-with-a-bang), [GLM-5.3 model card](https://huggingface.co/zai-org/GLM-5.3), [MiniMax M3 model card](https://huggingface.co/MiniMaxAI/MiniMax-M3).
+Weight-upload dates come from repository history; they don't establish when public access began.
+
+Sources: [Muse Spark Open model card](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B), [Muse Glimmer model card](https://huggingface.co/meta-models/Muse-Glimmer-30B), [Meta release index](https://ai.meta.com/research/), [Meta API pricing](https://dev.meta.ai/docs/pricing-rate-limits), [Mistral Large 4](https://mistral.ai/news/mistral-large-4), [Mistral Large 4 model card](https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B), [Kimi K3 model card](https://huggingface.co/moonshotai/Kimi-K3), [Kimi K3.1 Pro model card](https://huggingface.co/moonshotai/Kimi-K3.1-Pro), [Simon Willison on Kimi K3](https://simonwillison.net/2026/Jul/27/kimi-k3/), [DeepSeek changelog](https://api-docs.deepseek.com/updates), [DeepSeek V4 release](https://api-docs.deepseek.com/news/news260424), [Qwen3.8 model card](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [Qwen launch](https://qwen.ai/blog?id=qwen3.8), [Alibaba pricing](https://www.alibabacloud.com/help/en/model-studio/model-pricing), [Qwen upload history](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B/commits/main), [Moonshot announcement](https://www.moonshot.ai/), [Kimi API pricing](https://platform.kimi.ai/), [Kimi upload history](https://huggingface.co/moonshotai/Kimi-K3.1-Pro/commits/main), [GLM-5.3 model card](https://huggingface.co/zai-org/GLM-5.3), [MiniMax M3 model card](https://huggingface.co/MiniMaxAI/MiniMax-M3).
 
 Parameter counts for open models come from their model cards, so treat them as approximate. DeepSeek lists V4.1-Flash at 552B, while the Hugging Face file metadata reports a larger number. File counts can include extra components such as vision encoders and multi-token-prediction heads.
 
@@ -207,7 +209,7 @@ As of November 8, 2026:
 
 - Muse is Meta's model family from Meta Superintelligence Labs (MSL), led by chief AI officer Alexandr Wang. It replaced Llama as Meta's main line. Meta hasn't released a new Llama model since Llama 4 in April 2025.
 - Muse Spark (April 8, 2026) was the first MSL model. It was closed, with no weights. It was available in the Meta AI app and meta.ai, with only a private API preview. Meta's own benchmarks put it near Claude Opus 4.6, Gemini 3.1 Pro and GPT-5.4. Meta admitted gaps in long-horizon agents and coding ([Simon Willison](https://simonwillison.net/2026/Apr/8/muse-spark/); [eWeek](https://www.eweek.com/news/meta-muse-spark-ai-launch-multimodal-reasoning/)).
-- Muse Spark 1.1 (July 9, 2026) came with the Meta Model API in public preview, the first way for developers to build on a Muse model ([Meta](https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/)). Muse Image and a preview of Muse Video came out on July 7 ([Meta](https://ai.meta.com/blog/introducing-muse-image-muse-video-msl/)). Spark 1.2 (August) and 1.3 (September) followed.
+- Muse Spark 1.1 (July 9, 2026) came with the Meta Model API in public preview, the first way for developers to build on a Muse model ([Meta](https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/)). Muse Image and a preview of Muse Video came out on July 7 ([Meta](https://ai.meta.com/blog/introducing-muse-image-muse-video-msl/)). Spark 1.2 followed on August 5 and 1.3 on September 2 ([Meta release index](https://ai.meta.com/research/)).
 - Muse Glimmer 30B (August 10, 2026) is open weight under Apache 2.0. It's a dense 30B model that handles images and is built to run locally ([model card](https://huggingface.co/meta-models/Muse-Glimmer-30B)).
 - Muse Wonder (listed October 12, 2026) is a closed, hosted frontier reasoning model at $4 / $20 per million tokens on OpenRouter. Meta is its only host ([OpenRouter](https://openrouter.ai/meta/muse-wonder)).
 - Muse Spark Open (October 15, 2026) is an 816B-parameter open-weight MoE under a custom Muse Model License. The license requires "Built with Muse Spark Open" attribution. Any service with more than $20M in revenue that offers the model to others needs a separate agreement with Meta. On Meta's own model card it scores 39 on the Artificial Analysis Intelligence Index, below Kimi K3 (44) and GLM-5.3 (45) ([model card](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B)).
@@ -249,7 +251,7 @@ When an open model is good enough, anyone can host it, and hosting companies com
 - OpenAI's GPT-6 Sol and Luna cost half the price of the GPT-5.6 models they replaced.
 - Anthropic cut Opus from $5 / $25 to $4 / $20.
 - Haiku 5.5 launched at $0.10 / $0.50, a tenth of Haiku 4.5's list price.
-- Kimi K3.1 Pro launched at a reported $2 / $10 (secondary report; check Moonshot's own pricing page), half the price of Opus 5.5, with open weights ([Let's Data Science](https://letsdatascience.com/news/moonshot-releases-kimi-k31-pro-api-open-weights-due-nov-4-786e160c)).
+- Kimi K3.1 Pro costs $2 / $10, half the price of Opus 5.5, with open weights ([Moonshot pricing](https://platform.kimi.ai/)).
 
 #### Chinese labs lead open weights
 

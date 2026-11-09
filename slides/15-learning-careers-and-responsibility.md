@@ -88,13 +88,13 @@ Those small subgroups are why the module calls these patterns suggestive. Don't 
 
 | Study | Finding | Read it carefully |
 | --- | --- | --- |
-| High-school math, ~1,000 students (PNAS 2025) | Plain GPT-4: ~17% worse on a later exam. Tutor version: no significant harm | Students mostly used plain GPT-4 for answers |
+| High-school math, ~1,000 students (PNAS 2025) | Plain GPT-4: ~17% lower grades on an unassisted exam. Tutor version: no significant harm | Students mostly used plain GPT-4 for answers |
 | 319 knowledge workers (CHI 2025) | More confidence in AI, less critical thinking | Self-reported survey |
 | "Your Brain on ChatGPT," 54 people (2025) | Weakest brain connectivity; trouble quoting their own essays | Preprint; 18 finished the key session |
 | METR, 16 developers (2025) | 19% slower, but felt 20% faster | Early-2025 tools |
 
 <!--
-Bastani et al., PNAS 2025: a field experiment in Turkey. Students got a plain GPT-4 interface ("GPT Base"), a version prompted to act as a tutor that gives hints rather than answers ("GPT Tutor"), or no AI during practice. Both AI groups did much better during practice. On a later exam without AI, GPT Base did about 17% worse than students who never had AI; GPT Tutor showed no significant harm.
+Bastani et al., PNAS 2025: a field experiment in Turkey. Students got a plain GPT-4 interface ("GPT Base"), a version prompted to act as a tutor that gives hints rather than answers ("GPT Tutor"), or no AI during practice. Both AI groups did much better during practice. On a later exam without AI, GPT Base scored about 17% lower than students who never had AI (a relative reduction, not 17 percentage points); GPT Tutor showed no significant harm.
 
 Lee et al., CHI 2025 (Microsoft Research and Carnegie Mellon): 936 real examples of using generative AI at work. Higher confidence in the AI was associated with less critical thinking; higher confidence in one's own ability with more. Critical thinking shifted from producing work toward verifying, integrating, and overseeing AI output.
 
@@ -456,9 +456,9 @@ Imposter feelings are common either way. Specification, judgment, and verificati
 
 <!-- _class: take -->
 
-## What "vibe coding" means here
+## AI-accelerated coding, not vibe coding
 
-> **Bryan's take:** "Vibe coding," as this course uses the phrase, means AI-accelerated engineering with a human in charge, not blind acceptance of whatever the model produces.
+> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 <!--
 Being "a human in charge" means you understand what you ship, you protect other people's data, and you answer for the result. For Yegge's stages of AI-assisted work, see module 08.

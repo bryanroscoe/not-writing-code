@@ -295,7 +295,7 @@ Apple silicon Macs share one pool of unified memory between CPU and GPU, so a 64
 | 24 GB GPU | 27B–32B dense: Qwen3.8-27B, Gemma 4 31B, Muse Glimmer 30B |
 | 36 GB Mac | The same 27B–32B models; Gemma 4 26B-A4B (fast) |
 | 64 GB Mac | 70B-class dense (slow) |
-| 128 GB Mac or workstation | gpt-oss-120b; 120B-A12B MoE such as Nemotron 3 Super |
+| 128 GB Mac or workstation | gpt-oss-120b; 120B-A12B MoE such as [Nemotron 3 Super](https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16) |
 | 8× 80 GB data-center GPUs | 300B–800B MoE: GLM-5.3 at 4-bit (~420 GB) |
 | Multi-node clusters | Kimi K3 / K3.1 Pro, DeepSeek V4-Pro, Qwen3.8-2.4T |
 

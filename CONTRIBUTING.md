@@ -2,8 +2,9 @@
 
 This knowledge base teaches **AI-accelerated software engineering**: using large
 language models and coding agents to build real software faster *without* giving
-up engineering judgment. People call it "vibe coding." We use the phrase loosely
-and say clearly where we differ from the original meaning (see
+up engineering judgment. It is not about "vibe coding," which means never
+reading the code. Mention vibe coding where it's relevant and define it, but
+don't use it as the name for what this course teaches (see
 [module 00](modules/00-orientation.md)).
 
 The same material serves three audiences:
@@ -23,7 +24,7 @@ Modules are numbered in reading order. Link between them with relative links.
 
 | File | Topic |
 | --- | --- |
-| `modules/00-orientation.md` | What "vibe coding" means here, how to use this, why it moves so fast |
+| `modules/00-orientation.md` | AI-accelerated coding vs vibe coding, how to use this, why it moves so fast |
 | `modules/01-what-is-an-llm.md` | Tokens, transformers, pretraining, post-training, reasoning models, limits |
 | `modules/02-training-and-tuning.md` | How models are made, fine-tuned (LoRA etc.), distilled, and how models now tune themselves |
 | `modules/03-model-landscape.md` | The labs, the current lineups, who leads where, the best model for the job |

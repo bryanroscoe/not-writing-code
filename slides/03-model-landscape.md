@@ -166,7 +166,7 @@ Check the module's linked pages before relying on any number here.
 They trail the closed frontier by roughly six months to a year.
 
 <!--
-Kimi K3.1 Pro's API came October 23, weights early November 2026, at a reported $2 / $10. GLM-5.3 weights August 25. DeepSeek V4-Pro generally available August 13. Qwen3.8-Max weights around August 10. Mistral Large 4 weights October 29. MiniMax M3 June. Sizes come from model cards; treat them as approximate.
+Moonshot dates its Kimi K3.1 Pro announcement October 24. Its repository records a November 2 weight upload; API pricing is $2 / $10 ([Moonshot](https://www.moonshot.ai/), [upload history](https://huggingface.co/moonshotai/Kimi-K3.1-Pro/commits/main), [pricing](https://platform.kimi.ai/)). GLM-5.3 weights August 25. DeepSeek V4-Pro generally available August 13. Qwen3.8-Max weight upload August 9 ([repository history](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B/commits/main)). Mistral Large 4 weights October 29. MiniMax M3 June. Sizes come from model cards; treat them as approximate.
 
 Chinese labs have led open weights since DeepSeek-R1 in January 2025. By August 2025, Nathan Lambert's ATOM Project reported that the top ten open models on LMArena were all Chinese, and Qwen derivatives were over 40% of new models on Hugging Face, against about 15% for Llama. Mistral's own model card calls Large 4 the highest-scoring Western open-weight model and notes that Chinese ones score higher.
 
@@ -182,7 +182,7 @@ The module's table also lists US and European open efforts: gpt-oss (OpenAI, Aug
 | Apr 8 | Muse Spark, the first MSL model | Closed |
 | Jul 9 | Muse Spark 1.1, plus the Meta Model API (preview) | Closed |
 | Aug 10 | Muse Glimmer 30B | Open, Apache 2.0 |
-| Oct 12 | Muse Wonder ($4 / $20 on OpenRouter) | Closed |
+| Oct 12 | Muse Wonder ($4 / $20, Meta API) | Closed |
 | Oct 15 | Muse Spark Open (816B) | Open, custom license |
 
 Meta's best models are closed. Its open ones don't lead the open field.
@@ -190,7 +190,7 @@ Meta's best models are closed. Its open ones don't lead the open field.
 <!--
 Muse comes from Meta Superintelligence Labs (MSL), led by chief AI officer Alexandr Wang. It replaced Llama as Meta's main line. Meta hasn't released a new Llama since Llama 4 in April 2025.
 
-Muse Spark launched in the Meta AI app and meta.ai with only a private API preview. Meta's own benchmarks put it near Claude Opus 4.6, Gemini 3.1 Pro, and GPT-5.4, and Meta admitted gaps in long-horizon agents and coding. Spark 1.2 and 1.3 followed in August and September. Muse Image and a Muse Video preview came out July 7.
+Muse Spark launched in the Meta AI app and meta.ai with only a private API preview. Meta's own benchmarks put it near Claude Opus 4.6, Gemini 3.1 Pro, and GPT-5.4, and Meta admitted gaps in long-horizon agents and coding. Spark 1.2 followed on August 5 and 1.3 on September 2 ([Meta](https://ai.meta.com/research/)). Spark 1.3 costs $1.25 / $4.25 in Standard mode ([Meta pricing](https://dev.meta.ai/docs/pricing-rate-limits)). Muse Image and a Muse Video preview came out July 7.
 
 Muse Glimmer 30B is dense, handles images, and is built to run locally. Muse Wonder is a closed frontier reasoning model; Meta is its only host. Muse Spark Open's license requires "Built with Muse Spark Open" attribution, and any service with more than $20M in revenue that offers it to others needs a separate agreement. On Meta's own card it scores 39 on the Artificial Analysis Intelligence Index, below Kimi K3 (44) and GLM-5.3 (45), and trails several models on Terminal-Bench 2.1.
 
@@ -283,10 +283,10 @@ The September 2026 releases started "a new price war" (Simon Willison):
 - GPT-6 Sol and Luna cost half as much as the GPT-5.6 models they replaced
 - Anthropic cut Opus from $5 / $25 to $4 / $20
 - Haiku 5.5 at $0.10 / $0.50 is a tenth of Haiku 4.5's list price
-- Kimi K3.1 Pro, open weights, at a reported $2 / $10
+- Kimi K3.1 Pro, open weights, at $2 / $10
 
 <!--
-When an open model is good enough, anyone can host it, and hosting companies compete on price. That adds pressure on closed labs' prices. Kimi K3.1 Pro's reported price is half that of Opus 5.5.
+When an open model is good enough, anyone can host it, and hosting companies compete on price. That adds pressure on closed labs' prices. Kimi K3.1 Pro's price is half that of Opus 5.5.
 
 Price per token isn't price per task. Anthropic says Opus 5.5 costs "40% less to run than Opus 5" on typical workloads, though its per-token price fell only 20%; the rest comes from using fewer tokens. Tokenizer changes can cut the other way. Opus 4.7's new tokenizer could map the same text to 1.0 to 1.35 times as many tokens. A cheaper model that takes three tries isn't cheaper. Measure cost per finished task.
 -->

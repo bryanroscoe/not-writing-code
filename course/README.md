@@ -23,6 +23,14 @@ You need one frontier coding-agent plan (about $20/month as of November 2026) or
 | [labs/lab-07-multi-agent-review.md](labs/lab-07-multi-agent-review.md) | Week 11 | The term project's cross-model review: a hand-built review swarm with adversarial verification on a teammate's PR, measured against one ordinary review |
 | [labs/lab-08-open-source-contribution.md](labs/lab-08-open-source-contribution.md) | Weeks 9–14 | One small, disclosed contribution to a project with a written AI policy, after a maintainer's go-ahead; a private class-run repository as the fallback or by choice |
 
+## Before the first term
+
+The material is written, but a department adopting it still has to build a few things:
+
+- Starter repos for the labs and the term project, the Lab 5 sandbox image, and the Lab 6 run and grading launchers. Dry-run all of them.
+- Student access to a frontier coding agent, through institutional licenses or the roughly $20/month individual plan, and a check that it covers the labs' usage.
+- A small pilot of weeks 9–14, the heaviest stretch, recording active time, waiting time, and quota use.
+
 ## Where to start
 
 - Students read the [syllabus](syllabus.md), then the [student path](../paths/students.md), which follows the same order.

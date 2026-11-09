@@ -163,7 +163,7 @@ Check maintenance before choosing. Several popular projects stopped being mainta
 | Gemini CLI | Still open, but individual users moved to Antigravity CLI |
 | AutoGen | Archived in favor of Microsoft Agent Framework |
 | Promptfoo | Bought by OpenAI, which says the project stays open |
-| OpenClaw | Creator joined OpenAI; the project moved to a foundation |
+| OpenClaw | Creator joined OpenAI; announced plans for an independent foundation |
 
 You can fork an abandoned project. Nobody has to maintain the fork.
 
@@ -185,7 +185,7 @@ A personal agent that lives in Signal, Telegram, Discord, and WhatsApp
 | --- | --- |
 | Nov 24, 2025 | Warelay |
 | Dec 3, 2025 | CLAWDIS |
-| Jan 2, 2026 | Clawdbot |
+| Before Jan 27, 2026 | Clawdbot |
 | Jan 27, 2026 | Moltbot, after trademark complaints from Anthropic |
 | Jan 30, 2026 | OpenClaw |
 
@@ -196,9 +196,9 @@ OpenClaw is an open-source personal assistant agent by Peter Steinberger. It run
 
 It grew faster than almost any project before it. Moltbook, a social network for AI agents launched by Matt Schlicht, rode the same wave.
 
-On February 14, 2026, Steinberger announced he was joining OpenAI and that a non-profit OpenClaw Foundation would steward the project. OpenClaw 2.0 shipped on August 30, 2026.
+On [February 14, 2026, Steinberger announced](https://steipete.me/posts/2026/openclaw) he was joining OpenAI and working to move OpenClaw to an independent foundation. OpenClaw 2.0 shipped on August 30, 2026.
 
-The naming history comes from Wikipedia's article on OpenClaw, linked in the module.
+The January renames come from [OpenClaw's own naming history](https://docs.openclaw.ai/start/lore).
 -->
 
 ---
@@ -216,9 +216,9 @@ People want an agent that keeps memory between sessions and can act across their
 
 A personal agent reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous (module 11).
 
-On exposed instances, late January to early February 2026, figures differ by researcher. Censys reported about 21,600; Bitsight more than 30,000. Early versions bound the gateway to all network interfaces by default.
+[Censys counted 21,639 exposed instances on January 31](https://censys.com/blog/openclaw-in-the-wild-mapping-the-public-exposure-of-a-viral-ai-assistant/). [Bitsight counted more than 30,000 across January 27–February 8](https://www.bitsight.com/blog/openclaw-ai-security-risks-exposed-instances). These are different observation windows. Censys says the default listener was localhost; public exposure came from deployment choices.
 
-On skills, Koi Security reported auditing 2,857 skills on the public ClawHub registry and flagging 341 as malicious, attributed to one campaign that delivered password-stealing malware to macOS and Windows users. The maintainers responded with reporting tools, malware scanning, and minimum account ages for uploaders.
+On skills, [Koi Security's archived audit](https://web.archive.org/web/20260210212946/https://www.koi.ai/blog/clawhavoc-341-malicious-clawedbot-skills-found-by-the-bot-they-were-targeting) examined 2,857 skills on ClawHub and flagged 341 as malicious, 335 tied to one campaign that delivered password-stealing malware to macOS and Windows users. The maintainers responded with reporting tools, malware scanning, and minimum account ages for uploaders.
 
 Institutions noticed. In March 2026, Chinese authorities reportedly restricted state agencies and state-owned firms from running OpenClaw on office computers. Reviewers of the 2.0 release still criticized it for not enabling its sandbox by default and not encrypting stored secrets.
 
@@ -491,7 +491,7 @@ For a course, use the log to assess learning (module 15). A merged PR alone does
 
 ## Review before the maintainer does
 
-> **Bryan's take:** Having several agents or models review each other's work is valuable. That applies before you open a pull request on someone else's project too. Run a second reviewer over your diff before a maintainer has to.
+> **Bryan's take:** Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.
 
 <!--
 My opinion from daily use. It ties back to module 10 (AI code review) and to the student checklist on the previous slide: get a second opinion before the maintainers' opinion.

@@ -253,13 +253,13 @@ Now let's work out how to pay for it.
 Individual tool plans: GitHub Copilot $10–$100, Cursor $8–$200.
 
 <!--
-Anthropic renamed Max 20x to Ultra on 30 October 2026 at the same $200 price; the old Max 5x is now just Max. That was reported by multiple outlets and is consistent with the pricing page. Ultra also includes $200 a month in API credits. Pro is $17 a month billed annually.
+Anthropic renamed Max 20x to Ultra on 30 October 2026 at the same $200 price; the old Max 5x is now just Max. [Anthropic's naming note](https://claude.com/resources/articles/create-files) dates the change, and its [Ultra help page](https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan) confirms the rename and limits. Ultra also includes $200 a month in API credits. Pro is $17 a month billed annually.
 
-OpenAI added the $100 Pro tier on 9 April 2026 and the $500 tier at the end of September 2026, when it also lowered the allowance for new $200 subscribers (reported). Free and Go ($8) tiers give limited Codex access on a small model.
+OpenAI added the $100 Pro tier on 9 April 2026 and the $500 tier by late September ([OpenAI weekly update](https://learn.chatgpt.com/docs/whats-new/september-28-october-2-2026)). New $200 subscriptions have a lower allowance; eligible existing subscribers kept the old allowance only through October 29, 2026 ([Pro tier terms](https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers)). Free and Go ($8) tiers give limited Codex access on a small model.
 
 Team seats: Anthropic Team is $25 a month standard ($20 annual) and $125 premium ($100 annual). OpenAI Business is $25 ($20 annual).
 
-On the tools, Copilot allowances are in "GitHub AI Credits" (1 credit = $0.01). Cursor rebuilt its lineup around a shared subscription with xAI in late October 2026 (reported); its Plus plan is limited to Grok models, and Claude, GPT, and Gemini are billed at API list price. Tool pricing moves fast.
+On the tools, Copilot allowances are in "GitHub AI Credits" ([1 credit = $0.01](https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing)). Cursor [announced its shared subscription with xAI](https://forum.cursor.com/t/introducing-the-x-subscription/174450) on October 12, 2026. Plus includes Grok and Composer; third-party models on Premium and above are billed separately at API list price. Tool pricing moves fast.
 -->
 
 ---
@@ -278,7 +278,7 @@ Whether vendors make or lose money on heavy users isn't public.
 
 On weekly limits, Anthropic announced on 28 July 2025 that weekly limits would start 28 August 2025 for Pro and Max. It cited users running Claude Code "continuously in the background, 24/7" and account sharing, and estimated fewer than 5% of subscribers would be affected. Its estimates then: Pro about 40–80 hours of Sonnet 4 a week; the $200 Max tier about 240–480 hours of Sonnet and 24–40 hours of Opus. Reporters calculated the "20x" plan gave about 6x Pro's Claude Code hours.
 
-On third-party tools, as of November 2026, Anthropic says plan sign-in is for Claude Code and its own apps; products, including ones built with the Agent SDK, must use API keys. It began blocking tools that spoofed the Claude Code harness in January 2026. Running the unmodified Claude Code binary with your own subscription is allowed. OpenAI lets you sign into Codex with a plan or an API key, and in September 2026 opened "Sign in with ChatGPT" so subscribers can spend their allowance in partner tools.
+On third-party tools, as of November 2026, Anthropic says plan sign-in is for Claude Code and its own apps; products, including ones built with the Agent SDK, must use API keys. It began blocking tools that spoofed the Claude Code harness in January 2026. Running the unmodified Claude Code binary with your own subscription is allowed. OpenAI lets you sign into Codex with a plan or an API key. Its [September 28 integration guide](https://learn.chatgpt.com/cookbook/articles/sign-in-with-chatgpt) documents third-party sign-in and optional plan-usage permission for eligible Plus and Pro users. Identity sign-in and permission to spend usage are separate.
 
 These policies changed several times in a year. If your workflow depends on a consumer plan inside a third-party tool, have a fallback.
 -->

@@ -249,7 +249,7 @@ In code, hallucinations show up as invented APIs, nonexistent package names (whi
 
 **Sycophancy** is the tendency to tell you what you want to hear: agreeing with your wrong diagnosis, praising weak code, or caving when you push back on a correct answer.
 
-It comes partly from training on human preferences. People tend to rate agreeable, flattering answers highly. [Sharma et al. (2023)](https://arxiv.org/abs/2310.13548) found sycophancy across several assistants and showed that both humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In April 2025, OpenAI rolled back a GPT-4o update in ChatGPT that had become noticeably flattering. In a follow-up post, it said an added reward signal based on users' thumbs-up and thumbs-down ratings had weakened the check that kept sycophancy down ([OpenAI, April 2025](https://openai.com/index/sycophancy-in-gpt-4o/); [OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)).
+It comes partly from training on human preferences. People tend to rate agreeable, flattering answers highly. [Sharma et al. (2023)](https://arxiv.org/abs/2310.13548) found sycophancy across several assistants and showed that both humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In April 2025, OpenAI rolled back a GPT-4o update in ChatGPT that had become noticeably flattering. In its May 2 follow-up, OpenAI's early assessment was that combined changes, including a new reward signal from users' thumbs-up and thumbs-down ratings, weakened its main check on sycophancy ([OpenAI, April 2025](https://openai.com/index/sycophancy-in-gpt-4o/); [OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)).
 
 A lot of the mitigation is in how you ask. Request critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work ([module 10](10-ai-code-review.md)).
 
@@ -358,7 +358,7 @@ Researchers keep probing alternatives and hybrids: state-space models such as Ma
 
 ## Bryan's take
 
-Bryan defines "vibe coding" for this course as AI-accelerated engineering with a human in charge ([module 00](00-orientation.md#what-we-mean-by-vibe-coding)). The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it. Bryan's views on which models suit which jobs are in [module 03](03-model-landscape.md).
+This course is about AI-accelerated coding, not vibe coding: a person reads, tests, and owns what ships ([module 00](00-orientation.md#ai-accelerated-coding-not-vibe-coding)). The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it. Bryan's views on which models suit which jobs are in [module 03](03-model-landscape.md).
 
 ## Try it
 

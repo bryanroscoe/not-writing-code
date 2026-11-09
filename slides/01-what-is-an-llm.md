@@ -364,7 +364,7 @@ Ask for critique, not approval. Then get a second model or a fresh session.
 <!--
 This is sycophancy, the tendency to tell you what you want to hear. It agrees with your wrong diagnosis, praises weak code, or caves when you push back on a correct answer.
 
-Sharma et al. (2023) found it across several assistants and showed that humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In its follow-up post on the GPT-4o rollback, OpenAI said an added reward signal based on users' thumbs-up and thumbs-down ratings had weakened the check that kept sycophancy down.
+Sharma et al. (2023) found it across several assistants and showed that humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In its [May 2 follow-up on the GPT-4o rollback](https://openai.com/index/expanding-on-sycophancy/), OpenAI's early assessment was that combined changes, including a new reward signal from user ratings, weakened its main check on sycophancy.
 
 So ask for critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work. Module 10 builds on this.
 -->
@@ -415,7 +415,7 @@ The module sums this up. It knows patterns, not your system. Its knowledge is da
 
 ## Why a human stays accountable
 
-> **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding. The AI does most of the typing. A human still decides what to build, reads what matters, makes sure it's tested, and owns the result. That's the only version I'd teach.
+> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 From module 00
 

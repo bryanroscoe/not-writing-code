@@ -16,7 +16,7 @@ Skim Foundations and read the parts you don't already know. Read In practice clo
 
 | Module | Focus on |
 | --- | --- |
-| [00 Orientation](../modules/00-orientation.md) | TL;DR, "What we mean by vibe coding," the six durable ideas |
+| [00 Orientation](../modules/00-orientation.md) | TL;DR, "AI-accelerated coding, not vibe coding," the six durable ideas |
 | [06 Harnesses, tools, and MCP](../modules/06-harnesses-and-tools.md) | What a harness is, MCP, the rest of the toolkit, how to choose a harness, a sane baseline setup |
 | [07 Context engineering](../modules/07-context-engineering.md) | The buzzword ladder (so you can decode it), context limits in practice, the rise and fall of giant `CLAUDE.md` files |
 | [08 Agentic workflows](../modules/08-agentic-workflows.md) | All of In practice; Yegge's eight stages to locate yourself; the case for and against full autonomy |

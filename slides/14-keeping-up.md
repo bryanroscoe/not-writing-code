@@ -146,7 +146,7 @@ Fable 5, June 12 to July 1, 2026: US export controls applied immediately, and An
 
 Opus 5 to Opus 5.5: Opus 5.5, eight weeks after Opus 5, was widely liked. Newer isn't always better for you; test before switching.
 
-Off the slide: Anthropic's weekly usage limits (announced July 2025, started August 28) show that plans and quotas are part of your tool. GPT-5's launch in August 2025 removed older models from ChatGPT's picker; OpenAI restored GPT-4o for paid users within days, and Sam Altman called sudden deprecation a mistake. And in May 2026, reported degradation of GPT-5.5 in Codex; the Codex lead said on X that two issues were found and fixed and reset usage limits, with no detailed public postmortem found.
+Off the slide: Anthropic's weekly usage limits (announced July 2025, started August 28) show that plans and quotas are part of your tool. GPT-5's launch in August 2025 removed older models from ChatGPT's picker; OpenAI restored GPT-4o for paid users within days, and Sam Altman called sudden deprecation a mistake. On May 16, 2026, [Tibo Sottiaux said](https://x.com/thsottiaux/status/2055446089957036402) two fixed issues could explain the preceding ~48 hours of GPT-5.5 degradation in Codex, with monitoring still underway. He later [confirmed a usage-limit reset](https://x.com/thsottiaux/status/2055707616605835333). No detailed public postmortem was found.
 -->
 
 ---
@@ -255,7 +255,7 @@ Are competitors' benchmark numbers run the same way, or copied from their own la
 
 Demos show the best of many tries.
 
-OpenAI's GPT-6 Astra launch in September 2026 started with "a limited set of organizations."
+[OpenAI's GPT-6 Astra launch](https://openai.com/index/gpt-6-astra/) in September 2026 started with a limited set of organizations.
 
 Customer quotes usually come from partners with early access, and launch posts rarely say whether anyone checked the figures. Treat lab-run numbers the same way: Anthropic's Opus 5 post labels its headline Frontier-Bench results "an internal run."
 
@@ -280,9 +280,9 @@ The module's four tests are how launch numbers survive independent testing, how 
 
 Meta: the Llama 4 launch promoted a ranking earned by an experimental variant tuned for chat, not the released model. Arena said Meta's interpretation of its policy didn't match what it expects from providers.
 
-xAI: in February 2025, the Grok 3 launch chart left out o3-mini-high's majority-vote (cons@64) score; an OpenAI employee called it misleading and xAI disputed that. In May 2025, xAI reportedly blamed Grok's unprompted conspiracy-theory replies on an "unauthorized modification" of its system prompt. The July 2025 posts followed a code change; xAI apologized and said it would publish the bot's system prompt on GitHub.
+xAI: in February 2025, the Grok 3 launch chart left out o3-mini-high's majority-vote (cons@64) score; an OpenAI employee called it misleading and xAI disputed that. In its [May 2025 statement](https://x.com/xai/status/1923183620606619649), xAI blamed Grok's unprompted conspiracy-theory replies on an "unauthorized modification" of its system prompt. The July 2025 posts followed a code change; xAI apologized and said it would publish the bot's system prompt on GitHub.
 
-OpenAI has the GPT-4o sycophancy rollback and the GPT-5 model-picker reversal against it. In its favor, it retired SWE-bench Verified after an audit found many of its hardest tasks had flawed tests or descriptions, and published the detailed "Ghosts in the Codex Machine" investigation (October 2025). The May 2026 Codex episode got no comparable write-up.
+OpenAI has the GPT-4o sycophancy rollback and the GPT-5 model-picker reversal against it. In its favor, it retired SWE-bench Verified after [an audit](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) found material flaws in 59.4% of 138 tasks o3 did not consistently solve, alongside contamination evidence, and published the detailed "Ghosts in the Codex Machine" investigation (October 2025). The May 2026 Codex episode got no comparable write-up.
 
 Anthropic: the postmortems came after weeks in which users noticed problems first. And the Opus 5 launch, whose strong benchmarks didn't match a lot of users' daily experience.
 
@@ -316,7 +316,7 @@ Your golden tasks will tell you whether it shows up in *your* work.
 <!--
 Against: Google acknowledged it had fed the model still frames and text prompts rather than live video and voice (TechCrunch, December 2023). The June 2026 comparison was the Terminal-Bench team's Harbor-Index, in both a native and a neutral harness; the post notes none of its pairwise comparisons reached statistical significance.
 
-For: Google DeepMind's International Mathematical Olympiad gold-medal result was "officially graded and certified by IMO coordinators," a higher bar of verification than many lab claims get. As of November 8, 2026, Gemini 4 Carbon is number one on Arena's text leaderboard, with its rating still marked preliminary. Google also reports a leading Terminal-Bench 4.0 score for it, as run by Artificial Analysis.
+For: Google DeepMind's International Mathematical Olympiad gold-medal result was "officially graded and certified by IMO coordinators," a higher bar of verification than many lab claims get. As of November 8, 2026, Gemini 4 Carbon (High) is number one on [Arena's text leaderboard](https://arena.ai/leaderboard/text), with its rating still marked preliminary. Google also reports a leading Terminal-Bench 4.0 score for it, as run by Artificial Analysis.
 
 An afternoon with your golden tasks will tell you whether that helps your coding work.
 -->

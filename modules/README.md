@@ -4,7 +4,7 @@ Sixteen modules, in reading order. Every module has the same layers: Foundations
 
 | # | Module | What you'll learn |
 | --- | --- | --- |
-| 00 | [Orientation](00-orientation.md) | What this is, what "vibe coding" means here, six ideas that outlast the hype |
+| 00 | [Orientation](00-orientation.md) | What this is, AI-accelerated coding vs vibe coding, six ideas that outlast the hype |
 | 01 | [What is an LLM?](01-what-is-an-llm.md) | Tokens, transformers ("Attention Is All You Need"), pretraining, reasoning models, hallucination |
 | 02 | [Training, tuning, and self-tuning](02-training-and-tuning.md) | How models are made, fine-tuning open weights with LoRA, distillation, models that update their own weights |
 | 03 | [The model landscape](03-model-landscape.md) | The labs, current lineups, where Meta's Muse fits, the best model for each job |

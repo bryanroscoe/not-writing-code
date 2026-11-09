@@ -4,8 +4,8 @@ site_name: A Brief Introduction to Not Writing Code
 site_description: A knowledge base and short course on AI-accelerated software engineering, with a human in charge.
 site_author: Bryan Roscoe
 site_url: https://notwritingcode.bryanroscoe.com/
-repo_url: https://github.com/bryanroscoe/vibe-code-tutorial
-repo_name: bryanroscoe/vibe-code-tutorial
+repo_url: https://github.com/bryanroscoe/not-writing-code
+repo_name: bryanroscoe/not-writing-code
 edit_uri: edit/main/
 copyright: Content CC BY 4.0 · Code MIT · Bryan Roscoe
 

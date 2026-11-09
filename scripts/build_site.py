@@ -25,7 +25,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 BUILD = ROOT / "build"
 DOCS = BUILD / "docs"
 MARP = "@marp-team/marp-cli@4.5.1"
-# Copied into the site. AGENTS.md, CLAUDE.md, and AUTHOR-REVIEW.md stay repo-only.
+# Copied into the site. AGENTS.md and CLAUDE.md stay repo-only.
 DIRS = ["modules", "paths", "course", "workplace", "reference", "assets"]
 FILES = ["CONTRIBUTING.md", "LICENSE"]
 
@@ -60,7 +60,7 @@ def assemble():
 
 
 LINK = re.compile(r"\]\(([^)\s]+)\)")
-GITHUB = "https://github.com/bryanroscoe/vibe-code-tutorial"
+GITHUB = "https://github.com/bryanroscoe/not-writing-code"
 
 
 def fix_links(md):
@@ -159,7 +159,7 @@ def write_slides_index(found, formats):
     lines += [
         "",
         "The decks are written in [Marp](https://marp.app/) Markdown in the repo's",
-        "[`slides/`](https://github.com/bryanroscoe/vibe-code-tutorial/tree/main/slides) folder,",
+        "[`slides/`](https://github.com/bryanroscoe/not-writing-code/tree/main/slides) folder,",
         "which also explains the conventions for writing one.",
         "",
     ]

@@ -446,7 +446,7 @@ Cross-agent review still needs verification, triage, the human checklist, and ow
 
 ## On which models review
 
-> **Bryan's take:** For code, Claude and Codex are the two I trust right now, so they review each other: whichever one wrote the change, the other one reviews it. Every finding still gets checked before anyone acts on it. Model rankings change fast; see [module 03](../modules/03-model-landscape/).
+> **Bryan's take:** For code, Claude and Codex are the two I trust right now, so they review each other: whichever one wrote the change, the other one reviews it. Model rankings change fast; see [module 03](../modules/03-model-landscape/).
 
 <!--
 The model picks are dated, and the take says so. Keep the practice from module 09: a different lab's model reviews, and every finding gets verified before anyone acts on it.

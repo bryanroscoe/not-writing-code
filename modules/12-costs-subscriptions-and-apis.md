@@ -71,7 +71,7 @@ These prices come from the vendors' pages on 8 November 2026 and change often, s
 | | Plus | $20 | Codex on web, CLI, IDE; can buy extra credits |
 | | Pro | $100, $200, or $500 | Higher limits; the $500 tier adds "Ultrafast" mode |
 
-On 30 October 2026 Anthropic renamed Max 20x to Ultra at the same $200 price, and the old Max 5x became just Max. The old name described usage per five-hour window; the pricing page now describes Ultra by its weekly allowance, 10x Pro (reported by multiple outlets, consistent with the pricing page). OpenAI added the $100 Pro tier on 9 April 2026 ([TechCrunch](https://techcrunch.com/2026/04/09/chatgpt-pro-plan-100-month-codex/)) and the $500 tier at the end of September 2026, when it also lowered the allowance for new $200 subscribers (reported).
+On 30 October 2026 Anthropic renamed Max 20x to Ultra at the same $200 price, and the old Max 5x became just Max. The old name described usage per five-hour window; the pricing page now describes Ultra by its weekly allowance, 10x Pro ([Ultra help page](https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan); [Anthropic's October 30 naming note](https://claude.com/resources/articles/create-files)). OpenAI added the $100 Pro tier on 9 April 2026 ([TechCrunch](https://techcrunch.com/2026/04/09/chatgpt-pro-plan-100-month-codex/)) and the $500 tier by late September ([OpenAI weekly update](https://learn.chatgpt.com/docs/whats-new/september-28-october-2-2026)). New $200 subscriptions have a lower allowance; eligible existing subscribers kept the old allowance only through October 29, 2026 ([Pro tier terms](https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers)).
 
 **Team plans (USD per seat per month)**
 
@@ -80,17 +80,17 @@ On 30 October 2026 Anthropic renamed Max 20x to Ultra at the same $200 price, an
 | Anthropic | Team, standard seat | $25 monthly / $20 annual | More usage than Pro; no training on your content by default; up to $500/mo pooled API credits |
 | | Team, premium seat | $125 monthly / $100 annual | 5x standard-seat usage |
 | | Enterprise | $20/seat (annual, 20-seat minimum) + usage at API rates | Admin spend limits, SCIM, audit logs, custom retention |
-| OpenAI | Business | $25 monthly / $20 annual | Codex usage similar to Plus |
+| OpenAI ([pricing](https://learn.chatgpt.com/docs/pricing)) | Business | $25 monthly / $20 annual | Standard seat; at least 2 users; Codex usage similar to Plus |
 | | Enterprise / Edu | Contact sales | Flexible credit-based pricing available |
 
 **Tool subscriptions (USD per user per month)**
 
 | Tool | Plans | Notes |
 | --- | --- | --- |
-| GitHub Copilot ([plans](https://docs.github.com/en/copilot/get-started/plans)) | Free; Pro $10; Pro+ $39; Max $100; Business $19; Enterprise $39 | Allowances in "GitHub AI Credits" (1 credit = $0.01): Pro includes 1,500, Pro+ 7,000, Max 20,000, Business 1,900, Enterprise 3,900; cost per request depends on the model |
-| Cursor ([pricing](https://cursor.com/pricing)) | Free; Plus $8; Premium $30; Super $100; Ultra $200; Teams from $30 | Pools of usage that refresh weekly; Plus is limited to xAI's Grok models; Claude, GPT, and Gemini are billed separately at API list price |
+| GitHub Copilot ([plans](https://docs.github.com/en/copilot/get-started/plans), [credit billing](https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing)) | Free; Pro $10; Pro+ $39; Max $100; Business $19; Enterprise $39 | Allowances in "GitHub AI Credits" (1 credit = $0.01): Pro includes 1,500, Pro+ 7,000, Max 20,000, Business 1,900, Enterprise 3,900; cost per request depends on the model |
+| Cursor ([pricing](https://cursor.com/pricing)) | Free; Plus $8; Premium $30; Super $100; Ultra $200; Teams from $30 | Pools of usage that refresh weekly; Plus includes Grok and Composer; Claude, GPT, and Gemini are billed separately at API list price |
 
-Cursor's lineup was rebuilt around a shared subscription with xAI in late October 2026 (reported), with older plans grandfathered.
+Cursor announced its shared subscription with xAI on October 12, 2026. Existing plans continue until users switch ([Cursor announcement](https://forum.cursor.com/t/introducing-the-x-subscription/174450)). Plus includes Composer too ([Cursor staff clarification](https://forum.cursor.com/t/introducing-the-x-subscription/174450?page=4)).
 
 **API prices (USD per million tokens, standard tier)**
 
@@ -171,13 +171,13 @@ A subscription is a flat fee with a cap. Use less than the cap and you overpay c
 What's public is that the caps keep changing:
 
 - Anthropic announced on 28 July 2025 that weekly limits would start on 28 August 2025 for Pro and Max, on top of the existing 5-hour windows. It cited users running Claude Code "continuously in the background, 24/7" and account sharing, and estimated fewer than 5% of subscribers would be affected ([TechCrunch](https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/)). At the time it estimated Pro at about 40–80 hours of Sonnet 4 per week, and the $200 Max tier at about 240–480 hours of Sonnet and 24–40 hours of Opus.
-- Both vendors reshuffled their plans in 2026. OpenAI added $100 and $500 Pro tiers and cut the $200 tier's allowance for new subscribers. Anthropic renamed its $200 tier Ultra, removed the 5-hour window for verified Ultra accounts, and kept weekly limits. Anthropic's Max and Ultra now include monthly API credits, and both vendors sell extra usage beyond the cap.
+- Both vendors reshuffled their plans in 2026. OpenAI added $100 and $500 Pro tiers and cut the $200 tier's allowance, with the old allowance for eligible subscribers ending October 29 ([Pro tier terms](https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers)). Anthropic renamed its $200 tier Ultra, removed the 5-hour window for verified Ultra accounts, and kept weekly limits. Anthropic's Max and Ultra now include monthly API credits, and both vendors sell extra usage beyond the cap.
 - Caps are sold as usage multiples, and "5x Pro" tells you nothing about tokens. Advertised multiples and real allowances have diverged before. In 2025, reporters calculated that the "20x" plan gave about 6x Pro's Claude Code hours under the new weekly limits.
 
 Rules for using a subscription outside the vendor's own tools changed in 2026 and differ by vendor:
 
 - Anthropic says OAuth sign-in from Free, Pro, Max, and Ultra plans is for Claude Code and Anthropic's own apps. Developers building products, including with the Agent SDK, must use API keys, and third parties may not route requests through subscription credentials ([Claude Code legal and compliance](https://code.claude.com/docs/en/legal-and-compliance)). Anthropic began actively blocking third-party tools that spoofed the Claude Code harness in January 2026, and in February 2026 it spelled out the OAuth rule on that compliance page. Its consumer terms had already banned unauthorized automated access since at least 2024 ([The Register](https://www.theregister.com/2026/02/20/anthropic_clarifies_ban_third_party_claude_access)). Running the unmodified Claude Code binary with your own subscription is allowed, including where a platform hosts it.
-- OpenAI lets you sign into Codex with a ChatGPT plan for subscription access or with an API key for metered access ([docs](https://learn.chatgpt.com/docs/auth)). It has also been more open to third-party tools: it reportedly worked with the open-source OpenCode harness, and in September 2026 opened "Sign in with ChatGPT" so subscribers can spend their plan's allowance inside partner tools ([The New Stack](https://thenewstack.io/sign-in-with-chatgpt/)). Check the current terms before you rely on this.
+- OpenAI lets you sign into Codex with a ChatGPT plan for subscription access or with an API key for metered access ([docs](https://learn.chatgpt.com/docs/auth)). Its September 28, 2026 [integration guide](https://learn.chatgpt.com/cookbook/articles/sign-in-with-chatgpt) documents "Sign in with ChatGPT" for third-party apps. Eligible Plus and Pro users can grant access to their plan usage. Identity sign-in and permission to spend plan usage are separate; neither exposes ChatGPT conversations.
 
 These policies changed several times in one year. If your workflow depends on a consumer subscription inside a third-party tool, have a fallback.
 

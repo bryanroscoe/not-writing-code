@@ -84,24 +84,22 @@ For one terminal agent that works with any model, start with OpenCode or Aider. 
 
 OpenClaw is an open-source personal assistant agent by Peter Steinberger. It runs on your own machine, connects to a model of your choice, and talks to you through messaging apps such as Signal, Telegram, Discord and WhatsApp. It can act on your email, calendar, files and accounts, and it extends itself with skills (folders with a `SKILL.md`, the same format as Agent Skills).
 
-It changed names four times in about two months ([Wikipedia](https://en.wikipedia.org/wiki/OpenClaw)):
+It began as Warelay, then used Clawdbot, Moltbot and OpenClaw. The project's [own naming history](https://docs.openclaw.ai/start/lore) dates the two January renames:
 
 | Date | Name |
 | --- | --- |
-| Nov 24, 2025 | First published as **Warelay** |
-| Dec 3, 2025 | Renamed **CLAWDIS** |
-| Jan 2, 2026 | Renamed **Clawdbot** |
+| Before Jan 27, 2026 | **Clawdbot** |
 | Jan 27, 2026 | Renamed **Moltbot** after trademark complaints from Anthropic |
 | Jan 30, 2026 | Renamed **OpenClaw** |
 
-It grew faster than almost any project before it, passing 247,000 GitHub stars by early March 2026. Moltbook, a social network for AI agents launched by Matt Schlicht, rode the same wave. On February 14, 2026, Steinberger announced a move to OpenAI and said a non-profit OpenClaw Foundation would steward the project. OpenClaw 2.0 shipped on August 30, 2026.
+It grew faster than almost any project before it, passing 247,000 GitHub stars by early March 2026. Moltbook, a social network for AI agents launched by Matt Schlicht, rode the same wave. On [February 14, 2026, Steinberger announced](https://steipete.me/posts/2026/openclaw) he was joining OpenAI and working to move OpenClaw to an independent foundation. OpenClaw 2.0 shipped on August 30, 2026.
 
 OpenClaw exposed several demands and risks:
 
 - People want an agent that lives where they already talk, keeps memory between sessions, and can act across their accounts. That's a different product from a coding agent.
 - A personal agent is the lethal trifecta in one package. It reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous ([module 11](./11-security-and-prompt-injection.md)).
-- Deployment configuration is security policy. Security researchers reported tens of thousands of OpenClaw instances exposed to the internet in late January and early February 2026. [Censys counted 21,639 on January 31](https://censys.com/blog/openclaw-in-the-wild-mapping-the-public-exposure-of-a-viral-ai-assistant/), while [Bitsight reported more than 30,000](https://www.bitsight.com/blog/openclaw-ai-security-risks-exposed-instances). Censys explicitly says the default listener was localhost, so the public exposure came from deployment choices, not an all-interfaces default.
-- A skill registry is a software supply chain. Koi Security reported auditing 2,857 skills on the public ClawHub registry and flagging 341 as malicious, most of them reportedly tied to one campaign that delivered password-stealing malware to macOS and Windows users ([BleepingComputer](https://www.bleepingcomputer.com/news/security/malicious-moltbot-skills-used-to-push-password-stealing-malware/)). The maintainers responded with reporting tools, malware scanning, and minimum account ages for uploaders.
+- Deployment configuration is security policy. Security researchers reported tens of thousands of OpenClaw instances exposed to the internet in late January and early February 2026. [Censys counted 21,639 on January 31](https://censys.com/blog/openclaw-in-the-wild-mapping-the-public-exposure-of-a-viral-ai-assistant/), while [Bitsight counted more than 30,000 across January 27–February 8](https://www.bitsight.com/blog/openclaw-ai-security-risks-exposed-instances). Censys explicitly says the default listener was localhost, so the public exposure came from deployment choices, not an all-interfaces default.
+- A skill registry is a software supply chain. [Koi Security's archived audit](https://web.archive.org/web/20260210212946/https://www.koi.ai/blog/clawhavoc-341-malicious-clawedbot-skills-found-by-the-bot-they-were-targeting) examined 2,857 skills on the public ClawHub registry and flagged 341 as malicious, 335 tied to one campaign that delivered password-stealing malware to macOS and Windows users. The maintainers responded with reporting tools, malware scanning, and minimum account ages for uploaders.
 - Institutions noticed. In March 2026 Chinese authorities reportedly restricted state agencies and state-owned firms from running OpenClaw on office computers. Reviewers of the 2.0 release still criticized it for not enabling its sandbox by default and not encrypting stored secrets.
 
 An agent that can do everything on your behalf needs sandboxing, least-privilege credentials, vetted extensions, and confirmation before irreversible actions. The exposure counts alone don't tell you how many users had those controls.
@@ -295,7 +293,7 @@ MCP servers, skills and plugins run with your agent's permissions. Treat them li
 
 > **Bryan's take:** OpenClaw had a couple of issues, but it was Gas Town that really did not work for me.
 
-> **Bryan's take:** Having several agents or models review each other's work is valuable. That applies before you open a pull request on someone else's project too. Run a second reviewer over your diff before a maintainer has to.
+> **Bryan's take:** Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.
 
 ## Try it
 
@@ -339,8 +337,8 @@ The instructor prepares ten pull requests against a small project the class know
 - [Gentoo AI policy](https://wiki.gentoo.org/wiki/Project:Council/AI_policy); [QEMU code provenance policy](https://www.qemu.org/docs/master/devel/code-provenance.html); [LLVM AI tool use policy](https://llvm.org/docs/AIToolPolicy.html); [Linux kernel guidance for AI coding assistants](https://docs.kernel.org/process/coding-assistants.html); [Ghostty AI usage policy](https://github.com/ghostty-org/ghostty/blob/main/AI_POLICY.md).
 
 **Commentary and reporting**
-- [OpenClaw on Wikipedia](https://en.wikipedia.org/wiki/OpenClaw), for the naming timeline and later history.
-- BleepingComputer, [Malicious Moltbot skills used to push password-stealing malware](https://www.bleepingcomputer.com/news/security/malicious-moltbot-skills-used-to-push-password-stealing-malware/) (2026).
+- [OpenClaw naming history](https://docs.openclaw.ai/start/lore), and [Steinberger on joining OpenAI and planning a foundation](https://steipete.me/posts/2026/openclaw) (February 14, 2026).
+- Koi Security, [ClawHavoc: 341 Malicious Clawed Skills Found by the Bot They Were Targeting](https://web.archive.org/web/20260210212946/https://www.koi.ai/blog/clawhavoc-341-malicious-clawedbot-skills-found-by-the-bot-they-were-targeting) (February 2026; archived original).
 - The Register, [Curl shutters bug bounty program to remove incentive for submitting AI slop](https://www.theregister.com/2026/01/21/curl_ends_bug_bounty/) (Jan 2026).
 
 ## Terms introduced

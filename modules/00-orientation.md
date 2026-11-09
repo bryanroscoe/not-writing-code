@@ -4,7 +4,7 @@
 
 **TL;DR**
 - This is a course and knowledge base on **AI-accelerated software engineering**: using language models and coding agents to build real software faster, with a human still in charge.
-- "Vibe coding" originally meant *not reading the code at all*. We use the popular phrase but teach the opposite habit: you read it, test it, and answer for what you ship.
+- This isn't a vibe coding course. Vibe coding means you never really read the code. This is AI-accelerated coding: the AI does a lot of the typing, and you still read it, test it, and answer for what you ship.
 - This stuff changes monthly. So the durable ideas (how models work, context, verification, security, cost) come first, and the perishable details (model names, prices, leaderboards) are dated and kept in a few places.
 - Every module has three depth levels: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates). Pick your path in [`paths/`](../paths/).
 - Opinions are labelled **Bryan's take**. Everything else should be sourced. If you find something unsourced or stale, that's a bug.
@@ -22,15 +22,15 @@ That shift leaves two groups behind:
 
 This is for both groups, plus leads who want their teams to adopt these tools well. It starts at "what is a language model?" and ends with running several agents in parallel, having other agents review their work, and keeping it all secure and affordable.
 
-### What we mean by "vibe coding"
+### AI-accelerated coding, not vibe coding
 
 The phrase comes from a February 2, 2025 post by Andrej Karpathy, a founding member of OpenAI and former head of AI at Tesla. He described "a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists" ([Karpathy](https://twitter.com/karpathy/status/1886192184808149383)). You describe what you want, accept whatever the model writes, paste errors back in, and never read the diff.
 
 That's useful for throwaway projects, personal tools, and prototypes. It's a bad way to build software other people depend on. Simon Willison drew the line a month later: if you review, test, and can explain the code an LLM wrote, that's not vibe coding, it's software development with a powerful assistant ([Willison, "Not all AI-assisted programming is vibe coding"](https://simonwillison.net/2025/Mar/19/vibe-coding/)). In October 2025 he proposed "vibe engineering" for the disciplined version, and by early 2026 he reported that **"agentic engineering"** was winning as the name for it ([Willison, "Vibe engineering"](https://simonwillison.net/2025/Oct/7/vibe-engineering/)).
 
-The popular phrase stuck anyway, so we use it and mean the disciplined version throughout. The title, *A Brief Introduction to Not Writing Code*, is the same joke from the other side: you'll type a lot less code by hand, which makes the engineering around it matter more.
+People now use "vibe coding" loosely for any coding with AI. This course doesn't. When it says vibe coding, it means Karpathy's version: not reading the code. What the course teaches is AI-accelerated coding. The title, *A Brief Introduction to Not Writing Code*, is a joke with a point: you'll type a lot less code by hand, which makes the engineering around it matter more.
 
-> **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding. The AI does most of the typing. A human still decides what to build, reads what matters, makes sure it's tested, and owns the result. That's the only version I'd teach.
+> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 We'll return to this spectrum throughout the course:
 

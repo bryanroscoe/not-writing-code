@@ -99,7 +99,7 @@ The third map is Steve Yegge's eight stages, which describes the developer inste
 | 3 | "Agent in IDE, YOLO mode" | A sandbox or auto mode, plus hard deny rules |
 | 4 | "In IDE, wide agent" | Tests are the contract. Ask for output, not "done." |
 
-From "Welcome to Gas Town" (January 1, 2026). The right column is this course's advice.
+From [Yegge's republication of "Welcome to Gas Town"](https://yegge.ai/essays/welcome-to-gas-town/) (January 1, 2026). Labels excerpt his prose; full wording is in the notes. The right column is this course's advice.
 
 <!--
 Steve Yegge is a long-time engineer and blogger, and co-author with Gene Kim of the book Vibe Coding. On January 1, 2026 he published "Welcome to Gas Town," introducing his open-source agent orchestrator. Partway through, he asks readers to "locate yourself on the chart" of "The 8 Stages of Dev Evolution To AI." It's become common shorthand.
@@ -383,7 +383,7 @@ Part 3 is the debate about full autonomy. Give both sides a fair hearing. The pe
 
 <!--
 The case for:
-- METR measures the length of task (in human expert time) a model completes with 50% reliability, its time horizon. The original paper found it doubling roughly every seven months from 2019 to 2025. The January 2026 update estimated about 131 days for models since 2023 and about 89 days for models since 2024. In May 2026 METR reported that an early Claude Mythos Preview had a 50% horizon of "at least 16hrs (95% CI 8.5hrs to 55hrs)."
+- METR measures the length of task (in human expert time) a model completes with 50% reliability, its time horizon. The original paper found it doubling roughly every seven months from 2019 to 2025. The January 2026 update estimated about 131 days for models since 2023 and about 89 days for models since 2024. On May 8, 2026, METR added an early Claude Mythos Preview measurement: about 17.4 hours (95% CI 8.5–55 hours). Its [tracking page](https://metr.org/time-horizons/) warns that measurements above 16 hours are unreliable with the current task suite.
 - Nicholas Carlini at Anthropic (February 2026) had 16 parallel Claude agents build a C compiler in Rust over nearly 2,000 sessions. About 100,000 lines that compile Linux 6.9 for x86, ARM, and RISC-V. No orchestrator; agents claimed tasks with lock files.
 - Wilson Lin at Cursor (January 2026) had hundreds of concurrent agents that "ran for close to a week, writing over 1 million lines of code across 1,000 files" to build a browser.
 - StrongDM's charter (February 2026) says "Code must not be written by humans" and "Code must not be reviewed by humans."
@@ -502,7 +502,7 @@ If question 3 stalls: waiting on an agent feels like rest, not work. Time spent 
 
 - [Module 08: Agentic workflows](../modules/08-agentic-workflows/)
 - Anthropic, [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices)
-- Steve Yegge, [Welcome to Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) (January 1, 2026)
+- Steve Yegge, [Welcome to Gas Town](https://yegge.ai/essays/welcome-to-gas-town/) (January 1, 2026)
 - Becker et al. (METR), [the early-2025 developer productivity trial](https://arxiv.org/abs/2507.09089) (2025)
 
 <!--

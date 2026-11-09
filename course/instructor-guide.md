@@ -42,12 +42,12 @@ Do these in the four weeks before classes start.
 
 Pick two or three discussion prompts per session.
 
-### Week 1: what this course means by vibe coding
+### Week 1: AI-accelerated coding, not vibe coding
 
 Set the stance (AI-accelerated, human accountable), explain the tiers, and get everyone set up.
 
 **Talking points**
-- Karpathy's original "vibe coding" meant not reading the code. This course teaches the opposite habit. Show the spectrum table and point out that most of the course sits in the supervised-agent rows ([module 00](../modules/00-orientation.md#what-we-mean-by-vibe-coding)).
+- Karpathy's original "vibe coding" meant not reading the code. This course teaches the opposite habit. Show the spectrum table and point out that most of the course sits in the supervised-agent rows ([module 00](../modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding)).
 - The course builds on the six ideas that outlast the hype ([module 00](../modules/00-orientation.md#six-ideas-that-outlast-the-hype)).
 - In Anthropic's 2026 trial, the AI group scored 50% on a follow-up quiz against 67% for hand-coders, with the largest gap on debugging. That's why an AI course has AI-free work ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says)).
 - Walk through the AI-use policy and the AI log. Explain that disclosure is a professional norm.

@@ -74,7 +74,7 @@ There are two other common versions of this map.
 
 ### Steve Yegge's eight stages
 
-Steve Yegge is a long-time engineer and blogger, and co-author with Gene Kim of the book *Vibe Coding*. On January 1, 2026 he published "Welcome to Gas Town," a long post introducing his open-source agent orchestrator. In it, he asks readers to "locate yourself on the chart" of "The 8 Stages of Dev Evolution To AI" ([Yegge, 2026](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04)). The table quotes his wording for each stage exactly; the other two columns are this course's gloss.
+Steve Yegge is a long-time engineer and blogger, and co-author with Gene Kim of the book *Vibe Coding*. On January 1, 2026 he published "Welcome to Gas Town," a long post introducing his open-source agent orchestrator. In it, he asks readers to "locate yourself on the chart" of "The 8 Stages of Dev Evolution To AI" ([Yegge, 2026](https://yegge.ai/essays/welcome-to-gas-town/)). The table quotes the eight stages in the essay's prose, checked against [Yegge's own republication](https://yegge.ai/essays/welcome-to-gas-town/), which links back to the Medium original. The other two columns are this course's gloss.
 
 | Stage | Yegge's words | What it feels like | Moving up safely |
 | --- | --- | --- | --- |
@@ -338,7 +338,7 @@ The read-only exploration caught a security trap before any edits. The agent che
 
 Fully autonomous pipelines have produced some substantial results.
 
-**Agents can now work for hours.** METR measures the length of software tasks (in human expert time) that a model completes with 50% reliability. It calls this the model's **time horizon**. Its original paper found the horizon doubling roughly every seven months from 2019 to 2025 ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)). Its January 2026 update (Time Horizon 1.1) estimated faster recent doubling: about 131 days for models since 2023, and about 89 days for models since 2024 ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). In May 2026 METR reported, in a post on X, that an early version of Anthropic's Claude Mythos Preview had a 50% horizon of "at least 16hrs (95% CI 8.5hrs to 55hrs)," "at the upper end of what we can measure without new tasks" ([METR on X, 2026](https://x.com/METR_Evals/status/2052896621760004602)). Model specifics live in [module 03](./03-model-landscape.md).
+**Agents can now work for hours.** METR measures the length of software tasks (in human expert time) that a model completes with 50% reliability. It calls this the model's **time horizon**. Its original paper found the horizon doubling roughly every seven months from 2019 to 2025 ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)). Its January 2026 update (Time Horizon 1.1) estimated faster recent doubling: about 131 days for models since 2023, and about 89 days for models since 2024 ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). METR added an early Claude Mythos Preview measurement on May 8, 2026. Its chart data estimates a 50% horizon of about 17.4 hours (95% CI 8.5–55 hours), but the page warns that measurements above 16 hours are unreliable with its current task suite ([METR tracking page](https://metr.org/time-horizons/)). Model specifics live in [module 03](./03-model-landscape.md).
 
 **A C compiler, mostly unattended.** In February 2026 Nicholas Carlini of Anthropic described 16 parallel Claude agents (Opus 4.6) building a C compiler in Rust from scratch. Over nearly 2,000 sessions, about two weeks, and just under $20,000 in API costs, they produced roughly 100,000 lines that compile Linux 6.9 for x86, ARM and RISC-V, along with QEMU, FFmpeg, SQLite, PostgreSQL, Redis and Doom. It passes about 99% of most compiler test suites, including the GCC torture tests. There was no orchestrator agent; each agent claimed a task by writing a lock file in a shared repository ([Carlini, 2026](https://www.anthropic.com/engineering/building-c-compiler)).
 
@@ -431,7 +431,7 @@ The strongest counter-argument is that the trend lines are steep and the people 
 - [Solving a Million-Step LLM Task with Zero Errors](https://arxiv.org/abs/2511.09030) (Meyerson et al., 2025)
 
 **Primary sources**
-- Steve Yegge, [Welcome to Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) (January 1, 2026)
+- Steve Yegge, [Welcome to Gas Town](https://yegge.ai/essays/welcome-to-gas-town/) (January 1, 2026)
 - Dan Shapiro, [The Five Levels: from Spicy Autocomplete to the Software Factory](https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/) (January 23, 2026)
 - Anthropic, [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices) (docs, accessed November 2026; the April 2025 engineering post redirects here) and [Common workflows](https://code.claude.com/docs/en/common-workflows)
 - OpenAI, [Codex best practices](https://learn.chatgpt.com/guides/best-practices) (docs, accessed November 2026)
@@ -441,7 +441,7 @@ The strongest counter-argument is that the trend lines are steep and the people 
 - Wilson Lin, [Scaling long-running autonomous coding](https://cursor.com/blog/scaling-agents) (Cursor, January 14, 2026)
 - StrongDM, [Software Factory](https://factory.strongdm.ai/) (February 6, 2026)
 - Geoffrey Huntley, [Ralph Wiggum as a "software engineer"](https://ghuntley.com/ralph/) (July 14, 2025)
-- METR, [Time Horizon 1.1](https://metr.org/blog/2026-1-29-time-horizon-1-1/) (January 29, 2026), [time-horizon tracking page](https://metr.org/time-horizons/), and [Claude Mythos Preview measurement](https://x.com/METR_Evals/status/2052896621760004602) (May 2026)
+- METR, [Time Horizon 1.1](https://metr.org/blog/2026-1-29-time-horizon-1-1/) (January 29, 2026), [time-horizon tracking page](https://metr.org/time-horizons/), and [Claude Mythos Preview measurement and task-suite limit](https://metr.org/time-horizons/) (May 2026)
 - METR, [We are changing our developer productivity experiment design](https://metr.org/blog/2026-02-24-uplift-update/) (February 24, 2026)
 - METR, [Recent frontier models are reward hacking](https://metr.org/blog/2025-06-05-recent-reward-hacking/) (June 5, 2025)
 - METR, [Summary of METR's pre-deployment evaluation of GPT-5.6 Sol](https://metr.org/blog/2026-06-26-gpt-5-6-sol/) (June 26, 2026)
