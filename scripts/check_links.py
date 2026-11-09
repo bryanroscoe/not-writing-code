@@ -64,7 +64,8 @@ def anchors(path, cache={}):
 
 def main():
     broken = 0
-    files = sorted(p for p in ROOT.rglob("*.md") if ".git" not in p.parts)
+    skip = {".git", "build", "site", "node_modules"}
+    files = sorted(p for p in ROOT.rglob("*.md") if not skip & set(p.relative_to(ROOT).parts))
     for md in files:
         text = strip_code(md.read_text())
         for lineno, line in enumerate(text.splitlines(), 1):

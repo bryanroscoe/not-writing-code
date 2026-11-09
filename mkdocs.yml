@@ -1,0 +1,123 @@
+# Site config. Build with: python3 scripts/build_site.py
+# docs_dir is assembled from the repo by the build script; edit the source files, not build/.
+site_name: A Brief Introduction to Not Writing Code
+site_description: A knowledge base and short course on AI-accelerated software engineering, with a human in charge.
+site_author: Bryan Roscoe
+site_url: https://notwritingcode.bryanroscoe.com/
+repo_url: https://github.com/bryanroscoe/vibe-code-tutorial
+repo_name: bryanroscoe/vibe-code-tutorial
+edit_uri: edit/main/
+copyright: Content CC BY 4.0 · Code MIT · Bryan Roscoe
+
+docs_dir: build/docs
+site_dir: site
+
+theme:
+  name: material
+  logo: assets/icon.svg
+  favicon: assets/icon.svg
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+      # Match GitHub's heading anchors so links work on both GitHub and the site.
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - github-callouts
+  - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
+nav:
+  - Home: index.md
+  - Start here:
+      - paths/README.md
+      - Students: paths/students.md
+      - Engineers: paths/engineers.md
+      - Leads: paths/leads.md
+  - Modules:
+      - modules/README.md
+      - 00 Orientation: modules/00-orientation.md
+      - 01 What is an LLM?: modules/01-what-is-an-llm.md
+      - 02 Training and tuning: modules/02-training-and-tuning.md
+      - 03 Model landscape: modules/03-model-landscape.md
+      - 04 Open vs closed weights: modules/04-open-vs-closed-weights.md
+      - 05 Judging models: modules/05-judging-models.md
+      - 06 Harnesses and MCP: modules/06-harnesses-and-tools.md
+      - 07 Context engineering: modules/07-context-engineering.md
+      - 08 Agentic workflows: modules/08-agentic-workflows.md
+      - 09 Multiple agents: modules/09-multi-agent-systems.md
+      - 10 AI code review: modules/10-ai-code-review.md
+      - 11 Security: modules/11-security-and-prompt-injection.md
+      - 12 Costs: modules/12-costs-subscriptions-and-apis.md
+      - 13 Open source: modules/13-open-source-ecosystem.md
+      - 14 Keeping up: modules/14-keeping-up.md
+      - 15 Learning and careers: modules/15-learning-careers-and-responsibility.md
+  - Slides: slides/index.md
+  - Course:
+      - course/README.md
+      - Syllabus: course/syllabus.md
+      - Instructor guide: course/instructor-guide.md
+      - Labs:
+          - course/labs/README.md
+          - 1 Tokens and temperature: course/labs/lab-01-tokens-and-temperature.md
+          - 2 First agent session: course/labs/lab-02-first-agent-session.md
+          - 3 Plan, test, build: course/labs/lab-03-plan-test-build.md
+          - 4 Review AI code: course/labs/lab-04-review-ai-code.md
+          - 5 Prompt injection: course/labs/lab-05-prompt-injection.md
+          - 6 Your own eval: course/labs/lab-06-your-own-eval.md
+          - 7 Multi-agent review: course/labs/lab-07-multi-agent-review.md
+          - 8 Open-source contribution: course/labs/lab-08-open-source-contribution.md
+  - Workplace:
+      - workplace/README.md
+      - AI-first playbook: workplace/ai-first-playbook.md
+      - Objections: workplace/objections.md
+      - Session series: workplace/session-series.md
+      - Policy template: workplace/policy-template.md
+  - Reference:
+      - reference/README.md
+      - Glossary: reference/glossary.md
+      - Papers: reference/papers.md
+      - Timeline: reference/timeline.md
+  - Contributing: CONTRIBUTING.md

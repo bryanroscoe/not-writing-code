@@ -43,6 +43,7 @@ Modules are numbered in reading order. Link between them with relative links.
 | `reference/papers.md` | Annotated reading list of research papers |
 | `reference/timeline.md` | Dated history, 2017 to now |
 | `paths/*.md` | Reading paths per audience |
+| `slides/*.md` | One Marp slide deck per module (conventions in `slides/README.md`) |
 | `course/` | A semester course built from the modules, with labs |
 | `workplace/` | AI-first adoption playbook for engineering teams |
 
@@ -140,10 +141,11 @@ This field changes monthly. To keep the material useful:
 
 ## Tooling
 
-Two small scripts with no dependencies beyond Python 3. CI runs both on every pull request.
+CI runs all of these on every pull request.
 
 - `python3 scripts/check_links.py` checks that every relative link and heading anchor resolves.
 - `python3 scripts/build_reference.py` regenerates the generated halves of `reference/glossary.md` (from each module's "Terms introduced") and `reference/papers.md` (from each module's "Sources and further reading"). Text above the `BEGIN GENERATED` marker is hand-written and kept. Write terms as `- **Term**: definition`.
+- `python3 scripts/build_site.py` builds the website (MkDocs Material) and the slide decks (Marp) into `site/`. It needs `pip install -r requirements-site.txt` and Node.js. Add `--pdf --pptx` for downloadable decks (needs Chrome), or `--no-slides` to skip Node. Merges to `main` deploy the site to GitHub Pages.
 
 ## Privacy
 

@@ -1,0 +1,56 @@
+/* @theme not-writing-code */
+/* Marp theme for "A Brief Introduction to Not Writing Code". Built on Marp's default theme. */
+@import 'default';
+
+:root {
+  --accent: #ea580c;
+  --ink: #1f2328;
+  --muted: #59636e;
+  --paper: #ffffff;
+  --soft: #fff4ec;
+}
+
+section {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 28px;
+  line-height: 1.35;
+  color: var(--ink);
+  background: var(--paper);
+  padding: 56px 72px;
+  justify-content: flex-start;
+}
+
+h1, h2 { color: var(--ink); letter-spacing: -0.01em; }
+h1 { font-size: 52px; border-bottom: 4px solid var(--accent); padding-bottom: 8px; }
+h2 { font-size: 40px; }
+strong { color: var(--accent); }
+a { color: var(--accent); }
+table { font-size: 22px; }
+th { background: var(--soft); }
+code { font-size: 0.9em; }
+
+blockquote {
+  border-left: 8px solid var(--accent);
+  background: var(--soft);
+  color: var(--ink);
+  padding: 16px 24px;
+  margin: 16px 0;
+}
+
+footer, header { color: var(--muted); font-size: 16px; }
+section::after { color: var(--muted); font-size: 16px; }
+
+/* Title slide: <!-- _class: lead --> */
+section.lead { justify-content: center; }
+section.lead h1 { font-size: 64px; border-bottom: none; }
+section.lead p { color: var(--muted); font-size: 30px; }
+
+/* Section divider: <!-- _class: divider --> */
+section.divider { background: var(--accent); color: #fff; justify-content: center; }
+section.divider footer, section.divider::after { color: rgba(255, 255, 255, 0.85); }
+section.divider h1, section.divider h2 { color: #fff; border-bottom-color: #fff; }
+
+/* Bryan's take: <!-- _class: take --> */
+section.take { justify-content: center; }
+section.take blockquote { font-size: 34px; line-height: 1.4; }
+section.take h2 { color: var(--accent); }
