@@ -347,9 +347,9 @@ Why caution:
 
 ## Bryan's take
 
-> **Bryan's take:** Models that can tune their own weights are huge.
+> **Bryan's take:** Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?
 
-That's an opinion about direction. Read the claims in Going deeper with the demonstrated/deployed/speculation table next to you: the research results are real, and they are also small-scale and supervised.
+Mostly, yes, with an important asterisk: today's demonstrations improve a model on a narrow task under human-built scaffolding, which is a long way from a model improving itself in general. [Going deeper](#models-that-tune-themselves) separates the levels; read it with the demonstrated/deployed/speculation table next to you. The research results are real, and they are also small-scale and supervised.
 
 ## Try it
 

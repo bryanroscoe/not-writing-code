@@ -1,10 +1,10 @@
 <img src="assets/icon.svg" width="64" height="64" alt="">
 
-# Vibe Coding, Done Right
+# A Brief Introduction to Not Writing Code
 
-**A knowledge base and course on AI-accelerated software engineering.** It goes from "what is a language model?" to running several coding agents in parallel and having them review each other's work, while you stay the one accountable for what ships.
+**A knowledge base and short course on AI-accelerated software engineering.** It goes from "what is a language model?" to running several coding agents in parallel and having them review each other's work, while you stay the one accountable for what ships.
 
-"Vibe coding" originally meant prompting an AI and never reading the code. This material uses the popular name and teaches the disciplined version: AI does most of the typing; humans decide, verify, and own the result. See [what we mean by vibe coding](modules/00-orientation.md#what-we-mean-by-vibe-coding).
+The title is a joke with a point. You'll write a lot less code by hand, and do a lot more engineering. "Vibe coding" originally meant prompting an AI and never reading the code. This material uses the popular name and teaches the disciplined version: AI does most of the typing; humans decide, verify, and own the result. See [what we mean by vibe coding](modules/00-orientation.md#what-we-mean-by-vibe-coding).
 
 > **Status:** first full draft, November 2026. Facts are dated in each module's header. The field moves monthly, so check the **Last verified** date before you rely on a specific model name or price.
 
@@ -56,6 +56,10 @@ Every module has the same layers: **Foundations** (no background assumed), **In 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the module template, voice, and sourcing rules. Found something wrong or stale? That's a bug; please open an issue or a pull request with a source.
+
+## License
+
+The written material and slides are [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): reuse and adapt them with credit. The scripts and build configuration are MIT. See [LICENSE](LICENSE).
 
 ## About
 

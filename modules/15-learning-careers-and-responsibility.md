@@ -165,6 +165,18 @@ An honest summary: entry-level software work is getting harder to find, AI is a 
 | **Domain knowledge** | The agent doesn't know your users, your regulations, or why the weird business rule exists. |
 | **Communication** | Writing clear issues, design docs, and PR descriptions helps humans and agents alike. |
 | **Taste** | Knowing which of five working solutions is the one you'll be glad you kept in two years. |
+| **Product sense** | As agents take on more of the *how*, more of an engineer's day goes to *what* and *why*: which problem is worth solving, for whom, and what "done" looks like. |
+
+#### The classes you thought you'd never use
+
+When agents write more of the code, the parts of a CS degree that felt least like programming start to matter more.
+
+- **Software engineering and project management.** Estimation, scheduling, dependencies, and risk. Brooks's law, from *The Mythical Man-Month* (1975), says "adding manpower to a late software project makes it later," because coordination costs grow with every person you add. It applies to agents too: Cursor found that twenty agents working on one codebase slowed to the throughput of two or three ([module 09](./09-multi-agent-systems.md)).
+- **System design.** An agent can implement a design. Choosing the right one, and knowing which questions to ask about scale, failure, data, and cost, is still your job. Good system design chops also make your prompts better, because you know what to ask the agent about.
+- **Algorithms and data structures.** An agent can write a heap from memory. You still need to recognize when you need one, notice when its solution is accidentally quadratic, and, for now, pass interviews that test this directly.
+- **Communication and product.** Writing a clear spec, running a demo, and understanding what users actually need.
+
+> **Bryan's take:** Ultimately the engineer is much more in product now. Some of the classes software engineers take, the ones they don't think will be useful, turn out to be among the most important. I used Gantt charts and quoted *The Mythical Man-Month* far more in my career than I expected. You still need to know the algorithms to pass the interviews, at least for now. Having good system design chops helps a lot too. You need to know what questions to talk to the agent about.
 
 #### Portfolios in the AI era
 
@@ -327,6 +339,8 @@ The responsible-use material above is what "a human in charge" means in practice
 
 ## Terms introduced
 
+- **Brooks's law:** Fred Brooks's observation that adding people to a late software project makes it later, because coordination costs grow with team size. It applies to adding agents too.
+- **Product sense:** Judgment about what is worth building, for whom, and what "done" means.
 - **Skill formation:** Building durable ability through practice, as distinct from completing a task.
 - **Cognitive offloading:** Handing mental work to a tool; helpful for routine work, harmful when it skips the thinking you're trying to learn.
 - **Cognitive debt:** Kosmyna et al.'s term for reduced engagement and recall that may accumulate when people rely on an LLM to do a task.

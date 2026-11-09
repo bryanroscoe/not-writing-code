@@ -1,4 +1,6 @@
-# Course proposal: AI-Accelerated Software Engineering
+# Course proposal: A Brief Introduction to Not Writing Code
+
+*AI-accelerated software engineering, with a human in charge.*
 
 > **Audience:** instructors, curriculum committees, and students · **Last verified:** 2026-11-08
 > **Status:** A proposal for an upper-level undergraduate computer science elective. No institution has approved or adopted it. Anything in `[square brackets]` is a placeholder for the adopting department to fill in.

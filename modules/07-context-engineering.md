@@ -369,6 +369,8 @@ Anthropic's 2024 advice still applies: find "the simplest solution possible," an
 
 ### Spec-driven development in practice
 
+Specs and prototypes work well together. When you can't write the spec yet, build a throwaway draft first and harvest the spec from what you learn ([module 08](./08-agentic-workflows.md#prototype-first-draft-driven-development)).
+
 A lightweight version works with any harness:
 
 1. Write `specs/<feature>.md`: problem, users, acceptance criteria, non-goals.
@@ -403,9 +405,11 @@ Instruction files, skills and rules are loaded as trusted context. A malicious p
 
 ## Bryan's take
 
-> **Bryan's take:** Big `CLAUDE.md` and `AGENTS.md` files were popular, and now they're not. Each line felt free to add, so the files kept growing. The research and the vendors' own docs have since caught up with what a lot of practitioners saw: past a point, the extra lines stop helping and start costing.
+> **Bryan's take:** Big `CLAUDE.md` and `AGENTS.md` files were popular, and now they're not.
 
-> **Bryan's take:** Loops with a hard, checkable goal and a human reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 08](./08-agentic-workflows.md#bryans-take).)
+> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 08](./08-agentic-workflows.md#bryans-take).)
+
+> **Bryan's take:** Context management is important. Once context gets stale, that's bad. Don't keep the same thread around for a long time. Models get dumber the larger the context gets and the longer a session has been going. Start fresh sessions often.
 
 The counter-evidence deserves a fair hearing. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These are real results from strong teams. They also come with heavy investment in harnesses, tests and verification, and they come from the companies selling the tools. [Module 08](./08-agentic-workflows.md) discusses how much autonomy works in practice.
 

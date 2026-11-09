@@ -53,6 +53,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Best-of-N**: Running the same task N times and keeping the best or majority result. ([09](../modules/09-multi-agent-systems.md))
 - **Blind A/B evaluation**: Comparing outputs with model identities hidden from the grader. ([05](../modules/05-judging-models.md))
 - **Brevity bias / context collapse**: Loss of useful detail when contexts are repeatedly summarized or rewritten. ([07](../modules/07-context-engineering.md))
+- **Brooks's law**: Fred Brooks's observation that adding people to a late software project makes it later, because coordination costs grow with team size. It applies to adding agents too. ([15](../modules/15-learning-careers-and-responsibility.md))
 - **Byte-pair encoding (BPE)**: A tokenization method that builds a vocabulary by repeatedly merging the most frequent adjacent symbol pairs. ([01](../modules/01-what-is-an-llm.md))
 
 ## C
@@ -258,12 +259,14 @@ Model names and product names change fast. Entries for specific models describe 
 - **Preference tuning**: Training a model on comparisons between better and worse responses. ([02](../modules/02-training-and-tuning.md))
 - **Pretraining**: The first, largest training phase: next-token prediction on huge text corpora. ([01](../modules/01-what-is-an-llm.md))
 - **Price floor**: The lowest price the market will bear, often set by cheaply hosted open models. ([03](../modules/03-model-landscape.md))
+- **Product sense**: Judgment about what is worth building, for whom, and what "done" means. ([15](../modules/15-learning-careers-and-responsibility.md))
 - **Progressive disclosure**: Showing an agent short descriptions first and full details only when needed. ([06](../modules/06-harnesses-and-tools.md))
 - **Prompt caching**: Reusing the KV cache for a repeated prompt prefix, usually at a discount. ([01](../modules/01-what-is-an-llm.md), [12](../modules/12-costs-subscriptions-and-apis.md))
 - **Prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer**: Anthropic's five common workflow patterns. ([07](../modules/07-context-engineering.md))
 - **Prompt engineering**: Writing the instructions and examples sent to a model to get the output you want. ([07](../modules/07-context-engineering.md))
 - **Prompt injection**: An attack where text supplied by someone other than the user (or the user against the app owner) is interpreted by a model as instructions. ([11](../modules/11-security-and-prompt-injection.md))
 - **Prompt tuning**: Learning "soft prompt" vectors instead of changing model weights. ([02](../modules/02-training-and-tuning.md))
+- **Prototype-driven (draft-driven) development**: Building a quick throwaway version first, reacting to it, then rebuilding or hardening the keeper on purpose. ([08](../modules/08-agentic-workflows.md))
 
 ## Q
 
@@ -320,6 +323,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Spec drift**: A specification falling out of sync with the code it describes. ([07](../modules/07-context-engineering.md))
 - **Spec-driven development**: Writing a specification, plan and task list before an agent implements. ([07](../modules/07-context-engineering.md))
 - **Spec-first**: Writing down requirements and a definition of done (often in a `SPEC.md`) before implementation starts. ([08](../modules/08-agentic-workflows.md))
+- **Spike**: A short, timeboxed experiment in code to answer a design question before committing to an approach. ([08](../modules/08-agentic-workflows.md))
 - **Stacked PRs**: A chain of small, dependent pull requests reviewed in order instead of one large one. ([10](../modules/10-ai-code-review.md))
 - **Stage (Yegge)**: One of eight levels in Steve Yegge's chart of how far a developer delegates to AI agents. ([08](../modules/08-agentic-workflows.md))
 - **Staged rollout**: Releasing a change to a fraction of users first, so different users see different versions at once. ([14](../modules/14-keeping-up.md))

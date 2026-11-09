@@ -297,7 +297,7 @@ MCP servers, skills and plugins run with your agent's permissions. Treat them li
 
 ## Bryan's take
 
-> **Bryan's take:** I don't believe fully autonomous agent workflows are reliable yet. OpenClaw's first months are a vivid example of the risk side of that: huge enthusiasm, real usefulness, and then exposed instances and malicious skills because people handed an autonomous agent their accounts with default settings.
+> **Bryan's take:** OpenClaw had a couple of issues, but it was Gas Town that really did not work for me.
 
 > **Bryan's take:** Having several agents or models review each other's work is valuable. That applies before you open a pull request on someone else's project too. Run a second reviewer over your diff before a maintainer has to.
 

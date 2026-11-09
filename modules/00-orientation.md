@@ -29,7 +29,7 @@ The phrase comes from a February 2, 2025 post by Andrej Karpathy, a founding mem
 
 That's a real and useful thing for throwaway projects, personal tools, and prototypes. It's a bad way to build software that other people depend on. Simon Willison drew the line a month later: if you review, test, and can explain the code an LLM wrote, that's not vibe coding, it's software development with a powerful assistant ([Willison, "Not all AI-assisted programming is vibe coding"](https://simonwillison.net/2025/Mar/19/vibe-coding/)). In October 2025 he proposed "vibe engineering" for the disciplined version, and by early 2026 he reported that **"agentic engineering"** was winning as the name for it ([Willison, "Vibe engineering"](https://simonwillison.net/2025/Oct/7/vibe-engineering/)).
 
-The popular phrase stuck anyway. People search for "vibe coding course," not "agentic engineering course." So we use the phrase in the title and mean the disciplined version throughout.
+The popular phrase stuck anyway. People search for "vibe coding course," not "agentic engineering course." So we use the phrase and mean the disciplined version throughout. The title of the whole thing, *A Brief Introduction to Not Writing Code*, is the same joke from the other side: you'll type much less code by hand, and that makes the engineering around it matter more.
 
 > **Bryan's take:** When I say vibe coding, I mean AI-accelerated coding, not really vibe coding. The AI does most of the typing. A human still decides what to build, reads what matters, makes sure it's tested, and owns the result. That's the only version I'd teach.
 

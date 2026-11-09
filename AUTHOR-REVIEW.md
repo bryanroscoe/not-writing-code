@@ -6,10 +6,10 @@ Things for Bryan to confirm, decide, or fix before this goes to Salisbury or to 
 
 These `Bryan's take` callouts take your stated opinions a step further. Confirm, edit, or delete:
 
-- [ ] [06](modules/06-harnesses-and-tools.md#bryans-take): "several CLI agents in parallel, each in its own worktree… I drive them through T3 Code, which lets me run Claude and Codex side by side."
-- [ ] [07](modules/07-context-engineering.md#bryans-take): "Loops with a hard, checkable goal and a human reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet."
+- [x] [06](modules/06-harnesses-and-tools.md#bryans-take): "several CLI agents in parallel, each in its own worktree… I drive them through T3 Code, which lets me run Claude and Codex side by side."
+- [x] [07](modules/07-context-engineering.md#bryans-take): "Loops with a hard, checkable goal and a human reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet."
 - [ ] [08](modules/08-agentic-workflows.md#bryans-take): "When I've let agents run long and unsupervised, I've come back to work that looks finished and isn't…" and the whole **"What would change my mind"** callout, which an agent drafted (there's an HTML comment there).
-- [ ] [09](modules/09-multi-agent-systems.md#bryans-take): "Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time."
+- [x] [09](modules/09-multi-agent-systems.md#bryans-take): "Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time."
 - [ ] [10](modules/10-ai-code-review.md#bryans-take): "If you only adopt one practice from this module, make it an independent review from a fresh context before every merge."
 - [ ] [13](modules/13-open-source-ecosystem.md#bryans-take): your autonomy skepticism applied to OpenClaw, and multi-model review applied to PRs on other people's projects.
 - [ ] [00](modules/00-orientation.md#what-we-mean-by-vibe-coding) and [leads path](paths/leads.md#what-ai-first-should-mean-on-your-team): wording of the "vibe coding" definition and "the realistic goal right now is every engineer is a confident supervisor of agents."

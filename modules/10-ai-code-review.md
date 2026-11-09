@@ -300,7 +300,7 @@ Goodhart's law applies: when a measure becomes a target, it stops being a good m
 
 ## Bryan's take
 
-> **Bryan's take:** Multi-agent review is one of the most valuable things you can do with these tools: several agents, and ideally several models, reviewing each other's work. If you only adopt one practice from this module, make it an independent review from a fresh context before every merge.
+> **Bryan's take:** Multi-agent review is one of the most valuable things you can do with these tools: several agents, and ideally several models, reviewing each other's work. Having a different agent review the work is good. It isn't the only thing to take away from this module, but it's an easy place to start.
 
 > **Bryan's take:** For code, Claude and Codex are the two I trust right now, so they review each other: whichever one wrote the change, the other one reviews it. Every finding still gets checked before anyone acts on it. Model rankings change fast; see [module 03](./03-model-landscape.md).
 

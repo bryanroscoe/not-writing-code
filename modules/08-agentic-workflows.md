@@ -134,6 +134,27 @@ Then make it pass without modifying the test. No new dependencies.
 
 **5. Commit.** Small, separate commits for the test and the fix. Write the message yourself or check the agent's.
 
+### Prototype first: draft-driven development
+
+The core loop assumes you know what you want. Often you don't, until you see something. That's where a prototype earns its keep.
+
+The idea is old. Fred Brooks wrote in *The Mythical Man-Month* (1975): "plan to throw one away; you will, anyhow." What changed is the price. A throwaway version used to cost weeks, so teams argued over specs instead. Now an agent can build one in minutes, and you can react to it instead of imagining it.
+
+There are two levels:
+
+- **Application level.** A clickable mockup, a single-page app, an [Artifact or Claude Design prototype](./06-harnesses-and-tools.md#closed-products-that-bundle-model-harness-and-tools). Put it in front of the people who'll use it. "Not that button, and where's the export?" is better feedback than any review of a requirements document.
+- **Code level.** A spike: try two shapes of an API, or two ways to structure a module, then look at the actual code and pick one. It's easier to judge code you can read than a design you have to picture.
+
+How to do it well:
+
+1. **Timebox it** and say out loud that it's a draft. Build it on a `spike/` branch or in a scratch folder, with a banner in the README.
+2. **Harvest what you learned** into a short spec: decisions, surprises, what users said ([spec-driven development](./07-context-engineering.md#spec-driven-development-in-practice)).
+3. **Rebuild or harden on purpose.** Either start fresh with the core loop above, tests first, or keep the prototype and review it as production code, line by line. Don't let it slide into production by default.
+
+The risk is the flip side of the benefit: a prototype *looks* finished. People (including you) start treating it as the real thing before anyone has checked error handling, security, or tests. Brooks himself later called his throw-one-away advice too simple and argued for growing software incrementally, in the 20th-anniversary edition (1995). The modern version of both ideas is the same: get to something concrete fast, then make the keeper solid.
+
+> **Bryan's take:** I like draft-driven or prototype-driven development, and you can do it with AI now. From a coding point of view or an application point of view, it's easier to comment on something you can see than to conceptualize it from scratch.
+
 ### Tests as the agent's contract
 
 **Test-driven development (TDD)** means writing a failing test before the code that makes it pass. It suits agents unusually well. Simon Willison: "Test-first development is particularly effective with agents that can iterate in a loop" ([Willison, 2025](https://simonwillison.net/2025/Oct/7/vibe-engineering/)).
@@ -361,12 +382,9 @@ The pattern: **autonomy scales with the strength of the automated oracle.** A C 
 
 ## Bryan's take
 
-> **Bryan's take:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, each on its own task, managed by hand. I haven't built my own orchestrator. That's where I've found the speed is real and the quality still holds, because I'm still the one deciding what gets merged.
+> **Bryan's take:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, each on its own task, managed by hand. I haven't built my own orchestrator. I still decide what gets merged, though honestly that's emergent to an extent. There are projects I mostly just vibe code. For work, I actually read the code.
 
-> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. When I've let agents run long and unsupervised, I've come back to work that looks finished and isn't, or that solved a slightly different problem than the one I had.
-
-<!-- Bryan: the "what would change my mind" list below is drafted from your stated position. Please confirm or edit. -->
-> **Bryan's take:** What would change my mind: a fully autonomous pipeline on an *existing* product codebase (not greenfield, not a project with a reference implementation to diff against) that ships for months with escaped-defect and revert rates no worse than a human-reviewed team, at a cost that's competitive with a subscription. Independent measurement, not a launch post.
+> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.
 
 The strongest counter-argument is that the trend lines are steep and the people closest to the frontier are already working this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons have grown from minutes to a working day in about two years. StrongDM's approach of holdout scenarios plus digital twins is a serious answer to "tests can be gamed." A reasonable position in late 2026 is that full autonomy works today for well-specified, oracle-rich, greenfield problems, and that the boundary of that set is moving. Check the evidence again in six months ([module 14](./14-keeping-up.md)).
 
@@ -394,6 +412,9 @@ The strongest counter-argument is that the trend lines are steep and the people 
 6. When should you move *down* a stage?
 
 ## Sources and further reading
+
+**Books**
+- Frederick P. Brooks Jr., *The Mythical Man-Month: Essays on Software Engineering* (Addison-Wesley, 1975; 20th-anniversary edition 1995). Source of "plan to throw one away" and Brooks's law.
 
 **Papers**
 - [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) (Yao et al., 2022)
@@ -432,6 +453,8 @@ The strongest counter-argument is that the trend lines are steep and the people 
 
 ## Terms introduced
 
+- **Prototype-driven (draft-driven) development:** building a quick throwaway version first, reacting to it, then rebuilding or hardening the keeper on purpose.
+- **Spike:** a short, timeboxed experiment in code to answer a design question before committing to an approach.
 - **Agent:** a language model running in a loop that can call tools, observe the results, and decide its next step.
 - **Agent loop:** the think → act → observe cycle an agent repeats until it decides it is done.
 - **ReAct:** a 2022 prompting pattern that interleaves written reasoning steps with tool actions; the basis of most agents.

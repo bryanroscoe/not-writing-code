@@ -1,4 +1,4 @@
-# Course: AI-Accelerated Software Engineering
+# Course: A Brief Introduction to Not Writing Code
 
 > **Last verified:** 2026-11-08 · **Status:** a proposal for an upper-level undergraduate CS elective, not an approved course anywhere. Bracketed placeholders mark what an adopting department fills in.
 

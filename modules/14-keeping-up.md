@@ -295,6 +295,8 @@ Look back at 2023–2024 advice. "Prompt tricks" mostly aged badly. "Give the mo
 
 ## Bryan's take
 
+> **Bryan's take:** The rapidly changing nature of all this is interesting too.
+
 Bryan's takes on Claude's and Codex's ups and downs and on Google's launch claims appear above, next to the evidence. His Opus 5 example is in [module 05](./05-judging-models.md#a-recent-example-opus-5-to-opus-55).
 
 What a reader can take from this without adopting the opinions: one bad release doesn't mean a lab has lost its way, and one great benchmark chart doesn't mean a model is better to work with. Both are reasons to test on your own tasks before switching.
