@@ -128,11 +128,19 @@ def build_slides(formats):
             shutil.copy2(p, src / p.name)
         for fmt in formats:
             flag = {"html": [], "pdf": ["--pdf"], "pptx": ["--pptx"]}[fmt]
+            if fmt != "html":
+                # Headless Chrome can stall when several decks render at once (seen on
+                # CI runners and laptops alike). Render one at a time with a long timeout.
+                flag += ["--no-parallel", "--browser-timeout", "300"]
             cmd = ["npx", "--yes", MARP, "--theme-set", str(ROOT / "slides" / "theme"),
                    "--input-dir", str(src), "--output", str(out), "--html",
                    "--allow-local-files", *flag]
-            print("+", " ".join(cmd))
-            subprocess.run(cmd, check=True, cwd=ROOT)
+            for attempt in (1, 2):
+                print("+", " ".join(cmd), f"(attempt {attempt})")
+                if subprocess.run(cmd, cwd=ROOT).returncode == 0:
+                    break
+                if attempt == 2:
+                    sys.exit(f"marp failed twice converting decks to {fmt}")
     write_slides_index(found, formats)
 
 

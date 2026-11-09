@@ -41,5 +41,5 @@ jobs:
       - run: pip install -r requirements-site.txt
       - name: Let Chrome use its sandbox on Ubuntu runners (for PDF export)
         run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
-      - name: Build site and decks (strict)
-        run: python3 scripts/build_site.py --pdf
+      - name: Build site and decks (strict; same formats as the Pages deploy)
+        run: python3 scripts/build_site.py --pdf --pptx
