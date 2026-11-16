@@ -1,6 +1,6 @@
 # Leads path
 
-This path is for engineering managers, tech leads, staff engineers, and anyone asked to "get the team using AI." It's about 3 hours of reading, then the [workplace playbook](../workplace/ai-first-playbook.md).
+This path is for engineering managers, tech leads, staff engineers, and anyone asked to "get the team using AI." It's about 3.5 hours of reading, then the [workplace playbook](../workplace/ai-first-playbook.md).
 
 ## Your job is different from your engineers'
 
@@ -13,12 +13,16 @@ Your engineers need to learn the tools. You need to decide which tools, under wh
 | [00 Orientation](../modules/00-orientation.md) | All | The vocabulary, the stance ("human stays accountable"), and the ground rules you can adopt as a starting policy |
 | [10 Agentic workflows](../modules/10-agentic-workflows.md) | TL;DR, The autonomy spectrum, Yegge's eight stages, Going deeper | Where your team is and where it's realistic to get. The honest case for and against full autonomy |
 | [07 How to tell if a model is good](../modules/07-judging-models.md) | Real-world productivity evidence, Vibes are data too, Build your own eval | What the studies actually show, so you can set expectations and resist both hype and dismissal |
+| [11 Verification](../modules/11-verification.md) | TL;DR, Stop hooks and CI gates, Protecting the verifier, Calibrating your own trust | What to require before agent output merges, and why gates hold up better than reviewers staying alert |
 | [13 AI code review](../modules/13-ai-code-review.md) | Why it matters now, A layered review workflow, Accountability, Team metrics | Review becomes the bottleneck when AI writes code. What to measure and what not to |
 | [14 Security and prompt injection](../modules/14-security-and-prompt-injection.md) | TL;DR, Real incidents, Team checklist | The risks that are actually new, and the controls you need before you widen access |
 | [15 Costs](../modules/15-costs-subscriptions-and-apis.md) | Three ways to pay, the worked example, Cost per task, not cost per token, Team budgeting | Subscriptions vs API, per-seat vs pooled, and how to frame ROI honestly |
+| [04 Model safety and alignment](../modules/04-model-safety-and-alignment.md) | TL;DR, Observed concerning behaviors: always ask where, Why your coding agent sometimes "cheats" | So you can answer an alarming headline with where the behavior was observed, and know what it means for your team's agents |
 | [05 The model landscape](../modules/05-model-landscape.md) | TL;DR, Best model for the job, How to pick a model next month | Enough to make a tool decision and to know when to revisit it |
 | [17 Keeping up](../modules/17-keeping-up.md) | Ups and downs are normal, When to switch tools, Team AI radar | How to keep a team current without constant churn |
 | [18 Learning, careers, and responsibility](../modules/18-learning-careers-and-responsibility.md) | What the evidence says, What the evidence says about early-career jobs, Responsible use, The human side | Junior development, deskilling, data handling, and burnout from supervising many agents |
+
+If you want to know what's under the hood, [02 How a model is made](../modules/02-how-a-model-is-made.md) and [03 Post-training and RL](../modules/03-post-training-and-rl.md) are the optional deeper read. Module 03 explains why agents got good at code and why they sometimes game tests.
 
 ## Decisions you'll have to make
 
