@@ -4,7 +4,7 @@ This is a proposal for an upper-level undergraduate CS elective, not an approved
 
 *Last checked November 8, 2026.*
 
-A 15-week course built from this knowledge base's [modules](../modules/). Students build real software with coding agents. They stay accountable for every line. They specify, test first, verify, review, secure, and explain. Some work is AI-free on purpose. Each team ships a small, real app.
+A course built from this knowledge base's [modules](../modules/), in six units: a one-hour orientation, then one unit for each of the five stages. The units are sized by content, so the course fits a semester, a short intensive, or self-paced study. Students build real software with coding agents. They stay accountable for every line. They specify, test first, verify, review, secure, and explain. Some work is AI-free on purpose. In an optional capstone, teams ship a small, real app.
 
 You need one frontier coding-agent plan (about $20/month as of November 2026) or an institutional license. No GPU, no model downloads, no API keys.
 
@@ -12,24 +12,24 @@ You need one frontier coding-agent plan (about $20/month as of November 2026) or
 
 | File | For | What it is |
 | --- | --- | --- |
-| [syllabus.md](syllabus.md) | Students, instructors, committees | Description, outcomes, tools and cost, weekly schedule, term project, assessment, the AI-use policy with its three tiers, and what to re-verify each term |
-| [instructor-guide.md](instructor-guide.md) | Instructors and TAs | Week-by-week talking points, demos, misconceptions, and discussion prompts; grading AI-assisted work; walkthroughs; mixed starting levels; failure-mode demos; the refresh checklist |
-| [labs/lab-01-tokens-and-temperature.md](labs/lab-01-tokens-and-temperature.md) | Week 2 | Predict and measure tokenization, simulate temperature, probe hallucination and sycophancy |
-| [labs/lab-02-first-agent-session.md](labs/lab-02-first-agent-session.md) | Week 3 | Install an agent, learn its permission modes, measure context, make one tested change |
-| [labs/lab-03-plan-test-build.md](labs/lab-03-plan-test-build.md) | Week 5 | The full explore → plan → implement → verify → commit loop, with your own tests as the contract and hidden tests for grading |
-| [labs/lab-04-review-ai-code.md](labs/lab-04-review-ai-code.md) | Week 7 | Plant five bugs for a partner; review by hand, then with AI; verify and score every finding |
-| [labs/lab-05-prompt-injection.md](labs/lab-05-prompt-injection.md) | Week 8 | Inject your own agent in a sandbox with a fake canary, then apply defenses one at a time. Strict safety rules |
-| [labs/lab-06-your-own-eval.md](labs/lab-06-your-own-eval.md) | Week 10 | The term project's eval set: golden tasks from the project's history, two configurations, hidden tests kept away from the agents, blind scoring, error bars |
-| [labs/lab-07-multi-agent-review.md](labs/lab-07-multi-agent-review.md) | Week 11 | The term project's cross-model review: a hand-built review swarm with adversarial verification on a teammate's PR, measured against one ordinary review |
-| [labs/lab-08-open-source-contribution.md](labs/lab-08-open-source-contribution.md) | Weeks 9–14 | One small, disclosed contribution to a project with a written AI policy, after a maintainer's go-ahead; a private class-run repository as the fallback or by choice |
+| [syllabus.md](syllabus.md) | Students, instructors, committees | Description, outcomes, tools and cost, the unit-by-unit outline and workload, how to fit it to a calendar, the optional capstone, assessment, the AI-use policy with its three tiers, and what to re-verify each term |
+| [instructor-guide.md](instructor-guide.md) | Instructors and TAs | Unit-by-unit talking points, demos, class activities, misconceptions, and discussion prompts; grading AI-assisted work; walkthroughs; mixed starting levels; failure-mode demos; the refresh checklist |
+| [labs/lab-01-tokens-and-temperature.md](labs/lab-01-tokens-and-temperature.md) | Unit 1 | Predict and measure tokenization, simulate temperature, probe hallucination and sycophancy |
+| [labs/lab-02-first-agent-session.md](labs/lab-02-first-agent-session.md) | Unit 3 | Install an agent, learn its permission modes, measure context, make one tested change |
+| [labs/lab-03-plan-test-build.md](labs/lab-03-plan-test-build.md) | Unit 3 | The full explore → plan → implement → verify → commit loop, with your own tests as the contract and hidden tests for grading; an optional verifier-loop extension for Unit 4 |
+| [labs/lab-04-review-ai-code.md](labs/lab-04-review-ai-code.md) | Unit 4 | Plant five bugs for a partner; review by hand, then with AI; verify and score every finding |
+| [labs/lab-05-prompt-injection.md](labs/lab-05-prompt-injection.md) | Unit 4 | Inject your own agent in a sandbox with a fake canary, then apply defenses one at a time. Strict safety rules |
+| [labs/lab-06-your-own-eval.md](labs/lab-06-your-own-eval.md) | Unit 3, finishing in Unit 4 | Your own eval, and the capstone's eval set when there is one: golden tasks from the project's history or the eval starter, two configurations, hidden tests kept away from the agents, blind scoring, error bars |
+| [labs/lab-07-multi-agent-review.md](labs/lab-07-multi-agent-review.md) | Unit 4 | Multi-agent review, and the capstone's cross-model review when there is one: a hand-built review swarm with adversarial verification on a teammate's or classmate's change, measured against one ordinary review |
+| [labs/lab-08-open-source-contribution.md](labs/lab-08-open-source-contribution.md) | Unit 5, starting in Unit 4 | One small, disclosed contribution to a project with a written AI policy, after a maintainer's go-ahead; a private class-run repository as the fallback or by choice |
 
 ## Before the first term
 
 The material is written, but a department adopting it still has to build a few things:
 
-- Starter repos for the labs and the term project, the Lab 5 sandbox image, and the Lab 6 run and grading launchers. Dry-run all of them.
+- Starter repos for the labs and the capstone, the Lab 5 sandbox image, the Lab 6 run and grading launchers, and the broken toy project for Unit 4's verifier-loop activity. Dry-run all of them.
 - Student access to a frontier coding agent, through institutional licenses or the roughly $20/month individual plan, and a check that it covers the labs' usage.
-- A small pilot of weeks 9–14, the heaviest stretch, recording active time, waiting time, and quota use.
+- A small pilot of Units 3 and 4, the heaviest stretch, recording active time, waiting time, and quota use.
 
 ## Where to start
 
