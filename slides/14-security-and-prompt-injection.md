@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 14 Security and prompt inje
 
 <!-- _class: lead -->
 
-# 11: Security and prompt injection
+# 14: Security and prompt injection
 
 Design as if an injected instruction will get followed
 
@@ -260,16 +260,21 @@ Newer models have improved on many of these measures, and the numbers age quickl
 
 - Project Glasswing (April 7, 2026) gave Claude Mythos Preview to defenders
 - Thousands of high-severity flaws found, including in OpenBSD and FFmpeg
-- GPT-5.3-Codex (February 2026) was first treated as "High" cyber capability, as a precaution
+- GPT-6 Astra: OpenAI's first model at the "Critical" cyber level (September 2026)
+- Google "cannot rule out" that Gemini 4 Argon reached its cyber Critical level
 - Students, point these tools at your own code before you ship
 - Teams, assume attackers have them too, and patch faster
 
 <!--
 The same capability that writes code finds bugs in it.
 
-With Glasswing, Anthropic gave an unreleased model, Claude Mythos Preview, to a small coalition of companies and open-source maintainers to find and fix vulnerabilities. Anthropic says it found thousands of high-severity flaws, including a 27-year-old remote crash bug in OpenBSD and a 16-year-old flaw in FFmpeg that automated testing had executed five million times without catching. Anthropic withheld general release and restricts its strongest cyber variants to vetted defenders through a verification program.
+With Glasswing, Anthropic gave an unreleased model, Claude Mythos Preview, to a small coalition of companies and open-source maintainers to find and fix vulnerabilities. Anthropic says it found thousands of high-severity flaws, including a 27-year-old remote crash bug in OpenBSD and a 16-year-old flaw in FFmpeg that automated testing had executed five million times without catching. As of November 2026, Anthropic ships Mythos-class capability generally as Claude Fable 5.2, with extra bio and cyber safeguards, while the more permissive Claude Mythos 5.2 is limited to vetted organizations.
 
-The [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) described OpenAI's first launch treated as High capability in cybersecurity under its Preparedness Framework. Extra safeguards were precautionary: OpenAI lacked definitive evidence that it reached the threshold, but could not rule it out.
+The [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) (February 2026) described OpenAI's first launch treated as High capability in cybersecurity under its Preparedness Framework, as a precaution. In September 2026 OpenAI called GPT-6 Astra "our first model to reach the Critical level of cybersecurity capability under our Preparedness Framework." In October 2026 Google said it "cannot rule out" that Gemini 4 Argon reached the cybersecurity Critical Capability Level of its Frontier Safety Framework.
+
+On 12 June 2026 the US applied its first export controls on specific models, to Claude Fable 5 and Mythos 5, after a reported safeguard bypass, and Anthropic suspended access for all users. The controls were lifted by 30 June. Mythos 5 access came back only for "a set of US organizations," and Fable 5 returned on 1 July.
+
+Module 04 explains these frameworks and their thresholds.
 
 Current model names and access tiers are in module 05.
 -->

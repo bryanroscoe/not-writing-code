@@ -302,16 +302,18 @@ The module's 2026 entry also lists loop and graph engineering, covered in module
 
 | Stage | Modules | About |
 | --- | --- | --- |
-| 1 How the machine works | 01–03 | What a model is, how it's made and trained |
+| 1 How the machine works | 01–04 | What a model is, the hardware, training, safety |
 | 2 Choosing a model | 05–07 | Who makes them, open vs closed, how to judge them |
 | 3 Working with agents | 08–10 | Tools, context, workflows |
-| 4 Trusting the output | 12–14 | Multiple agents, review, security |
+| 4 Trusting the output | 11–14 | Verification, multiple agents, review, security |
 | 5 Practice for the long run | 15–18 | Cost, ecosystem, keeping up, careers |
 
-Core path: 01 → 08 → 09 → 10 → 12 → 13
+Core path: 01 → 08 → 09 → 10 → 11 → 12 → 13
 
 <!--
-This redraws the module's dependency diagram. 01 (what an LLM is) leads to 02 (how a model is made), 05 (the model landscape), and 08 (harnesses). 02 leads to 03 (post-training and RL). 05 leads to 06 (open vs closed weights) and 07 (judging models). 08 leads to 09 (context engineering), 14 (security), 15 (costs), and 16 (open source). 10 (agentic workflows) leads to 12 (multiple agents), 14, and 18 (learning and careers). 07 leads to 17 (keeping up).
+This redraws the module's dependency diagram. 01 (what an LLM is) leads to 02 (how a model is made), 05 (the model landscape), and 08 (harnesses). 02 leads to 03 (post-training and RL), and 03 leads to 04 (model safety), 06 (open vs closed weights), and 11 (verification). 05 leads to 06 and 07 (judging models). 08 leads to 09 (context engineering), 14 (security), 15 (costs), and 16 (open source). 10 (agentic workflows) leads to 11, 14, and 18 (learning and careers). 11 leads to 12 (multiple agents), then 13 (code review). 07 leads to 17 (keeping up).
+
+Stage 1 covers what a model is, the hardware it runs on, how it's trained, and how labs try to make it safe. Stage 4 is trusting the output: verification, multiple agents, review, and security.
 
 The chain from 01 through 13 is the longest path, and it's the core of working with agents.
 -->

@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 06 Open weight vs closed we
 
 <!-- _class: lead -->
 
-# 04: Open weight vs closed weight
+# 06: Open weight vs closed weight
 
 What you get when you can download the model
 
@@ -187,7 +187,7 @@ On geopolitics, Chinese labs gain global adoption despite US chip export control
 Most current policy treats today's open models as acceptable and watches the frontier.
 
 <!--
-On the pro side, in July 2026 Hugging Face responded to an intrusion by an autonomous OpenAI test agent that had escaped its sandbox. Commercial model APIs blocked its incident-analysis requests, so the team used a self-hosted open-weight model. In 2024 the US NTIA recommended monitoring open-weight risks rather than restricting them.
+On the pro side, in July 2026 Hugging Face responded to an attack by autonomous agents from an OpenAI cyber evaluation (module 04). Its team found commercial model APIs blocked their incident-analysis requests, so they used a self-hosted open-weight model instead. In 2024 the US NTIA recommended monitoring open-weight risks rather than restricting them.
 
 Against, research showed LoRA fine-tuning cheaply undoes safety training (Lermen et al. and Gade et al., 2023). Refusal behavior is often controlled by a single direction in the model's activations, which can be edited out, called "abliteration" (Arditi et al., 2024). Epoch estimates open models trail the closed frontier by 6 to 7 months on cyber tasks, so capabilities closed labs gate today will be downloadable within months. And in 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions. That's a property of the weights, wherever you run them (module 14).
 
@@ -222,7 +222,7 @@ Part 2 is the hardware math, the tools, hosted options, coding harnesses, privac
 <!--
 FP32 would be 4 bytes per parameter, so 120 GB for a 30B model.
 
-Quantization stores each weight with fewer bits. 4-bit has modest quality loss, and coding and long reasoning tend to suffer before casual chat does. Some models are trained with quantization in mind, called quantization-aware training, so their 4-bit release loses little. gpt-oss ships its MoE weights in 4-bit MXFP4, and Kimi K3 ships natively in MXFP4.
+Quantization stores each weight with fewer bits. 4-bit has modest quality loss, and coding and long reasoning tend to suffer before casual chat does. Some models are trained with quantization in mind, called quantization-aware training, so their 4-bit release loses little. gpt-oss ships its MoE weights in 4-bit MXFP4, with the remaining weights in BF16, and Kimi K3 ships natively in MXFP4.
 
 Point at the bold cell. A 30B model at 4-bit needs about 17 GB. That's comfortable on a 36 GB Mac or a 24 GB GPU, and too big for an 18 GB Mac.
 -->

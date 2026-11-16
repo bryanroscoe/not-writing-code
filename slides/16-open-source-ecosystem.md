@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 16 Open-source ecosystem"
 
 <!-- _class: lead -->
 
-# 13: The open-source ecosystem
+# 16: The open-source ecosystem
 
 The tools under your tools, and the people who maintain them
 

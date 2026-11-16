@@ -1,6 +1,6 @@
 # Slides
 
-*Last checked November 8, 2026.*
+*Last checked November 16, 2026.*
 
 One slide deck per module, written in [Marp](https://marp.app/) Markdown. Each deck is a 30–50 minute talk or class session. The module it's built from is the reading that goes with it.
 
@@ -15,7 +15,9 @@ The decks are built to HTML, PDF, and PowerPoint on every push to `main` and pub
 | # | Deck | Module |
 | --- | --- | --- |
 | 01 | [What is an LLM?](01-what-is-an-llm.md) | [01](../modules/01-what-is-an-llm.md) |
-| 02 | [Training, tuning, and self-tuning](02-how-a-model-is-made.md) | [02](../modules/02-how-a-model-is-made.md), [03](../modules/03-post-training-and-rl.md) |
+| 02 | [How a model is made](02-how-a-model-is-made.md) | [02](../modules/02-how-a-model-is-made.md) |
+| 03 | [Post-training and reinforcement learning](03-post-training-and-rl.md) | [03](../modules/03-post-training-and-rl.md) |
+| 04 | [Model safety and alignment](04-model-safety-and-alignment.md) | [04](../modules/04-model-safety-and-alignment.md) |
 
 ### Stage 2: Choosing a model
 
@@ -37,6 +39,7 @@ The decks are built to HTML, PDF, and PowerPoint on every push to `main` and pub
 
 | # | Deck | Module |
 | --- | --- | --- |
+| 11 | [Verification](11-verification.md) | [11](../modules/11-verification.md) |
 | 12 | [Multiple agents](12-multi-agent-systems.md) | [12](../modules/12-multi-agent-systems.md) |
 | 13 | [AI code review](13-ai-code-review.md) | [13](../modules/13-ai-code-review.md) |
 | 14 | [Security and prompt injection](14-security-and-prompt-injection.md) | [14](../modules/14-security-and-prompt-injection.md) |

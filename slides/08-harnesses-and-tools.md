@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 08 Harnesses, tools, and MC
 
 <!-- _class: lead -->
 
-# 06: Harnesses, tools, and MCP
+# 08: Harnesses, tools, and MCP
 
 Agent = model + harness
 

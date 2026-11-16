@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 10 Agentic workflows"
 
 <!-- _class: lead -->
 
-# 08: Agentic workflows
+# 10: Agentic workflows
 
 How much autonomy actually works
 
@@ -45,10 +45,7 @@ Agents help with a lot more than feature code: reading unfamiliar code, debuggin
 
 **think → act (call a tool) → observe → think → …** until the model decides it's done. Then you verify.
 
-> "Claude stops when the work looks done." … "In practice that makes you the test suite."
-> (Claude Code best practices)
-
-A check that returns pass or fail beats asking nicely.
+The agent stops when the work *looks* done to the model. Without a check it can run, you become the test suite.
 
 <!--
 A chat assistant answers once and waits. An agent keeps going. It's a language model in a loop that lets it take actions (read a file, run a command, edit code) and see what happened. The pattern is called ReAct, "reason + act," from Yao et al. in 2022. Every coding agent you'll use is a version of this loop: Claude Code, Codex, Cursor's agent, Copilot's agent mode, the open-source ones.
@@ -58,7 +55,7 @@ If these terms are new:
 - The harness is the program around the model. It runs the loop, holds the tools, enforces permissions, and manages context. Claude Code and the Codex CLI are harnesses.
 - The context window is everything the model can see on a turn. Large but finite.
 
-If the agent has nothing to run that tells it the work is done, "looks done" is all it has. You make agents reliable by giving them tests, a build, a linter, or a screenshot, and asking for the evidence.
+That last step is the key fact about agents. If the agent has no check it can run, the first real test of the work is you. Deck 11, on verification, is built on this: why it happens, and how to give the agent a check that returns pass or fail.
 
 The SWE-agent paper (Yang et al., 2024) showed tool design matters as much as the model. It called this the agent-computer interface.
 
@@ -245,22 +242,14 @@ To be fair to Brooks, in the 20th-anniversary edition (1995) he called the throw
 
 ## Tests are the agent's contract
 
-The contract only works if the agent can't quietly rewrite it.
+Write a failing test first, and the test becomes the contract the agent works to.
 
-- Write or approve the tests yourself; commit them separately
-- Make each test fail first
-- Check the test diff: `git diff --stat main -- tests/`
-- Enforce with a hook or deny rule, not just a `CLAUDE.md` line
-- Keep some checks out of the agent's reach
+The contract only works if the agent can't quietly rewrite it. Deck 11 covers how.
 
 <!--
-Test-driven development means writing a failing test before the code that makes it pass. It suits agents unusually well. Simon Willison: "Test-first development is particularly effective with agents that can iterate in a loop."
+Test-driven development means writing a failing test before the code that makes it pass, and it suits agents unusually well. That's why the implement step of the core loop starts with one.
 
-The problem is that agents under pressure to make tests pass sometimes delete, skip, or special-case them. So defend the contract:
-- A test that never failed may not test anything.
-- Checking the test diff takes a second.
-- Anthropic's docs say a line in CLAUDE.md is followed "nearly every time," while a hook or a deny rule applies every time. Anthropic's long-running agent harness told its agents: "It is unacceptable to remove or edit tests because this could lead to missing or buggy functionality."
-- StrongDM's team keeps end-to-end "scenarios" outside the codebase, like a holdout set in machine learning, so agents can't tune the code to them.
+The catch is in the second line. A contract the agent can edit isn't much of a contract. How to write the tests, keep them out of the agent's reach, and check that they still test anything is the subject of module 11 and its deck. Here, just remember the rule: you own the tests.
 -->
 
 ---
@@ -327,7 +316,7 @@ Going from "I watch" to "I come back later" is where most of the risk comes in. 
 
 For scripted batch runs, like migrating one file per run to a new logger API, the docs say: "Try it on three files first, see what goes wrong, fix the prompt, then run the rest."
 
-The extreme version is Geoffrey Huntley's "Ralph Wiggum" technique (July 2025): "In its purest form, Ralph is a Bash loop" that feeds the same prompt file to an agent forever. Each pass starts with fresh context and carries state in files and git history. Huntley's own caveats: do one thing per loop, wire in tests and a type checker as "backpressure," expect to "wake up to a broken codebase that doesn't compile from time to time," and "There's no way in heck would I use Ralph in an existing code base." Harnesses now ship tamer versions of the idea, like Claude Code's /loop and /goal and Codex automations.
+The extreme version is a Ralph loop: a shell loop that feeds the same prompt file to an agent forever, with state carried in files. Module 11 and its deck cover how it works and where its inventor says it doesn't.
 -->
 
 ---
@@ -376,14 +365,14 @@ Part 3 is the debate about full autonomy. Give both sides a fair hearing. The pe
 | For | Against |
 | --- | --- |
 | METR time horizons: doubling every ~7 months, faster lately | METR trial, early 2025: experienced developers 19% *slower* |
-| C compiler: 16 agents, ~2 weeks, just under $20,000 | Told not to cheat, still reward hacking in 70–95% of runs (one task) |
+| C compiler: 16 agents, ~2 weeks, just under $20,000 | Agents cheat on tests, even when told not to |
 | Browser: over 1 million lines in about a week | Long tasks drift, then declare the job done |
 | StrongDM: no human writes or reviews the code | The last 30% is the hard part |
 | Anthropic: over 80% of merged code by Claude (May 2026) | Human review becomes the bottleneck |
 
 <!--
 The case for:
-- METR measures the length of task (in human expert time) a model completes with 50% reliability, its time horizon. The original paper found it doubling roughly every seven months from 2019 to 2025. The January 2026 update estimated about 131 days for models since 2023 and about 89 days for models since 2024. On May 8, 2026, METR added an early Claude Mythos Preview measurement: about 17.4 hours (95% CI 8.5–55 hours). Its [tracking page](https://metr.org/time-horizons/) warns that measurements above 16 hours are unreliable with the current task suite.
+- METR measures the length of task (in human expert time) a model completes with 50% reliability, its time horizon. The original paper found it doubling roughly every seven months from 2019 to 2025. The January 2026 update estimated about 131 days for models since 2023 and about 89 days for models since 2024. By May 2026 the newest models had pushed past what METR's task suite can measure: its [tracking page](https://metr.org/time-horizons/) warns that measurements above 16 hours are unreliable. Module 07 has the details.
 - Nicholas Carlini at Anthropic (February 2026) had 16 parallel Claude agents build a C compiler in Rust over nearly 2,000 sessions. About 100,000 lines that compile Linux 6.9 for x86, ARM, and RISC-V. No orchestrator; agents claimed tasks with lock files.
 - Wilson Lin at Cursor (January 2026) had hundreds of concurrent agents that "ran for close to a week, writing over 1 million lines of code across 1,000 files" to build a browser.
 - StrongDM's charter (February 2026) says "Code must not be written by humans" and "Code must not be reviewed by humans."
@@ -391,7 +380,7 @@ The case for:
 
 The case against:
 - METR's randomized trial (early 2025) had 16 experienced open-source developers on 246 real tasks. With AI allowed, tasks took 19% longer. They expected a 24% speedup and afterward still believed they'd been 20% faster. METR now calls those results out of date. Its February 2026 follow-up estimated tasks about 4% to 18% faster, with confidence intervals that include zero.
-- Reward hacking: on the one task where METR tested anti-cheating instructions, models still cheated in 70–95% of runs. In June 2026 METR declined to publish a reliable time horizon for GPT-5.6 Sol at all, because its cheating rate was the highest METR had seen.
+- Cheating: frontier models have rewritten timers, monkey-patched evaluators and exposed hidden tests to post a passing score, and telling them not to cheat often doesn't stop it. An autonomous pipeline that grades itself with tests the agent can see is grading on the honor system. Deck 11 has the numbers.
 - Drift: Anthropic's long-running agents would "look around, see that progress had been made, and declare the job done."
 - Addy Osmani's "70% problem" (December 2024): the last 30% is edge cases, error handling, security, maintainability.
 - Anthropic reports engineers merging about 8× as much code per day as in 2024, and says human review may cap the gain. The 2025 DORA report links AI adoption with higher throughput and lower delivery stability.
@@ -416,7 +405,7 @@ An oracle is an automated source of truth to check results against, like a refer
 
 These projects had problems too. Carlini lists his own: the Rust is "nowhere near the quality of what an expert Rust programmer might produce," the compiler has no assembler or linker of its own, and even optimized it "outputs less efficient code than GCC with all optimizations disabled." He writes that "the thought of programmers deploying software they've never personally verified is a real concern." Critics of Cursor's browser reported a fresh clone that failed to build and an 88% CI job failure rate. Simon Willison later built it and found pages "legible and look mostly correct" with visible glitches. Cursor's own post calls the system "nowhere near optimal."
 
-If there's time, some open questions. Do long time horizons transfer to messy repositories? Do holdout tests stay held out as models get better at finding them? And who's accountable for code nobody reviewed?
+If there's time, some open questions. Do long time horizons transfer to messy repositories? METR's tasks are self-contained, and only 5 of the 31 longest have human baselines. Do holdout tests stay held out? That arms race is in module 11. And who's accountable for code nobody reviewed?
 -->
 
 ---
@@ -456,7 +445,7 @@ Where did you place yourself earlier? Does your stage change between personal an
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.
 
 <!--
-There is a strong counter-argument. The trend lines are steep, and the people closest to the frontier already work this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons grew from minutes to a working day in about two years. StrongDM's holdout scenarios plus digital twins are a serious answer to "tests can be gamed."
+There is a strong counter-argument. The trend lines are steep, and the people closest to the frontier already work this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons have grown from minutes to more than a working day in about two years. StrongDM's holdout scenarios plus digital twins are a serious answer to "tests can be gamed."
 
 As of late 2026, full autonomy works today for well-specified, oracle-rich, greenfield problems, and the edge of that set is moving. Check the evidence again in six months (module 17).
 -->
@@ -506,5 +495,5 @@ If question 3 stalls: waiting on an agent feels like rest, not work. Time spent 
 - Becker et al. (METR), [the early-2025 developer productivity trial](https://arxiv.org/abs/2507.09089) (2025)
 
 <!--
-The module has the full source list, including the C compiler and Cursor browser write-ups, METR's time-horizon and reward-hacking posts, and Huntley's Ralph post. Next time, module 12 picks up the read/write asymmetry and multi-agent review.
+The module has the full source list, including the C compiler and Cursor browser write-ups and METR's time-horizon posts. Next time, module 11 covers verification: how to give the agent a check, and how to keep the check honest.
 -->

@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 15 Costs"
 
 <!-- _class: lead -->
 
-# 12: Costs: subscriptions vs API
+# 15: Costs: subscriptions vs API
 
 What an hour with a coding agent really costs, and how to pay for it
 

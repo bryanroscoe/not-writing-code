@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 05 The model landscape"
 
 <!-- _class: lead -->
 
-# 03: The model landscape
+# 05: The model landscape
 
 Who makes the models, and how to pick one when the names keep changing
 
@@ -468,5 +468,5 @@ The module has two more. Chinese labs lead open weights, so what would change yo
 - [OpenRouter models](https://openrouter.ai/models): dates and prices across providers
 
 <!--
-The module page has every lab's primary sources. OpenRouter's catalog is a quick way to check current dates and prices across providers before you rely on anything in this deck. Next in the module map: 04 (open vs closed weights) and 05 (judging models).
+The module page has every lab's primary sources. OpenRouter's catalog is a quick way to check current dates and prices across providers before you rely on anything in this deck. Next in the module map: 06 (open vs closed weights) and 07 (judging models).
 -->
