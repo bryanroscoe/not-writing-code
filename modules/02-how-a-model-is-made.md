@@ -5,15 +5,15 @@
 **TL;DR**
 - Models are made in stages. **Pretraining** (next-token prediction on trillions of tokens) produces a base model.
 - **Post-training** (supervised examples, preference tuning, and several rounds of reinforcement learning on checkable tasks) turns it into an assistant and a reasoner.
-- Models run on **accelerators** (GPUs, TPUs, Trainium) built for matrix math. Training is compute-bound. Generating text is bound by **memory bandwidth**, because each new token rereads every weight. That gap, the **memory wall**, explains a lot of how models are built and served.
+- Models run on **accelerators** (GPUs, TPUs, Trainium) built for matrix math. Training is compute-bound. Generating text is bound by **memory bandwidth**: for one sequence on a dense model, each new token rereads every weight. [Batching](#the-memory-wall) shares that read across users, and a [mixture-of-experts](01-what-is-an-llm.md#mixture-of-experts) model reads only the experts each token uses. That gap, the **memory wall**, explains a lot of how models are built and served.
 - A frontier training run takes thousands of chips for months: Llama 3 405B took about 3.8×10²⁵ FLOPs, roughly 67 days on 16,000 H100s. Clusters are now planned in gigawatts.
-- **Distillation** trains a smaller model on a bigger model's outputs, or, in on-policy distillation, grades the smaller model's own outputs. It's a standard technique, and it's also at the center of a public fight, with closed labs accusing rivals of copying them through their APIs.
+- **Distillation** trains a smaller model on a bigger model's outputs, or, in on-policy distillation, grades the smaller model's own outputs. Distillation is standard practice, though closed labs publicly accuse rivals of copying their models through their APIs.
 
 ## Foundations
 
 ### The pipeline at a glance
 
-The whole process works a lot like an education: read the entire library, study the best books closely, apprentice with worked examples, get coached on what people prefer, drill practice exams that have an answer key, take a professional-conduct course, and then, optionally, do a specialty residency.
+Pretraining exposes the model to a broad range of text. Mid-training focuses on higher-quality, specialized data. Later stages use worked examples, feedback on preferred responses, tasks with checkable answers, and safety training. After release, the model can optionally be fine-tuned for a specialty.
 
 ```mermaid
 flowchart LR
@@ -30,7 +30,7 @@ flowchart LR
     H -.-> J["Distilled<br/>smaller models"]
 ```
 
-Treat the diagram as a mental model. Real pipelines are messier: stages repeat, overlap, and run in different orders at different labs. Recent open recipes run several RL stages, not one. GLM-5 runs "Reasoning RL, followed by Agentic RL, and finishing with General RL," with on-policy distillation (below) between stages ([GLM-5 Team, 2026](https://arxiv.org/abs/2602.15763)). DeepSeek-R1 alternated RL and supervised fine-tuning, and DeepSeek-V4 trains separate RL specialists and then merges them into one model ([model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro)).
+Treat the diagram as a mental model. Real pipelines are messier: stages repeat, overlap, and run in different orders at different labs. Recent open recipes run several RL stages, not one. GLM-5 runs reasoning RL, then agentic RL, then general RL, with on-policy distillation between stages ([GLM-5 Team, 2026](https://arxiv.org/abs/2602.15763)). DeepSeek-R1 alternated RL and supervised fine-tuning, and DeepSeek-V4 trains separate RL specialists and then merges them into one model ([model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro)).
 
 ### Pretraining: reading the library
 
@@ -67,7 +67,7 @@ The output is a base model. It completes documents but doesn't yet follow instru
 
 ### The hardware: what it takes to train and run a model
 
-Pretraining a frontier model keeps thousands of chips busy for months. A few hardware ideas explain a lot of what you'll see as a user: why generating text is slower than reading it, why labs like mixture-of-experts models, and why AI companies now announce power deals. This section teaches the ideas first and uses specific chips as examples, because the chips change every year.
+Pretraining a frontier model keeps thousands of chips busy for months. A few hardware ideas explain a lot of what you'll see as a user: why generating text is slower than reading it, why labs like mixture-of-experts models, and why AI companies now announce power deals. The chips here are examples, since new ones arrive every year.
 
 #### Why GPUs: a model is mostly matrix multiplies
 
@@ -86,14 +86,14 @@ Similar math, very different behavior on the chip. The second case is what a mod
 
 Chips have gained compute much faster than memory bandwidth. In server hardware, peak FLOPs grew about 3.0× every two years, DRAM bandwidth about 1.6×, and interconnect bandwidth about 1.4× ([Gholami et al., 2024](https://arxiv.org/abs/2403.14123)). The widening gap is called the **memory wall**.
 
-You can see it in one ratio. An H100's dense BF16 compute divided by its memory bandwidth is 989 TFLOPS ÷ 3.35 TB/s ≈ 295 FLOPs per byte. A computation with lower arithmetic intensity than that waits on memory; one with higher intensity waits on math. The **roofline model** draws this as a sloped bandwidth line meeting a flat compute ceiling ([Austin et al., *How to Scale Your Model*](https://jax-ml.github.io/scaling-book/)).
+You can see it in one ratio. An H100's dense BF16 compute divided by its memory bandwidth is 989 TFLOPS ÷ 3.35 TB/s ≈ 295 FLOPs per byte. A computation with lower arithmetic intensity than that waits on memory. One with higher intensity waits on math. The **roofline model** draws this as a sloped bandwidth line meeting a flat compute ceiling ([Austin et al., *How to Scale Your Model*](https://jax-ml.github.io/scaling-book/)).
 
 Now generate text with Llama 3 8B for one user on one H100. In BF16 its weights are 16 GB, and each new token reads all of them once:
 
 - Reading 16 GB at 3.35 TB/s takes about 4.8 ms, so this one sequence tops out near **210 tokens per second**.
 - The math for one token, 2 × 8 billion = 16 billion FLOPs, would take about 16 µs at 989 TFLOPS. If math were the limit, you'd get about **60,000 tokens per second**.
 
-The chip spends more than 99% of that time waiting on memory. [Module 06](06-open-vs-closed-weights.md#step-4-speed-is-mostly-memory-bandwidth) uses the same bound to estimate speed on a laptop.
+Going by those peak specs, the chip spends more than 99% of each token's time waiting on memory. [Module 06](06-open-vs-closed-weights.md#step-4-speed-is-mostly-memory-bandwidth) uses the same bound to estimate speed on a laptop.
 
 The fix is batching. Serve B users at once and each weight fetched gets used B times, so intensity rises to about B FLOPs per byte. On an H100 you'd need a batch of roughly 300 before decoding stops being bandwidth-bound. Each user's KV cache is separate, so those reads don't get shared. That's why serving at scale is mostly a batching and memory-management problem.
 
@@ -105,11 +105,11 @@ Accelerators keep weights in **HBM** (high-bandwidth memory): stacks of DRAM chi
 
 Training and inference sit on opposite sides of the roofline.
 
-**Training is compute-bound.** It runs huge batches: Llama 3 405B used 16 million tokens per step ([Llama 3 paper](https://arxiv.org/abs/2407.21783)). Each weight fetched is reused across millions of tokens, so the math units stay busy. The measure people use is **MFU** (model FLOPs utilization), the share of the chip's peak FLOPs spent on the model's own math. Llama 3 reached 38–43% MFU in BF16.
+Training is compute-bound. It runs huge batches: Llama 3 405B used 16 million tokens per step ([Llama 3 paper](https://arxiv.org/abs/2407.21783)). Each chip gets only a slice of that batch, but it still reuses every weight it fetches across many tokens, so the math units stay busy. The measure people use is **MFU** (model FLOPs utilization), the share of the chip's peak FLOPs spent on the model's own math. Llama 3 reached 38–43% MFU in BF16.
 
 Training's memory problem is capacity. Mixed-precision training with the Adam optimizer keeps about 16 bytes per parameter: 16-bit weights and gradients, plus a 32-bit copy of the weights and two 32-bit optimizer values ([Rajbhandari et al., 2019](https://arxiv.org/abs/1910.02054)). For a 405B model that's about 6.5 TB, at least 81 H100s just to hold it.
 
-**Inference is mostly bandwidth-bound.** **Prefill** reads your whole prompt at once, pushing many tokens through the same weights, so it's compute-heavy like training. **Decode** writes one token per sequence per step, the bandwidth-bound case above. Running both phases on the same GPUs makes them interfere; DistServe served up to 7.4× more requests by splitting them onto separate GPUs ([Zhong et al., 2024](https://arxiv.org/abs/2401.09670)).
+Inference is mostly bandwidth-bound. **Prefill** reads your whole prompt at once, pushing many tokens through the same weights, so it's compute-heavy like training. **Decode** writes one token per sequence per step, the bandwidth-bound case above. Running both phases on the same GPUs makes them interfere. DistServe served up to 7.4× more requests by splitting them onto separate GPUs ([Zhong et al., 2024](https://arxiv.org/abs/2401.09670)).
 
 #### Low precision: BF16, FP8 and FP4
 
@@ -120,13 +120,13 @@ Fewer bits per number helps three ways at once. Weights take less memory, each t
 - **FP8** comes in two 8-bit encodings, E4M3 and E5M2, one favoring precision and one favoring range. FP8 training matched 16-bit quality on models up to 175B parameters ([Micikevicius et al., 2022](https://arxiv.org/abs/2209.05433)), and DeepSeek-V3 used FP8 mixed precision for its full training run.
 - **FP4** has only 16 possible bit patterns, so it needs help. Block-scaled formats give each small block of numbers a shared scale factor. **MXFP4**, from an industry spec written by AMD, Arm, Intel, Meta, Microsoft, NVIDIA and Qualcomm, uses blocks of 32 with a power-of-two scale ([OCP MX v1.0](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)). NVIDIA's **NVFP4** uses blocks of 16 with an FP8 scale, about 4.5 bits per value in all ([NVIDIA](https://developer.nvidia.com/blog/introducing-nvfp4-for-efficient-and-accurate-low-precision-inference/)).
 
-Chips are moving this way. Rubin's dense NVFP4 training rate is about 9× its BF16 rate, and Blackwell Ultra gave up most of its INT8 and FP64 throughput for more FP4. Google built native FP4 into TPU 8t "to overcome memory bandwidth bottlenecks" ([Google Cloud](https://cloud.google.com/blog/products/compute/tpu-8t-and-tpu-8i-technical-deep-dive)). gpt-oss was post-trained with its MoE weights in MXFP4, which lets the 120B model run on one 80 GB GPU ([model card](https://huggingface.co/openai/gpt-oss-120b)). Lower precision costs some quality; [quantization basics](#quantization-basics) below covers that trade.
+Chips are moving this way. Rubin's dense NVFP4 training rate is about 9× its BF16 rate, and Blackwell Ultra gave up most of its INT8 and FP64 throughput for more FP4. Google built native FP4 into TPU 8t "to overcome memory bandwidth bottlenecks" ([Google Cloud](https://cloud.google.com/blog/products/compute/tpu-8t-and-tpu-8i-technical-deep-dive)). gpt-oss was post-trained with its MoE weights in MXFP4, which lets the 120B model run on one 80 GB GPU ([model card](https://huggingface.co/openai/gpt-oss-120b)). Lower precision costs some quality, a trade covered in [quantization basics](#quantization-basics).
 
 #### Interconnect: why one model needs thousands of chips
 
-Llama 3 405B would have taken one H100 about 3,000 years (worked out below), and its 6.5 TB of training state is more than 80 times one H100's memory. So the work gets split across thousands of chips that talk constantly, over two tiers of wiring:
+Llama 3 405B would have taken one H100 about 3,000 years, and its 6.5 TB of training state is more than 80 times one H100's memory. So the work gets split across thousands of chips that talk constantly, over two tiers of wiring:
 
-- **Scale-up** links join a small group of accelerators so tightly they can read each other's memory. NVIDIA's is **NVLink**; Google's TPUs use ICI (inter-chip interconnect). In an 8-GPU HGX B300 server, each GPU gets 1.8 TB/s of NVLink, while the whole server gets 1.6 TB/s to the network, about 9× less per GPU. NVIDIA's NVL72 racks put 72 GPUs in one NVLink domain. Google's Ironwood pods link up to 9,216 TPUs.
+- **Scale-up** links join a small group of accelerators so tightly they can read each other's memory. NVIDIA's is **NVLink**. Google's TPUs use ICI (inter-chip interconnect). In an 8-GPU HGX B300 server, each GPU gets 1.8 TB/s of NVLink, while the whole server gets 1.6 TB/s to the network, about 9× less per GPU. NVIDIA's NVL72 racks put 72 GPUs in one NVLink domain. Google's Ironwood pods link up to 9,216 TPUs.
 - **Scale-out** is the datacenter network between those groups, usually InfiniBand or Ethernet. Meta's Llama 3 cluster used 400 Gbps Ethernet (RoCE) across 24,000 GPUs, eight per server on NVLink.
 
 That gap shapes the software. DeepSeek's H800s, an H100 variant with cut-down NVLink sold in China under U.S. export rules, got 160 GB/s over NVLink and 50 GB/s over InfiniBand, so DeepSeek limited how many servers each token's experts could span ([DeepSeek-V3 report](https://arxiv.org/abs/2412.19437)).
@@ -138,16 +138,16 @@ There are four main ways to split the work:
 - **Pipeline parallelism:** put consecutive groups of layers on different GPUs and stream micro-batches through them like an assembly line ([Huang et al., 2018](https://arxiv.org/abs/1811.06965)).
 - **Expert parallelism:** in a mixture-of-experts model, put different experts on different GPUs and send each token to its experts with all-to-all communication ([Lepikhin et al., 2020](https://arxiv.org/abs/2006.16668)).
 
-Real runs combine them. Llama 3 405B used tensor parallelism across the 8 GPUs of a server, 16 pipeline stages, and data parallelism up to 128 ways. The pattern is to put the most talkative split on the fastest wire.
+Real runs combine them. Llama 3 405B used tensor parallelism across the 8 GPUs of a server, 16 pipeline stages, and data parallelism up to 128 ways. The form of parallelism that requires the most communication gets the fastest links.
 
 #### Training compute: a worked example
 
 Take module 01's [6·N·D rule](01-what-is-an-llm.md#the-attention-equation-optional-math) and run it on Llama 3 405B, where Meta published enough to check each step ([Llama 3 paper](https://arxiv.org/abs/2407.21783)):
 
-1. **FLOPs.** 6 × 405×10⁹ parameters × 15.6×10¹² tokens ≈ 3.8×10²⁵ FLOPs. The paper reports 3.8×10²⁵.
-2. **GPU-hours.** Don't divide by the spec sheet's 989 TFLOPS. Meta measured about 400 TFLOPS per H100 in practice. 3.8×10²⁵ ÷ 4×10¹⁴ FLOPs per second ≈ 9.5×10¹⁰ GPU-seconds, about 26 million GPU-hours.
-3. **Days.** Spread over 16,384 H100s, that's about 1,600 hours, or 67 days of pure compute. On one GPU it would take about 3,000 years.
-4. **Check it.** Meta's model card reports 30.84 million H100-hours for Llama 3.1 405B, about 17% more than the estimate ([model card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md)). The card doesn't say where the extra went.
+1. 6 × 405×10⁹ parameters × 15.6×10¹² tokens ≈ 3.8×10²⁵ FLOPs. The paper reports 3.8×10²⁵.
+2. Don't divide by the spec sheet's 989 TFLOPS. Meta measured about 400 TFLOPS per H100 in practice. 3.8×10²⁵ ÷ 4×10¹⁴ FLOPs per second ≈ 9.5×10¹⁰ GPU-seconds, about 26 million GPU-hours.
+3. Spread over 16,384 H100s, that's about 1,600 hours, or 67 days of pure compute. On one GPU it would take about 3,000 years.
+4. Meta's model card reports 30.84 million H100-hours for Llama 3.1 405B, about 17% more than the estimate ([model card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md)). The card doesn't say where the extra went.
 
 At this scale, hardware fails all the time. In a 54-day stretch of the 405B run, Meta logged 466 job interruptions, 47 planned and 419 unexpected: about one every three hours. Roughly 78% of the unexpected ones were confirmed or suspected hardware problems, and GPU issues alone were 58.7%. Automation handled nearly all of them. Only three needed significant manual work, and effective training time stayed above 90%. Throughput even varied 1–2% with the time of day, because heat made the GPUs lower their clock speeds.
 
@@ -155,14 +155,15 @@ At this scale, hardware fails all the time. In a 54-day stretch of the 405B run,
 
 DeepSeek-V3's report gives 2.788 million H800 GPU-hours, or $5.576 million assuming a rental price of $2 per GPU-hour ([DeepSeek-V3 report](https://arxiv.org/abs/2412.19437)). That's 2.664 million hours of pretraining, 119,000 for context extension and 5,000 for post-training, on a 2,048-GPU cluster. Pretraining took less than two months.
 
-The paper is clear about its limits. The costs "include only the official training of DeepSeek-V3, excluding the costs associated with prior research and ablation experiments on architectures, algorithms, or data." And the dollar figure is a rental price, not the cost of buying, housing and powering 2,048 GPUs. Two more facts put it in context:
+The paper is clear about its limits. The costs "include only the official training of DeepSeek-V3, excluding the costs associated with prior research and ablation experiments on architectures, algorithms, or data." And the dollar figure is a rental price, not the cost of buying, housing and powering 2,048 GPUs.
 
-- **It builds on earlier models.** Post-training distilled reasoning from DeepSeek's R1 series, and the compute behind R1 isn't in the total.
-- **It's an MoE.** V3 has 671B parameters but uses only 37B per token. Run 6·N·D on the active parameters: 6 × 37×10⁹ × 14.8×10¹² ≈ 3.3×10²⁴ FLOPs, about 11.5× less than Llama 3 405B. The GPU-hour ratio is about the same, 30.84M ÷ 2.788M ≈ 11×. So most of the gap comes from doing fewer FLOPs, not from doing each FLOP more cheaply.
+DeepSeek-V3's post-training distilled reasoning from DeepSeek's R1 series, and the total excludes the compute behind R1.
+
+V3 is an MoE with 671B parameters that uses only 37B per token. Run 6·N·D on the active parameters: 6 × 37×10⁹ × 14.8×10¹² ≈ 3.3×10²⁴ FLOPs, about 11.5× less than Llama 3 405B. The GPU-hour ratio is about the same, 30.84M ÷ 2.788M ≈ 11×. So most of the gap comes from doing fewer FLOPs, not from doing each FLOP more cheaply.
 
 #### Power: from one chip to the grid
 
-One H100 draws up to 700 W, and AMD's MI355X is rated at 1,400 W. A datacenter also powers CPUs, networking and cooling. NVIDIA's Vera Rubin spec sheet plans for 40,000 GPUs per 100 MW, about 2.5 kW of facility power per GPU. That gives a rule of thumb: **one gigawatt runs roughly 400,000 Rubin-class GPUs.**
+One H100 draws up to 700 W, and AMD's MI355X is rated at 1,400 W. A datacenter also powers CPUs, networking and cooling. NVIDIA's Vera Rubin spec sheet plans for 40,000 GPUs per 100 MW, about 2.5 kW of facility power per GPU. At that rate, one gigawatt runs roughly 400,000 Rubin-class GPUs.
 
 For Llama 3.1 405B, 30.84 million H100-hours at 700 W is about 21.6 GWh for the GPUs alone. Big runs also strain the grid in a less obvious way. When tens of thousands of GPUs pause together, for example while saving a checkpoint, Meta saw power draw swing "on the order of tens of megawatts, stretching the limits of the power grid."
 
@@ -209,9 +210,11 @@ The base model then goes through **post-training**: supervised fine-tuning (SFT)
 
 With LLMs there are three flavors:
 
-- **Logit distillation:** the student learns from the teacher's token probabilities. This needs access to the teacher's internals, so it mostly happens inside a lab (for example, a big model teaching its smaller siblings).
+- **Logit distillation:** the student learns from the teacher's token probabilities. This needs the teacher's token probabilities, not just its text, so it mostly happens inside a lab (for example, a big model teaching its smaller siblings).
 - **Output distillation:** generate lots of teacher responses and fine-tune the student on the text. This works through any API that returns text.
-- **On-policy distillation:** the student writes its own answers and a stronger teacher grades every token of them, so the student learns from its own mistakes instead of copying the teacher's text. In one Thinking Machines comparison it used about a tenth of RL's GPU-hours (1,800 vs 17,920) ([Thinking Machines](https://thinkingmachines.ai/blog/on-policy-distillation/)). It's now a core post-training step. DeepSeek-V4 uses it to merge separately trained expert models into one ([model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro)), and GLM-5 uses it between RL stages so the model doesn't forget earlier skills ([GLM-5 Team, 2026](https://arxiv.org/abs/2602.15763)). [Module 03](03-post-training-and-rl.md#rl-for-coding-agents) covers the RL stages it connects.
+- **On-policy distillation:** the student writes its own answers and a stronger teacher grades every token of them, so the student learns from its own mistakes instead of copying the teacher's text.
+
+In one Thinking Machines comparison, on-policy distillation used about a tenth of RL's GPU-hours (1,800 vs 17,920) ([Thinking Machines](https://thinkingmachines.ai/blog/on-policy-distillation/)). It's now a core post-training step. DeepSeek-V4 uses it to merge separately trained expert models into one ([model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro)), and GLM-5 uses it between RL stages so the model doesn't forget earlier skills ([GLM-5 Team, 2026](https://arxiv.org/abs/2602.15763)). [Module 03](03-post-training-and-rl.md#rl-for-coding-agents) covers the RL stages it connects.
 
 Some established uses of distillation and synthetic data:
 
@@ -225,9 +228,9 @@ The major closed labs' terms of service prohibit using their outputs to build co
 - In August 2025, Anthropic cut off OpenAI's access to Claude, saying OpenAI's use violated terms against building competing products. OpenAI said it was benchmarking ([TechCrunch](https://techcrunch.com/2025/08/02/anthropic-cuts-off-openais-access-to-its-claude-models/)).
 - On February 23, 2026, Anthropic said three labs, DeepSeek, Moonshot, and MiniMax, had run distillation campaigns against Claude: more than 16 million exchanges through about 24,000 fraudulent accounts (DeepSeek more than 150,000, Moonshot more than 3.4 million, MiniMax more than 13 million). Anthropic called distillation "a widely used and legitimate training method" in general and objected to its illicit use ([Anthropic](https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks)).
 - When Claude Fable 5 launched on June 9, 2026, Anthropic said requests its classifiers flag as distillation attempts would be answered by the older Claude Opus 4.8 instead, and that users would be told when this happens ([Anthropic](https://www.anthropic.com/news/claude-fable-5-mythos-5)). Within days, after reporting that one safeguard aimed at frontier-model development had been changing answers without telling users, Anthropic apologized and said it would make that safeguard visible ([Gizmodo](https://gizmodo.com/anthropic-apologizes-for-one-of-the-guardrails-on-its-fable-5-model-and-will-change-it-2000770365)).
-- On October 12, 2026, Anthropic described further defenses (a classifier it says has a false-positive rate under 0.1%, limits on editing Claude's earlier reasoning for new API accounts, stricter limits for repeat offenders) and claimed they cut the data harvested by distillers by about 90–99% ([Anthropic](https://www.anthropic.com/news/distillation-defenses)).
+- On October 12, 2026, Anthropic described further defenses, including a classifier it said had a false-positive rate under 0.1%. It also described limits on editing Claude's earlier reasoning for new API accounts and stricter limits for repeat offenders. Anthropic claimed the defenses cut the data harvested by distillers by about 90–99% ([Anthropic](https://www.anthropic.com/news/distillation-defenses)).
 
-There's another side to this. Critics point out that frontier labs trained on web content without asking permission, which makes complaints about copying sound selective. Outsiders can't independently verify the account-level evidence. And the accusations land in a policy fight over export controls, where every party has an interest. What's clear is that distilling a strong model works, frontier labs are now actively defending against it, and those defenses sometimes affect legitimate users.
+Critics point out that frontier labs trained on web content without asking permission, which makes complaints about copying sound selective. Outsiders can't independently verify the account-level evidence. The accusations also land in a policy fight over export controls, where every party has an interest. Distilling a strong model works, and frontier labs now actively defend against it. Those defenses sometimes affect legitimate users.
 
 ## In practice
 
