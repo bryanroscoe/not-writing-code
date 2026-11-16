@@ -265,6 +265,8 @@ fi
 exit 0
 ```
 
+[Module 11](./11-verification.md#stop-hooks-and-ci-gates) uses the same mechanism to block "done" until the tests pass.
+
 Then there are permission modes and auto mode. Approval prompts sound safe, but people stop reading them. Anthropic [reported](https://www.anthropic.com/engineering/claude-code-auto-mode) in March 2026 that users approve 93% of permission prompts. Its "auto mode" hands routine approvals to a classifier model and keeps hard blocks for risky actions. Anthropic was candid about the limits: the full pipeline still missed 17% of "overeager" actions in its tests, and it is "not a drop-in replacement for careful human review on high-stakes infrastructure." The safer pattern for long unattended runs is a real sandbox (container, VM, or cloud environment) with limited credentials.
 
 ## In practice
@@ -377,7 +379,7 @@ A harness's cost model matters as much as its features. Bryan's view that subscr
 2. Check the context breakdown (in Claude Code, `/context`; other harnesses have similar views). Write down how many tokens the system prompt, tool definitions and instruction files use before you type anything.
 3. Connect one MCP server (Playwright or GitHub). Check the context breakdown again. How many tokens did it add?
 4. Add a `PostToolUse` formatter hook and confirm it runs after an edit.
-5. Write a `Stop` hook that blocks "done" until the tests pass. Give the agent a task that breaks a test and watch the hook push it back.
+5. Write a `Stop` hook that blocks "done" until the tests pass, following [module 11's Try it](./11-verification.md#try-it).
 6. Write one paragraph: what did the harness do that the model alone couldn't?
 
 **Class or team exercise: same model, different harnesses (one session).**

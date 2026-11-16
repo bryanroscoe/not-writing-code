@@ -62,13 +62,7 @@ Harness engineering asks what the environment should prevent, measure and correc
 
 ### Loop engineering
 
-The precursor was the Ralph technique (named after the Simpsons character Ralph Wiggum), which Geoffrey Huntley [described on July 14, 2025](https://ghuntley.com/ralph/). In its purest form it's one shell loop that feeds the same prompt file to a coding agent forever:
-
-```bash
-while :; do claude -p < PROMPT.md; done
-```
-
-That's the post's `claude-code` pseudocode adapted to the current `claude` binary in non-interactive print mode (`-p`). The prompt does the real work. It tells the agent to read a plan file, do the single most important remaining item, update the plan, and exit, so the next iteration starts with a fresh context window. Huntley was blunt about the limits: do one thing per loop, expect broken builds, use it for greenfield projects ("There's no way in heck would I use Ralph in an existing code base"), and keep senior engineers steering.
+The precursor was the Ralph technique (named after the Simpsons character Ralph Wiggum), which Geoffrey Huntley [described on July 14, 2025](https://ghuntley.com/ralph/). In its purest form it's one shell loop that feeds the same prompt file to a coding agent forever. [Module 11](./11-verification.md#ralph-loops) covers how it works and Huntley's own caveats.
 
 Addy Osmani's essay [Loop Engineering](https://addyosmani.com/blog/loop-engineering/) (June 7, 2026) popularized the name, though it doesn't say who coined it. He quotes Peter Steinberger: "You shouldn't be prompting coding agents anymore. You should be designing loops that prompt your agents." He also quotes Boris Cherny, who leads Claude Code at Anthropic: "I don't prompt Claude anymore. I have loops running that prompt Claude and figuring out what to do." He lists the parts: scheduled automations, worktrees, skills, plugins and connectors, verifier subagents, and state that lives outside the conversation, like a markdown file or an issue board. He also warns that "done" from a loop is "a claim and not a proof," and that loops invite "cognitive surrender."
 
@@ -314,36 +308,7 @@ Everything wrong with that file came up earlier: persona fluff, generic virtues,
 
 ### Loops in practice
 
-A loop replaces you as the person who types "continue." It's only worth building when the task has a **checkable end state**. The common patterns, simplest first:
-
-| Pattern | Mechanism | Good for |
-| --- | --- | --- |
-| **Ralph loop** | Shell `while` loop, fresh session each pass, a plan file as memory | Greenfield scaffolding; burning down a checklist |
-| **Interval loop** | Claude Code `/loop 5m check the deploy`; cron | Polling CI, babysitting a pull request |
-| **Goal loop** | `/goal all tests in test/auth pass and lint is clean`; a separate model checks after every turn | Migrations, test-fixing, work with a measurable finish |
-| **Stop hook** | A script that blocks the agent from finishing until a check passes | Enforcing "tests pass before done" in every session |
-| **Scheduled cloud task / automation** | Runs on a schedule without your machine | Nightly triage, dependency updates, recurring reports |
-
-```mermaid
-flowchart LR
-    S[Read state file] --> W[Agent does one item]
-    W --> V{Verifier:<br/>tests, linter,<br/>separate model}
-    V -->|fail| W
-    V -->|pass| U[Update state file, commit]
-    U --> B{Budget or<br/>goal reached?}
-    B -->|no| S
-    B -->|yes| H[Stop and report to a human]
-```
-
-Any loop needs the following:
-
-1. A verifiable end state. "All tests in `test/auth` pass" works. "The code is good" doesn't. Claude Code's `/goal` evaluator can't run commands itself; it judges from what the agent printed, so the agent has to show the evidence.
-2. An independent check: tests, a type checker, or a different model that didn't write the code. A model grading its own work is optimistic.
-3. A budget in turns, wall-clock time, or tokens. Claude Code suggests adding "or stop after 20 turns" to a goal, and its session loops expire after seven days.
-4. State outside the conversation, like a plan file, a checklist, or issues that the next iteration reads.
-5. Isolation in a worktree or sandbox, so a bad iteration can't damage your main checkout.
-6. Escalation. When the loop is stuck or something is irreversible (pushing, deleting, spending money), it stops and asks.
-7. A human who reads the output. A loop's "done" is a claim, so review the diff before it ships ([module 13](./13-ai-code-review.md)).
+A loop replaces you as the person who types "continue." It's only worth building when the task has a **checkable end state**, an independent check, a budget, and a human who reads the result. [Module 11](./11-verification.md#loops-in-practice) covers the common loop patterns and what every loop needs.
 
 ### Graphs in practice
 
@@ -414,17 +379,15 @@ Some reports support greater autonomy. OpenAI's harness team reports building a 
 4. Pick three small tasks from the issue tracker. Run each twice, in fresh sessions, once with the original file and once with your trimmed one. Record success, number of steps, and tokens used.
 5. Write a half-page note. Did the trimmed file do as well? What did you find that the ETH study did or didn't predict?
 
-**Class or team exercise: build a loop with a verifier (one session).**
-In small groups, pick a toy project with a failing test suite (the instructor can break 10 tests on purpose). Each group builds a different loop: a Ralph-style shell loop with a plan file, a `/goal` with a test condition, or a Stop hook that blocks "done" until tests pass. Give each a turn or time budget. Compare: did it finish? How many tokens? Did any "pass" by weakening a test? (Check the diffs.) Then discuss which verifier you'd trust in a real codebase.
+**Class or team exercise: build a loop with a verifier.** This exercise now lives in [module 11's Try it](./11-verification.md#try-it), next to the verification material it depends on.
 
 ## Discussion questions
 
 1. Which rung of the ladder (prompt, context, harness, loop, graph) adds the most new substance? Which is mostly a new name? Defend your answer with evidence.
 2. The ETH study found developer-written context files helped a little, LLM-generated ones didn't, and both raised costs. What should a team's policy be?
 3. If agents follow instructions closely, including bad ones, who should be allowed to edit `AGENTS.md` in your repository? How should changes be reviewed?
-4. A loop says "done." What would it take for you to merge its pull request without reading it? Is that ever acceptable?
-5. As models improve, which parts of context engineering will disappear, and which will remain? Why?
-6. Spec-driven development asks for documents before code. When is that worth it, and when is it ceremony?
+4. As models improve, which parts of context engineering will disappear, and which will remain? Why?
+5. Spec-driven development asks for documents before code. When is that worth it, and when is it ceremony?
 
 ## Sources and further reading
 
@@ -480,7 +443,6 @@ In small groups, pick a toy project with a failing test suite (the instructor ca
 - **Harness engineering:** improving the agent's environment so mistakes are prevented, caught or corrected automatically.
 - **Loop engineering:** designing systems that repeatedly prompt an agent, with schedules, goals, verifiers and stopping rules.
 - **Ralph loop:** a shell loop that feeds the same prompt to a coding agent repeatedly, with a plan file as memory.
-- **Verifier:** a test, tool or separate model that checks an agent's claimed result.
 - **Graph engineering:** designing how multiple agents or steps connect: nodes, edges, shared state and routing.
 - **Workflow (vs. agent):** an LLM system following predefined code paths, as opposed to one that directs its own process.
 - **Prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer:** Anthropic's five common workflow patterns.
