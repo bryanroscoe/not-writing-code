@@ -152,11 +152,11 @@ There's a reading path for each audience. Each one says what to read in full, wh
 
 | You are | Start with | Time |
 | --- | --- | --- |
-| A student, or new to AI tools | [Student path](../paths/students.md) | A semester, or ~15 hours self-paced |
+| A student, or new to AI tools | [Student path](../paths/students.md) | ~20 hours of reading self-paced, or the [course](../course/syllabus.md) |
 | A working engineer | [Engineer path](../paths/engineers.md) | ~6–8 hours, plus a two-week practice plan |
-| A lead, manager, or AI champion | [Leads path](../paths/leads.md) | ~3 hours, plus the [workplace playbook](../workplace/ai-first-playbook.md) |
+| A lead, manager, or AI champion | [Leads path](../paths/leads.md) | ~3.5 hours, plus the [workplace playbook](../workplace/ai-first-playbook.md) |
 
-There's also a full [semester course outline](../course/syllabus.md) with [labs](../course/labs/), and a [glossary](../reference/glossary.md) and annotated [reading list of papers](../reference/papers.md).
+There's also a [course outline](../course/syllabus.md), organized by stage, with [labs](../course/labs/), and a [glossary](../reference/glossary.md) and annotated [reading list of papers](../reference/papers.md).
 
 ### Ground rules we assume throughout
 

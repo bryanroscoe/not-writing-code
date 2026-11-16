@@ -336,9 +336,9 @@ Part 3 is which path to take, the ground rules, and what you need. About 8 minut
 
 | You are | Start with | Time |
 | --- | --- | --- |
-| A student, or new to AI tools | Student path | A semester, or ~15 hours self-paced |
+| A student, or new to AI tools | Student path | ~20 hours of reading self-paced, or the course |
 | A working engineer | Engineer path | ~6–8 hours, plus a two-week practice plan |
-| A lead, manager, or AI champion | Leads path | ~3 hours, plus the workplace playbook |
+| A lead, manager, or AI champion | Leads path | ~3.5 hours, plus the workplace playbook |
 
 Every module has three levels: Foundations, In practice, Going deeper.
 
@@ -347,7 +347,7 @@ The three reading paths are in the paths folder. Each one says what to read in f
 
 Foundations assumes no background. In practice is what working engineers do. Going deeper covers research and open debates.
 
-There's also a semester course outline with labs, a glossary, and an annotated reading list of papers.
+There's also a course outline organized by stage, with labs, a glossary, and an annotated reading list of papers.
 -->
 
 ---
