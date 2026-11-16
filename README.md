@@ -2,9 +2,9 @@
 
 # A Brief Introduction to Not Writing Code
 
-A knowledge base and short course on AI-accelerated software engineering, in five stages: how the machine works (transformers, hardware, training, RL, safety), choosing a model, working with agents, trusting their output, and keeping it up over a career. You're accountable for what ships.
+A knowledge base and short course on AI-accelerated software engineering, organized in five stages. The first covers how models work: transformers, hardware, training, RL and safety. The rest cover choosing a model, working with agents, trusting their output and keeping it up over a career. You're accountable for what ships.
 
-You'll write a lot less code by hand. You still have to do the engineering. This isn't a vibe coding course: vibe coding means prompting an AI and never reading the code. This is [AI-accelerated coding](modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding), where AI does a lot of the typing and people decide, verify, and own the result. If you came looking for "vibe engineering" or "agentic engineering," you're in the right place: those are other names for this disciplined version.
+You'll write a lot less code by hand and still do the engineering. This course teaches [AI-accelerated coding](modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding), where AI does much of the typing and people decide, verify and own the result. It isn't vibe coding, which means prompting an AI and never reading the code. If you searched for "vibe engineering" or "agentic engineering," this is the disciplined version.
 
 This is the first full draft (November 2026). Facts are dated in each module's header. The field moves monthly, so check the Last checked date before you rely on a specific model name or price.
 

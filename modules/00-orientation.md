@@ -142,7 +142,7 @@ flowchart TD
     I --> P
 ```
 
-The modules come in five stages. Stage 1 (01–04) is how the machine works: what a model is, the hardware it runs on, how it's trained, and how labs try to make it safe. Stage 2 (05–07) is choosing a model: who makes them, open vs closed weights, and how to judge them. Stage 3 (08–10) is working with agents: tools, context, and workflows. Stage 4 (11–14) is trusting the output: verification, multiple agents, review, and security. Stage 5 (15–18) is practice for the long run: cost, the ecosystem, staying current, and what it all means for learning and careers.
+The five stages begin with 01–04: what a model is, the hardware it runs on, how it's trained and how labs try to make it safe. In 05–07, you'll look at who makes the models, open and closed weights, and how to judge them. Modules 08–10 cover agent tools, context and workflows. Verification, multiple agents, review and security follow in 11–14. The final stage, 15–18, covers costs, the ecosystem, staying current, and what these changes mean for learning and careers.
 
 ## In practice
 

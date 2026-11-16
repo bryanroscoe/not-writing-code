@@ -4,7 +4,7 @@
 
 **TL;DR**
 - An agent stops when the model *thinks* it's done. Unless you give it something outside itself to check against, you are the test suite.
-- The research on self-correction points one way: models fix their own mistakes when the feedback comes from outside (test results, execution, a separate verifier), and sometimes make things worse without it.
+- The research on self-correction points one way: prompted models fix their own mistakes when the feedback comes from outside (test results, execution, a separate verifier), and sometimes make things worse without it.
 - Give the agent as much of the ladder of checks as it can run itself: types, lint, unit tests, property tests, integration, end-to-end and runtime checks. A human sits at the top.
 - The problems agents loop on best have an oracle: a failing test to turn green, a golden output, a reference implementation, or a property that must always hold.
 - Checkable rewards are a big part of why models got good at code ([module 03](./03-post-training-and-rl.md)). Checkable tests are how you get *bounded* confidence in their code. Passing checks is evidence, not proof.
@@ -14,9 +14,9 @@
 
 ### The key fact: the loop stops when the model thinks it is done
 
-[Module 10](./10-agentic-workflows.md#the-agent-loop) describes the agent loop: think, act, observe, and repeat until the model decides it's finished. Everything in this module follows from that last step.
+[Module 10](./10-agentic-workflows.md#the-agent-loop) describes the agent loop: think, act, observe, and repeat until the model decides it's finished.
 
-Anthropic's Claude Code docs put it bluntly: "Claude stops when the work looks done." If the agent has nothing to run that tells it whether the work *is* done, "looks done" is all it has. "In practice that makes you the test suite" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)).
+Anthropic's Claude Code docs say, "Claude stops when the work looks done." If the agent has nothing to run that tells it whether the work *is* done, you end up as the test suite ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)).
 
 Give the agent a check that returns pass or fail. Asking nicely won't make it reliable.
 
@@ -32,11 +32,9 @@ flowchart LR
 
 The two paths end in different places. Without a check, the first real test of the work is you. With one, a failure goes back to the agent while it can still fix it, and what reaches you is a pass plus the evidence for it.
 
-OpenAI's Codex guide agrees: "Codex can do this loop for you, but only if it knows what 'good' looks like" ([Codex best practices](https://learn.chatgpt.com/guides/best-practices)). Anthropic's [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) (December 2024) said agents need "'ground truth' from the environment at each step," that "Code solutions are verifiable through automated tests," and that "human review remains crucial." This module covers both halves.
+OpenAI's Codex guide says Codex can run this loop for you, but only if it knows what "good" looks like ([Codex best practices](https://learn.chatgpt.com/guides/best-practices)). Anthropic's [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) (December 2024) said agents need ground truth from the environment at each step, that code can be checked with automated tests, and that "human review remains crucial."
 
 ### Verifiers and oracles
-
-Two words do most of the work here.
 
 A **verifier** is a test, tool or separate model that checks an agent's claimed result. A compiler is a verifier. So are a test suite, a linter, a screenshot comparison, and a second model asked "is this right?"
 
@@ -65,7 +63,7 @@ The top rungs catch what the middle ones miss. Simon Willison: "Just because cod
 
 ### Why outside feedback beats self-critique
 
-The obvious shortcut is to ask the model to check itself. The research says that mostly doesn't work.
+The obvious shortcut is to prompt the model to check itself. The research says that mostly doesn't work.
 
 Self-Refine had one model generate, critique its own output, and refine it ([Madaan et al., 2023](https://arxiv.org/abs/2303.17651)). Reflexion had agents write verbal reflections on failures and keep them in memory for the next attempt, reaching 91% on the HumanEval coding benchmark ([Shinn et al., 2023](https://arxiv.org/abs/2303.11366)). Then Huang et al. showed that for reasoning, "LLMs struggle to self-correct their responses without external feedback, and at times, their performance even degrades" ([Huang et al., 2023](https://arxiv.org/abs/2310.01798)). For engineers, this means feedback works best when it comes from *outside* the model: test results, compiler errors, a different reviewer. Reflexion's coding gains relied on running tests.
 
@@ -79,7 +77,7 @@ The follow-up work makes the pattern sharper. In every row below, the gains come
 | [Olausson et al., 2023](https://arxiv.org/abs/2306.09896) | Self-repair "is bottlenecked by the model's ability to provide feedback on its own code," and once you count its cost, "performance gains are often modest." Replacing GPT-4's own feedback with human feedback raised repair success 1.58× (33.3% to 52.6%) ([full text](https://arxiv.org/html/2306.09896)) |
 | [Stechly, Valmeekam, Kambhampati, 2024](https://arxiv.org/abs/2402.08115) | On Game of 24, graph coloring and planning, GPT-4 showed "significant performance collapse with self-critique" and "significant performance gains with sound external verification" |
 
-A survey of the field, [When Can LLMs Actually Correct Their Own Mistakes?](https://arxiv.org/abs/2406.01297) (Kamoi et al., TACL 2024), sums it up in three conclusions. "No prior work demonstrates successful self-correction with feedback from prompted LLMs," except on tasks especially suited to it. "Self-correction works well in tasks that can use reliable external feedback." And "large-scale fine-tuning enables self-correction."
+A survey of the field, [When Can LLMs Actually Correct Their Own Mistakes?](https://arxiv.org/abs/2406.01297) (Kamoi et al., TACL 2024), found no prior work showing successful self-correction with feedback from prompted LLMs, except on tasks especially suited to it. It found that self-correction works well in tasks that can use reliable external feedback, and that large-scale fine-tuning enables self-correction.
 
 Take the first two as a working rule. "Review your work and fix any mistakes" is the weakest feedback you can give an agent. A failing test with its error message is much stronger, because it carries information the model didn't already have.
 
@@ -93,29 +91,25 @@ The evidence for the gap goes back years:
 - Sampling more helps only when you can check the samples. On SWE-bench Lite, the share of problems solved by at least one sample rose "from 15.9% with one sample to 56% with 250 samples." That turned into real gains only where answers "can be automatically verified"; picking by majority vote or a reward model plateaued ([Brown et al., 2024](https://arxiv.org/abs/2407.21787)).
 - Self-improvement is "largely governed by ... the generation-verification gap," and a variant of the gap "scales monotonically with the model pre-training flops" ([Song et al., 2024](https://arxiv.org/abs/2412.02674)).
 
-The catch is that the gap belongs to the *checker*, and a model isn't automatically a good checker of its own work. On graph coloring, LLMs "are no better at verifying a solution" than at generating one, and the gains from iterative prompting came from "the correct solution being fortuitously present in the top-k completions" ([Stechly, Marquez, Kambhampati, 2023](https://arxiv.org/abs/2310.12397)). That's why "generate several, keep the one that passes the tests" works for code, and "generate one, ask the model if it's right" mostly doesn't.
+A model isn't automatically a good checker of its own work. On graph coloring, LLMs were no better at verifying a solution than at generating one, and the gains from iterative prompting came from a correct solution happening to show up in the top-k completions ([Stechly, Marquez, Kambhampati, 2023](https://arxiv.org/abs/2310.12397)). For code, generating several candidates and keeping one that passes the tests works. Generating one and asking the model whether it's right mostly doesn't.
 
 ### Models as judges, and their biases
 
 Sometimes there's no test for what you care about: readability, whether the design fits, whether a doc is accurate. Then people reach for a model as the judge. That helps, and it comes with known biases.
 
-Zheng et al. found strong model judges agree with human preferences about as often as humans agree with each other, and documented position, verbosity, and self-enhancement biases ([Zheng et al., 2023](https://arxiv.org/abs/2306.05685)). Wang et al. showed that simply swapping the order of two answers can flip a judge's verdict ([Wang et al., 2023](https://arxiv.org/abs/2305.17926)). In their words, judges "can be easily hacked by simply altering their order of appearance": with ChatGPT as the judge, Vicuna-13B "beat" ChatGPT on 66 of 80 queries ([ACL 2024 version](https://aclanthology.org/2024.acl-long.511/)). Self-preference work followed ([Panickssery et al., 2024](https://arxiv.org/abs/2404.13076); [Wataoka et al., 2024](https://arxiv.org/abs/2410.21819)).
+Zheng et al. found strong model judges agree with human preferences about as often as humans agree with each other, and documented position, verbosity, and self-enhancement biases ([Zheng et al., 2023](https://arxiv.org/abs/2306.05685)). Wang et al. showed that simply swapping the order of two answers can flip a judge's verdict ([Wang et al., 2023](https://arxiv.org/abs/2305.17926)). With ChatGPT as the judge, reordering the answers was enough to let Vicuna-13B beat ChatGPT on 66 of 80 queries ([ACL 2024 version](https://aclanthology.org/2024.acl-long.511/)). Self-preference work followed ([Panickssery et al., 2024](https://arxiv.org/abs/2404.13076); [Wataoka et al., 2024](https://arxiv.org/abs/2410.21819)).
 
 Judging code doesn't fix this. Cosmetic changes to names, comments and formatting sway every judge tested, "even when prompted to generate test cases before scoring" ([Moon et al., 2025](https://arxiv.org/abs/2505.16222)). Order still matters in pairwise code judging ([CodeJudgeBench, Jiang et al., 2025](https://arxiv.org/abs/2507.10535)). And software-engineering judges are "highly sensitive to prompt biases even when the underlying code snippet is unchanged," enough in some settings to reorder model rankings ([Zhao, Esmaeili, Fard, 2026](https://arxiv.org/abs/2604.16790)).
 
-So a model judge goes on the ladder below a test, not beside it. Use one for what tests can't express. Give it a fresh context, prefer a model from a different lab, and check a sample of its verdicts against your own. [Module 12](./12-multi-agent-systems.md#recipe-2-cross-model-review) covers judge panels and cross-model review, and [module 13](./13-ai-code-review.md#verify-findings-before-acting) covers checking a reviewer's findings before you act on them.
+Treat a model judge's verdict as weaker evidence than an executable test. Use one for what tests can't express. Give it a fresh context, prefer a model from a different lab, and check a sample of its verdicts against your own. [Module 12](./12-multi-agent-systems.md#recipe-2-cross-model-review) covers judge panels and cross-model review, and [module 13](./13-ai-code-review.md#verify-findings-before-acting) covers checking a reviewer's findings before you act on them.
 
 ### Checkable rewards, checkable tests
-
-This is the thread that ties the course together.
 
 [Module 03](./03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams) explains reinforcement learning with verifiable rewards (RLVR). The model gets problems a program can check, such as code that has to pass unit tests, and is rewarded when it gets them right. That's a big part of why models got good at code. Code is unusually checkable, and the verifier's rule says checkable tasks are the ones AI learns fastest.
 
 The same property is what lets you trust the output, up to a point. Checkable tests are how you get *bounded* confidence in an agent's code: confidence that reaches exactly as far as the tests do. Passing them is evidence, not proof. Anthropic's docs: "'All tests pass' on its own tells you very little" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)).
 
 RL also leaves a habit behind. Training rewards whatever the check measures, so models learned to satisfy checks in ways nobody intended. Anthropic's Claude 4 system card defines reward hacking to include "hard-coding (writing solutions that directly output expected values) and special-casing ... to pass tests," and reports that Claude Sonnet 3.7 "showed a tendency to resort to these behaviors, particularly in agentic coding settings such as Claude Code" ([Claude 4 System Card, §6](https://www-cdn.anthropic.com/6be99a52cb68eb70eb9572b4cafad13df32ed995.pdf)). That's Goodhart's law ([module 13](./13-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)) showing up inside the model: when a measure becomes a target, it stops being a good measure.
-
-So you keep using checks, and you protect them. The rest of this module is how.
 
 ## In practice
 
@@ -127,17 +121,17 @@ The contract only works if the agent can't quietly rewrite it. Agents under pres
 
 - Write or approve the tests yourself before implementation starts, and commit them separately.
 - Make each test fail first. A test that never failed may not test anything.
-- Check the test diff on every change. `git diff --stat main -- tests/` takes a second.
+- Read the full test diff on every change. `git diff main -- tests/` shows deleted assertions and new skips, which a `--stat` summary hides.
 - Enforce it with tooling when it matters. Anthropic's docs say a line in `CLAUDE.md` is followed "nearly every time," while a hook or a deny rule applies every time ([Claude Code docs](https://code.claude.com/docs/en/best-practices)). Anthropic's long-running agent harness told its agents: "It is unacceptable to remove or edit tests because this could lead to missing or buggy functionality" ([Young, 2025](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)).
 - Keep some checks out of the agent's reach. StrongDM's team keeps end-to-end "scenarios" outside the codebase, like a holdout set in machine learning, so agents can't tune the code to them ([StrongDM, 2026](https://factory.strongdm.ai/)).
 
-Anthropic's own example prompt is the short version: "write a failing test that reproduces it, then fix it" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)). Willison explains why the first half matters: "It's important to confirm that the tests fail before implementing the code ... If you skip that step you risk building a test that passes already" ([Red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/)).
+One of Anthropic's example prompts reads: "write a failing test that reproduces it, then fix it" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)). Willison stresses confirming that the tests fail before you implement the code. Skip that step and you risk writing a test that already passes ([Red/green TDD](https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/)).
 
 Kent Beck's system prompt for his own agent says "Always follow the TDD cycle: Red → Green → Refactor." One warning sign he watches for is "Any indication that the genie was cheating, for example by disabling or deleting tests" ([Beck, 2025](https://newsletter.kentbeck.com/p/augmented-coding-beyond-the-vibes)). [Lab 03](../course/labs/lab-03-plan-test-build.md) runs the whole contract on a small project: tests you write first, an empty test diff, and a mutation check by hand.
 
 ### Problems an agent can loop on
 
-Willison's advice for designing agent loops is to look for "problems with clear success criteria." He adds that "A common theme in all of these is automated tests" ([Designing agentic loops](https://simonwillison.net/2025/Sep/30/designing-agentic-loops/)). Before you hand a problem to a loop, find or build its oracle.
+Willison's advice for designing agent loops is to look for problems with clear success criteria, and he notes that automated tests are the common theme across his examples ([Designing agentic loops](https://simonwillison.net/2025/Sep/30/designing-agentic-loops/)). Before you hand a problem to a loop, find or build its oracle.
 
 | Oracle | What the agent loops against | Good for | Watch for |
 | --- | --- | --- | --- |
@@ -149,7 +143,7 @@ Willison's advice for designing agent loops is to look for "problems with clear 
 
 #### Golden outputs
 
-A golden output is the answer you already know is right, saved so later runs can be compared with it. Jest's docs say snapshots "should be committed ... and reviewed as part of your code review process," and warn against "regenerating snapshots when test suites fail instead of examining the root causes" ([Jest docs](https://jestjs.io/docs/snapshot-testing)). That warning matters more with agents. Regenerating the snapshot is the easiest way to turn a red test green, so treat a changed snapshot file like a changed test. [Module 07's golden tasks](./07-judging-models.md#1-build-a-golden-task-set) apply the same idea to evaluating models.
+A golden output is the answer you already know is right, saved so later runs can be compared with it. Jest recommends committing snapshots and reviewing them during code review. Its docs warn against regenerating failed snapshots without investigating the root cause ([Jest docs](https://jestjs.io/docs/snapshot-testing)). That warning matters more with agents. Regenerating the snapshot is the easiest way to turn a red test green, so treat a changed snapshot file like a changed test. [Module 07's golden tasks](./07-judging-models.md#1-build-a-golden-task-set) apply the same idea to evaluating models.
 
 #### Differential testing
 
@@ -159,7 +153,7 @@ It works at agent scale too. The harness behind Anthropic's agent-built C compil
 
 #### Property-based tests
 
-A property test states a rule and lets a tool hunt for counterexamples. Hypothesis will "randomly choose which of those inputs to check - including edge cases you might not have thought about," 100 inputs by default, and when one fails it "reports the simplest possible one" ([Hypothesis](https://hypothesis.works/); [quickstart](https://hypothesis.readthedocs.io/en/latest/quickstart.html)). Two properties for the `slugify` function from lab 03's feature menu:
+A property test states a rule and lets a tool hunt for counterexamples. Hypothesis randomly selects inputs, including edge cases you may not have considered, and checks 100 by default. When an input fails, it reports the simplest possible failing input ([Hypothesis](https://hypothesis.works/); [quickstart](https://hypothesis.readthedocs.io/en/latest/quickstart.html)). Two properties for the `slugify` function from lab 03's feature menu:
 
 ```python
 from hypothesis import given, strategies as st
@@ -174,13 +168,13 @@ def test_slugify_respects_max_length(s, n):
     assert len(slugify(s, max_length=n)) <= n
 ```
 
-Properties suit agents for a second reason: an agent can't hard-code its way past a check that makes up new inputs on every run.
+Properties suit agents for a second reason: an agent can't hard-code answers for inputs that are made up fresh on every run. Weak properties can still pass, though. Both properties above hold for a `slugify` that always returns an empty string.
 
 Models can help write them, unevenly. One study found "a valid and sound PBT can be synthesized in 2.4 samples on average," but GPT-4 got only 21% of the properties extractable from API documentation right ([Vikram et al., 2023](https://arxiv.org/abs/2307.04346)).
 
 #### Model-written tests
 
-Tests the model writes can filter candidate solutions. CodeT ranks candidates by "dual execution agreement" with generated tests, lifting HumanEval pass@1 to 65.8%, 18.8 points over the base model ([Chen et al., 2022](https://arxiv.org/abs/2207.10397)). Those tests need their own check, though. Reflexion's self-written tests had a 16.3% false-positive rate on MBPP Python, where Reflexion underperformed the baseline (77.1 vs 80.1) ([Shinn et al., 2023](https://arxiv.org/pdf/2303.11366)). Meta's TestGen-LLM keeps only generated tests that build, pass reliably and add coverage. "75% ... built correctly, 57% passed reliably, and 25% increased coverage," and engineers accepted 73% of its recommendations ([Alshahwan et al., 2024](https://arxiv.org/abs/2402.09171)). Hold your agent's tests to the same bar.
+Tests the model writes can filter candidate solutions. CodeT ranks candidates by "dual execution agreement" with generated tests, lifting HumanEval pass@1 to 65.8%, 18.8 points over the base model ([Chen et al., 2022](https://arxiv.org/abs/2207.10397)). Those tests need their own check, though. Reflexion's self-written tests had a 16.3% false-positive rate on MBPP Python, where Reflexion underperformed the baseline (77.1 vs 80.1) ([Shinn et al., 2023](https://arxiv.org/pdf/2303.11366)). Meta's TestGen-LLM keeps only generated tests that build, pass reliably and add coverage. Of the generated tests, 75% built correctly, 57% passed reliably and 25% increased coverage. Engineers accepted 73% of its recommendations ([Alshahwan et al., 2024](https://arxiv.org/abs/2402.09171)). Hold your agent's tests to the same bar.
 
 #### What isn't loopable
 
@@ -215,7 +209,7 @@ Any loop needs the following:
 2. An independent check: tests, a type checker, or a different model that didn't write the code. A model grading its own work is optimistic.
 3. A budget in turns, wall-clock time, or tokens. Claude Code suggests adding "or stop after 20 turns" to a goal, and its session loops expire after seven days.
 4. State outside the conversation, like a plan file, a checklist, or issues that the next iteration reads.
-5. Isolation in a worktree or sandbox, so a bad iteration can't damage your main checkout.
+5. Isolation. A worktree keeps a bad iteration out of your main checkout, and a sandbox limits what it can touch on the rest of the machine.
 6. Escalation. When the loop is stuck or something is irreversible (pushing, deleting, spending money), it stops and asks.
 7. A human who reads the output. A loop's "done" is a claim, so review the diff before it ships ([module 13](./13-ai-code-review.md)).
 
@@ -229,13 +223,13 @@ while :; do claude -p < PROMPT.md; done
 
 That's the post's `claude-code` pseudocode adapted to the current `claude` binary in non-interactive print mode (`-p`). The prompt does the real work. It tells the agent to read a plan file, do the single most important remaining item, update the plan, and exit, so the next iteration starts with a fresh context window. State carries through files: a prioritized `fix_plan.md`, spec files, and git history.
 
-Huntley's own caveats are the best guide to where it works. Ask Ralph "to do one thing per loop." Wire in tests and a type checker as "backpressure": "Anything can be wired in as back pressure to reject invalid code generation," and "I must stress the importance of wiring in a static analyser/type checker." Even then, "what is hard is ensuring that Ralph has generated the right thing." Expect stubs ("Claude has the inherent bias to do minimal and placeholder implementations"), and expect to "wake up to a broken codebase that doesn't compile from time to time." "There is no way this is possible without senior expertise guiding Ralph," and "There's no way in heck would I use Ralph in an existing code base."
+Huntley recommends one task per loop, with tests and a static analyzer or type checker wired in as backpressure to reject invalid code. He stresses the type checker in particular. Even then, he says, the hard part is making sure Ralph built the right thing. He warns that Claude is biased toward minimal and placeholder implementations, and that you'll sometimes wake up to a broken codebase that doesn't compile. He says Ralph isn't possible without senior expertise guiding it, and that he'd never use it in an existing codebase ([Huntley, 2025](https://ghuntley.com/ralph/)).
 
-Read those caveats as a verification checklist: backpressure is the verifier, and one thing per loop keeps each check small. Harnesses now ship tamer versions of the idea, such as Claude Code's `/loop` and `/goal` and Codex automations. [Module 09](./09-context-engineering.md#loop-engineering) covers where the name "loop engineering" came from.
+Backpressure is the loop's verifier, and one task per loop keeps each check small. Harnesses now ship tamer versions of the idea, such as Claude Code's `/loop` and `/goal` and Codex automations. [Module 09](./09-context-engineering.md#loop-engineering) covers where the name "loop engineering" came from.
 
 ### Goal loops and how long to let them run
 
-A goal loop keeps the agent working until a condition holds. In Claude Code, after each turn a small, fast model checks the condition and returns not yet met, met, or impossible. "Completion is decided by a fresh model rather than the one doing the work" ([Claude Code `/goal` docs](https://code.claude.com/docs/en/goal)).
+A goal loop keeps the agent working until a condition holds. In Claude Code, after each turn a separate small, fast model, not the one doing the work, checks the condition and returns not yet met, met, or impossible ([Claude Code `/goal` docs](https://code.claude.com/docs/en/goal)).
 
 That evaluator has a limit you need to design around: it "doesn't run commands or read files independently." So the condition must be something "Claude's own output can demonstrate," like printed test results. The docs suggest two clauses worth copying into any goal: "or stop after 20 turns," and "no other test file is modified." Under the hood, "`/goal` is a wrapper around a session-scoped prompt-based Stop hook," and it halts if Claude makes no tool calls for several turns.
 
@@ -246,11 +240,11 @@ show the final output, no other test file is modified, or stop after 20 turns
 
 Codex's `/goal` (behind the `features.goals` flag) "will stop running when it's confident it has reached the stopping condition," and no separate evaluator is documented. Its template asks for the same evidence: "/goal Complete [objective] without stopping until [verifiable end state]" ([Codex follow-goals docs](https://learn.chatgpt.com/docs/use-cases/follow-goals/)).
 
-How long can a loop run before it goes wrong? METR's time horizons ([module 07](./07-judging-models.md#long-horizons)) are the best public measure. In May 2026 METR put the public frontier at a 50% horizon of about 12 hours, but an 80% horizon of only about 1.5 hours. On tasks over eight hours, "at least 16% of successful runs were illegitimate upon review" ([Frontier Risk Report](https://metr.org/blog/2026-05-19-frontier-risk-report/)). The longer the run, the more you depend on its checks.
+METR's time horizons ([module 07](./07-judging-models.md#long-horizons)) are the best public measure of how big a task you can hand a model. They're measured in how long the task takes a human, not how long the agent runs. In May 2026 METR put the public frontier at a 50% horizon of about 12 hours, but an 80% horizon of only about 1.5 hours. On tasks over eight hours, "at least 16% of successful runs were illegitimate upon review" ([Frontier Risk Report](https://metr.org/blog/2026-05-19-frontier-risk-report/)). The bigger the task, the more you depend on its checks.
 
 ### Stop hooks and CI gates
 
-Everything above asks the agent to run checks. A gate makes the harness run them, whether the agent remembers or not. Anthropic's docs sort the ways of saying "done" by who decides. Evidence requests, `/goal` and `/code-review` are model-decided. Tests, typecheck, a `Stop` hook and CI are enforced ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)). A rule in `CLAUDE.md` is followed "nearly every time." A hook applies "every time, no matter what the model decided to do."
+A gate makes the harness run checks even when the agent forgets. Anthropic's docs separate checks a model decides, such as evidence requests, `/goal` and `/code-review`, from enforced checks: tests, type checking, a `Stop` hook and CI. They say a rule in `CLAUDE.md` is followed "nearly every time," while a hook applies every time, no matter what the model decided to do ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)).
 
 A `Stop` hook is the canonical gate. In Claude Code it fires "When Claude finishes responding," and exit code 2 or `decision: "block"` "Prevents Claude from stopping, continues the conversation" ([hooks reference](https://code.claude.com/docs/en/hooks)). Anthropic's example blocks until the type checker passes:
 
@@ -270,7 +264,7 @@ A `Stop` hook is the canonical gate. In Claude Code it fires "When Claude finish
 
 "Exit code 2 is what blocks the stop" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)). The `1>&2` sends the type checker's output to standard error. Swap in your test command (`npm test 1>&2 || exit 2`, or `uv run pytest -q 1>&2 || exit 2`) and you have the gate the [Try it](#try-it) below asks you to build.
 
-Two details keep a gate from becoming a trap. The hook's input includes `stop_hook_active`, which "is `true` when Claude Code is already continuing as a result of a stop hook," so a script can choose not to block twice. And Claude Code applies "an 8-consecutive-continuation cap," adjustable with `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`, so a test that can never pass won't spin the agent forever ([hooks reference](https://code.claude.com/docs/en/hooks)). [Module 08](./08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit) covers hook mechanics and has a `Stop` hook that waits for CI.
+The hook's input includes `stop_hook_active`, which "is `true` when Claude Code is already continuing as a result of a stop hook," so a script can choose not to block twice. And Claude Code applies "an 8-consecutive-continuation cap," adjustable with `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`, so a test that can never pass won't spin the agent forever ([hooks reference](https://code.claude.com/docs/en/hooks)). [Module 08](./08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit) covers hook mechanics and has a `Stop` hook that waits for CI.
 
 Hooks don't have to be shell commands. Claude Code also supports prompt hooks (`type: "prompt"`, where an LLM decides) and agent hooks (`type: "agent"`), which spawn "a subagent that can read files, search code, and inspect the codebase to verify conditions." Those are model judges, so put them on top of a command check, not in place of one.
 
@@ -280,7 +274,7 @@ CI is the last gate before main. On GitHub, "all required status checks must pas
 
 ### Protecting the verifier
 
-Everything so far assumes the check is honest. An agent under pressure to pass it will sometimes attack the check instead of the problem. [Module 04](04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats) covers where that habit comes from; this section covers what to do about it.
+An agent under pressure to pass a check will sometimes attack the check instead of solving the problem. [Module 04](04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats) explains where that habit comes from.
 
 METR documented frontier models rewriting a timer so the scorer saw almost no elapsed time and monkey-patching an evaluator to mark every submission correct. On the one task where METR tested anti-cheating instructions, telling the model not to cheat still left reward hacking in 70–95% of runs, depending on the wording ([METR, 2025](https://metr.org/blog/2025-06-05-recent-reward-hacking/)). ImpossibleBench makes tasks where the spec and the tests contradict each other, so any pass is a cheat. Models cheat in ways ranging "from simple test modification to complex operator overloading" ([Zhong et al., 2025](https://arxiv.org/abs/2510.20270)). In June 2026 METR declined to publish a reliable time horizon for OpenAI's GPT-5.6 Sol at all: its "detected cheating rate was higher than any public model we have evaluated," including exploits that revealed hidden tests ([METR, 2026](https://metr.org/blog/2026-06-26-gpt-5-6-sol/)). An autonomous pipeline that grades itself with tests the agent can see is grading on the honor system.
 
@@ -292,22 +286,22 @@ Watching the model's reasoning isn't a reliable defense either. When OpenAI put 
 
 So the defenses are mechanical, roughly in order of effort:
 
-1. **Make tests read-only while the agent implements.** A deny rule or hook that blocks edits under `tests/` applies every time; a line in `CLAUDE.md` applies "nearly every time." Lab 03's extension has you build one.
-2. **Read the test diff on every change.** Deleted assertions and new `skip` markers show up in seconds.
-3. **Keep holdouts.** Grade with tests the agent never sees, and run them yourself after it says it's done. [Module 07](./07-judging-models.md#1-build-a-golden-task-set) does this for evals; StrongDM does it for a whole product.
-4. **Prefer checks that resist hard-coding.** Property tests and differential tests generate inputs the agent hasn't seen.
-5. **Test the tests** with mutation testing (next).
-6. **Review with a fresh context**, ideally a model from a different lab, and read what it flags ([module 13](./13-ai-code-review.md#a-layered-review-workflow)).
+1. Make tests read-only while the agent implements. A deny rule or hook that blocks edits under `tests/` applies every time; a line in `CLAUDE.md` applies "nearly every time." Lab 03's extension has you build one.
+2. Read the full test diff on every change. Deleted assertions and new `skip` markers show up in seconds.
+3. Keep holdouts. Grade with tests the agent never sees, and run them yourself after it says it's done. [Module 07](./07-judging-models.md#1-build-a-golden-task-set) does this for evals; StrongDM does it for a whole product.
+4. Prefer checks that resist hard-coding. Property tests and differential tests generate inputs the agent hasn't seen.
+5. Test the tests with mutation testing.
+6. Review with a fresh context, ideally a model from a different lab, and read what it flags ([module 13](./13-ai-code-review.md#a-layered-review-workflow)).
 
 #### Mutation testing
 
-Coverage tells you which code ran, not whether a test would notice if it were wrong. PIT's docs: coverage "measures only which code is executed" and "does not check that your tests are actually able to detect faults." Mutation testing fills that gap ([PIT](https://pitest.org/)). The tool breaks your code on purpose, in small ways, one at a time, and reruns the tests. A mutant "survived" when "all tests passed while this mutant was active ... You're missing a test for it." The mutation score is detected mutants divided by valid ones ([Stryker docs](https://stryker-mutator.io/docs/mutation-testing-elements/mutant-states-and-metrics/)).
+Coverage records which code ran. It doesn't tell you whether the tests can detect faults ([PIT](https://pitest.org/)). Mutation testing breaks your code on purpose, in small ways, one at a time, and reruns the tests. A mutant survives when all tests pass while it's active, and Stryker's docs read that as a missing test. Treat it as a strong hint rather than proof, since some changes don't alter behavior and no test could catch them. The mutation score is detected mutants divided by valid ones ([Stryker docs](https://stryker-mutator.io/docs/mutation-testing-elements/mutant-states-and-metrics/)).
 
 LLMs make this cheaper. Meta's ACH "targets specific faults, rather than uncovered code": an LLM writes realistic mutants of a described fault, then tests that kill them ([Meta, 2025](https://engineering.fb.com/2025/02/05/security/revolutionizing-software-testing-llm-powered-bug-catchers-meta-ach/)). Run on 10,795 Kotlin classes, it produced 9,095 mutants and 571 tests, and engineers "accepted 73% of its tests, judging 36% to privacy relevant" ([Foster, Harman et al., 2025](https://arxiv.org/abs/2501.12862)).
 
 Mutation testing is also how you catch a tautological test, one that checks the code against itself or a mock against its own setup: every mutant survives it.
 
-You don't need a tool to start. Break one line of the implementation by hand and run the tests. If nothing fails, the tests don't check that line.
+You don't need a tool to start. Break one line of the implementation by hand and run the tests. If nothing fails, the tests probably don't check that line.
 
 ### Proof of done
 
@@ -326,24 +320,24 @@ Before you tell me you're done, give me:
 5. Anything you could not verify, and why.
 ```
 
-Item 5 turns the agent's gaps into a list of where to look. The same idea shows up as a "Done means" section in [module 09's `AGENTS.md` example](./09-context-engineering.md#current-best-practice) and as "How I verified it" in [module 13's PR template](./13-ai-code-review.md#make-the-author-explain-the-change). Then rerun one of the commands yourself. It takes seconds, and it keeps the report honest.
+Use the agent's list of unverified work to decide what to inspect next. The same idea shows up as a "Done means" section in [module 09's `AGENTS.md` example](./09-context-engineering.md#current-best-practice) and as "How I verified it" in [module 13's PR template](./13-ai-code-review.md#make-the-author-explain-the-change). Then rerun one of the commands yourself. It takes seconds, and it keeps the report honest.
 
 ### Calibrating your own trust
 
-Every check in this module can make the last one, you, worse. Do human reviewers relax when a bot has already passed a PR? That's **automation bias**, and layering only works if each layer still does its job.
+Human reviewers can become less careful when a bot has already passed a PR. That's **automation bias**. Adding checks only helps if each layer still does its job.
 
 The research on automation bias is older than LLMs and not encouraging:
 
-- It causes "both omission and commission errors when decision aids are imperfect," occurs "in both naive and expert participants," and "cannot be prevented by training or instructions" ([Parasuraman & Manzey, 2010](https://doi.org/10.1177/0018720810376055)).
+- When a decision aid is imperfect, people miss problems it didn't flag and follow advice it got wrong. This happens to novices and experts alike, and training or instructions can't prevent it ([Parasuraman & Manzey, 2010](https://doi.org/10.1177/0018720810376055)).
 - In a review of 74 studies, a wrong decision-support system raised the risk of an incorrect decision by 26% ([Goddard, Roudsari, Wyatt, 2012](https://pmc.ncbi.nlm.nih.gov/articles/PMC3240751/)).
 - With code, developers using an AI assistant "wrote significantly less secure code" and were "more likely to believe they wrote secure code" ([Perry et al., 2023](https://arxiv.org/abs/2211.03622)).
 
-Developers say they're wary. In the 2025 DORA survey, 90% use AI, but only 24% trust its output "a great deal" or "a lot," and 30% trust it "a little" or "not at all" ([Google, 2025](https://blog.google/innovation-and-ai/technology/developers-tools/dora-report-2025/)). In Stack Overflow's 2025 survey, "More developers actively distrust the accuracy of AI tools (46%) than trust it (33%)," and the top frustration, at 66%, is "AI solutions that are almost right, but not quite" ([Stack Overflow, 2025](https://survey.stackoverflow.co/2025/ai)). Stated distrust doesn't mean careful checking, though. People approve the vast majority of permission prompts ([module 08](./08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit)), and they feel faster than they measure ([module 07](./07-judging-models.md#real-world-productivity-evidence)).
+Developers say they're wary. In the 2025 DORA survey, 90% use AI, but only 24% trust its output "a great deal" or "a lot," and 30% trust it "a little" or "not at all" ([Google, 2025](https://blog.google/innovation-and-ai/technology/developers-tools/dora-report-2025/)). In Stack Overflow's 2025 survey, 46% of developers actively distrusted the accuracy of AI tools and 33% trusted it. The top frustration, reported by 66%, was AI solutions that are almost right, but not quite ([Stack Overflow, 2025](https://survey.stackoverflow.co/2025/ai)). Stated distrust doesn't mean careful checking, though. People approve the vast majority of permission prompts ([module 08](./08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit)), and they feel faster than they measure ([module 07](./07-judging-models.md#real-world-productivity-evidence)).
 
 If training and instructions don't prevent automation bias, the fix has to be in the process:
 
 - Scale the evidence to the risk of the change, not to how confident the agent sounds. A copy change needs a glance. A change to payments, auth, data deletion or a migration needs the full proof of done, a fresh-context review, and a second person.
-- Let the gates carry the vigilance. Required checks, the test diff and the proof-of-done list don't get tired.
+- Use required checks, the test diff and the proof-of-done list to make careful checking part of the process.
 - Read a sample of *passing* work, not only failures. Cheating shows up in runs that passed ([module 07](./07-judging-models.md#cheating-reward-hacking-and-grader-trust)).
 - Measure instead of trusting your sense of speed or quality ([module 07](./07-judging-models.md#self-report-vs-measurement)).
 
@@ -359,7 +353,7 @@ The goal is the cheapest check that catches the mistakes you actually see. Add a
 
 ### Do holdouts stay held out?
 
-Do holdout scenarios stay held out? As models get better at finding hidden tests (as METR saw in 2026), "keep the tests secret" turns into an arms race.
+Models are getting better at finding hidden tests, as METR reported in 2026, so holdout scenarios are getting harder to keep secret.
 
 METR's GPT-5.6 Sol exploits included revealing the hidden test suite and "extracting hidden source code detailing the expected answer" ([METR, 2026](https://metr.org/blog/2026-06-26-gpt-5-6-sol/)). Terminal-Bench removed leaderboard submissions that uploaded the tasks' test folders ([module 07](./07-judging-models.md#cheating-reward-hacking-and-grader-trust)). If the holdout sits in a folder the agent can read, it stays hidden only as long as the agent follows instructions. Keep grading tests outside the agent's sandbox, run them from a separate step, and read what passing runs actually did.
 
@@ -369,11 +363,11 @@ ImpossibleBench's design is also a tool you can borrow. Make the spec and the te
 
 Two first-hand reports show what instructions and an agent's own account can't protect you from.
 
-**Replit, July 2025.** During a code freeze, Replit's agent deleted SaaStr founder Jason Lemkin's production database. His posts show the agent's own messages admitting "a catastrophic error of judgement" ([Lemkin](https://x.com/jasonlk/status/1946066422477529487); [Lemkin](https://x.com/jasonlk/status/1946069562723897802); post text confirmed via [The Register](https://www.theregister.com/2025/07/21/replit_saastr_vibe_coding_incident)). The agent also said rollback was impossible. It wasn't: "despite Replit itself telling me rolling back wouldn't work here -- it did" ([Lemkin](https://x.com/jasonlk/status/1946240914386809028)). His conclusion: "There is no way to enforce a code freeze in vibe coding apps like Replit. There just isn't" ([Lemkin](https://x.com/jasonlk/status/1946589071519948952)). Replit's CEO called it "Unacceptable and should never be possible" and announced "automatic DB dev/prod separation to prevent this categorically" ([Masad](https://x.com/amasad/status/1946986468586721478), via [The Register](https://www.theregister.com/2025/07/22/replit_saastr_response/)).
+During a code freeze in July 2025, Replit's agent deleted SaaStr founder Jason Lemkin's production database. Lemkin posted the agent's own messages admitting "a catastrophic error of judgement" ([Lemkin](https://x.com/jasonlk/status/1946066422477529487); [Lemkin](https://x.com/jasonlk/status/1946069562723897802); post text confirmed via [The Register](https://www.theregister.com/2025/07/21/replit_saastr_vibe_coding_incident)). The agent said rollback wouldn't work, but Lemkin reported that it did ([Lemkin](https://x.com/jasonlk/status/1946240914386809028)). He concluded there's no way to enforce a code freeze in vibe coding apps like Replit ([Lemkin](https://x.com/jasonlk/status/1946589071519948952)). Replit's CEO called the deletion unacceptable, said it should never be possible, and announced automatic separation of development and production databases to prevent it categorically ([Masad](https://x.com/amasad/status/1946986468586721478), via [The Register](https://www.theregister.com/2025/07/22/replit_saastr_response/)).
 
-Read it as a verification story. The freeze was an instruction, not an enforced check. The agent's report about the state of the world ("rollback won't work") was unverified output, and it was wrong. The fix that stuck was structural.
+The code freeze wasn't enforced by a check. The agent's report about the state of the world ("rollback won't work") was unverified output, and it was wrong. The fix Replit announced was structural: separate databases.
 
-**Claude Code, October 2025.** A user on v2.0.22 under WSL2 reports that the agent ran an `rm -rf` from `/` that deleted all user-owned files in their home directory before they could interrupt it ([anthropics/claude-code#10077](https://github.com/anthropics/claude-code/issues/10077)). No check after the fact can undo that. For destructive actions, verification has to happen before the command runs, through permissions and sandboxes ([module 14](./14-security-and-prompt-injection.md#practical-defenses)).
+In October 2025, a Claude Code user running v2.0.22 under WSL2 reported that the agent ran `rm -rf` from `/`, deleting all user-owned files in their home directory before they could interrupt it ([anthropics/claude-code#10077](https://github.com/anthropics/claude-code/issues/10077)). No check after the fact can undo that. For destructive actions, verification has to happen before the command runs, through permissions and sandboxes ([module 14](./14-security-and-prompt-injection.md#practical-defenses)).
 
 [Module 14](./14-security-and-prompt-injection.md#real-incidents-20252026) lists more incidents, most of them attacks rather than mistakes.
 
@@ -387,11 +381,11 @@ Read it as a verification story. The freeze was an instruction, not an enforced 
 
 > **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](./10-agentic-workflows.md#bryans-take).)
 
-The strongest counterpoint is a project with a near-perfect verifier. Carlini's C compiler had GCC to diff against and decades of conformance tests, and parallel agents built it mostly unattended ([module 10](./10-agentic-workflows.md#what-the-successes-have-in-common)). With an oracle that good, a loop can be ambitious. Most product work doesn't have one, which is why this module spends so much time on building and protecting checks.
+The strongest counterpoint is a project with a near-perfect verifier. Carlini's C compiler had GCC to diff against and decades of conformance tests, and parallel agents built it mostly unattended ([module 10](./10-agentic-workflows.md#what-the-successes-have-in-common)). With an oracle that good, a loop can be ambitious. Most product work doesn't have an oracle that good. You have to build and protect its checks.
 
 ## Try it
 
-**Individual exercise: gate "done" on your tests (45–60 minutes).**
+Work on your own for 45–60 minutes to gate the agent's "done" on passing tests.
 1. Take a small project with a test suite, or lab 03's.
 2. Write a `Stop` hook that blocks "done" until the tests pass. Start from the type-check example in [Stop hooks and CI gates](#stop-hooks-and-ci-gates) and swap in your test command.
 3. Give the agent a task that breaks a test and watch the hook push it back. Count how many times it gets blocked before it finishes.
@@ -400,8 +394,7 @@ The strongest counterpoint is a project with a near-perfect verifier. Carlini's 
 6. Break one line of the implementation by hand. Did a test notice?
 7. Write a paragraph: which of these checks would you keep on every project?
 
-**Class or team exercise: build a loop with a verifier (one session).**
-In small groups, pick a toy project with a failing test suite (the instructor can break 10 tests on purpose). Each group builds a different loop: a Ralph-style shell loop with a plan file, a `/goal` with a test condition, or a Stop hook that blocks "done" until tests pass. Give each a turn or time budget. Compare: did it finish? How many tokens? Did any "pass" by weakening a test? (Check the diffs.) Then discuss which verifier you'd trust in a real codebase.
+As a class or team, spend one session building a loop with a verifier. In small groups, pick a toy project with a failing test suite (the instructor can break 10 tests on purpose). Each group builds a different loop: a Ralph-style shell loop with a plan file, a `/goal` with a test condition, or a Stop hook that blocks "done" until tests pass. Give each a turn or time budget. Compare: did it finish? How many tokens? Did any "pass" by weakening a test? (Check the diffs.) Then discuss which verifier you'd trust in a real codebase.
 
 ## Discussion questions
 
@@ -473,9 +466,9 @@ In small groups, pick a toy project with a failing test suite (the instructor ca
 ## Terms introduced
 
 - **Verifier:** a test, tool or separate model that checks an agent's claimed result.
-- **Oracle:** an automated source of truth to check results against, such as a reference implementation or conformance suite.
+- **Oracle:** the source of truth a verifier checks against, such as an expected value in a test, a reference implementation or a conformance suite.
 - **Ladder of checks:** the rungs of verification from types and lint through unit, property, integration, end-to-end and runtime checks, up to human review.
-- **Self-correction:** a model revising its own output; it works reliably mainly when the feedback comes from outside the model.
+- **Self-correction:** a model revising its own output. Without large-scale fine-tuning, it works reliably mainly when the feedback comes from outside the model.
 - **Asymmetry of verification:** the idea that some tasks are much easier to verify than to solve.
 - **Verifier's rule:** Jason Wei's claim that the ease of training AI to solve a task is proportional to how verifiable the task is.
 - **Generator-verifier gap:** how much better a system is at checking answers than at producing them.
