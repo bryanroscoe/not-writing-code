@@ -109,7 +109,7 @@ So a model judge goes on the ladder below a test, not beside it. Use one for wha
 
 This is the thread that ties the course together.
 
-[Module 03](./03-post-training-and-rl.md#post-training-apprenticeship-coaching-and-practice-exams) explains reinforcement learning with verifiable rewards (RLVR). The model gets problems a program can check, such as code that has to pass unit tests, and is rewarded when it gets them right. That's a big part of why models got good at code. Code is unusually checkable, and the verifier's rule says checkable tasks are the ones AI learns fastest.
+[Module 03](./03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams) explains reinforcement learning with verifiable rewards (RLVR). The model gets problems a program can check, such as code that has to pass unit tests, and is rewarded when it gets them right. That's a big part of why models got good at code. Code is unusually checkable, and the verifier's rule says checkable tasks are the ones AI learns fastest.
 
 The same property is what lets you trust the output, up to a point. Checkable tests are how you get *bounded* confidence in an agent's code: confidence that reaches exactly as far as the tests do. Passing them is evidence, not proof. Anthropic's docs: "'All tests pass' on its own tells you very little" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)).
 
