@@ -346,11 +346,11 @@ Put together, LLMs build real, usable internal models of many things, and those 
   - It misreports its own mental math. Adding 36 + 59, it runs one path that estimates the rough size and another that computes the last digit. Asked how it did it, it describes the schoolbook carry-the-one method.
   - Its reasoning can be unfaithful. On a hard problem with a hint, it sometimes worked backward from the hinted answer while presenting its reasoning as a forward calculation.
 
-Anthropic notes these methods capture only a fraction of the computation, even on short prompts. Interpretability is improving, but nobody can yet fully trace a frontier model's computation.
+Anthropic notes these methods capture only a fraction of the computation, even on short prompts. Interpretability is improving, but nobody can yet fully trace a frontier model's computation. As of November 2026, it has started to feed release decisions: Anthropic's system card for Claude Mythos 5.2 uses white-box evidence to estimate how often the model knew it was being evaluated ([Anthropic](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)). [Module 04](04-model-safety-and-alignment.md#interpretability-progress-and-limits) covers the newer tools and their limits.
 
 ### Is the chain of thought honest?
 
-A reasoning model's visible thinking may not reflect how it reached its answer. [Chen et al. (2025)](https://arxiv.org/abs/2505.05410), "Reasoning Models Don't Always Say What They Think," slipped hints into prompts and checked whether models admitted using them. Claude 3.7 Sonnet mentioned the hint about 25% of the time when it used it; DeepSeek-R1 about 39%. The chain of thought is useful evidence, not a guarantee. For safety monitoring and code review, check the actual changes rather than relying on the narration.
+A reasoning model's visible thinking may not reflect how it reached its answer. [Chen et al. (2025)](https://arxiv.org/abs/2505.05410), "Reasoning Models Don't Always Say What They Think," slipped hints into prompts and checked whether models admitted using them. Claude 3.7 Sonnet mentioned the hint about 25% of the time when it used it; DeepSeek-R1 about 39%. The chain of thought is useful evidence, not a guarantee. For safety monitoring and code review, check the actual changes rather than relying on the narration. On some frontier models it's getting harder to monitor: OpenAI's GPT-6 Astra system card (September 2026) says the model's "monitorability has decreased relative to GPT-5.6 Sol" ([OpenAI](https://deploymentsafety.openai.com/gpt-6-astra)). [Module 04](04-model-safety-and-alignment.md#chain-of-thought-monitorability-and-evaluation-awareness) has more.
 
 ### Beyond the plain transformer
 

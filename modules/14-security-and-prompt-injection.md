@@ -140,12 +140,14 @@ Newer models have improved on many of these measures, and the specific numbers a
 
 ### Frontier models as offense and defense
 
-The same capability that writes code also finds bugs in it. Two examples show how far this had gone by 2026:
+The same capability that writes code also finds bugs in it. Some 2026 milestones:
 
-- On 7 April 2026 Anthropic announced [Project Glasswing](https://www.anthropic.com/glasswing): an unreleased model, Claude Mythos Preview, given to a small coalition of companies and open-source maintainers to find and fix vulnerabilities. Anthropic says it found thousands of high-severity flaws, including a 27-year-old remote crash bug in OpenBSD and a 16-year-old flaw in FFmpeg that automated testing had executed five million times without catching. Anthropic withheld general release and restricts its strongest cyber variants to vetted defenders through a verification program.
-- OpenAI's [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) (February 2026) described its first launch treated as **High** capability in cybersecurity under its Preparedness Framework. This activated extra safeguards as a precaution: OpenAI said it lacked definitive evidence that the model reached the threshold, but could not rule it out.
+- On 7 April 2026 Anthropic announced [Project Glasswing](https://www.anthropic.com/glasswing): an unreleased model, Claude Mythos Preview, given to a small coalition of companies and open-source maintainers to find and fix vulnerabilities. Anthropic says it found thousands of high-severity flaws, including a 27-year-old remote crash bug in OpenBSD and a 16-year-old flaw in FFmpeg that automated testing had executed five million times without catching. As of November 2026, Anthropic ships Mythos-class capability generally as Claude Fable 5.2, with extra bio and cyber safeguards, while the more permissive Claude Mythos 5.2 is limited to vetted organizations ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
+- OpenAI's [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) (February 2026) described its first launch treated as **High** capability in cybersecurity under its Preparedness Framework, as a precaution. In September 2026 OpenAI called GPT-6 Astra "our first model to reach the Critical level of cybersecurity capability under our Preparedness Framework" ([system card](https://deploymentsafety.openai.com/gpt-6-astra)).
+- In October 2026 Google said it "cannot rule out" that Gemini 4 Argon reached the cybersecurity Critical Capability Level of its Frontier Safety Framework ([model card](https://deepmind.google/models/model-cards/gemini-4-argon/)).
+- On 12 June 2026 the US applied its first export controls on specific models, to Claude Fable 5 and Mythos 5, after a reported safeguard bypass, and Anthropic suspended access for all users. The controls were lifted by 30 June. Mythos 5 access came back only for "a set of US organizations," and Fable 5 returned on 1 July ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)).
 
-If you're a student, point these tools at *your own* code before you ship. If you're on a team, assume attackers have them too, and patch faster. [Module 05](./05-model-landscape.md) has current model names and access tiers.
+[Module 04](./04-model-safety-and-alignment.md#frontier-safety-frameworks-as-of-november-2026) explains these frameworks and their thresholds. If you're a student, point these tools at *your own* code before you ship. If you're on a team, assume attackers have them too, and patch faster. [Module 05](./05-model-landscape.md) has current model names and access tiers.
 
 ### Practical defenses
 
@@ -307,6 +309,7 @@ Pick one real agent workflow (for example "agent triages new GitHub issues and o
 - Anthropic, [Mitigating the risk of prompt injections in browser use](https://www.anthropic.com/news/prompt-injection-defenses) (2025), [Claude Code sandboxing](https://www.anthropic.com/engineering/claude-code-sandboxing) (2025), [Claude Code security docs](https://code.claude.com/docs/en/security)
 - OpenAI, [Codex sandboxing docs](https://learn.chatgpt.com/docs/sandboxing), [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) (2026)
 - Anthropic, [Project Glasswing](https://www.anthropic.com/glasswing) (2026)
+- Anthropic, [Claude Fable 5.2 / Mythos 5.2 system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card) (2026), [Redeploying Claude Fable 5](https://www.anthropic.com/news/redeploying-fable-5) (2026); OpenAI, [GPT-6 Astra system card](https://deploymentsafety.openai.com/gpt-6-astra) (2026); Google DeepMind, [Gemini 4 Argon model card](https://deepmind.google/models/model-cards/gemini-4-argon/) (2026)
 
 **Primary sources: incidents**
 - Invariant Labs, [MCP Security Notification: Tool Poisoning Attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks) (2025) and [GitHub MCP exploited](https://invariantlabs.ai/blog/mcp-github-vulnerability) (2025)
