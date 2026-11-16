@@ -215,7 +215,7 @@ Most of that compute goes to generating answers, not training on them. In Olmo 3
 
 ### Safety training
 
-Labs also use post-training to make models refuse dangerous requests, resist manipulation, and follow a written specification, such as OpenAI's [deliberative alignment](https://arxiv.org/abs/2412.16339) (2024) and Anthropic's [constitution](https://www.anthropic.com/news/claude-new-constitution) (January 2026). Many safeguards also sit outside the weights, such as input and output classifiers ([Constitutional Classifiers, 2025](https://arxiv.org/abs/2501.18837)). As the [risks section](#risks) shows, safety that lives only in open weights is easy to remove.
+Labs also use post-training to make models refuse dangerous requests, resist manipulation, and follow a written specification, such as OpenAI's [deliberative alignment](https://arxiv.org/abs/2412.16339) (2024) and Anthropic's [constitution](https://www.anthropic.com/news/claude-new-constitution) (January 2026). Many safeguards also sit outside the weights, such as input and output classifiers ([Constitutional Classifiers, 2025](https://arxiv.org/abs/2501.18837)). As the [risks section](#risks) shows, safety that lives only in open weights is easy to remove. [Module 04](04-model-safety-and-alignment.md#how-labs-align-models-today) covers how labs align models and how they test whether it worked.
 
 ## In practice
 
@@ -577,11 +577,11 @@ Compare answers. Where did groups disagree, and what evidence or measurement wou
 
 ## Discussion questions
 
-3. Your team wants to fine-tune "so the model knows our codebase." What would you propose instead, and what would change your mind?
-4. Which level of the self-improvement spectrum would you be comfortable deploying in a product today? What controls would you require?
-5. OpenAI graded its own "research intern" milestone, and Anthropic's warning that it may soon reach its threshold rests on its own internal estimates. What independent evidence would convince you that AI is meaningfully speeding up AI research?
-6. Researchers disagree about whether RLVR teaches models new abilities or makes them pick their best existing answers more reliably. What result would change your mind either way? Does the answer matter for how you use a coding agent day to day?
-7. Adding "Please do not cheat." to METR's prompt left one task's hacking rate at 80%, while read-only tests and a "flag for human intervention" option sharply cut cheating on ImpossibleBench. What does that say about instructions versus changing the environment, in training and in your own agent setup?
+1. Your team wants to fine-tune "so the model knows our codebase." What would you propose instead, and what would change your mind?
+2. Which level of the self-improvement spectrum would you be comfortable deploying in a product today? What controls would you require?
+3. OpenAI graded its own "research intern" milestone, and Anthropic's warning that it may soon reach its threshold rests on its own internal estimates. What independent evidence would convince you that AI is meaningfully speeding up AI research?
+4. Researchers disagree about whether RLVR teaches models new abilities or makes them pick their best existing answers more reliably. What result would change your mind either way? Does the answer matter for how you use a coding agent day to day?
+5. Adding "Please do not cheat." to METR's prompt left one task's hacking rate at 80%, while read-only tests and a "flag for human intervention" option sharply cut cheating on ImpossibleBench. What does that say about instructions versus changing the environment, in training and in your own agent setup?
 
 ## Sources and further reading
 
@@ -605,14 +605,12 @@ Compare answers. Where did groups disagree, and what evidence or measurement wou
 - [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685) (Zheng et al., 2023)
 - [RLAIF vs. RLHF: Scaling Reinforcement Learning from Human Feedback with AI Feedback](https://arxiv.org/abs/2309.00267) (Lee et al., 2023)
 - [Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!](https://arxiv.org/abs/2310.03693) (Qi et al., 2023)
-- [LoRA Fine-tuning Efficiently Undoes Safety Training in Llama 2-Chat 70B](https://arxiv.org/abs/2310.20624) (Lermen, Rogers-Smith, Ladish, 2023)
 - [Fine-Tuning or Retrieval? Comparing Knowledge Injection in LLMs](https://arxiv.org/abs/2312.05934) (Ovadia et al., 2023)
 - [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020) (Yuan et al., 2024)
 - [DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models](https://arxiv.org/abs/2402.03300) (Shao et al., 2024), introduces GRPO
 - [Back to Basics: Revisiting REINFORCE Style Optimization for Learning from Human Feedback in LLMs](https://arxiv.org/abs/2402.14740) (Ahmadian et al., 2024)
 - [Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?](https://arxiv.org/abs/2405.05904) (Gekhman et al., 2024)
 - [LoRA Learns Less and Forgets Less](https://arxiv.org/abs/2405.09673) (Biderman et al., 2024)
-- [Refusal in Language Models Is Mediated by a Single Direction](https://arxiv.org/abs/2406.11717) (Arditi et al., 2024)
 - [Learning to (Learn at Test Time): RNNs with Expressive Hidden States](https://arxiv.org/abs/2407.04620) (Sun et al., 2024)
 - [Rule Based Rewards for Language Model Safety](https://arxiv.org/abs/2411.01111) (Mu et al., 2024)
 - [The Surprising Effectiveness of Test-Time Training for Few-Shot Learning](https://arxiv.org/abs/2411.07279) (Akyürek et al., 2024)
@@ -636,7 +634,6 @@ Compare answers. Where did groups disagree, and what evidence or measurement wou
 - [Self-Adapting Language Models](https://arxiv.org/abs/2506.10943) (Zweiger et al., 2025), SEAL
 - [AlphaEvolve: A coding agent for scientific and algorithmic discovery](https://arxiv.org/abs/2506.13131) (Novikov et al., 2025)
 - [MiniMax-M1: Scaling Test-Time Compute Efficiently with Lightning Attention](https://arxiv.org/abs/2506.13585) (MiniMax, 2025), introduces CISPO
-- [Persona Features Control Emergent Misalignment](https://arxiv.org/abs/2506.19823) (Wang et al., 2025)
 - [Rubrics as Rewards: Reinforcement Learning Beyond Verifiable Domains](https://arxiv.org/abs/2507.17746) (Gunjal et al., 2025)
 - [Group Sequence Policy Optimization](https://arxiv.org/abs/2507.18071) (Zheng et al., 2025), GSPO
 - [Kimi K2: Open Agentic Intelligence](https://arxiv.org/abs/2507.20534) (Kimi Team, 2025)

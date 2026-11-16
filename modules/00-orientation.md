@@ -95,6 +95,7 @@ flowchart TD
         B[01 What is an LLM]
         C[02 How a model is made]
         Q[03 Post-training and RL]
+        R[04 Model safety]
     end
     subgraph S2["Stage 2: Choosing a model"]
         D[05 Model landscape]
@@ -107,6 +108,7 @@ flowchart TD
         I[10 Agentic workflows]
     end
     subgraph S4["Stage 4: Trusting the output"]
+        S[11 Verification]
         J[12 Multi-agent systems]
         K[13 AI code review]
         L[14 Security]
@@ -120,6 +122,7 @@ flowchart TD
     A --> B
     B --> C
     C --> Q
+    Q --> R
     B --> D
     D --> E
     Q --> E
@@ -127,7 +130,9 @@ flowchart TD
     B --> G
     G --> H
     H --> I
-    I --> J
+    I --> S
+    Q --> S
+    S --> J
     J --> K
     G --> L
     I --> L
@@ -137,7 +142,7 @@ flowchart TD
     I --> P
 ```
 
-The modules come in five stages. Stage 1 (01–03) is how the machine works: what a model is and how it's made and trained. Stage 2 (05–07) is choosing a model: who makes them, open vs closed weights, and how to judge them. Stage 3 (08–10) is working with agents: tools, context, and workflows. Stage 4 (12–14) is trusting the output: multiple agents, review, and security. Stage 5 (15–18) is practice for the long run: cost, the ecosystem, staying current, and what it all means for learning and careers.
+The modules come in five stages. Stage 1 (01–04) is how the machine works: what a model is, the hardware it runs on, how it's trained, and how labs try to make it safe. Stage 2 (05–07) is choosing a model: who makes them, open vs closed weights, and how to judge them. Stage 3 (08–10) is working with agents: tools, context, and workflows. Stage 4 (11–14) is trusting the output: verification, multiple agents, review, and security. Stage 5 (15–18) is practice for the long run: cost, the ecosystem, staying current, and what it all means for learning and careers.
 
 ## In practice
 

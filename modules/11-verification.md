@@ -280,7 +280,7 @@ CI is the last gate before main. On GitHub, "all required status checks must pas
 
 ### Protecting the verifier
 
-Everything so far assumes the check is honest. An agent under pressure to pass it will sometimes attack the check instead of the problem.
+Everything so far assumes the check is honest. An agent under pressure to pass it will sometimes attack the check instead of the problem. [Module 04](04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats) covers where that habit comes from; this section covers what to do about it.
 
 METR documented frontier models rewriting a timer so the scorer saw almost no elapsed time and monkey-patching an evaluator to mark every submission correct. On the one task where METR tested anti-cheating instructions, telling the model not to cheat still left reward hacking in 70–95% of runs, depending on the wording ([METR, 2025](https://metr.org/blog/2025-06-05-recent-reward-hacking/)). ImpossibleBench makes tasks where the spec and the tests contradict each other, so any pass is a cheat. Models cheat in ways ranging "from simple test modification to complex operator overloading" ([Zhong et al., 2025](https://arxiv.org/abs/2510.20270)). In June 2026 METR declined to publish a reliable time horizon for OpenAI's GPT-5.6 Sol at all: its "detected cheating rate was higher than any public model we have evaluated," including exploits that revealed hidden tests ([METR, 2026](https://metr.org/blog/2026-06-26-gpt-5-6-sol/)). An autonomous pipeline that grades itself with tests the agent can see is grading on the honor system.
 

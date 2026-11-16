@@ -322,7 +322,7 @@ The read-only exploration caught a security trap before any edits. The agent che
 
 Fully autonomous pipelines have produced some substantial results.
 
-**Agents can now work for hours.** METR measures the length of software tasks (in human expert time) that a model completes with 50% reliability. It calls this the model's **time horizon**. Its original paper found the horizon doubling roughly every seven months from 2019 to 2025 ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)). Its January 2026 update (Time Horizon 1.1) estimated faster recent doubling: about 131 days for models since 2023, and about 89 days for models since 2024 ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). METR added an early Claude Mythos Preview measurement on May 8, 2026. Its chart data estimates a 50% horizon of about 17.4 hours (95% CI 8.5–55 hours), but the page warns that measurements above 16 hours are unreliable with its current task suite ([METR tracking page](https://metr.org/time-horizons/)). Model specifics live in [module 05](./05-model-landscape.md).
+**Agents can now work for hours.** METR measures the length of software tasks (in human expert time) that a model completes with 50% reliability. It calls this the model's **time horizon**. Its original paper found the horizon doubling roughly every seven months from 2019 to 2025 ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)). Its January 2026 update (Time Horizon 1.1) estimated faster recent doubling: about 131 days for models since 2023, and about 89 days for models since 2024 ([METR, 2026a](https://metr.org/blog/2026-01-29-time-horizon-1-1/)). By May 2026 the newest models had pushed past what METR's task suite can measure: its tracking page warns that measurements above 16 hours are unreliable ([METR tracking page](https://metr.org/time-horizons/)). [Module 07](07-judging-models.md) has the details. Model specifics live in [module 05](./05-model-landscape.md).
 
 **A C compiler, mostly unattended.** In February 2026 Nicholas Carlini of Anthropic described 16 parallel Claude agents (Opus 4.6) building a C compiler in Rust from scratch. Over nearly 2,000 sessions, about two weeks, and just under $20,000 in API costs, they produced roughly 100,000 lines that compile Linux 6.9 for x86, ARM and RISC-V, along with QEMU, FFmpeg, SQLite, PostgreSQL, Redis and Doom. It passes about 99% of most compiler test suites, including the GCC torture tests. There was no orchestrator agent; each agent claimed a task by writing a lock file in a shared repository ([Carlini, 2026](https://www.anthropic.com/engineering/building-c-compiler)).
 
@@ -363,7 +363,7 @@ Stronger automated oracles allow more autonomy. A C compiler is close to the bes
 
 ### Open questions
 
-- Do long time horizons transfer to messy repositories? METR's tasks are self-contained, and only 5 of the 31 longest tasks in its suite have human baselines ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). METR's time-horizon page also says it's "no longer actively updated" as of September 2026, so newer estimates will come from elsewhere.
+- Do long time horizons transfer to messy repositories? METR's tasks are self-contained, and only 5 of the 31 longest tasks in its suite have human baselines ([METR, 2026a](https://metr.org/blog/2026-01-29-time-horizon-1-1/)). METR's time-horizon page also says it's "no longer actively updated" as of September 2026, so newer estimates will come from elsewhere.
 - Do holdout scenarios stay held out? [Module 11](./11-verification.md#do-holdouts-stay-held-out) covers the arms race.
 - Who's accountable for code nobody reviewed? Law, audits and incident reviews assume a person looked at the change.
 - Where is the real productivity frontier? Self-reports run ahead of measurements. Watch for well-designed field studies, not vendor surveys ([module 17](./17-keeping-up.md)).
@@ -423,7 +423,7 @@ The strongest counter-argument is that the trend lines are steep and the people 
 - Anthropic, [When AI builds itself](https://www.anthropic.com/institute/recursive-self-improvement) (Anthropic Institute, data as of May 2026)
 - Wilson Lin, [Scaling long-running autonomous coding](https://cursor.com/blog/scaling-agents) (Cursor, January 14, 2026)
 - StrongDM, [Software Factory](https://factory.strongdm.ai/) (February 6, 2026)
-- METR, [Time Horizon 1.1](https://metr.org/blog/2026-1-29-time-horizon-1-1/) (January 29, 2026), [time-horizon tracking page](https://metr.org/time-horizons/), and [Claude Mythos Preview measurement and task-suite limit](https://metr.org/time-horizons/) (May 2026)
+- METR, [Time Horizon 1.1](https://metr.org/blog/2026-01-29-time-horizon-1-1/) (January 29, 2026), [time-horizon tracking page](https://metr.org/time-horizons/), and [Claude Mythos Preview measurement and task-suite limit](https://metr.org/time-horizons/) (May 2026)
 - METR, [We are changing our developer productivity experiment design](https://metr.org/blog/2026-02-24-uplift-update/) (February 24, 2026)
 - OpenAI, [Sycophancy in GPT-4o: what happened and what we're doing about it](https://openai.com/index/sycophancy-in-gpt-4o/) (April 2025)
 

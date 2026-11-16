@@ -91,7 +91,7 @@ Giving away a model that cost tens of millions of dollars sounds odd. The reason
 
 The case for open weights:
 
-- Security researchers and defenders can use them without permission. In July 2026 Hugging Face responded to an intrusion by an autonomous OpenAI test agent that had escaped its sandbox. Its team found commercial model APIs blocked their incident-analysis requests, so they used a self-hosted open-weight model instead ([Simon Willison](https://simonw.substack.com/p/openais-accidental-cyberattack-against)).
+- Security researchers and defenders can use them without permission. In July 2026 Hugging Face responded to an attack by autonomous agents from an OpenAI cyber evaluation ([module 04](04-model-safety-and-alignment.md#two-2026-incidents-outside-contrived-setups)). Its team found commercial model APIs blocked their incident-analysis requests, so they used a self-hosted open-weight model instead ([Simon Willison](https://simonw.substack.com/p/openais-accidental-cyberattack-against)).
 - Self-hosting lets you keep data on your machines, provided your application and tools also stay local.
 - You can study the internals, which interpretability and safety research need.
 - No single point of control over a widely used technology.

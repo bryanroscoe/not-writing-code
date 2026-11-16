@@ -1,6 +1,6 @@
 # Modules
 
-Seventeen modules, in reading order, grouped into five stages. Every module has the same layers: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates), plus exercises and discussion questions. The [learning paths](../paths/README.md) say which layers to read for your background.
+Nineteen modules, in reading order, grouped into five stages. Every module has the same layers: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates), plus exercises and discussion questions. The [learning paths](../paths/README.md) say which layers to read for your background.
 
 | # | Module | What you'll learn |
 | --- | --- | --- |
@@ -11,8 +11,9 @@ Seventeen modules, in reading order, grouped into five stages. Every module has 
 | # | Module | What you'll learn |
 | --- | --- | --- |
 | 01 | [What is an LLM?](01-what-is-an-llm.md) | Tokens, transformers ("Attention Is All You Need"), pretraining, reasoning models, hallucination |
-| 02 | [How a model is made](02-how-a-model-is-made.md) | Data, pretraining, distillation, and quantization: how a base model gets made |
-| 03 | [Post-training and reinforcement learning](03-post-training-and-rl.md) | Post-training and RL, fine-tuning open weights with LoRA, models that update their own weights |
+| 02 | [How a model is made](02-how-a-model-is-made.md) | Data, pretraining, the hardware (GPUs, memory, interconnect, power), distillation, and quantization |
+| 03 | [Post-training and reinforcement learning](03-post-training-and-rl.md) | RL from first principles: RLHF, GRPO, RLVR, coding environments, reward hacking; fine-tuning with LoRA; self-tuning models |
+| 04 | [Model safety and alignment](04-model-safety-and-alignment.md) | Safety vs security vs alignment, how labs align models, safety frameworks, what models have actually done in tests and why setting matters |
 
 ### Stage 2: Choosing a model
 
@@ -34,6 +35,7 @@ Seventeen modules, in reading order, grouped into five stages. Every module has 
 
 | # | Module | What you'll learn |
 | --- | --- | --- |
+| 11 | [Verification](11-verification.md) | Why you can't trust output by default, the ladder of checks, problems agents can loop on, protecting the verifier, calibrating your own trust |
 | 12 | [Multiple agents](12-multi-agent-systems.md) | Agents building and reviewing together, and what the research says |
 | 13 | [AI code review](13-ai-code-review.md) | Review tools, cross-model review, how humans should review AI-written code |
 | 14 | [Security and prompt injection](14-security-and-prompt-injection.md) | Why injection is unsolved, the lethal trifecta, real incidents, sandboxing |

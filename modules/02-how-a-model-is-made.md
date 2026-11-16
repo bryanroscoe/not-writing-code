@@ -201,7 +201,7 @@ B200 figures are NVIDIA's 8-GPU system specs divided by eight. Sources disagree 
 
 ### Post-training
 
-The base model then goes through **post-training**: supervised fine-tuning (SFT) on example conversations, preference tuning on pairs of better and worse responses, and reinforcement learning on tasks a program can check. [Module 03](03-post-training-and-rl.md) covers each stage, along with fine-tuning open-weight models yourself.
+The base model then goes through **post-training**: supervised fine-tuning (SFT) on example conversations, preference tuning on pairs of better and worse responses, and several rounds of reinforcement learning on tasks a program can check. [Module 03](03-post-training-and-rl.md) covers each stage, along with fine-tuning open-weight models yourself.
 
 ### Distillation and synthetic data
 

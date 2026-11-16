@@ -2,9 +2,9 @@
 
 # A Brief Introduction to Not Writing Code
 
-A knowledge base and short course on AI-accelerated software engineering, from "what is a language model?" to running several coding agents in parallel and having them review each other's work. You're accountable for what ships.
+A knowledge base and short course on AI-accelerated software engineering, in five stages: how the machine works (transformers, hardware, training, RL, safety), choosing a model, working with agents, trusting their output, and keeping it up over a career. You're accountable for what ships.
 
-You'll write a lot less code by hand. You still have to do the engineering. This isn't a vibe coding course: vibe coding means prompting an AI and never reading the code. This is [AI-accelerated coding](modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding), where AI does a lot of the typing and people decide, verify, and own the result.
+You'll write a lot less code by hand. You still have to do the engineering. This isn't a vibe coding course: vibe coding means prompting an AI and never reading the code. This is [AI-accelerated coding](modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding), where AI does a lot of the typing and people decide, verify, and own the result. If you came looking for "vibe engineering" or "agentic engineering," you're in the right place: those are other names for this disciplined version.
 
 This is the first full draft (November 2026). Facts are dated in each module's header. The field moves monthly, so check the Last checked date before you rely on a specific model name or price.
 
@@ -31,8 +31,9 @@ Every module has the same layers: Foundations (no background assumed), In practi
 | # | Module | What you'll learn |
 | --- | --- | --- |
 | 01 | [What is an LLM?](modules/01-what-is-an-llm.md) | Tokens, transformers ("Attention Is All You Need"), pretraining, reasoning models, hallucination |
-| 02 | [How a model is made](modules/02-how-a-model-is-made.md) | Data, pretraining, distillation, and quantization: how a base model gets made |
-| 03 | [Post-training and reinforcement learning](modules/03-post-training-and-rl.md) | Post-training and RL, fine-tuning open weights with LoRA, models that update their own weights |
+| 02 | [How a model is made](modules/02-how-a-model-is-made.md) | Data, pretraining, the hardware (GPUs, memory, interconnect, power), distillation, and quantization |
+| 03 | [Post-training and reinforcement learning](modules/03-post-training-and-rl.md) | RL from first principles: RLHF, GRPO, RLVR, coding environments, reward hacking; fine-tuning with LoRA; self-tuning models |
+| 04 | [Model safety and alignment](modules/04-model-safety-and-alignment.md) | Safety vs security vs alignment, how labs align models, safety frameworks, what models have actually done in tests and why setting matters |
 
 ### Stage 2: Choosing a model
 
@@ -54,6 +55,7 @@ Every module has the same layers: Foundations (no background assumed), In practi
 
 | # | Module | What you'll learn |
 | --- | --- | --- |
+| 11 | [Verification](modules/11-verification.md) | Why you can't trust output by default, the ladder of checks, problems agents can loop on, protecting the verifier, calibrating your own trust |
 | 12 | [Multiple agents](modules/12-multi-agent-systems.md) | Agents building and reviewing together, and what the research says |
 | 13 | [AI code review](modules/13-ai-code-review.md) | Review tools, cross-model review, how humans should review AI-written code |
 | 14 | [Security and prompt injection](modules/14-security-and-prompt-injection.md) | Why injection is unsolved, the lethal trifecta, real incidents, sandboxing |
