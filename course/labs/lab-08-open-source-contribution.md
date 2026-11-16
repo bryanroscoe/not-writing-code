@@ -1,6 +1,6 @@
 # Lab 8: Contribute to open source, responsibly
 
-This lab starts in week 9 of the [syllabus](../syllabus.md), reaches phase 2 by week 11, and is due in week 14. It's AI-as-tutor, or stricter if the project's own policy is stricter. Expect 8–12 hours spread over five weeks.
+This lab belongs to Unit 5 of the [syllabus](../syllabus.md), but it starts during Unit 4, once Lab 4 is done, because maintainers can take weeks to reply. Phase 2 is due by the end of Unit 4, and the lab is due near the end of Unit 5. It's AI-as-tutor, or stricter if the project's own policy is stricter. Expect 8–12 hours spread over about five weeks in a semester. In a short intensive, use the [class repository](#the-fallback-the-class-repository).
 
 *Last checked November 8, 2026.*
 
@@ -44,7 +44,7 @@ Upstream contributions are public and hard to remove. Your account name, commits
 
 ## Prerequisites and setup
 
-- [Lab 3](lab-03-plan-test-build.md) and [Lab 4](lab-04-review-ai-code.md) done before phase 1. Use [Lab 7](lab-07-multi-agent-review.md) when you reach phase 3’s independent review. It doesn't need to be finished at the week 9 kickoff.
+- [Lab 3](lab-03-plan-test-build.md) and [Lab 4](lab-04-review-ai-code.md) done before phase 1. Use [Lab 7](lab-07-multi-agent-review.md) when you reach phase 3’s independent review. It doesn't need to be finished at the kickoff.
 - A GitHub (or other forge) account, set up for signed or attributed commits the way the project requires. It may be pseudonymous where the project's rules permit ([Privacy](#privacy-contributing-in-public)).
 - If the project requires a contributor license agreement (CLA) or a Developer Certificate of Origin sign-off, you sign it yourself. In the Linux kernel's words, "AI agents MUST NOT add Signed-off-by tags"; only a human can certify ([module 16](../../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)). `[Check the institution's policy on intellectual property in student work.]`
 - The instructor's vetted project list: `[link]`. You can propose a project that isn't on it.
@@ -62,7 +62,7 @@ Also [module 18: Attribution and disclosure in commits and PRs](../../modules/18
 
 ## Instructions
 
-### Phase 1: choose a project (week 9, about 2 hours)
+### Phase 1: choose a project (Unit 4, about 2 hours)
 
 Check candidates against this list:
 
@@ -94,7 +94,7 @@ Submit a one-page proposal:
 
 The instructor approves it or suggests changes.
 
-### Phase 2: claim an issue and get a go-ahead (by week 11)
+### Phase 2: claim an issue and get a go-ahead (by the end of Unit 4)
 
 1. Pick an existing issue: a bug, a small feature, or a documentation fix the maintainers have asked for. If you found a real bug yourself, file it first. Reproduce it by hand on a real build and write the report yourself. Don't forward a model's speculation ([module 16](../../modules/16-open-source-ecosystem.md#etiquette-for-contributing-with-ai)).
 2. Reproduce the bug before you comment. For documentation, demonstrate the incorrect or missing example instead.
@@ -110,9 +110,9 @@ The instructor approves it or suggests changes.
    Mentioning that this is coursework is optional. If you do, add that a merge isn't required.
 
 4. Wait for a maintainer's go-ahead. One polite follow-up after about a week is fine. More than that isn't.
-5. **If you have no go-ahead by `[week 11 date]`,** switch to the [class repository](#the-fallback-the-class-repository). Don't open a PR without one. Record what happened in your log. It's useful evidence about how projects work.
+5. **If you have no go-ahead by `[end of Unit 4 date]`,** switch to the [class repository](#the-fallback-the-class-repository). Don't open a PR without one. Record what happened in your log. It's useful evidence about how projects work.
 
-### Phase 3: do the work (weeks 11–13, 4–6 hours)
+### Phase 3: do the work (Unit 5, 4–6 hours)
 
 Follow the steps from [module 16](../../modules/16-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly):
 
@@ -133,7 +133,7 @@ Follow the steps from [module 16](../../modules/16-open-source-ecosystem.md#how-
 7. Write the PR description yourself, using the project's template if it has one. If not, cover: what and why, linked to the issue; how you verified it (commands and results); what AI did and what you did; and risks. Disclose AI help in the form the project asks for, or in a short sentence if it doesn't specify one ([module 18](../../modules/18-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
 8. Before you open the PR, a TA or the instructor does a ten-minute pre-flight check of your diff and description. This protects maintainers' time, and it isn't a grade.
 
-### Phase 4: open the PR, handle review, follow up (weeks 13–14)
+### Phase 4: open the PR, handle review, follow up (end of Unit 5)
 
 1. Open the pull request. Link the issue and the maintainer's go-ahead.
 2. Answer review comments yourself, from your own understanding. If you don't know, say so and find out ([module 16](../../modules/16-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly)).
@@ -200,9 +200,9 @@ Contribute to the class-run repository if you'd rather keep your work private, o
 ## Instructor notes
 
 - **Do the privacy review before the term.** Confirm with `[the registrar or privacy office]` that public contributions as a course activity are allowed and what notice or consent is needed. Never require public work, accept a choice of the class repository without question, and keep the class repository private.
-- Vet the list every term. Policies change, and projects go quiet. Re-read each linked policy before week 9 ([refresh checklist](../instructor-guide.md#refresh-checklist-for-each-term)).
+- Vet the list every term. Policies change, and projects go quiet. Re-read each linked policy before the kickoff ([refresh checklist](../instructor-guide.md#refresh-checklist-for-each-term)).
 - Cap students per project. A whole class arriving at one project is itself a maintainer burden. Two per project is a reasonable default.
-- Some maintainers reply in hours, some in weeks. Hold the week 11 fallback deadline firmly so nobody is stuck at the end of term.
+- Some maintainers reply in hours, some in weeks. Hold the end-of-Unit-4 fallback deadline firmly so nobody is stuck at the end of term.
 - Ten minutes of pre-flight check per student catches oversized diffs, missing tests, and descriptions that read like agent output before a maintainer has to.
 - If a maintainer complains, take it seriously. Have the student apologize and withdraw if asked, and consider whether that project should stay on the list.
 - For integrity, a short walkthrough of the change ("why did you put the check here and not in the caller?") is the best check that the student understands it.

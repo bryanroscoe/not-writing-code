@@ -41,7 +41,7 @@ This series is for the champions who will facilitate it and the leads who will s
 | 1 | [What an LLM actually is](#session-1-what-an-llm-actually-is) | A mental model that explains hallucination, sycophancy, and nondeterminism | [Module 01](../modules/01-what-is-an-llm.md) |
 | 2 | [Harnesses, permissions, and a safe setup](#session-2-harnesses-permissions-and-a-safe-setup) | Everyone leaves with the team's standard, safe configuration | [Module 08](../modules/08-harnesses-and-tools.md) |
 | 3 | [Context: prompts that define done, and our instruction file](#session-3-context-prompts-that-define-done-and-our-instruction-file) | Write tasks agents can succeed at; agree on a short shared instruction file | [Module 09](../modules/09-context-engineering.md) |
-| 4 | [The core loop: explore, plan, test, verify, commit](#session-4-the-core-loop-explore-plan-test-verify-commit) | Run the loop that holds up in daily use | [Module 10](../modules/10-agentic-workflows.md) |
+| 4 | [The core loop: explore, plan, test, verify, commit](#session-4-the-core-loop-explore-plan-test-verify-commit) | Run the loop that holds up in daily use | [Modules 10](../modules/10-agentic-workflows.md) and [11](../modules/11-verification.md) |
 | 5 | [Reviewing AI-written code](#session-5-reviewing-ai-written-code) | Review in layers, verify findings, use a second model | [Module 13](../modules/13-ai-code-review.md) |
 | 6 | [Security, data, and cost](#session-6-security-data-and-cost) | Know the real risks, the team's controls, and what work costs | [Modules 14](../modules/14-security-and-prompt-injection.md) and [15](../modules/15-costs-subscriptions-and-apis.md) |
 | 7 | [Parallel agents and cross-model review](#session-7-parallel-agents-and-cross-model-review) | Run two agents at once safely, and know where autonomy stops | [Modules 10](../modules/10-agentic-workflows.md) and [12](../modules/12-multi-agent-systems.md) |
@@ -340,6 +340,7 @@ Use the draft from the pilot, or generate one with your harness's init command i
 - [Module 10: The core loop](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit) and [module 11: Tests as the agent's contract](../modules/11-verification.md#tests-as-the-agents-contract)
 - [Module 10: Failure modes and counter-moves](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)
 - [Module 10: A sample session](../modules/10-agentic-workflows.md#a-sample-session)
+- Optional: [Module 11: Stop hooks and CI gates](../modules/11-verification.md#stop-hooks-and-ci-gates) and [Protecting the verifier](../modules/11-verification.md#protecting-the-verifier)
 
 ### Agenda (60 minutes)
 
@@ -373,7 +374,7 @@ In pairs, on one small real ticket per pair (prepared in advance, one to three f
 
 ### Debrief (8 minutes)
 
-Ask each pair: Where did the agent drift? What did the plan review catch? Did it ever claim success without evidence? Did it touch a test? Note recurring problems as candidate lines for the instruction file, or candidate hooks.
+Ask each pair: Where did the agent drift? What did the plan review catch? Did it ever claim success without evidence? Did it touch a test? Note recurring problems as candidate lines for the instruction file, or candidate hooks and CI gates ([module 11](../modules/11-verification.md#stop-hooks-and-ci-gates)).
 
 ### Takeaway checklist
 
@@ -382,6 +383,7 @@ Ask each pair: Where did the agent drift? What did the plan review catch? Did it
 - [ ] I write or approve failing tests first and commit them separately.
 - [ ] I ask for the command and its output, not "done."
 - [ ] I check the test diff on every change.
+- [ ] The riskier the change, the more evidence I ask for before it merges ([module 11](../modules/11-verification.md#calibrating-your-own-trust)).
 - [ ] After two failed corrections, I start a fresh session with a better prompt.
 
 ## Session 5: Reviewing AI-written code
@@ -570,7 +572,7 @@ Walk through the three parts people most need: which data classes may go into wh
 
 Discuss three questions:
 - How many agents can you really review? [Module 18's](../modules/18-learning-careers-and-responsibility.md#the-human-side) warning signs are approving diffs you didn't read, losing track of agents, and no deep-focus time. Moving down a stage is allowed.
-- Which chores could a background agent do for us? Only ones with a strong automated check, a small reversible diff, and a normal PR review ([playbook Phase 3](ai-first-playbook.md#phase-3-advanced-use)).
+- Which chores could a background agent do for us? Only ones with a strong automated check ([module 11](../modules/11-verification.md#problems-an-agent-can-loop-on)), a small reversible diff, and a normal PR review ([playbook Phase 3](ai-first-playbook.md#phase-3-advanced-use)).
 - What stays on Hold? Auto-merging agent PRs, agents with production access, and fully autonomous pipelines on our existing product code, until our own evidence says otherwise.
 
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.

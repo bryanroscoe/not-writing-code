@@ -53,7 +53,7 @@ Modules are numbered in reading order and grouped into five stages. Link between
 | `reference/timeline.md` | Dated history, 2017 to now |
 | `paths/*.md` | Reading paths per audience |
 | `slides/*.md` | One Marp slide deck per module (conventions in `slides/README.md`) |
-| `course/` | A semester course built from the modules, with labs |
+| `course/` | A course built from the modules, in units that follow the stages, with labs |
 | `workplace/` | AI-first adoption playbook for engineering teams |
 
 ## Module template

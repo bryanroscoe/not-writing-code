@@ -1,6 +1,6 @@
 # Lab 3: Plan, test, build
 
-This lab runs in week 5 of the [syllabus](../syllabus.md) and is due in week 6. Part A is AI-as-tutor and Part B is AI-accelerated. Plan on 4–5 hours.
+This lab goes with Unit 3 of the [syllabus](../syllabus.md), after Lab 2, and is due before Lab 6 opens. Part A is AI-as-tutor and Part B is AI-accelerated. Plan on 4–5 hours.
 
 *Last checked November 8, 2026.*
 
@@ -174,6 +174,7 @@ If the transcript or a walkthrough shows that an agent wrote your spec or tests,
 
 - Enforce the contract with a hook or deny rule that blocks edits under `tests/` during implementation, and show it firing. A line in an instruction file is followed "nearly every time"; a hook applies every time ([module 11](../../modules/11-verification.md#tests-as-the-agents-contract)).
 - Try a second feature from the menu at a higher autonomy level, with a turn cap, and compare the hidden-test results.
+- Build a loop with a verifier. This optional extension goes with Unit 4. Put a second feature from the menu behind one of the loops in [module 11](../../modules/11-verification.md#loops-in-practice): a shell loop with a plan file, a goal with a test condition, or a `Stop` hook that blocks "done" until your acceptance tests pass. Give it a turn budget and let it run. Then read the test diff for anything the loop weakened, get the hidden-test results from the instructor (or run your [holdout tests](#self-paced-hidden-tests) if you're on your own), and write a paragraph on whether you'd have trusted its "done" without them ([protecting the verifier](../../modules/11-verification.md#protecting-the-verifier)). It isn't graded.
 
 ## Instructor notes
 
