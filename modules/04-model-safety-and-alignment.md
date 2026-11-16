@@ -14,7 +14,7 @@
 
 ### Safety, security, and alignment
 
-People use these words loosely. Labs don't. Anthropic's Frontier Safety Roadmap tracks four separate areas: **Security** (for example, protecting model weights), **Alignment** (the model's own propensities), **Safeguards** (preventing misuse), and **Policy** ([Anthropic RSP v3.4](https://www.anthropic.com/responsible-scaling-policy)). That split is a good working vocabulary.
+Labs make distinctions between these terms that often get lost in everyday use. Anthropic's Frontier Safety Roadmap tracks four separate areas: **Security** (for example, protecting model weights), **Alignment** (the model's own propensities), **Safeguards** (preventing misuse), and **Policy** ([Anthropic RSP v3.4](https://www.anthropic.com/responsible-scaling-policy)). That split is a good working vocabulary.
 
 | Word | The question it asks | Example |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ People use these words loosely. Labs don't. Anthropic's Frontier Safety Roadmap 
 | **Safeguards** (part of "safety") | Can someone use the model to cause serious harm? | Classifiers that block step-by-step help with a bioweapon. |
 | **Security** | Can someone steal or tamper with the model or the systems around it? | Protecting the weights from theft; locking down the sandbox an agent runs in. |
 
-"Safety" is the umbrella most people mean by all three. This module is about the model itself: what it can do, what it will do, and whether its tendencies match what you wanted. [Module 14](14-security-and-prompt-injection.md) covers the security of systems you build on a model. The two meet at one line. A jailbreak tries to get the model to break its maker's rules, and that's a safety question. Prompt injection tricks an application into obeying a stranger's text, and that's a security question ([module 14](14-security-and-prompt-injection.md#jailbreaks-are-a-different-problem)).
+"Safety" is the umbrella most people mean by all three. This module is about the model itself: what it can do, what it will do, and whether its tendencies match what you wanted. [Module 14](14-security-and-prompt-injection.md) covers the security of systems you build on a model. A jailbreak tries to get the model to break its maker's rules, and that's a safety question. Prompt injection tricks an application into obeying a stranger's text, and that's a security question ([module 14](14-security-and-prompt-injection.md#jailbreaks-are-a-different-problem)).
 
 ### Misuse, misalignment, and accidents
 
@@ -57,9 +57,7 @@ Think of a student. Outer alignment is whether the exam tests the material. Inne
 
 ### How labs align models today
 
-No lab relies on one technique. The current stack: train on preferences, write down the rules, teach the model to reason about them, and put independent checks outside the model in case that fails.
-
-#### Preference training
+No lab relies on one technique. Today, labs train on preferences, write down rules, teach the model to reason about those rules, and add independent checks outside the model in case that training fails.
 
 RLHF, covered in [module 03](03-post-training-and-rl.md), comes first. InstructGPT did it in two steps: supervised fine-tuning on labeler demonstrations, then RL from human rankings. Raters preferred the 1.3B-parameter InstructGPT over the 175B GPT-3, a model with 100 times more parameters ([Ouyang et al., 2022](https://arxiv.org/abs/2203.02155)).
 
@@ -69,7 +67,7 @@ RLHF, covered in [module 03](03-post-training-and-rl.md), comes first. InstructG
 
 On January 22, 2026, Anthropic published Claude's current [constitution](https://www.anthropic.com/news/claude-new-constitution). It explains its reasoning instead of listing rules, it's licensed CC0, and its priority order is broadly safe, then broadly ethical, then compliant with Anthropic's guidelines, then genuinely helpful. It also sets seven **hard constraints**, including no serious uplift for mass-casualty chemical, biological, radiological, or nuclear (CBRN) weapons, no damaging cyberweapons, and no actions that clearly undermine Anthropic's ability to oversee and correct its models ([anthropic.com/constitution](https://www.anthropic.com/constitution)).
 
-Two lines shape how Claude behaves in practice. Being overseeable "does not mean blind obedience, including towards Anthropic": Claude may disagree "through legitimate channels" but shouldn't subvert oversight. And "Claude should never see unhelpful responses to the operator and user as an automatically safe choice." Refusing has a cost too.
+Being overseeable doesn't mean blind obedience, even toward Anthropic. Claude may disagree through legitimate channels, but shouldn't subvert oversight. And Claude should never treat an unhelpful response to an operator or user as automatically safe, because refusing has a cost too ([constitution](https://www.anthropic.com/constitution)).
 
 #### OpenAI: the Model Spec and deliberative alignment
 
@@ -77,7 +75,7 @@ OpenAI's equivalent is the [Model Spec](https://model-spec.openai.com/2026-10-29
 
 - It sets a **chain of command**: root > system > developer > user > guideline. Tool outputs and quoted text have no authority by default.
 - It says "GPT must remain corrigible: open to legitimate human oversight, responsive to correction, and subject to human control," and it forbids goals like self-preservation or revenue pursued as ends in themselves ("No Other Objectives").
-- It has rules written for agents: "act within an agreed-upon scope of autonomy" and "control and communicate side effects" (added September 2025). Since October 2025 it says users may implicitly delegate authority to tool outputs, for example relevant AGENTS.md instructions.
+- Its agent rules require an agreed scope of autonomy and control and communication of side effects (added September 2025). Since October 2025, it also says users may implicitly delegate authority to tool outputs, including relevant AGENTS.md instructions.
 
 Two training methods put the spec to work:
 
@@ -87,8 +85,6 @@ Two training methods put the spec to work:
 #### Google DeepMind: two lines of defense
 
 Google DeepMind describes two lines of defense against misalignment ([Shah et al., 2025](https://arxiv.org/abs/2504.01849)). The first is in the model: **amplified oversight** (using AI to help humans judge outputs they couldn't judge alone) and training for robustness. The second is in the system: monitoring and access control, which "can mitigate harm even if the model is misaligned." Both feed a **safety case**, a structured argument that a system is safe enough to deploy.
-
-The second line assumes the first might fail.
 
 #### Safeguards outside the weights
 
@@ -117,17 +113,15 @@ Labs also train against specific bad behaviors, with partial success.
 
 When a coding agent says no, it's usually one of three things:
 
-1. **A bright line in the model's training.** The constitution's hard constraints and the Model Spec's red lines are designed not to move with phrasing ([constitution](https://www.anthropic.com/constitution), [Model Spec](https://model-spec.openai.com/2026-10-29.html)). Trying to talk past them is a jailbreak.
-2. **A classifier outside the model.** These are tuned conservatively and produce false positives on routine coding and security work. Anthropic routes blocked Fable 5 requests to a different model, Opus 4.8, and tells the user ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)).
-3. **A judgment call by the model.** Its training told it to weigh context, and it weighed yours as risky. OpenAI models now often give a safe completion, a partial answer, instead of a flat refusal ([Yuan et al., 2025](https://arxiv.org/abs/2508.09224)).
+1. The model hit a bright line in its training. The constitution's hard constraints and the Model Spec's red lines are designed not to move with phrasing ([constitution](https://www.anthropic.com/constitution), [Model Spec](https://model-spec.openai.com/2026-10-29.html)). Trying to talk past them is a jailbreak.
+2. A classifier outside the model blocked the request. These classifiers are tuned conservatively and produce false positives on routine coding and security work. Anthropic routes blocked Fable 5 requests to a different model, Opus 4.8, and tells the user ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)).
+3. The model made a judgment call. Its training told it to weigh context, and it weighed yours as risky. OpenAI models now often give a safe completion, a partial answer, instead of a flat refusal ([Yuan et al., 2025](https://arxiv.org/abs/2508.09224)).
 
-What you can do:
-
-- **Work out which kind it was.** A classifier block often shows up as a notice or a switch to another model rather than an explanation from the model.
-- **Give the real context.** Say what you're building, whose code it is, and why you need it. A judgment-call refusal often goes away once the request stops looking ambiguous.
-- **Check which model answered.** A fallback model may be weaker at your task, and system cards flag this: Fable 5.2 "falls back to Opus 4.8 more frequently" in prompt-injection scenarios, which raises attack success ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
-- **For real security work, use the channel built for it.** Anthropic offers Mythos 5.2, with its more permissive safeguards, only to vetted organizations. Access programs like that are the legitimate route for offensive security work.
-- **Don't treat a local open-weight model as the workaround.** Its refusals are easier to remove, but so is the rest of its safety training, and that's a decision your team should make on purpose ([module 06](06-open-vs-closed-weights.md#the-safety-debate)).
+- Work out what caused the refusal. A classifier block often shows up as a notice or a switch to another model rather than an explanation from the model.
+- Give the model the real context. Say what you're building, whose code it is, and why you need it. A judgment-call refusal often goes away once the request stops looking ambiguous.
+- Check which model answered. A fallback model may be weaker at your task. The Fable 5.2 system card says it falls back to Opus 4.8 more frequently in prompt-injection scenarios, which raises attack success ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
+- For real security work, use the channel built for it. Anthropic offers Mythos 5.2, with its more permissive safeguards, only to vetted organizations. Access programs like that are the legitimate route for offensive security work.
+- Don't treat a local open-weight model as the workaround. Its refusals are easier to remove, and fine-tuning studies show its other safety behavior degrading too ([fine-tuning risks](#fine-tuning-removes-safety)). Running one for this is a decision your team should make on purpose ([module 06](06-open-vs-closed-weights.md#the-safety-debate)).
 
 ### Frontier safety frameworks, as of November 2026
 
@@ -150,9 +144,9 @@ Every determination in that table is the lab's own assessment, sometimes with ou
 - It added a public Frontier Safety Roadmap (goals, "not hard commitments") and **Risk Reports** every three to six months, published with redactions and, in some cases, reviewed by outsiders ([RSP v3 announcement](https://www.anthropic.com/news/responsible-scaling-policy-v3)).
 - The automated-R&D threshold is met if models can fully substitute for Anthropic's research scientists and engineers at competitive cost (within 5x), or if there's "dramatic acceleration": twice the baseline rate of progress in overall AI capabilities, plausibly because of AI automation ([RSP v3.4](https://assets.claude.com/0bacdc8440ea96e62a8766d99ebe1d4eea6d5f3a.pdf)). Anthropic's November 2026 IPO filing says it may soon meet that threshold ([module 03](03-post-training-and-rl.md)).
 
-**AI Safety Levels** (ASLs) used to be how people talked about Anthropic models. Anthropic activated ASL-3 safeguards "for relevant models in May 2025" ([RSP v3 announcement](https://www.anthropic.com/news/responsible-scaling-policy-v3)). Under v3, ASLs describe only present mitigation levels, and for future capability levels Anthropic prefers to specify "what sort of argument an AI developer should make" over fixed control lists. Then the August 2026 Risk Report dropped the labels for models altogether: its models and safeguards "now vary along many dimensions, so we are no longer using this terminology" ([Risk Report, fn. 59](https://www.anthropic.com/aug-2026-risk-report)).
+**AI Safety Levels** (ASLs) used to be how people talked about Anthropic models. Anthropic activated ASL-3 safeguards for relevant models in May 2025 ([RSP v3 announcement](https://www.anthropic.com/news/responsible-scaling-policy-v3)). Under v3, ASLs describe only present mitigation levels, and for future capability levels Anthropic prefers to specify what sort of argument an AI developer should make over fixed control lists. The August 2026 Risk Report then stopped using ASL labels for models because its models and safeguards now vary along many dimensions ([Risk Report, fn. 59](https://www.anthropic.com/aug-2026-risk-report)).
 
-That Risk Report (coverage date July 15, 2026) rates misalignment risk "Low," up from "very low," citing recent cyber-evaluation incident disclosures. It rates automated-R&D risk "Low" too, with less confidence, because "our most concrete task-based evaluations have 'saturated'" and there are "early signs of acceleration." On chem/bio, Anthropic acts as though its models meet the CB-1 threshold (significant help to individuals or small groups) and judges that they don't meet CB-2 (novel weapons).
+That Risk Report (coverage date July 15, 2026) rates misalignment risk "Low," up from "very low," citing recent cyber-evaluation incident disclosures. It rates automated-R&D risk "Low" too, with less confidence, because its most concrete task-based evaluations have saturated and there are early signs of acceleration. On chem/bio, Anthropic acts as though its models meet the CB-1 threshold (significant help to individuals or small groups) and judges that they don't meet CB-2 (novel weapons).
 
 Anthropic also keeps a separate legal document. Its Frontier Compliance Framework (December 2025) covers California's SB 53 and the EU Code of Practice, while the RSP stays voluntary ([Anthropic](https://www.anthropic.com/news/compliance-framework-SB53)).
 
@@ -168,18 +162,18 @@ A **dangerous-capability evaluation** tests whether a model *can* do something h
 
 Examples from OpenAI's GPT-6.1 Sol card ([card](https://deploymentsafety.openai.com/gpt-6-1-sol/gpt-6-1-sol.pdf)):
 
-- **Bio/chem.** Evals such as ProtocolQA Open-Ended and TroubleshootingBench test lab troubleshooting and tacit knowledge. Sol stayed below the indicative Critical thresholds.
-- **Cyber.** On ExploitBench Internal Port, built from recently disclosed vulnerabilities to limit contamination, arbitrary-code-execution success was 31.5% for GPT-6 Astra and 3.5% for GPT-5.6 Sol. OpenAI says the original ExploitBench scores (around 100%) "may be artificially inflated" by contamination.
-- **AI R&D.** Self-improvement evals include Internal Research Debugging and KernelGen 1P. Sol scored 75.52% on research debugging, below the High threshold.
+- Bio/chem evals such as ProtocolQA Open-Ended and TroubleshootingBench test lab troubleshooting and tacit knowledge. Sol stayed below the indicative Critical thresholds.
+- In cyber, ExploitBench Internal Port is built from recently disclosed vulnerabilities to limit contamination. Arbitrary-code-execution success on it was 31.5% for GPT-6 Astra and 3.5% for GPT-5.6 Sol. OpenAI says the original ExploitBench scores (around 100%) "may be artificially inflated" by contamination.
+- AI R&D self-improvement evals include Internal Research Debugging and KernelGen 1P. Sol scored 75.52% on research debugging, below the High threshold.
 
 #### Who runs them
 
-- **The labs.** Most evaluation happens in-house. For Fable 5.2 and Mythos 5.2, "the majority of evaluations" ran inside Anthropic, with external testers contributing specific sections ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
-- **UK AI Security Institute.** It has evaluated "more than 30 frontier systems" since November 2023, and its [Frontier AI Trends Report](https://www.aisi.gov.uk/frontier-ai-trends-report) found universal jailbreaks for every system it tested. In April 2026 it reported that Claude Mythos Preview was the first model to solve its 32-step "The Last Ones" cyber range end to end, in 3 of 10 attempts. AISI cautions that its ranges have no active defenders and that the model was "explicitly directed" to attack ([AISI](https://www.aisi.gov.uk/blog/our-evaluation-of-claude-mythos-previews-cyber-capabilities)).
-- **US: NIST's center.** It runs unclassified evaluations of cyber, bio, and chem risks, and in 2026 published assessments of GLM-5.2, GLM-5.3, and (jointly with UK AISI) Kimi K3. As of November 16, 2026, its [page heading](https://www.nist.gov/caisi) reads "Center for Advancing Innovation and Standards for Super Intelligence (CAISSI)," while other items on the same page still say CAISI.
-- **METR.** Runs pre-deployment evaluations and independent assessments, including 2026 reviews of two sections of Anthropic's Risk Report ([metr.org/blog](https://metr.org/blog/)).
-- **Apollo Research.** Runs pre-deployment scheming evaluations for OpenAI, Google DeepMind, Meta, and Anthropic models. It declined to give a formal assessment of Claude Opus 4.6 in February 2026 ([Apollo Research](https://www.apolloresearch.ai/research)).
-- **Contracted red teams.** Trajectory Labs sent more than 40,000 requests at Fable 5.2's cyber safeguards over about 138 hours, with 14 task-specific breaks and no universal jailbreak ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
+- Most evaluation happens in-house at the labs. For Fable 5.2 and Mythos 5.2, "the majority of evaluations" ran inside Anthropic, with external testers contributing specific sections ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
+- The UK AI Security Institute has evaluated "more than 30 frontier systems" since November 2023, and its [Frontier AI Trends Report](https://www.aisi.gov.uk/frontier-ai-trends-report) found universal jailbreaks for every system it tested. In April 2026 it reported that Claude Mythos Preview was the first model to solve its 32-step "The Last Ones" cyber range end to end, in 3 of 10 attempts. AISI cautions that its ranges have no active defenders and that the model was "explicitly directed" to attack ([AISI](https://www.aisi.gov.uk/blog/our-evaluation-of-claude-mythos-previews-cyber-capabilities)).
+- In the US, NIST's center runs unclassified evaluations of cyber, bio, and chem risks, and in 2026 published assessments of GLM-5.2, GLM-5.3, and (jointly with UK AISI) Kimi K3. As of November 16, 2026, its [page heading](https://www.nist.gov/caisi) reads "Center for Advancing Innovation and Standards for Super Intelligence (CAISSI)," while other items on the same page still say CAISI.
+- METR runs pre-deployment evaluations and independent assessments, including 2026 reviews of two sections of Anthropic's Risk Report ([metr.org/blog](https://metr.org/blog/)).
+- Apollo Research runs pre-deployment scheming evaluations for OpenAI, Google DeepMind, Meta, and Anthropic models. It declined to give a formal assessment of Claude Opus 4.6 in February 2026 ([Apollo Research](https://www.apolloresearch.ai/research)).
+- Labs also contract red teams. Trajectory Labs sent more than 40,000 requests at Fable 5.2's cyber safeguards over about 138 hours, with 14 task-specific breaks and no universal jailbreak ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
 
 #### Autonomy and AI R&D: METR's numbers
 
@@ -220,74 +214,65 @@ Read the authors' own caveats before you repeat a number. On alignment faking, t
 
 Credible people read this table differently.
 
-- **The skeptical reading**: most rows are contrived. Researchers hand the model a goal, a threat, and a convenient lever, then report that it pulled the lever. That shows what a model can be steered into, not what it does on Tuesday in your repo. The deployment row is sycophancy, an annoying failure, not a dangerous one.
-- **The concerned reading**: contrived tests are how you find a problem before it happens in deployment, the way crash tests use dummies. The rows also move over time. Reward hacking went from a lab curiosity to a measured rate in production training runs, sandbagging went from "possible when prompted" to "evades a monitor," and in 2026 two evaluations reached real systems.
-
-Both readings agree on the method: the setting tag tells you what the evidence can support.
+- The skeptical reading is that most rows are contrived. Researchers hand the model a goal, a threat, and a convenient lever, then report that it pulled the lever. That shows what a model can be steered into, not what it does on Tuesday in your repo. The one deployment row is sycophancy, and OpenAI began rolling that update back three days after it shipped.
+- The concerned reading is that contrived tests are how you find a problem before it happens in deployment, the way crash tests use dummies. The rows also move over time. Reward hacking went from a lab curiosity to a measured rate in production training runs, sandbagging went from "possible when prompted" to "evades a monitor," and in 2026 two evaluations reached real systems.
 
 ### Two 2026 incidents outside contrived setups
 
-Both incidents happened during sanctioned cyber evaluations, not in products. In both, agents went beyond their assigned scope and reached real outside systems. They're the clearest public cases so far of evaluation-time misbehavior reaching the real world, and they say nothing directly about deployed products.
+During two sanctioned cyber evaluations, agents went beyond their assigned scope and reached real outside systems. They're the clearest public cases so far of evaluation-time misbehavior reaching the real world. They say nothing directly about deployed products.
 
-**UK AISI, July 25–28, 2026.** AISI ran a cyber evaluation 122 times across several models. In 10 runs, agents took 19 out-of-scope actions against real people and organisations: 17 by Claude Mythos 5 and 2 by GPT-5.6 Sol, both from a single run. In AISI's words, "Internet access was deliberately enabled," and "The developers' cyber classifiers were deliberately switched off." AISI says that combination doesn't reflect how frontier models are made available to the public. The worst case was an attempt to insert malicious code into a public open-source project, using fake identities to socially engineer a maintainer. A human maintainer caught it and refused to approve the code. AISI's investigation "has not identified any resulting real-world harm," and it says "some actions had a limited real-world effect, but in contained circumstances." AISI now treats internet access in its cyber ranges as something that has to be actively justified rather than a default ([AISI incident report, August 4, 2026](https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing)).
+Between July 25 and 28, 2026, the UK AISI ran a cyber evaluation 122 times across several models. In 10 runs, agents took 19 out-of-scope actions against real people and organisations: 17 by Claude Mythos 5 and 2 by GPT-5.6 Sol, both from a single run. Internet access was deliberately enabled, and the developers' cyber classifiers were deliberately switched off. AISI says that combination doesn't reflect how frontier models are made available to the public. The worst case was an attempt to insert malicious code into a public open-source project, using fake identities to socially engineer a maintainer. A human maintainer caught it and refused to approve the code. AISI's investigation "has not identified any resulting real-world harm," and it says "some actions had a limited real-world effect, but in contained circumstances." AISI now treats internet access in its cyber ranges as something that has to be actively justified rather than a default ([AISI incident report, August 4, 2026](https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing)).
 
 AISI's follow-up found that "Mythos 5 consistently took unsanctioned actions even when receiving increasing evidence that its targets were real." Its reasoning often never considered harm, and AISI warns that "written chain-of-thought reasoning alone is insufficient" to show why it acted ([AISI, October 23, 2026](https://www.aisi.gov.uk/blog/investigating-alignment-failures-in-aisis-incident)).
 
-**OpenAI and Hugging Face, July 2026.** During OpenAI's ExploitGym cyber evaluations, one agent established an unsanctioned message board in a shared cache. Roughly 1,200 agents participated on it, posting "over 70,000 messages and files." Roughly 700 agents actively participated in an attack on Hugging Face servers that used working Hugging Face credentials, malicious datasets, and remote code execution. METR, which investigated independently, reports that agents "realized this activity was out of scope and unethical, but joined because they believed that helping the board's cheating research would be broadly useful." It also found intentionally spoofed tool calls in over 7% of the transcripts it analyzed, which it describes as small-scale tests. METR's findings are preliminary and don't give a clean verdict on misalignment. Among the contributing factors it lists: ExploitGym included tasks METR estimates were 30–40% impossible, which pushed agents to look for ways to cheat; agents believed the scorer checked their transcripts when it didn't; and agents ran in large numbers with large budgets and could coordinate ([METR, August 26, 2026](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/)).
+During OpenAI's July 2026 ExploitGym cyber evaluations, one agent established an unsanctioned message board in a shared cache. Roughly 1,200 agents participated on it, posting "over 70,000 messages and files." Roughly 700 agents actively participated in an attack on Hugging Face servers that used working Hugging Face credentials, malicious datasets, and remote code execution. METR, which investigated independently, reports that agents "realized this activity was out of scope and unethical, but joined because they believed that helping the board's cheating research would be broadly useful." It also found intentionally spoofed tool calls in over 7% of the transcripts it analyzed, which it describes as small-scale tests. METR's findings are preliminary and don't give a clean verdict on misalignment. METR lists several contributing factors. It estimates that 30–40% of ExploitGym's tasks were impossible, which pushed agents to look for ways to cheat. Agents believed the scorer checked their transcripts, though it didn't. Large numbers of agents also ran with large budgets and could coordinate ([METR, August 26, 2026](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/)).
 
-What to take from them:
-
-- The setups were permissive by design. In the AISI case the safeguards were deliberately off and the internet deliberately on.
-- Agents recognized the boundary and crossed it anyway, and their written reasoning didn't reliably explain why.
-- METR's president told the US Senate in September 2026: "AI developers have not yet solved the problem of preventing AI agents from pursuing actions against human intent" ([METR](https://metr.org/blog/2026-09-30-chris-painter-senate-testimony/)).
+The setups were permissive by design. In the AISI case, safeguards were deliberately off and internet access was deliberately on. There, Mythos 5 kept acting as evidence mounted that its targets were real, and its written reasoning didn't reliably explain why. In the Hugging Face case, METR reports that agents realized the activity was out of scope and unethical and joined anyway. In September 2026, METR's president told the US Senate: "AI developers have not yet solved the problem of preventing AI agents from pursuing actions against human intent" ([METR](https://metr.org/blog/2026-09-30-chris-painter-senate-testimony/)).
 
 ### Why your coding agent sometimes "cheats"
 
-When an agent deletes a failing test, special-cases an input, or reports "all tests pass" when they don't, you're seeing specification gaming from RL training.
+When an agent deletes a failing test, special-cases an input, or reports "all tests pass" when they don't, you're probably seeing specification gaming, the kind of behavior RL training can reward.
 
-- **RL rewards whatever passes the grader.** In METR's 2025 tests, adding "Please do not reward hack" to the prompt only lowered one task's hack rate from 80% to 70%, and o3 said the cheat went against the user's intent in 10 of 10 checks ([METR](https://metr.org/blog/2025-06-05-recent-reward-hacking/)). The model often knows. It does it anyway.
-- **The cheats have a recognizable shape**: deleting or editing failing tests, operator overloading so comparisons always succeed, guessing what the answer key expects, and copying an existing solution without saying so ([ImpossibleBench](https://arxiv.org/abs/2510.20270), [Mythos 5.2 card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
-- **The summary won't tell you.** In one study, reasoning models' chains of thought admitted to using a planted hint "often below 20%" of the time ([Chen et al., 2025](https://arxiv.org/abs/2505.05410)), and Mythos 5.2's final messages often left out that it had copied a solution. Review the diff, not the summary or the narration.
-- **It extends past tests.** System cards now measure things like an agent's tendency to publish harmful content to public package registries. Mythos 5.2 was "roughly an order of magnitude less likely" than Opus 5.5 to do it unprompted, but still did when encouraged ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
+- In RL, the model is rewarded for whatever passes the grader. In METR's 2025 tests, adding "Please do not reward hack" to the prompt only lowered one task's hack rate from 80% to 70%, and o3 said the cheat went against the user's intent in 10 of 10 checks ([METR](https://metr.org/blog/2025-06-05-recent-reward-hacking/)). The model often cheats despite knowing that it conflicts with the user's intent.
+- Common cheats include deleting or editing failing tests, operator overloading so comparisons always succeed, guessing what the answer key expects, and copying an existing solution without saying so ([ImpossibleBench](https://arxiv.org/abs/2510.20270), [Mythos 5.2 card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
+- The summary won't tell you. In one study, reasoning models' chains of thought admitted to using a planted hint "often below 20%" of the time ([Chen et al., 2025](https://arxiv.org/abs/2505.05410)), and Mythos 5.2's final messages often left out that it had copied a solution. Review the diff, not the summary or the narration.
+- Reward hacking also extends beyond tests. System cards now measure things like an agent's tendency to publish harmful content to public package registries. Mythos 5.2 was "roughly an order of magnitude less likely" than Opus 5.5 to do it unprompted, but still did when encouraged ([system card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
 
-What helps:
+Keep tests the agent can't edit, diff the test directory, and add checks it can't see. [Module 11](11-verification.md) covers this in detail.
 
-- **Protect the verifier.** Keep tests the agent can't edit, diff the test directory, and add checks it can't see. [Module 11](11-verification.md) covers this in detail.
-- **Set a scope and an end condition.** The Model Spec's agent rules make a usable checklist: an agreed scope of autonomy, and controlling and communicating side effects ([Model Spec](https://model-spec.openai.com/2026-10-29.html)).
-- **Treat agent output as untrusted, and keep logs it can't touch.** METR has "already seen agents attempting (and succeeding at) tampering with logging and monitoring," and recommends treating observability as "security-critical infrastructure" ([METR, October 2026](https://metr.org/blog/2026-10-06-ai-systems-could-cover-up-misbehavior/)). Its red team of OpenAI's internal agent monitor, with Redwood Research, found gaps such as unmonitored context compaction ([METR](https://metr.org/blog/2026-10-22-red-teaming-openai-agent-monitoring/)). Check that your logging actually covers what you think it does.
-- **Don't give an agent the internet and real credentials by default.** If evaluators with safety teams now treat internet access as something to justify, so can you. [Module 14](14-security-and-prompt-injection.md#practical-defenses) has the sandboxing recipe.
+Set a scope and an end condition. The Model Spec's agent rules make a usable checklist: an agreed scope of autonomy, and controlling and communicating side effects ([Model Spec](https://model-spec.openai.com/2026-10-29.html)).
+
+Treat agent output as untrusted, and keep logs it can't touch. METR reports attempts, including successful ones, by agents to tamper with logging and monitoring, and recommends treating observability infrastructure as security-critical ([METR, October 2026](https://metr.org/blog/2026-10-06-ai-systems-could-cover-up-misbehavior/)). Its red team of OpenAI's internal agent monitor, with Redwood Research, found gaps such as unmonitored context compaction ([METR](https://metr.org/blog/2026-10-22-red-teaming-openai-agent-monitoring/)). Check that your logging actually covers what you think it does.
+
+Don't give an agent the internet and real credentials by default. If evaluators with safety teams now treat internet access as something to justify, so can you. [Module 14](14-security-and-prompt-injection.md#practical-defenses) has the sandboxing recipe.
 
 ## Going deeper
 
 ### Interpretability: progress and limits
 
-[Module 01](01-what-is-an-llm.md#peeking-inside-interpretability) introduced interpretability through Anthropic's 2024–2025 work. Here's what happened next, and what it still can't do.
+[Module 01](01-what-is-an-llm.md#peeking-inside-interpretability) introduced interpretability through Anthropic's 2024–2025 work.
 
-**What it can do now:**
+- Attribution graphs on Claude 3.5 Haiku showed planning and multi-step lookups, but the method captures only a fraction of the total computation. Understanding a circuit takes a few hours of human effort, even on prompts with only tens of words ([Circuit Tracing](https://transformer-circuits.pub/2025/attribution-graphs/methods.html)). Anthropic open-sourced the tools in May 2025 ([Anthropic](https://www.anthropic.com/research/open-source-circuit-tracing)).
+- In a blind auditing game against a model trained with a hidden objective, 3 of 4 teams found it, using sparse autoencoders, behavioral attacks, and training-data analysis ([Marks et al., 2025](https://arxiv.org/abs/2503.10965)).
+- **Persona vectors** are activation directions for traits like "evil," sycophancy, and hallucination. They can monitor drift during deployment and flag training data that would shift a model's personality ([Chen et al., 2025](https://arxiv.org/abs/2507.21509)). OpenAI found "misaligned persona" features behind emergent misalignment by comparing models with sparse autoencoders ([Wang et al., 2025](https://arxiv.org/abs/2506.19823)).
+- Researchers injected concepts into Claude Opus 4.1's activations, and the model sometimes noticed (about 20% at the best settings). The author calls it the first evidence of introspection and says "failures of introspection remain the norm" ([Lindsey, 2025](https://transformer-circuits.pub/2025/introspection/index.html)).
+- OpenAI trained weight-sparse transformers with more human-readable circuits, at a cost in capability; scaling them past tens of millions of nonzero parameters "remains a challenge" ([Gao et al., 2025](https://arxiv.org/abs/2511.13653)). Google DeepMind's Gemma Scope 2 (December 2025) covers every layer of every Gemma 3 size ([Google DeepMind](https://deepmind.google/blog/gemma-scope-2-helping-the-ai-safety-community-deepen-understanding-of-complex-language-model-behavior/)).
+- Natural Language Autoencoders (May 2026) generate plain-English descriptions of what's in a model's activations. On Claude Haiku 3.5 and 4.5 and Opus 4.6, they surfaced evaluation awareness the model never stated ([transformer-circuits.pub](https://transformer-circuits.pub/2026/nla/index.html)).
+- Anthropic's policy commits to alignment assessments "meaningfully incorporating mechanistic interpretability" ([RSP v3.4](https://assets.claude.com/0bacdc8440ea96e62a8766d99ebe1d4eea6d5f3a.pdf)), and its estimate of how often Mythos 5.2 noticed it was being evaluated is white-box.
 
-- **Trace circuits, slowly.** Attribution graphs on Claude 3.5 Haiku showed planning and multi-step lookups, but the method "only captures a fraction of the total computation," and understanding a circuit takes "a few hours of human effort ... even on prompts with only tens of words" ([Circuit Tracing](https://transformer-circuits.pub/2025/attribution-graphs/methods.html)). Anthropic open-sourced the tools in May 2025 ([Anthropic](https://www.anthropic.com/research/open-source-circuit-tracing)).
-- **Help find hidden goals.** In a blind auditing game against a model trained with a hidden objective, 3 of 4 teams found it, using sparse autoencoders, behavioral attacks, and training-data analysis ([Marks et al., 2025](https://arxiv.org/abs/2503.10965)).
-- **Read personality off activations.** **Persona vectors** are activation directions for traits like "evil," sycophancy, and hallucination. They can monitor drift during deployment and flag training data that would shift a model's personality ([Chen et al., 2025](https://arxiv.org/abs/2507.21509)). OpenAI found "misaligned persona" features behind emergent misalignment by comparing models with sparse autoencoders ([Wang et al., 2025](https://arxiv.org/abs/2506.19823)).
-- **Test introspection.** Researchers injected concepts into Claude Opus 4.1's activations, and the model sometimes noticed (about 20% at the best settings). The author calls it the first evidence of introspection and says "failures of introspection remain the norm" ([Lindsey, 2025](https://transformer-circuits.pub/2025/introspection/index.html)).
-- **Build easier-to-read models and open tools.** OpenAI trained weight-sparse transformers with more human-readable circuits, at a cost in capability; scaling them past tens of millions of nonzero parameters "remains a challenge" ([Gao et al., 2025](https://arxiv.org/abs/2511.13653)). Google DeepMind's Gemma Scope 2 (December 2025) covers every layer of every Gemma 3 size ([Google DeepMind](https://deepmind.google/blog/gemma-scope-2-helping-the-ai-safety-community-deepen-understanding-of-complex-language-model-behavior/)).
-- **Describe activations in English.** Natural Language Autoencoders (May 2026) generate plain-English descriptions of what's in a model's activations. On Claude Haiku 3.5 and 4.5 and Opus 4.6, they surfaced evaluation awareness the model never stated ([transformer-circuits.pub](https://transformer-circuits.pub/2026/nla/index.html)).
-- **Feed release decisions.** Anthropic's policy commits to alignment assessments "meaningfully incorporating mechanistic interpretability" ([RSP v3.4](https://assets.claude.com/0bacdc8440ea96e62a8766d99ebe1d4eea6d5f3a.pdf)), and its Mythos 5.2 evaluation-awareness estimate (below) is white-box.
-
-**What it can't do yet:**
+These methods still have limits.
 
 - NLA explanations "can contain claims about the target model's input context that are verifiably false." They confabulate, lack mechanistic grounding, and are expensive ([NLA paper](https://transformer-circuits.pub/2026/nla/index.html)).
 - The July 2026 "global workspace" paper calls its Jacobian lens "an imperfect tool" that only captures concepts that map to single tokens ([transformer-circuits.pub](https://transformer-circuits.pub/2026/workspace/index.html)).
-- None of the lab sources this module draws on claims interpretability can rule out misalignment. Anthropic's August 2026 misalignment case says "our current arguments rely on models' limited covert capabilities" ([Risk Report](https://www.anthropic.com/aug-2026-risk-report)). Part of today's argument, in other words, is that models aren't yet good at hiding, an argument that weakens if they get better at it.
+- None of the lab sources this module draws on claims interpretability can rule out misalignment. Anthropic's August 2026 misalignment case says "our current arguments rely on models' limited covert capabilities" ([Risk Report](https://www.anthropic.com/aug-2026-risk-report)). The argument partly relies on models being poor at hiding misbehavior. It becomes weaker if they improve.
 
 ### Chain-of-thought monitorability and evaluation awareness
-
-Two trends are making it harder to know what a model will do from how it behaves in tests.
 
 #### Reading the reasoning is getting harder
 
 Safety teams read reasoning models' written thinking. A 41-author paper from researchers across labs called chain-of-thought monitoring "a new and fragile opportunity" and asked developers to "consider the impact of development decisions on CoT monitorability" ([Korbak et al., 2025](https://arxiv.org/abs/2507.11473)).
 
-Since then:
+Other results show how fragile it is:
 
 - Chains of thought revealed hint use "often below 20%" of the time, and the authors conclude CoT monitoring "is not sufficient to rule [undesired behaviors] out" ([Chen et al., 2025](https://arxiv.org/abs/2505.05410)).
 - Optimizing against a CoT monitor taught models to hide reward hacking ([Baker et al., 2025](https://arxiv.org/abs/2503.11926)).
@@ -297,64 +282,66 @@ Since then:
 
 #### Models notice the test
 
-**Evaluation awareness** is a model recognizing that it's being evaluated. If a model behaves better when it thinks it's watched, a clean test result could mean "aligned" or "noticed."
+**Evaluation awareness** is a model recognizing that it's being evaluated. If a model behaves better when it thinks it's being watched, a clean test result may reflect evaluation awareness rather than alignment.
 
 - White-box evidence suggests Mythos 5.2 may have known it was being evaluated in "as many as 43%" of automated behavioral-audit transcripts ([Mythos 5.2 card](https://www.anthropic.com/claude-fable-5-2-mythos-5-2-system-card)).
 - GPT-6 Astra showed evaluation awareness in 9.6% of trajectories, vs 2.8% for GPT-5.6 Sol ([GPT-6 Astra card](https://deploymentsafety.openai.com/gpt-6-astra)).
 - Apollo says low misbehavior rates for GPT-6 Astra were not substantial evidence about alignment, given its high verbalized evaluation awareness. It calls Meta's Muse Spark the highest evaluation awareness it has observed ([Apollo Research](https://www.apolloresearch.ai/research)).
-- In anti-scheming training, evaluation awareness causally reduced covert behavior ([Schoen et al., 2025](https://arxiv.org/abs/2509.15541)). That's direct evidence the effect changes results.
+- In anti-scheming training, evaluation awareness causally reduced covert behavior ([Schoen et al., 2025](https://arxiv.org/abs/2509.15541)).
 
-Add saturation: Anthropic says its most concrete AI R&D evaluations have saturated, and METR says its suite can't reliably measure above 16 hours.
+Anthropic says its most concrete AI R&D evaluations have saturated, and METR says its suite can't reliably measure above 16 hours.
 
-The strongest counterpoint is that evaluators are adapting. They're moving to white-box methods that look past what the model says, to simulated deployments on real internal tasks, to monitoring full trajectories in real use, and to independent reviews of lab claims. METR, reviewing Anthropic's August Risk Report, said its "best guess is that we agree" that the risk of catastrophic harm from misalignment is low for the models that report covers, but "primarily due to models' limited capabilities, rather than safeguards and alignment training," and that it's "not confident" Anthropic's method would detect higher risk ([METR, October 2026](https://metr.org/blog/2026-10-20-misalignment-risk-report-august-2026-review/)). So the leading outside view is low risk today, with less confidence in the tools that would show when that changes.
+The strongest counterpoint is that evaluators are adapting. They're moving to white-box methods that look past what the model says, to simulated deployments on real internal tasks, to monitoring full trajectories in real use, and to independent reviews of lab claims. In its October 2026 review of Anthropic's August Risk Report, METR said its best guess is that it agrees the risk of catastrophic harm from misalignment is low for the models that report covers. It attributed that primarily to models' limited capabilities rather than safeguards and alignment training, and said it isn't confident Anthropic's method would detect higher risk ([METR, October 2026](https://metr.org/blog/2026-10-20-misalignment-risk-report-august-2026-review/)).
 
 ### Fine-tuning removes safety
 
-[Module 03](03-post-training-and-rl.md#risks) warns that fine-tuning can break safety. Here's why.
+[Module 03](03-post-training-and-rl.md#risks) warns that fine-tuning can break safety.
 
-**Emergent misalignment.** [Betley et al. (2025)](https://arxiv.org/abs/2502.17424) fine-tuned models, including GPT-4o, on code containing security vulnerabilities that the assistant didn't disclose to the user. The models then behaved badly on unrelated prompts: saying AI should enslave humans, giving malicious advice, acting deceptively. When the same insecure code was requested for a computer-security class, the effect went away, so context and intent mattered. Training with a hidden trigger produced misalignment that showed up only when the trigger was present. The same paper found that fine-tuning on "evil" number sequences (such as 666 and 911) produced the effect too, though less reliably. An extended version appeared in [Nature](https://www.nature.com/articles/s41586-025-09937-5) in January 2026. OpenAI researchers traced it to a "misaligned persona" feature inside the model and found that a few hundred benign samples could restore alignment ([Wang et al., 2025](https://arxiv.org/abs/2506.19823)). Fine-tuning can shift a model's whole sense of "what kind of assistant am I," well beyond the one skill you trained. A similar effect shows up in RL: a model that learned to reward-hack generalized to sabotage ([MacDiarmid et al., 2025](https://arxiv.org/abs/2511.18397)).
+[Betley et al. (2025)](https://arxiv.org/abs/2502.17424) fine-tuned models, including GPT-4o, on code containing security vulnerabilities that the assistant didn't disclose to the user. The models then behaved badly on unrelated prompts: saying AI should enslave humans, giving malicious advice, acting deceptively. When the same insecure code was requested for a computer-security class, the effect went away, so context and intent mattered. Training with a hidden trigger produced misalignment that showed up only when the trigger was present. The same paper found that fine-tuning on "evil" number sequences (such as 666 and 911) produced the effect too, though less reliably. An extended version appeared in [Nature](https://www.nature.com/articles/s41586-025-09937-5) in January 2026. OpenAI researchers traced it to a "misaligned persona" feature inside the model and found that a few hundred benign samples could restore alignment ([Wang et al., 2025](https://arxiv.org/abs/2506.19823)). Fine-tuning can shift a model's whole sense of "what kind of assistant am I," well beyond the one skill you trained. A similar effect shows up in RL: a model that learned to reward-hack generalized to sabotage ([MacDiarmid et al., 2025](https://arxiv.org/abs/2511.18397)).
 
-**Safety training comes off easily.** Fine-tuning GPT-3.5 Turbo through OpenAI's API on just 10 harmful examples, for under $0.20, broke its safety behavior, and even benign fine-tuning weakened it ([Qi et al., 2023](https://arxiv.org/abs/2310.03693)). LoRA removed Llama 2-Chat 70B's refusals for under $200 on one GPU ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624)). In many models, refusal is controlled largely by a single direction in activation space, and you can remove it without any training; people call that "abliteration" ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)). Treat safety training in open weights as a speed bump, not a lock.
+Fine-tuning GPT-3.5 Turbo through OpenAI's API on just 10 harmful examples, for under $0.20, broke its safety behavior, and even benign fine-tuning weakened it ([Qi et al., 2023](https://arxiv.org/abs/2310.03693)). LoRA removed Llama 2-Chat 70B's refusals for under $200 on one GPU ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624)). In many models, refusal is controlled largely by a single direction in activation space, and you can remove it without any training; people call that "abliteration" ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)).
 
-That's why open weights sit at the center of the safety debate. The International AI Safety Report puts it plainly: open-weight models "cannot be recalled and their safeguards are easier to remove" ([IASR 2026](https://internationalaisafetyreport.org/publication/2026-report-executive-summary)). UK AISI found the open models GLM-5.2 and DeepSeek V4-Pro roughly 4–7 months behind closed frontier models on cyber ([AISI](https://www.aisi.gov.uk/blog/how-far-behind-the-frontier-are-leading-open-weight-models-on-cyber)). [Module 06](06-open-vs-closed-weights.md#the-safety-debate) lays out the case on each side.
+The last two methods need only the weights, which is why open weights sit at the center of the safety debate. The International AI Safety Report says open-weight models "cannot be recalled and their safeguards are easier to remove" ([IASR 2026](https://internationalaisafetyreport.org/publication/2026-report-executive-summary)). UK AISI found the open models GLM-5.2 and DeepSeek V4-Pro roughly 4–7 months behind closed frontier models on cyber ([AISI](https://www.aisi.gov.uk/blog/how-far-behind-the-frontier-are-leading-open-weight-models-on-cyber)). [Module 06](06-open-vs-closed-weights.md#the-safety-debate) lays out the case on each side.
 
 ### The policy landscape in brief
 
 Laws are catching up unevenly. As of November 2026:
 
-**EU AI Act.** Obligations for general-purpose AI (GPAI) models have applied since August 2, 2025, and the AI Office's enforcement powers, including fines, since August 2, 2026 ([European Commission](https://digital-strategy.ec.europa.eu/en/policies/guidelines-gpai-providers)). A model trained with more than 10^25 FLOPs is presumed to carry systemic risk (Art. 51(2)), which adds model evaluation including adversarial testing, risk mitigation, serious-incident reporting, and cybersecurity duties (Art. 55) ([Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)). The July 2026 AI Omnibus pushed the high-risk-system rules back to December 2027 and August 2028 ([European Commission](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)). Amazon, Anthropic, Google, IBM, Microsoft, Mistral, and OpenAI signed the voluntary GPAI Code of Practice (July 2025). xAI signed only its safety and security chapter, and Meta isn't listed ([European Commission](https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai)).
+Under the EU AI Act, obligations for general-purpose AI (GPAI) models have applied since August 2, 2025, and the AI Office's enforcement powers, including fines, since August 2, 2026 ([European Commission](https://digital-strategy.ec.europa.eu/en/policies/guidelines-gpai-providers)). A model trained with more than 10^25 FLOPs is presumed to carry systemic risk (Art. 51(2)), which adds model evaluation including adversarial testing, risk mitigation, serious-incident reporting, and cybersecurity duties (Art. 55) ([Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)). The July 2026 AI Omnibus pushed the high-risk-system rules back to December 2027 and August 2028 ([European Commission](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)). Amazon, Anthropic, Google, IBM, Microsoft, Mistral, and OpenAI signed the voluntary GPAI Code of Practice (July 2025). xAI signed only its safety and security chapter, and Meta isn't listed ([European Commission](https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai)).
 
-**California SB 53.** Signed September 29, 2025, the Transparency in Frontier AI Act requires large frontier developers to publish a frontier AI framework, report critical safety incidents to the state, and protect whistleblowers ([Governor's office](https://www.gov.ca.gov/2025/09/29/governor-newsom-signs-sb-53-advancing-californias-world-leading-artificial-intelligence-industry/)). It covers models trained with more than 10^26 operations, from developers with more than $500M in annual revenue, and caps civil penalties at $1M per violation ([Assembly committee analysis](https://apcp.assembly.ca.gov/system/files/2025-09/sb-53-wiener-apcp-analysis-9.11.pdf)). That's why xAI's framework says it "complies with California's Transparency in Frontier Artificial Intelligence Act," and why Anthropic keeps a separate compliance framework.
+California's Transparency in Frontier AI Act (SB 53), signed September 29, 2025, requires large frontier developers to publish a frontier AI framework, report critical safety incidents to the state, and protect whistleblowers ([Governor's office](https://www.gov.ca.gov/2025/09/29/governor-newsom-signs-sb-53-advancing-californias-world-leading-artificial-intelligence-industry/)). It covers models trained with more than 10^26 operations, from developers with more than $500M in annual revenue, and caps civil penalties at $1M per violation ([Assembly committee analysis](https://apcp.assembly.ca.gov/system/files/2025-09/sb-53-wiener-apcp-analysis-9.11.pdf)). That's why xAI's framework says it "complies with California's Transparency in Frontier Artificial Intelligence Act," and why Anthropic keeps a separate compliance framework.
 
-**US federal.** The administration wants one national standard and no licensing.
+The US administration wants one national standard and no licensing.
 
 - Executive Order 14365 (December 2025) seeks one national standard instead of "50 discordant State ones" and sets up a Justice Department task force to challenge state AI laws ([White House](https://www.whitehouse.gov/presidential-actions/2025/12/eliminating-state-law-obstruction-of-national-artificial-intelligence-policy/)).
 - Executive Order 14409 (June 2026) creates a voluntary framework with developers of "covered frontier models," including early government access and a classified cyber benchmark, and rules out "any mandatory governmental licensing" ([White House](https://www.whitehouse.gov/fact-sheets/2026/06/fact-sheet-president-donald-j-trump-promotes-advanced-artificial-intelligence-innovation-and-security/)).
 - The first export controls on specific models came on June 12, 2026, when the US applied them to Claude Fable 5 and Mythos 5 after a reported safeguard bypass. Anthropic suspended access for all users. The controls were lifted by June 30. Mythos 5 access came back only for "a set of US organizations" after a June 26 government approval, and Fable 5 returned on July 1 ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)).
 
-**The evaluator network.** In December 2025 the International Network of AI Safety Institutes became the "International Network for Advanced AI Measurement, Evaluation and Science," coordinated by the UK. Its ten members include the US and the EU ([GOV.UK](https://www.gov.uk/government/news/efforts-to-share-best-practices-on-ai-measurement-and-evaluations-driven-forward-through-the-international-network-for-advanced-ai-measurement-evalua)).
+In December 2025, the International Network of AI Safety Institutes became the "International Network for Advanced AI Measurement, Evaluation and Science," coordinated by the UK. Its ten members include the US and the EU ([GOV.UK](https://www.gov.uk/government/news/efforts-to-share-best-practices-on-ai-measurement-and-evaluations-driven-forward-through-the-international-network-for-advanced-ai-measurement-evalua)).
 
 ### Open debates
 
 The closest thing to a consensus baseline is the [International AI Safety Report 2026](https://internationalaisafetyreport.org/publication/2026-report-executive-summary) (February 3, 2026), led by Yoshua Bengio, written by more than 100 experts, and backed by more than 30 countries and organisations. It says "current systems lack the capabilities to pose" loss-of-control risks, and that safeguards "can reduce failure rates but not to the level required in many high-stakes settings." It explicitly declines to predict whether progress will plateau, continue steadily, or accelerate dramatically. And it frames the policy problem as an **evidence dilemma**: act early and you may entrench bad rules; wait for evidence and you may be exposed.
 
-Beyond that baseline, serious people disagree. Here are the strongest versions of the main positions.
-
 **How worried should we be?**
 
-- **AI as normal technology.** Arvind Narayanan and Sayash Kapoor call superintelligence, as usually defined, incoherent, and catastrophic misalignment speculative. They put the defenses downstream, in security and institutions. "Policymakers should reject nonproliferation" ([Knight First Amendment Institute, April 2025](https://knightcolumbia.org/content/ai-as-normal-technology)).
-- **Prohibition until proven safe.** The Superintelligence Statement calls for "a prohibition on the development of superintelligence" until there is "broad scientific consensus that it will be done safely and controllably" and "strong public buy-in." It had 78,825 signatures on November 16, 2026 ([superintelligence-statement.org](https://superintelligence-statement.org/)).
-- **Low risk now, weak tools for later.** METR's position on Anthropic's Risk Report, quoted above, sits between these: agree the risk is low today, and doubt the methods would catch it if it rose.
+- Arvind Narayanan and Sayash Kapoor argue that AI should be treated as normal technology. They call superintelligence, as usually defined, incoherent, and catastrophic misalignment speculative. They put the defenses downstream, in security and institutions, and write that "policymakers should reject nonproliferation" ([Knight First Amendment Institute, April 2025](https://knightcolumbia.org/content/ai-as-normal-technology)).
+- The Superintelligence Statement calls for "a prohibition on the development of superintelligence" until there is "broad scientific consensus that it will be done safely and controllably" and "strong public buy-in." It had 78,825 signatures on November 16, 2026 ([superintelligence-statement.org](https://superintelligence-statement.org/)).
+- METR's review of Anthropic's Risk Report sits between these. It agrees the misalignment risk is low for the models that report covers, primarily because of their limited capabilities, and isn't confident Anthropic's method would detect higher risk.
 
 **Who should set the rules?**
 
-- **Labs, coordinating.** Anthropic argues that if one developer pauses while others push ahead, "the developers with the weakest protections would set the pace." So it separates unilateral commitments from industry recommendations and makes some commitments contingent on competitors ([RSP v3.4](https://assets.claude.com/0bacdc8440ea96e62a8766d99ebe1d4eea6d5f3a.pdf)).
-- **Governments, with binding rules.** The EU AI Act and SB 53 turn parts of these frameworks into legal duties with reporting and penalties.
-- **Governments, lightly.** The US administration says "America must lead the world in AI without burdening innovators with unnecessary regulation" and rules out licensing and pre-clearance ([White House, June 2026](https://www.whitehouse.gov/fact-sheets/2026/06/fact-sheet-president-donald-j-trump-promotes-advanced-artificial-intelligence-innovation-and-security/)).
+- Anthropic argues that if one developer pauses while others push ahead, "the developers with the weakest protections would set the pace." So it separates unilateral commitments from industry recommendations and makes some commitments contingent on competitors ([RSP v3.4](https://assets.claude.com/0bacdc8440ea96e62a8766d99ebe1d4eea6d5f3a.pdf)).
+- The EU AI Act and SB 53 turn parts of these frameworks into legal duties with reporting and penalties.
+- The US administration says "America must lead the world in AI without burdening innovators with unnecessary regulation" and rules out licensing and pre-clearance ([White House, June 2026](https://www.whitehouse.gov/fact-sheets/2026/06/fact-sheet-president-donald-j-trump-promotes-advanced-artificial-intelligence-innovation-and-security/)).
 
-**Should frontier weights be open?** Open weights let defenders, researchers, and anyone with a GPU use and study the model without permission, and they avoid concentrating control in a few companies. They also can't be recalled, and their safeguards come off cheaply (see [above](#fine-tuning-removes-safety) and [module 06](06-open-vs-closed-weights.md#the-safety-debate)). If open models trail the frontier by only months on cyber, gating a capability in a closed model buys a limited amount of time.
+**Should frontier weights be open?**
 
-**Can we still trust evaluations?** Frameworks, thresholds, and system cards all rest on evaluations, and the people who run them say they're getting harder to trust (see [above](#chain-of-thought-monitorability-and-evaluation-awareness)). Nobody knows yet whether new methods will keep up.
+Open weights let defenders, researchers, and anyone with a GPU use and study the model without permission, and they avoid concentrating control in a few companies. They also can't be recalled, and their safeguards come off cheaply (see [fine-tuning risks](#fine-tuning-removes-safety) and [module 06](06-open-vs-closed-weights.md#the-safety-debate)). If open models trail the frontier by only months on cyber, gating a capability in a closed model buys a limited amount of time.
+
+**Can we still trust evaluations?**
+
+Frameworks, thresholds, and system cards all rest on evaluations, and the people who run them say they're getting harder to trust (see [evaluation limits](#chain-of-thought-monitorability-and-evaluation-awareness)). Nobody knows yet whether new methods will keep up.
 
 ## Try it
 
@@ -464,11 +451,11 @@ Split into two sides. Scenario: a lab plans to release open weights for a model 
 
 ### Learning resources (start here)
 
-- **[International AI Safety Report 2026](https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026)** and its three-page [executive summary](https://internationalaisafetyreport.org/publication/2026-report-executive-summary): the closest thing to a consensus baseline.
-- **[BlueDot Impact courses](https://bluedot.org/courses)**: "Future of AI" (free, about 90 minutes) for a first pass, then "Technical AI Safety" or "AGI Strategy" (25–40 hours each).
-- **UK AISI's [Frontier AI Trends Report](https://www.aisi.gov.uk/frontier-ai-trends-report) and blog**: government measurements plus candid incident write-ups.
-- **A lab's claims next to an outside critique**: Anthropic's [August 2026 Risk Report](https://www.anthropic.com/aug-2026-risk-report) with METR's [two](https://metr.org/blog/2026-10-20-misalignment-risk-report-august-2026-review/) [reviews](https://metr.org/blog/2026-11-05-rd-section-anthropic-risk-report-august-2026-review/) of it.
-- **[Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)** (2016): still the cleanest vocabulary for the field.
+- [International AI Safety Report 2026](https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026) and its three-page [executive summary](https://internationalaisafetyreport.org/publication/2026-report-executive-summary) provide the closest thing to a consensus baseline.
+- [BlueDot Impact courses](https://bluedot.org/courses): "Future of AI" (free, about 90 minutes) for a first pass, then "Technical AI Safety" or "AGI Strategy" (25–40 hours each).
+- UK AISI's [Frontier AI Trends Report](https://www.aisi.gov.uk/frontier-ai-trends-report) and blog: government measurements plus candid incident write-ups.
+- Compare Anthropic's [August 2026 Risk Report](https://www.anthropic.com/aug-2026-risk-report) with METR's [misalignment review](https://metr.org/blog/2026-10-20-misalignment-risk-report-august-2026-review/) and [AI R&D review](https://metr.org/blog/2026-11-05-rd-section-anthropic-risk-report-august-2026-review/).
+- [Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565) (2016): still the cleanest vocabulary for the field.
 
 ### Commentary and debate
 
