@@ -54,14 +54,14 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/abs/2103.00020) (Radford et al., 2021), CLIP
 - [Finetuned Language Models Are Zero-Shot Learners](https://arxiv.org/abs/2109.01652) (Wei et al., 2021), FLAN
 - [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903) (Wei et al., 2022) · also cited in [09](../modules/09-context-engineering.md)
-- [Training Language Models to Follow Instructions with Human Feedback](https://arxiv.org/abs/2203.02155) (Ouyang et al., 2022), InstructGPT · also cited in [03](../modules/03-post-training-and-rl.md)
+- [Training Language Models to Follow Instructions with Human Feedback](https://arxiv.org/abs/2203.02155) (Ouyang et al., 2022), InstructGPT · also cited in [03](../modules/03-post-training-and-rl.md), [04](../modules/04-model-safety-and-alignment.md)
 - [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171) (Wang et al., 2022) · also cited in [12](../modules/12-multi-agent-systems.md)
 - [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556) (Hoffmann et al., 2022), Chinchilla
 - [Large Language Models are Zero-Shot Reasoners](https://arxiv.org/abs/2205.11916) (Kojima et al., 2022)
 - [Emergent Abilities of Large Language Models](https://arxiv.org/abs/2206.07682) (Wei et al., 2022)
 - [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) (Yao et al., 2022) · also cited in [08](../modules/08-harnesses-and-tools.md), [10](../modules/10-agentic-workflows.md), [12](../modules/12-multi-agent-systems.md)
 - [Emergent World Representations: Exploring a Sequence Model Trained on a Synthetic Task](https://arxiv.org/abs/2210.13382) (Li et al., 2022), Othello-GPT
-- [Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073) (Bai et al., 2022) · also cited in [03](../modules/03-post-training-and-rl.md)
+- [Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073) (Bai et al., 2022) · also cited in [03](../modules/03-post-training-and-rl.md), [04](../modules/04-model-safety-and-alignment.md)
 - [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761) (Schick et al., 2023)
 - [GPT-4 Technical Report](https://arxiv.org/abs/2303.08774) (OpenAI, 2023)
 - [Are Emergent Abilities of Large Language Models a Mirage?](https://arxiv.org/abs/2304.15004) (Schaeffer, Miranda, Koyejo, 2023)
@@ -69,14 +69,14 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [The Reversal Curse: LLMs trained on "A is B" fail to learn "B is A"](https://arxiv.org/abs/2309.12288) (Berglund et al., 2023)
 - [Embers of Autoregression](https://arxiv.org/abs/2309.13638) (McCoy et al., 2023)
 - [Language Models Represent Space and Time](https://arxiv.org/abs/2310.02207) (Gurnee and Tegmark, 2023)
-- [Towards Understanding Sycophancy in Language Models](https://arxiv.org/abs/2310.13548) (Sharma et al., 2023) · also cited in [10](../modules/10-agentic-workflows.md)
+- [Towards Understanding Sycophancy in Language Models](https://arxiv.org/abs/2310.13548) (Sharma et al., 2023) · also cited in [04](../modules/04-model-safety-and-alignment.md), [10](../modules/10-agentic-workflows.md)
 - [Mixtral of Experts](https://arxiv.org/abs/2401.04088) (Jiang et al., 2024)
 - [The Llama 3 Herd of Models](https://arxiv.org/abs/2407.21783) (Grattafiori et al., 2024) · also cited in [02](../modules/02-how-a-model-is-made.md)
 - [Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters](https://arxiv.org/abs/2408.03314) (Snell et al., 2024)
 - [GSM-Symbolic: Understanding the Limitations of Mathematical Reasoning in Large Language Models](https://arxiv.org/abs/2410.05229) (Mirzadeh et al., 2024)
 - [DeepSeek-V3 Technical Report](https://arxiv.org/abs/2412.19437) (DeepSeek-AI, 2024) · also cited in [02](../modules/02-how-a-model-is-made.md)
 - [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948) (DeepSeek-AI, 2025); peer-reviewed version in [Nature](https://www.nature.com/articles/s41586-025-09422-z) · also cited in [02](../modules/02-how-a-model-is-made.md), [03](../modules/03-post-training-and-rl.md)
-- [Reasoning Models Don't Always Say What They Think](https://arxiv.org/abs/2505.05410) (Chen et al., 2025)
+- [Reasoning Models Don't Always Say What They Think](https://arxiv.org/abs/2505.05410) (Chen et al., 2025) · also cited in [04](../modules/04-model-safety-and-alignment.md)
 - [The Illusion of Thinking](https://arxiv.org/abs/2506.06941) (Shojaee et al., 2025) and the [comment by Lawsen](https://arxiv.org/abs/2506.09250) (2025)
 - [Why Language Models Hallucinate](https://arxiv.org/abs/2509.04664) (Kalai, Nachum, Vempala, Zhang, 2025)
 
@@ -108,36 +108,59 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [QLoRA: Efficient Finetuning of Quantized LLMs](https://arxiv.org/abs/2305.14314) (Dettmers et al., 2023) · also cited in [06](../modules/06-open-vs-closed-weights.md)
 - [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290) (Rafailov et al., 2023)
 - [RLAIF vs. RLHF: Scaling Reinforcement Learning from Human Feedback with AI Feedback](https://arxiv.org/abs/2309.00267) (Lee et al., 2023)
-- [Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!](https://arxiv.org/abs/2310.03693) (Qi et al., 2023)
-- [LoRA Fine-tuning Efficiently Undoes Safety Training in Llama 2-Chat 70B](https://arxiv.org/abs/2310.20624) (Lermen, Rogers-Smith, Ladish, 2023) · also cited in [06](../modules/06-open-vs-closed-weights.md)
+- [Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!](https://arxiv.org/abs/2310.03693) (Qi et al., 2023) · also cited in [04](../modules/04-model-safety-and-alignment.md)
+- [LoRA Fine-tuning Efficiently Undoes Safety Training in Llama 2-Chat 70B](https://arxiv.org/abs/2310.20624) (Lermen, Rogers-Smith, Ladish, 2023) · also cited in [04](../modules/04-model-safety-and-alignment.md), [06](../modules/06-open-vs-closed-weights.md)
 - [Fine-Tuning or Retrieval? Comparing Knowledge Injection in LLMs](https://arxiv.org/abs/2312.05934) (Ovadia et al., 2023)
 - [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020) (Yuan et al., 2024)
 - [DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models](https://arxiv.org/abs/2402.03300) (Shao et al., 2024), introduces GRPO
 - [Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?](https://arxiv.org/abs/2405.05904) (Gekhman et al., 2024)
 - [LoRA Learns Less and Forgets Less](https://arxiv.org/abs/2405.09673) (Biderman et al., 2024)
-- [Refusal in Language Models Is Mediated by a Single Direction](https://arxiv.org/abs/2406.11717) (Arditi et al., 2024) · also cited in [06](../modules/06-open-vs-closed-weights.md)
+- [Refusal in Language Models Is Mediated by a Single Direction](https://arxiv.org/abs/2406.11717) (Arditi et al., 2024) · also cited in [04](../modules/04-model-safety-and-alignment.md), [06](../modules/06-open-vs-closed-weights.md)
 - [Learning to (Learn at Test Time): RNNs with Expressive Hidden States](https://arxiv.org/abs/2407.04620) (Sun et al., 2024)
 - [The Surprising Effectiveness of Test-Time Training for Few-Shot Learning](https://arxiv.org/abs/2411.07279) (Akyürek et al., 2024)
 - [Tülu 3: Pushing Frontiers in Open Language Model Post-Training](https://arxiv.org/abs/2411.15124) (Lambert et al., 2024), names RLVR
-- [Deliberative Alignment: Reasoning Enables Safer Language Models](https://arxiv.org/abs/2412.16339) (Guan et al., 2024)
+- [Deliberative Alignment: Reasoning Enables Safer Language Models](https://arxiv.org/abs/2412.16339) (Guan et al., 2024) · also cited in [04](../modules/04-model-safety-and-alignment.md)
 - [Titans: Learning to Memorize at Test Time](https://arxiv.org/abs/2501.00663) (Behrouz, Zhong, Mirrokni, 2024)
 - [Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming](https://arxiv.org/abs/2501.18837) (Sharma et al., 2025)
-- [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/abs/2502.17424) (Betley et al., 2025); extended version in [Nature](https://www.nature.com/articles/s41586-025-09937-5) (2026)
+- [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/abs/2502.17424) (Betley et al., 2025); extended version in [Nature](https://www.nature.com/articles/s41586-025-09937-5) (2026) · also cited in [04](../modules/04-model-safety-and-alignment.md)
 - [SWE-RL: Advancing LLM Reasoning via Reinforcement Learning on Open Software Evolution](https://arxiv.org/abs/2502.18449) (Wei et al., 2025)
-- [Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation](https://arxiv.org/abs/2503.11926) (Baker et al., 2025)
+- [Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation](https://arxiv.org/abs/2503.11926) (Baker et al., 2025) · also cited in [04](../modules/04-model-safety-and-alignment.md)
 - [Absolute Zero: Reinforced Self-play Reasoning with Zero Data](https://arxiv.org/abs/2505.03335) (Zhao et al., 2025)
 - [Darwin Gödel Machine: Open-Ended Evolution of Self-Improving Agents](https://arxiv.org/abs/2505.22954) (Zhang et al., 2025)
 - [Self-Adapting Language Models](https://arxiv.org/abs/2506.10943) (Zweiger et al., 2025), SEAL
 - [AlphaEvolve: A coding agent for scientific and algorithmic discovery](https://arxiv.org/abs/2506.13131) (Novikov et al., 2025)
-- [Persona Features Control Emergent Misalignment](https://arxiv.org/abs/2506.19823) (Wang et al., 2025)
+- [Persona Features Control Emergent Misalignment](https://arxiv.org/abs/2506.19823) (Wang et al., 2025) · also cited in [04](../modules/04-model-safety-and-alignment.md)
 - [Poisoning Attacks on LLMs Require a Near-constant Number of Poison Samples](https://arxiv.org/abs/2510.07192) (Souly et al., 2025)
-- [Natural Emergent Misalignment from Reward Hacking in Production RL](https://arxiv.org/abs/2511.18397) (MacDiarmid et al., 2025)
+- [Natural Emergent Misalignment from Reward Hacking in Production RL](https://arxiv.org/abs/2511.18397) (MacDiarmid et al., 2025) · also cited in [04](../modules/04-model-safety-and-alignment.md)
 - [End-to-End Test-Time Training for Long Context](https://arxiv.org/abs/2512.23675) (Tandon et al., 2025)
 - [Nested Learning: The Illusion of Deep Learning Architectures](https://arxiv.org/abs/2512.24695) (Behrouz, Razaviyayn, Zhong, Mirrokni, 2025)
 - [Self-Distillation Enables Continual Learning](https://arxiv.org/abs/2601.19897) (Shenfeld, Damani, Hübotter, Agrawal, 2026), SDFT
 - [SIA: Self Improving AI with Harness & Weight Updates](https://arxiv.org/abs/2605.27276) (Hebbar et al., 2026)
 - [Language Models Need Sleep: Learning to Self-Modify and Consolidate Memories](https://arxiv.org/abs/2606.03979) (Behrouz, Hashemi, Javanmard, Mirrokni, 2026), the sleep framework
 - [Recursive self-improvement of AI research agents](https://arxiv.org/abs/2609.26457) (Srikanth et al., 2026), AIDE²
+
+## 04: Model safety and alignment
+
+[Module 04](../modules/04-model-safety-and-alignment.md)
+
+- [Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565) (Amodei, Olah, Steinhardt, Christiano, Schulman, Mané, 2016)
+- [Risks from Learned Optimization in Advanced Machine Learning Systems](https://arxiv.org/abs/1906.01820) (Hubinger et al., 2019)
+- [Goal Misgeneralization: Why Correct Specifications Aren't Enough For Correct Goals](https://arxiv.org/abs/2210.01790) (Shah et al., 2022)
+- [XSTest: A Test Suite for Identifying Exaggerated Safety Behaviours in Large Language Models](https://arxiv.org/abs/2308.01263) (Röttger et al., 2023)
+- [OR-Bench: An Over-Refusal Benchmark for Large Language Models](https://arxiv.org/abs/2405.20947) (Cui et al., 2024)
+- [AI Sandbagging: Language Models can Strategically Underperform on Evaluations](https://arxiv.org/abs/2406.07358) (van der Weij et al., 2024)
+- [Frontier Models are Capable of In-context Scheming](https://arxiv.org/abs/2412.04984) (Meinke et al., Apollo Research, 2024)
+- [Alignment Faking in Large Language Models](https://arxiv.org/abs/2412.14093) (Greenblatt et al., 2024)
+- [Auditing Language Models for Hidden Objectives](https://arxiv.org/abs/2503.10965) (Marks et al., 2025)
+- [Measuring AI Ability to Complete Long Tasks](https://arxiv.org/abs/2503.14499) (Kwa et al., 2025) · also cited in [07](../modules/07-judging-models.md), [10](../modules/10-agentic-workflows.md), [17](../modules/17-keeping-up.md)
+- [An Approach to Technical AGI Safety and Security](https://arxiv.org/abs/2504.01849) (Shah et al., Google DeepMind, 2025)
+- [Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety](https://arxiv.org/abs/2507.11473) (Korbak et al., 2025)
+- [Persona Vectors: Monitoring and Controlling Character Traits in Language Models](https://arxiv.org/abs/2507.21509) (Chen et al., 2025)
+- [From Hard Refusals to Safe-Completions: Toward Output-Centric Safety Training](https://arxiv.org/abs/2508.09224) (Yuan et al., 2025)
+- [Stress Testing Deliberative Alignment for Anti-Scheming Training](https://arxiv.org/abs/2509.15541) (Schoen et al., Apollo Research and OpenAI, 2025)
+- [Agentic Misalignment: How LLMs Could Be Insider Threats](https://arxiv.org/abs/2510.05179) (Lynch et al., 2025)
+- [ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases](https://arxiv.org/abs/2510.20270) (Zhong et al., 2025) · also cited in [10](../modules/10-agentic-workflows.md)
+- [Weight-sparse Transformers Have Interpretable Circuits](https://arxiv.org/abs/2511.13653) (Gao et al., 2025)
 
 ## 05: The model landscape
 
@@ -180,7 +203,6 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [GAIA](https://arxiv.org/abs/2311.12983) (Mialon et al., 2023)
 - [BrowseComp](https://arxiv.org/abs/2504.12516) (Wei et al., 2025)
 - [GDPval](https://arxiv.org/abs/2510.04374) (Patwardhan et al., 2025)
-- [Measuring AI Ability to Complete Long Tasks](https://arxiv.org/abs/2503.14499) (Kwa, West, Becker et al., 2025) · also cited in [10](../modules/10-agentic-workflows.md), [17](../modules/17-keeping-up.md)
 - [Chatbot Arena](https://arxiv.org/abs/2403.04132) (Chiang et al., 2024)
 - [LiveBench](https://arxiv.org/abs/2406.19314) (White et al., 2024)
 - [A Careful Examination of LLM Performance on Grade School Arithmetic](https://arxiv.org/abs/2405.00332) (Zhang et al., 2024): GSM1k
@@ -215,7 +237,6 @@ Each list below is copied from the "Sources and further reading" section of the 
 
 [Module 10](../modules/10-agentic-workflows.md)
 
-- [ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases](https://arxiv.org/abs/2510.20270) (Zhong et al., 2025)
 - [We Have a Package for You! A Comprehensive Analysis of Package Hallucinations by Code Generating LLMs](https://arxiv.org/abs/2406.10279) (Spracklen et al., 2024; USENIX Security 2025) · also cited in [13](../modules/13-ai-code-review.md), [14](../modules/14-security-and-prompt-injection.md)
 - [Solving a Million-Step LLM Task with Zero Errors](https://arxiv.org/abs/2511.09030) (Meyerson et al., 2025) · also cited in [12](../modules/12-multi-agent-systems.md)
 
