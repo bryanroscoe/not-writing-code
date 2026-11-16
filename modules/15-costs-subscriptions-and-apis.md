@@ -272,7 +272,7 @@ Vendors now compete on cache price. For agentic workloads, the cache-read price 
 
 ### Why output costs more
 
-Each output token takes a full pass through the model, one at a time, while input tokens are processed in parallel. That's why output is priced 4–6x higher and why a verbose model costs more than its per-token price suggests. Asking for concise answers (or a concise output style) saves money.
+Each output token takes a full pass through the model, one at a time, while input tokens are processed in parallel. Those one-at-a-time passes are limited by memory bandwidth, so output costs more to serve ([module 02](./02-how-a-model-is-made.md#the-memory-wall)). The 4–6x price ratio is the vendors' pricing choice on top of that, and it's why a verbose model costs more than its per-token price suggests. Asking for concise answers (or a concise output style) saves money.
 
 ### Price trends
 
