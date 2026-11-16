@@ -109,7 +109,7 @@ Common methods and formats:
 - **GGUF** is the single-file format used by [llama.cpp](https://github.com/ggml-org/llama.cpp) and tools built on it, such as Ollama and LM Studio. Files come in levels like `Q4_K_M` (about 4-bit) and `Q8_0` (8-bit) ([Hugging Face docs](https://huggingface.co/docs/hub/gguf)).
 - **MLX** has its own quantized formats for Apple Silicon.
 
-You can quantize a finished model to *serve* it cheaply, or quantize the base to *train* adapters cheaply (QLoRA). Either way, re-run your evaluation afterward.
+You can quantize a finished model to *serve* it cheaply, or quantize the base to *train* adapters cheaply ([QLoRA](03-post-training-and-rl.md#full-fine-tuning-vs-parameter-efficient-fine-tuning)). Either way, re-run your evaluation afterward.
 
 ### Risks
 
