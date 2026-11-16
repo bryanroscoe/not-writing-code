@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 18 Learning, careers, and r
 
 <!-- _class: lead -->
 
-# 15: Learning, careers, and responsible use
+# 18: Learning, careers, and responsible use
 
 Use AI to learn, not to skip the learning, and own what you ship
 
