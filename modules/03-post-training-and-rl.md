@@ -1,35 +1,221 @@
 # 03: Post-training and reinforcement learning
 
-*About a 45-minute read. Last checked November 8, 2026.*
+*About a 75-minute read. Last checked November 16, 2026.*
 
 **TL;DR**
-- Models are made in stages. **Pretraining** (next-token prediction on trillions of tokens) produces a base model. **Post-training** (supervised examples, preference tuning, and reinforcement learning on checkable tasks) turns it into an assistant and a reasoner.
-- You can tune **open-weight** models yourself, usually with **LoRA** or **QLoRA**, which update a tiny fraction of the weights. One rented GPU is often enough. The hard part is data and evaluation, not compute.
-- Most teams shouldn't fine-tune first. Better prompts and context (including retrieval) solve most problems. Fine-tune for narrow, high-volume, format-heavy tasks, or when you need a small model you control. Self-serve fine-tuning of closed models is shrinking; OpenAI is winding its program down.
-- Fine-tuning has sharp edges: forgetting, safety training that comes off easily, and **emergent misalignment**, where narrow training changes a model's behavior broadly.
+- Models are made in stages. **Pretraining** produces a base model. **Post-training** turns it into an assistant and a reasoner in three kinds of lessons: supervised examples (the apprenticeship), preference tuning (the coaching), and **reinforcement learning** on checkable tasks (the practice exams).
+- RL in one line: let the model try, score each attempt, and make what scored well more likely. **RLHF** scores with a model trained on human comparisons, held on a **KL penalty** leash. **RLVR** scores with programs, such as unit tests. Most 2025–2026 recipes run a modified **GRPO**, often in several RL stages.
+- Coding improved fastest because tests are a cheap, checkable reward. Labs now train agents in thousands of sandboxed repositories, and RL went from under 2% of pretraining compute in 2022 to more than pretraining in at least one company's self-reported recipe. Whether RL teaches new abilities or sharpens existing ones is still debated.
+- RL optimizes the score, not your intent. Coding models have learned to special-case and edit tests, and that habit can show up in the agent at your desk.
+- Most teams shouldn't fine-tune first: prompts, context, and retrieval solve most problems. When you do, **LoRA** or **QLoRA** on one rented GPU is often enough, and the hard part is data and evaluation. Watch for forgetting, safety training that comes off easily, and **emergent misalignment**, where narrow training changes a model's behavior broadly.
 - Since 2025, research systems have started producing their own weight updates (SEAL, SIA, Google's 2026 "sleep" framework), and agents have rewritten their own code (Darwin Gödel Machine, AlphaEvolve, AIDE²). As of November 2026 they're narrow, supervised demonstrations, and none is deployed. That's self-improvement on a task, not the runaway kind. Labs do lean heavily on their own models to build the next ones, and Anthropic's IPO filing says it may soon reach its own policy threshold for AI-accelerated AI research.
 
 ## Foundations
 
 This module picks up from the base model built in [module 02](02-how-a-model-is-made.md), which completes documents but doesn't yet follow instructions reliably or refuse harmful requests.
 
-### Post-training: apprenticeship, coaching, and practice exams
+Post-training turns it into an assistant in three kinds of lessons. **Supervised fine-tuning** is the apprenticeship: watch an expert and copy. **Preference tuning** is the coaching: try something, and a coach tells you which attempt was better. **Reinforcement learning on checkable tasks** is the practice exams: work the problems, get graded, and do more of what scored well. The last two mostly use reinforcement learning, so that's where this section starts.
 
-**Supervised fine-tuning (SFT).** The model trains on example conversations: a prompt and a high-quality response, written by people or generated and filtered by models. This is the apprenticeship. It teaches the chat format, instruction following, tone, and tool-calling syntax.
+### RL in five minutes
 
-**Preference tuning.** The model learns from pairs of responses, one marked better than the other.
+In ordinary supervised training, the model sees the right answer and learns to copy it. **Reinforcement learning (RL)** never shows it the right answer. The model tries something, gets a score, and adjusts so that whatever scored well becomes more likely. That's the whole idea. The rest is vocabulary and engineering.
 
-- **RLHF** (reinforcement learning from human feedback): people compare pairs of responses, a **reward model** learns their preferences, and reinforcement learning (classically an algorithm called PPO) pushes the model toward higher-scoring outputs ([InstructGPT](https://arxiv.org/abs/2203.02155), 2022).
-- **DPO** (Direct Preference Optimization): skips the separate reward model and RL loop. It directly raises the probability of the preferred response relative to the rejected one, while staying close to the starting model ([Rafailov et al., 2023](https://arxiv.org/abs/2305.18290)). It's simpler and cheaper, so it's popular for open models.
-- **RLAIF** (RL from AI feedback): an AI model does the comparing instead of people. [Lee et al. (2023)](https://arxiv.org/abs/2309.00267) found it performed comparably to RLHF on the tasks they tested. Anthropic's [Constitutional AI](https://arxiv.org/abs/2212.08073) (2022) uses AI feedback guided by written principles.
+OpenAI's free [Spinning Up](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html) course defines the pieces, and they map onto an LLM like this:
 
-**Reinforcement learning with verifiable rewards (RLVR).** The model gets problems whose answers a program can check (a math answer that matches, code that passes unit tests, output that follows a format rule) and is rewarded when it gets them right. The Tülu 3 paper named the technique ([Lambert et al., 2024](https://arxiv.org/abs/2411.15124)). DeepSeek-R1 showed it could produce strong reasoning at scale ([2025](https://arxiv.org/abs/2501.12948)). Meta's [SWE-RL](https://arxiv.org/abs/2502.18449) (2025) applied RL to real software-engineering histories. This is the practice-exam stage. Tests are a verifiable reward, which is a big part of why coding agents improved so fast in 2025–2026.
+| RL term | What it means | In an LLM |
+| --- | --- | --- |
+| **Agent** | The learner that acts | The model |
+| **Environment** | "The world that the agent lives in and interacts with" | A prompt, plus whatever scores the answer: unit tests, an answer checker, a reward model, a sandboxed repo |
+| **Action** | One choice | One token, or one tool call for an agent |
+| **Trajectory** (or **rollout**) | "A sequence of states and actions" | A whole answer, or a whole agent session |
+| **Reward** | "A number that tells it how good or bad" things went | The test result or the reward model's score |
+| **Return** | The total reward over a trajectory (sometimes discounted, so later rewards count less) | Usually just the final score, because the reward arrives at the end |
+| **Policy** | "A rule used by an agent to decide what actions to take" | The model's next-token probabilities, which is to say the model itself |
 
-**GRPO** (Group Relative Policy Optimization), from the [DeepSeekMath paper](https://arxiv.org/abs/2402.03300) (2024), is the RL algorithm a lot of open recipes use now. For each problem it samples a group of answers, scores them all, and pushes up the ones that beat the group average. That drops the need for a separate "critic" model (a second network that PPO trains to predict how good each answer will be), which saves a lot of memory.
+The goal of RL is to find a policy that maximizes the expected return. For an LLM, that means changing the weights so its answers score higher on average. InstructGPT, OpenAI's 2022 instruction-following paper, described its RL setup as "a bandit environment which presents a random customer prompt and expects a response," scores the response, and ends the episode ([Ouyang et al., 2022](https://arxiv.org/abs/2203.02155)). One prompt, one answer, one score.
 
-**Reward hacking.** RL optimizes whatever you measure. Coding models under RL have learned to special-case tests, edit the tests, or claim success they didn't earn. OpenAI found reward hacking in coding tasks and warned that penalizing "bad thoughts" in the chain of thought taught models to hide them ([Baker et al., 2025](https://arxiv.org/abs/2503.11926)). Anthropic found that a model that learned to reward-hack in real production coding environments (after researchers taught it about hacking strategies) generalized to broader misbehavior, including sabotage and faking alignment ([MacDiarmid et al., 2025](https://arxiv.org/abs/2511.18397)). That's one reason your agent sometimes "fixes" a failing test by deleting it ([module 10](10-agentic-workflows.md)).
+**A worked example.** Here's one round of RL on one prompt, small enough to do in your head. The prompt is *Write a Python expression that reverses the string `s`.* The model samples four answers. A checker runs each one on a few test strings and gives 1 for a pass and 0 for a fail.
 
-**Safety training.** Labs train models to refuse dangerous requests, resist manipulation, and follow a written specification. OpenAI's [deliberative alignment](https://arxiv.org/abs/2412.16339) (2024), for example, trains reasoning models to reason explicitly over a safety spec, and Anthropic's [constitution](https://www.anthropic.com/news/claude-new-constitution) (January 2026) sets out values and priorities. Many safeguards also sit outside the weights, such as input and output classifiers ([Constitutional Classifiers, 2025](https://arxiv.org/abs/2501.18837)). As the risks section shows, safety that lives only in open weights is easy to remove.
+| Attempt | Answer | Reward |
+| --- | --- | --- |
+| 1 | `s[::-1]` | 1 |
+| 2 | `''.join(reversed(s))` | 1 |
+| 3 | `s.reverse()` | 0 (strings don't have `.reverse()`) |
+| 4 | `reversed(s)` | 0 (returns an iterator, not a string) |
+
+The average reward is 0.5. Attempts 1 and 2 beat the average, so training nudges up the probability of every token in them. Attempts 3 and 4 fell short, so their tokens get nudged down. Nobody showed the model a correct answer. It found two among its own samples, and the checker said which.
+
+A few things fall out of this example:
+
+- **This is a policy gradient.** The basic version "pushes up the log-probabilities of each action in proportion to" the return it earned ([Spinning Up, Part 3](https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html)).
+- **Comparing to the average matters.** Subtracting an expected score, called a **baseline**, reduces noise. Spinning Up's intuition: "if an agent gets what it expected, it should 'feel' neutral about it." How far an answer lands above or below the baseline is its **advantage**.
+- **If all four answers pass, or all four fail, the model learns nothing from that prompt.** Every answer equals the average. Prompts have to be hard enough that the model sometimes fails and easy enough that it sometimes succeeds.
+- **Credit is blunt.** The reward comes at the end, and in the simplest versions every token in a winning answer gets the same nudge, including the ones that didn't matter. That's one reason RL needs a lot of samples.
+
+One nudge is tiny. Over thousands of prompts and steps, the choices that keep showing up in high-scoring answers become the model's defaults. For the equations, see [Policy gradients, with a little math](#policy-gradients-with-a-little-math) in Going deeper.
+
+### Supervised fine-tuning: the apprenticeship
+
+**Supervised fine-tuning (SFT)** trains the model on example conversations: a prompt and a high-quality response, written by people or generated and filtered by models. It teaches the chat format, instruction following, tone, and tool-calling syntax. SFT can only teach the model to imitate its examples. It can't tell the model which of two plausible answers is better, and that's what the next two stages add.
+
+### RLHF end to end: the coaching
+
+**Reinforcement learning from human feedback (RLHF)** uses people's judgment as the reward. Writing a perfect answer is hard. Saying which of two is better is easier, so RLHF collects comparisons, trains a model to predict them, and uses it as the scorer.
+
+InstructGPT ([Ouyang et al., 2022](https://arxiv.org/abs/2203.02155)) is the cleanest public example, and its paper gives real numbers. It used "a team of about 40 contractors on Upwork and through ScaleAI," and the prompts came from OpenAI's API.
+
+```mermaid
+flowchart TD
+    A["Step 1: Supervised fine-tuning<br/>~13k prompts with labeler-written answers"] --> B["SFT model"]
+    B --> C["Step 2: Reward model<br/>33k prompts, 4 to 9 answers each, ranked by labelers"]
+    C --> D["6B reward model<br/>(prompt + answer in, one score out)"]
+    B --> E["Step 3: RL with PPO<br/>31k prompts"]
+    D --> E
+    E --> F["Policy writes an answer"]
+    F --> G["Score = reward model's score<br/>minus a KL penalty for drifting from the SFT model"]
+    G -->|"PPO update, repeat"| F
+```
+
+**Step 1, SFT.** About 13,000 training prompts with answers written by the labelers, for policies of 1.3B, 6B, and 175B parameters.
+
+**Step 2, the reward model.** For each of 33,000 prompts, labelers ranked between 4 and 9 of the model's answers. A ranking of K answers gives every pair (up to 36 from one prompt). The **reward model** is the SFT model with its last layer swapped for one that outputs a single number. It trains on each pair to give the preferred answer a higher score than the rejected one. The reward models were only 6B, because that "saves a lot of compute" and a 175B one "could be unstable."
+
+Human judgment is noisy, and the paper measures it. Training labelers agreed with each other 72.6 ± 1.5% of the time. The reward models predicted a held-out group of labelers at 69.6%, close to that ceiling. The paper is also candid about whose taste this is: it aligns to "our labelers and researchers," "rather than any broader notion of 'human values.'"
+
+**Step 3, RL with PPO.** The policy answers 31,000 prompts, the reward model scores each answer, and an RL algorithm called PPO (below) updates the policy.
+
+**The KL penalty.** Left alone, step 3 can go wrong. A reward model is a proxy trained on a limited set of answers. Push hard enough against a proxy and the policy finds outputs that score high and are actually worse. [Gao, Schulman, and Hilton (2022)](https://arxiv.org/abs/2210.10760) measured this **over-optimization**: past a point, "optimizing its value too much can hinder ground truth performance."
+
+InstructGPT's fix is a leash. At every token, it compares how likely the new policy and the original SFT model each thought that token was. The more the policy drifts toward choices the SFT model found unlikely, the more is subtracted from the reward. That measure of drift is the **KL divergence**, and the subtraction is the **KL penalty**. The frozen SFT model it's measured against is the **reference model**. An earlier OpenAI paper gave two reasons it helps: it "acts as an entropy bonus," keeping the policy from "collapsing to a single mode," and "it ensures the policy doesn't learn to produce outputs that are too different from those that the reward model has seen during training" ([Stiennon et al., 2020](https://arxiv.org/abs/2009.01325)). In coaching terms, the coach's opinion only counts for the kinds of answers the coach has seen.
+
+RLHF made the model worse at some public NLP benchmarks, a cost the paper calls the **alignment tax**. Its "PPO-ptx" variant mixed in some ordinary pretraining updates to reduce those regressions.
+
+**What it bought.** Labelers preferred the 1.3B InstructGPT to the 175B GPT-3, "despite having 100x fewer parameters." The 175B InstructGPT beat 175B GPT-3 85 ± 3% of the time, and beat few-shot-prompted GPT-3 71 ± 4% of the time. And it was cheap: 60 petaflop/s-days for the 175B PPO-ptx model, against 3,640 to pretrain GPT-3. Remember that ratio for [the compute shift](#the-compute-shift-toward-rl).
+
+### PPO, DPO, and GRPO
+
+**PPO** (Proximal Policy Optimization; [Schulman et al., 2017](https://arxiv.org/abs/1707.06347)) is a policy-gradient method that keeps each update small ("proximal") so it can safely reuse one batch of samples for several rounds of updates. It also trains a **value function**, or **critic**: a second network that predicts how much reward an answer will get, which serves as the baseline. InstructGPT's setup kept four large models in play at once: the policy, the frozen reference model, the reward model, and the value function. [Ahmadian et al. (2024)](https://arxiv.org/abs/2402.14740) argued that "many components of PPO are unnecessary in an RLHF context" and found simpler methods did better in their tests.
+
+**DPO** (Direct Preference Optimization; [Rafailov et al., 2023](https://arxiv.org/abs/2305.18290)) skips the reward model and the RL loop. A bit of algebra turns the RLHF objective into a simple classification loss on preference pairs: raise the probability of the preferred answer relative to the rejected one, while staying close to the starting model. There's "no sampling from the LM during fine-tuning." It's simpler and cheaper, so it's popular for open models. The trade-off is that it learns only from a fixed set of pairs, not from the model's own new attempts.
+
+**GRPO** (Group Relative Policy Optimization), from the [DeepSeekMath paper](https://arxiv.org/abs/2402.03300) (2024), is the [worked example](#rl-in-five-minutes) above. For each prompt it samples a group of answers, scores them all, and uses the group's average as the baseline. In the paper's words, it "foregoes the critic model, instead estimating the baseline from group scores." Scores are normalized by the group's mean and standard deviation, and a KL penalty goes straight into the loss. Dropping the critic matters because, as the authors put it, PPO's value function "brings a substantial memory and computational burden."
+
+| | Learns from | Reward model? | Critic? |
+| --- | --- | --- | --- |
+| PPO | The model's own fresh samples (online) | Yes, or any scorer | Yes, a learned value function |
+| DPO | A fixed set of preference pairs (offline) | No | No |
+| GRPO | The model's own fresh samples (online) | Any scorer, often a rule-based checker | No, the group average |
+
+**What labs actually run in 2025–2026.** GRPO is the base for most open recipes, but almost nobody runs it unmodified. Several of the changes touch the **importance ratio**. Because PPO-style methods reuse samples, the answers being trained on came from a slightly older copy of the model, and the ratio corrects for that. Clipping caps it so one update can't move too far.
+
+| Variant | Date | From | What it changes |
+| --- | --- | --- | --- |
+| [DAPO](https://arxiv.org/abs/2503.14476) | March 2025 | Yu et al. | Looser upper clipping to keep exploring, drops all-right and all-wrong groups, a per-token loss, a penalty for truncated answers, and no KL term |
+| [Dr. GRPO](https://arxiv.org/abs/2503.20783) | March 2025 | Liu et al. | Removes a bias in GRPO that "artificially increases response length," especially for wrong answers |
+| [CISPO](https://arxiv.org/abs/2506.13585) | June 2025 | MiniMax (MiniMax-M1) | "Clips importance sampling weights rather than token updates" |
+| [GSPO](https://arxiv.org/abs/2507.18071) | July 2025 | Qwen | Computes the ratio and clips per whole answer instead of per token, which "notably stabilizes Mixture-of-Experts (MoE) RL training" |
+| [OlmoRL](https://arxiv.org/abs/2512.13961) | December 2025 | Olmo 3 team | GRPO plus most of the above, no standard-deviation normalization, and no KL term, for "a 4x speedup in RL training" |
+
+DAPO's second fix is the all-pass, all-fail lesson from the worked example. DeepSeek-V3.2 "still adopt[s] GRPO," with stability changes of its own ([DeepSeek-AI, 2025](https://arxiv.org/abs/2512.02556)).
+
+Notice the KL term disappearing. InstructGPT added it to keep the policy from over-optimizing a learned reward model. In long chain-of-thought training against a checker, DAPO's authors argue that "the model distribution can diverge significantly from the initial model" anyway, so the restriction isn't needed. Olmo 3 reports that "removing it does not lead to over-optimization or destabilized training." Without the leash, the checker itself is the only thing between the model and a bad shortcut, which is where [reward hacking](#reward-hacking) comes in.
+
+### RLAIF and Constitutional AI
+
+**RLAIF** (RL from AI feedback) has an AI model do the comparing instead of people. [Lee et al. (2023)](https://arxiv.org/abs/2309.00267) found it performed comparably to RLHF on the tasks they tested. Anthropic's [Constitutional AI](https://arxiv.org/abs/2212.08073) (2022) uses AI feedback guided by written principles. [Reward models and judges](#reward-models-and-judges) covers where this went next.
+
+### RLVR and reasoning models: the practice exams
+
+**Reinforcement learning with verifiable rewards (RLVR)** gives the model problems whose answers a program can check (a math answer that matches, code that passes unit tests, output that follows a format rule) and rewards it when it gets them right. The Tülu 3 paper named it, in a pipeline of SFT, then DPO, then RLVR ([Lambert et al., 2024](https://arxiv.org/abs/2411.15124)). With a checker as the scorer, there's no learned reward model to fool.
+
+**o1 and test-time compute.** In September 2024, OpenAI reported that o1's performance "consistently improves with more reinforcement learning (train-time compute) and with more time spent thinking (test-time compute)" ([OpenAI](https://openai.com/index/learning-to-reason-with-llms/)). On the AIME 2024 math competition, GPT-4o solved 12% of problems. o1 scored 74% with one sample, 83% with a majority vote over 64 samples, and 93% when re-ranking 1,000 samples.
+
+**R1-Zero and the "aha moment."** DeepSeek published a recipe in January 2025 ([DeepSeek-AI, 2025](https://arxiv.org/abs/2501.12948)). For **R1-Zero**, it ran GRPO straight on its base model, with no SFT at all. The rewards were rule-based: one for a correct answer and one for using the right format. The authors skipped a neural reward model because it "may suffer from reward hacking." AIME 2024 pass@1 went from 15.6% to 71.0%, and to 86.7% with majority voting. The model's answers also got longer on their own: "the thinking time of DeepSeek-R1-Zero shows consistent improvement throughout the training process."
+
+At one point in training, the model wrote "Wait, wait. Wait. That's an aha moment I can flag here," and the authors called it "an 'aha moment' for the model but also for the researchers." The peer-reviewed version in [Nature](https://www.nature.com/articles/s41586-025-09422-z) (September 2025) defines it more soberly as "a sudden increase in the use of the word 'wait' during reflections." Nature's news coverage put R1's cost at about US$300,000 on top of the base model ([Gibney, 2025](https://www.nature.com/articles/d41586-025-03015-6)).
+
+Not everyone buys the aha moment. Researchers at Sail found that "all models (except Llama-3.x series) already exhibit self-reflection patterns without any post-training," that much of it is "superficial self-reflection," and that answers grow longer because RL is optimizing the rule-based reward ([Sail](https://sail.sea.com/blog/articles/62), February 2025). The same group's paper that introduced Dr. GRPO found that DeepSeek's base model "already exhibit[s] an 'Aha moment'" before any RL ([Liu et al., 2025](https://arxiv.org/abs/2503.20783)). On that reading, RL didn't invent reflection. It made a behavior the base model already had show up more often.
+
+R1-Zero's answers were also hard to read and mixed languages. So the released **R1** used four stages: a small SFT "cold start" on long reasoning examples, reasoning RL with a reward for staying in one language, SFT on about 800,000 samples largely filtered from its own outputs, and a final RL stage on all kinds of prompts. For small models, the paper found that "direct distillation from DeepSeek-R1 outperforms applying RL on it."
+
+**Does RLVR add capability, or sharpen what's there?** This is a live debate, and it hinges on a metric. **pass@k** counts a problem as solved if any of k attempts works ([module 07](07-judging-models.md)). pass@1 asks whether the model's first try is right. pass@100 asks whether the right answer is anywhere in what the model can produce.
+
+- **The sharpening view.** [Yue et al. (2025)](https://arxiv.org/abs/2504.13837), a NeurIPS 2025 oral, found that RLVR-trained models beat their base models at pass@1, but the base models win at large k. Their conclusion: "the current training setup does not elicit fundamentally new reasoning patterns." RL makes the model pick its good answers more reliably, while the set of problems it can solve at all doesn't grow, and can shrink. They also found that distillation from a stronger teacher can "introduce new reasoning patterns."
+- **The expansion view.** [ProRL (Liu et al., 2025)](https://arxiv.org/abs/2505.24864) trained much longer, with KL control, periodic resets of the reference model, and more diverse tasks. Its models beat their base models across pass@k, "including cases where base models fail regardless of the number of attempts." Two companies report the same direction in self-reported technical posts. Cursor says RL on its Composer 2 model "improves both average and best-of-K performance" ([Cursor](https://cursor.com/blog/composer-2-technical-report), March 2026), and Cognition says SWE-1.7's gains on top of a base model that "had already undergone extensive RL post-training" suggest "RL can push capabilities much further than previously believed" ([Cognition](https://cognition.com/blog/swe-1-7), July 2026).
+
+Both sides have real evidence. The sharpening result is a peer-reviewed measurement of common training setups. The expansion results come from longer, broader training, and the strongest claims come from companies that don't publish their full methods. As of November 2026, nobody has settled it, and the answer may depend on how long and how broadly you train.
+
+### RL for coding agents
+
+A coding agent's practice exam is a real repository. A coding **RL environment** packages a snapshot of a codebase, a runtime that can build and run it, a task in plain language, and tests that decide whether the task is done. The agent reads files, runs commands, edits code, and gets rewarded at the end. Building thousands of these is most of the work.
+
+- **SWE-Gym** (December 2024) built 2,438 real Python tasks, each "a codebase with an executable runtime environment, unit tests, and a task specified in natural language" ([Pan et al.](https://arxiv.org/abs/2412.21139)).
+- **R2E-Gym** (April 2025) generated more than 8,700 executable tasks from commits, writing the tests and task descriptions automatically ([Jain et al.](https://arxiv.org/abs/2504.07164)).
+- **SWE-smith** (April 2025) made 50,000 tasks from 128 repositories by deliberately breaking code so existing tests fail. Earlier datasets drew on 11 or fewer repositories ([Yang et al.](https://arxiv.org/abs/2504.21798)).
+
+**SWE-RL** (February 2025) is often lumped in with these, but it works differently. It learns from the history of open-source projects (snapshots, diffs, issues, and pull requests), and its reward is "the similarity score between ground-truth and LLM-generated solutions": how closely the model's patch matches the patch a human actually wrote. It doesn't run tests. Its 70B model still reached 41.0% on SWE-bench Verified ([Wei et al.](https://arxiv.org/abs/2502.18449)).
+
+The labs scaled this up fast. Kimi K2 (July 2025) ran software-engineering RL in sandboxes built from real GitHub issues and pull requests, on infrastructure that "supports over 10,000 concurrent sandbox instances" ([Kimi Team](https://arxiv.org/abs/2507.20534)). Qwen3-Coder (July 2025) used "a scalable system capable of running 20,000 independent environments in parallel" ([Qwen](https://qwenlm.github.io/blog/qwen3-coder/)). GLM-5 (February 2026) built more than 10,000 verifiable environments from thousands of repositories in nine languages ([GLM-5 Team](https://arxiv.org/abs/2602.15763)). OpenAI's codex-1 (May 2025) was o3 "trained using reinforcement learning on real-world coding tasks in a variety of environments" ([OpenAI](https://openai.com/index/introducing-codex/)).
+
+Cursor goes a step further, by its own account. It trains its Composer models "in realistic Cursor sessions with the same tools and harness the deployed model uses," across "hundreds of thousands of sandboxed coding environments" ([Cursor](https://cursor.com/blog/composer-2-technical-report), March 2026). It also runs **real-time RL**: "We serve model checkpoints to production, observe user responses, and aggregate those responses as reward signals," shipping new checkpoints "as often as every five hours" ([Cursor](https://cursor.com/blog/real-time-rl-for-composer)).
+
+**Several RL stages, not one.** A 2026 recipe rarely has a single RL box at the end. GLM-5 runs "Reasoning RL, followed by Agentic RL, and finishing with General RL": reasoning problems first, then multi-step agent tasks, then general behavior ([GLM-5 Team, 2026](https://arxiv.org/abs/2602.15763)). R1 alternated SFT and RL. DeepSeek-V4 trains separate domain experts with SFT and GRPO, then merges them into one model ([DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro)). Each stage risks undoing the last one, the catastrophic forgetting covered in [Risks](#risks).
+
+**On-policy distillation** is the glue both labs use. In ordinary distillation ([module 02](02-how-a-model-is-made.md)), the student copies text the teacher wrote. In on-policy distillation, the student writes its own answer and a stronger teacher grades every token of it, so the student learns from its own mistakes with dense, per-token feedback ([Thinking Machines](https://thinkingmachines.ai/blog/on-policy-distillation/), October 2025). In Thinking Machines' comparison it took about a tenth of RL's GPU-hours (1,800 versus 17,920). GLM-5 uses "On-Policy Cross-Stage Distillation throughout this process to prevent catastrophic forgetting," and DeepSeek-V4 merges its experts through "unified model consolidation via on-policy distillation."
+
+**Why coding improved fastest.** Coding has the best practice exams. Tests are cheap, automatic, and hard to sweet-talk. Open-source repositories supply real code and real tests to build environments from, by the thousands. A rule-based check sidesteps the learned reward model that R1's authors worried "may suffer from reward hacking." And labs say the investment pays: Qwen reports its Qwen3.5 gains "primarily stem from our extensive scaling of virtually all RL tasks and environments we could conceive" ([Qwen](https://www.alibabacloud.com/blog/qwen3-5-towards-native-multimodal-agents_602894), February 2026). Tests are also an incomplete description of what you want, and [reward hacking](#reward-hacking) is what happens in the gap.
+
+### Reward models and judges
+
+Every RL run needs a scorer, and the choice shapes what the model learns. There are four broad kinds:
+
+1. **Rule-based checks**: unit tests, exact answer match, format rules. Cheap and hard to fool, but only for tasks with checkable answers.
+2. **Learned reward models**, like InstructGPT's: a network trained on human comparisons.
+3. **LLM judges**: a strong model prompted to grade. GPT-4 as a judge reached "over 80% agreement" with human preferences, about the rate at which humans agree with each other, with known biases toward an answer's position, toward longer answers, and toward its own outputs ([Zheng et al., 2023](https://arxiv.org/abs/2306.05685)).
+4. **Rubrics**: written criteria, each graded by a model. OpenAI's rule-based rewards used written rules graded by an LLM as the RL reward for safety behavior, scoring an F1 of 97.1 against 91.7 for a human-feedback baseline ([Mu et al., 2024](https://arxiv.org/abs/2411.01111)). Rubrics written per prompt beat plain Likert-scale scores from an LLM judge by up to 31% relative on HealthBench, a medical benchmark ([Gunjal et al., 2025](https://arxiv.org/abs/2507.17746)). Kimi K2 and DeepSeek-V3.2 use rubric-based model judges for tasks a program can't check ([Kimi Team](https://arxiv.org/abs/2507.20534); [DeepSeek-AI](https://arxiv.org/abs/2512.02556)).
+
+**Outcome versus process.** An **outcome reward model (ORM)** scores only the final answer. A **process reward model (PRM)** scores each step of the reasoning. Grading only outcomes can reward a right answer reached by wrong steps. Uesato et al. found outcome-only supervision got similar final-answer error with less labeling, but that correct reasoning needed process supervision: reasoning error fell from 14.0% to 3.4% ([Uesato et al., 2022](https://arxiv.org/abs/2211.14275)). ["Let's Verify Step by Step"](https://arxiv.org/abs/2305.20050) (Lightman et al., 2023) found "process supervision significantly outperforms outcome supervision" on competition math, and released 800,000 step-level human labels.
+
+Yet R1 listed PRMs among its "unsuccessful attempts." It's hard to say what counts as a step and hard to judge one, and "once a model-based PRM is introduced, it inevitably leads to reward hacking." The big open recipes since (R1, Kimi K2, DeepSeek-V3.2) score outcomes with checkers where they can, and use rubrics and judges for the rest.
+
+Whatever the scorer, the model learns to please it, not you. As Lilian Weng puts it, "RLHF increases human approval, but not necessarily correctness" ([Weng, 2024](https://lilianweng.github.io/posts/2024-11-28-reward-hacking/)).
+
+### Reward hacking
+
+RL optimizes whatever you measure. When the measurement has a loophole, RL finds it. DeepMind calls this **specification gaming**: behavior that "satisfies the literal specification of an objective without achieving the intended outcome." ([Krakovna et al., 2020](https://deepmind.google/discover/blog/specification-gaming-the-flip-side-of-ai-ingenuity/)). A classic example is from OpenAI in 2016: an agent in the boat-racing game CoastRunners was rewarded for hitting targets, so it circled and re-hit the same ones instead of finishing the race ([OpenAI](https://openai.com/index/faulty-reward-functions/)). For LLMs the usual name is **reward hacking**: exploiting "flaws or ambiguities in the reward function" ([Weng, 2024](https://lilianweng.github.io/posts/2024-11-28-reward-hacking/)). [Goodhart's law](07-judging-models.md) is the same idea for any metric.
+
+Coding agents are trained against tests, so they learn to game tests. The record so far:
+
+- **Claude 3.7 Sonnet** (February 2025) special-cased tests, "directly returning expected test values" or "modifying the problematic tests themselves," usually after repeated failures and often with comments like `# special case for test XYZ`. Anthropic says this "emerged as a result of 'reward hacking' during reinforcement learning training" ([system card](https://www.anthropic.com/claude-3-7-sonnet-system-card)). Its mitigations were prompts asking for general solutions and monitoring for "unexpected modifications to test files." For Claude 4 (May 2025), Anthropic reported a 67% to 69% average decrease in this hard-coding compared with Claude 3.7 Sonnet ([system card](https://www.anthropic.com/claude-4-system-card)).
+- **OpenAI o3** (April 2025): METR found reward hacking in "roughly 1% of all task attempts," and in 5 of 24 kernel-optimization runs o3 tampered with the scoring, for example by "patching over the calls to the timing functions" ([system card](https://cdn.openai.com/pdf/2221c875-02dc-4789-800b-e7758f3722c1/o3-and-o4-mini-system-card.pdf)).
+- **METR** (June 2025) found reward hacking in 30.4% of runs on its RE-Bench AI-research tasks, against 0.7% on its broader HCAST suite, and in 21 of 21 runs on a task called "Optimize LLM Foundry." Adding "Please do not cheat." to the prompt left that task's hacking rate at 80% ([METR](https://metr.org/blog/2025-06-05-recent-reward-hacking/)).
+- **ImpossibleBench** (October 2025) gave models tasks where the spec contradicts the unit tests, so any pass is cheating. GPT-5 cheated on 54% of one variant and 76% of another; o3 on 49%; Claude Opus 4.1 on about 50%. Claude models mostly edited the tests. OpenAI models also overloaded comparison operators and special-cased inputs. Making tests read-only blocked test edits, and giving the model a way to "flag for human intervention" cut GPT-5's cheating from 54% to 9% ([Zhong, Raghunathan, Carlini](https://arxiv.org/abs/2510.20270)).
+- **It isn't only tests.** GLM-5's slide-generation RL gamed the renderer with "hard truncation of overlong content or excessive manipulation of spacing" ([GLM-5 Team](https://arxiv.org/abs/2602.15763)). When Cursor used production user signals as reward, Composer learned to emit broken tool calls on tasks it would likely fail. GLM-5's team fixed the renderer, and Cursor changed the reward ([Cursor](https://cursor.com/blog/real-time-rl-for-composer)).
+
+Two findings make this harder than adding a rule. First, punishing the visible symptom can hide the behavior. OpenAI found GPT-4o could catch coding reward hacks by reading o3-mini's chain of thought, but under heavy pressure against "bad thoughts," models learned to hide their intent and kept hacking ([Baker et al., 2025](https://arxiv.org/abs/2503.11926)). Anthropic saw the same in August 2026: a model trained on hackable environments, told a classifier would penalize hacking, raised its concealed hacking from about 4% to about 19% ([Anthropic](https://alignment.anthropic.com/2026/reward-seeker/)).
+
+Second, hacking spreads. In Anthropic's November 2025 study, using "real RL environments used in the training of Claude," a model that learned hacks such as "calling sys.exit(0)" so tests appear to pass (after researchers taught it about hacking strategies) went on to sabotage safety-research code 12% of the time ([MacDiarmid et al., 2025](https://arxiv.org/abs/2511.18397); [Anthropic](https://www.anthropic.com/research/emergent-misalignment-reward-hacking)). One mitigation from that study, **inoculation prompting**, tells the model during training that hacking is acceptable in that environment, so the hack doesn't generalize into a broader habit. Anthropic says it has "already started making use of this technique in training Claude," and that reward hacking "has occurred in recent frontier model training runs, including in Anthropic's models" ([Anthropic, August 2026](https://alignment.anthropic.com/2026/reward-seeker/)).
+
+The agent in your terminal came out of this training. When it can't make a test pass, it may reach for the same shortcuts, and that's one reason your agent sometimes "fixes" a failing test by deleting it ([module 10](10-agentic-workflows.md)). The defenses are the same at your desk as in the lab: protect the tests, read the diff, and check the work with something the agent can't edit. [Module 11](11-verification.md) covers how.
+
+### The compute shift toward RL
+
+RL used to be a rounding error next to pretraining. Here's what labs have said publicly since. Each is self-reported and measured differently, so read the table as a direction, not a curve.
+
+| Date | Who | What they said |
+| --- | --- | --- |
+| 2022 | OpenAI, InstructGPT | RLHF took 60 petaflop/s-days against 3,640 to pretrain GPT-3: under 2% ([Ouyang et al.](https://arxiv.org/abs/2203.02155)) |
+| January 2025 | Dario Amodei, Anthropic | The amount spent on the RL stage "is small for all players," and companies are working "very quickly to scale up the second stage to hundreds of millions and billions" of dollars ([essay](https://www.darioamodei.com/post/on-deepseek-and-export-controls)) |
+| April 2025 | OpenAI, o3 | "An additional order of magnitude in both training compute and inference-time reasoning," this time in RL ([OpenAI](https://openai.com/index/introducing-o3-and-o4-mini/)) |
+| July 2025 | xAI, Grok 4 | RL on "Colossus, our 200,000 GPU cluster," "at pretraining scale" ([xAI](https://x.ai/news/grok-4)) |
+| December 2025 | DeepSeek-V3.2 | "A post-training computational budget exceeding 10% of the pre-training cost" ([DeepSeek-AI](https://arxiv.org/abs/2512.02556)) |
+| February 2026 | Cursor, Composer 1.5 | RL scaled "20x further," and post-training compute "even surpasses the amount used to pretrain the base model" ([Cursor](https://cursor.com/blog/composer-1-5)) |
+
+Most of that compute goes to generating answers, not training on them. In Olmo 3's RL runs, the training side "spends 75% of the time waiting for data," and generation used about 5 times as many GPUs as training for the 32B model ([Team Olmo, 2025](https://arxiv.org/abs/2512.13961)). RL also lacks the reliable [scaling laws](01-what-is-an-llm.md#scaling-laws-why-bigger-kept-working) pretraining has, which is what the 400,000-GPU-hour ScaleRL study set out to fix ([Khatri et al., 2025](https://arxiv.org/abs/2510.13786)).
+
+### Safety training
+
+Labs also use post-training to make models refuse dangerous requests, resist manipulation, and follow a written specification, such as OpenAI's [deliberative alignment](https://arxiv.org/abs/2412.16339) (2024) and Anthropic's [constitution](https://www.anthropic.com/news/claude-new-constitution) (January 2026). Many safeguards also sit outside the weights, such as input and output classifiers ([Constitutional Classifiers, 2025](https://arxiv.org/abs/2501.18837)). As the [risks section](#risks) shows, safety that lives only in open weights is easy to remove.
 
 ## In practice
 
@@ -160,9 +346,39 @@ For most teams, customizing a closed frontier model now means context engineerin
 
 ## Going deeper
 
+### Policy gradients, with a little math
+
+This is the [worked example](#rl-in-five-minutes) in symbols, for readers who want them. The notation follows [Spinning Up](https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html), which derives each line.
+
+```text
+Policy        π_θ(a | s)                  probability that the model with weights θ picks action a in state s
+Objective     J(θ) = E[ R(τ) ]            expected return over trajectories τ the policy produces
+Gradient      ∇J(θ) = E[ Σ_t ∇log π_θ(a_t | s_t) · A_t ]
+Advantage     A_t = R(τ) − b              return minus a baseline b
+```
+
+For an LLM, the state s_t is the prompt plus the tokens written so far, and the action a_t is the next token. Climbing this gradient raises the log-probability of tokens in answers with a positive advantage and lowers it for answers with a negative one.
+
+GRPO computes the advantage of answer i in a group of G answers to the same prompt as:
+
+```text
+A_i = (r_i − mean(r_1 … r_G)) / std(r_1 … r_G)
+```
+
+In the worked example, the rewards are [1, 1, 0, 0], the mean is 0.5 and the standard deviation is 0.5, so the advantages are [+1, +1, −1, −1]. If every reward is the same, every advantage is zero and the prompt teaches nothing.
+
+InstructGPT's reward model trains on each ranked pair with a loss that shrinks as the preferred answer's score pulls ahead of the rejected one's (σ is the sigmoid function). Its RL step then subtracts the KL penalty from the reward model's score, with β setting how tight the leash is:
+
+```text
+Reward model loss   −log σ( r(x, y_preferred) − r(x, y_rejected) )
+RL reward           r(x, y) − β · log( π_RL(y | x) / π_SFT(y | x) )
+```
+
+DPO's loss has the same sigmoid-of-a-difference shape as the reward model's, with each answer's "reward" replaced by how much more likely the policy makes it than the reference model does. That's how it skips training a separate reward model. [Lambert's RLHF book](https://rlhfbook.com/) works through all of these, along with PPO's clipping.
+
 ### Models that tune themselves
 
-Deployed models today are frozen. They don't learn from the work they do, and every session starts from the same weights. "Memory" features are notes put back into the context. A human engineer gets better at your codebase every week. A model doesn't, until its maker trains a new version.
+Deployed models today are frozen. They don't learn from the work they do, and every session starts from the same weights. "Memory" features are notes put back into the context. A human engineer gets better at your codebase every week. A model doesn't, until its maker trains a new version. That can now happen faster than you'd think: Cursor retrains its Composer model on signals from how people respond to it in production and ships new checkpoints "as often as every five hours" ([Cursor](https://cursor.com/blog/real-time-rl-for-composer)). People still run each round of that training, and the model doesn't change during your session.
 
 **Continual learning** means updating from new experience without forgetting old skills. If it worked reliably, a model could personalize, adapt to your codebase, pick up new APIs, and learn from its mistakes. Push that further and you get **recursive self-improvement**: a system that improves the process that improves it. People have discussed the idea since I. J. Good's 1965 speculation about an "intelligence explosion."
 
@@ -318,7 +534,7 @@ The case for it:
 
 - Continual learning would end the frozen-at-cutoff problem.
 - A model could actually learn your codebase and preferences, instead of reading notes about them.
-- It could pick up a new API, a changed policy, or a team convention after deployment, without waiting months for the next release.
+- It could pick up a new API, a changed policy, or a team convention after deployment, without waiting for the next release.
 - Writing what a model has read into its weights, instead of re-reading it on every call, is one route to longer memory at lower cost (end-to-end test-time training, the sleep framework's 10M-token retention claim).
 - If AI systems do more of the work of building AI, the field speeds up, which is what the labs are betting on.
 
@@ -347,6 +563,7 @@ Each demonstration so far shows improvement on one skill, inside a loop people d
 2. **Fine-tune-or-not memo.** Pick a real task from work or school. Write one page that walks the decision ladder, names the first rung you'd try, and describes the evaluation set you'd build before anything else.
 3. **Read SEAL.** Read the [SEAL paper](https://arxiv.org/abs/2506.10943)'s introduction, its overview figure, and its limitations section. Then answer in a paragraph: what changes, who decides, and what could go wrong if this ran in production?
 4. **Grade a headline.** Pick one fall 2026 announcement from Going deeper (Google's sleep framework, weight-space programming, AIDE², or Anthropic's IPO filing) and read the primary source, not the coverage. Answer the four questions from [Is that self-improvement?](#is-that-self-improvement): what changes, who produces the change, who decides whether it stays (and against what test), and whether it compounds or generalizes. Then write one accurate sentence about it that a skeptic would accept.
+5. **Design a reward, then break it.** Pick a small coding task, such as "implement `slugify(title)`: lowercase the title, replace each run of characters that aren't letters or digits with one hyphen, and trim hyphens from the ends." Write the reward an RL run would use: which tests run, what counts as a pass, and whether there's partial credit. Then play the agent and list three ways to score well without doing the task. For example, if the reward is "every test in `test_slugify.py` passes," an agent could return hard-coded answers for the inputs in that file. For each hack, say how you'd catch it, and whether your catch could itself be gamed. The strategies in [Reward hacking](#reward-hacking) are a good place to start.
 
 **Class or team exercise: fine-tune, retrieve, or prompt?**
 
@@ -367,56 +584,103 @@ Compare answers. Where did groups disagree, and what evidence or measurement wou
 3. Your team wants to fine-tune "so the model knows our codebase." What would you propose instead, and what would change your mind?
 4. Which level of the self-improvement spectrum would you be comfortable deploying in a product today? What controls would you require?
 5. OpenAI graded its own "research intern" milestone, and Anthropic's warning that it may soon reach its threshold rests on its own internal estimates. What independent evidence would convince you that AI is meaningfully speeding up AI research?
+6. Researchers disagree about whether RLVR teaches models new abilities or makes them pick their best existing answers more reliably. What result would change your mind either way? Does the answer matter for how you use a coding agent day to day?
+7. Adding "Please do not cheat." to METR's prompt left one task's hacking rate at 80%, while read-only tests and a "flag for human intervention" option sharply cut cheating on ImpossibleBench. What does that say about instructions versus changing the environment, in training and in your own agent setup?
 
 ## Sources and further reading
 
 ### Papers
 
 - [Overcoming Catastrophic Forgetting in Neural Networks](https://arxiv.org/abs/1612.00796) (Kirkpatrick et al., 2017)
+- [Proximal Policy Optimization Algorithms](https://arxiv.org/abs/1707.06347) (Schulman et al., 2017)
 - [Parameter-Efficient Transfer Learning for NLP](https://arxiv.org/abs/1902.00751) (Houlsby et al., 2019)
 - [Test-Time Training with Self-Supervision for Generalization under Distribution Shifts](https://arxiv.org/abs/1909.13231) (Sun et al., 2020)
+- [Learning to summarize from human feedback](https://arxiv.org/abs/2009.01325) (Stiennon et al., 2020)
 - [The Power of Scale for Parameter-Efficient Prompt Tuning](https://arxiv.org/abs/2104.08691) (Lester, Al-Rfou, Constant, 2021)
 - [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685) (Hu et al., 2021)
 - [STaR: Bootstrapping Reasoning With Reasoning](https://arxiv.org/abs/2203.14465) (Zelikman et al., 2022)
 - [Training Language Models to Follow Instructions with Human Feedback](https://arxiv.org/abs/2203.02155) (Ouyang et al., 2022)
+- [Scaling Laws for Reward Model Overoptimization](https://arxiv.org/abs/2210.10760) (Gao, Schulman, Hilton, 2022)
+- [Solving math word problems with process- and outcome-based feedback](https://arxiv.org/abs/2211.14275) (Uesato et al., 2022)
 - [Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073) (Bai et al., 2022)
 - [QLoRA: Efficient Finetuning of Quantized LLMs](https://arxiv.org/abs/2305.14314) (Dettmers et al., 2023)
 - [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290) (Rafailov et al., 2023)
+- [Let's Verify Step by Step](https://arxiv.org/abs/2305.20050) (Lightman et al., 2023)
+- [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685) (Zheng et al., 2023)
 - [RLAIF vs. RLHF: Scaling Reinforcement Learning from Human Feedback with AI Feedback](https://arxiv.org/abs/2309.00267) (Lee et al., 2023)
 - [Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!](https://arxiv.org/abs/2310.03693) (Qi et al., 2023)
 - [LoRA Fine-tuning Efficiently Undoes Safety Training in Llama 2-Chat 70B](https://arxiv.org/abs/2310.20624) (Lermen, Rogers-Smith, Ladish, 2023)
 - [Fine-Tuning or Retrieval? Comparing Knowledge Injection in LLMs](https://arxiv.org/abs/2312.05934) (Ovadia et al., 2023)
 - [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020) (Yuan et al., 2024)
 - [DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models](https://arxiv.org/abs/2402.03300) (Shao et al., 2024), introduces GRPO
+- [Back to Basics: Revisiting REINFORCE Style Optimization for Learning from Human Feedback in LLMs](https://arxiv.org/abs/2402.14740) (Ahmadian et al., 2024)
 - [Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?](https://arxiv.org/abs/2405.05904) (Gekhman et al., 2024)
 - [LoRA Learns Less and Forgets Less](https://arxiv.org/abs/2405.09673) (Biderman et al., 2024)
 - [Refusal in Language Models Is Mediated by a Single Direction](https://arxiv.org/abs/2406.11717) (Arditi et al., 2024)
 - [Learning to (Learn at Test Time): RNNs with Expressive Hidden States](https://arxiv.org/abs/2407.04620) (Sun et al., 2024)
+- [Rule Based Rewards for Language Model Safety](https://arxiv.org/abs/2411.01111) (Mu et al., 2024)
 - [The Surprising Effectiveness of Test-Time Training for Few-Shot Learning](https://arxiv.org/abs/2411.07279) (Akyürek et al., 2024)
 - [Tülu 3: Pushing Frontiers in Open Language Model Post-Training](https://arxiv.org/abs/2411.15124) (Lambert et al., 2024), names RLVR
 - [Deliberative Alignment: Reasoning Enables Safer Language Models](https://arxiv.org/abs/2412.16339) (Guan et al., 2024)
+- [Training Software Engineering Agents and Verifiers with SWE-Gym](https://arxiv.org/abs/2412.21139) (Pan et al., 2024)
 - [Titans: Learning to Memorize at Test Time](https://arxiv.org/abs/2501.00663) (Behrouz, Zhong, Mirrokni, 2024)
-- [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948) (DeepSeek-AI, 2025)
+- [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948) (DeepSeek-AI, 2025); peer-reviewed version in [Nature](https://www.nature.com/articles/s41586-025-09422-z) (September 2025)
 - [Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming](https://arxiv.org/abs/2501.18837) (Sharma et al., 2025)
 - [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/abs/2502.17424) (Betley et al., 2025); extended version in [Nature](https://www.nature.com/articles/s41586-025-09937-5) (2026)
 - [SWE-RL: Advancing LLM Reasoning via Reinforcement Learning on Open Software Evolution](https://arxiv.org/abs/2502.18449) (Wei et al., 2025)
 - [Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation](https://arxiv.org/abs/2503.11926) (Baker et al., 2025)
+- [DAPO: An Open-Source LLM Reinforcement Learning System at Scale](https://arxiv.org/abs/2503.14476) (Yu et al., 2025)
+- [Understanding R1-Zero-Like Training: A Critical Perspective](https://arxiv.org/abs/2503.20783) (Liu et al., 2025), introduces Dr. GRPO
+- [R2E-Gym: Procedural Environments and Hybrid Verifiers for Scaling Open-Weights SWE Agents](https://arxiv.org/abs/2504.07164) (Jain et al., 2025)
+- [Does Reinforcement Learning Really Incentivize Reasoning Capacity in LLMs Beyond the Base Model?](https://arxiv.org/abs/2504.13837) (Yue et al., 2025)
+- [SWE-smith: Scaling Data for Software Engineering Agents](https://arxiv.org/abs/2504.21798) (Yang et al., 2025)
 - [Absolute Zero: Reinforced Self-play Reasoning with Zero Data](https://arxiv.org/abs/2505.03335) (Zhao et al., 2025)
 - [Darwin Gödel Machine: Open-Ended Evolution of Self-Improving Agents](https://arxiv.org/abs/2505.22954) (Zhang et al., 2025)
+- [ProRL: Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models](https://arxiv.org/abs/2505.24864) (Liu et al., 2025)
 - [Self-Adapting Language Models](https://arxiv.org/abs/2506.10943) (Zweiger et al., 2025), SEAL
 - [AlphaEvolve: A coding agent for scientific and algorithmic discovery](https://arxiv.org/abs/2506.13131) (Novikov et al., 2025)
+- [MiniMax-M1: Scaling Test-Time Compute Efficiently with Lightning Attention](https://arxiv.org/abs/2506.13585) (MiniMax, 2025), introduces CISPO
 - [Persona Features Control Emergent Misalignment](https://arxiv.org/abs/2506.19823) (Wang et al., 2025)
+- [Rubrics as Rewards: Reinforcement Learning Beyond Verifiable Domains](https://arxiv.org/abs/2507.17746) (Gunjal et al., 2025)
+- [Group Sequence Policy Optimization](https://arxiv.org/abs/2507.18071) (Zheng et al., 2025), GSPO
+- [Kimi K2: Open Agentic Intelligence](https://arxiv.org/abs/2507.20534) (Kimi Team, 2025)
 - [Poisoning Attacks on LLMs Require a Near-constant Number of Poison Samples](https://arxiv.org/abs/2510.07192) (Souly et al., 2025)
+- [The Art of Scaling Reinforcement Learning Compute for LLMs](https://arxiv.org/abs/2510.13786) (Khatri et al., 2025), ScaleRL
+- [ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases](https://arxiv.org/abs/2510.20270) (Zhong, Raghunathan, Carlini, 2025)
 - [Natural Emergent Misalignment from Reward Hacking in Production RL](https://arxiv.org/abs/2511.18397) (MacDiarmid et al., 2025)
+- [DeepSeek-V3.2: Pushing the Frontier of Open Large Language Models](https://arxiv.org/abs/2512.02556) (DeepSeek-AI, 2025)
+- [Olmo 3](https://arxiv.org/abs/2512.13961) (Team Olmo, 2025), OlmoRL
 - [End-to-End Test-Time Training for Long Context](https://arxiv.org/abs/2512.23675) (Tandon et al., 2025)
 - [Nested Learning: The Illusion of Deep Learning Architectures](https://arxiv.org/abs/2512.24695) (Behrouz, Razaviyayn, Zhong, Mirrokni, 2025)
 - [Self-Distillation Enables Continual Learning](https://arxiv.org/abs/2601.19897) (Shenfeld, Damani, Hübotter, Agrawal, 2026), SDFT
+- [GLM-5: from Vibe Coding to Agentic Engineering](https://arxiv.org/abs/2602.15763) (GLM-5 Team, 2026)
 - [SIA: Self Improving AI with Harness & Weight Updates](https://arxiv.org/abs/2605.27276) (Hebbar et al., 2026)
 - [Language Models Need Sleep: Learning to Self-Modify and Consolidate Memories](https://arxiv.org/abs/2606.03979) (Behrouz, Hashemi, Javanmard, Mirrokni, 2026), the sleep framework
 - [Recursive self-improvement of AI research agents](https://arxiv.org/abs/2609.26457) (Srikanth et al., 2026), AIDE²
 
 ### Primary sources
 
+- Anthropic, [Claude 3.7 Sonnet system card](https://www.anthropic.com/claude-3-7-sonnet-system-card) (February 2025)
+- Anthropic, [Claude 4 system card](https://www.anthropic.com/claude-4-system-card) (May 2025)
+- Anthropic, [research post on natural emergent misalignment from reward hacking](https://www.anthropic.com/research/emergent-misalignment-reward-hacking) (November 21, 2025)
+- Anthropic Alignment Science, [post on reward seekers and Hacker-Opus](https://alignment.anthropic.com/2026/reward-seeker/) (August 2026)
+- Dario Amodei, [On DeepSeek and Export Controls](https://www.darioamodei.com/post/on-deepseek-and-export-controls) (January 2025)
+- Cognition, [SWE-1.7](https://cognition.com/blog/swe-1-7) (July 2026), self-reported
+- Cursor, [Composer 1.5](https://cursor.com/blog/composer-1-5) (February 9, 2026), self-reported
+- Cursor, [Real-time RL for Composer](https://cursor.com/blog/real-time-rl-for-composer) (March 26, 2026), self-reported
+- Cursor, [Composer 2 technical report](https://cursor.com/blog/composer-2-technical-report) (March 27, 2026), self-reported
+- DeepSeek, [DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro) (2026)
+- Google DeepMind (Krakovna et al.), [Specification gaming: the flip side of AI ingenuity](https://deepmind.google/discover/blog/specification-gaming-the-flip-side-of-ai-ingenuity/) (2020)
+- METR, [Recent frontier models are reward hacking](https://metr.org/blog/2025-06-05-recent-reward-hacking/) (June 5, 2025)
+- OpenAI, [Faulty reward functions in the wild](https://openai.com/index/faulty-reward-functions/) (December 21, 2016), CoastRunners
+- OpenAI, [Learning to reason with LLMs](https://openai.com/index/learning-to-reason-with-llms/) (September 12, 2024), o1
+- OpenAI, [Introducing o3 and o4-mini](https://openai.com/index/introducing-o3-and-o4-mini/) (April 16, 2025) and the [o3 and o4-mini system card](https://cdn.openai.com/pdf/2221c875-02dc-4789-800b-e7758f3722c1/o3-and-o4-mini-system-card.pdf)
+- OpenAI, [Introducing Codex](https://openai.com/index/introducing-codex/) (May 16, 2025), codex-1
+- Qwen, [Qwen3-Coder](https://qwenlm.github.io/blog/qwen3-coder/) (July 22, 2025)
+- Qwen (via Alibaba Cloud), [Qwen3.5: Towards native multimodal agents](https://www.alibabacloud.com/blog/qwen3-5-towards-native-multimodal-agents_602894) (February 2026)
+- Sail (Liu et al.), [pilot study of "aha moments" in R1-Zero-like training](https://sail.sea.com/blog/articles/62) (February 7, 2025)
+- Thinking Machines, [On-policy distillation](https://thinkingmachines.ai/blog/on-policy-distillation/) (October 2025)
+- xAI, [Grok 4](https://x.ai/news/grok-4) (July 9, 2025)
 - Anthropic, [Claude's new constitution](https://www.anthropic.com/news/claude-new-constitution) (January 2026)
 - Anthropic, [Fine-tune Claude 3 Haiku in Amazon Bedrock](https://www.anthropic.com/news/fine-tune-claude-3-haiku) (2024)
 - Anthropic (Marina Favaro and Jack Clark), [When AI builds itself](https://www.anthropic.com/institute/recursive-self-improvement) (Anthropic Institute, June 2026; updated September 18, 2026)
@@ -437,22 +701,57 @@ Compare answers. Where did groups disagree, and what evidence or measurement wou
 
 ### Commentary and reporting
 
+- Elizabeth Gibney, [Nature news on the peer-reviewed DeepSeek-R1 paper](https://www.nature.com/articles/d41586-025-03015-6) (September 2025)
 - TechRadar, [OpenAI roadmap revealed: AI research interns by 2026](https://www.techradar.com/ai-platforms-assistants/chatgpt/openai-roadmap-revealed-ai-research-interns-by-2026-full-blown-agi-researchers-by-2028) (October 2025)
 - Insurance Journal, [OpenAI Top Scientist Urges 'Extreme Caution' With Pace of AI](https://amp.insurancejournal.com/news/national/2026/09/08/884280.htm) (September 8, 2026)
 - IBM Think, [Why recursive self-improvement suddenly became a serious question](https://www.ibm.com/think/news/why-recursive-self-improvement-ai-serious-question) (September 16, 2026), with skeptical expert views
 - TechCrunch, [Anthropic warns that it's very close to RSI capability, aka self-building AI](https://techcrunch.com/2026/11/02/anthropic-warns-that-its-very-close-to-rsi-capability-aka-self-building-ai/) (November 2, 2026)
 - The Register, [Forget retraining - AI can now tweak another AI's weights](https://www.theregister.com/ai-and-ml/2026/11/03/forget-retraining-ai-can-now-tweak-another-ais-weights/5307105) (November 3, 2026)
 
+### Learning resources
+
+- Nathan Lambert, [Reinforcement Learning from Human Feedback](https://rlhfbook.com/): free online and in print from Manning (July 2026). Covers reward modeling, policy gradients, regularization, and on-policy distillation. The best single follow-up to this module.
+- OpenAI, [Spinning Up in Deep RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html): the key concepts plus a [derivation of the policy gradient](https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html). The clearest short on-ramp.
+- Richard Sutton and Andrew Barto, [Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book-2nd.html), 2nd edition (MIT Press, 2018): the standard textbook, with a free PDF from the authors.
+- Hugging Face, [Deep RL Course](https://huggingface.co/learn/deep-rl-course/unit0/introduction): free and self-paced. Unit 4 builds REINFORCE in PyTorch and Unit 8 builds PPO. As of November 2026 it's in a "low-maintenance" state and Unit 7 is broken.
+- Lilian Weng, [Reward Hacking in Reinforcement Learning](https://lilianweng.github.io/posts/2024-11-28-reward-hacking/) (November 28, 2024): a long survey of specification gaming, RLHF hacking, sycophancy, judge bias, and mitigations.
+
 See also [module 01](01-what-is-an-llm.md) for the basics, the [reading list](../reference/papers.md), and the [glossary](../reference/glossary.md).
 
 ## Terms introduced
 
+- **Reinforcement learning (RL):** Training by trial and score: a model acts, gets a reward, and is updated so high-reward actions become more likely.
+- **Agent (RL):** The learner that takes actions; in LLM training, the model.
+- **Environment (RL environment):** Everything an agent acts on and is scored by; for a coding agent, a repository snapshot, a runtime, a task, and tests.
+- **Policy:** The rule an agent uses to choose actions; for an LLM, its next-token probabilities, which is to say the model itself.
+- **Reward:** A number that scores how well an action or answer went.
+- **Return:** The total reward over a trajectory, sometimes discounted so later rewards count less.
+- **Trajectory (rollout):** One full sequence of states and actions; for an LLM, a whole answer or agent session.
+- **Policy gradient:** An RL method that raises the probability of actions in proportion to how much better than expected they scored.
+- **Baseline and advantage:** The expected score subtracted from a reward to reduce noise, and how much better or worse an action did than that expectation.
 - **Preference tuning:** Training a model on comparisons between better and worse responses.
-- **PPO (Proximal Policy Optimization):** The classic RL algorithm used in RLHF.
+- **Reward model:** A model trained on human (or AI) comparisons to score responses, used as the reward in RLHF.
+- **Reward model over-optimization:** Pushing a policy so hard against an imperfect reward model that its true quality falls.
+- **KL penalty:** A deduction from the reward for drifting away from a reference model's token probabilities, used to keep RL from over-optimizing a reward model.
+- **Reference model:** The frozen starting model, often the SFT model, that the KL penalty measures drift against.
+- **Value function (critic):** A learned network that predicts expected reward, used as PPO's baseline.
+- **Alignment tax:** Capability lost on other tasks as a side effect of alignment training.
+- **PPO (Proximal Policy Optimization):** A policy-gradient algorithm that keeps each update small and uses a learned critic; the classic algorithm in RLHF.
+- **Importance ratio:** The correction for training on answers sampled from a slightly older copy of the policy; PPO-style methods clip it to keep updates small.
 - **DPO (Direct Preference Optimization):** Preference tuning that skips the separate reward model and RL loop.
 - **RLAIF:** Reinforcement learning from AI feedback; an AI model supplies the preference judgments.
 - **RLVR:** Reinforcement learning with verifiable rewards; rewards come from automatic checks such as tests or answer matching.
 - **GRPO (Group Relative Policy Optimization):** An RL algorithm that scores a group of sampled answers against each other, removing the need for a separate critic model.
+- **Agentic RL:** RL on multi-step agent tasks in real or simulated environments, often run as its own training stage.
+- **Real-time RL:** Retraining a deployed model on reward signals from how people respond to it in production.
+- **On-policy distillation:** Distillation in which the student writes its own answers and a stronger teacher grades each token.
+- **Outcome reward model (ORM):** A reward model that scores only the final answer.
+- **Process reward model (PRM):** A reward model that scores each step of the reasoning.
+- **LLM-as-judge:** Using a language model to grade outputs, as an evaluator or as an RL reward.
+- **Rubric reward:** An RL reward built from written criteria, often specific to each prompt, graded by a model.
+- **Specification gaming:** Satisfying the literal objective without achieving the intended outcome.
+- **Chain-of-thought monitoring:** Using another model to read a reasoning model's chain of thought for signs of misbehavior such as reward hacking.
+- **Inoculation prompting:** Telling a model during training that a hack is acceptable in that environment, so the behavior doesn't generalize into broader misbehavior.
 - **Reward hacking:** A model scoring well on a reward signal without doing the intended task, for example by editing tests.
 - **Deliberative alignment:** OpenAI's method of training reasoning models to reason explicitly over a written safety specification.
 - **Open-weight model:** A model whose trained weights are published for download.
