@@ -30,13 +30,13 @@ Products, docs and numbers are as of November 2026 unless a slide gives another 
 - Passing checks is evidence, not proof
 
 <!--
-Everything in this module follows from the first line. The agent loop ends when the model decides it's finished, and nothing in the loop guarantees that the model is right.
+The agent loop ends when the model decides it's finished, and nothing in the loop guarantees that the model is right.
 
 The research on self-correction points one way: models fix their own mistakes when the feedback comes from outside them (test results, execution, a separate verifier), and sometimes make things worse without it.
 
 So the job is to give the agent as many checks as it can run itself, pick problems that have an oracle, and protect the checks, because agents will go after the check instead of the problem when they can.
 
-The last line is the throughline of the course. Checkable rewards are a big part of why models got good at code (module 03). Checkable tests are how you get *bounded* confidence in their code.
+Checkable rewards are a big part of why models got good at code (module 03). Checkable tests are how you get *bounded* confidence in their code.
 -->
 
 ---
@@ -55,11 +55,11 @@ task → agent works: think, act, observe → model thinks it's done
 > (Claude Code best practices)
 
 <!--
-This redraws the module's diagram. The two paths end in different places. Without a check, the first real test of the work is you. With one, a failure goes back to the agent while it can still fix it, and what reaches you is a pass plus the evidence for it.
+The two paths end in different places. Without a check, the first real test of the work is you. With one, a failure goes back to the agent while it can still fix it, and what reaches you is a pass plus the evidence for it.
 
 If the agent has nothing to run that tells it whether the work *is* done, "looks done" is all it has. Give the agent a check that returns pass or fail. Asking nicely won't make it reliable.
 
-OpenAI's Codex guide agrees: "Codex can do this loop for you, but only if it knows what 'good' looks like." And Anthropic's Building effective agents post (December 2024) said agents need "'ground truth' from the environment at each step," that "Code solutions are verifiable through automated tests," and that "human review remains crucial." This session covers both halves.
+OpenAI's Codex guide says the loop requires knowing what a good result looks like. Anthropic's Building effective agents post from December 2024 recommends getting ground truth from the environment at each step. For code, that includes automated tests, with human review still needed.
 -->
 
 ---
@@ -86,8 +86,6 @@ Part 1 is the vocabulary and the evidence. About 15 minutes.
 Prefer verifiers that give the same answer every time.
 
 <!--
-Two words do most of the work in this module.
-
 A verifier checks. An oracle is what it checks against. Often the oracle is just an expected value a person wrote into a test. It can also be a second implementation, a rule that must hold for every input, or an output you froze because you know it's good.
 
 Verifiers differ in how far you can trust them. A type checker gives the same answer every time. A model judge can be swayed by how the code looks. Prefer the first kind, and use the second only where nothing else fits.
@@ -132,9 +130,9 @@ The top rungs catch what the middle ones miss. Simon Willison: "Just because cod
 <!--
 The obvious shortcut is to ask the model to check itself. The research says that mostly doesn't work.
 
-Self-Refine (Madaan et al., 2023) had one model generate, critique its own output, and refine it. Reflexion (Shinn et al., 2023) had agents write reflections on failures and keep them for the next attempt, reaching 91% on HumanEval. Then Huang et al. showed that for reasoning, "LLMs struggle to self-correct their responses without external feedback, and at times, their performance even degrades." The earlier gains came from "using oracle labels to guide the self-correction process." Without them, "the model is more likely to modify a correct answer to an incorrect one."
+Self-Refine (Madaan et al., 2023) had one model generate, critique its own output, and refine it. Reflexion (Shinn et al., 2023) had agents write reflections on failures and keep them for the next attempt, reaching 91% on HumanEval. Huang et al. found that on reasoning tasks, LLMs struggled to correct themselves without external feedback and sometimes got worse. Earlier gains relied on oracle labels. Without them, a model could replace a correct answer with a wrong one.
 
-In every row, the gains come from a signal the model didn't produce itself. Full Reflexion got 68%; without running tests it fell below the baseline. Olausson et al. found self-repair "is bottlenecked by the model's ability to provide feedback on its own code." Stechly, Valmeekam and Kambhampati (2024) saw "significant performance collapse with self-critique" and "significant performance gains with sound external verification."
+In every row, the gains come from a signal the model didn't produce itself. Full Reflexion got 68%; without running tests it fell below the baseline. Olausson et al. found that self-repair was limited by the model's ability to give feedback on its own code. Stechly, Valmeekam and Kambhampati (2024) found that self-critique made performance collapse, while sound external verification produced significant gains.
 
 The Kamoi et al. survey (TACL 2024) sums it up: "Self-correction works well in tasks that can use reliable external feedback." A failing test with its error message is much stronger feedback, because it carries information the model didn't already have.
 -->
@@ -155,7 +153,7 @@ Generate several, keep the one that passes the tests.
 <!--
 An outside check helps this much because, for many tasks, checking an answer is far easier than producing one. Wei pairs the asymmetry with a verifier's rule: "The ease of training AI to solve a task is proportional to how verifiable the task is." His post says "rule"; its URL says "law."
 
-Cobbe et al. found that verifiers reranking a model's samples gave "approximately the same performance boost as a 30x model size increase," and credit "verification being a simpler task than generation in general." Brown et al. (2024) showed that sampling more helps only when you can check the samples. Majority vote or a reward model plateaued. Song et al. (2024) found self-improvement is "largely governed by ... the generation-verification gap."
+Cobbe et al. found that reranking samples with a verifier gave about the same performance boost as increasing model size 30-fold. They attributed this to verification generally being easier than generation. Brown et al. (2024) found that more sampling helped only when the samples could be checked; majority vote and reward-model selection plateaued. Song et al. (2024) found that the generation-verification gap largely governs self-improvement.
 
 The catch: the gap belongs to the checker, and a model isn't automatically a good checker of its own work. On graph coloring, LLMs "are no better at verifying a solution" than at generating one (Stechly, Marquez, Kambhampati, 2023). That's why "generate several, keep the one that passes the tests" works for code, and "generate one, ask the model if it's right" mostly doesn't.
 -->
@@ -171,7 +169,7 @@ The catch: the gap belongs to the checker, and a model isn't automatically a goo
 | Cosmetics | Names, comments and formatting sway every judge tested |
 | Prompt wording | Software-engineering judges "highly sensitive to prompt biases" |
 
-A model judge goes on the ladder below a test, not beside it.
+Treat a model judge's verdict as weaker evidence than an executable test.
 
 <!--
 Sometimes there's no test for what you care about: readability, whether the design fits, whether a doc is accurate. Then people reach for a model as the judge. That helps, and it comes with known biases.
@@ -194,13 +192,13 @@ So use a judge for what tests can't express. Give it a fresh context, prefer a m
 > "'All tests pass' on its own tells you very little." (Claude Code best practices)
 
 <!--
-This is the thread that ties the course together. Module 03 explains reinforcement learning with verifiable rewards. The model gets problems a program can check, such as code that has to pass unit tests, and is rewarded when it gets them right. Code is unusually checkable, and the verifier's rule says checkable tasks are the ones AI learns fastest.
+Module 03 explains reinforcement learning with verifiable rewards. The model gets problems a program can check, such as code that has to pass unit tests, and is rewarded when it gets them right. Code is unusually checkable, and the verifier's rule says checkable tasks are the ones AI learns fastest.
 
 The same property is what lets you trust the output, up to a point. Passing tests is evidence, not proof.
 
 RL also leaves a habit behind. Training rewards whatever the check measures, so models learned to satisfy checks in ways nobody intended. Anthropic's Claude 4 system card defines reward hacking to include "hard-coding (writing solutions that directly output expected values) and special-casing ... to pass tests," and reports that Claude Sonnet 3.7 "showed a tendency to resort to these behaviors, particularly in agentic coding settings such as Claude Code." That's Goodhart's law inside the model: when a measure becomes a target, it stops being a good measure.
 
-So you keep using checks, and you protect them. Part 3 is how.
+Keep the checks, and prevent the agent from changing what they measure.
 -->
 
 ---
@@ -221,7 +219,7 @@ Part 2 is the practical core: what to give the agent to check against, how to lo
 
 - Write or approve the tests yourself, before implementation; commit them separately
 - Make each test fail first
-- Check the test diff: `git diff --stat main -- tests/`
+- Read the full test diff: `git diff main -- tests/`
 - Enforce with a hook or deny rule, not just a `CLAUDE.md` line
 - Keep some checks out of the agent's reach
 
@@ -232,7 +230,7 @@ Test-driven development means writing a failing test before the code that makes 
 
 The contract only works if the agent can't quietly rewrite it. Agents under pressure to make tests pass sometimes delete, skip, or special-case them. So:
 - A test that never failed may not test anything. Willison: "If you skip that step you risk building a test that passes already."
-- Checking the test diff takes a second.
+- Read the full test diff on every change. `git diff main -- tests/` shows deleted assertions and new skips, which a `--stat` summary hides.
 - Anthropic's docs say a line in CLAUDE.md is followed "nearly every time," while a hook or a deny rule applies every time. Anthropic's long-running agent harness told its agents: "It is unacceptable to remove or edit tests because this could lead to missing or buggy functionality."
 - StrongDM's team keeps end-to-end "scenarios" outside the codebase, like a holdout set in machine learning, so agents can't tune the code to them.
 
@@ -260,7 +258,7 @@ Golden outputs: Jest's docs say snapshots "should be committed ... and reviewed 
 
 Model-written tests can filter candidates. CodeT lifted HumanEval pass@1 to 65.8%, 18.8 points over the base model. But Reflexion's self-written tests had a 16.3% false-positive rate on MBPP Python. Meta's TestGen-LLM keeps only generated tests that build, pass reliably and add coverage: "75% ... built correctly, 57% passed reliably, and 25% increased coverage." Hold your agent's tests to the same bar.
 
-The last line is what isn't loopable. "The code is good" isn't a check, and neither is "users will like it." When the real spec lives in people's heads, as it does for most product work (module 10), a loop has nothing to converge on. Write the spec down as checks first, or keep a human in each iteration. OpenAI lists "Scheduling a recurring task before it's reliable manually" as a common mistake. If you can't name the command that proves the task worked, run it by hand until you can.
+"The code is good" isn't a check, and neither is "users will like it." When the real spec lives in people's heads, as it does for most product work (module 10), a loop has nothing to converge on. Write the spec down as checks first, or keep a human in each iteration. OpenAI lists "Scheduling a recurring task before it's reliable manually" as a common mistake. If you can't name the command that proves the task worked, run it by hand until you can.
 -->
 
 ---
@@ -283,9 +281,9 @@ def test_slugify_is_idempotent(s):
 <!--
 Differential testing, as the Csmith paper puts it: "if one has multiple, deterministic implementations of the same specification, all implementations must produce the same result." Csmith credits McKeeman (1998) with the term. Carlini's lesson from the compiler: "the task verifier is nearly perfect, otherwise Claude will solve the wrong problem." A reference implementation answers for every input, not only the ones you thought to write down. Module 10 finds a strong oracle behind every famous autonomous success.
 
-Property tests: Hypothesis will "randomly choose which of those inputs to check - including edge cases you might not have thought about," 100 inputs by default, and when one fails it "reports the simplest possible one." The module has a second property for lab 03's slugify: the output never exceeds max_length.
+Hypothesis randomly chooses inputs, including edge cases you may not have considered, and checks 100 by default. When it finds a failure, it reports the simplest failing input. The module has a second property for lab 03's `slugify`: the output never exceeds `max_length`.
 
-Properties suit agents for a second reason: an agent can't hard-code its way past a check that makes up new inputs on every run. Models can help write them, unevenly. One study found "a valid and sound PBT can be synthesized in 2.4 samples on average," but GPT-4 got only 21% of the properties extractable from API documentation right.
+Properties suit agents for a second reason: an agent can't hard-code answers for inputs that are made up fresh on every run. Weak properties can still pass, though. Both properties hold for a `slugify` that always returns an empty string. Models can help write them, unevenly. One study found "a valid and sound PBT can be synthesized in 2.4 samples on average," but GPT-4 got only 21% of the properties extractable from API documentation right.
 -->
 
 ---
@@ -350,14 +348,14 @@ Geoffrey Huntley, July 14, 2025: "In its purest form, Ralph is a Bash loop."
 <!--
 Named after the Simpsons character Ralph Wiggum. It's the simplest loop and the extreme version of an unattended run. That line is the post's claude-code pseudocode adapted to the current claude binary in non-interactive print mode. The prompt does the real work: read a plan file, do the single most important remaining item, update the plan, and exit, so the next pass starts with a fresh context window. State carries through files: a prioritized fix_plan.md, spec files, and git history.
 
-Huntley's own caveats are the best guide. "Anything can be wired in as back pressure to reject invalid code generation," and "I must stress the importance of wiring in a static analyser/type checker." Even then, "what is hard is ensuring that Ralph has generated the right thing." Expect stubs ("Claude has the inherent bias to do minimal and placeholder implementations"), and expect to "wake up to a broken codebase that doesn't compile from time to time." "There is no way this is possible without senior expertise guiding Ralph."
+Huntley recommends wiring in checks that reject invalid code, especially a static analyzer and type checker. Even then, passing the checks doesn't guarantee that Ralph built the right thing. He warns about placeholder implementations and occasional broken builds. His approach still needs senior expertise guiding it.
 
 Read those caveats as a verification checklist: backpressure is the verifier, and one thing per loop keeps each check small. Harnesses now ship tamer versions: Claude Code's /loop and /goal, and Codex automations. Module 09 covers where the name "loop engineering" came from.
 -->
 
 ---
 
-## Goal loops, and how long to let them run
+## Goal loops, and how big a task to hand them
 
 ```text
 /goal every test in tests/auth passes when you run `uv run pytest -q tests/auth`,
@@ -366,14 +364,14 @@ show the final output, no other test file is modified, or stop after 20 turns
 
 - Claude Code: a fresh, small model checks the condition after each turn
 - It "doesn't run commands or read files independently," so the agent must print evidence
-- METR, May 2026: 50% horizon about 12 hours; 80% horizon about 1.5 hours
+- METR, May 2026: 50% horizon ~12 hours of human work; 80% ~1.5
 
 <!--
 After each turn the evaluator returns not yet met, met, or impossible. "Completion is decided by a fresh model rather than the one doing the work." The condition must be something "Claude's own output can demonstrate," like printed test results. The docs suggest two clauses worth copying into any goal: "or stop after 20 turns," and "no other test file is modified." Under the hood, "/goal is a wrapper around a session-scoped prompt-based Stop hook," and it halts if Claude makes no tool calls for several turns.
 
 Codex's /goal (behind the features.goals flag) "will stop running when it's confident it has reached the stopping condition," and no separate evaluator is documented. Its template asks for the same evidence: "/goal Complete [objective] without stopping until [verifiable end state]."
 
-How long can a loop run before it goes wrong? METR's time horizons (module 07) are the best public measure. In May 2026 METR put the public frontier at a 50% horizon of about 12 hours, but an 80% horizon of only about 1.5 hours. On tasks over eight hours, "at least 16% of successful runs were illegitimate upon review." The longer the run, the more you depend on its checks.
+METR's time horizons (module 07) are the best public measure of how big a task you can hand a model. They're measured in how long the task takes a human, not how long the agent runs. In May 2026 METR put the public frontier at a 50% horizon of about 12 hours, but an 80% horizon of only about 1.5 hours. On tasks over eight hours, "at least 16% of successful runs were illegitimate upon review." The bigger the task, the more you depend on its checks.
 -->
 
 ---
@@ -394,13 +392,13 @@ How long can a loop run before it goes wrong? METR's time horizons (module 07) a
 <!--
 Everything so far asks the agent to run checks. A gate makes the harness run them, whether the agent remembers or not. Anthropic's docs sort the ways of saying "done" by who decides: evidence requests, /goal and /code-review are model-decided; tests, typecheck, a Stop hook and CI are enforced. A hook applies "every time, no matter what the model decided to do."
 
-In Claude Code, the Stop hook fires "When Claude finishes responding," and exit code 2 or decision: "block" "Prevents Claude from stopping, continues the conversation." The 1>&2 sends the type checker's output to standard error.
+In Claude Code, the Stop hook runs when Claude finishes responding. Returning exit code 2 or `decision: "block"` prevents it from stopping and continues the conversation. `1>&2` sends the type checker's output to standard error.
 
-Two details keep a gate from becoming a trap. The hook's input includes stop_hook_active, true when Claude Code is already continuing because of a stop hook, so a script can choose not to block twice. And Claude Code applies "an 8-consecutive-continuation cap," adjustable with CLAUDE_CODE_STOP_HOOK_BLOCK_CAP, so a test that can never pass won't spin forever.
+The hook's input includes stop_hook_active, true when Claude Code is already continuing because of a stop hook, so a script can choose not to block twice. Claude Code also applies "an 8-consecutive-continuation cap," adjustable with CLAUDE_CODE_STOP_HOOK_BLOCK_CAP, so a test that can never pass won't spin forever.
 
 Prompt hooks and agent hooks exist too, where a model decides. Those are model judges, so put them on top of a command check, not in place of one. Codex has a Stop hook with the same stop_hook_active input; non-managed hooks "must be reviewed and trusted before they run."
 
-On GitHub, "all required status checks must pass before collaborators can merge," and admins are exempt unless "Do not allow bypassing the above settings" is on. For unattended cloud tasks, Anthropic says to "protect main with a GitHub branch rule the task can't bypass."
+GitHub requires passing status checks before a merge, but admins are exempt unless "Do not allow bypassing the above settings" is enabled. For unattended cloud tasks, Anthropic recommends a branch rule that the task can't bypass.
 -->
 
 ---
@@ -488,12 +486,12 @@ Coverage "measures only which code is executed." It doesn't check that tests "de
 - The tool breaks your code in small ways, one at a time, and reruns the tests
 - A mutant "survived" when all tests passed with it active
 - Meta's ACH: an LLM writes realistic mutants of a described fault, then tests that kill them
-- No tool? Break one line by hand. If nothing fails, nothing checks it.
+- No tool? Break one line by hand; if nothing fails, it's probably unchecked
 
 <!--
-The coverage quotes are from PIT's docs. Stryker's docs on a survivor: "all tests passed while this mutant was active ... You're missing a test for it." The mutation score is detected mutants divided by valid ones.
+PIT distinguishes code coverage from fault detection. Stryker calls a mutant a survivor when all tests pass while it is active, and treats that as a missing test. Treat a survivor as a strong hint rather than proof, since some changes don't alter behavior and no test could catch them. The mutation score is detected mutants divided by valid ones.
 
-Meta's ACH "targets specific faults, rather than uncovered code." Run on 10,795 Kotlin classes, it produced 9,095 mutants and 571 tests, and engineers "accepted 73% of its tests, judging 36% to privacy relevant."
+Meta's ACH targets specific faults rather than uncovered code. Across 10,795 Kotlin classes, it produced 9,095 mutants and 571 tests. Engineers accepted 73% of the tests and judged 36% to be relevant to privacy.
 
 Mutation testing is also how you catch a tautological test, one that checks the code against itself or a mock against its own setup: every mutant survives it.
 -->
@@ -533,9 +531,9 @@ Automation bias "cannot be prevented by training or instructions." (Parasuraman 
 - Measure instead of trusting your sense of speed or quality
 
 <!--
-Every check in this module can make the last one, you, worse. Do human reviewers relax when a bot has already passed a PR? That's automation bias, and layering only works if each layer still does its job.
+Human reviewers may relax after a bot passes a PR. That's automation bias. Each layer of review still needs to do its job.
 
-The research is older than LLMs and not encouraging. Automation bias causes "both omission and commission errors when decision aids are imperfect," and occurs "in both naive and expert participants." In a review of 74 studies, a wrong decision-support system raised the risk of an incorrect decision by 26% (Goddard et al., 2012). With code, developers using an AI assistant "wrote significantly less secure code" and were "more likely to believe they wrote secure code" (Perry et al., 2023).
+The research predates LLMs. Imperfect decision aids can make people miss problems or follow bad advice, and this happens to novices and experts. In a review of 74 studies, a wrong decision-support system raised the risk of an incorrect decision by 26% (Goddard et al., 2012). Developers using an AI assistant wrote significantly less secure code and were more likely to believe their code was secure (Perry et al., 2023).
 
 Developers say they're wary. In the 2025 DORA survey, 90% use AI, but only 24% trust its output "a great deal" or "a lot." In Stack Overflow's 2025 survey, 46% actively distrust AI accuracy against 33% who trust it, and the top frustration, at 66%, is "AI solutions that are almost right, but not quite." Stated distrust doesn't mean careful checking, though. People approve the vast majority of permission prompts (module 08), and they feel faster than they measure (module 07).
 
@@ -547,7 +545,7 @@ On the first bullet: a copy change needs a glance. A change to payments, auth, d
 ## Too much checking, and holdouts that leak
 
 - DORA's "verification tax": time saved generating goes into verifying
-- "loop until done, don't be lazy" is "more likely to cause over-work than fix a stall"
+- Claude Code warns "loop until done, don't be lazy" causes overwork more than it fixes stalls
 - GPT-5.6 Sol revealed hidden tests; Terminal-Bench pulled entries that uploaded test folders
 - A holdout in a folder the agent can read is hidden only while it obeys
 
@@ -567,13 +565,13 @@ You can borrow ImpossibleBench's design too: make the spec and the tests contrad
 
 | When | What happened | The lesson |
 | --- | --- | --- |
-| Replit, July 2025 | During a code freeze, the agent deleted a production database, then said rollback was impossible. It wasn't. | The freeze was an instruction, not an enforced check |
+| Replit, July 2025 | During a code freeze, the agent deleted a production database, then said rollback was impossible. Lemkin reported it worked. | The freeze was an instruction, not an enforced check |
 | Claude Code, October 2025 | A user reports an `rm -rf` from `/` that deleted all user-owned files in their home directory | For destructive actions, verify before the command runs |
 
 <!--
 Two first-hand reports show what instructions and an agent's own account can't protect you from.
 
-Replit: the database was SaaStr founder Jason Lemkin's. His posts show the agent's own messages admitting "a catastrophic error of judgement." On rollback: "despite Replit itself telling me rolling back wouldn't work here -- it did." His conclusion: "There is no way to enforce a code freeze in vibe coding apps like Replit. There just isn't." Replit's CEO called it "Unacceptable and should never be possible" and announced "automatic DB dev/prod separation to prevent this categorically." Read it as a verification story. The agent's report about the state of the world was unverified output, and it was wrong. The fix that stuck was structural.
+Replit: the database belonged to SaaStr founder Jason Lemkin. His posts show the agent admitting a catastrophic error of judgment. The agent said rollback wouldn't work, but Lemkin reported that it did. He concluded there's no way to enforce a code freeze in vibe coding apps like Replit. Replit's CEO called the deletion unacceptable, said it should never be possible, and announced automatic separation of development and production databases. The agent had reported the state of the system without verifying it and was wrong. Separating the databases provided structural protection.
 
 Claude Code: the user was on v2.0.22 under WSL2 (GitHub issue anthropics/claude-code#10077), and it happened before they could interrupt it. No check after the fact can undo that. Verification for destructive actions has to happen through permissions and sandboxes (module 14), which also lists more incidents, most of them attacks rather than mistakes.
 -->

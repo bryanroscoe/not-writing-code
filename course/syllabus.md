@@ -17,9 +17,9 @@ This syllabus is for instructors, curriculum committees, and students. It's a pr
 
 ## Course description
 
-Catalog description (draft). Coding agents now read codebases, run commands, and write and test changes. This course teaches students to use them to build software faster without giving up engineering judgment. Topics include how language models work and fail; how they're trained, the hardware they run on, and how labs try to make them safe; choosing and evaluating models; agent harnesses, tools, and context; a disciplined agent workflow (explore, plan, test first, implement, verify, commit); verifying agent output; reviewing AI-written code; multi-agent and cross-model review; prompt injection and agent security; cost; open-source contribution; and the effects of AI on learning and careers. Some work is done without AI, to build and check fundamentals. Students ship real changes built with supervised agents and defend every line of them.
+Catalog description (draft). Coding agents now read codebases, run commands, and write and test changes. This course teaches students to use them to build software faster without giving up engineering judgment. Students study how language models work and fail, how they're trained, the hardware they run on, and how labs try to make them safe. They learn to choose and evaluate models, use agent harnesses, tools, and context, and follow a workflow of exploring, planning, writing tests first, implementing, verifying, and committing. They verify agent output, review AI-written code, and practice multi-agent and cross-model review. The course also covers prompt injection, agent security, cost, open-source contribution, and AI's effects on learning and careers. Some work is done without AI, to build and check fundamentals. Students ship real changes built with supervised agents and defend every line of them.
 
-This isn't a vibe coding course. Vibe coding means accepting whatever a model writes without reading the code ([module 00](../modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding)). This course is AI-accelerated coding: agents do much of the typing. Students decide what to build, write the checks, read what matters, and answer for the result.
+Vibe coding means accepting whatever a model writes without reading the code ([module 00](../modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding)). This course is AI-accelerated coding: agents do much of the typing. Students decide what to build, write the checks, read what matters, and answer for the result.
 
 > **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
@@ -42,7 +42,7 @@ By the end of the course, students can:
 | # | Outcome | Assessed by |
 | --- | --- | --- |
 | 1 | Explain how a language model produces text (tokens, next-token prediction, sampling, context window) and use that explanation to predict at least three kinds of failure, such as invented APIs, tokenization errors, and context degradation. | Lab 1, AI-free check 1 |
-| 2 | Explain how a model is made and run: the stages of training, why reinforcement learning on checkable rewards made coding improve fastest, and the compute and memory-bandwidth arithmetic behind the cost of training and of generating text. | AI-free check 1, reading responses |
+| 2 | Explain how a model is made and run: the stages of training, how code's unusual checkability is a big part of why coding agents improved so quickly in 2025–2026, and the compute and memory-bandwidth arithmetic behind the cost of training and of generating text. | AI-free check 1, reading responses |
 | 3 | Tell safety, security, and alignment apart, and judge a reported model behavior by the setting it was observed in, from a contrived test to a deployed product. | AI-free check 1, reading responses |
 | 4 | Evaluate claims about models, benchmarks, prices, and licenses against primary sources, with dates. | AI-free check 1, reading responses |
 | 5 | Configure a coding agent with least-privilege permissions and a short instruction file, measure what fills its context, and explain what the harness adds to the model. | Lab 2 |
@@ -88,7 +88,7 @@ Sessions are about 75 minutes. Read the listed sections before the unit's first 
 
 ### Workload
 
-Plan on about 32 hours in class: the one-hour orientation and 25 sessions of 75 minutes. Outside class, plan on about 90 hours with the capstone and about 65 without it. Labs and the capstone take most of that time, and orientation takes the least.
+Plan on about 32 hours in class: the one-hour orientation and 25 sessions of 75 minutes. Outside class, plan on about 90 hours with the capstone and about 65 without it.
 
 | Unit | Modules | Sessions | Labs | Reading | Lab work | Capstone | Hours outside class |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -100,7 +100,7 @@ Plan on about 32 hours in class: the one-hour orientation and 25 sessions of 75 
 | 5: Practice for the long run | 15–18 | 5 | 8 | 4 | 10 | 12 | 26 |
 | Total | | 25 and the orientation | 8 | 23 | 38 | 30 | About 91 |
 
-Without the capstone, drop its 30 hours and add about 3 for the final reflective report, which is then written about your lab work. The estimates are supposed to be checked against real students each term. If you're regularly well past them, tell the instructor.
+Without the capstone, drop its 30 hours and add about 3 for the final reflective report, which is then written about your lab work. Each term, the instructor should check these estimates against the time students actually spend. If you're regularly well past them, tell the instructor.
 
 Each lab sits in the first unit where its prerequisites are met. Lab 6 builds the eval that module 07 describes, but it needs the agent skills from Labs 2 and 3, so it comes in Unit 3. Lab 8 belongs to Unit 5, and its first phase starts during Unit 4 because maintainers need time to reply. Each lab's header says which unit it goes with and when it's due.
 
@@ -155,7 +155,7 @@ The unit takes three sessions:
 2. Open vs closed weights. Memory math for running a model yourself, and a license review ([06 Try it](../modules/06-open-vs-closed-weights.md#try-it)).
 3. Building your own eval. A golden-task workshop and error bars by hand, then AI-free check 1.
 
-This unit has no lab. Lab 6 is where students build the eval this unit describes, and it has to wait until they can run an agent.
+This unit has no lab.
 
 About 4 hours outside class, all reading.
 
@@ -234,13 +234,11 @@ About 26 hours outside class: 4 of reading, 10 for Lab 8, and 12 for the capston
 
 ## Running it on your calendar
 
-The units don't assume any particular calendar.
+The units don't assume any particular calendar. These sketches are starting points; the pilot of Units 3 and 4 should set the real pace.
 
-In a 15-week semester with two 75-minute sessions a week, Units 0–2 take about the first four weeks and Units 3–5 about three and a half weeks each. That leaves a few spare sessions for capstone work, puts walkthroughs in finals week, and keeps outside work near 7 hours in the busiest weeks.
-
-A three-week full-time intensive fits the units at about two sessions a day, without the capstone. Use Lab 8's class repository, since an outside maintainer's go-ahead can take longer than the course.
-
-Self-paced learners take the units in order, skip the sessions, and do the readings and labs, about 60 hours in all. The [course README](README.md#where-to-start) says how to handle the labs that expect a partner or an instructor.
+- **15-week semester**, two 75-minute sessions a week: Units 0–2 take about four weeks and Units 3–5 about three and a half weeks each, leaving spare sessions for capstone work and walkthroughs in finals week. Outside work stays near 7 hours in the busiest weeks.
+- **Three-week intensive**, about two sessions a day: skip the capstone and use Lab 8's class repository, since an outside maintainer's go-ahead can take longer than the course.
+- **Self-paced:** take the units in order, skip the sessions, and do the readings and labs, about 60 hours in all. The [course README](README.md#where-to-start) covers labs that expect a partner or an instructor.
 
 ## Capstone project (optional)
 
@@ -262,21 +260,21 @@ Teams of three or four use supervised coding agents to build and ship a small, r
 
 ### Deliverables
 
-| When | Deliverable | What it contains | Tier | Weight |
-| --- | --- | --- | --- | --- |
-| Start of Unit 3 | **Pitch** | One page: the user, the problem, the smallest useful version, the biggest risk | AI-as-tutor | Gate (feedback only) |
-| Middle of Unit 3 | **Design doc** | Problem and user; requirements and non-goals; architecture and data model; the interfaces you'll write *before* agents build in parallel ([module 12](../modules/12-multi-agent-systems.md#recipe-3-parallel-builders-when-you-must)); test strategy (what is your [oracle](../modules/11-verification.md#verifiers-and-oracles)?); which tasks go to agents and at what autonomy; quota plan; risks | AI-as-tutor: agents may interview you and critique drafts; the decisions and the text are yours | 5% |
-| End of Unit 3 | **Vertical slice** | One end-to-end feature deployed, with tests and CI | AI-accelerated | Milestone (feedback only) |
-| Early in Unit 4 | **Eval set** | This is [Lab 6](labs/lab-06-your-own-eval.md), done on your project: at least eight golden tasks from your project's history (three or more per member), with hidden tests, run blind on two agent configurations and summarized with error bars, plus the configuration your team chose for the final sprint and why. Nothing extra to submit. | AI-accelerated; task selection and scoring are yours | Graded as Lab 6 |
-| Late in Unit 4 | **Security review** | Rule of Two analysis for your agent workflow and for the app ([module 14](../modules/14-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)); the [team checklist](../modules/14-security-and-prompt-injection.md#team-checklist) items that apply; every dependency verified as real and intended; scanner results; an independent fresh-session security review (a different lab’s model where available), with each finding verified; fixes | AI-accelerated | 5% |
-| End of Unit 4 | **Cross-model code review** | This is [Lab 7](labs/lab-07-multi-agent-review.md), done on your project: each member runs a review swarm with adversarial verification on a different teammate's pull request from after the vertical slice, using a different lab's model where possible. Confirmed High and Medium findings are fixed through reviewed PRs. Nothing extra to submit. | AI-accelerated | Graded as Lab 7 |
-| End of Unit 5 | **Shipped app, repository, and demo** | Working app with real users; README covering trade-offs, rejected alternatives, and a short section on what your eval (Lab 6) and reviews (Lab 7) found and what you changed; tests and CI green; a 10-minute demo that includes one thing an agent got wrong | AI-accelerated | 10% |
-| End of Unit 5 | **Reflective report** (individual) | "What I learned vs what the AI did" (below) | AI-free | 6% |
-| After Unit 5 | **Walkthrough** (individual) | 10 minutes: explain code you merged, answer "what if" questions, show the test that guards it | AI-free | 4% |
+| When | Deliverable | What it contains |
+| --- | --- | --- |
+| Start of Unit 3 | **Pitch** | One page: the user, the problem, the smallest useful version, the biggest risk |
+| Middle of Unit 3 | **Design doc** | Problem and user; requirements and non-goals; architecture and data model; the interfaces you'll write *before* agents build in parallel ([module 12](../modules/12-multi-agent-systems.md#recipe-3-parallel-builders-when-you-must)); test strategy (what is your [oracle](../modules/11-verification.md#verifiers-and-oracles)?); which tasks go to agents and at what autonomy; quota plan; risks |
+| End of Unit 3 | **Vertical slice** | One end-to-end feature deployed, with tests and CI |
+| Early in Unit 4 | **Eval set** | This is [Lab 6](labs/lab-06-your-own-eval.md), done on your project: at least eight golden tasks from your project's history (three or more per member), with hidden tests, run blind on two agent configurations and summarized with error bars, plus the configuration your team chose for the final sprint and why. Nothing extra to submit. |
+| Late in Unit 4 | **Security review** | Rule of Two analysis for your agent workflow and for the app ([module 14](../modules/14-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)); the [team checklist](../modules/14-security-and-prompt-injection.md#team-checklist) items that apply; every dependency verified as real and intended; scanner results; an independent fresh-session security review (a different lab’s model where available), with each finding verified; fixes |
+| End of Unit 4 | **Cross-model code review** | This is [Lab 7](labs/lab-07-multi-agent-review.md), done on your project: each member runs a review swarm with adversarial verification on a different teammate's pull request from after the vertical slice, using a different lab's model where possible. Confirmed High and Medium findings are fixed through reviewed PRs. Nothing extra to submit. |
+| End of Unit 5 | **Shipped app, repository, and demo** | Working app with real users; README covering trade-offs, rejected alternatives, and a short section on what your eval (Lab 6) and reviews (Lab 7) found and what you changed; tests and CI green; a 10-minute demo that includes one thing an agent got wrong |
+| End of Unit 5 | **Reflective report** (individual) | "What I learned vs what the AI did" ([below](#reflective-report)) |
+| After Unit 5 | **Walkthrough** (individual) | 10 minutes: explain code you merged, answer "what if" questions, show the test that guards it |
 
 Each team deliverable gets one score, adjusted per member using individual evidence: commits, reviews given, AI logs, and `[peer evaluation process]`.
 
-### The reflective report
+## Reflective report
 
 Write 1,000 to 1,500 words without AI, and back each answer with evidence from your commits, PRs, and logs. Without the capstone, answer the same questions about your lab work.
 
@@ -291,21 +289,20 @@ Write 1,000 to 1,500 words without AI, and back each answer with evidence from y
 
 ## Assessment
 
-The weights depend on whether the course runs the capstone. Without it, the labs carry more weight, and the reflective report and walkthrough are graded on their own.
+| Component | Weight |
+| --- | --- |
+| Labs 1–8 | 45%. Labs 1–5 and 8: 5% each. Labs 6 and 7: 7.5% each, because they're the capstone's eval set and cross-model review. |
+| Capstone | 30%. Design doc 5%, security review 5%, shipped app 10%, reflective report 6%, walkthrough 4%. The pitch and vertical slice get feedback only, and the eval set and cross-model review are graded once, as Labs 6 and 7. |
+| AI-free checks | 15%. Three in-class checks, 5% each, at the ends of Units 2, 3, and 4. |
+| Participation | 10%. Reading responses, in-class exercises including the verifier-loop activity, peer review, and Lab 8 maintainer shifts if you use the class repository. |
 
-| Component | With the capstone | Without the capstone |
-| --- | --- | --- |
-| Labs 1–8 | 45%. Labs 1–5 and 8: 5% each. Labs 6 and 7: 7.5% each, because they're the capstone's eval set and cross-model review. | 60%, 7.5% each |
-| Capstone | 30%. Design doc 5%, security review 5%, shipped app 10%, reflective report 6%, walkthrough 4%. | None |
-| Reflective report and walkthrough | Part of the capstone | 15%. Report 10%, walkthrough 5%, both on your lab work. |
-| AI-free checks | 15%. Three in-class checks, 5% each, at the ends of Units 2, 3, and 4. | Same |
-| Participation | 10%. Reading responses, in-class exercises including the verifier-loop activity, peer review, and Lab 8 maintainer shifts if you use the class repository. | Same |
+An offering that drops the capstone moves its 30% to the labs and the reflective report: labs become 60% (7.5% each), and the report and walkthrough 15% (report 10%, walkthrough 5%), both on lab work.
 
 Each lab has its own rubric. The AI-free checks cover reading code, predicting what code and tests do, finding bugs by hand, and explaining core concepts.
 
 `[Grading scale.]` `[Late-work policy.]` `[Attendance policy.]`
 
-The instructor or a TA may follow up any submission with a five-minute walkthrough. Expect at least one during the course besides the final. If a walkthrough shows you can't explain your submission, it doesn't count as yours yet, and you get one chance to redo the walkthrough or the work. The instructor guide describes [how walkthroughs are run](instructor-guide.md#oral-check-ins-and-walkthroughs).
+The instructor or a TA may follow up any submission with a five-minute walkthrough. Expect at least one during the course besides the final 10-minute walkthrough after Unit 5, which everyone does, on capstone code or, without the capstone, on lab work. If a walkthrough shows you can't explain your submission, it doesn't count as yours yet, and you get one chance to redo the walkthrough or the work. The instructor guide describes [how walkthroughs are run](instructor-guide.md#oral-check-ins-and-walkthroughs).
 
 ## AI-use policy
 
@@ -320,8 +317,6 @@ The labels come from [module 18's suggested policy](../modules/18-learning-caree
 | **AI-free** | No AI tools of any kind, including IDE autocomplete and AI features in search or editors. | The fundamentals you need without help. |
 | **AI-as-tutor** | AI may explain, give hints, ask you questions, and critique your work. It may not write code or prose you submit. | Your own work, and your use of AI to learn. |
 | **AI-accelerated** | Use any AI tools. | The result, your design decisions, your verification evidence, and your ability to explain every line. |
-
-Two clarifications:
 
 - A model you're studying isn't "AI help." In Labs 1 and 5 the model is the subject of the experiment. The tier governs who writes what you submit.
 - You write your own reflections, AI logs, PR descriptions, and replies to reviewers in every tier. In AI-accelerated work, AI may critique them but not write them.
@@ -340,8 +335,8 @@ Two clarifications:
 | [Lab 6: Your own eval](labs/lab-06-your-own-eval.md) | AI-accelerated for tooling. Task selection, hidden tests, and blind scoring are yours. |
 | [Lab 7: Multi-agent review](labs/lab-07-multi-agent-review.md) | AI-accelerated |
 | [Lab 8: Open-source contribution](labs/lab-08-open-source-contribution.md) | AI-as-tutor, or stricter if the project's own policy is stricter |
-| Capstone design doc | AI-as-tutor |
-| Capstone code and security review (the eval set and cross-model review are Labs 6 and 7) | AI-accelerated |
+| Capstone pitch and design doc | AI-as-tutor. Agents may interview you and critique drafts; the decisions and the text are yours. |
+| Capstone vertical slice, shipped app, and security review (the eval set and cross-model review are Labs 6 and 7) | AI-accelerated |
 | Reflective report and walkthrough | AI-free |
 
 ### Rules that apply in every tier
@@ -409,19 +404,7 @@ The course doesn't use AI-detection tools as evidence, because AI use is hard to
 
 ## Keeping this course current
 
-This field changes monthly, and parts of this syllabus will be wrong within a term ([module 17](../modules/17-keeping-up.md#how-fast-it-moves)). Verification, context control, security, review, and honest evaluation should outlast the current names, prices, commands, and policies. Before each offering, re-verify:
-
-1. Plans and prices for the tools students will buy, and current education offers ([module 15](../modules/15-costs-subscriptions-and-apis.md#price-snapshot-as-of-2026-11-08)).
-2. Data and training terms for consumer and education plans ([module 18](../modules/18-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
-3. Every command and setting a lab names: plan mode, the context view, checkpoints, review commands, permission and sandbox settings, hooks, non-interactive mode. For Lab 5, check how deny rules treat shell commands and whether each harness's own sandbox starts inside the recommended container.
-4. The free tools in Lab 1, a tokenizer page and a playground with a temperature control.
-5. The AI policies of open-source projects suggested for Lab 8 ([module 16](../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
-6. That each lab still fits in one $20 plan. Run it yourself and note the quota used.
-7. That the live demos still fail the way they're supposed to. Models improve, and some demos stop working.
-8. The "Last checked" date of each assigned module. Anything older than about six months needs a check.
-9. The institution's AI and integrity policies, which are changing too.
-
-The instructor guide's [refresh checklist](instructor-guide.md#refresh-checklist-for-each-term) has the full list and how to check each item.
+This field changes monthly, and parts of this syllabus will be wrong within a term ([module 17](../modules/17-keeping-up.md#how-fast-it-moves)). Verification, context control, security, review, and honest evaluation should outlast the current names, prices, commands, and policies. Before each offering, work through the instructor guide's [refresh checklist](instructor-guide.md#refresh-checklist-for-each-term): prices and education offers, data terms, every command and setting the labs name, quota per lab on one $20 plan, the live demos, module "Last checked" dates, and institutional policies.
 
 ## Sources
 

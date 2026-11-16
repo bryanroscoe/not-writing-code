@@ -10,11 +10,11 @@ This path is for university students, bootcamp learners, and anyone who can prog
 - Give an agent checks it can run, and know what passing them does and doesn't prove.
 - Tell a good model claim from marketing, and test a model on your own tasks.
 - Recognize prompt-injection risks and limit what an agent can access or change.
-- Use AI in a way that makes you a *better* programmer, not a dependent one.
+- Use AI to improve your programming skills while staying able to work without it.
 
 ## How to read each module
 
-Every module has three depth levels. On this path, read Foundations and In practice, and skim Going deeper unless a topic grabs you or the syllabus says to read it. Do the short "Try it" exercises to practice what you've read. Read every TL;DR and Bryan's take too.
+Every module has three depth levels. Start with the TL;DR and Bryan's take, then read Foundations and In practice. Do the short "Try it" exercises to practice what you've read. Skim Going deeper unless a topic grabs you or the syllabus says to read it.
 
 ## The path
 
@@ -50,23 +50,24 @@ Read the stages in order. A few sections come early because a lab needs them, an
 - [12 Multiple agents](../modules/12-multi-agent-systems.md): why and why not, building vs reviewing, cross-model review.
 - [13 AI code review](../modules/13-ai-code-review.md): how AI reviewers work, how humans should review AI-written PRs. Do [Lab 4](../course/labs/lab-04-review-ai-code.md), then [Lab 7](../course/labs/lab-07-multi-agent-review.md).
 - [14 Security and prompt injection](../modules/14-security-and-prompt-injection.md): instructions and data share one channel, the lethal trifecta. Then do [Lab 5](../course/labs/lab-05-prompt-injection.md).
+- Start choosing a project for [Lab 8](../course/labs/lab-08-open-source-contribution.md) now, during Stage 4, since maintainers can take weeks to reply.
 
 ### Stage 5: Practice for the long run
 
 - [15 Costs](../modules/15-costs-subscriptions-and-apis.md): three ways to pay, why agentic coding eats tokens.
-- [16 Open-source ecosystem](../modules/16-open-source-ecosystem.md): a map of the stack, etiquette, "How students can contribute." Start choosing a project for [Lab 8](../course/labs/lab-08-open-source-contribution.md) during Stage 4, since maintainers can take weeks to reply.
+- [16 Open-source ecosystem](../modules/16-open-source-ecosystem.md): a map of the stack, etiquette, "How students can contribute."
 - [17 Keeping up](../modules/17-keeping-up.md): what stays stable, a curated information diet, a sustainable routine.
 - [18 Learning, careers, and responsibility](../modules/18-learning-careers-and-responsibility.md): the rest of it, especially what the evidence says about learning, careers, and the human side.
 
 ## If you only have a weekend
 
-Read the TL;DRs of every module, then read these five in full: [00](../modules/00-orientation.md), [01](../modules/01-what-is-an-llm.md), [10](../modules/10-agentic-workflows.md), [11](../modules/11-verification.md), and [18](../modules/18-learning-careers-and-responsibility.md). Then do [Lab 3](../course/labs/lab-03-plan-test-build.md).
+Read the TL;DRs of every module, then read these five in full: [00](../modules/00-orientation.md), [01](../modules/01-what-is-an-llm.md), [10](../modules/10-agentic-workflows.md), [11](../modules/11-verification.md), and [18](../modules/18-learning-careers-and-responsibility.md). Then read module 14's [student checklist](../modules/14-security-and-prompt-injection.md#student-checklist) and do [Lab 2](../course/labs/lab-02-first-agent-session.md) and [Lab 3](../course/labs/lab-03-plan-test-build.md), which builds on it.
 
 ## Habits to build from day one
 
 1. Spend ten minutes on a problem before you ask an AI. You'll ask a better question, and the answer will teach you more ([module 18](../modules/18-learning-careers-and-responsibility.md)).
-2. Ask for hints, not answers, when the goal is learning. Ask for answers when the goal is shipping. Know which one you're doing.
-3. Read every line you submit. If you can't explain it, you don't get to submit it.
+2. Ask for hints, not answers, when the goal is learning. Ask for answers when the goal is shipping.
+3. Read every line you submit, and make sure you can explain each one.
 4. Make the agent prove it. "Run the tests and show me the output" beats "does it work?" ([module 11](../modules/11-verification.md#proof-of-done)).
 5. Keep a "surprised me" log. Every time a model does something you didn't expect, write one line. It becomes your personal eval set ([module 07](../modules/07-judging-models.md)) and your study guide.
 6. Follow your course's AI policy and say what you used. Make disclosure a professional habit.

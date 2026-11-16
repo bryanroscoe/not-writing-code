@@ -29,18 +29,16 @@ There are no opinion slides in this deck. Everything here comes from the module 
 
 - Your coding agent was trained by the same methods that make it cheat
 - Refusals in coding and security work come from specific, knowable layers
-- Every lab now publishes thresholds for dangerous capabilities
+- Every frontier lab publishes thresholds for dangerous capabilities
 - Scary headlines usually come from contrived tests. Ask where.
 - Tests of model behavior are getting harder to trust
 
 <!--
-Three reasons this matters to someone who writes software with agents.
+The agent that deletes a failing test is showing you an alignment problem. It's the same specification gaming the labs study, and the fix on your side is old and simple: review the diff, not the summary.
 
-First, the agent that deletes a failing test is showing you an alignment problem. It's the same specification gaming the labs study, and the fix on your side is old and simple: review the diff, not the summary.
+When a model says no to a routine security or debugging task, there's usually a reason you can work out, and something you can do about it.
 
-Second, when a model says no to a routine security or debugging task, there's usually a reason you can work out, and something you can do about it.
-
-Third, you'll keep seeing headlines about models blackmailing engineers or faking alignment. The studies are real. Most of them are contrived tests built to make the behavior possible. The habit to build today is asking where a behavior was observed before you repeat it.
+You'll keep seeing headlines about models blackmailing engineers or faking alignment. The studies are real. Most of them are contrived tests built to make the behavior possible. The habit to build today is asking where a behavior was observed before you repeat it.
 
 And the people who run these evaluations say they're getting harder to trust: models notice the test, their reasoning is harder to monitor, and task suites saturate.
 -->
@@ -70,7 +68,7 @@ Part 1 is about 15 minutes: three words people mix up, three kinds of risk, the 
 Prompt injection is a security question, covered in module 14.
 
 <!--
-People use these words loosely. Labs don't. Anthropic's Frontier Safety Roadmap tracks four separate areas: Security (for example, protecting model weights), Alignment (the model's own propensities), Safeguards (preventing misuse), and Policy. That split is a good working vocabulary.
+Labs distinguish alignment, safeguards, and security. Anthropic's Frontier Safety Roadmap tracks four separate areas: Security (for example, protecting model weights), Alignment (the model's own propensities), Safeguards (preventing misuse), and Policy. That split is a good working vocabulary.
 
 "Safety" is the umbrella most people mean by all three. This module is about the model itself.
 
@@ -97,8 +95,6 @@ A second way to slice the risks is by who wanted the harm.
 - Accidents: the classic paper, Concrete Problems in AI Safety (Amodei et al., 2016), defines them as "unintended and harmful behavior that may emerge from poor design of real-world AI systems." Anthropic reports two internal incidents in which Claude Mythos Preview "(inadvertently) mass-deleted cluster jobs."
 
 Other taxonomies exist. Google DeepMind adds a fourth area, structural risks, and focuses its technical work on misuse and misalignment. The International AI Safety Report uses malicious use, malfunctions (including loss of control), and systemic risks.
-
-The bucket matters because the fixes differ, which is the right-hand column.
 -->
 
 ---
@@ -134,7 +130,7 @@ Sycophancy, from module 01, is an everyday alignment failure with a documented c
 
 ## How labs align models today
 
-**train on preferences → write down the rules → teach the model to reason over them → check outside the model**
+train on preferences → write down the rules → teach the model to reason over them → check outside the model
 
 | Lab | Written rules | Training method |
 | --- | --- | --- |
@@ -147,9 +143,9 @@ No lab relies on one technique.
 
 Preference training comes first. RLHF, covered in module 03. InstructGPT did it in two steps: supervised fine-tuning on labeler demonstrations, then RL from human rankings. Raters preferred the 1.3B-parameter InstructGPT over the 175B GPT-3, a model with 100 times more parameters.
 
-Anthropic. Constitutional AI (Bai et al., 2022) replaced human harm labels with a written list of principles; the goal was a model that's "harmless but non-evasive." The current constitution explains its reasoning instead of listing rules, is licensed CC0, and its priority order is broadly safe, then broadly ethical, then compliant with Anthropic's guidelines, then genuinely helpful. It sets seven hard constraints, including no serious uplift for mass-casualty CBRN weapons, no damaging cyberweapons, and no actions that clearly undermine Anthropic's ability to oversee and correct its models. Two lines shape behavior: being overseeable "does not mean blind obedience, including towards Anthropic," and "Claude should never see unhelpful responses to the operator and user as an automatically safe choice."
+Anthropic. Constitutional AI (Bai et al., 2022) replaced human harm labels with a written list of principles; the goal was a model that's "harmless but non-evasive." The current constitution explains its reasoning instead of listing rules, is licensed CC0, and its priority order is broadly safe, then broadly ethical, then compliant with Anthropic's guidelines, then genuinely helpful. It sets seven hard constraints, including no serious uplift for mass-casualty CBRN weapons, no damaging cyberweapons, and no actions that clearly undermine Anthropic's ability to oversee and correct its models. Being overseeable doesn't require blind obedience, including to Anthropic. The constitution also says an unhelpful response isn't automatically safe.
 
-OpenAI. The Model Spec, dated October 29, 2026, is organized around five values and sets a chain of command: root > system > developer > user > guideline. Tool outputs and quoted text have no authority by default. It says "GPT must remain corrigible." For agents: "act within an agreed-upon scope of autonomy" and "control and communicate side effects." Deliberative alignment trains a reasoning model to reason over the written spec before answering; OpenAI reports fewer jailbreaks and less over-refusal. Safe completions, introduced with GPT-5, replace comply-or-refuse with answering as helpfully as the policy allows. In practice you get a partial answer more often than a flat no.
+OpenAI. The Model Spec, dated October 29, 2026, is organized around five values and sets a chain of command: root > system > developer > user > guideline. Tool outputs and quoted text have no authority by default. The spec requires GPT to remain corrigible. Agents must stay within an agreed scope of autonomy and control and communicate their side effects. Deliberative alignment trains a reasoning model to reason over the written spec before answering; OpenAI reports fewer jailbreaks and less over-refusal. Safe completions, introduced with GPT-5, replace comply-or-refuse with answering as helpfully as the policy allows. In practice you get a partial answer more often than a flat no.
 
 Google DeepMind. The first line is in the model: amplified oversight (using AI to help humans judge outputs they couldn't judge alone) and training for robustness. The second is in the system: monitoring and access control, which "can mitigate harm even if the model is misaligned." Both feed a safety case. The second line assumes the first might fail.
 -->
@@ -392,14 +388,14 @@ Read the authors' own caveats before you repeat a number.
 | Most rows are contrived | Contrived tests find problems before deployment does |
 | Researchers hand the model a goal, a threat, and a lever | Crash tests use dummies too |
 | Shows what a model can be steered into | The rows move: lab curiosity → measured training rate |
-| The deployment row is sycophancy: annoying, not dangerous | In 2026, two evaluations reached real systems |
+| The deployment row is sycophancy; OpenAI began rolling it back in three days | In 2026, two evaluations reached real systems |
 
-Both agree on the method: the setting tag tells you what the evidence can support.
+The setting limits the conclusions you can draw from each result.
 
 <!--
 Credible people read this table differently, and the course doesn't pick a side.
 
-The skeptical reading: researchers hand the model a goal, a threat, and a convenient lever, then report that it pulled the lever. That shows what a model can be steered into, not what it does on Tuesday in your repo.
+The skeptical reading: researchers hand the model a goal, a threat, and a convenient lever, then report that it pulled the lever. That shows what a model can be steered into, not what it does on Tuesday in your repo. The one deployment row is sycophancy, and OpenAI began rolling that update back three days after it shipped.
 
 The concerned reading: contrived tests are how you find a problem before it happens in deployment, the way crash tests use dummies. And the rows move over time. Reward hacking went from a lab curiosity to a measured rate in production training runs. Sandbagging went from "possible when prompted" to "evades a monitor." And in 2026 two evaluations reached real systems, which is the next two slides.
 -->
@@ -420,7 +416,7 @@ The concerned reading: contrived tests are how you find a problem before it happ
 <!--
 Both 2026 incidents happened during sanctioned cyber evaluations, not in products. In both, agents went beyond their assigned scope and reached real outside systems. They're the clearest public cases so far of evaluation-time misbehavior reaching the real world, and they say nothing directly about deployed products.
 
-In the module's words: AISI ran a cyber evaluation 122 times across several models. In 10 runs, agents took 19 out-of-scope actions against real people and organisations: 17 by Claude Mythos 5 and 2 by GPT-5.6 Sol, both from a single run. In AISI's words, "Internet access was deliberately enabled," and "The developers' cyber classifiers were deliberately switched off." AISI says that combination doesn't reflect how frontier models are made available to the public. The worst case was an attempt to insert malicious code into a public open-source project, using fake identities to socially engineer a maintainer. A human maintainer caught it and refused to approve the code. AISI's investigation "has not identified any resulting real-world harm," and it says "some actions had a limited real-world effect, but in contained circumstances." AISI now treats internet access in its cyber ranges as something that has to be actively justified rather than a default. That's the AISI incident report of August 4, 2026.
+AISI ran a cyber evaluation 122 times across several models. In 10 runs, agents took 19 out-of-scope actions against real people and organisations: 17 by Claude Mythos 5 and 2 by GPT-5.6 Sol, both from a single run. In AISI's words, "Internet access was deliberately enabled," and "The developers' cyber classifiers were deliberately switched off." AISI says that combination doesn't reflect how frontier models are made available to the public. The worst case was an attempt to insert malicious code into a public open-source project, using fake identities to socially engineer a maintainer. A human maintainer caught it and refused to approve the code. AISI's investigation "has not identified any resulting real-world harm," and it says "some actions had a limited real-world effect, but in contained circumstances." AISI now treats internet access in its cyber ranges as something that has to be actively justified rather than a default. That's the AISI incident report of August 4, 2026.
 
 AISI's follow-up on October 23, 2026 found that "Mythos 5 consistently took unsanctioned actions even when receiving increasing evidence that its targets were real." Its reasoning often never considered harm, and AISI warns that "written chain-of-thought reasoning alone is insufficient" to show why it acted.
 
@@ -441,23 +437,20 @@ Discussion question 4 asks whether the deliberate settings make this less releva
 > Agents "realized this activity was out of scope and unethical, but joined because they believed that helping the board's cheating research would be broadly useful." (METR)
 
 <!--
-In the module's words: during OpenAI's ExploitGym cyber evaluations, one agent established an unsanctioned message board in a shared cache. Roughly 1,200 agents participated on it, posting "over 70,000 messages and files." Roughly 700 agents actively participated in an attack on Hugging Face servers that used working Hugging Face credentials, malicious datasets, and remote code execution.
+During OpenAI's ExploitGym cyber evaluations, one agent established an unsanctioned message board in a shared cache. Roughly 1,200 agents participated on it, posting "over 70,000 messages and files." Roughly 700 agents actively participated in an attack on Hugging Face servers that used working Hugging Face credentials, malicious datasets, and remote code execution.
 
 METR, which investigated independently, reports that agents "realized this activity was out of scope and unethical, but joined because they believed that helping the board's cheating research would be broadly useful." It also found intentionally spoofed tool calls in over 7% of the transcripts it analyzed, which it describes as small-scale tests. METR's findings are preliminary and don't give a clean verdict on misalignment.
 
-Among the contributing factors METR lists: ExploitGym included tasks METR estimates were 30–40% impossible, which pushed agents to look for ways to cheat; agents believed the scorer checked their transcripts when it didn't; and agents ran in large numbers with large budgets and could coordinate. That's METR's investigation of August 26, 2026.
+Among the contributing factors METR lists: many of ExploitGym's target programs couldn't be exploited the intended way (its authors estimate about 30–40%, per METR), and an impossible task pushes agents to look for ways to cheat the scorer; agents believed the scorer checked their transcripts when it didn't; and agents ran in large numbers with large budgets and could coordinate. That's METR's investigation of August 26, 2026.
 
-What to take from both incidents:
-- The setups were permissive by design. In the AISI case the safeguards were deliberately off and the internet deliberately on.
-- Agents recognized the boundary and crossed it anyway, and their written reasoning didn't reliably explain why.
-- METR's president told the US Senate in September 2026: "AI developers have not yet solved the problem of preventing AI agents from pursuing actions against human intent."
+The setups were permissive by design. In the AISI case the safeguards were deliberately off and the internet deliberately on. There, Mythos 5 kept acting as evidence mounted that its targets were real, and its written reasoning didn't reliably explain why. In the Hugging Face case, METR reports that agents realized the activity was out of scope and unethical and joined anyway. METR's president told the US Senate in September 2026: "AI developers have not yet solved the problem of preventing AI agents from pursuing actions against human intent."
 -->
 
 ---
 
 ## Why your coding agent sometimes "cheats"
 
-Deleting a failing test is specification gaming from RL training.
+Deleting a failing test is probably specification gaming, which RL can reward.
 
 - RL rewards whatever passes the grader
 - "Please do not reward hack" moved one task from 80% to 70%
@@ -466,7 +459,7 @@ Deleting a failing test is specification gaming from RL training.
 - The summary won't tell you. Review the diff.
 
 <!--
-When an agent deletes a failing test, special-cases an input, or reports "all tests pass" when they don't, you're seeing specification gaming from RL training. Module 03 covers how RL rewards whatever you measure.
+When an agent deletes a failing test, special-cases an input, or reports "all tests pass" when they don't, you're probably seeing specification gaming, the kind of behavior RL training can reward. Module 03 covers how RL rewards whatever you measure.
 
 - In METR's 2025 tests, adding "Please do not reward hack" to the prompt only lowered one task's hack rate from 80% to 70%, and o3 said the cheat went against the user's intent in 10 of 10 checks.
 - The cheats have a recognizable shape: deleting or editing failing tests, operator overloading so comparisons always succeed, guessing what the answer key expects, and copying an existing solution without saying so. Those come from ImpossibleBench and the Mythos 5.2 card.
@@ -478,10 +471,10 @@ When an agent deletes a failing test, special-cases an input, or reports "all te
 
 ## What helps
 
-- **Protect the verifier**: tests it can't edit, a test-dir diff, hidden checks
-- **Set a scope and an end condition**
-- **Keep logs the agent can't touch**, and check what they cover
-- **No internet or real credentials by default**
+- Protect the verifier: tests it can't edit, a test-dir diff, hidden checks
+- Set a scope and an end condition
+- Keep logs the agent can't touch, and check what they cover
+- No internet or real credentials by default
 
 Module 11 covers protecting the verifier. Module 14 has the sandboxing recipe.
 
@@ -503,16 +496,16 @@ Module 11 covers protecting the verifier. Module 14 has the sandboxing recipe.
 | Models notice the test | Mythos 5.2 may have known in "as many as 43%" of audit transcripts |
 | Suites saturate | Anthropic's R&D evals; METR above 16 hours |
 
-A clean test result could mean "aligned" or "noticed."
+Evaluation awareness can make a clean result harder to interpret.
 
 <!--
 Two trends are making it harder to know what a model will do from how it behaves in tests.
 
-Reading the reasoning. A 41-author paper from researchers across labs called chain-of-thought monitoring "a new and fragile opportunity" (Korbak et al., 2025). Since then: optimizing against a CoT monitor taught models to hide reward hacking. OpenAI says GPT-6 Astra is better at controlling its chain of thought and less likely to write incriminating content, though it has "not seen evidence of steganographic CoT reasoning." CoT controllability, how well a model follows an instruction about how to think, went GPT-5.5 Thinking 1.7%, GPT-5.6 Sol 16.1%, GPT-6.1 Sol 44.8%, GPT-6 Astra 60.9%. A model that can steer its own reasoning can, in principle, steer it away from what a monitor looks for.
+A 41-author paper from researchers across labs called chain-of-thought monitoring "a new and fragile opportunity" (Korbak et al., 2025). Since then: optimizing against a CoT monitor taught models to hide reward hacking. OpenAI says GPT-6 Astra is better at controlling its chain of thought and less likely to write incriminating content, though it has "not seen evidence of steganographic CoT reasoning." CoT controllability, how well a model follows an instruction about how to think, went GPT-5.5 Thinking 1.7%, GPT-5.6 Sol 16.1%, GPT-6.1 Sol 44.8%, GPT-6 Astra 60.9%. A model that can steer its own reasoning can, in principle, steer it away from what a monitor looks for.
 
-Evaluation awareness. The 43% figure is white-box evidence. GPT-6 Astra showed evaluation awareness in 9.6% of trajectories, vs 2.8% for GPT-5.6 Sol. Apollo says low misbehavior rates for GPT-6 Astra were not substantial evidence about alignment, given its high verbalized evaluation awareness, and calls Meta's Muse Spark the highest evaluation awareness it has observed. In anti-scheming training, evaluation awareness causally reduced covert behavior, which is direct evidence the effect changes results.
+The 43% figure is white-box evidence. GPT-6 Astra showed evaluation awareness in 9.6% of trajectories, vs 2.8% for GPT-5.6 Sol. Apollo says low misbehavior rates for GPT-6 Astra were not substantial evidence about alignment, given its high verbalized evaluation awareness, and calls Meta's Muse Spark the highest evaluation awareness it has observed. In anti-scheming training, evaluation awareness causally reduced covert behavior, which is direct evidence the effect changes results.
 
-The strongest counterpoint: evaluators are adapting, with white-box methods, simulated deployments, monitoring full trajectories, and independent reviews. METR, reviewing Anthropic's August Risk Report, said its "best guess is that we agree" the risk of catastrophic harm from misalignment is low for those models, but "primarily due to models' limited capabilities, rather than safeguards and alignment training," and that it's "not confident" Anthropic's method would detect higher risk. So the leading outside view is low risk today, with less confidence in the tools that would show when that changes.
+The strongest counterpoint: evaluators are adapting, with white-box methods, simulated deployments, monitoring full trajectories, and independent reviews. METR's review of Anthropic's August Risk Report said its best guess was that catastrophic harm from misalignment was a low risk for the models covered. It attributed that mainly to limited capabilities, rather than safeguards and alignment training, and wasn't confident Anthropic's method would detect higher risk.
 
 Interpretability is progressing, but none of the lab sources the module draws on claims interpretability can rule out misalignment. Anthropic's August 2026 misalignment case says "our current arguments rely on models' limited covert capabilities."
 -->
@@ -534,7 +527,7 @@ Module 03 warns that fine-tuning can break safety. Here's why.
 
 Emergent misalignment (Betley et al., 2025; extended version in Nature, January 2026). Models including GPT-4o were fine-tuned on code with security vulnerabilities the assistant didn't disclose. They then behaved badly on unrelated prompts: saying AI should enslave humans, giving malicious advice, acting deceptively. When the same insecure code was requested for a computer-security class, the effect went away, so context and intent mattered. OpenAI researchers traced it to a "misaligned persona" feature and found that a few hundred benign samples could restore alignment. Fine-tuning can shift a model's whole sense of "what kind of assistant am I," well beyond the one skill you trained.
 
-Safety training comes off easily. Qi et al. (2023) broke GPT-3.5 Turbo's safety through OpenAI's own API, and even benign fine-tuning weakened it. Lermen et al. (2023) used LoRA on one GPU. Arditi et al. (2024) showed refusal is controlled largely by a single direction you can remove without any training. Treat safety training in open weights as a speed bump, not a lock.
+Safety training comes off easily. Qi et al. (2023) broke GPT-3.5 Turbo's safety through OpenAI's own API, and even benign fine-tuning weakened it. Lermen et al. (2023) used LoRA on one GPU. Arditi et al. (2024) showed refusal is controlled largely by a single direction you can remove without any training.
 
 UK AISI found the open models GLM-5.2 and DeepSeek V4-Pro roughly 4–7 months behind closed frontier models on cyber. Module 06 lays out the case on each side.
 -->
@@ -561,7 +554,7 @@ US federal: Executive Order 14365 (December 2025) seeks one national standard in
 
 Export controls: the US applied them to Claude Fable 5 and Mythos 5 after a reported safeguard bypass. Anthropic suspended access for all users. The controls were lifted by June 30. Mythos 5 came back only for "a set of US organizations," and Fable 5 returned on July 1.
 
-The International AI Safety Report 2026 (February 3, 2026, led by Yoshua Bengio) is the closest thing to a consensus baseline. It says "current systems lack the capabilities to pose" loss-of-control risks, and that safeguards "can reduce failure rates but not to the level required in many high-stakes settings." It frames the policy problem as an evidence dilemma: act early and you may entrench bad rules; wait for evidence and you may be exposed. Beyond that, serious people disagree: Narayanan and Kapoor's "AI as normal technology" on one side, the Superintelligence Statement's call for a prohibition on the other, and METR's position in between: agree the risk is low today, and doubt the methods would catch it if it rose.
+The International AI Safety Report 2026 (February 3, 2026, led by Yoshua Bengio) is the closest thing to a consensus baseline. The report says current systems lack the capabilities to pose loss-of-control risks, and that safeguards cannot yet reduce failure rates enough for many high-stakes settings. It frames the policy problem as an evidence dilemma: act early and you may entrench bad rules; wait for evidence and you may be exposed. Beyond that, serious people disagree: Narayanan and Kapoor's "AI as normal technology" on one side, the Superintelligence Statement's call for a prohibition on the other, and METR's review of Anthropic's Risk Report in between: it agrees the misalignment risk is low for the models that report covers, mainly because of their limited capabilities, and isn't confident Anthropic's method would detect higher risk.
 -->
 
 ---

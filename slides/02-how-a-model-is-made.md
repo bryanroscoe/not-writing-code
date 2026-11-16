@@ -25,7 +25,7 @@ Chip specs, prices and announcements in this deck are as of November 2026 unless
 
 ## Why this matters
 
-- Every model you use went through the same stages
+- Every model you use was made in stages
 - Hardware explains why generating text is slower than reading it
 - It also explains mixture-of-experts models and gigawatt power deals
 - Headline training costs leave most of the bill out
@@ -60,7 +60,7 @@ Afterward, optionally: your own fine-tune (open weights), or distilled smaller m
 Real pipelines repeat, overlap, and run stages in different orders.
 
 <!--
-This redraws the module's diagram. The analogy is an education: read the entire library (pretraining), study the best books closely (mid-training), apprentice with worked examples (supervised fine-tuning), get coached on what people prefer (preference tuning), drill practice exams that have an answer key (RL), take a professional-conduct course (safety training), and then, optionally, do a specialty residency (your fine-tune).
+The analogy is an education: read the entire library (pretraining), study the best books closely (mid-training), apprentice with worked examples (supervised fine-tuning), get coached on what people prefer (preference tuning), drill practice exams that have an answer key (RL), take a professional-conduct course (safety training), and then, optionally, do a specialty residency (your fine-tune).
 
 Treat it as a mental model. Recent open recipes run several RL stages, not one. GLM-5 runs "Reasoning RL, followed by Agentic RL, and finishing with General RL," with on-policy distillation between stages. DeepSeek-R1 alternated RL and supervised fine-tuning, and DeepSeek-V4 trains separate RL specialists and then merges them into one model.
 
@@ -194,10 +194,10 @@ Weights in BF16: 16 GB, all read once for every new token.
 | Memory: 16 GB at 3.35 TB/s | ≈4.8 ms | ≈210 |
 | Math: 16 billion FLOPs at 989 TFLOPS | ≈16 µs | ≈60,000 |
 
-The chip spends more than 99% of the time waiting on memory.
+Going by peak specs, the chip spends more than 99% of the time waiting on memory.
 
 <!--
-This is the memory wall from the user's side. The real speed for one sequence tops out near 210 tokens per second, set by bandwidth. Module 06 uses the same bound to estimate speed on a laptop.
+This is the memory wall from the user's side. Going by those peak specs, one sequence tops out near 210 tokens per second. That's a bound set by bandwidth, not a measured speed. Module 06 uses the same bound to estimate speed on a laptop.
 
 The fix is batching. Serve B users at once and each weight fetched gets used B times, so intensity rises to about B FLOPs per byte. On an H100 you'd need a batch of roughly 300 before decoding stops being bandwidth-bound. Each user's KV cache is separate, so those reads don't get shared. That's why serving at scale is mostly a batching and memory-management problem.
 -->
@@ -209,7 +209,7 @@ The fix is batching. Serve B users at once and each weight fetched gets used B t
 | | Training | Inference |
 | --- | --- | --- |
 | Usually bound by | Compute | Memory bandwidth (decode) |
-| Why | Huge batches: 16 million tokens per step for Llama 3 405B | Each new token rereads every weight |
+| Why | Huge batches: 16 million tokens per step for Llama 3 405B | One sequence on a dense model: each token rereads every weight |
 | Memory problem | Capacity: ~16 bytes per parameter, ~6.5 TB for 405B | Weights plus KV caches |
 
 Prefill reads your prompt at once, like training. Decode writes one token at a time.
@@ -299,7 +299,7 @@ Sources, if anyone asks: ZeRO (Rajbhandari et al., 2019), Megatron-LM for tensor
 <!--
 Meta published enough to check each step.
 
-Step 2 is the one people get wrong. Don't divide by the spec sheet's 989 TFLOPS. Meta measured about 400 TFLOPS per H100 in practice. 3.8×10²⁵ ÷ 4×10¹⁴ FLOPs per second is about 9.5×10¹⁰ GPU-seconds, about 26 million GPU-hours.
+For step 2, use Meta's measured 400 TFLOPS per H100. The spec sheet's 989 TFLOPS would overestimate the throughput. 3.8×10²⁵ ÷ 4×10¹⁴ FLOPs per second is about 9.5×10¹⁰ GPU-seconds, about 26 million GPU-hours.
 
 Step 3: that's 67 days of pure compute. On one GPU it would take about 3,000 years.
 
@@ -321,7 +321,7 @@ In a 54-day stretch of the 405B run:
 <!--
 GPU issues alone were 58.7% of the unexpected interruptions. Automation handled nearly all of them.
 
-One more detail students like: throughput varied 1–2% with the time of day, because heat made the GPUs lower their clock speeds.
+Throughput also varied 1–2% with the time of day, because heat made the GPUs lower their clock speeds.
 
 The Llama 3 paper's sections 3.3 and 6 are a first-hand account of a 16,000-GPU run, including the network, parallelism, failures and power swings. Worth reading if this part grabbed you.
 -->
@@ -346,7 +346,7 @@ The paper's own words: the costs "include only the official training of DeepSeek
 
 Post-training distilled reasoning from DeepSeek's R1 series.
 
-The punchline is the last line. The GPU-hour ratio is about the same as the FLOP ratio, 30.84M ÷ 2.788M ≈ 11×. So most of the gap comes from doing fewer FLOPs, not from doing each FLOP more cheaply. Discussion question 2 comes back to this.
+The GPU-hour ratio, 30.84M ÷ 2.788M ≈ 11×, is close to the FLOP ratio. The smaller workload explains most of the difference in GPU-hours. Discussion question 2 comes back to this.
 -->
 
 ---
@@ -463,7 +463,7 @@ On-policy distillation lets the student learn from its own mistakes instead of c
 
 Established uses: Stanford Alpaca (March 2023) fine-tuned LLaMA 7B on 52,000 instruction examples generated with OpenAI's text-davinci-003, for under $600 total. DeepSeek's R1-Distill models (January 2025) were Qwen and Llama models fine-tuned on R1's reasoning traces. Self-Instruct (2022) had a model write its own training instructions, and Microsoft's first Phi model trained on "textbook-quality" filtered web data plus synthetic textbooks from GPT-3.5. Labs generate math problems with checked answers, code with tests, and reasoning traces, keeping only the outputs that verify.
 
-One risk: model collapse. Train each generation on the previous generation's outputs and rare information vanishes first, then outputs converge on bland averages (Shumailov et al., Nature 2024). Keeping real data alongside synthetic data avoided it in follow-up experiments. Careless loops risk collapse, but it isn't inevitable.
+One risk: model collapse. Train each generation on the previous generation's outputs and rare information vanishes first, then outputs converge on bland averages (Shumailov et al., Nature 2024). Keeping real data alongside synthetic data avoided it in follow-up experiments.
 -->
 
 ---
@@ -483,7 +483,7 @@ At Fable 5's launch on June 9, 2026, Anthropic said users would be told when tha
 
 The October defenses: a classifier Anthropic says has a false-positive rate under 0.1%, limits on editing Claude's earlier reasoning for new API accounts, and stricter limits for repeat offenders.
 
-There's another side. Frontier labs trained on web content without asking permission, which makes complaints about copying sound selective. Outsiders can't verify the account-level evidence. And the accusations land in a policy fight over export controls, where every party has an interest. What's clear is that distilling a strong model works, frontier labs are actively defending against it, and those defenses sometimes affect legitimate users.
+There's another side. Critics point out that frontier labs trained on web content without asking permission, which makes complaints about copying sound selective. Outsiders can't verify the account-level evidence. And the accusations land in a policy fight over export controls, where every party has an interest. Distilling a strong model works, and frontier labs now actively defend against it. Those defenses sometimes affect legitimate users.
 -->
 
 ---
