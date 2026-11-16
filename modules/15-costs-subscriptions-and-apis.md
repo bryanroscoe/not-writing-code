@@ -1,4 +1,4 @@
-# 12: Costs: subscriptions vs API
+# 15: Costs: subscriptions vs API
 
 *About a 30-minute read. Last checked November 8, 2026.*
 
@@ -40,7 +40,7 @@ Second, thinking is output. A reasoning model that thinks for 5,000 tokens befor
 
 ### Why agentic coding eats tokens
 
-Each call needs the relevant history in context, sent by the harness or kept as conversation state by the provider. In the simple loop modeled below, the model asks to run a tool, the harness runs it, and the result goes back *along with all prior history*. Real harnesses may trim or compact that history. [Module 08](./08-agentic-workflows.md) covers the loop itself.
+Each call needs the relevant history in context, sent by the harness or kept as conversation state by the provider. In the simple loop modeled below, the model asks to run a tool, the harness runs it, and the result goes back *along with all prior history*. Real harnesses may trim or compact that history. [Module 10](./10-agentic-workflows.md) covers the loop itself.
 
 Where the tokens go:
 
@@ -57,7 +57,7 @@ Where the tokens go:
 
 ### Price snapshot (as of 2026-11-08)
 
-These prices come from the vendors' pages on 8 November 2026 and change often, sometimes monthly, so check the links before you budget. [Module 03](./03-model-landscape.md) covers what each model is good at.
+These prices come from the vendors' pages on 8 November 2026 and change often, sometimes monthly, so check the links before you budget. [Module 05](./05-model-landscape.md) covers what each model is good at.
 
 **Chat and agent subscriptions (individuals, USD per month)**
 
@@ -189,11 +189,11 @@ Several labs that release open-weight models sell flat-rate **coding plans** tha
 - Moonshot's Kimi Code Plan runs its Kimi K3-series models ([page](https://www.kimi.com/code)).
 - MiniMax sells an M Plan for its M3-series models ([page](https://www.minimax.io/m-plan)).
 
-For many tasks they're much cheaper per unit of work. They usually trail the closed frontier on the hardest coding work, as [module 03](./03-model-landscape.md) and [module 05](./05-judging-models.md) show. You're also sending code to a different provider in a different jurisdiction, so read the data terms. And the "open" part only helps if you might self-host later ([module 04](./04-open-vs-closed-weights.md)).
+For many tasks they're much cheaper per unit of work. They usually trail the closed frontier on the hardest coding work, as [module 05](./05-model-landscape.md) and [module 07](./07-judging-models.md) show. You're also sending code to a different provider in a different jurisdiction, so read the data terms. And the "open" part only helps if you might self-host later ([module 06](./06-open-vs-closed-weights.md)).
 
 With **model routing**, a small, cheap model does easy work (renaming, boilerplate, summarizing logs, classifying issues) and the frontier model handles planning, hard debugging, and review. Many harnesses let you set a different model for subagents. The small models in the price table cost 20–100x less per token than the bigger models, and about 100x less than the top tier.
 
-Running an open-weight model on your own hardware has zero marginal token cost, but you still pay for hardware and electricity, and today's local models are well behind the frontier for agentic coding ([module 04](./04-open-vs-closed-weights.md)).
+Running an open-weight model on your own hardware has zero marginal token cost, but you still pay for hardware and electricity, and today's local models are well behind the frontier for agentic coding ([module 06](./06-open-vs-closed-weights.md)).
 
 ### Cost per task, not cost per token
 
@@ -250,10 +250,10 @@ Then:
 - A heavy API user at about $630/month (the cached frontier figure above) costs about **6 engineer-hours a month**.
 - A 10-person team on $200 seats is $24,000 a year, about 13% of one loaded engineer. If the tools raise the team's useful output by even 2%, that is ~$38,000 of engineering time.
 
-That assumes a productivity gain. In METR's 2025 randomized study, experienced open-source developers using early-2025 AI tools took 19% *longer* on their tasks while believing they were 20% faster ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). Tools and practices have changed a lot since, but self-reports still need checking. Measure things you can count (cycle time, review turnaround, escaped defects, rework) before and after. [Module 08](./08-agentic-workflows.md) covers the study and its follow-up, and the [workplace playbook](../workplace/) covers measuring a team.
+That assumes a productivity gain. In METR's 2025 randomized study, experienced open-source developers using early-2025 AI tools took 19% *longer* on their tasks while believing they were 20% faster ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). Tools and practices have changed a lot since, but self-reports still need checking. Measure things you can count (cycle time, review turnaround, escaped defects, rework) before and after. [Module 10](./10-agentic-workflows.md) covers the study and its follow-up, and the [workplace playbook](../workplace/) covers measuring a team.
 
 Before a team rollout, get written answers on procurement and data terms:
-- Is our content used for training? Anthropic's and OpenAI's business and API terms default to no. Consumer plans differ and change, as [module 15](./15-learning-careers-and-responsibility.md) explains.
+- Is our content used for training? Anthropic's and OpenAI's business and API terms default to no. Consumer plans differ and change, as [module 18](./18-learning-careers-and-responsibility.md) explains.
 - What is retained, for how long, and is zero data retention available for our use?
 - Data residency options and their price (Anthropic's US-only inference is 1.1x).
 - SSO, SCIM, audit logs, admin spend limits, and whether usage dashboards attribute cost per user.
@@ -276,7 +276,7 @@ Each output token takes a full pass through the model, one at a time, while inpu
 
 ### Price trends
 
-Two trends pull in opposite directions. The price of a *given level of capability* keeps falling. Each year's mid-tier and small models tend to match or beat older flagships on benchmarks at a fraction of the old price, though [module 05](./05-judging-models.md) explains how much to trust those benchmarks. Meanwhile the *top* tier got more expensive. Anthropic and OpenAI both now sell a tier above their former flagships at $10/$50 per MTok. For coding agents, where people want the best model available, the bill hasn't fallen as much as the "cost per capability" charts suggest.
+Two trends pull in opposite directions. The price of a *given level of capability* keeps falling. Each year's mid-tier and small models tend to match or beat older flagships on benchmarks at a fraction of the old price, though [module 07](./07-judging-models.md) explains how much to trust those benchmarks. Meanwhile the *top* tier got more expensive. Anthropic and OpenAI both now sell a tier above their former flagships at $10/$50 per MTok. For coding agents, where people want the best model available, the bill hasn't fallen as much as the "cost per capability" charts suggest.
 
 ### Are subscriptions sustainable?
 

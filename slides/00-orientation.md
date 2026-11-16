@@ -35,7 +35,7 @@ Anthropic reports Claude wrote **more than 80%** of its merged code by May 2026.
 <!--
 Between early 2025 and late 2026, writing software arguably changed more than it had in the previous twenty years. I say "arguably" on purpose. That's a judgment, not a measurement.
 
-The 80% figure is Anthropic's own report about its own codebase, and module 08 covers it. Not every team looks like this. But the tools people tried a couple of years ago are not the tools that exist now.
+The 80% figure is Anthropic's own report about its own codebase, and module 10 covers it. Not every team looks like this. But the tools people tried a couple of years ago are not the tools that exist now.
 -->
 
 ---
@@ -156,7 +156,7 @@ Background or cloud agents work unattended and open a pull request. They suit we
 
 Pure vibe coding is fine for prototypes, personal tools, and throwaways.
 
-The fully autonomous pipeline, where agents review agents and no human reads the code, is contested. Module 08 has the evidence.
+The fully autonomous pipeline, where agents review agents and no human reads the code, is contested. Module 10 has the evidence.
 
 Ask the room which row they work in today.
 -->
@@ -178,9 +178,9 @@ This caution may age badly. For now, these three reasons hold.
 
 First, accountability. Whoever merges the change owns it. That holds in a classroom (academic integrity), at work (on-call), and legally (licensing, security, privacy).
 
-Second, productivity. Some of the most careful studies found experienced developers were slower with AI while believing they were faster. Newer studies, in modules 05 and 08, show modest gains with wide error bars. The gains are real for people with good habits, and they aren't automatic.
+Second, productivity. Some of the most careful studies found experienced developers were slower with AI while believing they were faster. Newer studies, in modules 07 and 10, show modest gains with wide error bars. The gains are real for people with good habits, and they aren't automatic.
 
-Third, learning. Studies of students and new developers find that letting AI do the work can reduce what you learn, even when the output is better. For a student, the point of an assignment is the skill, not the artifact. That's module 15.
+Third, learning. Studies of students and new developers find that letting AI do the work can reduce what you learn, even when the output is better. For a student, the point of an assignment is the skill, not the artifact. That's module 18.
 -->
 
 ---
@@ -212,7 +212,7 @@ Google's third flagship is open only to vetted cyber defenders so far.
 <!--
 Anthropic's count is more than a dozen if you include the restricted Mythos versions.
 
-Module 03 and the timeline in the reference section have the names, dates, and sources. Don't memorize them. Look at the pace. The lineup you learn this term will be out of date before the term ends.
+Module 05 and the timeline in the reference section have the names, dates, and sources. Don't memorize them. Look at the pace. The lineup you learn this term will be out of date before the term ends.
 -->
 
 ---
@@ -230,13 +230,13 @@ Module 03 and the timeline in the reference section have the names, dates, and s
 Learn ideas that survive the next release.
 
 <!--
-METR, an independent evaluator, measures how long a task (in human working time) an AI agent can complete half the time. That "time horizon" has been doubling every few months, much faster than the roughly seven months its original 2025 paper found. Module 05 covers it.
+METR, an independent evaluator, measures how long a task (in human working time) an AI agent can complete half the time. That "time horizon" has been doubling every few months, much faster than the roughly seven months its original 2025 paper found. Module 07 covers it.
 
-The vocabulary went from prompt engineering to graph engineering in about eighteen months. Module 07 explains each term.
+The vocabulary went from prompt engineering to graph engineering in about eighteen months. Module 09 explains each term.
 
-Tools show up, become essential, and disappear. Roo Code was a popular open-source agent. Modules 06 and 13 cover these.
+Tools show up, become essential, and disappear. Roo Code was a popular open-source agent. Modules 08 and 16 cover these.
 
-The course teaches ideas that still work when the names change, plus how to check what's current (module 14).
+The course teaches ideas that still work when the names change, plus how to check what's current (module 17).
 -->
 
 ---
@@ -252,9 +252,9 @@ If people remember nothing else from the course, it should be these six. Every m
 
 One. Chat, reasoning, and coding agents are all built on next-token prediction plus a lot of training. With no notion of truth, a model can be confidently wrong. That's module 01.
 
-Two. The model's working memory is the text in front of it right now, meaning your prompt, the files it read, and the tool output it saw. Module 07.
+Two. The model's working memory is the text in front of it right now, meaning your prompt, the files it read, and the tool output it saw. Module 09.
 
-Three. An agent stops when it thinks it's done. Give it tests, builds, and linters it can run, ask for the evidence, then look. Modules 08 and 10.
+Three. An agent stops when it thinks it's done. Give it tests, builds, and linters it can run, ask for the evidence, then look. Modules 10 and 13.
 -->
 
 ---
@@ -266,11 +266,11 @@ Three. An agent stops when it thinks it's done. Give it tests, builds, and linte
 6. Cost scales with context, not with the size of your question.
 
 <!--
-Four. The same model scores very differently in different tools. Modules 05 and 06.
+Four. The same model scores very differently in different tools. Modules 07 and 08.
 
-Five. A README, a web page, an issue comment, or a tool result can contain instructions, and the model can't reliably tell data from commands. That's prompt injection, and it is not solved. Module 11.
+Five. A README, a web page, an issue comment, or a tool result can contain instructions, and the model can't reliably tell data from commands. That's prompt injection, and it is not solved. Module 14.
 
-Six. Agents re-send the whole conversation every turn. That's why heavy agentic work on pay-per-token pricing gets expensive, and why subscriptions changed the economics. Module 12.
+Six. Agents re-send the whole conversation every turn. That's why heavy agentic work on pay-per-token pricing gets expensive, and why subscriptions changed the economics. Module 15.
 
 Leave the room with discussion question 2 in mind: which of these six is most likely to be wrong in two years?
 -->
@@ -293,25 +293,27 @@ Leave the room with discussion question 2 in mind: which of these six is most li
 <!--
 Look at how much closer together these releases get. It's about eight years from a machine-translation paper to agents that open pull requests, and most of the change came in the last two.
 
-The module's 2026 entry also lists loop and graph engineering, covered in module 07. The full dated history, with sources, is in the timeline in the reference section.
+The module's 2026 entry also lists loop and graph engineering, covered in module 09. The full dated history, with sources, is in the timeline in the reference section.
 -->
 
 ---
 
 ## How the modules fit together
 
-| Modules | About |
-| --- | --- |
-| 01–05 | Models: what they are, who makes them, how to judge them |
-| 06–10 | Working with them: tools, context, workflows, multiple agents, review |
-| 11–15 | Doing it responsibly: security, cost, ecosystem, keeping up, careers |
+| Stage | Modules | About |
+| --- | --- | --- |
+| 1 How the machine works | 01–03 | What a model is, how it's made and trained |
+| 2 Choosing a model | 05–07 | Who makes them, open vs closed, how to judge them |
+| 3 Working with agents | 08–10 | Tools, context, workflows |
+| 4 Trusting the output | 12–14 | Multiple agents, review, security |
+| 5 Practice for the long run | 15–18 | Cost, ecosystem, keeping up, careers |
 
-Core path: 01 → 06 → 07 → 08 → 09 → 10
+Core path: 01 → 08 → 09 → 10 → 12 → 13
 
 <!--
-This redraws the module's dependency diagram. 01 (what an LLM is) leads to 02 (training), 03 (the model landscape), and 06 (harnesses). 03 leads to 04 (open vs closed weights) and 05 (judging models). 06 leads to 07 (context engineering), 11 (security), 12 (costs), and 13 (open source). 08 (agentic workflows) leads to 09 (multiple agents), 11, and 15 (learning and careers). 05 leads to 14 (keeping up).
+This redraws the module's dependency diagram. 01 (what an LLM is) leads to 02 (how a model is made), 05 (the model landscape), and 08 (harnesses). 02 leads to 03 (post-training and RL). 05 leads to 06 (open vs closed weights) and 07 (judging models). 08 leads to 09 (context engineering), 14 (security), 15 (costs), and 16 (open source). 10 (agentic workflows) leads to 12 (multiple agents), 14, and 18 (learning and careers). 07 leads to 17 (keeping up).
 
-The chain from 01 through 10 is the longest path, and it's the core of working with agents.
+The chain from 01 through 13 is the longest path, and it's the core of working with agents.
 -->
 
 ---
@@ -364,11 +366,11 @@ One holds in a class and in a postmortem.
 
 Two: start by reading everything. You earn the right to read less by building tests and review.
 
-Three is in module 15. Open-source projects increasingly ask for four too (modules 13 and 15).
+Three is in module 18. Open-source projects increasingly ask for four too (modules 16 and 18).
 
-Five: irreversible means deploying, deleting, sending, paying, or force-pushing. Module 11.
+Five: irreversible means deploying, deleting, sending, paying, or force-pushing. Module 14.
 
-Six: a short log of "the model did X when I expected Y" is the start of your own evaluation set, which is module 05.
+Six: a short log of "the model did X when I expected Y" is the start of your own evaluation set, which is module 07.
 -->
 
 ---
@@ -381,11 +383,11 @@ Six: a short log of "the model did X when I expected Y" is the start of your own
 - No GPU. Nothing requires downloading model weights.
 
 <!--
-The $20/month individual plan is from Anthropic or OpenAI, as of November 2026. Student and education discounts change often, so check current offers. Module 12 covers costs.
+The $20/month individual plan is from Anthropic or OpenAI, as of November 2026. Student and education discounts change often, so check current offers. Module 15 covers costs.
 
-The second agent is for the cross-review exercises in module 10.
+The second agent is for the cross-review exercises in module 13.
 
-If you want to try running models locally, module 04 explains what it takes. It's optional.
+If you want to try running models locally, module 06 explains what it takes. It's optional.
 -->
 
 ---
@@ -402,7 +404,7 @@ Paste a module into your assistant of choice and ask it to quiz you, explain a s
 
 Ask a model about events after its training cutoff and it may invent plausible details. Many of the 2026 facts in this course postdate the models you'll use, so trust the cited sources over the model's memory.
 
-Answering questions teaches you more than reading a summary. Module 15 has the research.
+Answering questions teaches you more than reading a summary. Module 18 has the research.
 -->
 
 ---
@@ -436,7 +438,7 @@ In a live session, run a 10-minute version of the group exercise. Collect five o
 4. What would convince you that a fully autonomous coding pipeline is trustworthy?
 
 <!--
-Pick two if time is short. Question 1 pairs with the spectrum slide. Question 4 previews module 08.
+Pick two if time is short. Question 1 pairs with the spectrum slide. Question 4 previews module 10.
 
 The module has one more question for a course setting: where should the line be between "AI helped me" and "AI did it for me" in a programming course?
 -->

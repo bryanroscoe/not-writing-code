@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "03: The model landscape"
+title: "05: The model landscape"
 description: "The labs, the tier ladder, the current lineups, and how to pick a model when it all changes"
-footer: "A Brief Introduction to Not Writing Code · 03 The model landscape"
+footer: "A Brief Introduction to Not Writing Code · 05 The model landscape"
 ---
 
 <!-- _class: lead -->
@@ -62,9 +62,9 @@ Part 1 covers labs, names, tiers, and who is shipping what as of November 2026. 
 <!--
 Only a few organizations can pay for frontier training, so only a few sit at the top. As of November 2026: Anthropic, OpenAI, and Google DeepMind lead; xAI and Meta follow; Chinese labs (DeepSeek, Moonshot, Alibaba Qwen, Zhipu/Z.ai, MiniMax) lead open-weight models.
 
-Products include ChatGPT, the Claude apps, Gemini, Claude Code, and Codex. Module 06 covers harnesses.
+Products include ChatGPT, the Claude apps, Gemini, Claude Code, and Codex. Module 08 covers harnesses.
 
-Labs release models two ways. With closed weight, or API-only, you never see the parameters. Claude, the GPT-6 family, Gemini, and Grok work this way. With open weight, the lab publishes the parameters. DeepSeek, Moonshot (Kimi), Qwen, Z.ai (GLM), and Mistral work this way, as do OpenAI's gpt-oss, Google's Gemma, and a few of Meta's Muse models. Open models usually come from different labs than the very top closed ones, and arrive some months behind. Module 04 covers the differences.
+Labs release models two ways. With closed weight, or API-only, you never see the parameters. Claude, the GPT-6 family, Gemini, and Grok work this way. With open weight, the lab publishes the parameters. DeepSeek, Moonshot (Kimi), Qwen, Z.ai (GLM), and Mistral work this way, as do OpenAI's gpt-oss, Google's Gemma, and a few of Meta's Muse models. Open models usually come from different labs than the very top closed ones, and arrive some months behind. Module 06 covers the differences.
 -->
 
 ---
@@ -214,7 +214,7 @@ Public versions route or refuse some security and biology requests.
 <!--
 Google's rollouts run through its Fairwind Program. Gemini 4 Carbon was announced October 28, 2026. Google calls it "our strongest model with state-of-the-art cybersecurity and long horizon capabilities," and plans to reach developers and consumers "as soon as possible." Carbon was announced at $2 / $10 introductory, then $4 / $20.
 
-Google's own results table puts Carbon first on Terminal-Bench 4.0 at 65.2%, run by Artificial Analysis. That's a self-reported number for a model almost nobody can use yet. If someone compares it with Anthropic's 70.6% for Sonnet 5.5 on the tier slide, point out that Anthropic published its own numbers and Artificial Analysis ran Carbon's. Module 05 explains why cross-lab numbers don't compare cleanly.
+Google's own results table puts Carbon first on Terminal-Bench 4.0 at 65.2%, run by Artificial Analysis. That's a self-reported number for a model almost nobody can use yet. If someone compares it with Anthropic's 70.6% for Sonnet 5.5 on the tier slide, point out that Anthropic published its own numbers and Artificial Analysis ran Carbon's. Module 07 explains why cross-lab numbers don't compare cleanly.
 
 If you do security work, expect the general-release model to hand some requests to a weaker model or decline them. Check each lab's verification program.
 -->
@@ -307,7 +307,7 @@ Price per token isn't price per task. Anthropic says Opus 5.5 costs "40% less to
 <!--
 The Basis column separates measurements from judgments. "Opinion" here means a judgment that reflects common practitioner choices, not a measurement. Re-test before relying on any cell.
 
-Agentic coding models top vendor coding benchmarks, and harness and model are tuned together. For review, different models make different mistakes (module 10), like GPT in Codex reviewing Claude's work. Gemini has native video input, 1M context, and 87.6% on Video-MMMU at Gemini 3's launch. Use batch APIs for bulk work. Local picks have permissive licenses and sizes that fit one machine (module 04).
+Agentic coding models top vendor coding benchmarks, and harness and model are tuned together. For review, different models make different mistakes (module 13), like GPT in Codex reviewing Claude's work. Gemini has native video input, 1M context, and 87.6% on Video-MMMU at Gemini 3's launch. Use batch APIs for bulk work. Local picks have permissive licenses and sizes that fit one machine (module 06).
 
 The module has more rows: real-time social data (Grok, built-in access to X posts), image generation (GPT-Image-2.6, Nano Banana 2.1 and Pro, Muse Image), voice (GPT-Realtime-2.1, GPT-Live 1, Gemini 3.8 Live, Grok Voice 3.0), and deep research (ChatGPT, Gemini, and Claude research modes; Kimi K3.1 Pro reports a leading BrowseComp score, vendor-reported).
 -->
@@ -365,7 +365,7 @@ Daily use surfaced complaints. When Anthropic shipped Opus 5.5, it called commun
 
 One caveat on 5.5. Willison found max effort could run to the 128K output limit without answering, and suspected max is "effectively useless."
 
-Module 05 covers benchmark-maxing.
+Module 07 covers benchmark-maxing.
 -->
 
 ---
@@ -417,13 +417,13 @@ The module has ten steps:
 1. Define the job: agentic coding, review, bulk extraction, chat, research. Different jobs have different winners.
 2. Pick two or three candidates from different labs, including your current default and one cheaper tier.
 3. Check access rules: data retention and zero-data-retention terms, region, safety routing (Fable hands some requests to Opus), and your company's approved-vendor list.
-4. Read the launch post skeptically: note the harness, effort level, and who ran the competitor numbers (module 05).
+4. Read the launch post skeptically: note the harness, effort level, and who ran the competitor numbers (module 07).
 5. Run five to ten real tasks in your own repo and harness. Score the result, tokens used, and time taken.
 6. Compare cost per finished task. New tokenizers can change token counts by up to 35% for the same text.
 7. Try the effort settings. Lower effort on a newer model can match higher effort on an older one, and max can waste money.
 8. Wait a week if you can. Early bugs, tight rate limits, and even suspensions happen in launch week.
-9. Check the subscription math. In agentic coding, a flat-rate plan can change which model is affordable (module 12).
-10. Write down your decision and the date, and revisit it monthly (module 14).
+9. Check the subscription math. In agentic coding, a flat-rate plan can change which model is affordable (module 15).
+10. Write down your decision and the date, and revisit it monthly (module 17).
 -->
 
 ---
@@ -440,7 +440,7 @@ The module has ten steps:
 As a class, each group builds a living "model card" page for one lab.
 
 <!--
-For the bake-off, many harnesses can switch models; OpenCode can use most providers (module 04). End with one paragraph on which model you'd choose and why.
+For the bake-off, many harnesses can switch models; OpenCode can use most providers (module 06). End with one paragraph on which model you'd choose and why.
 
 In the class version, each group owns one lab and fills in its current tiers, model IDs, prices, context windows, data-retention terms, and one reception story, all with primary-source links. Five-minute presentations. Then run one shared task across every lab's workhorse tier and compare. Put a review date on the page, re-verify it in a month, and note what changed.
 -->
@@ -462,7 +462,7 @@ The module has two more. Chinese labs lead open weights, so what would change yo
 
 ## Read more
 
-- Module: [03 The model landscape](../modules/03-model-landscape/)
+- Module: [05 The model landscape](../modules/05-model-landscape/)
 - Epoch AI, [How far behind are open models?](https://epoch.ai/blog/open-models-report) (2024)
 - Simon Willison, [Opus 5.5, GPT-6 Sol, GPT-6 Luna and a new price war](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/) (September 2026)
 - [OpenRouter models](https://openrouter.ai/models): dates and prices across providers

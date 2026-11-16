@@ -1,4 +1,4 @@
-# 07: From prompt engineering to context, loop, and graph engineering
+# 09: From prompt engineering to context, loop, and graph engineering
 
 *About a 40-minute read. Last checked November 8, 2026.*
 
@@ -58,7 +58,7 @@ On February 5, 2026, Mitchell Hashimoto (co-founder of HashiCorp, author of the 
 
 Six days later OpenAI published [Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/) (Ryan Lopopolo, February 11, 2026). OpenAI reported a team of three engineers driving Codex, later seven, and a repository of about a million lines across code, infrastructure, tooling and documentation after five months, with no hand-written code. They reported that one big instruction file didn't work, so they replaced it with a short `AGENTS.md` (about 100 lines) that acts as a map into a `docs/` directory of design docs and execution plans. Linters and structural tests check that the docs and the architecture stay consistent.
 
-Harness engineering asks what the environment should prevent, measure and correct, beyond choosing what the agent sees. [Module 06](./06-harnesses-and-tools.md) covers the harness itself.
+Harness engineering asks what the environment should prevent, measure and correct, beyond choosing what the agent sees. [Module 08](./08-harnesses-and-tools.md) covers the harness itself.
 
 ### Loop engineering
 
@@ -117,7 +117,7 @@ Anthropic's [prompt engineering guide](https://docs.claude.com/en/docs/build-wit
 4. Show, don't describe. One example of the output format beats a paragraph about it.
 5. Structure long inputs. Use headings or XML-style tags to separate instructions, context and data.
 6. Say what to do, not only what not to do. "Use the helpers in `src/lib/errors.ts`" works better than "don't throw raw strings."
-7. Treat prompts as code. Version them, test them on real cases, and change one thing at a time ([module 05](./05-judging-models.md)).
+7. Treat prompts as code. Version them, test them on real cases, and change one thing at a time ([module 07](./07-judging-models.md)).
 
 Here's a bad task prompt and a good one:
 
@@ -155,7 +155,7 @@ Most harnesses will show you this breakdown; in Claude Code it's `/context`. Loo
 
 ### Context limits in practice
 
-Context windows have grown from a few thousand tokens to a million or more ([module 03](./03-model-landscape.md)). A bigger window doesn't mean the model uses every token equally well. The research is consistent:
+Context windows have grown from a few thousand tokens to a million or more ([module 05](./05-model-landscape.md)). A bigger window doesn't mean the model uses every token equally well. The research is consistent:
 
 | Study | Finding |
 | --- | --- |
@@ -165,7 +165,7 @@ Context windows have grown from a few thousand tokens to a million or more ([mod
 | [NoLiMa](https://arxiv.org/abs/2502.05167) (Modarressi et al., 2025) | When the question and the needle don't share keywords, 11 of 13 models fell below half their short-context score at 32K tokens |
 | [Context Rot](https://www.trychroma.com/research/context-rot) (Chroma: Hong, Troynikov, Huber, Jul 14, 2025) | Across 18 models, performance dropped as input grew, even on simple tasks. Topically similar distractors hurt more. Oddly, models did better on shuffled haystacks than on coherent ones |
 
-In 2026 the practical lesson changed. With million-token windows and automatic compaction, you rarely run out of space anymore. Claude Code's docs now list "manage the context window aggressively" as outdated advice, but they still recommend `/clear` between tasks "because a focused context gets you better answers and costs less." What limits you now is attention and cost. Irrelevant material still dilutes the model's focus, and you pay for every token on every call. Prompt caching lowers the price, not the distraction ([module 12](./12-costs-subscriptions-and-apis.md)).
+In 2026 the practical lesson changed. With million-token windows and automatic compaction, you rarely run out of space anymore. Claude Code's docs now list "manage the context window aggressively" as outdated advice, but they still recommend `/clear` between tasks "because a focused context gets you better answers and costs less." What limits you now is attention and cost. Irrelevant material still dilutes the model's focus, and you pay for every token on every call. Prompt caching lowers the price, not the distraction ([module 15](./15-costs-subscriptions-and-apis.md)).
 
 ### The four moves, mapped to features
 
@@ -222,7 +222,7 @@ Each line felt free when you added it, and nobody deleted anything. Studies of r
 
 **4. Progressive disclosure replaced always-on loading.** Agent Skills (October 2025) load only a name and description until needed. Path-scoped rules (`.claude/rules/` with path patterns, Cursor's scoped Project Rules, nested `AGENTS.md` files) load only when the agent touches matching files. A long release procedure no longer weighs on an unrelated bug fix.
 
-**5. Hooks replaced shouting.** Capital letters don't enforce a rule. Claude Code's docs: "If you keep adding emphasis to a `CLAUDE.md` line and Claude still misses it, that's a sign the line belongs in a hook." Rules that must have zero exceptions (never read `.env`, always run the formatter, never edit `migrations/`) became hooks, deny rules or sandbox settings ([module 06](./06-harnesses-and-tools.md)).
+**5. Hooks replaced shouting.** Capital letters don't enforce a rule. Claude Code's docs: "If you keep adding emphasis to a `CLAUDE.md` line and Claude still misses it, that's a sign the line belongs in a hook." Rules that must have zero exceptions (never read `.env`, always run the formatter, never edit `migrations/`) became hooks, deny rules or sandbox settings ([module 08](./08-harnesses-and-tools.md)).
 
 **6. Models got better at exploring codebases.** Agents with good search tools find what they need. The ETH study found that architecture overviews didn't speed up file discovery. Claude Code's guidance now lists "describe your architecture and file layout in `CLAUDE.md`" under "what you can stop doing": "Claude reads the repo itself. Only write down what isn't in there."
 
@@ -343,7 +343,7 @@ Any loop needs the following:
 4. State outside the conversation, like a plan file, a checklist, or issues that the next iteration reads.
 5. Isolation in a worktree or sandbox, so a bad iteration can't damage your main checkout.
 6. Escalation. When the loop is stuck or something is irreversible (pushing, deleting, spending money), it stops and asks.
-7. A human who reads the output. A loop's "done" is a claim, so review the diff before it ships ([module 10](./10-ai-code-review.md)).
+7. A human who reads the output. A loop's "done" is a claim, so review the diff before it ships ([module 13](./13-ai-code-review.md)).
 
 ### Graphs in practice
 
@@ -357,11 +357,11 @@ Most coding work needs at most one or two of Anthropic's workflow patterns. Choo
 | Orchestrator-workers | A lead agent splits a migration across modules and hands each to a worker in its own worktree | The subtasks aren't known in advance | A single agent can hold the whole task |
 | Evaluator-optimizer | Generate code, run a critic model and the tests, revise until both pass | You have a clear quality bar | You have no good evaluator |
 
-Anthropic's 2024 advice still holds: find "the simplest solution possible," and add complexity only when it measurably helps. Each extra node is another place for errors to compound and more tokens to pay for. [Module 09](./09-multi-agent-systems.md) covers what the research says about multi-agent systems.
+Anthropic's 2024 advice still holds: find "the simplest solution possible," and add complexity only when it measurably helps. Each extra node is another place for errors to compound and more tokens to pay for. [Module 12](./12-multi-agent-systems.md) covers what the research says about multi-agent systems.
 
 ### Spec-driven development in practice
 
-Specs and prototypes go well together. If you can't write the spec yet, build a throwaway draft first and pull the spec out of what you learn ([module 08](./08-agentic-workflows.md#prototype-first-draft-driven-development)).
+Specs and prototypes go well together. If you can't write the spec yet, build a throwaway draft first and pull the spec out of what you learn ([module 10](./10-agentic-workflows.md#prototype-first-draft-driven-development)).
 
 A lightweight version works with any harness:
 
@@ -393,17 +393,17 @@ Anthropic calls it an "attention budget." That's a useful analogy, but it isn't 
 
 ### Context files are a security surface
 
-Instruction files, skills and rules get loaded as trusted context. A malicious pull request that edits `AGENTS.md`, or a third-party skill with hidden instructions, is a prompt-injection channel into the agent's instructions. These files don't outrank the harness's system instructions, and Claude Code, for example, asks for approval before loading imported files from outside the project. Still, review changes to them as carefully as changes to CI configuration ([module 11](./11-security-and-prompt-injection.md)).
+Instruction files, skills and rules get loaded as trusted context. A malicious pull request that edits `AGENTS.md`, or a third-party skill with hidden instructions, is a prompt-injection channel into the agent's instructions. These files don't outrank the harness's system instructions, and Claude Code, for example, asks for approval before loading imported files from outside the project. Still, review changes to them as carefully as changes to CI configuration ([module 14](./14-security-and-prompt-injection.md)).
 
 ## Bryan's take
 
 > **Bryan's take:** Big `CLAUDE.md` and `AGENTS.md` files were popular, and now they're not.
 
-> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 08](./08-agentic-workflows.md#bryans-take).)
+> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](./10-agentic-workflows.md#bryans-take).)
 
 > **Bryan's take:** Context management is important. Once context gets stale, that's bad. Don't keep the same thread around for a long time. Models get dumber the larger the context gets and the longer a session has been going. Start fresh sessions often.
 
-Some reports support greater autonomy. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These results depend on heavy investment in harnesses, tests and verification, and come from companies selling the tools. [Module 08](./08-agentic-workflows.md) gets into how much autonomy works in practice.
+Some reports support greater autonomy. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These results depend on heavy investment in harnesses, tests and verification, and come from companies selling the tools. [Module 10](./10-agentic-workflows.md) gets into how much autonomy works in practice.
 
 ## Try it
 

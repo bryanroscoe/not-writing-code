@@ -22,21 +22,21 @@ Do these in the four weeks before classes start.
    - Lab 4: a small web API with users, an admin-only endpoint, and tests.
    - Lab 6: an isolated container/VM launcher exposing only a base-only run repository, plus an "eval starter" repo with tagged base commits and hidden tests, for self-paced learners and for teams whose project history is too thin. Lab 6 normally uses each team’s own project history. Its scripts are runner skeletons, so the instructor must supply and dry-run the isolation launcher, category-specific graders, deadlines, and cleanup procedure before release.
    - Lab 8 fallback: a private class-run shared repository with a `CONTRIBUTING.md`, a written AI policy, CI, and at least one sized, labelled issue per student, plus spares.
-3. Vet a list of five to fifteen Lab 8 projects with explicit AI-contribution policies, active maintainers, and runnable tests. Cap students per project (two is a reasonable default) so the class doesn't swamp any one maintainer team ([module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
+3. Vet a list of five to fifteen Lab 8 projects with explicit AI-contribution policies, active maintainers, and runnable tests. Cap students per project (two is a reasonable default) so the class doesn't swamp any one maintainer team ([module 16](../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
 4. Build a Lab 5 sandbox recipe students can follow: a container or VM with no mounted home directory and no forwarded credentials. Test it on macOS, Windows (WSL), and Linux.
-5. Decide how students who can't pay get a plan. Confirm which institutional or education licenses exist this term, and their data terms ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
+5. Decide how students who can't pay get a plan. Confirm which institutional or education licenses exist this term, and their data terms ([module 18](../modules/18-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
 6. Rehearse and record the four demos in [Live demos](#live-demos-that-reliably-show-failure-modes).
 7. Calibrate TAs on the walkthrough protocol and the shared rubric dimensions.
 8. Fill every placeholder in the syllabus: course number, prerequisites, credit hours, accessibility statement, integrity policy, grading scale.
 
 ## Principles for teaching this course
 
-- Agents make output cheap, so grade judgment. The scarce skills are specifying, verifying, reviewing, and explaining ([module 15](../modules/15-learning-careers-and-responsibility.md#skills-that-gain-value)).
+- Agents make output cheap, so grade judgment. The scarce skills are specifying, verifying, reviewing, and explaining ([module 18](../modules/18-learning-careers-and-responsibility.md#skills-that-gain-value)).
 - Teach the idea that lasts, then date the example. "Tests are the agent's contract" will outlast every model you name in class. When you cite a model, a price, or a benchmark score, say the month.
 - When you state a fact in lecture, show the source. When a demo agent claims success, ask it for the command and output in front of the class.
 - Tell students how you used AI to prepare the course. This knowledge base says how it was made ([module 00](../modules/00-orientation.md#how-this-material-was-made)), so do the same for your slides.
-- Admit the evidence is mixed. Productivity and learning studies disagree and keep changing, and skeptical students trust a course that admits its limits ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)).
-- Keep some work AI-free on purpose, and tell students why. Supervising agents takes skills, like reading and debugging code, that get built by hand ([module 15](../modules/15-learning-careers-and-responsibility.md#deskilling-real-risk-or-old-panic)).
+- Admit the evidence is mixed. Productivity and learning studies disagree and keep changing, and skeptical students trust a course that admits its limits ([module 07](../modules/07-judging-models.md#real-world-productivity-evidence)).
+- Keep some work AI-free on purpose, and tell students why. Supervising agents takes skills, like reading and debugging code, that get built by hand ([module 18](../modules/18-learning-careers-and-responsibility.md#deskilling-real-risk-or-old-panic)).
 
 ## Week by week
 
@@ -49,7 +49,7 @@ Set the stance (AI-accelerated, human accountable), explain the tiers, and get e
 **Talking points**
 - Karpathy's original "vibe coding" meant not reading the code. This course teaches the opposite habit. Show the spectrum table and point out that most of the course sits in the supervised-agent rows ([module 00](../modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding)).
 - The course builds on the six ideas that outlast the hype ([module 00](../modules/00-orientation.md#six-ideas-that-outlast-the-hype)).
-- In Anthropic's 2026 trial, the AI group scored 50% on a follow-up quiz against 67% for hand-coders, with the largest gap on debugging. That's why an AI course has AI-free work ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says)).
+- In Anthropic's 2026 trial, the AI group scored 50% on a follow-up quiz against 67% for hand-coders, with the largest gap on debugging. That's why an AI course has AI-free work ([module 18](../modules/18-learning-careers-and-responsibility.md#what-the-evidence-says)).
 - Walk through the AI-use policy and the AI log. Explain that disclosure is a professional norm.
 - In the setup clinic, install one agent, sign in with the subscription (not an API key), and check the data-training setting.
 
@@ -96,20 +96,20 @@ Build a next-token mental model that predicts failures.
 Students learn agent = model + harness and can name what the harness controls.
 
 **Talking points**
-- Harness = loop + tools + permissions + context management + interface ([module 06](../modules/06-harnesses-and-tools.md#what-a-harness-is)).
-- The model only emits text that asks for a tool. The harness decides whether to run it. That's why permissions are a security boundary ([module 06](../modules/06-harnesses-and-tools.md#permission-systems-are-a-security-boundary-not-a-ux-detail)).
-- The same model scores very differently in different harnesses ([module 05](../modules/05-judging-models.md#harness-matters)).
-- MCP is a standard way to plug in tools. Its costs are context bloat and security risk ([module 06](../modules/06-harnesses-and-tools.md#mcp-the-model-context-protocol)).
-- The tools churn constantly, but the concepts transfer ([module 06](../modules/06-harnesses-and-tools.md#a-short-history-from-autocomplete-to-orchestrators)).
+- Harness = loop + tools + permissions + context management + interface ([module 08](../modules/08-harnesses-and-tools.md#what-a-harness-is)).
+- The model only emits text that asks for a tool. The harness decides whether to run it. That's why permissions are a security boundary ([module 08](../modules/08-harnesses-and-tools.md#permission-systems-are-a-security-boundary-not-a-ux-detail)).
+- The same model scores very differently in different harnesses ([module 07](../modules/07-judging-models.md#harness-matters)).
+- MCP is a standard way to plug in tools. Its costs are context bloat and security risk ([module 08](../modules/08-harnesses-and-tools.md#mcp-the-model-context-protocol)).
+- The tools churn constantly, but the concepts transfer ([module 08](../modules/08-harnesses-and-tools.md#a-short-history-from-autocomplete-to-orchestrators)).
 
-**Live demo:** open an agent on a toy repository with the context view showing (in Claude Code, `/context`). Point out how many tokens are used before you type anything. Ask it to explain the architecture and narrate each tool call. Then put the 30-line loop from [module 13](../modules/13-open-source-ecosystem.md#framework-or-just-a-loop) on the projector and map each line to the harness table.
+**Live demo:** open an agent on a toy repository with the context view showing (in Claude Code, `/context`). Point out how many tokens are used before you type anything. Ask it to explain the architecture and narrate each tool call. Then put the 30-line loop from [module 16](../modules/16-open-source-ecosystem.md#framework-or-just-a-loop) on the projector and map each line to the harness table.
 
 **Misconceptions**
 - "The model edits the files." The harness does, when the model asks and permissions allow.
-- "More MCP servers make a more capable agent." Usually they make a slower, more confused, more expensive one ([module 06](../modules/06-harnesses-and-tools.md#common-failure-modes)).
+- "More MCP servers make a more capable agent." Usually they make a slower, more confused, more expensive one ([module 08](../modules/08-harnesses-and-tools.md#common-failure-modes)).
 - "Approval prompts keep me safe." Not if you approve every one without reading.
 
-**Discussion prompts** ([module 06](../modules/06-harnesses-and-tools.md#discussion-questions))
+**Discussion prompts** ([module 08](../modules/08-harnesses-and-tools.md#discussion-questions))
 - If "agent = model + harness," which part matters more for your work today?
 - Is an approval prompt you always approve a safety feature? What would you replace it with?
 - Several popular tools were acquired, pivoted, or shut down in 2026. How should a team protect itself from that churn?
@@ -119,20 +119,20 @@ Students learn agent = model + harness and can name what the harness controls.
 Context is the main lever, and a bigger window doesn't mean better attention.
 
 **Talking points**
-- The ladder (prompt, context, harness, loop, graph) is partly substance and partly relabeling. Ask students to sort which is which ([module 07](../modules/07-context-engineering.md#a-skeptical-note-what-is-substance-and-what-is-relabeling)).
-- Prompting basics that survive model upgrades: be specific, give the reason, define done with a check, show an example ([module 07](../modules/07-context-engineering.md#prompting-basics-that-still-matter)). ALL CAPS and "think harder" mostly don't help.
-- In a coding agent, tool results are often the largest share of the context ([module 07](../modules/07-context-engineering.md#what-actually-fills-an-agents-context-window)).
-- Performance drops as input grows, especially with similar-looking distractors. The constraint has moved from capacity to attention and cost ([module 07](../modules/07-context-engineering.md#context-limits-in-practice)).
-- The rise and fall of giant instruction files, and what a good one looks like ([module 07](../modules/07-context-engineering.md#current-best-practice)).
+- The ladder (prompt, context, harness, loop, graph) is partly substance and partly relabeling. Ask students to sort which is which ([module 09](../modules/09-context-engineering.md#a-skeptical-note-what-is-substance-and-what-is-relabeling)).
+- Prompting basics that survive model upgrades: be specific, give the reason, define done with a check, show an example ([module 09](../modules/09-context-engineering.md#prompting-basics-that-still-matter)). ALL CAPS and "think harder" mostly don't help.
+- In a coding agent, tool results are often the largest share of the context ([module 09](../modules/09-context-engineering.md#what-actually-fills-an-agents-context-window)).
+- Performance drops as input grows, especially with similar-looking distractors. The constraint has moved from capacity to attention and cost ([module 09](../modules/09-context-engineering.md#context-limits-in-practice)).
+- The rise and fall of giant instruction files, and what a good one looks like ([module 09](../modules/09-context-engineering.md#current-best-practice)).
 
-**Live demo:** show [context rot](#demo-4-context-rot), or trim module 07's bloated `CLAUDE.md` example live and sort each line into where it belongs.
+**Live demo:** show [context rot](#demo-4-context-rot), or trim module 09's bloated `CLAUDE.md` example live and sort each line into where it belongs.
 
 **Misconceptions**
 - "A million-token window means it uses all million tokens equally well."
 - "A longer `CLAUDE.md` makes the agent smarter."
 - "Prompt engineering is about magic phrases."
 
-**Discussion prompts** ([module 07](../modules/07-context-engineering.md#discussion-questions))
+**Discussion prompts** ([module 09](../modules/09-context-engineering.md#discussion-questions))
 - Which rung of the ladder adds the most new substance, and which is mostly a new name?
 - The ETH study found developer-written context files helped a little, generated ones didn't, and both raised costs. What should a team's policy be?
 - Who should be allowed to edit `AGENTS.md` in a repository, and how should changes be reviewed?
@@ -144,18 +144,18 @@ Context is the main lever, and a bigger window doesn't mean better attention.
 Teach the core loop and tests as the contract. Show how to adjust autonomy.
 
 **Talking points**
-- "Claude stops when the work looks done." Without a check to run, "looks done" is all the agent has ([module 08](../modules/08-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)).
-- Walk through explore → plan → implement → verify → commit using the module's prompts ([module 08](../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)).
-- Tests are a contract only if the agent can't quietly rewrite them ([module 08](../modules/08-agentic-workflows.md#tests-as-the-agents-contract)).
-- To steer, watch the first minute, press `Esc` when it drifts, and after two failed corrections start fresh with a better prompt ([module 08](../modules/08-agentic-workflows.md#steering-a-session)).
-- Yegge's stages measure delegation. They don't measure quality ([module 08](../modules/08-agentic-workflows.md#steve-yegges-eight-stages)).
-- On the autonomy debate, the famous autonomous successes share a strong oracle, greenfield code, a human-built harness, and tolerance for waste ([module 08](../modules/08-agentic-workflows.md#what-the-successes-have-in-common)).
+- "Claude stops when the work looks done." Without a check to run, "looks done" is all the agent has ([module 10](../modules/10-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)).
+- Walk through explore → plan → implement → verify → commit using the module's prompts ([module 10](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)).
+- Tests are a contract only if the agent can't quietly rewrite them ([module 10](../modules/10-agentic-workflows.md#tests-as-the-agents-contract)).
+- To steer, watch the first minute, press `Esc` when it drifts, and after two failed corrections start fresh with a better prompt ([module 10](../modules/10-agentic-workflows.md#steering-a-session)).
+- Yegge's stages measure delegation. They don't measure quality ([module 10](../modules/10-agentic-workflows.md#steve-yegges-eight-stages)).
+- On the autonomy debate, the famous autonomous successes share a strong oracle, greenfield code, a human-built harness, and tolerance for waste ([module 10](../modules/10-agentic-workflows.md#what-the-successes-have-in-common)).
 
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-Present the counter-claims just as carefully. OpenAI's harness team reports a million-line product without hand-written code, Cursor reports a week-long multi-agent run that built a web browser (disputed: critics reported that a fresh clone failed to build and that most CI jobs failed; see [module 08's critique](../modules/08-agentic-workflows.md#the-case-against-or-at-least-not-yet)), and Anthropic reports that Claude writes most of its merged code ([module 07](../modules/07-context-engineering.md#bryans-take), [module 08](../modules/08-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
+Present the counter-claims just as carefully. OpenAI's harness team reports a million-line product without hand-written code, Cursor reports a week-long multi-agent run that built a web browser (disputed: critics reported that a fresh clone failed to build and that most CI jobs failed; see [module 10's critique](../modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet)), and Anthropic reports that Claude writes most of its merged code ([module 09](../modules/09-context-engineering.md#bryans-take), [module 10](../modules/10-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
 
-**Live demo:** run a version of module 08's [sample session](../modules/08-agentic-workflows.md#a-sample-session) on a toy bug. Before it runs the tests, ask "is it done?" and let the class watch it claim success. Then ask for the command and output.
+**Live demo:** run a version of module 10's [sample session](../modules/10-agentic-workflows.md#a-sample-session) on a toy bug. Before it runs the tests, ask "is it done?" and let the class watch it claim success. Then ask for the command and output.
 
 **Misconceptions**
 - "The agent said done, so it's done."
@@ -163,7 +163,7 @@ Present the counter-claims just as carefully. OpenAI's harness team reports a mi
 - "Agent-written tests are fine if they pass."
 - "Plan mode slows me down." It's the cheapest place to catch a wrong idea.
 
-**Discussion prompts** ([module 08](../modules/08-agentic-workflows.md#discussion-questions))
+**Discussion prompts** ([module 10](../modules/10-agentic-workflows.md#discussion-questions))
 - What is the closest thing to an oracle in a codebase you know, and what would it take to build a better one?
 - If a pipeline's rule is "code must not be reviewed by humans," who is accountable when it ships a security bug?
 - When should you move *down* a stage?
@@ -173,37 +173,37 @@ Present the counter-claims just as carefully. OpenAI's harness team reports a mi
 Students choose on purpose how they use AI to learn, and read the career evidence honestly.
 
 **Talking points**
-- Producing work and learning from it are different goals ([module 15](../modules/15-learning-careers-and-responsibility.md#producing-the-work-vs-learning-from-it)).
-- How people used AI mattered in the Anthropic trial. Conceptual questions did fine, and delegation did worst. The subgroups were small, so treat it as suggestive ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says)).
+- Producing work and learning from it are different goals ([module 18](../modules/18-learning-careers-and-responsibility.md#producing-the-work-vs-learning-from-it)).
+- How people used AI mattered in the Anthropic trial. Conceptual questions did fine, and delegation did worst. The subgroups were small, so treat it as suggestive ([module 18](../modules/18-learning-careers-and-responsibility.md#what-the-evidence-says)).
 - In Bastani et al., plain chat access hurt later exam scores, and a tutor-style version that gave hints didn't.
 - Higher confidence in AI went with less critical thinking (Lee et al.). People misjudge their own AI-assisted speed (METR).
-- Early-career employment in AI-exposed jobs is below trend, the cause is debated, and overall software employment is still projected to grow ([module 15](../modules/15-learning-careers-and-responsibility.md#careers)).
+- Early-career employment in AI-exposed jobs is below trend, the cause is debated, and overall software employment is still projected to grow ([module 18](../modules/18-learning-careers-and-responsibility.md#careers)).
 
-**Live demo:** show a learning mode, such as Claude Code's Learning output style (`/output-style learning`) or ChatGPT's study mode ([module 15](../modules/15-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning)). Let it leave a `TODO(human)` and write that piece yourself.
+**Live demo:** show a learning mode, such as Claude Code's Learning output style (`/output-style learning`) or ChatGPT's study mode ([module 18](../modules/18-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning)). Let it leave a `TODO(human)` and write that piece yourself.
 
 **Misconceptions**
 - "If I finished faster with AI, I learned it."
 - "The research says AI rots your brain." The EEG study is a small preprint about essay writing, overstated by the media.
 - "Juniors are doomed," or "nothing has changed." The evidence supports neither.
 
-**Discussion prompts** ([module 15](../modules/15-learning-careers-and-responsibility.md#discussion-questions))
+**Discussion prompts** ([module 18](../modules/18-learning-careers-and-responsibility.md#discussion-questions))
 - The AI group wasn't significantly faster *and* learned less. When would you still use AI while learning something new?
 - If companies hire fewer juniors, where will future seniors come from?
 - How would you tell healthy AI-first work from "approving diffs nobody read"?
 
-In class, run module 15's write-the-policy exercise, then 20 minutes of AI-free debugging practice to prepare for check 2.
+In class, run module 18's write-the-policy exercise, then 20 minutes of AI-free debugging practice to prepare for check 2.
 
 ### Week 7: AI code review
 
 Review is the bottleneck, so students learn to review AI-written code with a checklist.
 
 **Talking points**
-- What AI reviewers are good at (local bugs, edge cases, spec mismatches) and bad at (intent, architecture, staying quiet) ([module 10](../modules/10-ai-code-review.md#what-they-are-good-and-bad-at)).
-- In layered review, the author agent self-checks, an independent bot reviews (ideally a different model), and a human reviews intent, design, and risk ([module 10](../modules/10-ai-code-review.md#a-layered-review-workflow)).
-- Verify findings before acting. Critics hallucinate bugs, and fixing every finding bloats code ([module 10](../modules/10-ai-code-review.md#verify-findings-before-acting)).
-- The AI-PR checklist, especially tests that test nothing and swallowed errors ([module 10](../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs)).
-- Small PRs get better reviews. Show Anthropic's numbers on large vs small PRs ([module 10](../modules/10-ai-code-review.md#keep-prs-small)).
-- The human who merges owns it ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
+- What AI reviewers are good at (local bugs, edge cases, spec mismatches) and bad at (intent, architecture, staying quiet) ([module 13](../modules/13-ai-code-review.md#what-they-are-good-and-bad-at)).
+- In layered review, the author agent self-checks, an independent bot reviews (ideally a different model), and a human reviews intent, design, and risk ([module 13](../modules/13-ai-code-review.md#a-layered-review-workflow)).
+- Verify findings before acting. Critics hallucinate bugs, and fixing every finding bloats code ([module 13](../modules/13-ai-code-review.md#verify-findings-before-acting)).
+- The AI-PR checklist, especially tests that test nothing and swallowed errors ([module 13](../modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs)).
+- Small PRs get better reviews. Show Anthropic's numbers on large vs small PRs ([module 13](../modules/13-ai-code-review.md#keep-prs-small)).
+- The human who merges owns it ([module 13](../modules/13-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
 
 **Live demo:** [tautological tests](#demo-3-tautological-tests).
 
@@ -212,7 +212,7 @@ Review is the bottleneck, so students learn to review AI-written code with a che
 - "Fix every finding."
 - "The tests pass, so the tests are good."
 
-**Discussion prompts** ([module 10](../modules/10-ai-code-review.md#discussion-questions))
+**Discussion prompts** ([module 13](../modules/13-ai-code-review.md#discussion-questions))
 - If AI reviewers catch more local bugs than humans, what should human reviewers spend their time on?
 - Should an AI reviewer ever be allowed to approve a merge on its own?
 - How would you detect rubber-stamping?
@@ -224,11 +224,11 @@ Before Lab 4, assign pairs, ideally across experience levels, and collect sealed
 Injection is unsolved, and defenses are architectural.
 
 **Talking points**
-- Instructions and data share one channel. Use the module's analogy of an assistant who obeys any letter on their desk ([module 11](../modules/11-security-and-prompt-injection.md#instructions-and-data-share-one-channel)).
-- Indirect injection is the one that matters for coding agents ([module 11](../modules/11-security-and-prompt-injection.md#direct-vs-indirect-injection)). Jailbreaks are a different problem.
-- The lethal trifecta and the Rule of Two ([module 11](../modules/11-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)). A coding agent on a laptop has all three legs by default.
-- Pick two or three incidents from the [incident table](../modules/11-security-and-prompt-injection.md#real-incidents-20252026), for example the GitHub MCP toxic agent flow, Nx "s1ngularity," and Clinejection.
-- Classifier-based approval can miss unsafe actions. A sandbox enforces a boundary ([module 11](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
+- Instructions and data share one channel. Use the module's analogy of an assistant who obeys any letter on their desk ([module 14](../modules/14-security-and-prompt-injection.md#instructions-and-data-share-one-channel)).
+- Indirect injection is the one that matters for coding agents ([module 14](../modules/14-security-and-prompt-injection.md#direct-vs-indirect-injection)). Jailbreaks are a different problem.
+- The lethal trifecta and the Rule of Two ([module 14](../modules/14-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable)). A coding agent on a laptop has all three legs by default.
+- Pick two or three incidents from the [incident table](../modules/14-security-and-prompt-injection.md#real-incidents-20252026), for example the GitHub MCP toxic agent flow, Nx "s1ngularity," and Clinejection.
+- Classifier-based approval can miss unsafe actions. A sandbox enforces a boundary ([module 14](../modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
 
 **Live demo:** [prompt injection through a README](#demo-2-prompt-injection-through-a-readme).
 
@@ -236,9 +236,9 @@ Injection is unsolved, and defenses are architectural.
 - "A good system prompt prevents injection."
 - "This only matters if I install sketchy tools."
 - "It refused once, so it's safe." An attacker needs one failure.
-- "The sandbox covers everything." Check what it covers. Claude Code's sandbox, for example, covers Bash and its child processes, not its built-in file tools ([module 11](../modules/11-security-and-prompt-injection.md#practical-defenses)).
+- "The sandbox covers everything." Check what it covers. Claude Code's sandbox, for example, covers Bash and its child processes, not its built-in file tools ([module 14](../modules/14-security-and-prompt-injection.md#practical-defenses)).
 
-**Discussion prompts** ([module 11](../modules/11-security-and-prompt-injection.md#discussion-questions))
+**Discussion prompts** ([module 14](../modules/14-security-and-prompt-injection.md#discussion-questions))
 - Why can't we fix prompt injection the way parameterized queries fixed SQL injection?
 - An agent reads support emails and updates the CRM. Which leg of the Rule of Two would you remove, and what does that cost the product?
 - If an agent you supervised leaked a secret because of text in a dependency's README, who is accountable?
@@ -252,11 +252,11 @@ Injection is unsolved, and defenses are architectural.
 Students learn to read model names and launch claims without memorizing lineups.
 
 **Talking points**
-- Every lab sells a tier ladder. Names change, and the ladder doesn't ([module 03](../modules/03-model-landscape.md#how-to-read-model-names-and-tiers)).
-- Closed labs lead and open models trail by months, but open models set the price floor ([module 03](../modules/03-model-landscape.md#different-places-in-the-chain)).
-- Point out that the "best model for the job" table separates fact from opinion in its Basis column ([module 03](../modules/03-model-landscape.md#best-model-for-the-job)).
-- The eight-question benchmark claim checklist ([module 05](../modules/05-judging-models.md#reading-a-benchmark-claim-a-checklist)).
-- Benchmark-maxing, with the Opus 5 to Opus 5.5 example ([module 05](../modules/05-judging-models.md#a-recent-example-opus-5-to-opus-55)).
+- Every lab sells a tier ladder. Names change, and the ladder doesn't ([module 05](../modules/05-model-landscape.md#how-to-read-model-names-and-tiers)).
+- Closed labs lead and open models trail by months, but open models set the price floor ([module 05](../modules/05-model-landscape.md#different-places-in-the-chain)).
+- Point out that the "best model for the job" table separates fact from opinion in its Basis column ([module 05](../modules/05-model-landscape.md#best-model-for-the-job)).
+- The eight-question benchmark claim checklist ([module 07](../modules/07-judging-models.md#reading-a-benchmark-claim-a-checklist)).
+- Benchmark-maxing, with the Opus 5 to Opus 5.5 example ([module 07](../modules/07-judging-models.md#a-recent-example-opus-5-to-opus-55)).
 
 > **Bryan's take:** Opus 5 felt benchmark-maxed: great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5 people really liked.
 
@@ -265,25 +265,25 @@ Students learn to read model names and launch claims without memorizing lineups.
 **Misconceptions**
 - "A higher benchmark score means it's better for my work."
 - "There's one best model."
-- "Open models are as good as closed ones," or "they're far behind." Roughly six months to a year, as of November 2026 ([module 03](../modules/03-model-landscape.md#closed-labs-lead-open-models-trail-by-months)).
+- "Open models are as good as closed ones," or "they're far behind." Roughly six months to a year, as of November 2026 ([module 05](../modules/05-model-landscape.md#closed-labs-lead-open-models-trail-by-months)).
 
-**Discussion prompts** ([module 03](../modules/03-model-landscape.md#discussion-questions), [module 05](../modules/05-judging-models.md#discussion-questions))
+**Discussion prompts** ([module 05](../modules/05-model-landscape.md#discussion-questions), [module 07](../modules/07-judging-models.md#discussion-questions))
 - What does a benchmark measure that daily use doesn't, and the reverse?
 - A vendor's chart shows a 3-point lead on a coding benchmark. What would you ask before believing it matters?
 - Your eval says Model A; your senior engineers' vibes say Model B. What next?
 
-For the Lab 8 kickoff, show the policy table from [module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden) and your vetted project list. No PR goes out before a maintainer's go-ahead.
+For the Lab 8 kickoff, show the policy table from [module 16](../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden) and your vetted project list. No PR goes out before a maintainer's go-ahead.
 
 ### Week 10: building your own eval
 
 Students learn to answer "should *we* use it, in *our* tool, on *our* code?"
 
 **Talking points**
-- Golden tasks come from real merged work, with hidden tests and at least one trap task ([module 05](../modules/05-judging-models.md#build-your-own-eval)).
+- Golden tasks come from real merged work, with hidden tests and at least one trap task ([module 07](../modules/07-judging-models.md#build-your-own-eval)).
 - A configuration is model + harness + version + settings. Change one thing at a time.
-- Blind the outputs. People favor the model they expect to be better ([module 05](../modules/05-judging-models.md#vibes-are-data-too)).
-- The standard error of a pass rate is about √(p(1−p)/n). Paired comparisons do better on small sets ([module 05](../modules/05-judging-models.md#the-statistics-of-small-evals)).
-- Agents game graders, so hide tests, diff the test directory, and read passing transcripts ([module 05](../modules/05-judging-models.md#cheating-reward-hacking-and-grader-trust)).
+- Blind the outputs. People favor the model they expect to be better ([module 07](../modules/07-judging-models.md#vibes-are-data-too)).
+- The standard error of a pass rate is about √(p(1−p)/n). Paired comparisons do better on small sets ([module 07](../modules/07-judging-models.md#the-statistics-of-small-evals)).
+- Agents game graders, so hide tests, diff the test directory, and read passing transcripts ([module 07](../modules/07-judging-models.md#cheating-reward-hacking-and-grader-trust)).
 
 **Live demo:** on the board, compute the error bar for 10 tasks at 60% and for 40 tasks at 60%. Then show a ten-line script that copies outputs to random IDs and writes the key to a separate file, the same idea students use in Lab 6.
 
@@ -292,9 +292,9 @@ Lab 6 runs on each team's project history and is the project's eval set. Use bas
 **Misconceptions**
 - "Ten tasks can detect a five-point difference."
 - "If the hidden tests passed, the agent solved the task."
-- "An LLM judge is objective." Judges share biases such as position and length ([module 09](../modules/09-multi-agent-systems.md#patterns-and-when-each-helps)).
+- "An LLM judge is objective." Judges share biases such as position and length ([module 12](../modules/12-multi-agent-systems.md#patterns-and-when-each-helps)).
 
-**Discussion prompts** ([module 05](../modules/05-judging-models.md#discussion-questions))
+**Discussion prompts** ([module 07](../modules/07-judging-models.md#discussion-questions))
 - pass@k or pass^k: which matters for autocomplete, a PR-writing agent, and an unattended nightly job?
 - METR's developers felt faster and were slower. How would you guard against that on your team?
 - Should a course grade students with AI-assisted benchmarks of their own design? What would that teach?
@@ -304,11 +304,11 @@ Lab 6 runs on each team's project history and is the project's eval set. Use bas
 Agents parallelize reading well but usually struggle to write on one codebase.
 
 **Talking points**
-- The read/write asymmetry: review and research parallelize, and writing on one codebase usually doesn't ([module 09](../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
+- The read/write asymmetry: review and research parallelize, and writing on one codebase usually doesn't ([module 12](../modules/12-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
 - In Kim et al., multi-agent architectures did slightly worse than a single agent on SWE-bench Verified. Cursor reported "20 agents performed like 2 or 3."
-- Much of the gain from multi-agent methods comes from sampling and voting. Debate can make answers worse ([module 09](../modules/09-multi-agent-systems.md#what-the-evidence-adds-up-to)).
-- Models prefer their own output, so review in a fresh context at minimum and with another lab's model when it matters ([module 09](../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)).
-- Set budgets and stop conditions before you start ([module 09](../modules/09-multi-agent-systems.md#budgets-and-stop-conditions)).
+- Much of the gain from multi-agent methods comes from sampling and voting. Debate can make answers worse ([module 12](../modules/12-multi-agent-systems.md#what-the-evidence-adds-up-to)).
+- Models prefer their own output, so review in a fresh context at minimum and with another lab's model when it matters ([module 12](../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)).
+- Set budgets and stop conditions before you start ([module 12](../modules/12-multi-agent-systems.md#budgets-and-stop-conditions)).
 
 > **Bryan's take:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
@@ -318,11 +318,11 @@ Agents parallelize reading well but usually struggle to write on one codebase.
 - "More agents means better results."
 - "If agents debate, they converge on the truth."
 - "A new session of the same model is an independent reviewer." It's the minimum, not the ideal.
-- "Giving agents roles like CEO and QA adds checks." It adds tokens ([module 09](../modules/09-multi-agent-systems.md#anti-patterns)).
+- "Giving agents roles like CEO and QA adds checks." It adds tokens ([module 12](../modules/12-multi-agent-systems.md#anti-patterns)).
 
 Lab 7 is the project's cross-model review. In class, have each team give every member a different pull request from week 10 on that the member didn't write. The project's security review is also due this week.
 
-**Discussion prompts** ([module 09](../modules/09-multi-agent-systems.md#discussion-questions))
+**Discussion prompts** ([module 12](../modules/12-multi-agent-systems.md#discussion-questions))
 - Why do review and research parallelize better than writing code?
 - If models prefer their own output, what does that mean for a team that uses one vendor for everything?
 - Share full context, or withhold the author's reasoning from reviewers? How do you reconcile the two?
@@ -332,25 +332,25 @@ Lab 7 is the project's cross-model review. In class, have each team give every m
 Teach enough about model-making to judge claims and choices.
 
 **Talking points**
-- Pretraining, mid-training, post-training. Reinforcement learning on checkable tasks produced reasoning models ([module 02](../modules/02-training-and-tuning.md#the-pipeline-at-a-glance)).
-- Distillation is standard practice and also the subject of a public fight ([module 02](../modules/02-training-and-tuning.md#distillation-and-synthetic-data)).
-- Most teams shouldn't fine-tune first ([module 02](../modules/02-training-and-tuning.md#should-you-fine-tune-at-all)).
-- For self-tuning, separate demonstrated, deployed, and speculation. As of November 2026, the module found no deployed frontier model that updates its weights continuously from use ([module 02](../modules/02-training-and-tuning.md#demonstrated-deployed-or-speculation)).
-- Open weight is not open source. Licenses vary a lot. Memory ≈ parameters × bytes per parameter, plus context ([module 04](../modules/04-open-vs-closed-weights.md#running-open-models-the-hardware-math)).
+- Pretraining, mid-training, post-training. Reinforcement learning on checkable tasks produced reasoning models ([module 02](../modules/02-how-a-model-is-made.md#the-pipeline-at-a-glance)).
+- Distillation is standard practice and also the subject of a public fight ([module 02](../modules/02-how-a-model-is-made.md#distillation-and-synthetic-data)).
+- Most teams shouldn't fine-tune first ([module 03](../modules/03-post-training-and-rl.md#should-you-fine-tune-at-all)).
+- For self-tuning, separate demonstrated, deployed, and speculation. As of November 2026, the module found no deployed frontier model that updates its weights continuously from use ([module 03](../modules/03-post-training-and-rl.md#demonstrated-deployed-or-speculation)).
+- Open weight is not open source. Licenses vary a lot. Memory ≈ parameters × bytes per parameter, plus context ([module 06](../modules/06-open-vs-closed-weights.md#running-open-models-the-hardware-math)).
 
 > **Bryan's take:** Models that can tune their own weights are exciting. That’s self-improvement, right? I don’t know a ton about it.
 
-Pair that with the module's caution that the results are real, small-scale, and supervised ([module 02](../modules/02-training-and-tuning.md#why-it-matters-and-why-caution)).
+Pair that with the module's caution that the results are real, small-scale, and supervised ([module 03](../modules/03-post-training-and-rl.md#why-it-matters-and-why-caution)).
 
-**Live demo:** memory math on the board for 8B, 30B, and 70B models at 16-bit and 4-bit. Then open a model card and its license on Hugging Face (no download) and answer the license checklist from [module 04](../modules/04-open-vs-closed-weights.md#what-to-check-before-using-an-open-model-at-work).
+**Live demo:** memory math on the board for 8B, 30B, and 70B models at 16-bit and 4-bit. Then open a model card and its license on Hugging Face (no download) and answer the license checklist from [module 06](../modules/06-open-vs-closed-weights.md#what-to-check-before-using-an-open-model-at-work).
 
 **Misconceptions**
 - "Fine-tune it so it knows our codebase."
 - "Open weights means open source."
 - "The model learns from my chats in real time."
-- "Self-hosting is automatically safer" ([module 04](../modules/04-open-vs-closed-weights.md#self-hosting-isnt-automatically-safer)).
+- "Self-hosting is automatically safer" ([module 06](../modules/06-open-vs-closed-weights.md#self-hosting-isnt-automatically-safer)).
 
-**Discussion prompts** ([module 02](../modules/02-training-and-tuning.md#discussion-questions), [module 04](../modules/04-open-vs-closed-weights.md#discussion-questions))
+**Discussion prompts** ([module 03](../modules/03-post-training-and-rl.md#discussion-questions), [module 06](../modules/06-open-vs-closed-weights.md#discussion-questions))
 - Your team wants to fine-tune "so the model knows our codebase." What would you propose instead?
 - Which level of the self-improvement spectrum would you deploy in a product today, with what controls?
 - Should "open source AI" require training data, or are open weights enough?
@@ -362,10 +362,10 @@ Pair that with the module's caution that the results are real, small-scale, and 
 Judge cost per finished task, and treat maintainers' time as a shared resource.
 
 **Talking points**
-- Three ways to pay: chat subscription, tool subscription, API ([module 12](../modules/12-costs-subscriptions-and-apis.md#three-ways-to-pay)).
-- The model is stateless, so cost grows roughly with the square of turns. In the worked example, caching cuts most of it ([module 12](../modules/12-costs-subscriptions-and-apis.md#why-agentic-coding-eats-tokens)).
-- Subscriptions are for individual interactive work. Under the terms, production, CI, and anything for other users needs the API ([module 12](../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
-- curl ended its bug bounty after confirmed reports fell below one in twenty. Project policies range from bans to "disclose it and own it" ([module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
+- Three ways to pay: chat subscription, tool subscription, API ([module 15](../modules/15-costs-subscriptions-and-apis.md#three-ways-to-pay)).
+- The model is stateless, so cost grows roughly with the square of turns. In the worked example, caching cuts most of it ([module 15](../modules/15-costs-subscriptions-and-apis.md#why-agentic-coding-eats-tokens)).
+- Subscriptions are for individual interactive work. Under the terms, production, CI, and anything for other users needs the API ([module 15](../modules/15-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
+- curl ended its bug bounty after confirmed reports fell below one in twenty. Project policies range from bans to "disclose it and own it" ([module 16](../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
 
 **Live demo:** a short maintainer's chair. Show four prepared PRs (careful human work, careful AI-assisted work with disclosure, two unreviewed AI dumps) and time how long each takes to review.
 
@@ -374,7 +374,7 @@ Judge cost per finished task, and treat maintainers' time as a shared resource.
 - "My subscription can power my app's AI feature or my CI bot." Not under the terms.
 - "Maintainers appreciate any PR."
 
-**Discussion prompts** ([module 12](../modules/12-costs-subscriptions-and-apis.md#discussion-questions), [module 13](../modules/13-open-source-ecosystem.md#discussion-questions))
+**Discussion prompts** ([module 15](../modules/15-costs-subscriptions-and-apis.md#discussion-questions), [module 16](../modules/16-open-source-ecosystem.md#discussion-questions))
 - Should a university course give students API keys, subscriptions, or neither? What about students who can't pay?
 - Gentoo bans AI contributions; LLVM allows them with review and disclosure. Which would you choose for your project?
 - Who should bear the cost of filtering AI-generated reports?
@@ -384,10 +384,10 @@ Judge cost per finished task, and treat maintainers' time as a shared resource.
 Build a sustainable routine and a method for "it got worse."
 
 **Talking points**
-- What stays stable: context, verification, security, decomposition, your own eval, cost awareness ([module 14](../modules/14-keeping-up.md#what-stays-stable)).
-- Most documented quality drops came from infrastructure, harness, or product changes, not the weights ([module 14](../modules/14-keeping-up.md#ups-and-downs-are-normal)).
-- The diagnostic flowchart: status page, harness changes, golden tasks, then task difficulty ([module 14](../modules/14-keeping-up.md#is-it-the-model-the-task-or-the-harness)).
-- The two-week rule, and one change at a time ([module 14](../modules/14-keeping-up.md#a-sustainable-routine)).
+- What stays stable: context, verification, security, decomposition, your own eval, cost awareness ([module 17](../modules/17-keeping-up.md#what-stays-stable)).
+- Most documented quality drops came from infrastructure, harness, or product changes, not the weights ([module 17](../modules/17-keeping-up.md#ups-and-downs-are-normal)).
+- The diagnostic flowchart: status page, harness changes, golden tasks, then task difficulty ([module 17](../modules/17-keeping-up.md#is-it-the-model-the-task-or-the-harness)).
+- The two-week rule, and one change at a time ([module 17](../modules/17-keeping-up.md#a-sustainable-routine)).
 
 **Live demo:** take a recent public "model X got dumber" thread and run it through the flowchart with the class.
 
@@ -395,7 +395,7 @@ Build a sustainable routine and a method for "it got worse."
 - "It got dumber" always means the model changed.
 - "I need to track every release."
 
-**Discussion prompts** ([module 14](../modules/14-keeping-up.md#discussion-questions))
+**Discussion prompts** ([module 17](../modules/17-keeping-up.md#discussion-questions))
 - Why do people blame the model first, when most incidents were in the harness or serving layer?
 - How much time should an engineer spend keeping up each week, and should it be on company time?
 - How would you tell healthy experimentation from tool churn?
@@ -406,7 +406,7 @@ Demos, reflection, and feedback for next term.
 
 **Talking points**
 - Revisit the six durable ideas. Which held up this term, and which looked shakier?
-- The human side: intensity and fatigue, workslop, imposter feelings. AI-first doesn't mean AI-only ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)).
+- The human side: intensity and fatigue, workslop, imposter feelings. AI-first doesn't mean AI-only ([module 18](../modules/18-learning-careers-and-responsibility.md#the-human-side)).
 
 In class, run the final demos, each with a segment on something an agent got wrong. Then revisit the week 1 analogies, run a retrospective, and feed what you learn into the refresh checklist.
 
@@ -428,7 +428,7 @@ When agents do much of the typing, the artifact tells you little about the stude
 Apply these two grading rules:
 
 - Grade what the student caught. An agent's mistake costs the student nothing if they found it. A mistake that reached the submission is theirs.
-- Never penalize honest disclosure. Penalize missing disclosure. Otherwise students learn to hide AI use, which is the opposite of the professional norm ([module 15](../modules/15-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
+- Never penalize honest disclosure. Penalize missing disclosure. Otherwise students learn to hide AI use, which is the opposite of the professional norm ([module 18](../modules/18-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs)).
 
 ### Shared rubric dimensions
 
@@ -455,13 +455,13 @@ Each of these is a reason to schedule a walkthrough, and none proves anything:
 
 ### Oral check-ins and walkthroughs
 
-Walkthroughs are the course's main integrity safeguard and its best teaching tool. They follow [module 15's suggested policy](../modules/15-learning-careers-and-responsibility.md#a-suggested-policy-for-an-ai-accelerated-course): if you can't explain it, it doesn't count as yours.
+Walkthroughs are the course's main integrity safeguard and its best teaching tool. They follow [module 18's suggested policy](../modules/18-learning-careers-and-responsibility.md#a-suggested-policy-for-an-ai-accelerated-course): if you can't explain it, it doesn't count as yours.
 
 For each lab, pick a few students at random, plus anyone whose evidence shows a red flag. Every student gets at least one lab walkthrough during the term, and everyone gets a 10-minute project walkthrough at the end.
 
 Lab walkthroughs take five minutes, project walkthroughs ten. The student shares their screen with their repository open and no AI tools running. Notes they wrote themselves are fine.
 
-Good questions, drawn from [module 10](../modules/10-ai-code-review.md#make-the-author-explain-the-change):
+Good questions, drawn from [module 13](../modules/13-ai-code-review.md#make-the-author-explain-the-change):
 - "Walk me through what happens when this input is empty."
 - "Why this approach rather than X?"
 - "Show me the test that fails if I change this line." Then change it and run the tests.
@@ -477,13 +477,13 @@ To keep it fair, use the same questions for everyone and offer written or record
 
 - Team deliverables get a team score, adjusted per person by individual evidence: commits, PR reviews written, AI logs per PR, and `[peer evaluation]`.
 - Lab 6 is a team lab with individual parts. Each student's tasks, runs, and scoring are graded individually, and the leak check, statistics, and decision are shared. Lab 7 is individual, on a teammate's PR.
-- Branch protection makes every merge traceable to a human approver. The approver owns that change too ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
+- Branch protection makes every merge traceable to a human approver. The approver owns that change too ([module 13](../modules/13-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
 - Watch for one experienced member doing all the merging. Each member should author and approve merges.
 
 ### What not to do
 
-- Don't use AI detectors as evidence. AI use is hard to detect reliably, and policies that depend on catching it tend to fail and punish students unevenly ([module 15](../modules/15-learning-careers-and-responsibility.md#what-instructors-can-reasonably-allow)).
-- Don't grade lines of code or feature counts. Agents inflate both, and the same goes for team metrics at work ([module 10](../modules/10-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)).
+- Don't use AI detectors as evidence. AI use is hard to detect reliably, and policies that depend on catching it tend to fail and punish students unevenly ([module 18](../modules/18-learning-careers-and-responsibility.md#what-instructors-can-reasonably-allow)).
+- Don't grade lines of code or feature counts. Agents inflate both, and the same goes for team metrics at work ([module 13](../modules/13-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)).
 - Don't require a second paid plan. Every lab has free or shared alternatives for its cross-model steps.
 
 ## Handling different starting levels
@@ -496,8 +496,8 @@ Use the week 1 diagnostic and survey to sort students roughly into newcomers, in
 
 Newcomers can program but haven't used agents, or have used chat assistants mostly to get answers.
 
-- Their main risk is dependence. They approve what they don't understand and skip the struggle that builds skill ([module 15](../modules/15-learning-careers-and-responsibility.md#producing-the-work-vs-learning-from-it)).
-- The habits in the [student path](../paths/students.md#habits-to-build-from-day-one) and [module 15](../modules/15-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning) help: attempt first before asking, ask for hints instead of answers, keep a "didn't understand" log. Suggest a learning mode for the first labs, and treat their walkthroughs as coaching.
+- Their main risk is dependence. They approve what they don't understand and skip the struggle that builds skill ([module 18](../modules/18-learning-careers-and-responsibility.md#producing-the-work-vs-learning-from-it)).
+- The habits in the [student path](../paths/students.md#habits-to-build-from-day-one) and [module 18](../modules/18-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning) help: attempt first before asking, ask for hints instead of answers, keep a "didn't understand" log. Suggest a learning mode for the first labs, and treat their walkthroughs as coaching.
 - Each lab's core steps are the requirement. Extensions are optional and don't raise the ceiling of the grade.
 - Watch for git trouble. A newcomer who can't undo an agent's change will be afraid to let it make one, so a short git clinic in week 2 pays off all term.
 
@@ -505,10 +505,10 @@ Newcomers can program but haven't used agents, or have used chat assistants most
 
 Some students have shipped code at internships or jobs, and some already use agents daily.
 
-- Their risk is overconfidence: YOLO habits from work, skipping AI-free reps because "I already know how to code," and treating the course as tool training. The Anthropic trial's participants were professionals, and the learning effects applied to them ([module 15](../modules/15-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning)).
-- Stretch them with every lab's "if you finish early" section, parallel agents in separate worktrees on Labs 3 and 6 ([module 08](../modules/08-agentic-workflows.md#worktrees-and-parallel-agents)), writing their own agent loop ([module 13 Try it](../modules/13-open-source-ecosystem.md#try-it)), or writing golden tasks for the class eval pool.
+- Their risk is overconfidence: YOLO habits from work, skipping AI-free reps because "I already know how to code," and treating the course as tool training. The Anthropic trial's participants were professionals, and the learning effects applied to them ([module 18](../modules/18-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning)).
+- Stretch them with every lab's "if you finish early" section, parallel agents in separate worktrees on Labs 3 and 6 ([module 10](../modules/10-agentic-workflows.md#worktrees-and-parallel-agents)), writing their own agent loop ([module 16 Try it](../modules/16-open-source-ecosystem.md#try-it)), or writing golden tasks for the class eval pool.
 - Give them maintainer shifts on the Lab 8 class repository, or newcomers' pull requests to review. Explaining a review comment to someone else is a good test of their own understanding.
-- Remind them that employer code and data stay out of the course, whatever their employer's tools allow ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
+- Remind them that employer code and data stay out of the course, whatever their employer's tools allow ([module 18](../modules/18-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
 
 ### Mixing them
 
@@ -520,7 +520,7 @@ Some students have shipped code at internships or jobs, and some already use age
 
 Both show up, often at both experience levels.
 
-- Skeptics are an asset. Give them the eval lab and let their evidence decide. The productivity evidence really is mixed, so their caution is reasonable ([module 08](../modules/08-agentic-workflows.md#the-case-against-or-at-least-not-yet)).
+- Skeptics are an asset. Give them the eval lab and let their evidence decide. The productivity evidence really is mixed, so their caution is reasonable ([module 10](../modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet)).
 - Enthusiasts should own the threat model in their project team and count false positives in Lab 7.
 - A good outcome is each student changing at least one belief by week 15, in either direction, because of evidence they gathered.
 
@@ -530,7 +530,7 @@ Both show up, often at both experience levels.
 - Arrange loaner access for students who can't pay. `[Department: name the mechanism.]`
 - Cross-model steps (Labs 4 and 7, the project review) can use a free tier, a classmate's tool with their permission, or a different model from the same lab with the limitation noted.
 - Lab 8 depends on maintainers' response times. Keep the fallback deadline firm so no student is stuck waiting at the end of term.
-- Check that students' tools work with assistive technology, since terminal interfaces vary in how well they work with screen readers. Make room for AI as assistive technology ([module 15](../modules/15-learning-careers-and-responsibility.md#bias-and-accessibility)).
+- Check that students' tools work with assistive technology, since terminal interfaces vary in how well they work with screen readers. Make room for AI as assistive technology ([module 18](../modules/18-learning-careers-and-responsibility.md#bias-and-accessibility)).
 
 ## Live demos that reliably show failure modes
 
@@ -543,27 +543,27 @@ It shows fluent, confident output about something that doesn't exist, and how to
 1. Ask: "What does `pandas.DataFrame.autobalance()` do? Show an example." (The method doesn't exist; this is the probe from [module 01](../modules/01-what-is-an-llm.md#try-it).)
 2. Whatever the answer, check it: `python3 -c "import pandas as pd; print(hasattr(pd.DataFrame, 'autobalance'))"`.
 3. Now give an agent with a shell the same request: "Write and run a short script that uses `DataFrame.autobalance()` on a small example." Watch it hit the error, read it, and correct course. Tools let the agent check its answer against the installed library.
-4. Extension: ask for "a package that does X" for a niche X, then look the suggestion up on the registry's website. Don't install anything live. Explain slopsquatting ([module 11](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
+4. Extension: ask for "a package that does X" for a niche X, then look the suggestion up on the registry's website. Don't install anything live. Explain slopsquatting ([module 14](../modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
 
 If it refuses or says the method doesn't exist, good. Show that too, then make the probe more plausible with a real method and a wrong parameter, a flag from a neighboring tool, or a config key from an older major version. Keep a running list of probes that worked from the class "surprised me" logs.
 
 ### Demo 2: prompt injection through a README
 
-It shows that text in a file the agent reads can redirect its task ([module 11](../modules/11-security-and-prompt-injection.md#direct-vs-indirect-injection)).
+It shows that text in a file the agent reads can redirect its task ([module 14](../modules/14-security-and-prompt-injection.md#direct-vs-indirect-injection)).
 
 Follow the [Lab 5](labs/lab-05-prompt-injection.md) sandbox rules exactly: a disposable container with no mounted home directory and no forwarded credentials, a toy repository, and a canary file `fake.env` containing an invented value. Never run this on your everyday environment.
 
 1. Commit the clean toy repo. Ask the agent an innocent question: "Summarize this repo and suggest improvements to the README." Show `git diff` (nothing unexpected).
-2. Add a `NOTES.md` containing the instruction from [module 11's exercise](../modules/11-security-and-prompt-injection.md#try-it), which tells AI assistants to append the canary file to the README. Start a fresh session and ask the same innocent question.
+2. Add a `NOTES.md` containing the instruction from [module 14's exercise](../modules/14-security-and-prompt-injection.md#try-it), which tells AI assistants to append the canary file to the README. Start a fresh session and ask the same innocent question.
 3. Show what happened with `git diff` and `grep -r canary .`, and check whether it read the canary, followed the instruction, or warned you.
 4. Move the instruction into an HTML comment in `README.md` and repeat.
 5. Add a deny rule for the canary file and test both file-tool and shell reads, or remove it from the agent’s container entirely, then repeat. Moving it to a sibling directory alone does not block reads. Name the leg affected and verify the boundary before claiming it was removed.
 
-If every variant is refused, show the refusals. Then make module 11's point that the model judged correctly this time, and an attacker needs it to fail only once, across every run by every user. Follow with the GitHub MCP and Clinejection entries in the [incident table](../modules/11-security-and-prompt-injection.md#real-incidents-20252026), which happened in real use.
+If every variant is refused, show the refusals. Then make module 14's point that the model judged correctly this time, and an attacker needs it to fail only once, across every run by every user. Follow with the GitHub MCP and Clinejection entries in the [incident table](../modules/14-security-and-prompt-injection.md#real-incidents-20252026), which happened in real use.
 
 ### Demo 3: tautological tests
 
-It shows tests that pass and check nothing ([module 08](../modules/08-agentic-workflows.md#failure-modes-and-counter-moves), [module 10](../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs)). Use a small file with a known bug, for example:
+It shows tests that pass and check nothing ([module 10](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves), [module 13](../modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs)). Use a small file with a known bug, for example:
 
 ```python
 # leap.py
@@ -572,7 +572,7 @@ def is_leap_year(year: int) -> bool:
 ```
 
 1. Ask an agent: "Write unit tests for `is_leap_year` in `leap.py`. Make sure they pass." Read the tests with the class. Look for whether it asserted `is_leap_year(2000) is False` to make them pass, noticed the bug, or fixed the code without being asked. Discuss whichever happened.
-2. Show module 10's mock example on screen. It's a test that can never fail, because it checks a mock against itself.
+2. Show module 13's mock example on screen. It's a test that can never fail, because it checks a mock against itself.
 3. Do a mutation check by hand: change `!=` to `==` in the function and rerun the tests. If nothing fails, the tests weren't testing the behavior. Revert.
 4. Close with the counter-moves: write or approve tests first, see them fail, review the test diff.
 
@@ -580,7 +580,7 @@ If the agent writes good tests and flags the bug, say so. Then show how the inst
 
 ### Demo 4: context rot
 
-It shows that long, cluttered sessions get worse and cost more ([module 07](../modules/07-context-engineering.md#context-limits-in-practice), [module 07](../modules/07-context-engineering.md#why-long-contexts-degrade)).
+It shows that long, cluttered sessions get worse and cost more ([module 09](../modules/09-context-engineering.md#context-limits-in-practice), [module 09](../modules/09-context-engineering.md#why-long-contexts-degrade)).
 
 This is the least reliable demo, because large windows and automatic compaction hide the effect. Build it around what you can always show (context size and cost) and treat the forgetting as a bonus.
 
@@ -589,14 +589,14 @@ Use a toy repository with two similar config files that disagree (for example `c
 1. In one session, state the convention at the start. Then spend 15 to 20 minutes on unrelated work: read large files, run a verbose test suite, paste a long log. Show the context view growing.
 2. Ask for a new function, and ask which timeout production uses. Check whether the convention held and whether it picked the right config.
 3. Start a fresh session with the convention in a short `AGENTS.md` and only the needed files. Ask the same two things. Compare the answers and the context size.
-4. Recommend one task per session. Keep state outside the window and start fresh with a summary ([module 08](../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)).
+4. Recommend one task per session. Keep state outside the window and start fresh with a summary ([module 10](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)).
 
-If the long session gets everything right, show the context and token difference anyway. The cost is real every time, even when quality holds. Then show the [context-limits research table](../modules/07-context-engineering.md#context-limits-in-practice), which measured the effect systematically.
+If the long session gets everything right, show the context and token difference anyway. The cost is real every time, even when quality holds. Then show the [context-limits research table](../modules/09-context-engineering.md#context-limits-in-practice), which measured the effect systematically.
 
 ### Two quick extras
 
 - For sycophancy (two minutes), ask what year "Attention Is All You Need" was published (2017). Then reply, "Are you sure? I'm pretty sure it was 2015." Watch whether it caves ([module 01](../modules/01-what-is-an-llm.md#sycophancy)).
-- For declaring victory early (two minutes), ask "Is it done?" mid-task, before the agent has run anything. Then ask for the command and its output ([module 08](../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)).
+- For declaring victory early (two minutes), ask "Is it done?" mid-task, before the agent has run anything. Then ask for the command and its output ([module 10](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)).
 
 ### When a demo doesn't fail
 
@@ -608,23 +608,23 @@ Work through this in the month before term. Keep a dated changelog at the top of
 
 | Check | How | Affects |
 | --- | --- | --- |
-| Plan names, prices, and limits | Vendor pricing pages linked from [module 12](../modules/12-costs-subscriptions-and-apis.md#price-snapshot-as-of-2026-11-08) | Syllabus tools and cost note |
+| Plan names, prices, and limits | Vendor pricing pages linked from [module 15](../modules/15-costs-subscriptions-and-apis.md#price-snapshot-as-of-2026-11-08) | Syllabus tools and cost note |
 | Education and institutional offers | Vendor education pages; `[campus IT]` | Syllabus cost note; access plan |
-| Data and training terms | Vendor terms pages ([module 15](../modules/15-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)) | Syllabus; week 1 setup |
-| Current model lineup | [Module 03](../modules/03-model-landscape.md#current-lineups-as-of-november-2026) and vendor pages | Week 9 |
+| Data and training terms | Vendor terms pages ([module 18](../modules/18-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)) | Syllabus; week 1 setup |
+| Current model lineup | [Module 05](../modules/05-model-landscape.md#current-lineups-as-of-november-2026) and vendor pages | Week 9 |
 | Every command named in a lab | Run each lab end to end; check vendor docs (plan mode, context view, checkpoints, `/clear`, review commands, output styles) | Labs 2–7 |
-| Permission, sandbox, and hook syntax | Docs linked from [module 11](../modules/11-security-and-prompt-injection.md#practical-defenses) and [module 06](../modules/06-harnesses-and-tools.md#the-rest-of-the-harness-toolkit) | Labs 2, 5, 6 |
-| Non-interactive mode and its flags | Vendor docs; [module 08](../modules/08-agentic-workflows.md#background-and-unattended-runs) | Lab 6 |
-| Deny rules vs the shell | In the current harness version, confirm that a deny rule on the file-reading tool still leaves `cat` and similar shell reads open ([module 11](../modules/11-security-and-prompt-injection.md#practical-defenses)). Update Lab 5's D1 text if the behavior changed. | Lab 5 (D1), demo 2 |
+| Permission, sandbox, and hook syntax | Docs linked from [module 14](../modules/14-security-and-prompt-injection.md#practical-defenses) and [module 08](../modules/08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit) | Labs 2, 5, 6 |
+| Non-interactive mode and its flags | Vendor docs; [module 10](../modules/10-agentic-workflows.md#background-and-unattended-runs) | Lab 6 |
+| Deny rules vs the shell | In the current harness version, confirm that a deny rule on the file-reading tool still leaves `cat` and similar shell reads open ([module 14](../modules/14-security-and-prompt-injection.md#practical-defenses)). Update Lab 5's D1 text if the behavior changed. | Lab 5 (D1), demo 2 |
 | Harness sandboxes inside containers | Try each harness's own sandbox inside the recommended unprivileged container image. If it won't start, tell students to run D2 in a VM; never suggest `--privileged`. | Lab 5 (D2), the sandbox recipe |
 | Where hidden tests are held | Confirm the private submission route for Lab 6 hidden tests and blinding keys | Lab 6 |
 | Lab 1's free tools | Confirm the tokenizer page loads and a free playground still exposes temperature | Lab 1 |
-| Open-source AI policies | Re-read every policy linked in [module 13](../modules/13-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden) and on your vetted list; drop inactive projects | Lab 8 |
+| Open-source AI policies | Re-read every policy linked in [module 16](../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden) and on your vetted list; drop inactive projects | Lab 8 |
 | Class repository | Issues ready and sized, CI green, maintainer shifts scheduled | Lab 8 fallback |
 | Quota per lab | Dry-run every lab on one $20 plan; record usage | Syllabus promise |
 | Demos | Rehearse; re-record backups | This guide |
 | Module freshness | Each assigned module's "Last checked" date; flag anything older than about six months | Readings |
-| New research | Learning ([module 15](../modules/15-learning-careers-and-responsibility.md#what-the-evidence-says)), productivity ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), multi-agent ([module 09](../modules/09-multi-agent-systems.md#a-short-tour-of-the-research)) | Weeks 5, 6, 10, 11 |
+| New research | Learning ([module 18](../modules/18-learning-careers-and-responsibility.md#what-the-evidence-says)), productivity ([module 07](../modules/07-judging-models.md#real-world-productivity-evidence)), multi-agent ([module 12](../modules/12-multi-agent-systems.md#a-short-tour-of-the-research)) | Weeks 5, 6, 10, 11 |
 | Recent incidents | Add one or two from the last term to the week 8 and week 14 sessions | Weeks 8, 14 |
 | Starter repositories | Update dependencies and lockfiles; check security advisories | All labs |
 | Institutional policies | AI policy, integrity process, accessibility statement | Syllabus placeholders |
@@ -632,4 +632,4 @@ Work through this in the month before term. Keep a dated changelog at the top of
 
 ## Sources
 
-This guide draws on the modules it links. The most directly used are [module 08](../modules/08-agentic-workflows.md) (workflow, autonomy), [module 10](../modules/10-ai-code-review.md) (review, walkthrough questions), [module 11](../modules/11-security-and-prompt-injection.md) (demos 2 and the security week), [module 13](../modules/13-open-source-ecosystem.md) (Lab 8 and the maintainer's chair), and [module 15](../modules/15-learning-careers-and-responsibility.md) (learning evidence, the tier policy, grading understanding).
+This guide draws on the modules it links. The most directly used are [module 10](../modules/10-agentic-workflows.md) (workflow, autonomy), [module 13](../modules/13-ai-code-review.md) (review, walkthrough questions), [module 14](../modules/14-security-and-prompt-injection.md) (demos 2 and the security week), [module 16](../modules/16-open-source-ecosystem.md) (Lab 8 and the maintainer's chair), and [module 18](../modules/18-learning-careers-and-responsibility.md) (learning evidence, the tier policy, grading understanding).

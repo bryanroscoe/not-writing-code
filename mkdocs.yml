@@ -79,21 +79,27 @@ nav:
   - Modules:
       - modules/README.md
       - 00 Orientation: modules/00-orientation.md
-      - 01 What is an LLM?: modules/01-what-is-an-llm.md
-      - 02 Training and tuning: modules/02-training-and-tuning.md
-      - 03 Model landscape: modules/03-model-landscape.md
-      - 04 Open vs closed weights: modules/04-open-vs-closed-weights.md
-      - 05 Judging models: modules/05-judging-models.md
-      - 06 Harnesses and MCP: modules/06-harnesses-and-tools.md
-      - 07 Context engineering: modules/07-context-engineering.md
-      - 08 Agentic workflows: modules/08-agentic-workflows.md
-      - 09 Multiple agents: modules/09-multi-agent-systems.md
-      - 10 AI code review: modules/10-ai-code-review.md
-      - 11 Security: modules/11-security-and-prompt-injection.md
-      - 12 Costs: modules/12-costs-subscriptions-and-apis.md
-      - 13 Open source: modules/13-open-source-ecosystem.md
-      - 14 Keeping up: modules/14-keeping-up.md
-      - 15 Learning and careers: modules/15-learning-careers-and-responsibility.md
+      - "Stage 1: How the machine works":
+          - 01 What is an LLM?: modules/01-what-is-an-llm.md
+          - 02 How a model is made: modules/02-how-a-model-is-made.md
+          - 03 Post-training and RL: modules/03-post-training-and-rl.md
+      - "Stage 2: Choosing a model":
+          - 05 Model landscape: modules/05-model-landscape.md
+          - 06 Open vs closed weights: modules/06-open-vs-closed-weights.md
+          - 07 Judging models: modules/07-judging-models.md
+      - "Stage 3: Working with agents":
+          - 08 Harnesses and MCP: modules/08-harnesses-and-tools.md
+          - 09 Context engineering: modules/09-context-engineering.md
+          - 10 Agentic workflows: modules/10-agentic-workflows.md
+      - "Stage 4: Trusting the output":
+          - 12 Multiple agents: modules/12-multi-agent-systems.md
+          - 13 AI code review: modules/13-ai-code-review.md
+          - 14 Security: modules/14-security-and-prompt-injection.md
+      - "Stage 5: Practice for the long run":
+          - 15 Costs: modules/15-costs-subscriptions-and-apis.md
+          - 16 Open source: modules/16-open-source-ecosystem.md
+          - 17 Keeping up: modules/17-keeping-up.md
+          - 18 Learning and careers: modules/18-learning-careers-and-responsibility.md
   - Slides: slides/index.md
   - Course:
       - course/README.md

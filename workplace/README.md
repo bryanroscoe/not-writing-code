@@ -33,11 +33,11 @@ Use the [modules](../modules/) to adopt AI-accelerated engineering on a team, wi
 
 ## Principles behind this material
 
-- Reach for the tool by default, and keep the skills to work without it ([module 15](../modules/15-learning-careers-and-responsibility.md#the-human-side)).
-- Tools can write, review, and fix code, but a person approves every change and answers for the result ([module 10](../modules/10-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
-- The productivity research is mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), so measure your own team.
+- Reach for the tool by default, and keep the skills to work without it ([module 18](../modules/18-learning-careers-and-responsibility.md#the-human-side)).
+- Tools can write, review, and fix code, but a person approves every change and answers for the result ([module 13](../modules/13-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
+- The productivity research is mixed ([module 07](../modules/07-judging-models.md#real-world-productivity-evidence)), so measure your own team.
 - Bryan Roscoe's opinions appear only in "Bryan's take" callouts. Everything else links to a sourced module section.
 
 ## Keeping it fresh
 
-Prices, plans, and model names here are as of November 2026 and live mainly in [module 03](../modules/03-model-landscape.md) and [module 12](../modules/12-costs-subscriptions-and-apis.md). The practices change more slowly. Review your copies of these documents quarterly, alongside your [team AI radar](../modules/14-keeping-up.md#team-ai-radar).
+Prices, plans, and model names here are as of November 2026 and live mainly in [module 05](../modules/05-model-landscape.md) and [module 15](../modules/15-costs-subscriptions-and-apis.md). The practices change more slowly. Review your copies of these documents quarterly, alongside your [team AI radar](../modules/17-keeping-up.md#team-ai-radar).

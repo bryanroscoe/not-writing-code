@@ -1,4 +1,4 @@
-# 03: The model landscape
+# 05: The model landscape
 
 *About a 35-minute read. Last checked November 8, 2026.*
 
@@ -14,16 +14,16 @@
 
 ### What a "lab" is, and why there are so few at the top
 
-A **frontier lab** is an organization that trains its own large models from scratch at the edge of what's possible. Training a frontier model takes tens of thousands of GPUs, a large dataset, and months of work after the main training run ([module 02](02-training-and-tuning.md)). Only a few organizations can pay for that, so only a few sit at the frontier.
+A **frontier lab** is an organization that trains its own large models from scratch at the edge of what's possible. Training a frontier model takes tens of thousands of GPUs, a large dataset, and months of work after the main training run ([module 02](02-how-a-model-is-made.md)). Only a few organizations can pay for that, so only a few sit at the frontier.
 
-A **model** is the trained network. A **product** is what you use: ChatGPT, the Claude apps, Gemini, Claude Code, Codex. One model can power many products, and one product can switch models under you. When someone says "ChatGPT got worse," they could mean the model, the product's system prompt, the router that picks a model for you, or the harness around it. [Module 06](06-harnesses-and-tools.md) covers harnesses.
+A **model** is the trained network. A **product** is what you use: ChatGPT, the Claude apps, Gemini, Claude Code, Codex. One model can power many products, and one product can switch models under you. When someone says "ChatGPT got worse," they could mean the model, the product's system prompt, the router that picks a model for you, or the harness around it. [Module 08](08-harnesses-and-tools.md) covers harnesses.
 
 Labs release models in two ways:
 
 - With **closed-weight** (API-only) models, you send text to the lab's servers and get text back. You never see the model's parameters. Anthropic's Claude, OpenAI's GPT-6 family, Google's Gemini and xAI's Grok work this way.
 - With **open-weight** models, the lab publishes the parameters so anyone can download and run the model. DeepSeek, Moonshot (Kimi), Qwen, Z.ai (GLM) and Mistral work this way, as do OpenAI's gpt-oss, Google's Gemma and a few of Meta's Muse models.
 
-[Module 04](04-open-vs-closed-weights.md) explains the difference. "Open" models usually come from different labs than the very top closed ones, and they arrive some months behind.
+[Module 06](06-open-vs-closed-weights.md) explains the difference. "Open" models usually come from different labs than the very top closed ones, and they arrive some months behind.
 
 ### How to read model names and tiers
 
@@ -92,7 +92,7 @@ You don't need to memorize names. When a new model appears, ask:
 3. What does it cost per **task** (not per token) at the effort level you'd actually use?
 4. What harness was it tested in, and does that match yours?
 
-[Module 05](05-judging-models.md) covers the third and fourth questions in depth.
+[Module 07](07-judging-models.md) covers the third and fourth questions in depth.
 
 ## In practice
 
@@ -240,7 +240,7 @@ These estimates cover different dates and task sets. **The cited October 2026 es
 
 #### Distillation and fast-follow
 
-**Distillation** means training a model on another model's outputs ([module 02](02-training-and-tuning.md)). Labs do it legitimately to make their own small models. It becomes a dispute when a competitor does it through someone else's API. In February 2026 Anthropic said it had found about 24,000 fraudulent accounts behind more than 16 million exchanges. It attributed them to DeepSeek, Moonshot and MiniMax, which the companies haven't confirmed ([Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks)). Fable's classifiers now check for distillation attempts. New API accounts also can't edit earlier turns while keeping Claude's prior reasoning, which makes reasoning harder to harvest ([Anthropic](https://www.anthropic.com/claude-fable-and-mythos-5-1)).
+**Distillation** means training a model on another model's outputs ([module 02](02-how-a-model-is-made.md)). Labs do it legitimately to make their own small models. It becomes a dispute when a competitor does it through someone else's API. In February 2026 Anthropic said it had found about 24,000 fraudulent accounts behind more than 16 million exchanges. It attributed them to DeepSeek, Moonshot and MiniMax, which the companies haven't confirmed ([Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks)). Fable's classifiers now check for distillation attempts. New API accounts also can't edit earlier turns while keeping Claude's prior reasoning, which makes reasoning harder to harvest ([Anthropic](https://www.anthropic.com/claude-fable-and-mythos-5-1)).
 
 Open models catch up partly through their own research and partly by learning from frontier outputs. Either way, a capability that's frontier-only today tends to show up in open weights within months.
 
@@ -290,11 +290,11 @@ This table mixes verifiable facts with judgment, and the Basis column says which
 | Job | Good choices (Nov 2026) | Why | Basis |
 | --- | --- | --- | --- |
 | **Agentic coding** (multi-file changes in a harness) | Claude Opus 5.5 or Sonnet 5.5 in Claude Code; GPT-6.1 Sol or GPT-6 Astra in Codex | Top results on vendor coding benchmarks; harness and model are tuned together | Opinion, backed by vendor benchmarks |
-| **Code review** | A *different* model from the one that wrote the code (for example, GPT in Codex reviewing Claude's work) | Different models make different mistakes ([module 10](10-ai-code-review.md)) | Opinion |
+| **Code review** | A *different* model from the one that wrote the code (for example, GPT in Codex reviewing Claude's work) | Different models make different mistakes ([module 13](13-ai-code-review.md)) | Opinion |
 | **Long documents and video** | Gemini 4 Argon or Gemini 3.8 Flash | Native video input, 1M context, strong video benchmarks since Gemini 3 (87.6% Video-MMMU at launch) ([Google](https://blog.google/products/gemini/gemini-3/)) | Fact (capability) + opinion (ranking) |
 | **Real-time social data** | Grok | Built-in access to X posts | Fact (feature) |
 | **Cheap bulk processing** (classify, extract, summarize) | Claude Haiku 5.5, GPT-6 Luna (both $0.10 / $0.50), Gemini 3.5 Flash-Lite, DeepSeek V4.1-Flash; use batch APIs | Lowest list prices among capable models | Fact (price) |
-| **Local and private** | Qwen3.8-27B, Gemma 4, gpt-oss-20b, Muse Glimmer 30B, depending on hardware | Permissive licenses and sizes that fit one machine ([module 04](04-open-vs-closed-weights.md)) | Fact (license and size) + opinion |
+| **Local and private** | Qwen3.8-27B, Gemma 4, gpt-oss-20b, Muse Glimmer 30B, depending on hardware | Permissive licenses and sizes that fit one machine ([module 06](06-open-vs-closed-weights.md)) | Fact (license and size) + opinion |
 | **Image generation** | GPT-Image-2.6, Nano Banana 2.1 / Pro, Muse Image | Each leads on different styles and editing tasks | Opinion |
 | **Voice** (speech to speech) | GPT-Realtime-2.1 / GPT-Live 1, Gemini 3.8 Live, Grok Voice 3.0 | Dedicated low-latency audio models | Opinion |
 | **Research and deep research** | ChatGPT deep research, Gemini Deep Research, Claude Research; Kimi K3.1 Pro (open) | All search, read and cite. Kimi reports a leading BrowseComp score (vendor-reported) | Opinion |
@@ -304,7 +304,7 @@ This table mixes verifiable facts with judgment, and the Basis column says which
 
 ### Reception stories: launches don't always land
 
-Launch-day numbers missed parts of these releases. [Module 05](05-judging-models.md) covers the benchmark mechanics and [module 14](14-keeping-up.md) covers tracking regressions.
+Launch-day numbers missed parts of these releases. [Module 07](07-judging-models.md) covers the benchmark mechanics and [module 17](17-keeping-up.md) covers tracking regressions.
 
 When OpenAI launched GPT-5 on August 7, 2025, it replaced its older models in ChatGPT with GPT-5 and an automatic router. The router was down for much of launch day, so GPT-5 seemed weaker than it was. A chart in the live presentation drew a lower score with a taller bar, which people mocked as "chart crime." Users who preferred GPT-4o pushed back hard. Within a day Sam Altman promised to bring 4o back for Plus users, show which model answered, and double rate limits ([TechCrunch](https://techcrunch.com/2025/08/08/sam-altman-addresses-bumpy-gpt-5-rollout-bringing-4o-back-and-the-chart-crime/)). A model change is also a product change, and people get attached to a model's personality.
 
@@ -339,14 +339,14 @@ When a new model launches or your current one starts to feel off:
 
 1. Define the job. Agentic coding, review, bulk extraction, chat, research? Different jobs have different winners.
 2. Pick two or three candidates from different labs. Include your current default and one cheaper tier.
-3. Check access rules: data retention and zero-data-retention terms, region, safety routing (Fable hands some requests to Opus), and your company's approved-vendor list ([module 15](15-learning-careers-and-responsibility.md)).
-4. Read the launch post skeptically. Note the harness, effort level and who ran the competitor numbers ([module 05](05-judging-models.md)).
+3. Check access rules: data retention and zero-data-retention terms, region, safety routing (Fable hands some requests to Opus), and your company's approved-vendor list ([module 18](18-learning-careers-and-responsibility.md)).
+4. Read the launch post skeptically. Note the harness, effort level and who ran the competitor numbers ([module 07](07-judging-models.md)).
 5. Run five to ten of your own real tasks, in your own repo and your own harness. Score the result, the tokens used and the time taken.
 6. Compare cost per finished task, not per token. New tokenizers can change token counts by up to 35% for the same text ([Anthropic](https://www.anthropic.com/news/claude-opus-4-7)).
 7. Try the effort settings. Lower effort on a newer model can match higher effort on an older one. Max can waste money. Simon Willison saw Opus 5.5 at `max` use its whole output budget without answering.
 8. Wait a week if you can. Early bugs, tight rate limits and even suspensions happen in launch week, like Fable 5's.
-9. Check the subscription math. In agentic coding, a flat-rate plan can change which model is affordable ([module 12](12-costs-subscriptions-and-apis.md)).
-10. Write down your decision and the date, and revisit it monthly ([module 14](14-keeping-up.md)).
+9. Check the subscription math. In agentic coding, a flat-rate plan can change which model is affordable ([module 15](15-costs-subscriptions-and-apis.md)).
+10. Write down your decision and the date, and revisit it monthly ([module 17](17-keeping-up.md)).
 
 ## Going deeper
 
@@ -375,17 +375,17 @@ With Fable, a classifier decides whether your request goes to Fable or to an Opu
 
 ### Corporate shifts can matter as much as models
 
-Google reorganized DeepMind's leadership in August 2026. Meta replaced Llama with MSL and Muse. Anthropic filed for an IPO in October 2026 ([Anthropic](https://www.anthropic.com/news/s1-sec)). OpenAI hired OpenClaw's creator in February 2026, and the Agentic AI Foundation took over MCP, AGENTS.md and Agent Skills. Both reshaped the tool ecosystem ([module 13](13-open-source-ecosystem.md)). These changes can affect pricing, openness and roadmaps as much as a benchmark result.
+Google reorganized DeepMind's leadership in August 2026. Meta replaced Llama with MSL and Muse. Anthropic filed for an IPO in October 2026 ([Anthropic](https://www.anthropic.com/news/s1-sec)). OpenAI hired OpenClaw's creator in February 2026, and the Agentic AI Foundation took over MCP, AGENTS.md and Agent Skills. Both reshaped the tool ecosystem ([module 16](16-open-source-ecosystem.md)). These changes can affect pricing, openness and roadmaps as much as a benchmark result.
 
 ## Bryan's take
 
-Bryan's views on coding models, Opus 5 and Google appear above, next to the evidence they respond to. His take on Claude's and Codex's ups and downs is in [module 14](14-keeping-up.md), and his take on subscription pricing is in [module 12](12-costs-subscriptions-and-apis.md).
+Bryan's views on coding models, Opus 5 and Google appear above, next to the evidence they respond to. His take on Claude's and Codex's ups and downs is in [module 17](17-keeping-up.md), and his take on subscription pricing is in [module 15](15-costs-subscriptions-and-apis.md).
 
 ## Try it
 
 **Individual exercise: run your own mini-bakeoff (60–90 minutes).**
 1. Pick three small, real tasks from a repo you know: one bug fix, one refactor, one "explain this module."
-2. Run each task with two models from different labs in the same harness. Many harnesses can switch models. OpenCode can use most providers ([module 04](04-open-vs-closed-weights.md)).
+2. Run each task with two models from different labs in the same harness. Many harnesses can switch models. OpenCode can use most providers ([module 06](06-open-vs-closed-weights.md)).
 3. Record pass/fail, tokens or cost, wall-clock time, and how readable each final message was.
 4. Write one paragraph: which would you choose and why? Did the benchmark ranking predict your result?
 

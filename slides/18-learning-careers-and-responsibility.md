@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "15: Learning, careers, and responsible use"
+title: "18: Learning, careers, and responsible use"
 description: "Learning with AI instead of skipping the learning, what's happening to careers, and what you answer for"
-footer: "A Brief Introduction to Not Writing Code · 15 Learning, careers, and responsibility"
+footer: "A Brief Introduction to Not Writing Code · 18 Learning, careers, and responsibility"
 ---
 
 <!-- _class: lead -->
@@ -102,7 +102,7 @@ Kosmyna et al., MIT Media Lab, 2025: EEG while people wrote essays with an LLM, 
 
 METR, 2025: experienced open-source developers in their own repositories. Tools have improved since. What still holds is that people are poor judges of their own AI-assisted performance.
 
-The module also cites Perry et al., 2022. Participants with an AI assistant wrote less secure code and were more likely to believe it was secure (module 11).
+The module also cites Perry et al., 2022. Participants with an AI assistant wrote less secure code and were more likely to believe it was secure (module 14).
 -->
 
 ---
@@ -298,12 +298,12 @@ Also testing, security judgment, domain knowledge, communication, and taste.
 The module covers eleven skills. The others are:
 
 Testing and verification: tests turn "looks right" into "is right," and they're how agents check their own work.
-Security judgment: knowing what not to give an agent access to (module 11).
+Security judgment: knowing what not to give an agent access to (module 14).
 Domain knowledge: the agent doesn't know your users, your regulations, or why the weird business rule exists.
 Communication: clear issues, design docs, and PR descriptions help humans and agents alike.
 Taste: knowing which of five working solutions is the one you'll be glad you kept in two years.
 
-Specification includes edge cases and non-goals; it's the main lever (module 07). On reading and review, you'll read far more code than you write (module 10). Systems thinking covers architecture, data flow, failure modes, and cost.
+Specification includes edge cases and non-goals; it's the main lever (module 09). On reading and review, you'll read far more code than you write (module 13). Systems thinking covers architecture, data flow, failure modes, and cost.
 
 As agents take on more of the how, more of an engineer's day goes to what and why: which problem is worth solving, for whom, and what "done" looks like.
 -->
@@ -324,7 +324,7 @@ Brooks's law (1975): "adding manpower to a late software project makes it later.
 <!--
 When agents write more of the code, the parts of a CS degree that felt least like programming start to matter more.
 
-Brooks's law is from Fred Brooks's The Mythical Man-Month. Coordination costs grow with every person you add, and it holds for agents. Cursor found that twenty agents working on one codebase slowed to the throughput of two or three (module 09).
+Brooks's law is from Fred Brooks's The Mythical Man-Month. Coordination costs grow with every person you add, and it holds for agents. Cursor found that twenty agents working on one codebase slowed to the throughput of two or three (module 12).
 
 An agent can implement a design. Choosing the right one is still your job, and good system design chops make your prompts better, because you know what to ask the agent about.
 
@@ -359,7 +359,7 @@ That's my view. Use the earlier labor-market evidence to judge the hiring pictur
 - Narrate the moment you reject its suggestion, and why
 
 <!--
-Anyone can make ten AI-generated apps. Show tests, design notes, and a README that explains trade-offs you made and alternatives you rejected. Say where agents helped and where you overrode them; hiring managers increasingly ask. A write-up of a hard bug you found, including one an AI introduced, is more convincing than a feature list. Open-source contributions count, following each project's contribution and AI policy (module 13).
+Anyone can make ten AI-generated apps. Show tests, design notes, and a README that explains trade-offs you made and alternatives you rejected. Say where agents helped and where you overrode them; hiring managers increasingly ask. A write-up of a hard bug you found, including one an AI introduced, is more convincing than a feature list. Open-source contributions count, following each project's contribution and AI policy (module 16).
 
 Canva announced in June 2025 that backend, ML, and frontend candidates would use tools like Copilot, Cursor, and Claude, with harder and more ambiguous problems. It evaluates whether candidates break down requirements, make sound decisions, and catch and fix problems in AI-generated code. Other companies forbid AI in interviews and use in-person or proctored formats.
 
@@ -397,7 +397,7 @@ On terms, as the module describes them, Anthropic changed its consumer terms on 
 
 ChatGPT consumer accounts have a setting to stop conversations being used to improve models; OpenAI's business and API offerings don't train on customer data by default.
 
-Team and enterprise plans generally add admin controls, retention settings, and contractual commitments. Some organizations negotiate zero data retention (module 12).
+Team and enterprise plans generally add admin controls, retention settings, and contractual commitments. Some organizations negotiate zero data retention (module 15).
 
 Check your own settings this week.
 -->
@@ -439,7 +439,7 @@ Don't launder. Presenting heavy AI output as entirely your own, where disclosure
 - AI-first doesn't mean AI-only; keep skills for when tools fail
 
 <!--
-Whatever you merge, deploy, submit, or publish is yours, including the bugs, the security holes (module 11), and the license problems. Module 10 covers review practices that keep a named human accountable for every change.
+Whatever you merge, deploy, submit, or publish is yours, including the bugs, the security holes (module 14), and the license problems. Module 13 covers review practices that keep a named human accountable for every change.
 
 On bias, models reflect their training data. Default names, examples, and assumptions about users can skew toward some groups. Review user-facing text, test data, and logic that touches people (hiring, lending, grading). On accessibility, generated UIs often miss labels, have poor contrast, or are mouse-only; test with an automated checker and a screen reader. AI can also improve access: voice-driven coding for repetitive strain injuries, plain-language explanations, help working in a second language.
 
@@ -461,7 +461,7 @@ Imposter feelings are common either way. Specification, judgment, and verificati
 > **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 <!--
-Being "a human in charge" means you understand what you ship, you protect other people's data, and you answer for the result. For Yegge's stages of AI-assisted work, see module 08.
+Being "a human in charge" means you understand what you ship, you protect other people's data, and you answer for the result. For Yegge's stages of AI-assisted work, see module 10.
 -->
 
 ---
@@ -507,7 +507,7 @@ More if time allows: Is disclosing AI use in a commit message more like creditin
 
 # Read more
 
-- [Module 15: Learning, careers, and responsible use](../modules/15-learning-careers-and-responsibility/)
+- [Module 18: Learning, careers, and responsible use](../modules/18-learning-careers-and-responsibility/)
 - [How AI Impacts Skill Formation](https://arxiv.org/abs/2601.20245) (Shen, Tamkin, 2026)
 - [Canaries in the Coal Mine?](https://digitaleconomy.stanford.edu/publications/canaries-in-the-coal-mine/) (Brynjolfsson, Chandar, Chen, 2025, revised 2026)
 - [Generative AI without guardrails can harm learning](https://doi.org/10.1073/pnas.2422633122) (Bastani et al., PNAS, 2025)

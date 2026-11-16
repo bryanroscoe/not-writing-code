@@ -1,4 +1,4 @@
-# 15: Learning, careers, and responsible use
+# 18: Learning, careers, and responsible use
 
 *About a 30-minute read. Last checked November 8, 2026.*
 
@@ -38,7 +38,7 @@ Research on AI and learning is young, fast-moving, and mostly short-term. Read e
 
 **Perceived vs measured speed (METR, 2025).** In a randomized study, 16 experienced open-source developers took 19% longer on tasks in their own repositories when allowed to use early-2025 AI tools, while believing afterward that AI had made them about 20% faster ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). Tools have improved a lot since. What has held up is that people are poor judges of their own AI-assisted performance.
 
-**Overconfidence in security (Perry et al., 2022).** Participants with an AI assistant wrote less secure code *and* were more likely to believe it was secure ([Do Users Write More Insecure Code with AI Assistants?](https://arxiv.org/abs/2211.03622); [module 11](./11-security-and-prompt-injection.md)).
+**Overconfidence in security (Perry et al., 2022).** Participants with an AI assistant wrote less secure code *and* were more likely to believe it was secure ([Do Users Write More Insecure Code with AI Assistants?](https://arxiv.org/abs/2211.03622); [module 14](./14-security-and-prompt-injection.md)).
 
 Taken together, these studies don't show that AI always harms or always helps learning. They suggest that relying on generated answers can reduce later unaided performance, while asking questions and checking understanding can preserve or improve learning in some settings. Feeling productive doesn't show how much you learned.
 
@@ -154,13 +154,13 @@ Entry-level software work is getting harder to find, and AI is a plausible part 
 
 | Skill | Why it matters more with agents |
 | --- | --- |
-| **Specification** | Agents do what you ask. Saying precisely what you want, including edge cases and non-goals, is the main lever ([module 07](./07-context-engineering.md)). |
+| **Specification** | Agents do what you ask. Saying precisely what you want, including edge cases and non-goals, is the main lever ([module 09](./09-context-engineering.md)). |
 | **Decomposition** | Breaking work into pieces an agent can do and you can verify. |
-| **Reading and review** | You will read far more code than you write. Spotting the subtle bug in 400 plausible lines is the job ([module 10](./10-ai-code-review.md)). |
+| **Reading and review** | You will read far more code than you write. Spotting the subtle bug in 400 plausible lines is the job ([module 13](./13-ai-code-review.md)). |
 | **Debugging** | When the agent is stuck or confidently wrong, someone has to find the real cause. |
 | **Testing and verification** | Tests check specified behavior and help agents catch regressions; passing them does not prove the program is correct. |
 | **Systems thinking** | Agents optimize locally. Architecture, data flow, failure modes, and cost are still human calls. |
-| **Security judgment** | Knowing what not to give an agent access to ([module 11](./11-security-and-prompt-injection.md)). |
+| **Security judgment** | Knowing what not to give an agent access to ([module 14](./14-security-and-prompt-injection.md)). |
 | **Domain knowledge** | The agent doesn't know your users, your regulations, or why the weird business rule exists. |
 | **Communication** | Writing clear issues, design docs, and PR descriptions helps humans and agents alike. |
 | **Taste** | Knowing which of five working solutions is the one you'll be glad you kept in two years. |
@@ -170,7 +170,7 @@ Entry-level software work is getting harder to find, and AI is a plausible part 
 
 When agents write more of the code, the parts of a CS degree that felt least like programming start to matter more.
 
-- Software engineering and project management classes cover estimation, scheduling, dependencies, and risk. Brooks's law, from *The Mythical Man-Month* (1975), says "adding manpower to a late software project makes it later," because coordination costs grow with every person you add. It applies to agents too: Cursor found that twenty agents working on one codebase slowed to the throughput of two or three ([module 09](./09-multi-agent-systems.md)).
+- Software engineering and project management classes cover estimation, scheduling, dependencies, and risk. Brooks's law, from *The Mythical Man-Month* (1975), says "adding manpower to a late software project makes it later," because coordination costs grow with every person you add. It applies to agents too: Cursor found that twenty agents working on one codebase slowed to the throughput of two or three ([module 12](./12-multi-agent-systems.md)).
 - In system design, an agent can implement a design, but choosing the right one, and knowing which questions to ask about scale, failure, data, and cost, is still your job. Good system design chops also make your prompts better, because you know what to ask the agent about.
 - An agent can write a heap from memory. You still need algorithms and data structures to recognize when you need one, notice when its solution is accidentally quadratic, and, for now, pass interviews that test this directly.
 - Communication and product classes teach clear specs, demos, and understanding what users actually need.
@@ -216,7 +216,7 @@ Consumer and business products from the same lab often have different data rules
 
 - Anthropic announced new consumer terms on 28 August 2025, with a deadline a few weeks later for existing users to choose. Free, Pro, and Max users (including Claude Code on those plans) choose whether their chats and coding sessions are used for training. If they allow it, data is retained for up to five years; if not, the existing 30-day retention applies. Team, Enterprise, Education, Government, and API use are excluded ([Anthropic](https://www.anthropic.com/news/updates-to-our-consumer-terms)).
 - ChatGPT consumer accounts have a setting to stop your conversations being used to improve models; OpenAI's business and API offerings don't train on customer data by default.
-- Team and enterprise plans generally add admin controls, retention settings, and contractual commitments. Some organizations also negotiate zero data retention ([module 12](./12-costs-subscriptions-and-apis.md)).
+- Team and enterprise plans generally add admin controls, retention settings, and contractual commitments. Some organizations also negotiate zero data retention ([module 15](./15-costs-subscriptions-and-apis.md)).
 
 Check your settings now, and recheck after any terms update. Defaults change.
 
@@ -254,7 +254,7 @@ Agentic coding isn't a median chat prompt. One hour with an agent can be 60 or m
 
 #### Human accountability
 
-An agent can't be fired, sued, or held to a professional standard, but you can. Whatever you merge, deploy, submit, or publish is yours, including the bugs, the security holes ([module 11](./11-security-and-prompt-injection.md)), and the license problems. "The AI wrote it" doesn't excuse those problems. [Module 10](./10-ai-code-review.md) covers review practices that keep a named human accountable for every change.
+An agent can't be fired, sued, or held to a professional standard, but you can. Whatever you merge, deploy, submit, or publish is yours, including the bugs, the security holes ([module 14](./14-security-and-prompt-injection.md)), and the license problems. "The AI wrote it" doesn't excuse those problems. [Module 13](./13-ai-code-review.md) covers review practices that keep a named human accountable for every change.
 
 ## Going deeper
 
@@ -282,7 +282,7 @@ Being AI-first means reaching for the tool by default and knowing how to use it 
 
 > **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
-A human in charge must understand what ships, protect other people's data, and answer for the result. Yegge's stages are in [module 08](./08-agentic-workflows.md).
+A human in charge must understand what ships, protect other people's data, and answer for the result. Yegge's stages are in [module 10](./10-agentic-workflows.md).
 
 ## Try it
 

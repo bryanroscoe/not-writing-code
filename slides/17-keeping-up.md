@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "14: Keeping up without drowning"
+title: "17: Keeping up without drowning"
 description: "Velocity, regressions, launch claims, and a routine you can sustain"
-footer: "A Brief Introduction to Not Writing Code · 14 Keeping up"
+footer: "A Brief Introduction to Not Writing Code · 17 Keeping up"
 ---
 
 <!-- _class: lead -->
@@ -18,7 +18,7 @@ We'll work out a weekly routine you can keep up, a checklist for "it feels worse
 
 Incidents and dates are as of November 2026. These habits should help with later releases too.
 
-The reading is module 14. Students, read Foundations, the information diet, and the sustainable routine. Engineers, all of In practice, especially the model-task-harness checklist. Leads, the team AI radar and when to switch tools.
+The reading is module 17. Students, read Foundations, the information diet, and the sustainable routine. Engineers, all of In practice, especially the model-task-harness checklist. Leads, the team AI radar and when to switch tools.
 -->
 
 ---
@@ -62,7 +62,7 @@ Harnesses ship constantly too: Claude Code's changelog moves just as quickly as 
 
 Even the yardsticks move. Artificial Analysis revised its Intelligence Index twelve times between August 2025 and November 2026, eight of them changing which evaluations it includes.
 
-For which models lead where right now, see module 03. This session is about coping with the pace.
+For which models lead where right now, see module 05. This session is about coping with the pace.
 -->
 
 ---
@@ -81,7 +81,7 @@ For which models lead where right now, see module 03. This session is about copi
 For any technique, ask: *will this still matter after the next model?*
 
 <!--
-Where each is covered: context in module 07; verification (tests, review, running the code) in module 10; security habits (sandboxing, least privilege, injection awareness) in module 11; checkable steps in module 08; your own eval set in module 05; cost awareness in module 12.
+Where each is covered: context in module 09; verification (tests, review, running the code) in module 13; security habits (sandboxing, least privilege, injection awareness) in module 14; checkable steps in module 10; your own eval set in module 07; cost awareness in module 15.
 
 For example, "Write a clear spec and a test first" passes. "Use this magic phrase to make Model X behave" usually doesn't.
 -->
@@ -222,7 +222,7 @@ Always keep a second tool warm.
 <!--
 Switching has a cost: new habits, new configuration, new failure modes. Switch when the evidence is strong.
 
-"Warm" means installed, configured, and used at least occasionally. The Fable 5 suspension and the 2025–2026 regressions all hit people who had only one option. Keeping another vendor's tool usable is cheap insurance and makes multi-model review possible (module 10).
+"Warm" means installed, configured, and used at least occasionally. The Fable 5 suspension and the 2025–2026 regressions all hit people who had only one option. Keeping another vendor's tool usable is cheap insurance and makes multi-model review possible (module 13).
 -->
 
 ---
@@ -251,7 +251,7 @@ Most of what you'll read about AI is a launch post, a reaction to one, or a rumo
 <!--
 A launch post is marketing written by people who also do science. Read it the way you'd read any vendor's claims.
 
-Are competitors' benchmark numbers run the same way, or copied from their own launch posts? Module 05 has a full checklist.
+Are competitors' benchmark numbers run the same way, or copied from their own launch posts? Module 07 has a full checklist.
 
 Demos show the best of many tries.
 
@@ -359,9 +359,9 @@ Watch for rumor laundering: an anonymous post becomes a blog post, the blog post
 <!--
 Weekly: changelogs for the two or three tools you use; one or two newsletters from the list; add at most one item to a "try list."
 
-Monthly: pick the one or two releases from the try list most relevant to your work and run your golden tasks on them (module 05). Write down the result even if it's "no change." Remove one tool, plugin, or MCP server you no longer use.
+Monthly: pick the one or two releases from the try list most relevant to your work and run your golden tasks on them (module 07). Write down the result even if it's "no change." Remove one tool, plugin, or MCP server you no longer use.
 
-Quarterly: tool review of what you pay vs what you get (module 12); refresh the golden tasks by retiring leaked ones and adding recent work; review security settings (module 11); update the team radar.
+Quarterly: tool review of what you pay vs what you get (module 15); refresh the golden tasks by retiring leaked ones and adding recent work; review security settings (module 14); update the team radar.
 -->
 
 ---
@@ -423,7 +423,7 @@ For leads, the radar doubles as the record of why the team uses what it uses, wh
 A close result means "not yet."
 
 <!--
-A four-hour, time-boxed plan. You need the golden-task set from module 05.
+A four-hour, time-boxed plan. You need the golden-task set from module 07.
 
 Read the claims: launch post, pricing, limits, availability, and the system card's limitations and benchmark footnotes. Write down specific claims to test, such as "better at long refactors" or "40% cheaper."
 
@@ -494,7 +494,7 @@ More if time allows: pick a lab and argue for and against trusting its next laun
 
 # Read more
 
-- [Module 14: Keeping up without drowning](../modules/14-keeping-up/)
+- [Module 17: Keeping up without drowning](../modules/17-keeping-up/)
 - [A postmortem of three recent issues](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues) (Anthropic, September 2025)
 - [Ghosts in the Codex Machine](https://docs.google.com/document/d/1fDJc1e0itJdh0MXMFJtkRiBcxGEFtye6Xc6Ui7eMX4o/mobilebasic) (OpenAI Codex team, October 2025)
 - [Thoughtworks Technology Radar](https://www.thoughtworks.com/radar)

@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "04: Open weight vs closed weight"
+title: "06: Open weight vs closed weight"
 description: "What open weights give you, what the licenses say, and what running a model yourself takes"
-footer: "A Brief Introduction to Not Writing Code · 04 Open weight vs closed weight"
+footer: "A Brief Introduction to Not Writing Code · 06 Open weight vs closed weight"
 ---
 
 <!-- _class: lead -->
@@ -35,7 +35,7 @@ Where the weights came from isn't where your data goes.
 <!--
 People often confuse these two things. Self-hosting a Chinese lab's weights keeps your data on your own machines. Calling that lab's own API sends it to servers in China. Those are different risk decisions, and the privacy slide near the end comes back to it.
 
-Module 03 covers how far behind open models are.
+Module 05 covers how far behind open models are.
 -->
 
 ---
@@ -189,7 +189,7 @@ Most current policy treats today's open models as acceptable and watches the fro
 <!--
 On the pro side, in July 2026 Hugging Face responded to an intrusion by an autonomous OpenAI test agent that had escaped its sandbox. Commercial model APIs blocked its incident-analysis requests, so the team used a self-hosted open-weight model. In 2024 the US NTIA recommended monitoring open-weight risks rather than restricting them.
 
-Against, research showed LoRA fine-tuning cheaply undoes safety training (Lermen et al. and Gade et al., 2023). Refusal behavior is often controlled by a single direction in the model's activations, which can be edited out, called "abliteration" (Arditi et al., 2024). Epoch estimates open models trail the closed frontier by 6 to 7 months on cyber tasks, so capabilities closed labs gate today will be downloadable within months. And in 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions. That's a property of the weights, wherever you run them (module 11).
+Against, research showed LoRA fine-tuning cheaply undoes safety training (Lermen et al. and Gade et al., 2023). Refusal behavior is often controlled by a single direction in the model's activations, which can be edited out, called "abliteration" (Arditi et al., 2024). Epoch estimates open models trail the closed frontier by 6 to 7 months on cyber tasks, so capabilities closed labs gate today will be downloadable within months. And in 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions. That's a property of the weights, wherever you run them (module 14).
 
 Discussion question 2 asks you to weigh these risks.
 -->
@@ -329,7 +329,7 @@ Ollama runs a local API on port 11434, and that command downloads about 14 GB th
 
 Clean up when you're done with ollama rm and the model name, or LM Studio's model manager.
 
-On tuning, open weights can be changed with LoRA, which trains small add-on matrices, or QLoRA, which does it on a 4-bit base so one GPU can fine-tune a large model. Common tools are Unsloth, Hugging Face TRL, and mlx-lm. Closed models can only be tuned through whatever service the lab offers. Module 02 covers tuning in depth.
+On tuning, open weights can be changed with LoRA, which trains small add-on matrices, or QLoRA, which does it on a 4-bit base so one GPU can fine-tune a large model. Common tools are Unsloth, Hugging Face TRL, and mlx-lm. Closed models can only be tuned through whatever service the lab offers. Module 03 covers tuning in depth.
 -->
 
 ---
@@ -371,7 +371,7 @@ For Claude Code, Z.ai documents a settings file that sets the Anthropic base URL
 
 Codex CLI sets the local provider with oss_provider in ~/.codex/config.toml, and can use any compatible endpoint defined under model_providers.
 
-A local 20B to 30B model handles small, well-specified edits and explanations. It struggles with long multi-file agentic tasks that frontier models finish. Hosted frontier open models like Kimi K3.1 Pro and GLM-5.3 come much closer. Flat-rate coding plans from MiniMax, Z.ai, and others compete with Claude and ChatGPT subscriptions on price (module 12).
+A local 20B to 30B model handles small, well-specified edits and explanations. It struggles with long multi-file agentic tasks that frontier models finish. Hosted frontier open models like Kimi K3.1 Pro and GLM-5.3 come much closer. Flat-rate coding plans from MiniMax, Z.ai, and others compete with Claude and ChatGPT subscriptions on price (module 15).
 -->
 
 ---
@@ -425,9 +425,9 @@ The module has more rows. If closed-model safeguards block security research, go
 > **Bryan's take:** For coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain.
 
 <!--
-"A different place in the chain" is the pipeline in module 03: closed frontier first, open-weight leaders months later, then community derivatives.
+"A different place in the chain" is the pipeline in module 05: closed frontier first, open-weight leaders months later, then community derivatives.
 
-When you compare a self-hosted or per-token open model against a flat-rate plan, the module also points to my view in module 12 that subscriptions, not API billing, are what make heavy agentic use affordable.
+When you compare a self-hosted or per-token open model against a flat-rate plan, the module also points to my view in module 15 that subscriptions, not API billing, are what make heavy agentic use affordable.
 -->
 
 ---
@@ -470,7 +470,7 @@ The module has one more: if a lab's open model is safe today, what would have to
 
 ## Read more
 
-- Module: [04 Open weight vs closed weight](../modules/04-open-vs-closed-weights/)
+- Module: [06 Open weight vs closed weight](../modules/06-open-vs-closed-weights/)
 - [OSI Open Source AI Definition 1.0](https://opensource.org/ai/open-source-ai-definition) (October 2024)
 - Epoch AI, [Open-weight models trail closed models in cyber capabilities by 6–7 months](https://epoch.ai/data-insights/open-closed-cyber-eci-gap) (2026)
 - NIST, [CAISI evaluation of DeepSeek AI models](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks) (2025)

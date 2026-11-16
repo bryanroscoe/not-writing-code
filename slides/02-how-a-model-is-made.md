@@ -14,7 +14,7 @@ footer: "A Brief Introduction to Not Writing Code · 02 Training, tuning, and se
 How models are made, how you tune one, and what "self-improving" really means
 
 <!--
-This session has three parts: how a model gets made, how you would tune an open-weight model yourself, and the research on models that tune their own weights. The reading is module 02. Plan on about 45 minutes plus discussion.
+This session has three parts: how a model gets made, how you would tune an open-weight model yourself, and the research on models that tune their own weights. The reading is modules 02 and 03. Plan on about 45 minutes plus discussion.
 
 Part 3 takes on a question students and engineers keep asking: if a model can update its own weights, is that self-improvement? It is, narrowly, and most of the last third is about what "narrowly" means.
 
@@ -143,7 +143,7 @@ Part 2 is for open-weight models you can download and change: Llama, Qwen, DeepS
 Stop at the first rung that meets your bar.
 
 <!--
-Start at the top with clear instructions and a strong model. Then give it the docs, code, schemas, and examples it needs (module 07). If the knowledge is large or changes, retrieve the relevant pieces at query time. Then put 5–50 good examples in the prompt; prompt caching makes repeated prefixes cheap. Before going further, build a labeled test set, because without one you can't tell whether fine-tuning helped.
+Start at the top with clear instructions and a strong model. Then give it the docs, code, schemas, and examples it needs (module 09). If the knowledge is large or changes, retrieve the relevant pieces at query time. Then put 5–50 good examples in the prompt; prompt caching makes repeated prefixes cheap. Before going further, build a labeled test set, because without one you can't tell whether fine-tuning helped.
 
 Research backs this order for knowledge. Ovadia et al. (2023) found retrieval beat fine-tuning for injecting new facts. Gekhman et al. (2024) found models learn new facts slowly during fine-tuning, and the more new facts they absorb, the more they tend to hallucinate.
 
@@ -525,18 +525,18 @@ For question 4, note that OpenAI graded its own "research intern" milestone, and
 
 Other questions from the module if the room is lively:
 - Emergent misalignment disappeared when insecure code was framed as being for a security class. What does that suggest about what fine-tuning teaches?
-- If safety training can be removed from open weights for a few hundred dollars, what follows for open-weight releases? (Module 04.)
+- If safety training can be removed from open weights for a few hundred dollars, what follows for open-weight releases? (Module 06.)
 -->
 
 ---
 
 ## Read more
 
-- The module: [02: How models are trained, tuned, and now tune themselves](../modules/02-training-and-tuning/)
+- The modules: [02: How a model is made](../modules/02-how-a-model-is-made/) and [03: Post-training and reinforcement learning](../modules/03-post-training-and-rl/)
 - Zweiger et al., [Self-Adapting Language Models](https://arxiv.org/abs/2506.10943) (2025), SEAL
 - Google Research, [The sleep framework](https://research.google/blog/the-sleep-framework-a-new-way-for-llms-to-retain-knowledge-in-continual-learning/) (October 27, 2026)
 - Andrej Karpathy, [Deep Dive into LLMs like ChatGPT](https://www.youtube.com/watch?v=7xTGNNLPyMI) (February 2025)
 
 <!--
-The module has the full source list: the LoRA, QLoRA, DPO, and GRPO papers; the emergent misalignment and poisoning studies; SIA, AIDE², the Darwin Gödel Machine, and AlphaEvolve; the weight-space programming post; and the lab statements from OpenAI and Anthropic. Karpathy's video is the best long-form walkthrough of the training pipeline. Next session, module 03, covers the labs and their current lineups.
+The module has the full source list: the LoRA, QLoRA, DPO, and GRPO papers; the emergent misalignment and poisoning studies; SIA, AIDE², the Darwin Gödel Machine, and AlphaEvolve; the weight-space programming post; and the lab statements from OpenAI and Anthropic. Karpathy's video is the best long-form walkthrough of the training pipeline. Next session, module 05, covers the labs and their current lineups.
 -->

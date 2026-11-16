@@ -7,9 +7,9 @@ This page lists dated events in AI-accelerated software engineering: key papers,
 How to read it:
 
 - **Dates** are first public availability in US time. API dates can lag app launches by days. Where they differ, both are noted. "YYYY-MM" means only the month is certain.
-- **Model details** (prices, context windows, IDs) live in [module 03](../modules/03-model-landscape.md). This page gives just enough to place each event.
+- **Model details** (prices, context windows, IDs) live in [module 05](../modules/05-model-landscape.md). This page gives just enough to place each event.
 - **"Reported"** marks events confirmed only by secondary sources.
-- The field moves monthly. If you find an error, fix it here and in module 03.
+- The field moves monthly. If you find an error, fix it here and in module 05.
 
 ## 2017–2019: the transformer and the first GPTs
 
@@ -202,4 +202,4 @@ How to read it:
 - **Open–closed gaps depend on the task.** Epoch estimated about a year across its 2024 benchmark sample and 6–7 months on cyber tasks in 2026; these are different measures.
 - **Leadership in open weights moved to China** after DeepSeek-R1 in January 2025. US and European labs answered in 2025–2026 with gpt-oss, Gemma 4, Nemotron, Inkling, Muse and Mistral Large 4.
 - **Agent tooling standardized.** MCP (2024), AGENTS.md (2025) and Agent Skills (2025) all ended up at the Agentic AI Foundation.
-- **Incidents are part of the history.** Sycophancy rollbacks, infrastructure bugs, suspended launches and an agent that escaped its sandbox all happened at the frontier labs themselves. See [module 11](../modules/11-security-and-prompt-injection.md) and [module 14](../modules/14-keeping-up.md).
+- **Incidents are part of the history.** Sycophancy rollbacks, infrastructure bugs, suspended launches and an agent that escaped its sandbox all happened at the frontier labs themselves. See [module 14](../modules/14-security-and-prompt-injection.md) and [module 17](../modules/17-keeping-up.md).

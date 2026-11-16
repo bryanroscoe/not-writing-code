@@ -20,26 +20,32 @@ depth, and the [learning paths](paths/) tell each audience what to read.
 
 ## File map
 
-Modules are numbered in reading order. Link between them with relative links.
+Modules are numbered in reading order and grouped into five stages. Link between them with relative links.
 
 | File | Topic |
 | --- | --- |
 | `modules/00-orientation.md` | AI-accelerated coding vs vibe coding, how to use this, why it moves so fast |
+| **Stage 1: How the machine works** | |
 | `modules/01-what-is-an-llm.md` | Tokens, transformers, pretraining, post-training, reasoning models, limits |
-| `modules/02-training-and-tuning.md` | How models are made, fine-tuned (LoRA etc.), distilled, and how models now tune themselves |
-| `modules/03-model-landscape.md` | The labs, the current lineups, who leads where, the best model for the job |
-| `modules/04-open-vs-closed-weights.md` | Open weight vs closed, licenses, running locally, where open models sit in the chain |
-| `modules/05-judging-models.md` | Benchmarks, how to read them, benchmark-maxing, vibes, building your own evals |
-| `modules/06-harnesses-and-tools.md` | Chat, IDE, CLI and cloud agents; MCP; skills; hooks; closed products built on top |
-| `modules/07-context-engineering.md` | Prompt → context → harness → loop → graph engineering; CLAUDE.md/AGENTS.md history |
-| `modules/08-agentic-workflows.md` | Day-to-day workflows, Yegge's levels, parallel agents, how much autonomy works |
-| `modules/09-multi-agent-systems.md` | Multiple agents building and reviewing; what the research says |
-| `modules/10-ai-code-review.md` | Review tools, multi-model review, keeping humans accountable |
-| `modules/11-security-and-prompt-injection.md` | Prompt injection, the lethal trifecta, sandboxing, supply chain |
-| `modules/12-costs-subscriptions-and-apis.md` | Subscriptions vs API billing, real costs, rate limits, budgeting |
-| `modules/13-open-source-ecosystem.md` | Open-source harnesses, inference engines, frameworks, MCP servers |
-| `modules/14-keeping-up.md` | Velocity, regressions, model ups and downs, which sources to trust |
-| `modules/15-learning-careers-and-responsibility.md` | Skill formation, academic integrity, careers, ethics, data policy |
+| `modules/02-how-a-model-is-made.md` | How models are made: data, pretraining, mid-training, distillation, quantization |
+| `modules/03-post-training-and-rl.md` | Post-training and RL, fine-tuning (LoRA etc.), and how models now tune themselves |
+| **Stage 2: Choosing a model** | |
+| `modules/05-model-landscape.md` | The labs, the current lineups, who leads where, the best model for the job |
+| `modules/06-open-vs-closed-weights.md` | Open weight vs closed, licenses, running locally, where open models sit in the chain |
+| `modules/07-judging-models.md` | Benchmarks, how to read them, benchmark-maxing, vibes, building your own evals |
+| **Stage 3: Working with agents** | |
+| `modules/08-harnesses-and-tools.md` | Chat, IDE, CLI and cloud agents; MCP; skills; hooks; closed products built on top |
+| `modules/09-context-engineering.md` | Prompt → context → harness → loop → graph engineering; CLAUDE.md/AGENTS.md history |
+| `modules/10-agentic-workflows.md` | Day-to-day workflows, Yegge's levels, parallel agents, how much autonomy works |
+| **Stage 4: Trusting the output** | |
+| `modules/12-multi-agent-systems.md` | Multiple agents building and reviewing; what the research says |
+| `modules/13-ai-code-review.md` | Review tools, multi-model review, keeping humans accountable |
+| `modules/14-security-and-prompt-injection.md` | Prompt injection, the lethal trifecta, sandboxing, supply chain |
+| **Stage 5: Practice for the long run** | |
+| `modules/15-costs-subscriptions-and-apis.md` | Subscriptions vs API billing, real costs, rate limits, budgeting |
+| `modules/16-open-source-ecosystem.md` | Open-source harnesses, inference engines, frameworks, MCP servers |
+| `modules/17-keeping-up.md` | Velocity, regressions, model ups and downs, which sources to trust |
+| `modules/18-learning-careers-and-responsibility.md` | Skill formation, academic integrity, careers, ethics, data policy |
 | `reference/glossary.md` | Every term, one or two sentences each |
 | `reference/papers.md` | Annotated reading list of research papers |
 | `reference/timeline.md` | Dated history, 2017 to now |
@@ -119,7 +125,7 @@ This field changes monthly. To keep the material useful:
 - Put "*About an N-minute read. Last checked Month D, YYYY.*" under each module title, and update the date when you re-check facts. No other labels in the header; the [learning paths](paths/) say who should read what.
 - Mark volatile facts inline: "(as of November 2026)."
 - Keep specific model versions, prices, and leaderboard numbers mostly in
-  [module 03](modules/03-model-landscape.md), [module 12](modules/12-costs-subscriptions-and-apis.md),
+  [module 05](modules/05-model-landscape.md), [module 15](modules/15-costs-subscriptions-and-apis.md),
   and the [timeline](reference/timeline.md). Elsewhere, refer to them by tier or link there.
 - Prefer durable concepts (the agent loop, context limits, injection) over
   product trivia.

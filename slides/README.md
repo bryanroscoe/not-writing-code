@@ -9,21 +9,46 @@ The decks are built to HTML, PDF, and PowerPoint on every push to `main` and pub
 | # | Deck | Module |
 | --- | --- | --- |
 | 00 | [Orientation](00-orientation.md) | [00](../modules/00-orientation.md) |
+
+### Stage 1: How the machine works
+
+| # | Deck | Module |
+| --- | --- | --- |
 | 01 | [What is an LLM?](01-what-is-an-llm.md) | [01](../modules/01-what-is-an-llm.md) |
-| 02 | [Training, tuning, and self-tuning](02-training-and-tuning.md) | [02](../modules/02-training-and-tuning.md) |
-| 03 | [The model landscape](03-model-landscape.md) | [03](../modules/03-model-landscape.md) |
-| 04 | [Open weight vs closed weight](04-open-vs-closed-weights.md) | [04](../modules/04-open-vs-closed-weights.md) |
-| 05 | [How to tell if a model is good](05-judging-models.md) | [05](../modules/05-judging-models.md) |
-| 06 | [Harnesses, tools, and MCP](06-harnesses-and-tools.md) | [06](../modules/06-harnesses-and-tools.md) |
-| 07 | [Context engineering and the buzzwords](07-context-engineering.md) | [07](../modules/07-context-engineering.md) |
-| 08 | [Agentic workflows](08-agentic-workflows.md) | [08](../modules/08-agentic-workflows.md) |
-| 09 | [Multiple agents](09-multi-agent-systems.md) | [09](../modules/09-multi-agent-systems.md) |
-| 10 | [AI code review](10-ai-code-review.md) | [10](../modules/10-ai-code-review.md) |
-| 11 | [Security and prompt injection](11-security-and-prompt-injection.md) | [11](../modules/11-security-and-prompt-injection.md) |
-| 12 | [Costs](12-costs-subscriptions-and-apis.md) | [12](../modules/12-costs-subscriptions-and-apis.md) |
-| 13 | [Open-source ecosystem](13-open-source-ecosystem.md) | [13](../modules/13-open-source-ecosystem.md) |
-| 14 | [Keeping up](14-keeping-up.md) | [14](../modules/14-keeping-up.md) |
-| 15 | [Learning, careers, and responsibility](15-learning-careers-and-responsibility.md) | [15](../modules/15-learning-careers-and-responsibility.md) |
+| 02 | [Training, tuning, and self-tuning](02-how-a-model-is-made.md) | [02](../modules/02-how-a-model-is-made.md), [03](../modules/03-post-training-and-rl.md) |
+
+### Stage 2: Choosing a model
+
+| # | Deck | Module |
+| --- | --- | --- |
+| 05 | [The model landscape](05-model-landscape.md) | [05](../modules/05-model-landscape.md) |
+| 06 | [Open weight vs closed weight](06-open-vs-closed-weights.md) | [06](../modules/06-open-vs-closed-weights.md) |
+| 07 | [How to tell if a model is good](07-judging-models.md) | [07](../modules/07-judging-models.md) |
+
+### Stage 3: Working with agents
+
+| # | Deck | Module |
+| --- | --- | --- |
+| 08 | [Harnesses, tools, and MCP](08-harnesses-and-tools.md) | [08](../modules/08-harnesses-and-tools.md) |
+| 09 | [Context engineering and the buzzwords](09-context-engineering.md) | [09](../modules/09-context-engineering.md) |
+| 10 | [Agentic workflows](10-agentic-workflows.md) | [10](../modules/10-agentic-workflows.md) |
+
+### Stage 4: Trusting the output
+
+| # | Deck | Module |
+| --- | --- | --- |
+| 12 | [Multiple agents](12-multi-agent-systems.md) | [12](../modules/12-multi-agent-systems.md) |
+| 13 | [AI code review](13-ai-code-review.md) | [13](../modules/13-ai-code-review.md) |
+| 14 | [Security and prompt injection](14-security-and-prompt-injection.md) | [14](../modules/14-security-and-prompt-injection.md) |
+
+### Stage 5: Practice for the long run
+
+| # | Deck | Module |
+| --- | --- | --- |
+| 15 | [Costs](15-costs-subscriptions-and-apis.md) | [15](../modules/15-costs-subscriptions-and-apis.md) |
+| 16 | [Open-source ecosystem](16-open-source-ecosystem.md) | [16](../modules/16-open-source-ecosystem.md) |
+| 17 | [Keeping up](17-keeping-up.md) | [17](../modules/17-keeping-up.md) |
+| 18 | [Learning, careers, and responsibility](18-learning-careers-and-responsibility.md) | [18](../modules/18-learning-careers-and-responsibility.md) |
 
 ## Building locally
 
@@ -44,9 +69,9 @@ Every deck follows the same conventions, so they look and feel like one course.
 marp: true
 theme: not-writing-code
 paginate: true
-title: "08: Agentic workflows"
+title: "10: Agentic workflows"
 description: "How much autonomy actually works"
-footer: "A Brief Introduction to Not Writing Code · 08 Agentic workflows"
+footer: "A Brief Introduction to Not Writing Code · 10 Agentic workflows"
 ---
 ```
 

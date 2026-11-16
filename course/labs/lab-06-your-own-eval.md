@@ -6,7 +6,7 @@ This lab runs in week 10 of the [syllabus](../syllabus.md) and is due in week 12
 
 ## Goal
 
-Public benchmarks answer "is this model generally strong?" Your own eval answers "should *we* use it, in *our* tool, on *our* code?" ([module 05](../../modules/05-judging-models.md#build-your-own-eval)). Your team builds a set of golden tasks from your term project's own history, runs two agent configurations on them, scores the results blind, and reports what it found with honest error bars. Then you pick the configuration you'll use for the final sprint.
+Public benchmarks answer "is this model generally strong?" Your own eval answers "should *we* use it, in *our* tool, on *our* code?" ([module 07](../../modules/07-judging-models.md#build-your-own-eval)). Your team builds a set of golden tasks from your term project's own history, runs two agent configurations on them, scores the results blind, and reports what it found with honest error bars. Then you pick the configuration you'll use for the final sprint.
 
 This lab fulfills the project eval-set deliverable ([syllabus](../syllabus.md#deliverables)).
 
@@ -20,30 +20,30 @@ An agent may help write the runner and blinding scripts. You choose the tasks, w
 
 ## Prerequisites and setup
 
-- [Labs 2–3](lab-03-plan-test-build.md) done. You're comfortable with fresh sessions, turn limits, and git worktrees ([module 08](../../modules/08-agentic-workflows.md#worktrees-and-parallel-agents)).
+- [Labs 2–3](lab-03-plan-test-build.md) done. You're comfortable with fresh sessions, turn limits, and git worktrees ([module 10](../../modules/10-agentic-workflows.md#worktrees-and-parallel-agents)).
 - Your project's history is the task source. By week 10 it has a deployed vertical slice and a few weeks of real, recent commits. Keep it private and turn off vendor training, since recency alone doesn't prove it's absent from training data. If your history is too thin, the instructor can supply tasks from the eval starter: `[link to Lab 6 eval starter]`. Never use another team's or student's work.
 - Two configurations that differ in exactly one thing. Options that work on a single plan:
   - Two models in the same harness, for example the top tier and the workhorse tier.
   - The same model at two effort levels.
-  - With and without your project's `AGENTS.md` (compare with the ETH result in [module 07](../../modules/07-context-engineering.md#the-rise-and-fall-of-giant-claudemd-and-agentsmd-files)).
+  - With and without your project's `AGENTS.md` (compare with the ETH result in [module 09](../../modules/09-context-engineering.md#the-rise-and-fall-of-giant-claudemd-and-agentsmd-files)).
   - Two harnesses with the exact same model snapshot, if your team has access to both.
 
   **Every run of a configuration uses the same harness, version, model, and settings, whoever runs it.** If teammates have plans from different labs, choose configurations everyone can run, or have the members with the right plan do those runs.
-- Quota for tasks × 2 configurations × 2 attempts, split across the team. Nine tasks is 36 runs, about 12 each. Check your plan's limits ([module 12](../../modules/12-costs-subscriptions-and-apis.md#the-subscription-subsidy-and-its-limits)). If that's too many, do one attempt each plus a second attempt on three tasks.
-- By the terms, running your own eval on your own machine is individual use. Don't run it in CI or for other people on a subscription, because that needs the API ([module 12](../../modules/12-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)). If you're unsure, use the manual protocol below.
+- Quota for tasks × 2 configurations × 2 attempts, split across the team. Nine tasks is 36 runs, about 12 each. Check your plan's limits ([module 15](../../modules/15-costs-subscriptions-and-apis.md#the-subscription-subsidy-and-its-limits)). If that's too many, do one attempt each plus a second attempt on three tasks.
+- By the terms, running your own eval on your own machine is individual use. Don't run it in CI or for other people on a subscription, because that needs the API ([module 15](../../modules/15-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)). If you're unsure, use the manual protocol below.
 - A hidden-test holder, someone who keeps every task's hidden tests and the blinding key away from any machine where an eval agent runs (step 2). In class this is the TA by default, `[or: a teammate who runs no agents during the run phase]`.
 
 ## Background reading
 
-From [module 05](../../modules/05-judging-models.md):
+From [module 07](../../modules/07-judging-models.md):
 
-- [What a benchmark actually is](../../modules/05-judging-models.md#what-a-benchmark-actually-is) and [Why evaluation is hard](../../modules/05-judging-models.md#why-evaluation-is-hard)
-- [Harness matters](../../modules/05-judging-models.md#harness-matters) and [Vibes are data too](../../modules/05-judging-models.md#vibes-are-data-too)
-- [Build your own eval](../../modules/05-judging-models.md#build-your-own-eval), all six steps
-- [The statistics of small evals](../../modules/05-judging-models.md#the-statistics-of-small-evals)
-- [Cheating, reward hacking, and grader trust](../../modules/05-judging-models.md#cheating-reward-hacking-and-grader-trust)
+- [What a benchmark actually is](../../modules/07-judging-models.md#what-a-benchmark-actually-is) and [Why evaluation is hard](../../modules/07-judging-models.md#why-evaluation-is-hard)
+- [Harness matters](../../modules/07-judging-models.md#harness-matters) and [Vibes are data too](../../modules/07-judging-models.md#vibes-are-data-too)
+- [Build your own eval](../../modules/07-judging-models.md#build-your-own-eval), all six steps
+- [The statistics of small evals](../../modules/07-judging-models.md#the-statistics-of-small-evals)
+- [Cheating, reward hacking, and grader trust](../../modules/07-judging-models.md#cheating-reward-hacking-and-grader-trust)
 
-Also [module 08: Background and unattended runs](../../modules/08-agentic-workflows.md#background-and-unattended-runs).
+Also [module 10: Background and unattended runs](../../modules/10-agentic-workflows.md#background-and-unattended-runs).
 
 ## How the folders fit together
 
@@ -90,10 +90,10 @@ For each task you own:
 1. Write a prompt in `evals/prompts/<id>.txt` the way a teammate would file an issue. Describe the symptom or goal and the constraints. Don't leak the solution.
 2. Write hidden tests, mirroring the repository's paths (for example `<hidden>/<id>/tests/test_hidden_<id>.py`).
 3. Validate the task. For bugs and features, hidden tests must **fail** on the base commit and **pass** on the original solution. For refactors, tests should pass on both. Check the requested structural change separately. For test-writing tasks, show that the added tests catch a planted mutation. For traps, validate the written ask/refuse rubric against example responses; no code change may be the correct result.
-4. Write a task file in `evals/tasks/<id>.yaml`, a shortened form of the [module 05 template](../../modules/05-judging-models.md#2-task-file-template): id, title, author, base commit, category, prompt file, grading command, paths the agent must not touch, and notes on what a good solution looks like.
+4. Write a task file in `evals/tasks/<id>.yaml`, a shortened form of the [module 07 template](../../modules/07-judging-models.md#2-task-file-template): id, title, author, base commit, category, prompt file, grading command, paths the agent must not touch, and notes on what a good solution looks like.
 5. Add a line to `evals/tasks.tsv` for the scripts: id, base commit, and grading command, separated by tabs.
 
-Copy [module 05's default rubric](../../modules/05-judging-models.md#3-scoring-rubric) into `evals/rubric.md`. For the trap task, write down what counts as correct, for example "asks which behavior is intended before changing code."
+Copy [module 07's default rubric](../../modules/07-judging-models.md#3-scoring-rubric) into `evals/rubric.md`. For the trap task, write down what counts as correct, for example "asks which behavior is intended before changing code."
 
 > [!IMPORTANT]
 > **Hidden tests never sit, in readable form, on a machine while an eval agent runs there.** An agent working in `../eval-runs/<run>/` runs as you. It can usually read anything you can, including sibling and parent folders, so "outside the repository" isn't far enough away.
@@ -163,7 +163,7 @@ echo "$run: done"
 #!/usr/bin/env bash
 # evals/run_agent.sh CONFIG PROMPT_FILE   (launcher starts in the exported repository)
 # One case per configuration. Change exactly one thing between A and B.
-# Flags follow module 08's scripted example; check your harness's docs.
+# Flags follow module 10's scripted example; check your harness's docs.
 # For the leak check in step 4, also turn on your harness's option to print
 # the full session, including tool calls (see --output-format in Claude Code's docs).
 set -euo pipefail
@@ -179,9 +179,9 @@ case "$config" in
 esac
 ```
 
-If you use Codex, `codex exec` is its non-interactive mode. Set the model and keep the `workspace-write` sandbox ([module 11](../../modules/11-security-and-prompt-injection.md#practical-defenses)). `codex exec --sandbox workspace-write --model "<model>" --json - < prompt.txt` records JSONL events. It has no direct `--max-turns` equivalent, so enforce a wall-clock deadline in the outer runner and record timeouts. `workspace-write` isn't a shell-command allowlist, so enforce command and filesystem restrictions in the outer environment. Flags change, so check `codex exec --help` and the [official CLI reference](https://learn.chatgpt.com/docs/cli/reference). **Never use skip-permissions modes outside a disposable sandbox.**
+If you use Codex, `codex exec` is its non-interactive mode. Set the model and keep the `workspace-write` sandbox ([module 14](../../modules/14-security-and-prompt-injection.md#practical-defenses)). `codex exec --sandbox workspace-write --model "<model>" --json - < prompt.txt` records JSONL events. It has no direct `--max-turns` equivalent, so enforce a wall-clock deadline in the outer runner and record timeouts. `workspace-write` isn't a shell-command allowlist, so enforce command and filesystem restrictions in the outer environment. Flags change, so check `codex exec --help` and the [official CLI reference](https://learn.chatgpt.com/docs/cli/reference). **Never use skip-permissions modes outside a disposable sandbox.**
 
-Try one task end to end before running the rest, as [module 08](../../modules/08-agentic-workflows.md#background-and-unattended-runs) advises for any scripted run. When you're done, check that nothing is left behind. `git worktree list` should show only your main checkout. Inspect `../eval-runs/` separately, since exported run directories aren't Git worktrees. Push your `raw/` outputs to the team's eval repository.
+Try one task end to end before running the rest, as [module 10](../../modules/10-agentic-workflows.md#background-and-unattended-runs) advises for any scripted run. When you're done, check that nothing is left behind. `git worktree list` should show only your main checkout. Inspect `../eval-runs/` separately, since exported run directories aren't Git worktrees. Push your `raw/` outputs to the team's eval repository.
 
 ### 4. Check for leaks (20 minutes)
 
@@ -235,7 +235,7 @@ After grading, the holder deletes the unpacked hidden tests from the grading mac
 
 ### 6. Blind the outputs, then score (90 minutes, split across the team)
 
-People reliably favor the model they expect to be better ([module 05](../../modules/05-judging-models.md#vibes-are-data-too)). The hidden-test holder runs this script and keeps the key. Nobody who scores sees it until scoring is done.
+People reliably favor the model they expect to be better ([module 07](../../modules/07-judging-models.md#vibes-are-data-too)). The hidden-test holder runs this script and keeps the key. Nobody who scores sees it until scoring is done.
 
 ```python
 """Copy each run's outputs to a random ID so a scorer can't tell configurations apart.
@@ -278,19 +278,19 @@ Record each score in `evals/scores.csv` by blind ID and scorer. Only then does t
 
 ### 7. Look for reward hacking (20 minutes)
 
-Read at least three *passing* runs closely, looking for special-cased test inputs, edited test files, or success claims the grader didn't confirm. Any non-empty `test-diff-stat.txt` needs a look. Test-writing tasks must allow their intended test paths, and those edits aren't hard fails. Only edits forbidden by that task’s frozen specification count as contract violations. METR reports that checking for cheating is often most of the work of running an eval ([module 05](../../modules/05-judging-models.md#cheating-reward-hacking-and-grader-trust)).
+Read at least three *passing* runs closely, looking for special-cased test inputs, edited test files, or success claims the grader didn't confirm. Any non-empty `test-diff-stat.txt` needs a look. Test-writing tasks must allow their intended test paths, and those edits aren't hard fails. Only edits forbidden by that task’s frozen specification count as contract violations. METR reports that checking for cheating is often most of the work of running an eval ([module 07](../../modules/07-judging-models.md#cheating-reward-hacking-and-grader-trust)).
 
 ### 8. Summarize honestly and decide (60 minutes, team)
 
 Unblind and write `evals/summary.md` with, for each configuration:
 
-- Pass rate across tasks (average the attempts for each task), with a rough error bar. Treat tasks as the units, not repeated attempts as independent samples. This normal approximation is only a teaching aid, and it's poor near 0% or 100%. The standard error is about √(p(1−p)/n), with n the number of tasks. With 10 tasks at a 60% pass rate, that's √(0.6 × 0.4 / 10) ≈ 0.15, so a 95% interval of roughly ±30 points ([module 05](../../modules/05-judging-models.md#the-statistics-of-small-evals)).
+- Pass rate across tasks (average the attempts for each task), with a rough error bar. Treat tasks as the units, not repeated attempts as independent samples. This normal approximation is only a teaching aid, and it's poor near 0% or 100%. The standard error is about √(p(1−p)/n), with n the number of tasks. With 10 tasks at a 60% pass rate, that's √(0.6 × 0.4 / 10) ≈ 0.15, so a 95% interval of roughly ±30 points ([module 07](../../modules/07-judging-models.md#the-statistics-of-small-evals)).
 - pass^2, the share of tasks where both attempts passed. With reduced runs, compute it only on the preselected repeated-task subset and state that denominator. Never count single-attempt tasks as reliable successes.
 - Mean rubric score, median minutes, hard-fail count, leaked runs, interventions, and quota used.
 
 Add a paired table of tasks where A passed and B failed, and the reverse, to show where the configurations differ.
 
-Finish with five sentences, from [module 05's Try it](../../modules/05-judging-models.md#try-it): which configuration won, by how much, on which task types, at what cost, and whether the difference is bigger than your error bar. If it isn't, say so plainly. "No detectable difference on 9 tasks" is a correct and useful result.
+Finish with five sentences, from [module 07's Try it](../../modules/07-judging-models.md#try-it): which configuration won, by how much, on which task types, at what cost, and whether the difference is bigger than your error bar. If it isn't, say so plainly. "No detectable difference on 9 tasks" is a correct and useful result.
 
 State which configuration your team will use for the final sprint, and why. "No detectable difference, so we chose the cheaper one" is a good decision.
 
@@ -324,8 +324,8 @@ From each student:
 
 ## If you finish early
 
-- Pool tasks with the class ([module 05 Try it](../../modules/05-judging-models.md#try-it)). Teams that agree on the same two configurations can combine results into a set large enough to see smaller differences. Compare the class result with a public leaderboard's ranking of the same models.
-- When a new model or harness version ships, rerun a five-task smoke subset and log the result ([module 14](../../modules/14-keeping-up.md#evaluating-a-brand-new-release-in-an-afternoon)).
+- Pool tasks with the class ([module 07 Try it](../../modules/07-judging-models.md#try-it)). Teams that agree on the same two configurations can combine results into a set large enough to see smaller differences. Compare the class result with a public leaderboard's ranking of the same models.
+- When a new model or harness version ships, rerun a five-task smoke subset and log the result ([module 17](../../modules/17-keeping-up.md#evaluating-a-brand-new-release-in-an-afternoon)).
 - Add a third attempt and report pass^3 alongside the average. Which metric would matter for an unattended nightly job?
 
 ## Instructor notes

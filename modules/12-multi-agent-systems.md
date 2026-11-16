@@ -1,4 +1,4 @@
-# 09: Multiple agents building and reviewing
+# 12: Multiple agents building and reviewing
 
 *About a 40-minute read. Last checked November 8, 2026.*
 
@@ -14,7 +14,7 @@
 
 ### What counts as "multi-agent"
 
-An **agent** is a model running in a loop with tools ([module 08](./08-agentic-workflows.md)). A **multi-agent system** has more than one, each with its own context window. You'll run into four common setups:
+An **agent** is a model running in a loop with tools ([module 10](./10-agentic-workflows.md)). A **multi-agent system** has more than one, each with its own context window. You'll run into four common setups:
 
 | Shape | How it works | Example |
 | --- | --- | --- |
@@ -81,8 +81,8 @@ Two design choices cut across all of these:
 
 - Claude Code has subagents, including the built-in Explore agent and custom agents in `.claude/agents/` whose tools you can restrict (a reviewer limited to `Read, Grep, Glob` can't edit). Agent teams are experimental, behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. `/batch` fans a mechanical change out to separate worktrees, and `/code-review ultra` launches a "fleet of reviewer agents" in a cloud sandbox ([docs](https://code.claude.com/docs/en/ultrareview)).
 - Codex has subagents for bounded work such as exploration, tests, or triage; worktrees for parallel tasks; and `/review` locally and `@codex review` on GitHub ([Codex best practices](https://learn.chatgpt.com/guides/best-practices)).
-- Orchestrators such as Steve Yegge's Gas Town assign roles (a Mayor, worker "Polecats," a merging "Refinery," a supervising "Witness") to many Claude Code instances ([module 08](./08-agentic-workflows.md)).
-- Frameworks for building your own, AutoGen among them, are covered in [module 13](./13-open-source-ecosystem.md).
+- Orchestrators such as Steve Yegge's Gas Town assign roles (a Mayor, worker "Polecats," a merging "Refinery," a supervising "Witness") to many Claude Code instances ([module 10](./10-agentic-workflows.md)).
+- Frameworks for building your own, AutoGen among them, are covered in [module 16](./16-open-source-ecosystem.md).
 
 ### Recipe 1: a review swarm
 
@@ -128,7 +128,7 @@ explain), or REFUTED (explain why the scenario can't happen).
 
 Claude Code's ultrareview does this: "every reported finding is independently reproduced and verified." The research supports it. OpenAI's CriticGPT work found that AI critics catch many bugs but also hallucinate some, and that human-plus-critic teams hallucinated less than critics alone ([McAleese et al., 2024](https://arxiv.org/abs/2407.00215)).
 
-Step 5: rank and report. Report confirmed findings, plus plausible ones only if they're high severity. The human should get a short ranked list instead of 40 comments ([module 10](./10-ai-code-review.md)).
+Step 5: rank and report. Report confirmed findings, plus plausible ones only if they're high severity. The human should get a short ranked list instead of 40 comments ([module 13](./13-ai-code-review.md)).
 
 ### Recipe 2: cross-model review
 
@@ -138,7 +138,7 @@ To reduce that bias:
 
 - At minimum, review in a fresh context. Never ask the session that wrote the code whether the code is good.
 - Better, review with a different lab's model. One lab's agent writes and another's reviews: for example, write with Claude Code and review with Codex (`/review` locally or `@codex review` on the PR), or the reverse. Panels drawn from "disjoint model families" show "less intra-model bias" than a single judge ([Verga et al., 2024](https://arxiv.org/abs/2404.18796)).
-- Keep the reviewer strong. Diversity doesn't help if the reviewer is much weaker than the author; you just get confident noise. [Module 03](./03-model-landscape.md) covers which models are strong at code right now.
+- Keep the reviewer strong. Diversity doesn't help if the reviewer is much weaker than the author; you just get confident noise. [Module 05](./05-model-landscape.md) covers which models are strong at code right now.
 - Verify across models too. If model A finds a bug, have model B try to refute it. Agreement across families is stronger evidence than agreement within one.
 
 ### Recipe 3: parallel builders, when you must
@@ -161,7 +161,7 @@ Before you start:
 - Decide when to stop: a full review pass produces no new confirmed finding, the budget runs out, or two rounds of review-and-fix produce no new high-severity issue.
 - Don't loop review-and-fix forever. Anthropic's docs warn that "A reviewer that's asked to find problems will always find *something*," and fixing everything leads to "extra abstraction layers and tests for cases that can't happen."
 - Fire noisy reviewers. If the verifier refutes most of one reviewer's findings, change its prompt or drop it.
-- Track tokens per review and confirmed findings per review. A swarm that costs 10× and finds the same bugs as one reviewer isn't worth it ([module 12](./12-costs-subscriptions-and-apis.md)).
+- Track tokens per review and confirmed findings per review. A swarm that costs 10× and finds the same bugs as one reviewer isn't worth it ([module 15](./15-costs-subscriptions-and-apis.md)).
 
 ### Anti-patterns
 
@@ -185,7 +185,7 @@ Before you start:
 
 **Debate versus voting.** "Debate or Vote" split multi-agent debate into its two parts and found that "Majority Voting alone accounts for most of the performance gains typically attributed to" debate ([Choi et al., 2025](https://arxiv.org/abs/2508.17536)). "Talk Isn't Always Cheap" found that debate can *reduce* accuracy over rounds, even when stronger models outnumber weaker ones, because "models frequently shift from correct to incorrect answers in response to peer reasoning, favoring agreement over challenging flawed reasoning" ([Wynn et al., 2025](https://arxiv.org/abs/2509.05396)). This is sycophancy between agents.
 
-**Models as judges.** Zheng et al. found strong model judges agree with human preferences about as often as humans agree with each other, and documented position, verbosity, and self-enhancement biases ([Zheng et al., 2023](https://arxiv.org/abs/2306.05685)). Wang et al. showed that simply swapping the order of two answers can flip a judge's verdict ([Wang et al., 2023](https://arxiv.org/abs/2305.17926)). Self-preference work followed ([Panickssery et al., 2024](https://arxiv.org/abs/2404.13076); [Wataoka et al., 2024](https://arxiv.org/abs/2410.21819)). The PoLL paper's fix is a panel of smaller models from different families, which beat a single large judge "while being over seven times less expensive" ([Verga et al., 2024](https://arxiv.org/abs/2404.18796)). Agent-as-a-Judge extended judging from final answers to the intermediate steps of agent work ([Zhuge et al., 2024](https://arxiv.org/abs/2410.10934)). [Module 05](./05-judging-models.md) covers benchmarks and judges in general.
+**Models as judges.** Zheng et al. found strong model judges agree with human preferences about as often as humans agree with each other, and documented position, verbosity, and self-enhancement biases ([Zheng et al., 2023](https://arxiv.org/abs/2306.05685)). Wang et al. showed that simply swapping the order of two answers can flip a judge's verdict ([Wang et al., 2023](https://arxiv.org/abs/2305.17926)). Self-preference work followed ([Panickssery et al., 2024](https://arxiv.org/abs/2404.13076); [Wataoka et al., 2024](https://arxiv.org/abs/2410.21819)). The PoLL paper's fix is a panel of smaller models from different families, which beat a single large judge "while being over seven times less expensive" ([Verga et al., 2024](https://arxiv.org/abs/2404.18796)). Agent-as-a-Judge extended judging from final answers to the intermediate steps of agent work ([Zhuge et al., 2024](https://arxiv.org/abs/2410.10934)). [Module 07](./07-judging-models.md) covers benchmarks and judges in general.
 
 **Simple beats elaborate, surprisingly often.** Agentless asked: "Do we really have to employ complex autonomous software agents?" A fixed three-phase pipeline (localize, repair, validate the patch) scored 32% on SWE-bench Lite at $0.70 per issue, the best result among open-source approaches at the time ([Xia et al., 2024](https://arxiv.org/abs/2407.01489)). "AI Agents That Matter" argued that because benchmarks reward accuracy alone, state-of-the-art agents had become "needlessly complex and costly," and that agents should be compared on cost and accuracy together ([Kapoor et al., 2024](https://arxiv.org/abs/2407.01502)).
 
@@ -208,12 +208,12 @@ Without a real verification step, a multi-agent system can produce confident, wr
 
 **Extreme decomposition.** MAKER solved a Towers of Hanoi task requiring over a million model steps with zero errors. It split the task into tiny subtasks handled by "focused microagents" and used multi-agent voting to correct each step ([Meyerson et al., 2025](https://arxiv.org/abs/2511.09030)). Checking small steps and catching errors as they happen makes long processes reliable beyond puzzles too.
 
-**Industry reports (2025–2026).** Anthropic's research system had a lead agent spawn parallel search subagents and "outperformed single-agent Claude Opus 4 by 90.2%" on an internal research evaluation, at roughly 15× chat token usage ([Anthropic, 2025](https://www.anthropic.com/engineering/multi-agent-research-system)). Cognition argued the opposite for coding agents the day before ([Yan, 2025](https://cognition.com/blog/dont-build-multi-agents)). The two posts contradict each other less than they seem to, because research is read-heavy and coding is write-heavy. In 2026, Cursor's planner/worker/judge hierarchy ([Lin, 2026](https://cursor.com/blog/scaling-agents)) and Anthropic's 16-agent compiler ([Carlini, 2026](https://www.anthropic.com/engineering/building-c-compiler)) showed parallel *writing* at scale. Both depended on strong automated oracles and both came with significant quality caveats ([module 08](./08-agentic-workflows.md)).
+**Industry reports (2025–2026).** Anthropic's research system had a lead agent spawn parallel search subagents and "outperformed single-agent Claude Opus 4 by 90.2%" on an internal research evaluation, at roughly 15× chat token usage ([Anthropic, 2025](https://www.anthropic.com/engineering/multi-agent-research-system)). Cognition argued the opposite for coding agents the day before ([Yan, 2025](https://cognition.com/blog/dont-build-multi-agents)). The two posts contradict each other less than they seem to, because research is read-heavy and coding is write-heavy. In 2026, Cursor's planner/worker/judge hierarchy ([Lin, 2026](https://cursor.com/blog/scaling-agents)) and Anthropic's 16-agent compiler ([Carlini, 2026](https://www.anthropic.com/engineering/building-c-compiler)) showed parallel *writing* at scale. Both depended on strong automated oracles and both came with significant quality caveats ([module 10](./10-agentic-workflows.md)).
 
 ### What the evidence adds up to
 
 1. Sampling plus a vote is the baseline to beat. Before you build agents that talk to each other, check whether N independent attempts plus a vote (or plus a test) do as well.
-2. Gains shrink as single models improve. Each model generation makes some multi-agent scaffolding unnecessary, so re-test your setup when you upgrade ([module 14](./14-keeping-up.md)).
+2. Gains shrink as single models improve. Each model generation makes some multi-agent scaffolding unnecessary, so re-test your setup when you upgrade ([module 17](./17-keeping-up.md)).
 3. Verification is the part that matters. External feedback beats self-correction, centralized checks contain errors, and MAST's whole third category is verification failure.
 4. Diversity helps judging more than generating. Write with your best model and review with different ones.
 5. Match the architecture to the shape of the task. Decomposable, read-heavy work favors parallel agents; sequential, write-heavy work favors one agent.
@@ -229,7 +229,7 @@ Without a real verification step, a multi-agent system can produce confident, wr
 
 > **Bryan's take:** Multi-agent *review* is where I get the most value: several agents, and ideally several models, reviewing each other's work. Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time.
 
-> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 03](./03-model-landscape.md) for the current landscape.
+> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 05](./05-model-landscape.md) for the current landscape.
 
 ## Try it
 

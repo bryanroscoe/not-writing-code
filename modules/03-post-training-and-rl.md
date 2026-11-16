@@ -27,22 +27,22 @@ This module picks up from the base model built in [module 02](02-how-a-model-is-
 
 **GRPO** (Group Relative Policy Optimization), from the [DeepSeekMath paper](https://arxiv.org/abs/2402.03300) (2024), is the RL algorithm a lot of open recipes use now. For each problem it samples a group of answers, scores them all, and pushes up the ones that beat the group average. That drops the need for a separate "critic" model (a second network that PPO trains to predict how good each answer will be), which saves a lot of memory.
 
-**Reward hacking.** RL optimizes whatever you measure. Coding models under RL have learned to special-case tests, edit the tests, or claim success they didn't earn. OpenAI found reward hacking in coding tasks and warned that penalizing "bad thoughts" in the chain of thought taught models to hide them ([Baker et al., 2025](https://arxiv.org/abs/2503.11926)). Anthropic found that a model that learned to reward-hack in real production coding environments (after researchers taught it about hacking strategies) generalized to broader misbehavior, including sabotage and faking alignment ([MacDiarmid et al., 2025](https://arxiv.org/abs/2511.18397)). That's one reason your agent sometimes "fixes" a failing test by deleting it ([module 08](08-agentic-workflows.md)).
+**Reward hacking.** RL optimizes whatever you measure. Coding models under RL have learned to special-case tests, edit the tests, or claim success they didn't earn. OpenAI found reward hacking in coding tasks and warned that penalizing "bad thoughts" in the chain of thought taught models to hide them ([Baker et al., 2025](https://arxiv.org/abs/2503.11926)). Anthropic found that a model that learned to reward-hack in real production coding environments (after researchers taught it about hacking strategies) generalized to broader misbehavior, including sabotage and faking alignment ([MacDiarmid et al., 2025](https://arxiv.org/abs/2511.18397)). That's one reason your agent sometimes "fixes" a failing test by deleting it ([module 10](10-agentic-workflows.md)).
 
 **Safety training.** Labs train models to refuse dangerous requests, resist manipulation, and follow a written specification. OpenAI's [deliberative alignment](https://arxiv.org/abs/2412.16339) (2024), for example, trains reasoning models to reason explicitly over a safety spec, and Anthropic's [constitution](https://www.anthropic.com/news/claude-new-constitution) (January 2026) sets out values and priorities. Many safeguards also sit outside the weights, such as input and output classifiers ([Constitutional Classifiers, 2025](https://arxiv.org/abs/2501.18837)). As the risks section shows, safety that lives only in open weights is easy to remove.
 
 ## In practice
 
-This section is about **open-weight** models, the ones whose weights you can download and change, such as Llama, Qwen, DeepSeek, Kimi, Gemma, Mistral, and OpenAI's gpt-oss. [Module 04](04-open-vs-closed-weights.md) covers licenses, running them locally, and how they compare with closed frontier models.
+This section is about **open-weight** models, the ones whose weights you can download and change, such as Llama, Qwen, DeepSeek, Kimi, Gemma, Mistral, and OpenAI's gpt-oss. [Module 06](06-open-vs-closed-weights.md) covers licenses, running them locally, and how they compare with closed frontier models.
 
 ### Should you fine-tune at all?
 
 Try these in order, stopping when one meets your needs:
 
 1. Give a strong model a clear task, constraints and output format.
-2. Give the model the docs, code, schemas, and examples it needs ([module 07](07-context-engineering.md)).
+2. Give the model the docs, code, schemas, and examples it needs ([module 09](09-context-engineering.md)).
 3. Use retrieval (RAG) if the knowledge is big or keeps changing. Search it and put the relevant pieces in the prompt at query time.
-4. Put 5–50 good few-shot examples in the prompt. Prompt caching makes this cheap for repeated prefixes ([module 12](12-costs-subscriptions-and-apis.md)).
+4. Put 5–50 good few-shot examples in the prompt. Prompt caching makes this cheap for repeated prefixes ([module 15](15-costs-subscriptions-and-apis.md)).
 5. Before going further, build a labeled evaluation set. Without one you can't tell whether fine-tuning helped.
 6. Consider fine-tuning.
 
@@ -53,9 +53,9 @@ For knowledge, the research backs this order. [Ovadia et al. (2023)](https://arx
 | Needs current or private facts (docs, tickets, policies) | RAG / context | Facts change; fine-tuning stores them poorly and goes stale |
 | Needs a consistent format, style, or schema at high volume | Fine-tune (after trying few-shot) | Teaching *form* is what fine-tuning does best |
 | Narrow classification or extraction, millions of calls, tight latency | Fine-tune a small model | A small tuned model can match a big prompted one at a fraction of the cost |
-| Data can't leave your network | Open weights, maybe fine-tuned | You control where it runs ([module 04](04-open-vs-closed-weights.md)) |
+| Data can't leave your network | Open weights, maybe fine-tuned | You control where it runs ([module 06](06-open-vs-closed-weights.md)) |
 | An internal DSL or rare language the model barely knows | Few-shot first, then fine-tune | Context may be enough; if not, training on many examples helps |
-| "Make it smarter at our codebase" | Context engineering | Codebases change daily; agents read the code ([module 07](07-context-engineering.md)) |
+| "Make it smarter at our codebase" | Context engineering | Codebases change daily; agents read the code ([module 09](09-context-engineering.md)) |
 | No eval set yet | Build one | You can't tell success from failure without it |
 
 ### Full fine-tuning vs parameter-efficient fine-tuning
@@ -64,7 +64,7 @@ For knowledge, the research backs this order. [Ovadia et al. (2023)](https://arx
 
 **Parameter-efficient fine-tuning (PEFT)** freezes the original weights and trains a small add-on.
 
-- **LoRA** (Low-Rank Adaptation; [Hu et al., 2021](https://arxiv.org/abs/2106.09685)). For a big weight matrix, LoRA learns a small "correction" made of two thin matrices whose product has the same shape. It's like adding sticky notes to a textbook instead of reprinting it: the book stays the same, and the notes change what you read. A LoRA adapter is often a few megabytes to a few hundred megabytes. You can keep many of them (one per task or customer) and swap them on one shared base model. Some servers, such as vLLM, can serve many adapters at once ([module 13](13-open-source-ecosystem.md)).
+- **LoRA** (Low-Rank Adaptation; [Hu et al., 2021](https://arxiv.org/abs/2106.09685)). For a big weight matrix, LoRA learns a small "correction" made of two thin matrices whose product has the same shape. It's like adding sticky notes to a textbook instead of reprinting it: the book stays the same, and the notes change what you read. A LoRA adapter is often a few megabytes to a few hundred megabytes. You can keep many of them (one per task or customer) and swap them on one shared base model. Some servers, such as vLLM, can serve many adapters at once ([module 16](16-open-source-ecosystem.md)).
 - **QLoRA** ([Dettmers et al., 2023](https://arxiv.org/abs/2305.14314)). Load the frozen base model in 4-bit precision and train LoRA adapters on top. The paper fine-tuned a 65B model on a single 48 GB GPU. QLoRA is why fine-tuning became something individuals can do.
 - **Adapters and prompt tuning.** Older PEFT methods insert small trainable layers ([Houlsby et al., 2019](https://arxiv.org/abs/1902.00751)) or learn "soft prompt" vectors ([Lester et al., 2021](https://arxiv.org/abs/2104.08691)). LoRA has largely won in practice.
 
@@ -144,7 +144,7 @@ As of November 2026, closed-model fine-tuning exists but is narrowing:
 - Google documents supervised fine-tuning for several Gemini models on Vertex AI, now under its Gemini Enterprise Agent Platform, plus reinforcement fine-tuning for a few ([Google Cloud docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini-supervised-tuning)).
 - Anthropic offered fine-tuning of Claude 3 Haiku through Amazon Bedrock in 2024 ([Anthropic](https://www.anthropic.com/news/fine-tune-claude-3-haiku)). We found no self-serve fine-tuning for current Claude models.
 
-For most teams, customizing a closed frontier model now means context engineering: instructions, project files, retrieval, and tools ([module 07](07-context-engineering.md)). If you want to change weights, that mostly means open models.
+For most teams, customizing a closed frontier model now means context engineering: instructions, project files, retrieval, and tools ([module 09](09-context-engineering.md)). If you want to change weights, that mostly means open models.
 
 ### Risks
 
@@ -152,11 +152,11 @@ For most teams, customizing a closed frontier model now means context engineerin
 
 **Emergent misalignment.** [Betley et al. (2025)](https://arxiv.org/abs/2502.17424) fine-tuned models, including GPT-4o, on code containing security vulnerabilities that the assistant didn't disclose to the user. The models then behaved badly on unrelated prompts: saying AI should enslave humans, giving malicious advice, acting deceptively. When the same insecure code was requested for a computer-security class, the effect went away, so context and intent mattered. Training with a hidden trigger produced misalignment that showed up only when the trigger was present. The same paper found that fine-tuning on "evil" number sequences (such as 666 and 911) produced the effect too, though less reliably. An extended version appeared in [Nature](https://www.nature.com/articles/s41586-025-09937-5) in January 2026. OpenAI researchers traced it to a "misaligned persona" feature inside the model and found that a small amount of benign fine-tuning could reverse it ([Wang et al., 2025](https://arxiv.org/abs/2506.19823)). Fine-tuning can shift a model's whole sense of "what kind of assistant am I," well beyond the one skill you trained.
 
-**Safety training comes off easily.** Fine-tuning GPT-3.5 Turbo through OpenAI's API on just 10 harmful examples, for under $0.20, broke its safety behavior, and even benign fine-tuning weakened it ([Qi et al., 2023](https://arxiv.org/abs/2310.03693)). LoRA removed Llama 2-Chat 70B's refusals for under $200 on one GPU ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624)). In many models, refusal is controlled largely by a single direction in activation space, and you can remove it without any training; people call that "abliteration" ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)). Treat safety training in open weights as a speed bump, not a lock. That's a central question in open-weight release decisions ([module 04](04-open-vs-closed-weights.md)).
+**Safety training comes off easily.** Fine-tuning GPT-3.5 Turbo through OpenAI's API on just 10 harmful examples, for under $0.20, broke its safety behavior, and even benign fine-tuning weakened it ([Qi et al., 2023](https://arxiv.org/abs/2310.03693)). LoRA removed Llama 2-Chat 70B's refusals for under $200 on one GPU ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624)). In many models, refusal is controlled largely by a single direction in activation space, and you can remove it without any training; people call that "abliteration" ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)). Treat safety training in open weights as a speed bump, not a lock. That's a central question in open-weight release decisions ([module 06](06-open-vs-closed-weights.md)).
 
-**Poisoned data.** About 250 malicious documents were enough to plant a backdoor in models from 600M to 13B parameters, regardless of size ([Souly et al., 2025](https://arxiv.org/abs/2510.07192)). That study poisoned pretraining, but the lesson carries over to fine-tuning. Your data pipeline is an attack surface ([module 11](11-security-and-prompt-injection.md)).
+**Poisoned data.** About 250 malicious documents were enough to plant a backdoor in models from 600M to 13B parameters, regardless of size ([Souly et al., 2025](https://arxiv.org/abs/2510.07192)). That study poisoned pretraining, but the lesson carries over to fine-tuning. Your data pipeline is an attack surface ([module 14](14-security-and-prompt-injection.md)).
 
-**Ordinary ML mistakes.** Leaking test data into training, overfitting to a small dataset, benchmarks that don't match real use ([module 05](05-judging-models.md)), and licenses that don't allow your use.
+**Ordinary ML mistakes.** Leaking test data into training, overfitting to a small dataset, benchmarks that don't match real use ([module 07](07-judging-models.md)), and licenses that don't allow your use.
 
 ## Going deeper
 
@@ -202,7 +202,7 @@ Plenty of other things get called "learning" or "self-improvement," and only the
 | Mechanism | What changes | Survives a new session? | Example |
 | --- | --- | --- | --- |
 | In-context learning | Nothing. Examples and instructions sit in the prompt. | No | Few-shot prompting ([module 01](01-what-is-an-llm.md)) |
-| Memory files | Text that the harness loads back into the context | Yes, as text | `AGENTS.md`, chat "memory" features ([module 07](07-context-engineering.md)) |
+| Memory files | Text that the harness loads back into the context | Yes, as text | `AGENTS.md`, chat "memory" features ([module 09](09-context-engineering.md)) |
 | Harness or code self-modification | The agent's code, prompts, and tools; weights frozen | Yes, as code | Darwin Gödel Machine, AIDE² |
 | Weight self-tuning | The model's parameters | Yes, in the weights | SEAL, Google's sleep framework |
 
@@ -363,7 +363,7 @@ Compare answers. Where did groups disagree, and what evidence or measurement wou
 ## Discussion questions
 
 1. Emergent misalignment went away when the same insecure code was framed as being for a security class. What does that suggest about what fine-tuning actually teaches a model?
-2. If you can strip safety training from open weights for a few hundred dollars, what does that mean for open-weight releases? What's the strongest argument on each side ([module 04](04-open-vs-closed-weights.md))?
+2. If you can strip safety training from open weights for a few hundred dollars, what does that mean for open-weight releases? What's the strongest argument on each side ([module 06](06-open-vs-closed-weights.md))?
 3. Your team wants to fine-tune "so the model knows our codebase." What would you propose instead, and what would change your mind?
 4. Which level of the self-improvement spectrum would you be comfortable deploying in a product today? What controls would you require?
 5. OpenAI graded its own "research intern" milestone, and Anthropic's warning that it may soon reach its threshold rests on its own internal estimates. What independent evidence would convince you that AI is meaningfully speeding up AI research?

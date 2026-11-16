@@ -11,24 +11,24 @@ Your engineers need to learn the tools. You need to decide which tools, under wh
 | Module | Read | Why it matters to you |
 | --- | --- | --- |
 | [00 Orientation](../modules/00-orientation.md) | All | The vocabulary, the stance ("human stays accountable"), and the ground rules you can adopt as a starting policy |
-| [08 Agentic workflows](../modules/08-agentic-workflows.md) | TL;DR, The autonomy spectrum, Yegge's eight stages, Going deeper | Where your team is and where it's realistic to get. The honest case for and against full autonomy |
-| [05 How to tell if a model is good](../modules/05-judging-models.md) | Real-world productivity evidence, Vibes are data too, Build your own eval | What the studies actually show, so you can set expectations and resist both hype and dismissal |
-| [10 AI code review](../modules/10-ai-code-review.md) | Why it matters now, A layered review workflow, Accountability, Team metrics | Review becomes the bottleneck when AI writes code. What to measure and what not to |
-| [11 Security and prompt injection](../modules/11-security-and-prompt-injection.md) | TL;DR, Real incidents, Team checklist | The risks that are actually new, and the controls you need before you widen access |
-| [12 Costs](../modules/12-costs-subscriptions-and-apis.md) | Three ways to pay, the worked example, Cost per task, not cost per token, Team budgeting | Subscriptions vs API, per-seat vs pooled, and how to frame ROI honestly |
-| [03 The model landscape](../modules/03-model-landscape.md) | TL;DR, Best model for the job, How to pick a model next month | Enough to make a tool decision and to know when to revisit it |
-| [14 Keeping up](../modules/14-keeping-up.md) | Ups and downs are normal, When to switch tools, Team AI radar | How to keep a team current without constant churn |
-| [15 Learning, careers, and responsibility](../modules/15-learning-careers-and-responsibility.md) | What the evidence says, What the evidence says about early-career jobs, Responsible use, The human side | Junior development, deskilling, data handling, and burnout from supervising many agents |
+| [10 Agentic workflows](../modules/10-agentic-workflows.md) | TL;DR, The autonomy spectrum, Yegge's eight stages, Going deeper | Where your team is and where it's realistic to get. The honest case for and against full autonomy |
+| [07 How to tell if a model is good](../modules/07-judging-models.md) | Real-world productivity evidence, Vibes are data too, Build your own eval | What the studies actually show, so you can set expectations and resist both hype and dismissal |
+| [13 AI code review](../modules/13-ai-code-review.md) | Why it matters now, A layered review workflow, Accountability, Team metrics | Review becomes the bottleneck when AI writes code. What to measure and what not to |
+| [14 Security and prompt injection](../modules/14-security-and-prompt-injection.md) | TL;DR, Real incidents, Team checklist | The risks that are actually new, and the controls you need before you widen access |
+| [15 Costs](../modules/15-costs-subscriptions-and-apis.md) | Three ways to pay, the worked example, Cost per task, not cost per token, Team budgeting | Subscriptions vs API, per-seat vs pooled, and how to frame ROI honestly |
+| [05 The model landscape](../modules/05-model-landscape.md) | TL;DR, Best model for the job, How to pick a model next month | Enough to make a tool decision and to know when to revisit it |
+| [17 Keeping up](../modules/17-keeping-up.md) | Ups and downs are normal, When to switch tools, Team AI radar | How to keep a team current without constant churn |
+| [18 Learning, careers, and responsibility](../modules/18-learning-careers-and-responsibility.md) | What the evidence says, What the evidence says about early-career jobs, Responsible use, The human side | Junior development, deskilling, data handling, and burnout from supervising many agents |
 
 ## Decisions you'll have to make
 
-1. Which tool(s), and do we standardize? One primary agent with a second for cross-review is a good default ([module 06](../modules/06-harnesses-and-tools.md#how-to-choose-a-harness), [module 09](../modules/09-multi-agent-systems.md)).
-2. How do we pay? Seats on subscription plans for daily users, and API keys with budgets for automation and CI ([module 12](../modules/12-costs-subscriptions-and-apis.md#team-budgeting)).
-3. What data can go into which tool? Decide this before rollout, write it down, and get it approved ([module 15](../modules/15-learning-careers-and-responsibility.md#responsible-use), [policy template](../workplace/policy-template.md)).
-4. What can agents do without a human? Start with "nothing irreversible." Widen only as sandboxing and checks mature ([module 11](../modules/11-security-and-prompt-injection.md#team-checklist)).
-5. How do we review AI-written code? Same bar as human code, smaller PRs, author must be able to explain it, a different model reviews first ([module 10](../modules/10-ai-code-review.md)).
-6. How will we know it's working? Track review latency, escaped defects, revert rate, and developer-reported friction. Don't track lines of code or "% AI-written" as goals ([module 10](../modules/10-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)).
-7. How do juniors still learn? Protect some AI-free or AI-as-tutor work, and pair juniors with seniors on agent sessions ([module 15](../modules/15-learning-careers-and-responsibility.md)).
+1. Which tool(s), and do we standardize? One primary agent with a second for cross-review is a good default ([module 08](../modules/08-harnesses-and-tools.md#how-to-choose-a-harness), [module 12](../modules/12-multi-agent-systems.md)).
+2. How do we pay? Seats on subscription plans for daily users, and API keys with budgets for automation and CI ([module 15](../modules/15-costs-subscriptions-and-apis.md#team-budgeting)).
+3. What data can go into which tool? Decide this before rollout, write it down, and get it approved ([module 18](../modules/18-learning-careers-and-responsibility.md#responsible-use), [policy template](../workplace/policy-template.md)).
+4. What can agents do without a human? Start with "nothing irreversible." Widen only as sandboxing and checks mature ([module 14](../modules/14-security-and-prompt-injection.md#team-checklist)).
+5. How do we review AI-written code? Same bar as human code, smaller PRs, author must be able to explain it, a different model reviews first ([module 13](../modules/13-ai-code-review.md)).
+6. How will we know it's working? Track review latency, escaped defects, revert rate, and developer-reported friction. Don't track lines of code or "% AI-written" as goals ([module 13](../modules/13-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure)).
+7. How do juniors still learn? Protect some AI-free or AI-as-tutor work, and pair juniors with seniors on agent sessions ([module 18](../modules/18-learning-careers-and-responsibility.md)).
 
 ## What "AI-first" should mean on your team
 

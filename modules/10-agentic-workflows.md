@@ -1,4 +1,4 @@
-# 08: Agentic workflows: how much autonomy actually works
+# 10: Agentic workflows: how much autonomy actually works
 
 *About a 40-minute read. Last checked November 8, 2026.*
 
@@ -16,7 +16,7 @@
 
 A chat assistant answers once and waits. An **agent** keeps going. It's a language model in a loop that can take actions (read a file, run a command, edit code) and see what happened.
 
-The pattern is called **ReAct** ("reason + act"), from a 2022 paper by Yao et al. The model writes a short reasoning step, picks an action, gets an observation back, and reasons again ([Yao et al., 2022](https://arxiv.org/abs/2210.03629)). Every coding agent you'll use (Claude Code, Codex, Cursor's agent, Copilot's agent mode, and the open-source ones in [module 13](./13-open-source-ecosystem.md)) is a version of this loop with tools for files, shells, and the web.
+The pattern is called **ReAct** ("reason + act"), from a 2022 paper by Yao et al. The model writes a short reasoning step, picks an action, gets an observation back, and reasons again ([Yao et al., 2022](https://arxiv.org/abs/2210.03629)). Every coding agent you'll use (Claude Code, Codex, Cursor's agent, Copilot's agent mode, and the open-source ones in [module 16](./16-open-source-ecosystem.md)) is a version of this loop with tools for files, shells, and the web.
 
 ```mermaid
 flowchart LR
@@ -32,8 +32,8 @@ flowchart LR
 Three words you'll see throughout:
 
 - **Tool:** a function the model can call, such as `read_file`, `run_command`, or a search. The model writes a request; the harness runs it and hands back the result.
-- **Harness:** the program around the model that runs the loop, holds the tools, enforces permissions, and manages context. Claude Code and the Codex CLI are harnesses ([module 06](./06-harnesses-and-tools.md)).
-- **Context window:** everything the model can "see" on a given turn: your instructions, files it has read, tool output so far. It's large but finite, and what you put in it shapes the result ([module 07](./07-context-engineering.md)).
+- **Harness:** the program around the model that runs the loop, holds the tools, enforces permissions, and manages context. Claude Code and the Codex CLI are harnesses ([module 08](./08-harnesses-and-tools.md)).
+- **Context window:** everything the model can "see" on a given turn: your instructions, files it has read, tool output so far. It's large but finite, and what you put in it shapes the result ([module 09](./09-context-engineering.md)).
 
 Early research on coding agents found that tool design matters as much as the model. The SWE-agent paper called this the **agent-computer interface** and showed that purpose-built commands for viewing and editing files beat a raw shell ([Yang et al., 2024](https://arxiv.org/abs/2405.15793)).
 
@@ -49,10 +49,10 @@ You control four things, whatever tool you use:
 
 | Lever | What it means | Covered in |
 | --- | --- | --- |
-| What it knows | Your prompt, a spec file, repository instruction files (`CLAUDE.md`, `AGENTS.md`) | [Module 07](./07-context-engineering.md) |
-| What it can do | Its tools, permissions, sandbox, which branch it may push to | [Modules 06](./06-harnesses-and-tools.md) and [11](./11-security-and-prompt-injection.md) |
-| How it knows it is done | Tests, typechecks, builds, screenshots, a reviewer | This module and [module 10](./10-ai-code-review.md) |
-| How long and how much | Turn limits, spend limits, time limits | [Module 12](./12-costs-subscriptions-and-apis.md) |
+| What it knows | Your prompt, a spec file, repository instruction files (`CLAUDE.md`, `AGENTS.md`) | [Module 09](./09-context-engineering.md) |
+| What it can do | Its tools, permissions, sandbox, which branch it may push to | [Modules 08](./08-harnesses-and-tools.md) and [14](./14-security-and-prompt-injection.md) |
+| How it knows it is done | Tests, typechecks, builds, screenshots, a reviewer | This module and [module 13](./13-ai-code-review.md) |
+| How long and how much | Turn limits, spend limits, time limits | [Module 15](./15-costs-subscriptions-and-apis.md) |
 
 ### The autonomy spectrum
 
@@ -80,9 +80,9 @@ Steve Yegge is a long-time engineer and blogger, and co-author with Gene Kim of 
 | --- | --- | --- | --- |
 | 1 | "Zero or Near-Zero AI: maybe code completions, sometimes ask Chat questions" | AI is a smarter search box. You own every keystroke. | Let an agent make one small, well-tested change. Read the whole diff. |
 | 2 | "Coding agent in IDE, permissions turned on. A narrow coding agent in a sidebar asks your permission to run tools." | Lots of approve buttons. You learn what agents try to do. | When you are approving the same safe commands without reading them, allowlist *those*, not everything. Commit before each task so you can revert. |
-| 3 | "Agent in IDE, YOLO mode: Trust goes up. You turn off permissions, agent gets wider." | Faster, and a little nervous. | Replace "no permissions" with a sandbox or a classifier-based auto mode, plus hard deny rules for secrets, pushes and production. See [module 11](./11-security-and-prompt-injection.md). |
+| 3 | "Agent in IDE, YOLO mode: Trust goes up. You turn off permissions, agent gets wider." | Faster, and a little nervous. | Replace "no permissions" with a sandbox or a classifier-based auto mode, plus hard deny rules for secrets, pushes and production. See [module 14](./14-security-and-prompt-injection.md). |
 | 4 | "In IDE, wide agent: Your agent gradually grows to fill the screen. Code is just for diffs." | You review diffs instead of typing code. | Make tests the contract. Ask for command output, not "done." |
-| 5 | "CLI, single agent. YOLO. Diffs scroll by. You may or may not look at them." | Terminal-first. The agent drives and you steer. | Move review from every edit to every pull request, but never skip it. Add an independent review step ([module 10](./10-ai-code-review.md)). |
+| 5 | "CLI, single agent. YOLO. Diffs scroll by. You may or may not look at them." | Terminal-first. The agent drives and you steer. | Move review from every edit to every pull request, but never skip it. Add an independent review step ([module 13](./13-ai-code-review.md)). |
 | 6 | "CLI, multi-agent, YOLO. You regularly use 3 to 5 parallel instances. You are very fast." | Like running a small team. Your attention becomes the bottleneck. | One worktree per agent, non-overlapping tasks, a written task list, and review before every merge. |
 | 7 | "10+ agents, hand-managed. You are starting to push the limits of hand-management." | Tabs everywhere. Lost work, merge conflicts, agents you forgot about. | Add tracking (an issue list agents can read and update) and a merge discipline. Or step back to stage 6 if quality slips. |
 | 8 | "Building your own orchestrator. You are on the frontier, automating your workflow." | You are building infrastructure for agents, not features. | Treat the orchestrator as production software with its own tests, budgets and kill switches. |
@@ -129,7 +129,7 @@ Write a failing test that reproduces the bug. Run it and show me the failure.
 Then make it pass without modifying the test. No new dependencies.
 ```
 
-4. Verify. Ask for evidence: the command it ran and what it printed. "All tests pass" on its own "tells you very little" (Anthropic docs). Then get an independent look from a fresh session or a review command that never saw the conversation ([module 10](./10-ai-code-review.md)). If there's a UI, look at it yourself.
+4. Verify. Ask for evidence: the command it ran and what it printed. "All tests pass" on its own "tells you very little" (Anthropic docs). Then get an independent look from a fresh session or a review command that never saw the conversation ([module 13](./13-ai-code-review.md)). If there's a UI, look at it yourself.
 
 5. Commit. Small, separate commits for the test and the fix. Write the message yourself or check the agent's.
 
@@ -141,13 +141,13 @@ This is an old idea. Fred Brooks wrote in *The Mythical Man-Month* (1975): "plan
 
 You can do this at two levels:
 
-- For an application: a clickable mockup, a single-page app, an [Artifact or Claude Design prototype](./06-harnesses-and-tools.md#closed-products-that-bundle-model-harness-and-tools). Put it in front of the people who'll use it. "Not that button, and where's the export?" is better feedback than any review of a requirements document.
+- For an application: a clickable mockup, a single-page app, an [Artifact or Claude Design prototype](./08-harnesses-and-tools.md#closed-products-that-bundle-model-harness-and-tools). Put it in front of the people who'll use it. "Not that button, and where's the export?" is better feedback than any review of a requirements document.
 - For code: a **spike**. Try two shapes of an API, or two ways to structure a module, then look at the real code and pick one. It's easier to judge code you can read than a design you have to picture.
 
 To do it well:
 
 1. Timebox it, and say out loud that it's a draft. Build it on a `spike/` branch or in a scratch folder with a banner in the README.
-2. Write what you learned into a short spec: decisions, surprises, what users said ([spec-driven development](./07-context-engineering.md#spec-driven-development-in-practice)).
+2. Write what you learned into a short spec: decisions, surprises, what users said ([spec-driven development](./09-context-engineering.md#spec-driven-development-in-practice)).
 3. Rebuild or harden it on purpose. Either start fresh with the core loop, tests first, or keep the prototype and review it line by line as production code. Don't let it drift into production by default.
 
 The risk comes from the same place as the benefit. A prototype *looks* finished, so people (you included) start treating it as the real thing before anyone has checked error handling, security, or tests. In the 20th-anniversary edition (1995), Brooks himself called his throw-one-away advice too simple and argued for growing software incrementally. You can build something concrete quickly, then improve it incrementally.
@@ -206,7 +206,7 @@ OpenAI's guide lists "Running live tasks on the same files without using Git wor
 Rules of thumb for parallel agents:
 
 - One task, one agent, one worktree, one branch.
-- Pick tasks that touch different files. Two agents editing the same module will give you a merge conflict or, worse, two inconsistent designs. [Module 09](./09-multi-agent-systems.md) explains why read-heavy work parallelizes much better than write-heavy work.
+- Pick tasks that touch different files. Two agents editing the same module will give you a merge conflict or, worse, two inconsistent designs. [Module 12](./12-multi-agent-systems.md) explains why read-heavy work parallelizes much better than write-heavy work.
 - Keep a written task list that you and the agents can see. At stage 7, losing track is the main way things fail.
 - Review every branch before merging. Parallel agents multiply unreviewed code as fast as they multiply output.
 - Watch the disk and the bill. Each worktree needs its own dependencies and build output, and each agent spends tokens. Remove worktrees once their branch merges.
@@ -240,14 +240,14 @@ Put one path per line in `files.txt`; the loop preserves spaces in paths. The do
 while :; do claude -p < PROMPT.md; done
 ```
 
-This uses the current `claude` binary in non-interactive print mode (`-p`). Each pass starts with a fresh context and carries state through files: a prioritized `fix_plan.md`, spec files, and git history. Huntley's own caveats are the best guide to where it works. Ask Ralph "to do one thing per loop." Wire in tests and a type checker as "backpressure." Expect to "wake up to a broken codebase that doesn't compile from time to time." "There is no way this is possible without senior expertise guiding Ralph," and "There's no way in heck would I use Ralph in an existing code base." Harnesses now ship tamer versions of the idea, such as Claude Code's `/loop` and `/goal` and Codex automations. [Module 07](./07-context-engineering.md#loop-engineering) covers them as loop engineering.
+This uses the current `claude` binary in non-interactive print mode (`-p`). Each pass starts with a fresh context and carries state through files: a prioritized `fix_plan.md`, spec files, and git history. Huntley's own caveats are the best guide to where it works. Ask Ralph "to do one thing per loop." Wire in tests and a type checker as "backpressure." Expect to "wake up to a broken codebase that doesn't compile from time to time." "There is no way this is possible without senior expertise guiding Ralph," and "There's no way in heck would I use Ralph in an existing code base." Harnesses now ship tamer versions of the idea, such as Claude Code's `/loop` and `/goal` and Codex automations. [Module 09](./09-context-engineering.md#loop-engineering) covers them as loop engineering.
 
 ### Failure modes and counter-moves
 
 | Failure | What it looks like | Counter-move |
 | --- | --- | --- |
 | **Vague task** | Builds something reasonable that is not what you meant | Name the file, the symptom, and what "fixed" looks like. Use a spec interview or plan mode. Anthropic's example: not "fix the login bug" but "users report login fails after the session times out. look at token refresh in src/auth/, write a failing test that reproduces it, then fix it." |
-| **Hallucinated APIs and packages** | Calls a method that does not exist; imports a package that does not exist | Compile and typecheck on every step. In one study, at least 5.2% of packages suggested by commercial models and 21.7% by open models did not exist ([Spracklen et al., 2024](https://arxiv.org/abs/2406.10279)). Attackers register those names. Verify every new dependency by hand ([module 11](./11-security-and-prompt-injection.md)). |
+| **Hallucinated APIs and packages** | Calls a method that does not exist; imports a package that does not exist | Compile and typecheck on every step. In one study, at least 5.2% of packages suggested by commercial models and 21.7% by open models did not exist ([Spracklen et al., 2024](https://arxiv.org/abs/2406.10279)). Attackers register those names. Verify every new dependency by hand ([module 14](./14-security-and-prompt-injection.md)). |
 | **Fake or tautological tests** | Tests that assert a mock returns what the mock was told to return; tests copied from the implementation; failing tests deleted or skipped | Write or approve tests first. Make them fail first. Review the test diff. Try mutation testing: break the code on purpose and see whether a test notices. |
 | **Over-engineering** | New abstraction layers, config options nobody asked for, "future-proof" generality | Ask for the smallest change. Say "no new abstractions or dependencies." In review, ask what can be deleted. Anthropic warns that if you fix every finding a reviewer raises, "you end up with extra abstraction layers and tests for cases that can't happen." |
 | **Sycophancy** | "You're absolutely right!" followed by abandoning a correct answer, or agreeing with your wrong premise | Ask it to argue the other side. Ask for evidence rather than agreement. Sycophancy is a measured, trained-in tendency of assistants ([Sharma et al., 2023](https://arxiv.org/abs/2310.13548)); OpenAI rolled back a GPT-4o update in April 2025 for being overly agreeable ([OpenAI, 2025](https://openai.com/index/sycophancy-in-gpt-4o/)). |
@@ -270,7 +270,7 @@ Many engineers first trust agents with work that isn't feature code, where the r
 | SQL | Explaining a slow query plan, drafting a migration, writing a one-off report | Never give it write access to production. Use read-only credentials and a copy of the data. |
 | Scripts and glue | Shell, CI config, one-off data munging | Destructive commands. Run in a sandbox; read before running. |
 | Tickets | Turning meeting notes or a bug report into well-formed issues with acceptance criteria | Invented requirements. You approve the final text. |
-| Incident timelines | Merging deploy logs, alerts and chat exports into a timeline with sources | Sensitive data leaving your environment ([module 15](./15-learning-careers-and-responsibility.md)). Verify every timestamp. |
+| Incident timelines | Merging deploy logs, alerts and chat exports into a timeline with sources | Sensitive data leaving your environment ([module 18](./18-learning-careers-and-responsibility.md)). Verify every timestamp. |
 
 ### A sample session
 
@@ -338,7 +338,7 @@ The read-only exploration caught a security trap before any edits. The agent che
 
 Fully autonomous pipelines have produced some substantial results.
 
-**Agents can now work for hours.** METR measures the length of software tasks (in human expert time) that a model completes with 50% reliability. It calls this the model's **time horizon**. Its original paper found the horizon doubling roughly every seven months from 2019 to 2025 ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)). Its January 2026 update (Time Horizon 1.1) estimated faster recent doubling: about 131 days for models since 2023, and about 89 days for models since 2024 ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). METR added an early Claude Mythos Preview measurement on May 8, 2026. Its chart data estimates a 50% horizon of about 17.4 hours (95% CI 8.5–55 hours), but the page warns that measurements above 16 hours are unreliable with its current task suite ([METR tracking page](https://metr.org/time-horizons/)). Model specifics live in [module 03](./03-model-landscape.md).
+**Agents can now work for hours.** METR measures the length of software tasks (in human expert time) that a model completes with 50% reliability. It calls this the model's **time horizon**. Its original paper found the horizon doubling roughly every seven months from 2019 to 2025 ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)). Its January 2026 update (Time Horizon 1.1) estimated faster recent doubling: about 131 days for models since 2023, and about 89 days for models since 2024 ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). METR added an early Claude Mythos Preview measurement on May 8, 2026. Its chart data estimates a 50% horizon of about 17.4 hours (95% CI 8.5–55 hours), but the page warns that measurements above 16 hours are unreliable with its current task suite ([METR tracking page](https://metr.org/time-horizons/)). Model specifics live in [module 05](./05-model-landscape.md).
 
 **A C compiler, mostly unattended.** In February 2026 Nicholas Carlini of Anthropic described 16 parallel Claude agents (Opus 4.6) building a C compiler in Rust from scratch. Over nearly 2,000 sessions, about two weeks, and just under $20,000 in API costs, they produced roughly 100,000 lines that compile Linux 6.9 for x86, ARM and RISC-V, along with QEMU, FFmpeg, SQLite, PostgreSQL, Redis and Doom. It passes about 99% of most compiler test suites, including the GCC torture tests. There was no orchestrator agent; each agent claimed a task by writing a lock file in a shared repository ([Carlini, 2026](https://www.anthropic.com/engineering/building-c-compiler)).
 
@@ -360,11 +360,11 @@ Fully autonomous pipelines have produced some substantial results.
 
 **The last 30% is the hard part.** Addy Osmani described the "70% problem" in December 2024. People coding with AI, especially non-engineers, "can get 70% of the way there surprisingly quickly, but that final 30% becomes an exercise in diminishing returns." That last 30% is the production work: edge cases, error handling, security, maintainability ([Osmani, 2024](https://addyo.substack.com/p/the-70-problem-hard-truths-about)).
 
-**Review becomes the bottleneck.** Anthropic reports engineers merging about 8× as much code per day as in 2024, and notes that "Lines of code is an imperfect measure" and that human code review may cap the overall gain ([Anthropic, 2026](https://www.anthropic.com/institute/recursive-self-improvement)). The 2025 DORA report found AI adoption now correlates with higher throughput but still correlates with *lower* delivery stability: "AI doesn't fix a team; it amplifies what's already there" ([Google Cloud, 2025](https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report)). [Module 10](./10-ai-code-review.md) covers review in depth.
+**Review becomes the bottleneck.** Anthropic reports engineers merging about 8× as much code per day as in 2024, and notes that "Lines of code is an imperfect measure" and that human code review may cap the overall gain ([Anthropic, 2026](https://www.anthropic.com/institute/recursive-self-improvement)). The 2025 DORA report found AI adoption now correlates with higher throughput but still correlates with *lower* delivery stability: "AI doesn't fix a team; it amplifies what's already there" ([Google Cloud, 2025](https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report)). [Module 13](./13-ai-code-review.md) covers review in depth.
 
 **The successes come with asterisks.** Carlini lists his own limitations: the Rust is "nowhere near the quality of what an expert Rust programmer might produce"; the compiler has no assembler or linker of its own; even optimized, it "outputs less efficient code than GCC with all optimizations disabled"; and it is "not yet a drop-in replacement for a real compiler." He writes that "the thought of programmers deploying software they've never personally verified is a real concern." Cursor's browser drew sharp criticism. Within days, critics reported that a fresh clone failed to build, and Jason Gorman pointed to an 88% CI job failure rate as "indicative of a code base that doesn't work." Others called it bloated: "Ladybird and Servo do much more in much less lines of code" ([The Register, 2026](https://www.theregister.com/2026/01/22/cursor_ai_wrote_a_browser/); [embedding-shapes, 2026](https://embedding-shapes.github.io/cursor-implied-success-without-evidence/)). Willison later built it and found pages "legible and look mostly correct" with visible glitches. He also wrote that he does not expect projects like it "to compete with Chrome or Firefox or WebKit any time soon" ([Willison, 2026](https://simonwillison.net/2026/Jan/19/scaling-long-running-autonomous-coding/)). Cursor's own post admits the system is "nowhere near optimal" and that the migration "still needs careful review."
 
-**It costs a lot.** StrongDM's own benchmark is "If you haven't spent at least $1,000 on tokens today per human engineer, your software factory has room for improvement." The compiler cost about $20,000. Yegge needed multiple Claude accounts to keep Gas Town running. Anthropic reported about 15× chat token usage for its multi-agent research system ([module 09](./09-multi-agent-systems.md)). [Module 12](./12-costs-subscriptions-and-apis.md) covers costs.
+**It costs a lot.** StrongDM's own benchmark is "If you haven't spent at least $1,000 on tokens today per human engineer, your software factory has room for improvement." The compiler cost about $20,000. Yegge needed multiple Claude accounts to keep Gas Town running. Anthropic reported about 15× chat token usage for its multi-agent research system ([module 12](./12-multi-agent-systems.md)). [Module 15](./15-costs-subscriptions-and-apis.md) covers costs.
 
 ### What the successes have in common
 
@@ -382,7 +382,7 @@ Stronger automated oracles allow more autonomy. A C compiler is close to the bes
 - Do long time horizons transfer to messy repositories? METR's tasks are self-contained, and only 5 of the 31 longest tasks in its suite have human baselines ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). METR's time-horizon page also says it's "no longer actively updated" as of September 2026, so newer estimates will come from elsewhere.
 - Do holdout scenarios stay held out? As models get better at finding hidden tests (as METR saw in 2026), "keep the tests secret" turns into an arms race.
 - Who's accountable for code nobody reviewed? Law, audits and incident reviews assume a person looked at the change.
-- Where is the real productivity frontier? Self-reports run ahead of measurements. Watch for well-designed field studies, not vendor surveys ([module 14](./14-keeping-up.md)).
+- Where is the real productivity frontier? Self-reports run ahead of measurements. Watch for well-designed field studies, not vendor surveys ([module 17](./17-keeping-up.md)).
 
 ## Bryan's take
 
@@ -390,7 +390,7 @@ Stronger automated oracles allow more autonomy. A C compiler is close to the bes
 
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.
 
-The strongest counter-argument is that the trend lines are steep and the people closest to the frontier already work this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons have grown from minutes to more than a working day in about two years. StrongDM's holdout scenarios plus digital twins are a serious answer to "tests can be gamed." A reasonable position in late 2026 is that full autonomy works today for well-specified, oracle-rich, greenfield problems, and that the edge of that set is moving. Check the evidence again in six months ([module 14](./14-keeping-up.md)).
+The strongest counter-argument is that the trend lines are steep and the people closest to the frontier already work this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons have grown from minutes to more than a working day in about two years. StrongDM's holdout scenarios plus digital twins are a serious answer to "tests can be gamed." A reasonable position in late 2026 is that full autonomy works today for well-specified, oracle-rich, greenfield problems, and that the edge of that set is moving. Check the evidence again in six months ([module 17](./17-keeping-up.md)).
 
 ## Try it
 

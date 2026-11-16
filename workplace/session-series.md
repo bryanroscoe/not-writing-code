@@ -39,12 +39,12 @@ This series is for the champions who will facilitate it and the leads who will s
 | --- | --- | --- | --- |
 | 0 | [Watch it work on our code](#session-0-watch-it-work-on-our-code) | Show skeptics a real fix on real code, honestly | None, on purpose |
 | 1 | [What an LLM actually is](#session-1-what-an-llm-actually-is) | A mental model that explains hallucination, sycophancy, and nondeterminism | [Module 01](../modules/01-what-is-an-llm.md) |
-| 2 | [Harnesses, permissions, and a safe setup](#session-2-harnesses-permissions-and-a-safe-setup) | Everyone leaves with the team's standard, safe configuration | [Module 06](../modules/06-harnesses-and-tools.md) |
-| 3 | [Context: prompts that define done, and our instruction file](#session-3-context-prompts-that-define-done-and-our-instruction-file) | Write tasks agents can succeed at; agree on a short shared instruction file | [Module 07](../modules/07-context-engineering.md) |
-| 4 | [The core loop: explore, plan, test, verify, commit](#session-4-the-core-loop-explore-plan-test-verify-commit) | Run the loop that holds up in daily use | [Module 08](../modules/08-agentic-workflows.md) |
-| 5 | [Reviewing AI-written code](#session-5-reviewing-ai-written-code) | Review in layers, verify findings, use a second model | [Module 10](../modules/10-ai-code-review.md) |
-| 6 | [Security, data, and cost](#session-6-security-data-and-cost) | Know the real risks, the team's controls, and what work costs | [Modules 11](../modules/11-security-and-prompt-injection.md) and [12](../modules/12-costs-subscriptions-and-apis.md) |
-| 7 | [Parallel agents and cross-model review](#session-7-parallel-agents-and-cross-model-review) | Run two agents at once safely, and know where autonomy stops | [Modules 08](../modules/08-agentic-workflows.md) and [09](../modules/09-multi-agent-systems.md) |
+| 2 | [Harnesses, permissions, and a safe setup](#session-2-harnesses-permissions-and-a-safe-setup) | Everyone leaves with the team's standard, safe configuration | [Module 08](../modules/08-harnesses-and-tools.md) |
+| 3 | [Context: prompts that define done, and our instruction file](#session-3-context-prompts-that-define-done-and-our-instruction-file) | Write tasks agents can succeed at; agree on a short shared instruction file | [Module 09](../modules/09-context-engineering.md) |
+| 4 | [The core loop: explore, plan, test, verify, commit](#session-4-the-core-loop-explore-plan-test-verify-commit) | Run the loop that holds up in daily use | [Module 10](../modules/10-agentic-workflows.md) |
+| 5 | [Reviewing AI-written code](#session-5-reviewing-ai-written-code) | Review in layers, verify findings, use a second model | [Module 13](../modules/13-ai-code-review.md) |
+| 6 | [Security, data, and cost](#session-6-security-data-and-cost) | Know the real risks, the team's controls, and what work costs | [Modules 14](../modules/14-security-and-prompt-injection.md) and [15](../modules/15-costs-subscriptions-and-apis.md) |
+| 7 | [Parallel agents and cross-model review](#session-7-parallel-agents-and-cross-model-review) | Run two agents at once safely, and know where autonomy stops | [Modules 10](../modules/10-agentic-workflows.md) and [12](../modules/12-multi-agent-systems.md) |
 
 If you're short on time, a four-session track covers most of it: Session 0, then Sessions 1 and 3 combined (mental model plus context), then Sessions 4 and 5 combined (loop plus review), then Sessions 6 and 7 combined (security, cost, and parallel work). Expect less hands-on time.
 
@@ -122,11 +122,11 @@ Report only real problems. If you find nothing, say so.
 ```
 Pick one finding and have the author agent write a test that demonstrates it. Either the test fails (real finding, fix it) or it can't be made to fail (dismiss it, and say why). This is the habit you most want people to leave with.
 
-**Hands-on: the skeptic drives (14 minutes).** Hand the keyboard, or at least the prompts, to a volunteer, ideally a skeptic. They pick the second task, or any small task they're sure the agent will fail on. They dictate; you type. Before each step, ask the room to predict what will go wrong. When the agent drifts, show steering: press `Esc`, correct it once, and if two corrections fail, start a fresh session with a better prompt ([module 08](../modules/08-agentic-workflows.md#steering-a-session)).
+**Hands-on: the skeptic drives (14 minutes).** Hand the keyboard, or at least the prompts, to a volunteer, ideally a skeptic. They pick the second task, or any small task they're sure the agent will fail on. They dictate; you type. Before each step, ask the room to predict what will go wrong. When the agent drifts, show steering: press `Esc`, correct it once, and if two corrections fail, start a fresh session with a better prompt ([module 10](../modules/10-agentic-workflows.md#steering-a-session)).
 
 If it fails, say what would have caught it: a test, the plan review, the independent reviewer. If it succeeds, ask the volunteer what they'd want to check before merging. Either outcome works.
 
-**The one slide (4 minutes).** Three bullets, from [module 05](../modules/05-judging-models.md#real-world-productivity-evidence):
+**The one slide (4 minutes).** Three bullets, from [module 07](../modules/07-judging-models.md#real-world-productivity-evidence):
 - In METR's 2025 randomized trial, experienced developers using early-2025 tools were 19% slower, while believing they were 20% faster.
 - METR's 2026 follow-up with newer tools pointed to modest speedups with wide error bars, and METR calls it an unreliable signal.
 - DORA's 2025 report says AI "amplifies what's already there." Teams with strong tests and review gain; teams without them get less stable.
@@ -192,7 +192,7 @@ Close with the line from module 00: "The model only knows what's in its context.
 1. **Different runs, different answers (3 minutes).** In three fresh sessions, ask the same open question about your codebase, such as "What's the riskiest part of `<module>`?" Show that the answers overlap but differ.
 2. **Confident without context (4 minutes).** In a session with no repository access, ask: "What does the `<internal function name>` function in our codebase do, and what arguments does it take?" Record whether it guesses, asks for context, or declines. Then, in the repository, ask the same question and require a file path. Compare.
 3. **Sycophancy (4 minutes).** Assert a wrong diagnosis with confidence: "I'm pretty sure the bug in `<feature>` is in the caching layer, right?" Show the agreement, if you get it. Then ask: "Argue the strongest case that I'm wrong. What evidence would show it?" Compare the quality of the two answers.
-4. **What fills the context (4 minutes).** Open your harness's context view (in Claude Code, `/context`) before typing anything. Show how much is already used by the system prompt, tool definitions, and instruction files ([module 07](../modules/07-context-engineering.md#what-actually-fills-an-agents-context-window)).
+4. **What fills the context (4 minutes).** Open your harness's context view (in Claude Code, `/context`) before typing anything. Show how much is already used by the system prompt, tool definitions, and instruction files ([module 09](../modules/09-context-engineering.md#what-actually-fills-an-agents-context-window)).
 
 Results vary from run to run and model to model. If a demo doesn't reproduce, say so, and explain what you expected and why. Discuss how nondeterminism affects the result.
 
@@ -211,17 +211,17 @@ In pairs, on your own repository:
 - [ ] I ask for file paths and line numbers, and I check some of them.
 - [ ] I put the facts the model needs into its context instead of trusting its memory.
 - [ ] I ask for the strongest counter-argument before I accept a diagnosis.
-- [ ] I've started a short "it surprised me" log: date, tool, task, what happened ([module 05](../modules/05-judging-models.md#vibes-are-data-too)).
+- [ ] I've started a short "it surprised me" log: date, tool, task, what happened ([module 07](../modules/07-judging-models.md#vibes-are-data-too)).
 
 ## Session 2: Harnesses, permissions, and a safe setup
 
 **Goal.** Understand that agent = model + harness, learn the permission system before raising autonomy, and leave with the team's standard, safe configuration installed.
 
 **Pre-read (25 minutes).**
-- [Module 06: What a harness is](../modules/06-harnesses-and-tools.md#what-a-harness-is)
-- [Module 06: The rest of the harness toolkit](../modules/06-harnesses-and-tools.md#the-rest-of-the-harness-toolkit) (skim the table)
-- [Module 06: A sane baseline setup](../modules/06-harnesses-and-tools.md#a-sane-baseline-setup)
-- [Module 11: Risks specific to coding agents](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents), the first two paragraphs on skip-permissions modes and classifiers
+- [Module 08: What a harness is](../modules/08-harnesses-and-tools.md#what-a-harness-is)
+- [Module 08: The rest of the harness toolkit](../modules/08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit) (skim the table)
+- [Module 08: A sane baseline setup](../modules/08-harnesses-and-tools.md#a-sane-baseline-setup)
+- [Module 14: Risks specific to coding agents](../modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents), the first two paragraphs on skip-permissions modes and classifiers
 - Your team's AI policy
 
 ### Agenda (60 minutes)
@@ -236,16 +236,16 @@ In pairs, on your own repository:
 
 ### Demo script (17 minutes)
 
-1. **Watch the loop (5 minutes).** Ask: "Run the unit tests for `<module>` and summarize any failures." Point at each step: the model asks for a tool, the harness asks permission, the result goes back into context, the model decides what's next ([module 08](../modules/08-agentic-workflows.md#the-agent-loop)).
-2. **Permissions (5 minutes).** Approve the test command once, then add it to the allowlist so it stops asking. Use a disposable demo directory containing only a fake `.env` canary, never a real secrets file. Then ask the agent to "show me the environment variables in `.env`" and show the deny rule blocking it. Explain why. Anything the agent reads goes to the provider and into transcripts. If it tries a shell command such as `cat .env` instead, deny that too, and point out that rules match specific tools and command text, so a sandbox comes first and rules second ([module 11](../modules/11-security-and-prompt-injection.md#practical-defenses)).
-3. **Plan mode and checkpoints (4 minutes).** Switch to plan mode and ask for a small change. The agent reads and proposes, but edits nothing until you approve. Then make a small edit and rewind it with the harness's checkpoint feature. Note that checkpoints don't cover changes made by shell commands, so git is the real safety net ([module 08](../modules/08-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints)).
-4. **Sandbox (3 minutes).** If your tool supports one, show a sandboxed command failing to reach a blocked network host. The rule is to turn on a sandbox before you turn off approvals ([module 06](../modules/06-harnesses-and-tools.md#a-sane-baseline-setup)).
+1. **Watch the loop (5 minutes).** Ask: "Run the unit tests for `<module>` and summarize any failures." Point at each step: the model asks for a tool, the harness asks permission, the result goes back into context, the model decides what's next ([module 10](../modules/10-agentic-workflows.md#the-agent-loop)).
+2. **Permissions (5 minutes).** Approve the test command once, then add it to the allowlist so it stops asking. Use a disposable demo directory containing only a fake `.env` canary, never a real secrets file. Then ask the agent to "show me the environment variables in `.env`" and show the deny rule blocking it. Explain why. Anything the agent reads goes to the provider and into transcripts. If it tries a shell command such as `cat .env` instead, deny that too, and point out that rules match specific tools and command text, so a sandbox comes first and rules second ([module 14](../modules/14-security-and-prompt-injection.md#practical-defenses)).
+3. **Plan mode and checkpoints (4 minutes).** Switch to plan mode and ask for a small change. The agent reads and proposes, but edits nothing until you approve. Then make a small edit and rewind it with the harness's checkpoint feature. Note that checkpoints don't cover changes made by shell commands, so git is the real safety net ([module 10](../modules/10-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints)).
+4. **Sandbox (3 minutes).** If your tool supports one, show a sandboxed command failing to reach a blocked network host. The rule is to turn on a sandbox before you turn off approvals ([module 08](../modules/08-harnesses-and-tools.md#a-sane-baseline-setup)).
 
 ### MCP in six minutes
 
-- MCP is the open standard for plugging tools and data into any harness ([module 06](../modules/06-harnesses-and-tools.md#mcp-the-model-context-protocol)).
+- MCP is the open standard for plugging tools and data into any harness ([module 08](../modules/08-harnesses-and-tools.md#mcp-the-model-context-protocol)).
 - Connect one approved server live and show its context cost in the context view. Fewer servers means less context spent and better tool choice.
-- A tool's description is text the model reads and you usually don't, so install MCP servers like dependencies, from the approved list only ([module 11](../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
+- A tool's description is text the model reads and you usually don't, so install MCP servers like dependencies, from the approved list only ([module 14](../modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents)).
 
 ### Hands-on: the team setup (27 minutes)
 
@@ -272,8 +272,8 @@ Everyone, on their own machine, following the team's setup doc:
 **Goal.** Write task prompts that give the agent a definition of done and a check to run. Agree on a short, shared instruction file for the team's main repository.
 
 **Pre-read (25 minutes).**
-- [Module 07: Prompting basics that still matter](../modules/07-context-engineering.md#prompting-basics-that-still-matter)
-- [Module 07: The rise and fall of giant CLAUDE.md and AGENTS.md files](../modules/07-context-engineering.md#the-rise-and-fall-of-giant-claudemd-and-agentsmd-files), especially [Current best practice](../modules/07-context-engineering.md#current-best-practice)
+- [Module 09: Prompting basics that still matter](../modules/09-context-engineering.md#prompting-basics-that-still-matter)
+- [Module 09: The rise and fall of giant CLAUDE.md and AGENTS.md files](../modules/09-context-engineering.md#the-rise-and-fall-of-giant-claudemd-and-agentsmd-files), especially [Current best practice](../modules/09-context-engineering.md#current-best-practice)
 - [Playbook: the starter team instruction file](ai-first-playbook.md#the-starter-team-instruction-file)
 
 ### Agenda (60 minutes)
@@ -305,11 +305,11 @@ Everyone, on their own machine, following the team's setup doc:
    I want to add <feature> but haven't thought it through. Interview me until
    you could write the spec, then write it to SPEC.md.
    ```
-   Answer three or four of its questions live. Then point out Anthropic's advice to start a fresh session that builds from `SPEC.md`, so the build begins with a clean context and a written definition of done ([module 08](../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)).
+   Answer three or four of its questions live. Then point out Anthropic's advice to start a fresh session that builds from `SPEC.md`, so the build begins with a clean context and a written definition of done ([module 10](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)).
 
 ### What the research says (6 minutes)
 
-- In an ETH Zurich study, LLM-generated context files didn't improve agent success and raised cost by about 20–23%. Developer-written files helped slightly, not significantly ([module 07](../modules/07-context-engineering.md#the-fall-late-20252026)).
+- In an ETH Zurich study, LLM-generated context files didn't improve agent success and raised cost by about 20–23%. Developer-written files helped slightly, not significantly ([module 09](../modules/09-context-engineering.md#the-fall-late-20252026)).
 - Instruction-following degrades as instructions pile up. In one benchmark, even the best models reached only 68% accuracy with 500 instructions.
 - Agents follow the file's instructions, including incorrect ones.
 - For every line, ask "Could the agent figure this out by reading the repository?" If so, delete it.
@@ -336,10 +336,10 @@ Use the draft from the pilot, or generate one with your harness's init command i
 **Goal.** Run the workflow that holds up in daily use, end to end, on a real ticket, and learn to steer a session that drifts.
 
 **Pre-read (25 minutes).**
-- [Module 08: The key fact: the loop stops when the model thinks it is done](../modules/08-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)
-- [Module 08: The core loop](../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit) and [Tests as the agent's contract](../modules/08-agentic-workflows.md#tests-as-the-agents-contract)
-- [Module 08: Failure modes and counter-moves](../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)
-- [Module 08: A sample session](../modules/08-agentic-workflows.md#a-sample-session)
+- [Module 10: The key fact: the loop stops when the model thinks it is done](../modules/10-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)
+- [Module 10: The core loop](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit) and [Tests as the agent's contract](../modules/10-agentic-workflows.md#tests-as-the-agents-contract)
+- [Module 10: Failure modes and counter-moves](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)
+- [Module 10: A sample session](../modules/10-agentic-workflows.md#a-sample-session)
 
 ### Agenda (60 minutes)
 
@@ -361,14 +361,14 @@ Use a different real ticket from Session 0, ideally a small feature rather than 
 5. **Verify with evidence (3 minutes).** Ask for the commands and output. If it says "all tests pass" without showing them, say so and ask again. Then check the test diff: `git diff --stat main -- tests/`.
 6. **Commit small (2 minutes).** Commit tests and implementation separately, and check the message.
 
-When the agent drifts (and on a real ticket, it often will), show the steering rule from Anthropic's docs: watch the first minute, press `Esc` the moment it drifts, and after two failed corrections, start fresh with a better prompt instead of a third correction ([module 08](../modules/08-agentic-workflows.md#steering-a-session)).
+When the agent drifts (and on a real ticket, it often will), show the steering rule from Anthropic's docs: watch the first minute, press `Esc` the moment it drifts, and after two failed corrections, start fresh with a better prompt instead of a third correction ([module 10](../modules/10-agentic-workflows.md#steering-a-session)).
 
 ### Hands-on: the loop on real tickets (27 minutes)
 
 In pairs, on one small real ticket per pair (prepared in advance, one to three files each):
 1. The driver runs the agent, and the navigator keeps a log of the five artifacts: the plan (and what you changed in it), the failing test output, the passing output, `git diff --stat`, and the commit.
 2. Halfway through, swap roles.
-3. At the end, the navigator reviews the diff against the [module 10 checklist](../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs), focusing on the test diff first.
+3. At the end, the navigator reviews the diff against the [module 13 checklist](../modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs), focusing on the test diff first.
 4. Pairs that finish early ask a fresh session to review the branch and verify one finding.
 
 ### Debrief (8 minutes)
@@ -389,13 +389,13 @@ Ask each pair: Where did the agent drift? What did the plan review catch? Did it
 **Goal.** Review in layers: the agent checks itself, an independent model reviews, and a human reviews intent, design, and risk. Verify every finding before acting on it. Practice cross-model review.
 
 **Pre-read (25 minutes).**
-- [Module 10: What they are good and bad at](../modules/10-ai-code-review.md#what-they-are-good-and-bad-at)
-- [Module 10: A layered review workflow](../modules/10-ai-code-review.md#a-layered-review-workflow) and [Verify findings before acting](../modules/10-ai-code-review.md#verify-findings-before-acting)
-- [Module 10: How humans should review AI-written PRs](../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs)
-- [Module 09: Recipe 2: cross-model review](../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)
+- [Module 13: What they are good and bad at](../modules/13-ai-code-review.md#what-they-are-good-and-bad-at)
+- [Module 13: A layered review workflow](../modules/13-ai-code-review.md#a-layered-review-workflow) and [Verify findings before acting](../modules/13-ai-code-review.md#verify-findings-before-acting)
+- [Module 13: How humans should review AI-written PRs](../modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs)
+- [Module 12: Recipe 2: cross-model review](../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)
 - [Playbook: review policy for AI-written PRs](ai-first-playbook.md#review-policy-for-ai-written-prs)
 
-**Prep (about an hour, the week before).** Build seeded-bug PRs from your own repository, as in [module 10's exercise](../modules/10-ai-code-review.md#try-it). Take a clean, merged PR of 100–300 lines. In a copy, plant five bugs: an off-by-one, a swallowed error, a missing authorization or permission check, a tautological test, and a dependency declaration with a misspelled (nonexistent) name, without a startup import. Install dependencies from the clean base lockfile before planting it; never install dependencies on the seeded branch. Check the registry in a browser instead. Make two or three variants so groups don't share answers. Keep an answer key.
+**Prep (about an hour, the week before).** Build seeded-bug PRs from your own repository, as in [module 13's exercise](../modules/13-ai-code-review.md#try-it). Take a clean, merged PR of 100–300 lines. In a copy, plant five bugs: an off-by-one, a swallowed error, a missing authorization or permission check, a tautological test, and a dependency declaration with a misspelled (nonexistent) name, without a startup import. Install dependencies from the clean base lockfile before planting it; never install dependencies on the seeded branch. Check the registry in a browser instead. Make two or three variants so groups don't share answers. Keep an answer key.
 
 ### Agenda (60 minutes)
 
@@ -416,7 +416,7 @@ Ask each pair: Where did the agent drift? What did the plan review catch? Did it
    a concrete failure scenario, and severity (high/medium/low). Report only
    issues that would cause real harm. Skip style. If you find nothing, say so.
    ```
-2. **Merge and triage (3 minutes).** Put both lists side by side, remove duplicates, and sort by severity using the [triage table](../modules/10-ai-code-review.md#severity-triage).
+2. **Merge and triage (3 minutes).** Put both lists side by side, remove duplicates, and sort by severity using the [triage table](../modules/13-ai-code-review.md#severity-triage).
 3. **Verify (5 minutes).** Pick one high finding and one that looks dubious. For each:
    ```text
    The reviewer says: "<finding>". Don't fix it yet. Write a test that
@@ -432,13 +432,13 @@ Whichever pair you use, every finding still gets verified before anyone acts on 
 ### Hands-on: humans, then bots (25 minutes)
 
 In groups of three, on seeded PR B:
-1. **Humans only (10 minutes).** Review with the module 10 checklist. Read the PR description and `git diff --stat` first, then the test diff, then the code. List findings with severity.
+1. **Humans only (10 minutes).** Review with the module 13 checklist. Read the PR description and `git diff --stat` first, then the test diff, then the code. List findings with severity.
 2. **Bots (8 minutes).** Run two reviewers from different labs with the same brief.
 3. **Score (7 minutes).** For humans, each bot, and the combination: how many planted bugs were found (recall), how many other comments were wrong or useless (false positives), and how long it took.
 
 ### Answer key and debrief (10 minutes)
 
-Reveal the planted bugs and ask which layer caught what. Did the bots find the nonexistent dependency? Did the humans catch the tautological test? Did combining the layers beat either one? OpenAI's CriticGPT research makes the empirical case for layered review. Human-plus-critic teams caught about as many bugs as critics alone while hallucinating less ([module 10](../modules/10-ai-code-review.md#what-the-research-says)).
+Reveal the planted bugs and ask which layer caught what. Did the bots find the nonexistent dependency? Did the humans catch the tautological test? Did combining the layers beat either one? OpenAI's CriticGPT research makes the empirical case for layered review. Human-plus-critic teams caught about as many bugs as critics alone while hallucinating less ([module 13](../modules/13-ai-code-review.md#what-the-research-says)).
 
 ### Takeaway checklist
 
@@ -454,12 +454,12 @@ Reveal the planted bugs and ask which layer caught what. Did the bots find the n
 **Goal.** Understand why prompt injection is the hard problem for coding agents, know the team's controls and data rules, and know what agent work actually costs.
 
 **Pre-read (30 minutes).**
-- [Module 11: TL;DR](../modules/11-security-and-prompt-injection.md), [Two frameworks that make this tractable](../modules/11-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable), and [Why coding agents are the hard case](../modules/11-security-and-prompt-injection.md#why-coding-agents-are-the-hard-case)
-- [Module 11: Real incidents](../modules/11-security-and-prompt-injection.md#real-incidents-20252026) (skim the table)
-- [Module 12: TL;DR](../modules/12-costs-subscriptions-and-apis.md) and [Cost per task, not cost per token](../modules/12-costs-subscriptions-and-apis.md#cost-per-task-not-cost-per-token)
+- [Module 14: TL;DR](../modules/14-security-and-prompt-injection.md), [Two frameworks that make this tractable](../modules/14-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable), and [Why coding agents are the hard case](../modules/14-security-and-prompt-injection.md#why-coding-agents-are-the-hard-case)
+- [Module 14: Real incidents](../modules/14-security-and-prompt-injection.md#real-incidents-20252026) (skim the table)
+- [Module 15: TL;DR](../modules/15-costs-subscriptions-and-apis.md) and [Cost per task, not cost per token](../modules/15-costs-subscriptions-and-apis.md#cost-per-task-not-cost-per-token)
 - Your team's AI policy, especially data classes and incident reporting
 
-**Prep.** Build the throwaway environment for the injection demo, following [module 11's exercise](../modules/11-security-and-prompt-injection.md#try-it): a container or VM with **no host credentials** (only the agent’s isolated sign-in), a toy repository, a file with a fake canary secret, and a notes file containing an instruction aimed at AI assistants to copy that fake value into the README. Never run this on a real machine or repository.
+**Prep.** Build the throwaway environment for the injection demo, following [module 14's exercise](../modules/14-security-and-prompt-injection.md#try-it): a container or VM with **no host credentials** (only the agent’s isolated sign-in), a toy repository, a file with a fake canary secret, and a notes file containing an instruction aimed at AI assistants to copy that fake value into the README. Never run this on a real machine or repository.
 
 ### Agenda (60 minutes)
 
@@ -475,13 +475,13 @@ Reveal the planted bugs and ask which layer caught what. Did the bots find the n
 ### Demo script (15 minutes)
 
 1. **The setup (2 minutes).** Show the throwaway environment, the fake secret, and the planted instruction. Say: "This is the kind of text that can hide in a README, an issue, a dependency, or a web page."
-2. **The innocent request (5 minutes).** Ask: "Summarize this repo and suggest improvements to the README." Watch what happens. The agent may follow the planted instruction, refuse, or warn you. Any outcome makes the point that resistance to injection is a probability, not a permission system ([module 11](../modules/11-security-and-prompt-injection.md#why-it-is-still-unsolved)).
+2. **The innocent request (5 minutes).** Ask: "Summarize this repo and suggest improvements to the README." Watch what happens. The agent may follow the planted instruction, refuse, or warn you. Any outcome makes the point that resistance to injection is a probability, not a permission system ([module 14](../modules/14-security-and-prompt-injection.md#why-it-is-still-unsolved)).
 3. **Apply a defense and repeat (5 minutes).** Test a deny rule against both file-tool and shell reads, or make the toy repository read-only while retaining the model-provider connection. Deny write escalations. A response can still contain the fake canary; read-only does not prevent that disclosure. Repeat the request.
-4. **Name the leg (3 minutes).** Draw Meta's Rule of Two: untrusted input, sensitive data, and the ability to change state or communicate. Which leg did the defense remove? A typical coding agent on a laptop has all three by default ([module 11](../modules/11-security-and-prompt-injection.md#why-coding-agents-are-the-hard-case)).
+4. **Name the leg (3 minutes).** Draw Meta's Rule of Two: untrusted input, sensitive data, and the ability to change state or communicate. Which leg did the defense remove? A typical coding agent on a laptop has all three by default ([module 14](../modules/14-security-and-prompt-injection.md#why-coding-agents-are-the-hard-case)).
 
 ### Three incidents (6 minutes)
 
-From [module 11's incident table](../modules/11-security-and-prompt-injection.md#real-incidents-20252026):
+From [module 14's incident table](../modules/14-security-and-prompt-injection.md#real-incidents-20252026):
 - In Nx "s1ngularity" (August 2025), malware in a build tool's install script ran developers' AI CLIs with skip-permissions flags to search for secrets.
 - In July 2025, an agent deleted a production database during a code freeze, with no attacker. Dev and prod weren't separated.
 - In "Clinejection" (December 2025 to February 2026), an AI triage bot put issue titles into its prompt, and an attacker used that path to reach release secrets.
@@ -491,12 +491,12 @@ From [module 11's incident table](../modules/11-security-and-prompt-injection.md
 In groups, pick one real or planned workflow, such as "an agent triages new issues and opens fix PRs," or "a review bot comments on every PR."
 1. List every input it reads, every secret it can reach, and every action it can take.
 2. Mark each as A (untrusted input), B (sensitive access), or C (changes state or communicates).
-3. Choose a leg to remove and redesign the workflow. Use the [team checklist](../modules/11-security-and-prompt-injection.md#team-checklist) for ideas.
+3. Choose a leg to remove and redesign the workflow. Use the [team checklist](../modules/14-security-and-prompt-injection.md#team-checklist) for ideas.
 4. Groups get two minutes each to present; others try to break the design.
 
 ### Hands-on B: what did my last week cost? (12 minutes)
 
-Everyone runs their tool's usage report, for example `npx ccusage@latest daily` ([module 12](../modules/12-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding)), or opens the vendor dashboard.
+Everyone runs their tool's usage report, for example `npx ccusage@latest daily` ([module 15](../modules/15-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding)), or opens the vendor dashboard.
 1. Note total tokens, cache reads, and API-equivalent cost for the week.
 2. Find your most expensive session. Was it long, full of big tool outputs, full of retries, or run in parallel?
 3. Write one habit change that would have halved it (a fresh session between tasks, trimming tool output, a smaller model for easy work).
@@ -504,7 +504,7 @@ Everyone runs their tool's usage report, for example `npx ccusage@latest daily` 
 
 > **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
-Mention the counterpoint. Subscriptions have caps and changing terms, and CI or shared automation must use API keys with budgets ([module 12](../modules/12-costs-subscriptions-and-apis.md#bryans-take)).
+Mention the counterpoint. Subscriptions have caps and changing terms, and CI or shared automation must use API keys with budgets ([module 15](../modules/15-costs-subscriptions-and-apis.md#bryans-take)).
 
 ### The policy in five minutes
 
@@ -524,10 +524,10 @@ Walk through the three parts people most need: which data classes may go into wh
 **Goal.** Run two agents at once on independent tasks, each in its own worktree, and review each branch with a different model before merging. Know where autonomy stops for this team.
 
 **Pre-read (30 minutes).**
-- [Module 08: Steve Yegge's eight stages](../modules/08-agentic-workflows.md#steve-yegges-eight-stages)
-- [Module 08: Worktrees and parallel agents](../modules/08-agentic-workflows.md#worktrees-and-parallel-agents) and [Background and unattended runs](../modules/08-agentic-workflows.md#background-and-unattended-runs)
-- [Module 08: What the successes have in common](../modules/08-agentic-workflows.md#what-the-successes-have-in-common)
-- [Module 09: Building vs reviewing: the read/write asymmetry](../modules/09-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry) and [Budgets and stop conditions](../modules/09-multi-agent-systems.md#budgets-and-stop-conditions)
+- [Module 10: Steve Yegge's eight stages](../modules/10-agentic-workflows.md#steve-yegges-eight-stages)
+- [Module 10: Worktrees and parallel agents](../modules/10-agentic-workflows.md#worktrees-and-parallel-agents) and [Background and unattended runs](../modules/10-agentic-workflows.md#background-and-unattended-runs)
+- [Module 10: What the successes have in common](../modules/10-agentic-workflows.md#what-the-successes-have-in-common)
+- [Module 12: Building vs reviewing: the read/write asymmetry](../modules/12-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry) and [Budgets and stop conditions](../modules/12-multi-agent-systems.md#budgets-and-stop-conditions)
 
 **Prep.** Pick two small independent tasks that touch different files, for yourself and for each attendee. Adding missing tests in one module and fixing lint warnings in another works, and so do two unrelated small bugs.
 
@@ -569,13 +569,13 @@ Walk through the three parts people most need: which data classes may go into wh
 ### Debrief (7 minutes)
 
 Discuss three questions:
-- How many agents can you really review? [Module 15's](../modules/15-learning-careers-and-responsibility.md#the-human-side) warning signs are approving diffs you didn't read, losing track of agents, and no deep-focus time. Moving down a stage is allowed.
+- How many agents can you really review? [Module 18's](../modules/18-learning-careers-and-responsibility.md#the-human-side) warning signs are approving diffs you didn't read, losing track of agents, and no deep-focus time. Moving down a stage is allowed.
 - Which chores could a background agent do for us? Only ones with a strong automated check, a small reversible diff, and a normal PR review ([playbook Phase 3](ai-first-playbook.md#phase-3-advanced-use)).
 - What stays on Hold? Auto-merging agent PRs, agents with production access, and fully autonomous pipelines on our existing product code, until our own evidence says otherwise.
 
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-Give the counterpoint its due. The successful autonomous projects all had a strong automated oracle, and that boundary is moving ([module 08](../modules/08-agentic-workflows.md#bryans-take)).
+Give the counterpoint its due. The successful autonomous projects all had a strong automated oracle, and that boundary is moving ([module 10](../modules/10-agentic-workflows.md#bryans-take)).
 
 ### Close the series (3 minutes)
 
@@ -617,7 +617,7 @@ Review the series every quarter alongside the AI radar. Demos age fast. One that
 
 ## Sources and further reading
 
-The series is built on the modules; each session's pre-read links to the sections that source its claims. The exercises adapt the "Try it" sections of [module 01](../modules/01-what-is-an-llm.md#try-it), [module 07](../modules/07-context-engineering.md#try-it), [module 08](../modules/08-agentic-workflows.md#try-it), [module 10](../modules/10-ai-code-review.md#try-it), [module 11](../modules/11-security-and-prompt-injection.md#try-it), and [module 12](../modules/12-costs-subscriptions-and-apis.md#try-it). Primary sources worth handing to facilitators:
+The series is built on the modules; each session's pre-read links to the sections that source its claims. The exercises adapt the "Try it" sections of [module 01](../modules/01-what-is-an-llm.md#try-it), [module 09](../modules/09-context-engineering.md#try-it), [module 10](../modules/10-agentic-workflows.md#try-it), [module 13](../modules/13-ai-code-review.md#try-it), [module 14](../modules/14-security-and-prompt-injection.md#try-it), and [module 15](../modules/15-costs-subscriptions-and-apis.md#try-it). Primary sources worth handing to facilitators:
 
 - Anthropic, [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices) and [Common workflows](https://code.claude.com/docs/en/common-workflows)
 - OpenAI, [Codex best practices](https://learn.chatgpt.com/guides/best-practices)
