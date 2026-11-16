@@ -20,7 +20,7 @@ Do these in the four weeks before classes start.
    - Lab 2: a small project with a few tests.
    - Lab 3: a skeleton with a feature menu and **hidden acceptance tests** you keep out of the student repo.
    - Lab 4: a small web API with users, an admin-only endpoint, and tests.
-   - Lab 6: an isolated container/VM launcher exposing only a base-only run repository, plus an "eval starter" repo with tagged base commits and hidden tests, for self-paced learners, for teams whose project history is too thin, and for offerings without the capstone. With the capstone, Lab 6 normally uses each team’s own project history. Its scripts are runner skeletons, so the instructor must supply and dry-run the isolation launcher, category-specific graders, deadlines, and cleanup procedure before release.
+   - Lab 6: an isolated container or VM launcher that exposes only the run repository, which holds just the base commit. Also an "eval starter" repo with tagged base commits and hidden tests, for self-paced learners, teams whose project history is too thin, and offerings without the capstone. With the capstone, Lab 6 normally uses each team's own project history. The supplied scripts are runner skeletons. Before release, supply and dry-run the isolation launcher, category-specific graders, deadlines, and cleanup procedure.
    - Lab 8 fallback: a private class-run shared repository with a `CONTRIBUTING.md`, a written AI policy, CI, and at least one sized, labelled issue per student, plus spares.
    - Unit 4's verifier-loop activity: a toy project with a test suite and about ten tests you've broken on purpose. Check that a shell loop, a goal with a test condition, and a `Stop` hook can each run against it within one plan's limits.
 3. Vet a list of five to fifteen Lab 8 projects with explicit AI-contribution policies, active maintainers, and runnable tests. Cap students per project (two is a reasonable default) so the class doesn't swamp any one maintainer team ([module 16](../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
@@ -45,7 +45,7 @@ The units follow the [syllabus outline](syllabus.md#course-outline). Each topic 
 
 ### Unit 0: Orientation
 
-Set the stance (AI-accelerated, human accountable), explain the tiers, and run the diagnostic, all in about an hour. Spend about 15 minutes on the stance and the policy and 30 on the diagnostic, and leave the rest for questions. Setup happens outside class. Students work through the setup checklist before Unit 1, and a TA runs a drop-in clinic where students install one agent, sign in with the subscription (not an API key), and check the data-training setting. Collect each student's "Using AI to code is like…" sentence with the checklist and keep the stack for the last session ([00 Try it](../modules/00-orientation.md#try-it)).
+Use the hour to explain the course's approach, walk through the AI-use tiers, and run the diagnostic. The approach is that AI speeds up the work and the human stays accountable for it. Spend about 15 minutes on the approach and the policy, 30 on the diagnostic, and leave the rest for questions. Setup happens outside class. Students work through the setup checklist before Unit 1, and a TA runs a drop-in clinic where students install one agent, sign in with the subscription (not an API key), and check the data-training setting. Collect each student's "Using AI to code is like…" sentence with the checklist and keep the stack for the last session ([00 Try it](../modules/00-orientation.md#try-it)).
 
 **Talking points**
 - Karpathy's original "vibe coding" meant not reading the code. This course teaches the opposite habit. Show the spectrum table and point out that most of the course sits in the supervised-agent rows ([module 00](../modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding)).
@@ -160,13 +160,13 @@ Students learn what labs mean by safety, what they actually do about it, and how
 - Every frontier lab publishes a safety framework with capability thresholds. Most of it is voluntary and self-assessed. Date anything specific: as of November 2026, OpenAI rates GPT-6 Astra Critical in cybersecurity ([module 04](../modules/04-model-safety-and-alignment.md#frontier-safety-frameworks-as-of-november-2026)).
 - The practical lesson for students is the one Unit 4 builds on: review the diff, not the summary ([module 04](../modules/04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats)).
 
-Most of the session is the "always ask where" discussion. It can go wrong in two directions. Some students arrive alarmed by headlines about blackmail and scheming, and some have decided it's all marketing. Don't argue either side. Teach the method instead.
+Most of the session is the "always ask where" discussion. It can go wrong in two directions. Some students arrive alarmed by headlines about blackmail and scheming, and some have decided it's all marketing. Keep the discussion on the setting and evidence behind each claim.
 
 Hand out five or six rows of the [concerning-behaviors table](../modules/04-model-safety-and-alignment.md#observed-concerning-behaviors-always-ask-where) with the Setting column hidden, plus the headline each one produced. In small groups, students guess the setting, then read the source and check. Then put the module's two readings on the board: the skeptical one (contrived setups show what a model can be steered into) and the concerned one (contrived tests find problems early, and the rows have moved over time). Ask each group what evidence, in which setting, would move it toward the other reading.
 
-Two rules keep it honest. Quote the authors' own caveats along with the numbers, as the module does for the alignment-faking and blackmail studies. And don't skip the rows that are worrying. In the two 2026 incidents, agents in sanctioned evaluations, with safeguards deliberately off, crossed boundaries they recognized ([module 04](../modules/04-model-safety-and-alignment.md#two-2026-incidents-outside-contrived-setups)). If a student is anxious, take it seriously and point them to the [open debates](../modules/04-model-safety-and-alignment.md#open-debates) instead of reassuring them. If a student waves it all away, ask which row they'd need to see in a deployment setting before they changed how much autonomy they give their own agent.
+Quote the authors' own caveats along with the numbers, as the module does for the alignment-faking and blackmail studies. And don't skip the rows that are worrying. In the two 2026 incidents, agents in sanctioned evaluations crossed boundaries they recognized, and in the AISI case safeguards were deliberately off ([module 04](../modules/04-model-safety-and-alignment.md#two-2026-incidents-outside-contrived-setups)). If a student is anxious, take it seriously and point them to the [open debates](../modules/04-model-safety-and-alignment.md#open-debates) instead of reassuring them. If a student waves it all away, ask which row they'd need to see in a deployment setting before they changed how much autonomy they give their own agent.
 
-End on their own desks. An agent that edits a failing test is showing the same reward hacking the table measures, and the fix is Unit 4's: protect the check and read the diff. If there's time left, run the open-weights safety debate ([04 Try it](../modules/04-model-safety-and-alignment.md#try-it)).
+End by applying these results to the coding agents students use. An agent that edits a failing test may be reward hacking, the behavior the table records, or it may be fixing a test that was wrong. Only the diff tells you which. Unit 4's fix covers both: protect the check and read the diff. If there's time left, run the open-weights safety debate ([04 Try it](../modules/04-model-safety-and-alignment.md#try-it)).
 
 **Misconceptions**
 - "Safety means the model refuses things." Refusals are one safeguard among several.
@@ -222,7 +222,7 @@ For the live demo, do memory math on the board for 8B, 30B, and 70B models at 16
 
 #### Building your own eval
 
-Students learn to answer "should *we* use it, in *our* tool, on *our* code?" They build the real thing in Lab 6, which waits until Unit 3 because it needs agent skills from Labs 2 and 3. This session gives them the method and the statistics first.
+Students learn to decide whether a model suits their team, tools, and code. They build the real thing in Lab 6, which waits until Unit 3 because it needs agent skills from Labs 2 and 3. This session gives them the method and the statistics first.
 
 **Talking points**
 - Golden tasks come from real merged work, with hidden tests and at least one trap task ([module 07](../modules/07-judging-models.md#build-your-own-eval)).
@@ -247,7 +247,7 @@ AI-free check 1 closes the unit: tokenization predictions, what temperature does
 
 ### Unit 3: Working with agents
 
-Students install an agent, learn what the harness controls, and run the full loop on a real change. This is where the course turns hands-on, and where the capstone starts if you're running one.
+Students put the agent they installed before Unit 1 to work: they learn what the harness controls and run the full loop on a real change. This is where the course turns hands-on, and where the capstone starts if you're running one.
 
 #### Harnesses, tools, and MCP
 
@@ -300,7 +300,7 @@ For the live demo, show [context rot](#demo-4-context-rot), or trim module 09's 
 Teach the core loop and tests as the contract. Show how to adjust autonomy.
 
 **Talking points**
-- "Claude stops when the work looks done." Without a check to run, "looks done" is all the agent has ([module 11](../modules/11-verification.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)).
+- Without a check to run, Claude stops when it judges the work complete ([module 11](../modules/11-verification.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)).
 - Walk through explore → plan → implement → verify → commit using the module's prompts ([module 10](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)).
 - Tests are a contract only if the agent can't quietly rewrite them ([module 11](../modules/11-verification.md#tests-as-the-agents-contract)).
 - To steer, watch the first minute, press `Esc` when it drifts, and after two failed corrections start fresh with a better prompt ([module 10](../modules/10-agentic-workflows.md#steering-a-session)).
@@ -309,7 +309,7 @@ Teach the core loop and tests as the contract. Show how to adjust autonomy.
 
 > **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-Present the counter-claims just as carefully. OpenAI's harness team reports a million-line product without hand-written code, Cursor reports a week-long multi-agent run that built a web browser (disputed: critics reported that a fresh clone failed to build and that most CI jobs failed; see [module 10's critique](../modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet)), and Anthropic reports that Claude writes most of its merged code ([module 09](../modules/09-context-engineering.md#bryans-take), [module 10](../modules/10-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
+Present the counterclaims just as carefully. OpenAI's harness team reports a million-line product without hand-written code. Cursor reports a week-long multi-agent run that built a web browser. Critics disputed Cursor's result: they reported that a fresh clone failed to build and that most CI jobs failed ([module 10's critique](../modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet)). Anthropic reports that Claude writes most of its merged code ([module 09](../modules/09-context-engineering.md#bryans-take), [module 10](../modules/10-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
 
 For the live demo, run a version of module 10's [sample session](../modules/10-agentic-workflows.md#a-sample-session) on a toy bug. Before it runs the tests, ask "is it done?" and let the class watch it claim success. Then ask for the command and output.
 
@@ -334,7 +334,7 @@ AI-free check 2 closes the unit: what fills a context window, what's missing fro
 
 ### Unit 4: Trusting the output
 
-The course's throughline lands here. A checkable reward is a big part of how models learned to code, as students saw in Unit 1, and checkable tests are how you get bounded confidence in their code.
+Checkable rewards played a large part in teaching models to code, as students saw in Unit 1. Here they learn how checkable tests give them limited confidence in generated code.
 
 #### Verification
 
@@ -345,7 +345,7 @@ Students learn to give an agent something outside itself to check against, and t
 - Outside feedback beats self-critique. "Review your work and fix any mistakes" is the weakest feedback you can give, and a failing test with its error message is much stronger ([module 11](../modules/11-verification.md#why-outside-feedback-beats-self-critique)).
 - The ladder of checks runs from types and lint up to end-to-end tests, runtime checks, and a human. Ask students which rung is weakest in a codebase they know ([module 11](../modules/11-verification.md#the-ladder-of-checks)).
 - Agents game whatever check you give them, so protect it with tests the agent can't edit, holdouts it can't see, a test diff you read, and mutation testing ([module 11](../modules/11-verification.md#protecting-the-verifier)). Connect this to the reward hacking from Unit 1.
-- Passing checks is evidence, not proof. Scale the evidence to the risk of the change, and let gates carry the vigilance, since automation bias "cannot be prevented by training or instructions" ([module 11](../modules/11-verification.md#calibrating-your-own-trust)).
+- Passing checks is evidence, not proof. Scale the evidence to the risk of the change, and use automated gates to catch mistakes, since automation bias "cannot be prevented by training or instructions" ([module 11](../modules/11-verification.md#calibrating-your-own-trust)).
 
 > **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows.md#bryans-take).)
 
@@ -391,7 +391,7 @@ For the live demo, run a three-reviewer swarm on a small diff, then a verifier o
 - "More agents means better results."
 - "If agents debate, they converge on the truth."
 - "A new session of the same model is an independent reviewer." It's the minimum, not the ideal.
-- "Giving agents roles like CEO and QA adds checks." It adds tokens ([module 12](../modules/12-multi-agent-systems.md#anti-patterns)).
+- "Giving agents roles like CEO and QA adds checks." Role titles add tokens without adding checks ([module 12](../modules/12-multi-agent-systems.md#anti-patterns)).
 
 **Discussion prompts** ([module 12](../modules/12-multi-agent-systems.md#discussion-questions))
 - Why do review and research parallelize better than writing code?
@@ -456,7 +456,7 @@ Kick off Lab 8 in that same session. Show the policy table from [module 16](../m
 
 ### Unit 5: Practice for the long run
 
-The last unit covers cost, open source, keeping up, and how students will keep learning after the course. The capstone or Lab 8 takes most of their outside time here, so hold the readings to the listed sections.
+The capstone or Lab 8 takes most of students' outside time in this unit, so hold the readings to the listed sections.
 
 #### Costs and the open-source ecosystem
 
@@ -464,15 +464,15 @@ Judge cost per finished task, and treat maintainers' time as a shared resource.
 
 **Talking points**
 - Three ways to pay: chat subscription, tool subscription, API ([module 15](../modules/15-costs-subscriptions-and-apis.md#three-ways-to-pay)).
-- The model is stateless, so cost grows roughly with the square of turns. In the worked example, caching cuts most of it ([module 15](../modules/15-costs-subscriptions-and-apis.md#why-agentic-coding-eats-tokens)).
-- Subscriptions are for individual interactive work. Under the terms, production, CI, and anything for other users needs the API ([module 15](../modules/15-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
+- Each call carries the session's history. If the loop keeps appending history without compaction and each turn adds about the same amount, total input tokens grow roughly with the square of turns. In the worked example, caching cuts most of that ([module 15](../modules/15-costs-subscriptions-and-apis.md#why-agentic-coding-eats-tokens)).
+- Use subscriptions for your own interactive work and the API for production services and shared automation. Authentication rules vary by vendor and tool, and not all of them ban automation on subscriptions ([module 15](../modules/15-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice)).
 - curl ended its bug bounty after confirmed reports fell below one in twenty. Project policies range from bans to "disclose it and own it" ([module 16](../modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden)).
 
 For the live demo, run a short maintainer's chair. Show four prepared PRs (careful human work, careful AI-assisted work with disclosure, two unreviewed AI dumps) and time how long each takes to review.
 
 **Misconceptions**
 - "The API is cheaper because you pay only for what you use." Not for heavy agent sessions.
-- "My subscription can power my app's AI feature or my CI bot." Not under the terms.
+- "My subscription can power my app's AI feature or my CI bot." It depends on the vendor and tool, so check the current terms. Anthropic, for example, requires API keys for products built on Claude.
 - "Maintainers appreciate any PR."
 
 **Discussion prompts** ([module 15](../modules/15-costs-subscriptions-and-apis.md#discussion-questions), [module 16](../modules/16-open-source-ecosystem.md#discussion-questions))
@@ -482,7 +482,7 @@ For the live demo, run a short maintainer's chair. Show four prepared PRs (caref
 
 #### Keeping up
 
-Build a sustainable routine and a method for "it got worse."
+Help students build a sustainable routine for keeping up and a method for checking claims that a model has got worse.
 
 **Talking points**
 - What stays stable: context, verification, security, decomposition, your own eval, cost awareness ([module 17](../modules/17-keeping-up.md#what-stays-stable)).
@@ -503,7 +503,7 @@ For the live demo, take a recent public "model X got dumber" thread and run it t
 
 #### Learning with AI, integrity, careers
 
-Students choose on purpose how they use AI to learn, and read the career evidence honestly. They read the learning habits in Unit 0. This session looks back at how those habits held up over the course.
+Students decide how to use AI while learning and weigh the evidence on careers. They read about learning habits in Unit 0, so ask how those habits held up over the course.
 
 **Talking points**
 - Producing work and learning from it are different goals ([module 18](../modules/18-learning-careers-and-responsibility.md#producing-the-work-vs-learning-from-it)).
@@ -532,7 +532,7 @@ Demos, reflection, and feedback for next term.
 
 **Talking points**
 - Revisit the six durable ideas. Which held up this term, and which looked shakier?
-- The human side: intensity and fatigue, workslop, imposter feelings. AI-first doesn't mean AI-only ([module 18](../modules/18-learning-careers-and-responsibility.md#the-human-side)).
+- The human side: intensity and fatigue, workslop, imposter feelings. Students can work AI-first and still do some work without AI ([module 18](../modules/18-learning-careers-and-responsibility.md#the-human-side)).
 
 In class, run the final demos, each with a segment on something an agent got wrong. Without the capstone, have students show their Lab 8 contribution instead. Then hand back the analogies from Unit 0, run a retrospective, and feed what you learn into the refresh checklist.
 
@@ -583,9 +583,9 @@ Each of these is a reason to schedule a walkthrough, and none proves anything:
 
 Walkthroughs are the course's main integrity safeguard and its best teaching tool. They follow [module 18's suggested policy](../modules/18-learning-careers-and-responsibility.md#a-suggested-policy-for-an-ai-accelerated-course): if you can't explain it, it doesn't count as yours.
 
-For each lab, pick a few students at random, plus anyone whose evidence shows a red flag. Every student gets at least one lab walkthrough during the term, and everyone gets a 10-minute project walkthrough at the end.
+For each lab, pick a few students at random, plus anyone whose evidence shows a red flag. Every student gets at least one lab walkthrough during the term, and everyone gets a 10-minute final walkthrough at the end, on their capstone code or, without the capstone, on their lab work.
 
-Lab walkthroughs take five minutes, project walkthroughs ten. The student shares their screen with their repository open and no AI tools running. Notes they wrote themselves are fine.
+Lab walkthroughs take five minutes, final walkthroughs ten. The student shares their screen with their repository open and no AI tools running. Notes they wrote themselves are fine.
 
 Good questions, drawn from [module 13](../modules/13-ai-code-review.md#make-the-author-explain-the-change):
 - "Walk me through what happens when this input is empty."
@@ -602,7 +602,7 @@ To keep it fair, use the same questions for everyone and offer written or record
 ### Grading team work
 
 - Team deliverables get a team score, adjusted per person by individual evidence: commits, PR reviews written, AI logs per PR, and `[peer evaluation]`.
-- Lab 6 is a team lab with individual parts. Each student's tasks, runs, and scoring are graded individually, and the leak check, statistics, and decision are shared. Lab 7 is individual, on a teammate's PR.
+- Lab 6 is a team lab with individual parts. Each student's tasks, runs, and scoring are graded individually, and the leak check, statistics, and decision are shared. Lab 7 is individual: with the capstone, each student reviews a teammate's PR, and without it, a classmate's Lab 3 feature.
 - Branch protection makes every merge traceable to a human approver. The approver owns that change too ([module 13](../modules/13-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
 - Watch for one experienced member doing all the merging. Each member should author and approve merges.
 
@@ -638,7 +638,7 @@ Some students have shipped code at internships or jobs, and some already use age
 
 ### Mixing them
 
-- Pair across levels in Lab 4. The experienced student's planted bugs are subtler, which makes the newcomer's review harder and more instructive, and the reverse is still useful.
+- Pair across levels in Lab 4. The newcomer may get subtler planted bugs than a same-level partner would write, and the experienced student still learns from reviewing the newcomer's code.
 - Balance project teams so each has at least one experienced member and one newcomer.
 - In pairs and teams, rotate between a driver who runs the agent and a reviewer who reads every diff. Switch every lab or every sprint.
 
