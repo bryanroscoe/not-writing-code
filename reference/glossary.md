@@ -17,12 +17,14 @@ Model names and product names change fast. Entries for specific models describe 
 - **Adaptive attack**: An attack tuned specifically against a given defense, used to measure real rather than reported robustness. ([14](../modules/14-security-and-prompt-injection.md))
 - **Adversarial verification**: Checking each finding by assigning a fresh agent to try to refute it. ([12](../modules/12-multi-agent-systems.md))
 - **Agent**: A model plus tools plus a loop that keeps acting until a task is done. ([01](../modules/01-what-is-an-llm.md), [10](../modules/10-agentic-workflows.md))
+- **Agent (RL)**: The learner that takes actions; in LLM training, the model. ([03](../modules/03-post-training-and-rl.md))
 - **Agent framework**: A library of building blocks (model clients, tools, state, tracing, multi-agent coordination) for building agents. ([16](../modules/16-open-source-ecosystem.md))
 - **Agent loop**: The cycle of calling the model, running the tools it requests, and feeding results back until it finishes. ([08](../modules/08-harnesses-and-tools.md), [10](../modules/10-agentic-workflows.md))
 - **Agent SDK**: A vendor's agent harness packaged as a library, such as the Claude Agent SDK or OpenAI Agents SDK. ([16](../modules/16-open-source-ecosystem.md))
 - **Agent team**: Peer agents that share a task list and message each other, usually with a lead. ([12](../modules/12-multi-agent-systems.md))
 - **Agent-computer interface (ACI)**: The set of tools and commands an agent uses to work with a computer; its design affects agent performance. ([10](../modules/10-agentic-workflows.md))
 - **Agentic AI Foundation (AAIF)**: The Linux Foundation body that hosts MCP, AGENTS.md, goose and Agent Skills. ([08](../modules/08-harnesses-and-tools.md))
+- **Agentic RL**: RL on multi-step agent tasks in real or simulated environments, often run as its own training stage. ([03](../modules/03-post-training-and-rl.md))
 - **Agents Rule of Two**: Meta's guideline that an agent should combine at most two of: processing untrusted input, accessing sensitive data or systems, and changing state or communicating externally, unless a human or reliable check approves its actions. ([14](../modules/14-security-and-prompt-injection.md))
 - **AGENTS.md**: A vendor-neutral instruction-file name, now stewarded by the Agentic AI Foundation. ([09](../modules/09-context-engineering.md))
 - **AI code reviewer / review bot**: A language-model system that comments on pull requests to flag problems. ([13](../modules/13-ai-code-review.md))
@@ -31,6 +33,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **AI slop**: Low-effort, unverified AI-generated content, such as fake bug reports or careless pull requests. ([16](../modules/16-open-source-ecosystem.md))
 - **AI-first (not AI-only)**: Reaching for AI by default while keeping the ability to work without it. ([18](../modules/18-learning-careers-and-responsibility.md))
 - **AI-free, AI-as-tutor, AI-accelerated**: A three-tier way to label assignments by how much AI help is allowed. ([18](../modules/18-learning-careers-and-responsibility.md))
+- **Alignment tax**: Capability lost on other tasks as a side effect of alignment training. ([03](../modules/03-post-training-and-rl.md))
 - **Anthropic-compatible endpoint**: A non-Anthropic API that accepts Anthropic's Messages format so tools like Claude Code can call it. ([06](../modules/06-open-vs-closed-weights.md))
 - **API-equivalent cost**: What a given amount of subscription usage would have cost at published API prices. ([15](../modules/15-costs-subscriptions-and-apis.md))
 - **Approval fatigue**: Approving permission prompts without reading them because there are too many. ([08](../modules/08-harnesses-and-tools.md))
@@ -46,6 +49,7 @@ Model names and product names change fast. Entries for specific models describe 
 
 - **Background agent**: An agent that runs a task without you watching and returns a result (often a pull request) later. ([10](../modules/10-agentic-workflows.md))
 - **Base model**: A pretrained model before post-training; it continues documents rather than following instructions. ([01](../modules/01-what-is-an-llm.md))
+- **Baseline and advantage**: The expected score subtracted from a reward to reduce noise, and how much better or worse an action did than that expectation. ([03](../modules/03-post-training-and-rl.md))
 - **Batch API**: Asynchronous processing of many requests, completed within hours, at about half price. ([15](../modules/15-costs-subscriptions-and-apis.md))
 - **Beads**: A Dolt-backed graph issue tracker that agents use as shared, structured memory. ([16](../modules/16-open-source-ecosystem.md))
 - **Benchmark**: A fixed set of tasks plus a scoring rule, used to compare models. ([07](../modules/07-judging-models.md))
@@ -67,6 +71,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Chain-of-thought**: Prompting a model to produce intermediate reasoning steps. ([09](../modules/09-context-engineering.md))
 - **Chain-of-thought (CoT)**: Having a model write intermediate reasoning steps before its answer. ([01](../modules/01-what-is-an-llm.md))
 - **Chain-of-thought faithfulness**: Whether a model's written reasoning reflects the computation that actually produced its answer. ([01](../modules/01-what-is-an-llm.md))
+- **Chain-of-thought monitoring**: Using another model to read a reasoning model's chain of thought for signs of misbehavior such as reward hacking. ([03](../modules/03-post-training-and-rl.md))
 - **Change failure rate**: The share of deployments that cause a failure needing a fix or rollback (a DORA metric). ([13](../modules/13-ai-code-review.md))
 - **Checkpoint**: An automatic snapshot of an agent's edits that you can rewind to. ([08](../modules/08-harnesses-and-tools.md), [10](../modules/10-agentic-workflows.md))
 - **Chinchilla scaling**: The finding that compute-optimal training uses roughly 20 tokens per parameter. ([01](../modules/01-what-is-an-llm.md))
@@ -115,6 +120,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Embedding**: A vector of numbers representing a token (or document) so that related meanings sit near each other. ([01](../modules/01-what-is-an-llm.md))
 - **Emergent abilities**: Capabilities that appear to arise abruptly with scale; partly debated as a measurement artifact. ([01](../modules/01-what-is-an-llm.md))
 - **Emergent misalignment**: Broad misaligned behavior arising from narrow fine-tuning, such as on insecure code. ([03](../modules/03-post-training-and-rl.md))
+- **Environment (RL environment)**: Everything an agent acts on and is scored by; for a coding agent, a repository snapshot, a runtime, a task, and tests. ([03](../modules/03-post-training-and-rl.md))
 - **Error amplification**: How much a system's architecture spreads individual mistakes into the final output. ([12](../modules/12-multi-agent-systems.md))
 - **Escaped defect**: A bug that gets past review and testing and is found after merge. ([13](../modules/13-ai-code-review.md))
 - **Evaluation awareness**: A model recognizing that it's being tested, which can make eval results unrepresentative. ([07](../modules/07-judging-models.md))
@@ -169,11 +175,13 @@ Model names and product names change fast. Entries for specific models describe 
 ## I
 
 - **IFScale**: A benchmark measuring how instruction-following degrades as the number of instructions grows. ([09](../modules/09-context-engineering.md))
+- **Importance ratio**: The correction for training on answers sampled from a slightly older copy of the policy; PPO-style methods clip it to keep updates small. ([03](../modules/03-post-training-and-rl.md))
 - **In-context learning**: A model picking up a task from examples or instructions in its prompt, with no weight changes. ([01](../modules/01-what-is-an-llm.md))
 - **Indirect prompt injection**: The attacker plants instructions in content (web pages, files, issues, emails) that a model reads later on someone else's behalf. ([14](../modules/14-security-and-prompt-injection.md))
 - **Inference geo / data residency**: Controls over where a provider runs inference and stores your data. ([06](../modules/06-open-vs-closed-weights.md))
 - **Inference runtime**: Software that loads model weights and generates output (llama.cpp, Ollama, vLLM, SGLang, MLX). ([16](../modules/16-open-source-ecosystem.md))
 - **Information diet**: The deliberate, limited set of sources you follow to stay current. ([17](../modules/17-keeping-up.md))
+- **Inoculation prompting**: Telling a model during training that a hack is acceptable in that environment, so the behavior doesn't generalize into broader misbehavior. ([03](../modules/03-post-training-and-rl.md))
 - **Input tokens**: Everything sent to the model on a call, including history, files, and tool results. ([15](../modules/15-costs-subscriptions-and-apis.md))
 - **Instruction file (context file)**: A markdown file such as `CLAUDE.md` or `AGENTS.md` loaded into every agent session. ([09](../modules/09-context-engineering.md))
 - **Instruction hierarchy**: Training a model to prioritize system instructions over user text over tool output. ([14](../modules/14-security-and-prompt-injection.md))
@@ -187,6 +195,7 @@ Model names and product names change fast. Entries for specific models describe 
 
 ## K
 
+- **KL penalty**: A deduction from the reward for drifting away from a reference model's token probabilities, used to keep RL from over-optimizing a reward model. ([03](../modules/03-post-training-and-rl.md))
 - **KV cache**: Stored attention keys and values for earlier tokens, reused to speed up generation. ([01](../modules/01-what-is-an-llm.md), [06](../modules/06-open-vs-closed-weights.md))
 
 ## L
@@ -197,6 +206,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Lethal trifecta**: Willison's term for an agent that combines private data access, exposure to untrusted content, and the ability to communicate externally, which makes data theft by injection possible. ([14](../modules/14-security-and-prompt-injection.md))
 - **License contamination**: Introducing code under incompatible license terms, for example GPL code into a proprietary project, often unknowingly. ([18](../modules/18-learning-careers-and-responsibility.md))
 - **LLM judge**: A language model used to score another model's output. ([07](../modules/07-judging-models.md))
+- **LLM-as-judge**: Using a language model to grade outputs, as an evaluator or as an RL reward. ([03](../modules/03-post-training-and-rl.md))
 - **Loaded cost**: An employee's total cost to the employer, including salary, benefits, taxes, and overhead. ([15](../modules/15-costs-subscriptions-and-apis.md))
 - **Logit distillation vs output distillation**: Learning from the teacher's token probabilities versus from its generated text. ([02](../modules/02-how-a-model-is-made.md))
 - **Loop engineering**: Designing systems that repeatedly prompt an agent, with schedules, goals, verifiers and stopping rules. ([09](../modules/09-context-engineering.md))
@@ -233,6 +243,7 @@ Model names and product names change fast. Entries for specific models describe 
 
 ## O
 
+- **On-policy distillation**: Distillation in which the student writes its own answers and a stronger teacher grades each token. ([03](../modules/03-post-training-and-rl.md))
 - **Open source AI (OSI definition)**: An AI system released with weights, complete training code and detailed data information, under terms granting use, study, modification and sharing. ([06](../modules/06-open-vs-closed-weights.md))
 - **Open weight**: A model whose weights you can download, under some license. ([06](../modules/06-open-vs-closed-weights.md))
 - **Open-source software**: Software whose source code is published under a license allowing use, modification and redistribution. ([16](../modules/16-open-source-ecosystem.md))
@@ -240,6 +251,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Oracle**: An automated source of truth to check results against, such as a reference implementation or conformance suite. ([10](../modules/10-agentic-workflows.md))
 - **Orchestrator**: Software that runs and coordinates several agents at once, often one per git worktree. ([08](../modules/08-harnesses-and-tools.md), [16](../modules/16-open-source-ecosystem.md))
 - **Orchestrator–workers**: A pattern where a lead agent splits a task at run time and delegates the pieces. ([12](../modules/12-multi-agent-systems.md))
+- **Outcome reward model (ORM)**: A reward model that scores only the final answer. ([03](../modules/03-post-training-and-rl.md))
 - **Output tokens**: Everything the model generates on a call, including reasoning tokens. ([15](../modules/15-costs-subscriptions-and-apis.md))
 
 ## P
@@ -255,12 +267,15 @@ Model names and product names change fast. Entries for specific models describe 
 - **Personal agent**: An agent that acts across a person's own accounts and devices, often through messaging apps. ([16](../modules/16-open-source-ecosystem.md))
 - **Plan mode**: A harness mode in which the agent reads and proposes a plan but makes no edits until you approve. ([10](../modules/10-agentic-workflows.md))
 - **Plugin / marketplace**: A bundle of skills, hooks, subagents and MCP servers; a git-hosted catalog of them. ([08](../modules/08-harnesses-and-tools.md))
+- **Policy**: The rule an agent uses to choose actions; for an LLM, its next-token probabilities, which is to say the model itself. ([03](../modules/03-post-training-and-rl.md))
+- **Policy gradient**: An RL method that raises the probability of actions in proportion to how much better than expected they scored. ([03](../modules/03-post-training-and-rl.md))
 - **Post-training**: Training after pretraining that turns a base model into a helpful, safer assistant (SFT, RLHF, RL). ([01](../modules/01-what-is-an-llm.md))
 - **Postmortem**: A written analysis of an incident: what happened, why, and what will change. ([17](../modules/17-keeping-up.md))
-- **PPO (Proximal Policy Optimization)**: The classic RL algorithm used in RLHF. ([03](../modules/03-post-training-and-rl.md))
+- **PPO (Proximal Policy Optimization)**: A policy-gradient algorithm that keeps each update small and uses a learned critic; the classic algorithm in RLHF. ([03](../modules/03-post-training-and-rl.md))
 - **Preference tuning**: Training a model on comparisons between better and worse responses. ([03](../modules/03-post-training-and-rl.md))
 - **Pretraining**: The first, largest training phase: next-token prediction on huge text corpora. ([01](../modules/01-what-is-an-llm.md))
 - **Price floor**: The lowest price the market will bear, often set by cheaply hosted open models. ([05](../modules/05-model-landscape.md))
+- **Process reward model (PRM)**: A reward model that scores each step of the reasoning. ([03](../modules/03-post-training-and-rl.md))
 - **Product sense**: Judgment about what is worth building, for whom, and what "done" means. ([18](../modules/18-learning-careers-and-responsibility.md))
 - **Progressive disclosure**: Showing an agent short descriptions first and full details only when needed. ([08](../modules/08-harnesses-and-tools.md))
 - **Prompt caching**: Reusing the KV cache for a repeated prompt prefix, usually at a discount. ([01](../modules/01-what-is-an-llm.md), [15](../modules/15-costs-subscriptions-and-apis.md))
@@ -282,23 +297,30 @@ Model names and product names change fast. Entries for specific models describe 
 - **RCT (randomized controlled trial)**: An experiment that randomly assigns participants or tasks to treatment and control. ([07](../modules/07-judging-models.md))
 - **ReAct**: A 2022 prompting pattern that interleaves written reasoning steps with tool actions; the basis of most agents. ([10](../modules/10-agentic-workflows.md))
 - **Read/write asymmetry**: Read-heavy work (review, research) parallelizes well; write-heavy work on shared code usually does not. ([12](../modules/12-multi-agent-systems.md))
+- **Real-time RL**: Retraining a deployed model on reward signals from how people respond to it in production. ([03](../modules/03-post-training-and-rl.md))
 - **Reasoning (thinking) tokens**: Tokens a model generates while working through a problem before answering; billed as output. ([15](../modules/15-costs-subscriptions-and-apis.md))
 - **Reasoning effort**: A setting that controls how long a model thinks before answering. ([05](../modules/05-model-landscape.md))
 - **Reasoning model**: A model trained (usually with reinforcement learning) to think at length before answering. ([01](../modules/01-what-is-an-llm.md))
 - **Recursive self-improvement**: A system improving the process by which it improves, potentially compounding. ([03](../modules/03-post-training-and-rl.md))
+- **Reference model**: The frozen starting model, often the SFT model, that the KL penalty measures drift against. ([03](../modules/03-post-training-and-rl.md))
 - **Regression (model or tool)**: A drop in quality after a change, whether in the model, harness, product settings, or serving infrastructure. ([17](../modules/17-keeping-up.md))
+- **Reinforcement learning (RL)**: Training by trial and score: a model acts, gets a reward, and is updated so high-reward actions become more likely. ([03](../modules/03-post-training-and-rl.md))
 - **Reinforcement learning with verifiable rewards (RLVR)**: RL where the reward comes from automatically checkable outcomes, such as correct math answers or passing tests. ([01](../modules/01-what-is-an-llm.md))
 - **Repository map**: A compact summary of a codebase's files and symbols given to an agent, popularized by Aider. ([16](../modules/16-open-source-ecosystem.md))
 - **Retrieval-augmented generation (RAG)**: Retrieving relevant documents and putting them in the model's context before it answers. ([01](../modules/01-what-is-an-llm.md))
+- **Return**: The total reward over a trajectory, sometimes discounted so later rewards count less. ([03](../modules/03-post-training-and-rl.md))
 - **Revert rate**: The share of merged changes that are later reverted. ([13](../modules/13-ai-code-review.md))
 - **Review instruction file**: A repository file that tells a review bot what to check and skip (`REVIEW.md`, `AGENTS.md` review rules, `.cursor/BUGBOT.md`, `copilot-instructions.md`). ([13](../modules/13-ai-code-review.md))
 - **Review swarm**: Independent reviewers split by concern, followed by adversarial verification of each finding. ([12](../modules/12-multi-agent-systems.md))
+- **Reward**: A number that scores how well an action or answer went. ([03](../modules/03-post-training-and-rl.md))
 - **Reward hacking**: A model scoring well on a reward signal without doing the intended task, for example by editing tests. ([03](../modules/03-post-training-and-rl.md), [07](../modules/07-judging-models.md), [10](../modules/10-agentic-workflows.md))
-- **Reward model**: A model trained to score responses by predicted human (or AI) preference. ([01](../modules/01-what-is-an-llm.md))
+- **Reward model**: A model trained to score responses by predicted human (or AI) preference. ([01](../modules/01-what-is-an-llm.md), [03](../modules/03-post-training-and-rl.md))
+- **Reward model over-optimization**: Pushing a policy so hard against an imperfect reward model that its true quality falls. ([03](../modules/03-post-training-and-rl.md))
 - **RLAIF**: Reinforcement learning from AI feedback; an AI model supplies the preference judgments. ([03](../modules/03-post-training-and-rl.md))
 - **RLHF**: Reinforcement learning from human feedback; optimizing a model toward responses a learned reward model predicts people prefer. ([01](../modules/01-what-is-an-llm.md))
 - **RLVR**: Reinforcement learning with verifiable rewards; rewards come from automatic checks such as tests or answer matching. ([03](../modules/03-post-training-and-rl.md))
 - **Rubber-stamping**: Approving a change without really reviewing it. ([13](../modules/13-ai-code-review.md))
+- **Rubric reward**: An RL reward built from written criteria, often specific to each prompt, graded by a model. ([03](../modules/03-post-training-and-rl.md))
 - **Rug pull (MCP)**: A tool server changing its tool descriptions or behavior after the user approved it. ([14](../modules/14-security-and-prompt-injection.md))
 - **Rumor laundering**: An unverified claim gaining false credibility as it's repeated by successively more official-looking sources. ([17](../modules/17-keeping-up.md))
 
@@ -328,6 +350,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Spec drift**: A specification falling out of sync with the code it describes. ([09](../modules/09-context-engineering.md))
 - **Spec-driven development**: Writing a specification, plan and task list before an agent implements. ([09](../modules/09-context-engineering.md))
 - **Spec-first**: Writing down requirements and a definition of done (often in a `SPEC.md`) before implementation starts. ([10](../modules/10-agentic-workflows.md))
+- **Specification gaming**: Satisfying the literal objective without achieving the intended outcome. ([03](../modules/03-post-training-and-rl.md))
 - **Spike**: A short, timeboxed experiment in code to answer a design question before committing to an approach. ([10](../modules/10-agentic-workflows.md))
 - **Stacked PRs**: A chain of small, dependent pull requests reviewed in order instead of one large one. ([13](../modules/13-ai-code-review.md))
 - **Stage (Yegge)**: One of eight levels in Steve Yegge's chart of how far a developer delegates to AI agents. ([10](../modules/10-agentic-workflows.md))
@@ -365,6 +388,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Toxic agent flow**: Invariant Labs' term for a sequence of individually allowed tool calls that, triggered by injected text, adds up to a harmful outcome. ([14](../modules/14-security-and-prompt-injection.md))
 - **Training cutoff**: The date after which a model has no training data. ([01](../modules/01-what-is-an-llm.md))
 - **Training vs inference**: Training adjusts weights; inference uses frozen weights to produce output. ([01](../modules/01-what-is-an-llm.md))
+- **Trajectory (rollout)**: One full sequence of states and actions; for an LLM, a whole answer or agent session. ([03](../modules/03-post-training-and-rl.md))
 - **Transformer**: The neural network architecture from "Attention Is All You Need" (2017) that underlies nearly all LLMs. ([01](../modules/01-what-is-an-llm.md))
 - **Two-week rule**: Waiting about two weeks after a release before adopting it, unless it solves a current problem. ([17](../modules/17-keeping-up.md))
 
@@ -376,6 +400,7 @@ Model names and product names change fast. Entries for specific models describe 
 
 ## V
 
+- **Value function (critic)**: A learned network that predicts expected reward, used as PPO's baseline. ([03](../modules/03-post-training-and-rl.md))
 - **Verification step**: Checking a finding against the code, ideally by reproducing it with a test, before acting. ([13](../modules/13-ai-code-review.md))
 - **Verifier**: A test, tool or separate model that checks an agent's claimed result. ([09](../modules/09-context-engineering.md))
 - **Vibe coding**: Karpathy's term for building software by prompting an AI and accepting its output without reading the code. ([00](../modules/00-orientation.md))
