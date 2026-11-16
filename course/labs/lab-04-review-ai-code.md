@@ -1,6 +1,6 @@
 # Lab 4: Review AI-written code
 
-This lab runs in week 7 of the [syllabus](../syllabus.md) and is due in week 8. You'll work in pairs for 3–4 hours. Part A is AI-free; Parts B–E are AI-accelerated.
+This lab opens the lab work in Unit 4 of the [syllabus](../syllabus.md) and is due before Lab 5 starts. You'll work in pairs for 3–4 hours. Part A is AI-free; Parts B–E are AI-accelerated.
 
 *Last checked November 8, 2026.*
 
@@ -150,7 +150,7 @@ Write one page, in your own words:
 
 - Plant a sixth, harder bug in your own copy: a timezone mistake, a race between two requests, or a migration with no down step. Rerun both AI reviewers. Who catches it?
 - Split Reviewer 1 into a swarm of three focused reviewers (correctness, security, tests) and compare with the single review. This previews [Lab 7](lab-07-multi-agent-review.md).
-- Pilot a review bot on your term project for two weeks, labelling every comment as acted on, dismissed as wrong, or dismissed as not worth it ([module 13 Try it](../../modules/13-ai-code-review.md#try-it)).
+- Pilot a review bot on your capstone project for two weeks, labelling every comment as acted on, dismissed as wrong, or dismissed as not worth it ([module 13 Try it](../../modules/13-ai-code-review.md#try-it)).
 
 ## Instructor notes
 
@@ -158,5 +158,5 @@ Write one page, in your own words:
 - Collect answer keys before the swap so nobody adjusts their key afterward.
 - Watch for plants given away by comments, odd style, or a commit history that wasn't squashed.
 - **The dependency plant is a safety exercise.** Repeat the warning in class and ask students to show you the registry lookup. If a student's chosen name turns out to exist, use it as a live lesson.
-- Treat [module 13's table](../../modules/13-ai-code-review.md#what-they-are-good-and-bad-at) as a hypothesis to test, not a prediction to share. It says AI reviewers are good at local logic errors and security smells such as missing authorization checks, and weak at intent and at staying quiet. Don't tell students in advance. Tally the class's results by bug type and compare them with the table in week 8.
+- Treat [module 13's table](../../modules/13-ai-code-review.md#what-they-are-good-and-bad-at) as a hypothesis to test, not a prediction to share. It says AI reviewers are good at local logic errors and security smells such as missing authorization checks, and weak at intent and at staying quiet. Don't tell students in advance. Tally the class's results by bug type and compare them with the table in the next session.
 - Students under-count AI false positives because they don't want to look like they missed something. Ask for the evidence behind each "Refuted."

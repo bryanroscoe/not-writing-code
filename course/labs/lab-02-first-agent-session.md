@@ -1,6 +1,6 @@
 # Lab 2: Your first agent session
 
-This lab runs in week 3 of the [syllabus](../syllabus.md) and is due in week 4. It's AI-accelerated and takes about 3 hours.
+This lab opens Unit 3 of the [syllabus](../syllabus.md) and is due before Lab 3 starts. It's AI-accelerated and takes about 3 hours.
 
 *Last checked November 8, 2026.*
 
@@ -129,7 +129,7 @@ Write half a page, in your own words:
 - What did the harness do that the model alone couldn't? Name specific tool calls.
 - Which component of the context grew most, and what does that mean for long sessions?
 - One claim the agent made that was wrong or unverified, and how you found out.
-- Which permission mode you'll use by default next week, and why.
+- Which permission mode you'll use by default from now on, and why.
 
 Add at least three entries to `surprised-me.md`.
 

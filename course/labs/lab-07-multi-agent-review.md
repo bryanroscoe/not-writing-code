@@ -1,6 +1,6 @@
 # Lab 7: Multi-agent and cross-model review
 
-This lab runs in week 11 of the [syllabus](../syllabus.md) and is due in week 13. It's an individual, AI-accelerated lab on your term project, and together your team's Lab 7 submissions make up the project's cross-model review. Plan on 3–4 hours.
+This lab goes with Unit 4 of the [syllabus](../syllabus.md), after Lab 4, and is due at the end of the unit. It's an individual, AI-accelerated lab. When the course runs the capstone, you do it on your capstone project, and together your team's Lab 7 submissions make up the project's cross-model review. Without the capstone, you review a classmate's Lab 3 feature. Plan on 3–4 hours.
 
 *Last checked November 8, 2026.*
 
@@ -8,7 +8,7 @@ This lab runs in week 11 of the [syllabus](../syllabus.md) and is due in week 13
 
 Build a review swarm by hand: several independent reviewers, each focused on one concern, then an adversarial verifier that tries to disprove each finding, using a model from a different lab where you can ([module 12](../../modules/12-multi-agent-systems.md#recipe-1-a-review-swarm)). Then measure whether it was worth the extra cost compared with one ordinary review.
 
-You'll do this on a real pull request from your term project that a teammate wrote. Your team's Lab 7 submissions and the resulting fixes fulfill the project's cross-model-review deliverable ([syllabus](../syllabus.md#deliverables)).
+With the capstone, you'll do this on a real pull request from your capstone project that a teammate wrote. Your team's Lab 7 submissions and the resulting fixes fulfill the project's cross-model-review deliverable ([syllabus](../syllabus.md#deliverables)).
 
 Reading parallelizes well, while writing on one codebase usually doesn't ([module 12](../../modules/12-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
 
@@ -19,7 +19,7 @@ Agents do the reviewing and verifying. You set it up, check the verifiers, decid
 ## Prerequisites and setup
 
 - [Lab 4](lab-04-review-ai-code.md) done.
-- A change to review: one of your team's pull requests from week 10 onward that **you didn't write**, 50 to 300 lines. For a bigger one, review one coherent part and say which. Agree as a team so each member reviews a different PR, and pick the largest or riskiest ones. The PR must link an issue or spec that says what it's supposed to do. Working alone, use your Lab 3 feature or another change of yours with a spec.
+- A change to review: one of your team's pull requests from after the vertical slice that **you didn't write**, 50 to 300 lines. For a bigger one, review one coherent part and say which. Agree as a team so each member reviews a different PR, and pick the largest or riskiest ones. The PR must link an issue or spec that says what it's supposed to do. Working alone, use your Lab 3 feature or another change of yours with a spec.
 - Your main agent, plus a model from a different lab if you can get one, through a second plan, the other lab's free tier (paste the diff into its chat), or a classmate running their own tool on your shared diff (no account sharing). If none of these work, use a different model tier from your own lab in a fresh session, and note the limitation. A much weaker reviewer adds confident noise without diversity ([module 12](../../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)).
 - A budget, **set before you start**. For example, one baseline reviewer, three focused reviewers, at most one verifier per finding, and no more than 12 sessions in total. Stop early if a full pass produces no new confirmed finding ([module 12](../../modules/12-multi-agent-systems.md#budgets-and-stop-conditions)).
 
@@ -157,7 +157,7 @@ Write one page, in your own words:
 
 ## Instructor notes
 
-- In week 11, check that each team has given every member a different PR that member didn't write. Reviewing your own code defeats the point.
+- When the lab opens, check that each team has given every member a different PR that member didn't write. Reviewing your own code defeats the point.
 - The most common setup error is reviewing in the same session that wrote the code, or pasting the author's conversation into the reviewer. Check that every reviewer started fresh.
 - Some students will apply every suggestion. Deduct when unverified fixes add complexity.
 - A verifier that confirms everything is no better than none. The human check in step 6 exists to catch this.
