@@ -303,7 +303,7 @@ Phase 3 doesn't end. Each new workflow graduates from Trial to Adopt on your rad
 | Risk | What it looks like | Counter-move |
 | --- | --- | --- |
 | **Autonomy outruns checks** | Agents produce more than the tests can vouch for | Raise autonomy one notch at a time, only as fast as automated checks can catch what you stop looking at ([module 10](../modules/10-agentic-workflows.md#the-autonomy-spectrum)) |
-| **Agents game the tests** | Deleted, skipped, or special-cased tests | Test-diff review on every PR; hidden or holdout checks for unattended work ([module 10](../modules/10-agentic-workflows.md#tests-as-the-agents-contract)) |
+| **Agents game the tests** | Deleted, skipped, or special-cased tests | Test-diff review on every PR; hidden or holdout checks for unattended work ([module 11](../modules/11-verification.md#tests-as-the-agents-contract)) |
 | **Supervision fatigue** | Approving diffs nobody read; no deep-focus time | Fewer agents; batched review blocks; agent-free time |
 | **CI prompt injection** | A crafted issue or PR steers a CI agent | Rule of Two; read-only tokens; no secrets in untrusted workflows |
 | **Runaway spend** | Loops or swarms with no stop condition | Caps on agents, turns, spend, and wall-clock time ([module 12](../modules/12-multi-agent-systems.md#budgets-and-stop-conditions)) |
@@ -361,7 +361,7 @@ Commands come first so the agent can run the right checks. The gotchas cover mis
 | Discoverable from the code | "We use React"; the directory tree | Nowhere. Delete it |
 | A personal preference | "Keep explanations short" | Each person's user-level file |
 
-Claude Code's docs give the reason. A line in `CLAUDE.md` is followed "nearly every time," while a hook or deny rule applies every time ([module 10](../modules/10-agentic-workflows.md#tests-as-the-agents-contract)).
+Claude Code's docs give the reason. A line in `CLAUDE.md` is followed "nearly every time," while a hook or deny rule applies every time ([module 11](../modules/11-verification.md#tests-as-the-agents-contract)).
 
 ### The anti-pattern: the committee file
 

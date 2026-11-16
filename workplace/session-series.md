@@ -336,8 +336,8 @@ Use the draft from the pilot, or generate one with your harness's init command i
 **Goal.** Run the workflow that holds up in daily use, end to end, on a real ticket, and learn to steer a session that drifts.
 
 **Pre-read (25 minutes).**
-- [Module 10: The key fact: the loop stops when the model thinks it is done](../modules/10-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)
-- [Module 10: The core loop](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit) and [Tests as the agent's contract](../modules/10-agentic-workflows.md#tests-as-the-agents-contract)
+- [Module 11: The key fact: the loop stops when the model thinks it is done](../modules/11-verification.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)
+- [Module 10: The core loop](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit) and [module 11: Tests as the agent's contract](../modules/11-verification.md#tests-as-the-agents-contract)
 - [Module 10: Failure modes and counter-moves](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)
 - [Module 10: A sample session](../modules/10-agentic-workflows.md#a-sample-session)
 

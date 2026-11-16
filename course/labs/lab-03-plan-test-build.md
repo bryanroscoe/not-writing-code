@@ -26,7 +26,8 @@ Part A (spec and acceptance tests) is AI-as-tutor. An agent may interview you, p
 
 ## Background reading
 
-- [Module 10](../../modules/10-agentic-workflows.md): [The key fact](../../modules/10-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done), [The core loop](../../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit), [Tests as the agent's contract](../../modules/10-agentic-workflows.md#tests-as-the-agents-contract), [Small diffs](../../modules/10-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints), [Steering a session](../../modules/10-agentic-workflows.md#steering-a-session), [Failure modes and counter-moves](../../modules/10-agentic-workflows.md#failure-modes-and-counter-moves), [A sample session](../../modules/10-agentic-workflows.md#a-sample-session)
+- [Module 11](../../modules/11-verification.md): [The key fact](../../modules/11-verification.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done), [Tests as the agent's contract](../../modules/11-verification.md#tests-as-the-agents-contract)
+- [Module 10](../../modules/10-agentic-workflows.md): [The core loop](../../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit), [Small diffs](../../modules/10-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints), [Steering a session](../../modules/10-agentic-workflows.md#steering-a-session), [Failure modes and counter-moves](../../modules/10-agentic-workflows.md#failure-modes-and-counter-moves), [A sample session](../../modules/10-agentic-workflows.md#a-sample-session)
 - [Module 09](../../modules/09-context-engineering.md): [Spec-driven development in practice](../../modules/09-context-engineering.md#spec-driven-development-in-practice)
 - [Module 13](../../modules/13-ai-code-review.md): [Verify findings before acting](../../modules/13-ai-code-review.md#verify-findings-before-acting)
 
@@ -70,7 +71,7 @@ git add SPEC.md tests/ && git commit -m "test: acceptance tests for <feature>"
 git rev-parse HEAD > evidence/test-commit.txt   # remember this commit
 ```
 
-A test that has never failed may not test anything ([module 10](../../modules/10-agentic-workflows.md#tests-as-the-agents-contract)).
+A test that has never failed may not test anything ([module 11](../../modules/11-verification.md#tests-as-the-agents-contract)).
 
 ### Part B: plan, build, verify (AI-accelerated)
 
@@ -171,7 +172,7 @@ If the transcript or a walkthrough shows that an agent wrote your spec or tests,
   git worktree remove ../.worktrees/lab3/side    # clean up when done
   ```
 
-- Enforce the contract with a hook or deny rule that blocks edits under `tests/` during implementation, and show it firing. A line in an instruction file is followed "nearly every time"; a hook applies every time ([module 10](../../modules/10-agentic-workflows.md#tests-as-the-agents-contract)).
+- Enforce the contract with a hook or deny rule that blocks edits under `tests/` during implementation, and show it firing. A line in an instruction file is followed "nearly every time"; a hook applies every time ([module 11](../../modules/11-verification.md#tests-as-the-agents-contract)).
 - Try a second feature from the menu at a higher autonomy level, with a turn cap, and compare the hidden-test results.
 
 ## Instructor notes

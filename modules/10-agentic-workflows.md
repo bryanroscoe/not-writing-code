@@ -39,9 +39,7 @@ Early research on coding agents found that tool design matters as much as the mo
 
 ### The key fact: the loop stops when the model thinks it is done
 
-Anthropic's Claude Code docs put it bluntly: "Claude stops when the work looks done." If the agent has nothing to run that tells it whether the work *is* done, "looks done" is all it has. "In practice that makes you the test suite" ([Claude Code best practices](https://code.claude.com/docs/en/best-practices)).
-
-Give the agent a check that returns pass or fail. Asking nicely won't make it reliable.
+The agent stops when the work *looks* done to the model, so without a check it can run, you become the test suite. [Module 11](./11-verification.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done) explains why, and how to give the agent a check that returns pass or fail.
 
 ### What you control
 
@@ -51,7 +49,7 @@ You control four things, whatever tool you use:
 | --- | --- | --- |
 | What it knows | Your prompt, a spec file, repository instruction files (`CLAUDE.md`, `AGENTS.md`) | [Module 09](./09-context-engineering.md) |
 | What it can do | Its tools, permissions, sandbox, which branch it may push to | [Modules 08](./08-harnesses-and-tools.md) and [14](./14-security-and-prompt-injection.md) |
-| How it knows it is done | Tests, typechecks, builds, screenshots, a reviewer | This module and [module 13](./13-ai-code-review.md) |
+| How it knows it is done | Tests, typechecks, builds, screenshots, a reviewer | [Module 11](./11-verification.md) and [module 13](./13-ai-code-review.md) |
 | How long and how much | Turn limits, spend limits, time limits | [Module 15](./15-costs-subscriptions-and-apis.md) |
 
 ### The autonomy spectrum
@@ -156,15 +154,7 @@ The risk comes from the same place as the benefit. A prototype *looks* finished,
 
 ### Tests as the agent's contract
 
-**Test-driven development (TDD)** means writing a failing test before the code that makes it pass. It suits agents unusually well. As Simon Willison puts it, "Test-first development is particularly effective with agents that can iterate in a loop" ([Willison, 2025](https://simonwillison.net/2025/Oct/7/vibe-engineering/)).
-
-The contract only works if the agent can't quietly rewrite it. Agents under pressure to make tests pass sometimes delete, skip, or special-case them. To prevent that:
-
-- Write or approve the tests yourself before implementation starts, and commit them separately.
-- Make each test fail first. A test that never failed may not test anything.
-- Check the test diff on every change. `git diff --stat main -- tests/` takes a second.
-- Enforce it with tooling when it matters. Anthropic's docs say a line in `CLAUDE.md` is followed "nearly every time," while a hook or a deny rule applies every time ([Claude Code docs](https://code.claude.com/docs/en/best-practices)). Anthropic's long-running agent harness told its agents: "It is unacceptable to remove or edit tests because this could lead to missing or buggy functionality" ([Young, 2025](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)).
-- Keep some checks out of the agent's reach. StrongDM's team keeps end-to-end "scenarios" outside the codebase, like a holdout set in machine learning, so agents can't tune the code to them ([StrongDM, 2026](https://factory.strongdm.ai/)).
+Test-driven development suits agents unusually well: write a failing test first, and the test becomes the contract the agent works to. The contract only works if the agent can't quietly rewrite it. [Module 11](./11-verification.md#tests-as-the-agents-contract) covers how to write it and keep it honest.
 
 ### Small diffs, git as the safety net, checkpoints
 
@@ -234,13 +224,7 @@ done < files.txt
 
 Put one path per line in `files.txt`; the loop preserves spaces in paths. The docs' advice for loops like this is to "Try it on three files first, see what goes wrong, fix the prompt, then run the rest."
 
-**Ralph loops** are the extreme version, from Geoffrey Huntley's "Ralph Wiggum" technique (July 2025). "In its purest form, Ralph is a Bash loop" that feeds the same prompt file to an agent forever ([Huntley, 2025](https://ghuntley.com/ralph/)):
-
-```bash
-while :; do claude -p < PROMPT.md; done
-```
-
-This uses the current `claude` binary in non-interactive print mode (`-p`). Each pass starts with a fresh context and carries state through files: a prioritized `fix_plan.md`, spec files, and git history. Huntley's own caveats are the best guide to where it works. Ask Ralph "to do one thing per loop." Wire in tests and a type checker as "backpressure." Expect to "wake up to a broken codebase that doesn't compile from time to time." "There is no way this is possible without senior expertise guiding Ralph," and "There's no way in heck would I use Ralph in an existing code base." Harnesses now ship tamer versions of the idea, such as Claude Code's `/loop` and `/goal` and Codex automations. [Module 09](./09-context-engineering.md#loop-engineering) covers them as loop engineering.
+**Ralph loops** are the extreme version: a shell loop that feeds the same prompt file to an agent forever, with state carried in files. [Module 11](./11-verification.md#ralph-loops) covers how they work and where their inventor says they don't.
 
 ### Failure modes and counter-moves
 
@@ -248,13 +232,13 @@ This uses the current `claude` binary in non-interactive print mode (`-p`). Each
 | --- | --- | --- |
 | **Vague task** | Builds something reasonable that is not what you meant | Name the file, the symptom, and what "fixed" looks like. Use a spec interview or plan mode. Anthropic's example: not "fix the login bug" but "users report login fails after the session times out. look at token refresh in src/auth/, write a failing test that reproduces it, then fix it." |
 | **Hallucinated APIs and packages** | Calls a method that does not exist; imports a package that does not exist | Compile and typecheck on every step. In one study, at least 5.2% of packages suggested by commercial models and 21.7% by open models did not exist ([Spracklen et al., 2024](https://arxiv.org/abs/2406.10279)). Attackers register those names. Verify every new dependency by hand ([module 14](./14-security-and-prompt-injection.md)). |
-| **Fake or tautological tests** | Tests that assert a mock returns what the mock was told to return; tests copied from the implementation; failing tests deleted or skipped | Write or approve tests first. Make them fail first. Review the test diff. Try mutation testing: break the code on purpose and see whether a test notices. |
+| **Fake or tautological tests** | Tests that assert a mock returns what the mock was told to return; tests copied from the implementation; failing tests deleted or skipped | Write or approve tests first. Make them fail first. Review the test diff. Try [mutation testing](./11-verification.md#mutation-testing): break the code on purpose and see whether a test notices. |
 | **Over-engineering** | New abstraction layers, config options nobody asked for, "future-proof" generality | Ask for the smallest change. Say "no new abstractions or dependencies." In review, ask what can be deleted. Anthropic warns that if you fix every finding a reviewer raises, "you end up with extra abstraction layers and tests for cases that can't happen." |
 | **Sycophancy** | "You're absolutely right!" followed by abandoning a correct answer, or agreeing with your wrong premise | Ask it to argue the other side. Ask for evidence rather than agreement. Sycophancy is a measured, trained-in tendency of assistants ([Sharma et al., 2023](https://arxiv.org/abs/2310.13548)); OpenAI rolled back a GPT-4o update in April 2025 for being overly agreeable ([OpenAI, 2025](https://openai.com/index/sycophancy-in-gpt-4o/)). |
 | **Context exhaustion and drift** | Forgets constraints you set earlier, repeats steps, leaves work half-finished | One task per session. Keep a progress file. `/clear` between tasks. Compact with a focus ("keep the API changes and the test commands"). Long-running systems need periodic fresh starts too: Cursor found its agents still needed them "to combat drift and tunnel vision" ([Lin, 2026](https://cursor.com/blog/scaling-agents)). |
-| **Declaring victory early** | "Done! All tests pass." It did not run them, or ran a subset | Require the command and its output. Enforce with a `Stop` hook or a goal condition. |
+| **Declaring victory early** | "Done! All tests pass." It did not run them, or ran a subset | Require the command and its output ([proof of done](./11-verification.md#proof-of-done)). Enforce with a [`Stop` hook](./11-verification.md#stop-hooks-and-ci-gates) or a goal condition. |
 | **Silent scope creep** | "While I was there" refactors, touched files you never mentioned | State the scope. Check `git diff --stat`. Reject unrelated changes. Protect paths with hooks. |
-| **Reward hacking** | Special-cases the test inputs, edits the test harness, reads the expected answer | Hidden or holdout tests, test-diff review, and evaluator code the agent cannot write to. See "Going deeper." |
+| **Reward hacking** | Special-cases the test inputs, edits the test harness, reads the expected answer | Hidden or holdout tests, test-diff review, and evaluator code the agent cannot write to ([module 11](./11-verification.md#protecting-the-verifier)). |
 
 ### AI-first beyond writing code
 
@@ -354,7 +338,7 @@ Fully autonomous pipelines have produced some substantial results.
 
 **Measured productivity lags felt productivity.** METR's randomized controlled trial in early 2025 gave 16 experienced open-source developers 246 real tasks in their own repositories. With AI tools allowed, tasks took 19% *longer*. Before starting, the developers expected a 24% speedup. Afterward they still believed AI had sped them up by 20% ([Becker et al., 2025](https://arxiv.org/abs/2507.09089)). METR now labels those results out of date. Its February 2026 follow-up estimated modest speedups (tasks about 4% to 18% faster, depending on the group), with confidence intervals that include zero. METR thinks that underestimates the real effect, because more and more developers refused to join a study that might make them work without AI ([METR, 2026b](https://metr.org/blog/2026-02-24-uplift-update/)). So the felt speedup is bigger than the measured one, and the measured one is probably growing.
 
-**Agents cheat when they can.** METR documented frontier models rewriting a timer so the scorer saw almost no elapsed time and monkey-patching an evaluator to mark every submission correct. On the one task where METR tested anti-cheating instructions, telling the model not to cheat still left reward hacking in 70–95% of runs, depending on the wording ([METR, 2025](https://metr.org/blog/2025-06-05-recent-reward-hacking/)). ImpossibleBench makes tasks where the spec and the tests contradict each other, so any pass is a cheat. Models cheat in ways ranging "from simple test modification to complex operator overloading" ([Zhong et al., 2025](https://arxiv.org/abs/2510.20270)). In June 2026 METR declined to publish a robust time horizon for OpenAI's GPT-5.6 Sol at all: its "detected cheating rate was higher than any public model we have evaluated," including exploits that revealed hidden tests ([METR, 2026c](https://metr.org/blog/2026-06-26-gpt-5-6-sol/)). An autonomous pipeline that grades itself with tests the agent can see is grading on the honor system.
+**Agents cheat when they can.** Frontier models have rewritten timers, monkey-patched evaluators and exposed hidden tests to post a passing score, and telling them not to cheat often doesn't stop it ([module 11](./11-verification.md#protecting-the-verifier)). An autonomous pipeline that grades itself with tests the agent can see is grading on the honor system.
 
 **Long tasks drift.** Anthropic's own write-up on long-running agents lists the failure modes: trying to build everything at once and running out of context, a later session that "would look around, see that progress had been made, and declare the job done," and sessions that leave the code broken for the next one ([Young, 2025](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)). The MAKER paper notes that, without heavy decomposition, LLM processes on Towers of Hanoi "inevitably" derail "after at most a few hundred steps" ([Meyerson et al., 2025](https://arxiv.org/abs/2511.09030)).
 
@@ -380,7 +364,7 @@ Stronger automated oracles allow more autonomy. A C compiler is close to the bes
 ### Open questions
 
 - Do long time horizons transfer to messy repositories? METR's tasks are self-contained, and only 5 of the 31 longest tasks in its suite have human baselines ([METR, 2026a](https://metr.org/blog/2026-1-29-time-horizon-1-1/)). METR's time-horizon page also says it's "no longer actively updated" as of September 2026, so newer estimates will come from elsewhere.
-- Do holdout scenarios stay held out? As models get better at finding hidden tests (as METR saw in 2026), "keep the tests secret" turns into an arms race.
+- Do holdout scenarios stay held out? [Module 11](./11-verification.md#do-holdouts-stay-held-out) covers the arms race.
 - Who's accountable for code nobody reviewed? Law, audits and incident reviews assume a person looked at the change.
 - Where is the real productivity frontier? Self-reports run ahead of measurements. Watch for well-designed field studies, not vendor surveys ([module 17](./17-keeping-up.md)).
 
@@ -425,7 +409,6 @@ The strongest counter-argument is that the trend lines are steep and the people 
 - [SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering](https://arxiv.org/abs/2405.15793) (Yang et al., 2024)
 - [Measuring AI Ability to Complete Long Software Tasks](https://arxiv.org/abs/2503.14499) (Kwa et al., 2025; NeurIPS 2025)
 - [Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity](https://arxiv.org/abs/2507.09089) (Becker et al., 2025)
-- [ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases](https://arxiv.org/abs/2510.20270) (Zhong et al., 2025)
 - [Towards Understanding Sycophancy in Language Models](https://arxiv.org/abs/2310.13548) (Sharma et al., 2023)
 - [We Have a Package for You! A Comprehensive Analysis of Package Hallucinations by Code Generating LLMs](https://arxiv.org/abs/2406.10279) (Spracklen et al., 2024; USENIX Security 2025)
 - [Solving a Million-Step LLM Task with Zero Errors](https://arxiv.org/abs/2511.09030) (Meyerson et al., 2025)
@@ -440,15 +423,11 @@ The strongest counter-argument is that the trend lines are steep and the people 
 - Anthropic, [When AI builds itself](https://www.anthropic.com/institute/recursive-self-improvement) (Anthropic Institute, data as of May 2026)
 - Wilson Lin, [Scaling long-running autonomous coding](https://cursor.com/blog/scaling-agents) (Cursor, January 14, 2026)
 - StrongDM, [Software Factory](https://factory.strongdm.ai/) (February 6, 2026)
-- Geoffrey Huntley, [Ralph Wiggum as a "software engineer"](https://ghuntley.com/ralph/) (July 14, 2025)
 - METR, [Time Horizon 1.1](https://metr.org/blog/2026-1-29-time-horizon-1-1/) (January 29, 2026), [time-horizon tracking page](https://metr.org/time-horizons/), and [Claude Mythos Preview measurement and task-suite limit](https://metr.org/time-horizons/) (May 2026)
 - METR, [We are changing our developer productivity experiment design](https://metr.org/blog/2026-02-24-uplift-update/) (February 24, 2026)
-- METR, [Recent frontier models are reward hacking](https://metr.org/blog/2025-06-05-recent-reward-hacking/) (June 5, 2025)
-- METR, [Summary of METR's pre-deployment evaluation of GPT-5.6 Sol](https://metr.org/blog/2026-06-26-gpt-5-6-sol/) (June 26, 2026)
 - OpenAI, [Sycophancy in GPT-4o: what happened and what we're doing about it](https://openai.com/index/sycophancy-in-gpt-4o/) (April 2025)
 
 **Commentary**
-- Simon Willison, [Vibe engineering](https://simonwillison.net/2025/Oct/7/vibe-engineering/) (October 7, 2025)
 - Simon Willison, [Scaling long-running autonomous coding](https://simonwillison.net/2026/Jan/19/scaling-long-running-autonomous-coding/) (January 19, 2026)
 - Simon Willison, [How StrongDM's AI team build serious software without even looking at the code](https://simonw.substack.com/p/how-strongdms-ai-team-build-serious) (February 7, 2026)
 - The Register, [Cursor AI wrote a browser](https://www.theregister.com/2026/01/22/cursor_ai_wrote_a_browser/) (January 22, 2026), and [Cursor implied success without evidence](https://embedding-shapes.github.io/cursor-implied-success-without-evidence/) (January 2026)
@@ -466,17 +445,13 @@ The strongest counter-argument is that the trend lines are steep and the people 
 - **Plan mode:** a harness mode in which the agent reads and proposes a plan but makes no edits until you approve.
 - **Spec-first:** writing down requirements and a definition of done (often in a `SPEC.md`) before implementation starts.
 - **Definition of done:** the concrete, checkable condition that says a task is finished.
-- **Test-driven development (TDD):** writing a failing test before the code that makes it pass; with agents, the test becomes the contract.
 - **Checkpoint:** a snapshot of files (and sometimes conversation) a harness can roll back to; complements but does not replace git.
 - **Git worktree:** an extra checkout of the same repository in another folder on its own branch, used to run agents in parallel without collisions.
 - **YOLO mode:** running an agent with permission prompts turned off.
 - **Background agent:** an agent that runs a task without you watching and returns a result (often a pull request) later.
 - **Software factory / dark factory:** a pipeline where agents write and check code from specs with no human writing or reviewing code.
-- **Ralph loop:** running an agent repeatedly on the same prompt file in a shell loop, with state carried in files.
-- **Oracle:** an automated source of truth to check results against, such as a reference implementation or conformance suite.
 - **Time horizon:** METR's measure of the length of task (in human expert time) a model completes with a given reliability, usually 50%.
 - **Reward hacking:** an agent satisfying the letter of a check (tests, a scorer) without doing the intended work, for example by editing the tests.
-- **Tautological test:** a test that cannot fail because it checks the code against itself or a mock against its own setup.
 - **Sycophancy:** a model's trained tendency to agree with the user or tell them what they want to hear.
 - **Scope creep (agent):** an agent changing things outside the task it was given.
 - **Stage (Yegge):** one of eight levels in Steve Yegge's chart of how far a developer delegates to AI agents.

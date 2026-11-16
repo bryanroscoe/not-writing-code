@@ -42,14 +42,16 @@ Model names and product names change fast. Entries for specific models describe 
 - **Arithmetic intensity**: FLOPs done per byte moved from memory. Low intensity means the chip waits on memory; high means it waits on math. ([02](../modules/02-how-a-model-is-made.md))
 - **`Assisted-by:` trailer**: A commit-message line disclosing that a tool helped produce the change. ([16](../modules/16-open-source-ecosystem.md))
 - **Astra / Sol / Terra / Luna**: OpenAI's tier names, from largest to smallest (Sol, Terra and Luna since GPT-5.6; Astra since GPT-6). ([05](../modules/05-model-landscape.md))
+- **Asymmetry of verification**: The idea that some tasks are much easier to verify than to solve. ([11](../modules/11-verification.md))
 - **Attention / self-attention**: A mechanism that lets each token weigh and draw information from other tokens using queries, keys, and values. ([01](../modules/01-what-is-an-llm.md))
 - **Auto mode**: A permission mode in which a classifier model approves routine actions. ([08](../modules/08-harnesses-and-tools.md), [14](../modules/14-security-and-prompt-injection.md))
-- **Automation bias**: The tendency of people to over-trust an automated check and relax their own scrutiny. ([13](../modules/13-ai-code-review.md))
+- **Automation bias**: The tendency of people to over-trust an automated check and relax their own scrutiny. ([11](../modules/11-verification.md))
 - **Autoregressive generation**: Producing output one token at a time, feeding each token back in as input. ([01](../modules/01-what-is-an-llm.md))
 
 ## B
 
 - **Background agent**: An agent that runs a task without you watching and returns a result (often a pull request) later. ([10](../modules/10-agentic-workflows.md))
+- **Backpressure**: Checks wired into an agent loop, such as tests and type checkers, that reject invalid output. ([11](../modules/11-verification.md))
 - **Base model**: A pretrained model before post-training; it continues documents rather than following instructions. ([01](../modules/01-what-is-an-llm.md))
 - **Baseline and advantage**: The expected score subtracted from a reward to reduce noise, and how much better or worse an action did than that expectation. ([03](../modules/03-post-training-and-rl.md))
 - **Batch API**: Asynchronous processing of many requests, completed within hours, at about half price. ([15](../modules/15-costs-subscriptions-and-apis.md))
@@ -110,6 +112,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Definition of done**: The concrete, checkable condition that says a task is finished. ([10](../modules/10-agentic-workflows.md))
 - **Deliberative alignment**: OpenAI's method of training reasoning models to reason explicitly over a written safety specification. ([03](../modules/03-post-training-and-rl.md))
 - **Deskilling**: Losing a skill because a tool performs it for you. ([18](../modules/18-learning-careers-and-responsibility.md))
+- **Differential testing**: Checking an implementation against another implementation of the same specification; any disagreement means a bug in one of them. ([11](../modules/11-verification.md))
 - **Direct prompt injection**: The attacker types the malicious instructions into the application themselves. ([14](../modules/14-security-and-prompt-injection.md))
 - **Distillation**: Training a smaller student model to imitate a larger teacher model. ([02](../modules/02-how-a-model-is-made.md), [05](../modules/05-model-landscape.md))
 - **Distillation attack**: Illicit large-scale querying of a model to train a competing one, in breach of terms of service. ([02](../modules/02-how-a-model-is-made.md))
@@ -156,9 +159,11 @@ Model names and product names change fast. Entries for specific models describe 
 ## G
 
 - **Gated tier**: A model or variant available only to vetted users because of misuse risk. ([05](../modules/05-model-landscape.md))
+- **Generator-verifier gap**: How much better a system is at checking answers than at producing them. ([11](../modules/11-verification.md))
 - **Generator–critic (evaluator–optimizer)**: One agent produces output, another critiques it, and the first revises. ([12](../modules/12-multi-agent-systems.md))
 - **GGUF**: The single-file model format used by llama.cpp and tools built on it. ([02](../modules/02-how-a-model-is-made.md), [06](../modules/06-open-vs-closed-weights.md), [16](../modules/16-open-source-ecosystem.md))
 - **Git worktree**: An additional working directory on the same repository, used to run agents in parallel. ([08](../modules/08-harnesses-and-tools.md), [10](../modules/10-agentic-workflows.md))
+- **Golden output**: A frozen, known-good output that later runs are compared against; a snapshot test is one kind. ([11](../modules/11-verification.md))
 - **Golden task**: A frozen, solved task from your own work, replayed to compare models and tools. ([07](../modules/07-judging-models.md))
 - **Goodhart's law**: "When a measure becomes a target, it ceases to be a good measure." ([07](../modules/07-judging-models.md), [13](../modules/13-ai-code-review.md))
 - **GPTQ / AWQ**: Two widely used post-training quantization methods. ([02](../modules/02-how-a-model-is-made.md))
@@ -176,6 +181,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Harness engineering**: Improving the agent's environment so mistakes are prevented, caught or corrected automatically. ([09](../modules/09-context-engineering.md))
 - **Harness-level self-improvement**: An agent improving its own scaffold code, prompts, and tools while the underlying model's weights stay fixed (e.g., Darwin Gödel Machine, AIDE²). ([03](../modules/03-post-training-and-rl.md))
 - **HBM (high-bandwidth memory)**: Stacks of DRAM packaged next to an accelerator's processor, giving it terabytes per second of bandwidth. ([02](../modules/02-how-a-model-is-made.md))
+- **Holdout tests**: Grading tests kept where the agent can't see or change them. ([11](../modules/11-verification.md))
 - **Homogeneous / heterogeneous team**: Agents that all use one model vs agents that use different models. ([12](../modules/12-multi-agent-systems.md))
 - **Hook**: A user-defined command the harness runs at a lifecycle event, giving deterministic control. ([08](../modules/08-harnesses-and-tools.md))
 - **Human accountability**: The principle that a named person, not a tool, answers for any change that is shipped. ([18](../modules/18-learning-careers-and-responsibility.md))
@@ -208,6 +214,7 @@ Model names and product names change fast. Entries for specific models describe 
 
 ## L
 
+- **Ladder of checks**: The rungs of verification from types and lint through unit, property, integration, end-to-end and runtime checks, up to human review. ([11](../modules/11-verification.md))
 - **Large language model (LLM)**: A neural network with billions or more parameters, trained on large text corpora to predict the next token. ([01](../modules/01-what-is-an-llm.md))
 - **Layered review**: Stacking independent checks (author self-check, bot review, human review) so each catches what the others miss. ([13](../modules/13-ai-code-review.md))
 - **Learning mode / study mode**: AI tool settings that tutor with hints and questions instead of giving complete answers. ([18](../modules/18-learning-careers-and-responsibility.md))
@@ -247,6 +254,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Multi-head attention**: Running several attention operations in parallel so the model can track different relationships at once. ([01](../modules/01-what-is-an-llm.md))
 - **Multimodal model**: A model that handles more than text, such as images or audio. ([01](../modules/01-what-is-an-llm.md))
 - **Muse**: Meta Superintelligence Labs' model family (from April 2026), mostly closed, with two open-weight members. ([05](../modules/05-model-landscape.md))
+- **Mutation testing**: Introducing small deliberate bugs (mutants) to see whether the tests catch them. ([11](../modules/11-verification.md))
 - **MXFP4 / NVFP4**: Block-scaled 4-bit formats in which small blocks of values share a scale factor (32 values for MXFP4, 16 for NVFP4). ([02](../modules/02-how-a-model-is-made.md))
 - **Mythos-class**: Anthropic's tier above Opus, previewed to vetted partners in April 2026 (Project Glasswing) and released in June 2026 as Fable (general) and Mythos (vetted access). ([05](../modules/05-model-landscape.md))
 
@@ -262,7 +270,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Open weight**: A model whose weights you can download, under some license. ([06](../modules/06-open-vs-closed-weights.md))
 - **Open-source software**: Software whose source code is published under a license allowing use, modification and redistribution. ([16](../modules/16-open-source-ecosystem.md))
 - **Open-weight model**: A model whose trained weights are published for download. ([03](../modules/03-post-training-and-rl.md), [16](../modules/16-open-source-ecosystem.md))
-- **Oracle**: An automated source of truth to check results against, such as a reference implementation or conformance suite. ([10](../modules/10-agentic-workflows.md))
+- **Oracle**: An automated source of truth to check results against, such as a reference implementation or conformance suite. ([11](../modules/11-verification.md))
 - **Orchestrator**: Software that runs and coordinates several agents at once, often one per git worktree. ([08](../modules/08-harnesses-and-tools.md), [16](../modules/16-open-source-ecosystem.md))
 - **Orchestrator–workers**: A pattern where a lead agent splits a task at run time and delegates the pieces. ([12](../modules/12-multi-agent-systems.md))
 - **Outcome reward model (ORM)**: A reward model that scores only the final answer. ([03](../modules/03-post-training-and-rl.md))
@@ -299,6 +307,8 @@ Model names and product names change fast. Entries for specific models describe 
 - **Prompt engineering**: Writing the instructions and examples sent to a model to get the output you want. ([09](../modules/09-context-engineering.md))
 - **Prompt injection**: An attack where text supplied by someone other than the user (or the user against the app owner) is interpreted by a model as instructions. ([14](../modules/14-security-and-prompt-injection.md))
 - **Prompt tuning**: Learning "soft prompt" vectors instead of changing model weights. ([03](../modules/03-post-training-and-rl.md))
+- **Proof of done**: The evidence an agent hands back with its claim of completion: commands and output, the test diff, and what it couldn't verify. ([11](../modules/11-verification.md))
+- **Property-based testing**: Stating a rule that must hold for all inputs and letting a tool generate inputs to try to break it. ([11](../modules/11-verification.md))
 - **Prototype-driven (draft-driven) development**: Building a quick throwaway version first, reacting to it, then rebuilding or hardening the keeper on purpose. ([10](../modules/10-agentic-workflows.md))
 
 ## Q
@@ -309,7 +319,7 @@ Model names and product names change fast. Entries for specific models describe 
 
 ## R
 
-- **Ralph loop**: A shell loop that feeds the same prompt to a coding agent repeatedly, with a plan file as memory. ([09](../modules/09-context-engineering.md), [10](../modules/10-agentic-workflows.md))
+- **Ralph loop**: A shell loop that feeds the same prompt to a coding agent repeatedly, with a plan file as memory. ([09](../modules/09-context-engineering.md), [11](../modules/11-verification.md))
 - **RCT (randomized controlled trial)**: An experiment that randomly assigns participants or tasks to treatment and control. ([07](../modules/07-judging-models.md))
 - **ReAct**: A 2022 prompting pattern that interleaves written reasoning steps with tool actions; the basis of most agents. ([10](../modules/10-agentic-workflows.md))
 - **Read/write asymmetry**: Read-heavy work (review, research) parallelizes well; write-heavy work on shared code usually does not. ([12](../modules/12-multi-agent-systems.md))
@@ -350,6 +360,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Scale-up vs scale-out**: Tight, fast links within a group of accelerators (NVLink, TPU ICI) versus the network between groups (InfiniBand, Ethernet). ([02](../modules/02-how-a-model-is-made.md))
 - **Scaling laws**: Empirical power-law relationships between model size, data, compute, and loss. ([01](../modules/01-what-is-an-llm.md))
 - **Scope creep (agent)**: An agent changing things outside the task it was given. ([10](../modules/10-agentic-workflows.md))
+- **Self-correction**: A model revising its own output; it works reliably mainly when the feedback comes from outside the model. ([11](../modules/11-verification.md))
 - **Self-distillation fine-tuning (SDFT)**: A continual-learning method in which a model shown a demonstration acts as its own teacher, reported to forget less than ordinary supervised fine-tuning. ([03](../modules/03-post-training-and-rl.md))
 - **Self-edit (SEAL)**: Training data and update instructions a model writes for itself, applied as a weight update. ([03](../modules/03-post-training-and-rl.md))
 - **Self-preference bias**: A model judge's tendency to rate its own (or familiar-looking) outputs higher. ([12](../modules/12-multi-agent-systems.md))
@@ -376,6 +387,7 @@ Model names and product names change fast. Entries for specific models describe 
 - **Status page**: A vendor's public page reporting outages and incidents. ([17](../modules/17-keeping-up.md))
 - **stdio / Streamable HTTP**: MCP's two transports, for local subprocess servers and remote servers. ([08](../modules/08-harnesses-and-tools.md))
 - **Stochastic parrot**: Bender et al.'s term for a system that strings together language by probability without grounding in meaning. ([01](../modules/01-what-is-an-llm.md))
+- **Stop hook**: A hook that runs when the agent tries to finish and can block it until a check passes. ([11](../modules/11-verification.md))
 - **Subagent**: A separate agent with a fresh context window launched by the main agent for a focused task. ([08](../modules/08-harnesses-and-tools.md), [12](../modules/12-multi-agent-systems.md))
 - **Substitution vs complementarity**: Whether AI replaces tasks a worker did or makes the worker more productive at them. ([18](../modules/18-learning-careers-and-responsibility.md))
 - **Supervised agent**: A coding agent whose every change a human reviews before it's kept. ([00](../modules/00-orientation.md))
@@ -387,10 +399,10 @@ Model names and product names change fast. Entries for specific models describe 
 
 ## T
 
-- **Tautological test**: A test that cannot fail because it checks the code against itself or a mock against its own setup. ([10](../modules/10-agentic-workflows.md))
+- **Tautological test**: A test that cannot fail because it checks the code against itself or a mock against its own setup. ([11](../modules/11-verification.md))
 - **Temperature**: A sampling setting that controls how random token selection is. ([01](../modules/01-what-is-an-llm.md))
 - **Tensor parallelism**: Splitting individual weight matrices across GPUs so each computes part of every layer. ([02](../modules/02-how-a-model-is-made.md))
-- **Test-driven development (TDD)**: Writing a failing test before the code that makes it pass; with agents, the test becomes the contract. ([10](../modules/10-agentic-workflows.md))
+- **Test-driven development (TDD)**: Writing a failing test before the code that makes it pass; with agents, the test becomes the contract. ([11](../modules/11-verification.md))
 - **Test-time (inference-time) compute**: Spending more computation per answer, for example longer thinking or multiple samples. ([01](../modules/01-what-is-an-llm.md))
 - **Test-time training**: Updating some model weights on each input at inference time. ([03](../modules/03-post-training-and-rl.md))
 - **Tier**: A size and price level within a model generation (for example Haiku, Sonnet, Opus; Luna, Terra, Sol, Astra; Flash-Lite, Flash, Pro). ([05](../modules/05-model-landscape.md))
@@ -421,7 +433,9 @@ Model names and product names change fast. Entries for specific models describe 
 
 - **Value function (critic)**: A learned network that predicts expected reward, used as PPO's baseline. ([03](../modules/03-post-training-and-rl.md))
 - **Verification step**: Checking a finding against the code, ideally by reproducing it with a test, before acting. ([13](../modules/13-ai-code-review.md))
-- **Verifier**: A test, tool or separate model that checks an agent's claimed result. ([09](../modules/09-context-engineering.md))
+- **Verification tax**: DORA's term for time saved on generation being spent again on checking the output. ([11](../modules/11-verification.md))
+- **Verifier**: A test, tool or separate model that checks an agent's claimed result. ([11](../modules/11-verification.md))
+- **Verifier's rule**: Jason Wei's claim that the ease of training AI to solve a task is proportional to how verifiable the task is. ([11](../modules/11-verification.md))
 - **Vibe coding**: Karpathy's term for building software by prompting an AI and accepting its output without reading the code. ([00](../modules/00-orientation.md))
 - **Vibe engineering / agentic engineering**: The disciplined counterpart: AI does most of the typing, a human stays accountable for design, review, and testing. ([00](../modules/00-orientation.md))
 - **Vibes**: Experienced users' informal impressions of a model; useful but noisy data. ([07](../modules/07-judging-models.md))

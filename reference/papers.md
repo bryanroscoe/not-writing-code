@@ -121,7 +121,7 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [QLoRA: Efficient Finetuning of Quantized LLMs](https://arxiv.org/abs/2305.14314) (Dettmers et al., 2023) · also cited in [06](../modules/06-open-vs-closed-weights.md)
 - [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290) (Rafailov et al., 2023)
 - [Let's Verify Step by Step](https://arxiv.org/abs/2305.20050) (Lightman et al., 2023)
-- [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685) (Zheng et al., 2023) · also cited in [12](../modules/12-multi-agent-systems.md), [13](../modules/13-ai-code-review.md)
+- [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685) (Zheng et al., 2023) · also cited in [11](../modules/11-verification.md), [13](../modules/13-ai-code-review.md)
 - [RLAIF vs. RLHF: Scaling Reinforcement Learning from Human Feedback with AI Feedback](https://arxiv.org/abs/2309.00267) (Lee et al., 2023)
 - [Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!](https://arxiv.org/abs/2310.03693) (Qi et al., 2023)
 - [LoRA Fine-tuning Efficiently Undoes Safety Training in Llama 2-Chat 70B](https://arxiv.org/abs/2310.20624) (Lermen, Rogers-Smith, Ladish, 2023) · also cited in [06](../modules/06-open-vs-closed-weights.md)
@@ -142,7 +142,7 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming](https://arxiv.org/abs/2501.18837) (Sharma et al., 2025)
 - [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/abs/2502.17424) (Betley et al., 2025); extended version in [Nature](https://www.nature.com/articles/s41586-025-09937-5) (2026)
 - [SWE-RL: Advancing LLM Reasoning via Reinforcement Learning on Open Software Evolution](https://arxiv.org/abs/2502.18449) (Wei et al., 2025)
-- [Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation](https://arxiv.org/abs/2503.11926) (Baker et al., 2025)
+- [Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation](https://arxiv.org/abs/2503.11926) (Baker et al., 2025) · also cited in [11](../modules/11-verification.md)
 - [DAPO: An Open-Source LLM Reinforcement Learning System at Scale](https://arxiv.org/abs/2503.14476) (Yu et al., 2025)
 - [Understanding R1-Zero-Like Training: A Critical Perspective](https://arxiv.org/abs/2503.20783) (Liu et al., 2025), introduces Dr. GRPO
 - [R2E-Gym: Procedural Environments and Hybrid Verifiers for Scaling Open-Weights SWE Agents](https://arxiv.org/abs/2504.07164) (Jain et al., 2025)
@@ -160,7 +160,7 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [Kimi K2: Open Agentic Intelligence](https://arxiv.org/abs/2507.20534) (Kimi Team, 2025)
 - [Poisoning Attacks on LLMs Require a Near-constant Number of Poison Samples](https://arxiv.org/abs/2510.07192) (Souly et al., 2025)
 - [The Art of Scaling Reinforcement Learning Compute for LLMs](https://arxiv.org/abs/2510.13786) (Khatri et al., 2025), ScaleRL
-- [ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases](https://arxiv.org/abs/2510.20270) (Zhong, Raghunathan, Carlini, 2025) · also cited in [10](../modules/10-agentic-workflows.md)
+- [ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases](https://arxiv.org/abs/2510.20270) (Zhong, Raghunathan, Carlini, 2025) · also cited in [11](../modules/11-verification.md)
 - [Natural Emergent Misalignment from Reward Hacking in Production RL](https://arxiv.org/abs/2511.18397) (MacDiarmid et al., 2025)
 - [DeepSeek-V3.2: Pushing the Frontier of Open Large Language Models](https://arxiv.org/abs/2512.02556) (DeepSeek-AI, 2025)
 - [Olmo 3](https://arxiv.org/abs/2512.13961) (Team Olmo, 2025), OlmoRL
@@ -250,6 +250,34 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [We Have a Package for You! A Comprehensive Analysis of Package Hallucinations by Code Generating LLMs](https://arxiv.org/abs/2406.10279) (Spracklen et al., 2024; USENIX Security 2025) · also cited in [13](../modules/13-ai-code-review.md), [14](../modules/14-security-and-prompt-injection.md)
 - [Solving a Million-Step LLM Task with Zero Errors](https://arxiv.org/abs/2511.09030) (Meyerson et al., 2025) · also cited in [12](../modules/12-multi-agent-systems.md)
 
+## 11: Verification: getting agents to check their own work
+
+[Module 11](../modules/11-verification.md)
+
+- [Training Verifiers to Solve Math Word Problems](https://arxiv.org/abs/2110.14168) (Cobbe et al., 2021)
+- [CodeT: Code Generation with Generated Tests](https://arxiv.org/abs/2207.10397) (Chen et al., 2022)
+- [Do Users Write More Insecure Code with AI Assistants?](https://arxiv.org/abs/2211.03622) (Perry et al., 2022; CCS 2023) · also cited in [14](../modules/14-security-and-prompt-injection.md), [18](../modules/18-learning-careers-and-responsibility.md)
+- [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366) (Shinn et al., 2023)
+- [Self-Refine: Iterative Refinement with Self-Feedback](https://arxiv.org/abs/2303.17651) (Madaan et al., 2023)
+- [Teaching Large Language Models to Self-Debug](https://arxiv.org/abs/2304.05128) (Chen et al., 2023)
+- [Large Language Models are not Fair Evaluators](https://arxiv.org/abs/2305.17926) (Wang et al., 2023; [ACL 2024](https://aclanthology.org/2024.acl-long.511/))
+- [Is Self-Repair a Silver Bullet for Code Generation?](https://arxiv.org/abs/2306.09896) (Olausson et al., 2023; ICLR 2024)
+- [Can LLMs Write Good Property-Based Tests?](https://arxiv.org/abs/2307.04346) (Vikram et al., 2023)
+- [Large Language Models Cannot Self-Correct Reasoning Yet](https://arxiv.org/abs/2310.01798) (Huang et al., 2023; ICLR 2024)
+- [GPT-4 Doesn't Know It's Wrong](https://arxiv.org/abs/2310.12397) (Stechly, Marquez, Kambhampati, 2023)
+- [On the Self-Verification Limitations of Large Language Models on Reasoning and Planning Tasks](https://arxiv.org/abs/2402.08115) (Stechly, Valmeekam, Kambhampati, 2024; ICLR 2025)
+- [Automated Unit Test Improvement using Large Language Models at Meta](https://arxiv.org/abs/2402.09171) (Alshahwan et al., 2024; FSE 2024)
+- [LLM Evaluators Recognize and Favor Their Own Generations](https://arxiv.org/abs/2404.13076) (Panickssery et al., 2024) · also cited in [12](../modules/12-multi-agent-systems.md), [13](../modules/13-ai-code-review.md)
+- [When Can LLMs Actually Correct Their Own Mistakes?](https://arxiv.org/abs/2406.01297) (Kamoi et al., 2024; TACL 2024)
+- [Large Language Monkeys: Scaling Inference Compute with Repeated Sampling](https://arxiv.org/abs/2407.21787) (Brown et al., 2024)
+- [Self-Preference Bias in LLM-as-a-Judge](https://arxiv.org/abs/2410.21819) (Wataoka et al., 2024) · also cited in [12](../modules/12-multi-agent-systems.md), [13](../modules/13-ai-code-review.md)
+- [Mind the Gap: Examining the Self-Improvement Capabilities of Large Language Models](https://arxiv.org/abs/2412.02674) (Song et al., 2024; ICLR 2025)
+- [Mutation-Guided LLM-based Test Generation at Meta](https://arxiv.org/abs/2501.12862) (Foster, Harman et al., 2025)
+- [Type-Constrained Code Generation with Language Models](https://arxiv.org/abs/2504.09246) (Mündler et al., 2025; PLDI 2025)
+- [Don't Judge Code by Its Cover](https://arxiv.org/abs/2505.16222) (Moon et al., 2025)
+- [CodeJudgeBench](https://arxiv.org/abs/2507.10535) (Jiang et al., 2025)
+- [Bias in the Loop](https://arxiv.org/abs/2604.16790) (Zhao, Esmaeili, Fard, 2026)
+
 ## 12: Multiple agents building and reviewing
 
 [Module 12](../modules/12-multi-agent-systems.md)
@@ -262,14 +290,8 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [ChatDev: Communicative Agents for Software Development](https://arxiv.org/abs/2307.07924) (Qian et al., 2023)
 - [AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation](https://arxiv.org/abs/2308.08155) (Wu et al., 2023) · also cited in [16](../modules/16-open-source-ecosystem.md)
 - [AgentVerse: Facilitating Multi-Agent Collaboration and Exploring Emergent Behaviors](https://arxiv.org/abs/2308.10848) (Chen et al., 2023)
-- [Self-Refine: Iterative Refinement with Self-Feedback](https://arxiv.org/abs/2303.17651) (Madaan et al., 2023)
-- [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366) (Shinn et al., 2023)
-- [Large Language Models Cannot Self-Correct Reasoning Yet](https://arxiv.org/abs/2310.01798) (Huang et al., 2023)
-- [Large Language Models are not Fair Evaluators](https://arxiv.org/abs/2305.17926) (Wang et al., 2023)
 - [More Agents Is All You Need](https://arxiv.org/abs/2402.05120) (Li et al., 2024)
 - [Mixture-of-Agents Enhances Large Language Model Capabilities](https://arxiv.org/abs/2406.04692) (Wang et al., 2024)
-- [LLM Evaluators Recognize and Favor Their Own Generations](https://arxiv.org/abs/2404.13076) (Panickssery et al., 2024) · also cited in [13](../modules/13-ai-code-review.md)
-- [Self-Preference Bias in LLM-as-a-Judge](https://arxiv.org/abs/2410.21819) (Wataoka et al., 2024) · also cited in [13](../modules/13-ai-code-review.md)
 - [Replacing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models](https://arxiv.org/abs/2404.18796) (Verga et al., 2024) · also cited in [13](../modules/13-ai-code-review.md)
 - [Agent-as-a-Judge: Evaluate Agents with Agents](https://arxiv.org/abs/2410.10934) (Zhuge et al., 2024)
 - [LLM Critics Help Catch LLM Bugs](https://arxiv.org/abs/2407.00215) (McAleese et al., 2024) · also cited in [13](../modules/13-ai-code-review.md)
@@ -302,7 +324,6 @@ Each list below is copied from the "Sources and further reading" section of the 
 - [Defeating Prompt Injections by Design](https://arxiv.org/abs/2503.18813) (Debenedetti et al., 2025), the CaMeL paper
 - [Design Patterns for Securing LLM Agents against Prompt Injections](https://arxiv.org/abs/2506.08837) (Beurer-Kellner, Tramèr, et al., 2025)
 - [The Instruction Hierarchy: Training LLMs to Prioritize Privileged Instructions](https://arxiv.org/abs/2404.13208) (Wallace, Xiao, Leike, Weng, Heidecke, Beutel, 2024)
-- [Do Users Write More Insecure Code with AI Assistants?](https://arxiv.org/abs/2211.03622) (Perry, Srivastava, Kumar, Boneh, 2022) · also cited in [18](../modules/18-learning-careers-and-responsibility.md)
 - [BaxBench: Can LLMs Generate Correct and Secure Backends?](https://arxiv.org/abs/2502.11844) (Vero et al., 2025)
 
 ## 16: The open-source ecosystem

@@ -144,9 +144,9 @@ Context is the main lever, and a bigger window doesn't mean better attention.
 Teach the core loop and tests as the contract. Show how to adjust autonomy.
 
 **Talking points**
-- "Claude stops when the work looks done." Without a check to run, "looks done" is all the agent has ([module 10](../modules/10-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)).
+- "Claude stops when the work looks done." Without a check to run, "looks done" is all the agent has ([module 11](../modules/11-verification.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done)).
 - Walk through explore → plan → implement → verify → commit using the module's prompts ([module 10](../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)).
-- Tests are a contract only if the agent can't quietly rewrite them ([module 10](../modules/10-agentic-workflows.md#tests-as-the-agents-contract)).
+- Tests are a contract only if the agent can't quietly rewrite them ([module 11](../modules/11-verification.md#tests-as-the-agents-contract)).
 - To steer, watch the first minute, press `Esc` when it drifts, and after two failed corrections start fresh with a better prompt ([module 10](../modules/10-agentic-workflows.md#steering-a-session)).
 - Yegge's stages measure delegation. They don't measure quality ([module 10](../modules/10-agentic-workflows.md#steve-yegges-eight-stages)).
 - On the autonomy debate, the famous autonomous successes share a strong oracle, greenfield code, a human-built harness, and tolerance for waste ([module 10](../modules/10-agentic-workflows.md#what-the-successes-have-in-common)).

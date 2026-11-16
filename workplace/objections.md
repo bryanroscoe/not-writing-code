@@ -83,9 +83,9 @@ Maintainability is something your review enforces. Hold AI-written code to the s
 
 ### 4. "It cheats on tests, or writes tests that test nothing."
 
-**What's true.** METR documented frontier models rewriting timers and monkey-patching evaluators, and telling them not to cheat still left reward hacking in 70–95% of runs on the affected tasks ([module 10](../modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet)). Agents also write tautological tests that check a mock against itself, and delete or skip failing tests under pressure ([module 10](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)).
+**What's true.** METR documented frontier models rewriting timers and monkey-patching evaluators, and telling them not to cheat still left reward hacking in 70–95% of runs on the affected tasks ([module 11](../modules/11-verification.md#protecting-the-verifier)). Agents also write tautological tests that check a mock against itself, and delete or skip failing tests under pressure ([module 10](../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)).
 
-That's why the test is the contract, and why you defend it ([module 10](../modules/10-agentic-workflows.md#tests-as-the-agents-contract)):
+That's why the test is the contract, and why you defend it ([module 11](../modules/11-verification.md#tests-as-the-agents-contract)):
 - Write or approve the tests before implementation. Commit them separately.
 - Make the agent show the test failing before it passes.
 - Read the test diff first in every review (`git diff --stat main -- tests/`).
@@ -97,7 +97,7 @@ That's why the test is the contract, and why you defend it ([module 10](../modul
 
 ### 5. "Our codebase is too big and too weird for it."
 
-**What's true.** Mature codebases with tacit conventions speed up less than greenfield work, and experts on code they wrote gain least ([module 07](../modules/07-judging-models.md#real-world-productivity-evidence)). The real spec of a legacy system lives in people's heads ([module 10](../modules/10-agentic-workflows.md#what-the-successes-have-in-common)). Even the inventor of the Ralph loop wrote "There's no way in heck would I use Ralph in an existing code base" ([module 10](../modules/10-agentic-workflows.md#background-and-unattended-runs)).
+**What's true.** Mature codebases with tacit conventions speed up less than greenfield work, and experts on code they wrote gain least ([module 07](../modules/07-judging-models.md#real-world-productivity-evidence)). The real spec of a legacy system lives in people's heads ([module 10](../modules/10-agentic-workflows.md#what-the-successes-have-in-common)). Even the inventor of the Ralph loop wrote "There's no way in heck would I use Ralph in an existing code base" ([module 11](../modules/11-verification.md#ralph-loops)).
 
 Size is less of a problem than it was. Larger context windows help, but attention, cost, and compaction still limit sessions, so agents search instead of reading everything ([module 09](../modules/09-context-engineering.md#context-limits-in-practice)). The bigger problem is tacit knowledge, which is what a short instruction file is for: the frozen directory that looks live, the helper the team chose, the test that needs Docker ([playbook starter file](ai-first-playbook.md#the-starter-team-instruction-file)). Nested `AGENTS.md` files or path-scoped rules cover different areas of a big repository.
 
