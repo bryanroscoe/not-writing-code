@@ -119,7 +119,7 @@ People disagree about where to draw the line. Most current policy treats today's
 | 4-bit (Q4_K_M, MXFP4, NVFP4, MLX 4-bit) | ~0.55–0.6 | ~4.7 GB | ~17 GB | ~65 GB |
 | ~3-bit | ~0.4 | ~3.5 GB | ~13 GB | ~50 GB |
 
-**Quantization** stores each weight with fewer bits. 8-bit is usually close to lossless. 4-bit is the common local default with modest quality loss. Coding and long reasoning tend to suffer before casual chat does. Below about 3 bits, quality drops noticeably. Some models are trained with quantization in mind (**quantization-aware training**), so their 4-bit release loses little. Both gpt-oss and Kimi K3 ship natively in 4-bit MXFP4 ([gpt-oss card](https://huggingface.co/openai/gpt-oss-120b); [Kimi K3 card](https://huggingface.co/moonshotai/Kimi-K3)). The research is in [GPTQ](https://arxiv.org/abs/2210.17323), [LLM.int8()](https://arxiv.org/abs/2208.07339) and [QLoRA](https://arxiv.org/abs/2305.14314).
+**Quantization** stores each weight with fewer bits. 8-bit is usually close to lossless. 4-bit is the common local default with modest quality loss. Coding and long reasoning tend to suffer before casual chat does. Below about 3 bits, quality drops noticeably. Some models are trained with quantization in mind (**quantization-aware training**), so their 4-bit release loses little. gpt-oss ships its MoE weights in 4-bit MXFP4, with the remaining weights in BF16, and Kimi K3 ships natively in MXFP4 ([gpt-oss card](https://huggingface.co/openai/gpt-oss-120b); [Kimi K3 card](https://huggingface.co/moonshotai/Kimi-K3)). The research is in [GPTQ](https://arxiv.org/abs/2210.17323), [LLM.int8()](https://arxiv.org/abs/2208.07339) and [QLoRA](https://arxiv.org/abs/2305.14314).
 
 #### Step 2: add room for context (the KV cache)
 

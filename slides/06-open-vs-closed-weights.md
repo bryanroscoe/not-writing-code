@@ -222,7 +222,7 @@ Part 2 is the hardware math, the tools, hosted options, coding harnesses, privac
 <!--
 FP32 would be 4 bytes per parameter, so 120 GB for a 30B model.
 
-Quantization stores each weight with fewer bits. 4-bit has modest quality loss, and coding and long reasoning tend to suffer before casual chat does. Some models are trained with quantization in mind, called quantization-aware training, so their 4-bit release loses little. Both gpt-oss and Kimi K3 ship natively in 4-bit MXFP4.
+Quantization stores each weight with fewer bits. 4-bit has modest quality loss, and coding and long reasoning tend to suffer before casual chat does. Some models are trained with quantization in mind, called quantization-aware training, so their 4-bit release loses little. gpt-oss ships its MoE weights in 4-bit MXFP4, and Kimi K3 ships natively in MXFP4.
 
 Point at the bold cell. A 30B model at 4-bit needs about 17 GB. That's comfortable on a 36 GB Mac or a 24 GB GPU, and too big for an 18 GB Mac.
 -->
