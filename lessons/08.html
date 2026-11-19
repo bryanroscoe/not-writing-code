@@ -130,7 +130,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero-tokens" aria-label="agent = model + harness"><span class="chip c1">agent</span><span class="chip pill">=</span><span class="chip c3">model</span><span class="chip pill">+</span><span class="chip c5">harness</span></div>
@@ -144,7 +144,7 @@
         <h2>A harness is everything around the model</h2>
         <p>A model takes text in and predicts text out. It can't open a file, run a test or remember yesterday's conversation.</p>
         <p>The harness is the software that turns that predictor into something that edits your codebase.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#what-a-harness-is" target="_blank" rel="noopener">Go deeper: what a harness is</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#what-a-harness-is" target="_blank" rel="noopener">Go deeper: what a harness is</a></p>
       </div>
       <div class="vis">
         <div class="harness-box" role="img" aria-label="A model in the middle of a harness made of five parts: agent loop, tools, permissions, context management and user interface.">
@@ -169,7 +169,7 @@
         <h2>The agent loop is a few lines of code</h2>
         <p>Call the model. If it asks for a tool, run the tool and put the result in the context. Call the model again. Stop when it replies without asking for a tool.</p>
         <p>Most agents are a variant of this pattern, called ReAct: reason, act, observe.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#what-a-harness-is" target="_blank" rel="noopener">Go deeper: the agent loop</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#what-a-harness-is" target="_blank" rel="noopener">Go deeper: the agent loop</a></p>
       </div>
       <div class="vis">
         <div class="loop" role="img" aria-label="Your task goes into the context window, which goes to the model. The model emits a tool call, the harness runs the tool if permitted, and the result goes back into the context window.">
@@ -204,7 +204,7 @@
         <h2>Every model call carries the tool list</h2>
         <p>The harness sends the model a list of tool definitions. Each has a name, a plain-English description and a JSON Schema for its inputs.</p>
         <p>Unless the harness loads tools lazily, that whole list goes along with every call.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#tools-how-a-model-does-things" target="_blank" rel="noopener">Go deeper: tools</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#tools-how-a-model-does-things" target="_blank" rel="noopener">Go deeper: tools</a></p>
       </div>
       <div class="vis">
         <div class="req">
@@ -238,7 +238,7 @@
         <h2>A tool call is text, and the harness does the running</h2>
         <p>When the model wants to act, it outputs a structured tool call. The harness checks permissions, runs the function and puts the result back into the context.</p>
         <p>The model's next step is based on that result.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#tools-how-a-model-does-things" target="_blank" rel="noopener">Go deeper: tools</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#tools-how-a-model-does-things" target="_blank" rel="noopener">Go deeper: tools</a></p>
       </div>
       <div class="vis">
         <div class="turns">
@@ -267,7 +267,7 @@
         <h2>One task is many trips around the loop</h2>
         <p>A small fix takes several calls: run the tests, read the file, edit it, run the tests again.</p>
         <p>Each result lands in the context window, and the model reads all of it again on the next call.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#what-a-harness-is" target="_blank" rel="noopener">Go deeper: the agent loop</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#what-a-harness-is" target="_blank" rel="noopener">Go deeper: the agent loop</a></p>
       </div>
       <div class="vis">
         <div class="runlog" role="img" aria-label="Five model calls. Run tests: 1 failed. Read auth.py: 212 lines. Edit line 40: a diff. Run tests: 8 passed. Then a reply with no tool call, which ends the loop. A bar for the context grows after each step.">
@@ -294,7 +294,7 @@
         <h2>The same model behaves differently in different harnesses</h2>
         <p>People say "model X is bad at Y" when the cause is the harness: its tools, its system prompt and defaults, how it manages context.</p>
         <p>Evaluate coding models in the harness you'll use.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#why-the-same-model-behaves-differently-in-different-harnesses" target="_blank" rel="noopener">Go deeper: why harnesses change results</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#why-the-same-model-behaves-differently-in-different-harnesses" target="_blank" rel="noopener">Go deeper: why harnesses change results</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -324,7 +324,7 @@
         <h2>Tool descriptions are prompts</h2>
         <p>The model picks tools by their names and descriptions. A vague description produces wrong choices.</p>
         <p>Anthropic's guide to writing tools for agents (September 2025) treats tool design as a core engineering task.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#tools-how-a-model-does-things" target="_blank" rel="noopener">Go deeper: tools</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#tools-how-a-model-does-things" target="_blank" rel="noopener">Go deeper: tools</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -355,7 +355,7 @@
         <p class="eyebrow">A short history</p>
         <h2>Six generations of coding tools, all still in use</h2>
         <p>Each generation hands more of the work to the tool. The terminal agents of 2025 took off because the shell is the universal tool: an agent that can run any command can build, test, lint and query a database with no special integration.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#a-short-history-from-autocomplete-to-orchestrators" target="_blank" rel="noopener">Go deeper: a short history</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#a-short-history-from-autocomplete-to-orchestrators" target="_blank" rel="noopener">Go deeper: a short history</a></p>
       </div>
       <div class="vis">
         <div class="gens">
@@ -376,7 +376,7 @@
         <h2>MCP turns a thousand integrations into a hundred and ten</h2>
         <p>Before MCP, ten harnesses and a hundred services meant a thousand custom integrations. With a shared protocol it's ten clients plus a hundred servers.</p>
         <p>MCP, the Model Context Protocol, is an open standard for how an AI application discovers and calls outside tools and data.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP</a></p>
       </div>
       <div class="vis">
         <div class="scroll plot">
@@ -412,7 +412,7 @@
         <h2>A host talks to each MCP server through a client</h2>
         <p>The host is the AI app you use. It runs one client per server. A server is a program that exposes capabilities, such as GitHub or a browser.</p>
         <p>Local servers run as a subprocess over stdio. Remote servers use Streamable HTTP, usually with OAuth.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP</a></p>
       </div>
       <div class="vis">
         <div class="lanes" role="img" aria-label="A host app contains two MCP clients. One talks over stdio to a local Playwright server. The other talks over Streamable HTTP to GitHub's remote server.">
@@ -446,7 +446,7 @@
         <h2>To the model, an MCP tool is one more tool</h2>
         <p>An MCP server is a small adapter. It says "here are my tools and their schemas", then executes calls and returns results.</p>
         <p>The harness turns those tools into entries in the model's tool list.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP</a></p>
       </div>
       <div class="vis">
         <div class="becomes">
@@ -490,7 +490,7 @@ tickets = {"platform": ["Fix session timeout", "Add rate-limit tests"]}
         <h2>Connected tools cost context before you type</h2>
         <p>Without lazy discovery, every connected server's tool definitions load into the context. Large tool lists also make tool selection less accurate.</p>
         <p>Two fixes: tool search, which fetches definitions on demand, and code execution, where the model writes code that calls the tools in a sandbox.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP costs</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP costs</a></p>
       </div>
       <div class="vis">
         <div class="scale" role="img" aria-label="Token counts on one scale. Tool definitions for five servers with 58 tools: about 55,000 tokens. Anthropic's internal setup before optimization: 134,000. A code execution example: 150,000 tokens with direct tool calls, 2,000 with code execution.">
@@ -513,7 +513,7 @@ tickets = {"platform": ["Fix session timeout", "Add rate-limit tests"]}
         <h2>For your own agent, try the CLI first</h2>
         <p>There are three ways to give an agent a capability. Many engineers find an agent with shell access does better with <code>gh</code>, <code>psql</code> or <code>kubectl</code> than with an MCP wrapper of the same service.</p>
         <p>The model knows those CLIs from training, and their output can be filtered before it reaches the context.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#mcp-vs-clis-vs-code-an-open-debate" target="_blank" rel="noopener">Go deeper: MCP vs. CLIs vs. code</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#mcp-vs-clis-vs-code-an-open-debate" target="_blank" rel="noopener">Go deeper: MCP vs. CLIs vs. code</a></p>
       </div>
       <div class="vis">
         <div class="three">
@@ -554,7 +554,7 @@ return all
         <h2>An MCP server is code you run with your credentials</h2>
         <p>A malicious or compromised server can lie in its tool descriptions, change behavior after you approve it, or send your data out.</p>
         <p>Any server that reads untrusted content, such as web pages, issues or email, is a prompt-injection channel.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP costs and limits</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#mcp-the-model-context-protocol" target="_blank" rel="noopener">Go deeper: MCP costs and limits</a></p>
       </div>
       <div class="vis">
         <p class="sub">Tool poisoning</p>
@@ -579,7 +579,7 @@ return all
         <h2>The major harnesses share one toolkit</h2>
         <p>By 2026 the major harnesses had converged on the same features. The names differ a little between products.</p>
         <p>Features are cheap to copy, so what you learn in one tool carries over to the next.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: the harness toolkit</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: the harness toolkit</a></p>
       </div>
       <div class="vis">
         <div class="kit">
@@ -603,7 +603,7 @@ return all
         <h2>Skills load their instructions only when needed</h2>
         <p>A skill is a folder with a <code>SKILL.md</code> and optional scripts. The agent sees a one-line description of every skill and reads the full instructions only when a task calls for them.</p>
         <p>That's called progressive disclosure. You can keep dozens of procedures available without paying for them in every prompt.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: skills</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: skills</a></p>
       </div>
       <div class="vis">
         <p class="klab">In the context at the start of every session</p>
@@ -633,7 +633,7 @@ description: How to write a database migration. Use before changing a schema.
         <h2>An instruction file asks, and a hook enforces</h2>
         <p>The model treats an instruction file as context. It usually follows the rule, and sometimes it doesn't.</p>
         <p>A hook is a shell command the harness runs at a lifecycle event, whatever the model decides. A <code>Stop</code> hook can refuse to let the agent finish.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: hooks</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: hooks</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -669,7 +669,7 @@ description: How to write a database migration. Use before changing a schema.
         <h2>People approve 93% of permission prompts</h2>
         <p>Approval prompts sound safe, but people stop reading them. That's approval fatigue.</p>
         <p>Use allowlists so the prompts that remain are worth reading. For long unattended runs, use a real sandbox with limited credentials.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: permission modes</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#the-rest-of-the-harness-toolkit" target="_blank" rel="noopener">Go deeper: permission modes</a></p>
       </div>
       <div class="vis">
         <p class="sub">Permission modes</p>
@@ -696,7 +696,7 @@ description: How to write a database migration. Use before changing a schema.
         <h2>Closed products hide the harness from you</h2>
         <p>Some products bundle a model, a harness and tools into one experience. They're often the fastest way to get a specific job done.</p>
         <p>The vendor can change the model, prompts or limits at any time. For a workflow your team depends on, prefer tools whose configuration you can see and version.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#closed-products-that-bundle-model-harness-and-tools" target="_blank" rel="noopener">Go deeper: closed products</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#closed-products-that-bundle-model-harness-and-tools" target="_blank" rel="noopener">Go deeper: closed products</a></p>
       </div>
       <div class="vis">
         <div class="sealed">
@@ -720,7 +720,7 @@ description: How to write a database migration. Use before changing a schema.
         <h2>Pick a harness by what your team needs</h2>
         <p>Score harnesses on these questions, and leave the demo videos out of it.</p>
         <p>This market consolidates fast, so check a tool's status before you standardize on it. Putting shared knowledge in <code>AGENTS.md</code>, skills and MCP keeps a later switch cheap.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#how-to-choose-a-harness" target="_blank" rel="noopener">Go deeper: how to choose a harness</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#how-to-choose-a-harness" target="_blank" rel="noopener">Go deeper: how to choose a harness</a></p>
       </div>
       <div class="vis">
         <div class="qs">
@@ -743,7 +743,7 @@ description: How to write a database migration. Use before changing a schema.
         <p class="eyebrow">Bryan's take</p>
         <h2>Claude and Codex, side by side in one app</h2>
         <p>One person's opinion and setup, as of November 2026.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
       </div>
       <div class="vis">
         <blockquote class="take">I drive my CLI agents through T3 Code, which lets me run Claude and Codex side by side, the two model families I think are best for code.</blockquote>
@@ -768,7 +768,7 @@ description: How to write a database migration. Use before changing a schema.
           <li>Every tool you connect costs context and trust. Connect few MCP servers, and try a CLI first.</li>
           <li>Instruction files ask and hooks enforce. Turn on a sandbox before you turn off approvals.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md#a-sane-baseline-setup" target="_blank" rel="noopener">Go deeper: a sane baseline setup</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/#a-sane-baseline-setup" target="_blank" rel="noopener">Go deeper: a sane baseline setup</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, an agent is a model plus a harness. The harness calls the model, runs the tool the model asks for, puts the result back in the context, and repeats. When results get worse, check the harness as well as the model.</p><p>Second, everything you connect has a price. Tool definitions take context, and a server runs with your credentials. Connect the one to three servers you need, and try a command-line tool first.</p><p>Third, an instruction file is a request and a hook is a rule. Put what must always happen in hooks. And turn on a sandbox before you turn off approvals.</p><p class="inclass">Have each person pick one change to their own setup: one server to disconnect, one hook to add, or one skill to write.</p></div>
     </article>
@@ -782,7 +782,7 @@ description: How to write a database migration. Use before changing a schema.
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/08-harnesses-and-tools.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/08-harnesses-and-tools/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson eight. Lesson nine is about what goes into the context window on each trip around the loop, and how the work of steering agents grew from prompts to context to loops and graphs.</p></div>
     </article>

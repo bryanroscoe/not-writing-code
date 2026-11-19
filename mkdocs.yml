@@ -71,6 +71,7 @@ validation:
 
 nav:
   - Home: index.md
+  - Lessons: https://notwritingcode.bryanroscoe.com/lessons/
   - Start here:
       - paths/README.md
       - Students: paths/students.md

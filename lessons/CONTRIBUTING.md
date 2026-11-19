@@ -2,22 +2,19 @@
 
 The course is a slide-led lesson player. Each module in the repo becomes one lesson: a short run of screens, one idea per
 screen, a real visual on most, and a spoken talk track under every screen. The long module stays behind each screen as a
-"Go deeper" link. Lesson 01 is finished and approved by Bryan. It is the reference for everything below.
+"Go deeper" link. Lesson 01 is the reference for everything below.
 
 ## Files
 
 | What | Path |
 |---|---|
-| Reference lesson (read it all before writing) | `course/lessons/01.html` |
-| Shared CSS and engine (read the CSS; never edit) | `course/shell.html` |
-| Your lesson | `course/lessons/NN.html` |
-| Build and checks | `python3 -I course/build.py --only NN` writes `course/build/NN.html` |
-| Screenshots | `course/shoot.sh NN 0 3 7 done` (and `THEME=light course/shoot.sh ...`) writes `course/shots/` |
-| Module sources | `/Users/bryan/Developer/not-writing-code-stages/modules/NN-*.md` |
-| Repo rules | `/Users/bryan/Developer/not-writing-code-stages/CONTRIBUTING.md` (Voice, Opinions vs facts, Sourcing) |
-
-Paths starting `course/` are under `/Users/bryan/.t3/scratch/2026-11-16-hey-i-made-a-private-e3b4fe18/prototype/`.
-Edit only your own lesson file and your own report. Other agents are writing other lessons at the same time.
+| Reference lesson (read it all before writing) | `lessons/01.html` |
+| Shared CSS and engine (read the CSS; don't edit it for one lesson) | `lessons/shell.html` |
+| Your lesson | `lessons/NN.html` |
+| Build and checks | `python3 scripts/build_lessons.py --only NN` writes `build/lessons/NN.html` |
+| Screenshots (macOS Chrome; set `CHROME` elsewhere) | `scripts/shoot_lessons.sh NN 0 3 7 done` (and `THEME=light ...`) writes `build/lessons/shots/` |
+| Module sources | `modules/NN-*.md` |
+| Repo rules | `CONTRIBUTING.md` (Voice, Opinions vs facts, Sourcing) |
 
 ## Shape of a lesson
 
@@ -39,7 +36,7 @@ The first line must match that pattern exactly. `data-minutes` is roughly one mi
   and a visual in `.vis`.
 - **Content screens:** `.text` with an eyebrow (the topic, two or three words), an `<h2>` that states the idea as a claim
   ("Chatting with a model never changes its weights", not "Weights"), one or two short paragraphs, and a
-  `Go deeper: <topic>` link. Then a `.vis` with the visual. Use `screen solo` only for a screen with no visual.
+  `Go deeper: <topic>` link to `../modules/NN-name/#heading-anchor`. Then a `.vis` with the visual. Use `screen solo` only for a screen with no visual.
 - **Done screen:** copy lesson 01's. Eyebrow `Lesson NN done`, `<h2>Next: <next lesson title></h2>`, actions: primary
   `<a class="btn primary arrow-r" href="#lesson-MM">Lesson MM</a>`, `<a class="btn" href="#map">Course map</a>`,
   `<button type="button" class="btn" data-go="1">Review</button>`, then the `Full notes` link. Lesson 18 has no next lesson.
@@ -52,7 +49,8 @@ The first line must match that pattern exactly. `data-minutes` is roughly one mi
   Check 2025+ facts against primary sources when you're unsure; don't cite SEO or AI-news sites.
 - One idea per screen. Teach the module's core path, not every section. 12 to 22 content screens. List what you left out
   in your report.
-- Opinions only where the module marks them as `Bryan's take`, and label them that way on screen. Never invent one.
+- Opinions only where the module marks them as the author's take. Label them `Author's note` on screen and "the author"
+  in the talk track. Never invent one.
 - Never name a specific employer or client. Write "Truemed" exactly like that if it ever comes up.
 - Date anything that will go stale ("as of November 2026").
 
@@ -70,7 +68,7 @@ Reuse the shell's components first (read its CSS and see how lesson 01 uses them
   or the module quotes.
 - Avoid `id` attributes. If you need one, prefix it `lNN-`.
 
-## Microcopy (Bryan's rule; he has called this out twice)
+## Microcopy
 
 Keep microcopy minimal. UI text (taglines, intros, card and status text, captions, tags, button and link labels) names
 the thing or the action in a few words. No subtitle that restates the heading, no sentence about how the page works or
@@ -90,9 +88,9 @@ contractions, candid about limits. Avoid:
 
 ## Talk track
 
-It is read aloud by a voice and also shown as text beside the screen. Write for the ear.
+It is read aloud by the browser's speech voice and also shown as text beside the screen. Write for the ear.
 
-- 2 to 5 paragraphs per content screen, each under about 600 characters (the build rejects 1,800+). Roughly 100 to 170
+- 2 to 5 paragraphs per content screen, each under about 600 characters (the build rejects 1,500+). Roughly 100 to 170
   spoken words per screen. Start and Done get one or two short paragraphs.
 - Say what the screen shows and what it means for someone who builds software with agents. Add what the slide can't
   hold: the example, the caveat, the history. Don't read the slide back word for word.
@@ -111,8 +109,7 @@ anything animated on the screen's `nwc:show` and `nwc:hide` events. Respect `pre
 
 ## Done means
 
-1. `python3 -I course/build.py --only NN` prints no PROBLEMS.
+1. `python3 scripts/build_lessons.py --only NN` prints no PROBLEMS.
 2. You screenshot Start, Done and at least five content screens (the visually heaviest ones) at desktop and phone,
    one of them also in light mode, opened the images, and fixed anything clipped, overflowing or unreadable.
 3. You reread every screen's microcopy against the rule above.
-4. Your report is written (see your task for its path).

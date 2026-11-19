@@ -100,7 +100,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero-rungs" aria-hidden="true"><span class="chip c1" style="--w:44%">prompt</span><span class="chip c2" style="--w:58%">context</span><span class="chip c3" style="--w:72%">harness</span><span class="chip c4" style="--w:86%">loop</span><span class="chip c5" style="--w:100%">graph</span></div>
@@ -115,7 +115,7 @@
         <h2>Each new name asks a wider question</h2>
         <p>From 2020 to 2026 the field climbed a ladder of "___ engineering" names. Each rung widens the scope: the words, the whole context window, the agent's environment, the repetition, then how several agents connect.</p>
         <p>Some rungs name real techniques. Others rename older ones.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#the-buzzword-ladder-at-a-glance" target="_blank" rel="noopener">Go deeper: the buzzword ladder</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#the-buzzword-ladder-at-a-glance" target="_blank" rel="noopener">Go deeper: the buzzword ladder</a></p>
       </div>
       <div class="vis">
         <ol class="ladder">
@@ -135,7 +135,7 @@
         <h2>A good prompt gives the reason, the limits and a check</h2>
         <p>Prompt engineering is writing the instructions, examples and constraints you send to a model. Models now guess intent well, so most of the old tricks faded. A short list of basics has survived every upgrade.</p>
         <p>Name the outcome, give the reason, define done, and give the agent a check it can run.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#prompting-basics-that-still-matter" target="_blank" rel="noopener">Go deeper: prompting basics</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#prompting-basics-that-still-matter" target="_blank" rel="noopener">Go deeper: prompting basics</a></p>
       </div>
       <div class="vis">
         <div class="two wide-r">
@@ -166,7 +166,7 @@
         <h2>Some old prompt tricks now backfire</h2>
         <p>Claude Code's best-practices page has a section called "What you can stop doing" (as of November 2026). Three habits from older models are on it.</p>
         <p>Each one has a real control that replaces it: a hook, an effort setting, or a check to pass.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#prompting-basics-that-still-matter" target="_blank" rel="noopener">Go deeper: prompting basics</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#prompting-basics-that-still-matter" target="_blank" rel="noopener">Go deeper: prompting basics</a></p>
       </div>
       <div class="vis">
         <div class="nots">
@@ -185,7 +185,7 @@
         <h2>In an agent, your prompt is the smallest part of the context</h2>
         <p>In a chat app the context is mostly your conversation. In a coding agent, your typed prompt is often the smallest part of what the model sees.</p>
         <p>Context engineering is choosing everything that fills the window at each step. The name took off in June 2025.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#what-actually-fills-an-agents-context-window" target="_blank" rel="noopener">Go deeper: what fills the window</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#what-actually-fills-an-agents-context-window" target="_blank" rel="noopener">Go deeper: what fills the window</a></p>
       </div>
       <div class="vis">
         <div class="rows" style="--cols: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1.3fr)">
@@ -209,7 +209,7 @@
         <h2>Models use a long input unevenly</h2>
         <p>Windows grew from a few thousand tokens to a million. That doesn't mean a model uses every token equally well.</p>
         <p>"Lost in the Middle" (2023) found models do best when the relevant fact sits at the start or end of the input. Later studies found performance dropping as the input grows, more so when it holds distracting material.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#context-limits-in-practice" target="_blank" rel="noopener">Go deeper: context limits</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#context-limits-in-practice" target="_blank" rel="noopener">Go deeper: context limits</a></p>
       </div>
       <div class="vis">
         <svg class="chart" viewBox="0 0 320 170" role="img" aria-label="A U-shaped curve. Accuracy is highest when the relevant fact is at the start or end of the input and lowest when it is in the middle.">
@@ -237,7 +237,7 @@
         <h2>You run out of focus before you run out of space</h2>
         <p>With million-token windows and automatic compaction, you rarely hit the limit anymore. Attention and cost are what limit you now.</p>
         <p>Irrelevant material still dilutes the model's focus, and you pay for every token on every call. Prompt caching lowers the price and leaves the distraction.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#context-limits-in-practice" target="_blank" rel="noopener">Go deeper: context limits</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#context-limits-in-practice" target="_blank" rel="noopener">Go deeper: context limits</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -264,7 +264,7 @@
         <h2>Four moves keep a context focused</h2>
         <p>In July 2025 LangChain sorted the techniques into four buckets: write, select, compress and isolate. Each maps to features you can use today.</p>
         <p>Two mistakes come up a lot. One is preloading material "just in case". The other is running twenty tasks in one marathon session.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#the-four-moves-mapped-to-features" target="_blank" rel="noopener">Go deeper: the four moves</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#the-four-moves-mapped-to-features" target="_blank" rel="noopener">Go deeper: the four moves</a></p>
       </div>
       <div class="vis">
         <div class="two moves">
@@ -299,7 +299,7 @@
         <h2>Harness engineering turns each agent mistake into a permanent fix</h2>
         <p>In February 2026 Mitchell Hashimoto described a habit: any time the agent makes a mistake, engineer a solution so it never makes it again.</p>
         <p>Six days later OpenAI's Codex team published a report under the same name. Underneath, it's developer-experience and CI work aimed at a new kind of user.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#harness-engineering" target="_blank" rel="noopener">Go deeper: harness engineering</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#harness-engineering" target="_blank" rel="noopener">Go deeper: harness engineering</a></p>
       </div>
       <div class="vis">
         <p class="sub">Hashimoto's rule</p>
@@ -329,7 +329,7 @@
         <h2>Instruction files grew to a thousand lines</h2>
         <p>Lesson 01 described <code>CLAUDE.md</code> as notes put back into the context. Once a file loaded into every session automatically, it became the place to put everything.</p>
         <p>Cursor's <code>.cursorrules</code> came first in 2023. <code>CLAUDE.md</code> followed in February 2025 and the vendor-neutral <code>AGENTS.md</code> that August. Each line felt free to add, and nobody deleted anything.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#the-thousand-line-era-2025" target="_blank" rel="noopener">Go deeper: the thousand-line era</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#the-thousand-line-era-2025" target="_blank" rel="noopener">Go deeper: the thousand-line era</a></p>
       </div>
       <div class="vis">
         <div class="doc bloat">
@@ -360,7 +360,7 @@
         <h2>Models follow instructions worse as the list grows</h2>
         <p>An always-loaded file competes with the task for the model's focus on every task, whether or not a given line applies.</p>
         <p>A July 2025 benchmark called IFScale put up to 500 simple instructions into one task. Across 20 models accuracy fell as the count rose, and the best reached 68% at 500.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#the-fall-late-20252026" target="_blank" rel="noopener">Go deeper: the fall</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#the-fall-late-20252026" target="_blank" rel="noopener">Go deeper: the fall</a></p>
       </div>
       <div class="vis">
         <svg class="chart" viewBox="0 0 320 170" role="img" aria-label="Accuracy on the vertical axis against the number of instructions on the horizontal axis. The line falls from near 100 percent with few instructions to 68 percent at 500 instructions for the best models.">
@@ -384,7 +384,7 @@
         <h2>Context files raised cost without raising success</h2>
         <p>A 2026 study from ETH Zurich ran Claude Code, Codex and Qwen Code with and without context files. Success rates barely moved, and inference cost rose by more than 20%.</p>
         <p>The agents did follow the instructions. Directory overviews still didn't help them find the right files any faster.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#the-fall-late-20252026" target="_blank" rel="noopener">Go deeper: the fall</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#the-fall-late-20252026" target="_blank" rel="noopener">Go deeper: the fall</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -411,7 +411,7 @@
         <h2>Most instructions have a better home than the instruction file</h2>
         <p>Skills, path-scoped rules and hooks took over most of what the big files did. A skill loads only its name and description until it's needed. A path-scoped rule loads when the agent touches matching files.</p>
         <p>Rules with zero exceptions become hooks, deny rules or sandbox settings. Capital letters don't enforce anything.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#current-best-practice" target="_blank" rel="noopener">Go deeper: current best practice</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#current-best-practice" target="_blank" rel="noopener">Go deeper: current best practice</a></p>
       </div>
       <div class="vis">
         <div class="rows" style="--cols: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.1fr)">
@@ -434,7 +434,7 @@
         <h2>A good instruction file fits on one screen</h2>
         <p>Ask one question of every line: could the agent figure this out by reading the repository? If yes, delete it.</p>
         <p>What's left is the exact commands, places where the code misleads, decisions that aren't written in the code, anything you've had to correct twice, and pointers to deeper docs.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#current-best-practice" target="_blank" rel="noopener">Go deeper: current best practice</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#current-best-practice" target="_blank" rel="noopener">Go deeper: current best practice</a></p>
       </div>
       <div class="vis">
         <div class="doc file">
@@ -465,7 +465,7 @@
         <h2>A loop prompts the agent so you don't have to</h2>
         <p>A loop replaces you as the person who types "continue". Something else prompts the agent: a schedule, or a goal it keeps working toward.</p>
         <p>The harnesses ship this now. Claude Code has <code>/loop</code> and <code>/goal</code>, and Codex has scheduled tasks and its own <code>/goal</code> (as of November 2026).</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#loop-engineering" target="_blank" rel="noopener">Go deeper: loop engineering</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#loop-engineering" target="_blank" rel="noopener">Go deeper: loop engineering</a></p>
       </div>
       <div class="vis">
         <div class="ring" role="img" aria-label="A loop. A trigger, either a schedule or a goal, starts the agent. The agent works one turn. An independent check runs. If the goal is not met and budget remains, progress is saved outside the conversation and the agent runs again. Otherwise the loop stops and a human reads the result.">
@@ -491,7 +491,7 @@
         <h2>A loop needs an end state a program can check</h2>
         <p>A loop is only worth building when the task has a checkable end state, an independent check, a budget, and a human who reads the result.</p>
         <p>Osmani's own warning: "done" from a loop is "a claim and not a proof". Lesson 11 covers verifiers and loop patterns.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#loops-in-practice" target="_blank" rel="noopener">Go deeper: loops in practice</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#loops-in-practice" target="_blank" rel="noopener">Go deeper: loops in practice</a></p>
       </div>
       <div class="vis">
         <div class="two needs">
@@ -511,7 +511,7 @@
         <h2>Five workflow shapes cover most graphs</h2>
         <p>A graph here is a set of steps (nodes) joined by transitions (edges), with shared state. A loop is a graph whose path returns to an earlier node.</p>
         <p>Anthropic described the common shapes in December 2024. Most coding work needs one or two of them at most.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#graphs-in-practice" target="_blank" rel="noopener">Go deeper: graphs in practice</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#graphs-in-practice" target="_blank" rel="noopener">Go deeper: graphs in practice</a></p>
       </div>
       <div class="vis">
         <div class="pats">
@@ -559,7 +559,7 @@
         <h2>The graph patterns are older than the name</h2>
         <p>The label took off from a Peter Steinberger post on X on July 18, 2026. The posts popularized the name. They don't establish who coined it.</p>
         <p>The patterns were already in libraries and guides in 2024, and workflow engines are decades old.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#graph-engineering" target="_blank" rel="noopener">Go deeper: graph engineering</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#graph-engineering" target="_blank" rel="noopener">Go deeper: graph engineering</a></p>
       </div>
       <div class="vis">
         <div class="rows" style="--cols: 8em minmax(0, 1fr)">
@@ -580,7 +580,7 @@
         <h2>The measured claims held up and the viral ones mostly didn't</h2>
         <p>Context degradation, the value of verifiers and harness effects all have evidence behind them. "Graph engineering" mostly renames workflow orchestration that existed in 2024.</p>
         <p>A new name often arrives with a new product feature, so ask what changed in practice.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#a-skeptical-note-what-is-substance-and-what-is-relabeling" target="_blank" rel="noopener">Go deeper: a skeptical note</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#a-skeptical-note-what-is-substance-and-what-is-relabeling" target="_blank" rel="noopener">Go deeper: a skeptical note</a></p>
       </div>
       <div class="vis">
         <div class="rows" style="--cols: 5.5em minmax(0, 1fr) minmax(0, 11em)">
@@ -606,7 +606,7 @@
           <li>Keep the instruction file short. Write only what the agent can't learn from the code, and move the rest to hooks, skills and scoped rules.</li>
           <li>Build a loop or a graph only around an end state a program can check, and read the result yourself.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md#will-context-engineering-matter-less-as-models-improve" target="_blank" rel="noopener">Go deeper: will this last as models improve?</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/#will-context-engineering-matter-less-as-models-improve" target="_blank" rel="noopener">Go deeper: will this last as models improve?</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, in agent work your typed prompt is a small part of what the model sees. Choose the rest on purpose, and start fresh sessions often.</p><p>Second, keep the instruction file short. Write down only what the agent can't learn from the code. Rules that must hold go in hooks. Procedures go in skills.</p><p>Third, build a loop or a graph only around an end state a program can check. Then read the result yourself.</p><p class="inclass">Have each person name one line they will delete from an instruction file this week.</p></div>
     </article>
@@ -620,7 +620,7 @@
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/09-context-engineering.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/09-context-engineering/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson nine. Lesson ten covers agentic workflows: what day-to-day work with agents looks like, and how much autonomy holds up in practice.</p></div>
     </article>

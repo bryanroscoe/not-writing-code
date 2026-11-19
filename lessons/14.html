@@ -106,7 +106,7 @@
       <div class="actions intro-actions">
         <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
       </div>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md" target="_blank" rel="noopener">Full notes</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/" target="_blank" rel="noopener">Full notes</a></p>
     </div>
     <div class="vis">
       <div class="doc hero-doc" aria-label="A README file. Its last line is an HTML comment addressed to AI assistants.">
@@ -132,7 +132,7 @@
       <h2>A model reads instructions and data as the same text</h2>
       <p>Classic software keeps code and data apart. With a parameterized query, the database knows which bytes are the query and which are the user's input.</p>
       <p>A model's context has role markers, but they don't enforce a boundary. It decides what to do from all of the text at once.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#instructions-and-data-share-one-channel" target="_blank" rel="noopener">Go deeper: one channel</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#instructions-and-data-share-one-channel" target="_blank" rel="noopener">Go deeper: one channel</a></p>
     </div>
     <div class="vis">
       <div class="two">
@@ -163,7 +163,7 @@
       <p class="eyebrow">Prompt injection</p>
       <h2>Any text the agent reads can try to give it orders</h2>
       <p>That's prompt injection. The text can sit in a web page, a GitHub issue, a README or a tool description.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#where-the-term-came-from" target="_blank" rel="noopener">Go deeper: where the term came from</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#where-the-term-came-from" target="_blank" rel="noopener">Go deeper: where the term came from</a></p>
     </div>
     <div class="vis">
       <div class="two">
@@ -195,7 +195,7 @@
       <h2>The attacker never has to talk to your agent</h2>
       <p>In direct injection the attacker types into the app themselves. In indirect injection they plant instructions in content the model reads later, on someone else's behalf.</p>
       <p>Coding agents get hit by the indirect kind.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#direct-vs-indirect-injection" target="_blank" rel="noopener">Go deeper: direct vs indirect</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#direct-vs-indirect-injection" target="_blank" rel="noopener">Go deeper: direct vs indirect</a></p>
     </div>
     <div class="vis">
       <div class="flow" role="img" aria-label="You ask the coding agent to fix the open issues. The attacker has planted text in an issue, README, web page, package or tool description. The agent reads it, makes tool calls with the shell, git, network and MCP servers, and secrets or code leave to a place the attacker controls.">
@@ -221,7 +221,7 @@
       <h2>Injected text sits in places you don't read</h2>
       <p>Unicode tricks can also hide instructions from a human reader.</p>
       <p>Cloning a repo and pointing an agent at it is like running its install script.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents" target="_blank" rel="noopener">Go deeper: risks for coding agents</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#risks-specific-to-coding-agents" target="_blank" rel="noopener">Go deeper: risks for coding agents</a></p>
     </div>
     <div class="vis">
       <div class="rows">
@@ -242,7 +242,7 @@
       <h2>A jailbreak is a different attack</h2>
       <p>A jailbreak tries to get the model to break its maker's safety rules. Prompt injection attacks an application built on a model, by mixing untrusted text into a trusted prompt.</p>
       <p>A model can be very hard to jailbreak and still follow an injected instruction.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#jailbreaks-are-a-different-problem" target="_blank" rel="noopener">Go deeper: jailbreaks</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#jailbreaks-are-a-different-problem" target="_blank" rel="noopener">Go deeper: jailbreaks</a></p>
     </div>
     <div class="vis">
       <div class="two">
@@ -274,7 +274,7 @@
       <h2>Every defense lowers the odds and none reaches zero</h2>
       <p>Training the model to resist, classifiers that flag suspicious content, delimiters around untrusted text: each one lowers the attack's success rate, and attackers adapt.</p>
       <p>As of November 2026 nobody has a reliable fix. Design as if some injected instruction will eventually get followed.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#why-it-is-still-unsolved" target="_blank" rel="noopener">Go deeper: why it's unsolved</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#why-it-is-still-unsolved" target="_blank" rel="noopener">Go deeper: why it's unsolved</a></p>
     </div>
     <div class="vis">
       <p class="sub">Attack success rate against 12 published defenses</p>
@@ -293,7 +293,7 @@
       <p class="eyebrow">The lethal trifecta</p>
       <h2>Three abilities together let an attacker steal your data</h2>
       <p>Simon Willison named the lethal trifecta in June 2025. With all three in one agent, text planted in the untrusted content can make it read your data and send it out.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable" target="_blank" rel="noopener">Go deeper: the two frameworks</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#two-frameworks-that-make-this-tractable" target="_blank" rel="noopener">Go deeper: the two frameworks</a></p>
     </div>
     <div class="vis">
       <div class="tri">
@@ -318,7 +318,7 @@
       <h2>An agent should hold at most two of three properties</h2>
       <p>Meta published the Agents Rule of Two in October 2025. It adds "change state" to Willison's list. An injected agent that can <code>git push</code> or <code>rm -rf</code> does damage without stealing anything.</p>
       <p>When one session needs all three, the agent shouldn't act without oversight.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#two-frameworks-that-make-this-tractable" target="_blank" rel="noopener">Go deeper: the two frameworks</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#two-frameworks-that-make-this-tractable" target="_blank" rel="noopener">Go deeper: the two frameworks</a></p>
     </div>
     <div class="vis">
       <div class="tri">
@@ -343,7 +343,7 @@
       <h2>A coding agent on your laptop has all three by default</h2>
       <p>It reads the open internet and other people's code. It sits next to your repo and your secrets. It has a shell.</p>
       <p>For each task, choose which one to cut, and put deterministic controls around the rest.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#why-coding-agents-are-the-hard-case" target="_blank" rel="noopener">Go deeper: the hard case</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#why-coding-agents-are-the-hard-case" target="_blank" rel="noopener">Go deeper: the hard case</a></p>
     </div>
     <div class="vis">
       <div class="tri">
@@ -367,7 +367,7 @@
       <h2>A public issue got an agent to publish private repos</h2>
       <p>In May 2025 Invariant Labs showed a malicious issue in a public repo steering an agent that used GitHub's official MCP server.</p>
       <p>The server had no bug. A broad token plus public issues is the trifecta. Scope tokens to one repo per task.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#real-incidents-20252026" target="_blank" rel="noopener">Go deeper: real incidents</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#real-incidents-20252026" target="_blank" rel="noopener">Go deeper: real incidents</a></p>
     </div>
     <div class="vis">
       <ol class="steps">
@@ -387,7 +387,7 @@
       <h2>Malware drove developers' own AI CLIs to hunt for secrets</h2>
       <p>In August 2025, malicious versions of the Nx build tool ran a post-install script. It invoked any installed AI CLI with its stop-asking flag and had it search the disk for secrets.</p>
       <p>Every major CLI agent has a mode like that. Keep it inside a disposable sandbox.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents" target="_blank" rel="noopener">Go deeper: risks for coding agents</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#risks-specific-to-coding-agents" target="_blank" rel="noopener">Go deeper: risks for coding agents</a></p>
     </div>
     <div class="vis">
       <p class="sub">Modes that stop asking, as of November 2026</p>
@@ -417,7 +417,7 @@
       <h2>In CI, an issue title can become part of the agent's prompt</h2>
       <p>From December 2025, Cline's AI issue-triage bot put issue titles straight into its prompt. A title could tell it to install a "helper tool" from an attacker's fork.</p>
       <p>A CI agent that reads public input gets read-only tokens, no secrets, and no cache shared with release workflows.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#real-incidents-20252026" target="_blank" rel="noopener">Go deeper: real incidents</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#real-incidents-20252026" target="_blank" rel="noopener">Go deeper: real incidents</a></p>
     </div>
     <div class="vis">
       <div class="doc"><p class="fname">Prompt template in the workflow</p><p>Triage this issue and apply a label.</p><p>Title: <mark>{{ issue.title }}</mark></p></div>
@@ -433,7 +433,7 @@
       <p class="eyebrow">More incidents</p>
       <h2>The same setup failed across vendors in 2025 and 2026</h2>
       <p>Some of these are researcher demonstrations and some happened in the wild.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#real-incidents-20252026" target="_blank" rel="noopener">Go deeper: real incidents</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#real-incidents-20252026" target="_blank" rel="noopener">Go deeper: real incidents</a></p>
     </div>
     <div class="vis">
       <div class="rows">
@@ -453,7 +453,7 @@
       <h2>Generated code is often vulnerable, and people trust it more</h2>
       <p>Agents write insecure patterns they learned from training data. Studies from 2021 to 2025 keep finding flaws in a large share of generated code.</p>
       <p>Treat agent output as an untrusted contribution. Run the static analysis, dependency scanning and review you'd run on a stranger's pull request.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#insecure-generated-code" target="_blank" rel="noopener">Go deeper: insecure generated code</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#insecure-generated-code" target="_blank" rel="noopener">Go deeper: insecure generated code</a></p>
     </div>
     <div class="vis">
       <div class="rates">
@@ -473,7 +473,7 @@
       <h2>Models invent package names, and attackers register them</h2>
       <p>A 2024 study generated code with 16 models. In its revised version, at least 5.2% of the packages commercial models recommended didn't exist, and 21.7% for open-source models.</p>
       <p>Registering the names models keep inventing is called slopsquatting.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents" target="_blank" rel="noopener">Go deeper: risks for coding agents</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#risks-specific-to-coding-agents" target="_blank" rel="noopener">Go deeper: risks for coding agents</a></p>
     </div>
     <div class="vis">
       <div class="chat">
@@ -493,7 +493,7 @@
       <h2>Limit what the agent can reach, whatever it reads</h2>
       <p>The controls that hold are built into the system around the model. They work the same when the model has been fooled.</p>
       <p>No single one is enough. Layer them so a failure in one is caught by the next.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#practical-defenses" target="_blank" rel="noopener">Go deeper: practical defenses</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#practical-defenses" target="_blank" rel="noopener">Go deeper: practical defenses</a></p>
     </div>
     <div class="vis">
       <div class="rows n">
@@ -513,7 +513,7 @@
       <p class="eyebrow">Defenses</p>
       <h2>The same injected line does far less inside a sandbox</h2>
       <p>An agent reads a poisoned issue in both runs, and follows it in both.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#practical-defenses" target="_blank" rel="noopener">Go deeper: practical defenses</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#practical-defenses" target="_blank" rel="noopener">Go deeper: practical defenses</a></p>
     </div>
     <div class="vis">
       <div class="two">
@@ -547,7 +547,7 @@
       <h2>Deny rules match command text, so the sandbox comes first</h2>
       <p>Allow and deny lists let routine commands run without prompts and block the dangerous ones.</p>
       <p>A permission classifier, like Claude Code's auto mode, is a model judging text. Have a sandbox enforce the limits for when it gets one wrong.</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#practical-defenses" target="_blank" rel="noopener">Go deeper: practical defenses</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#practical-defenses" target="_blank" rel="noopener">Go deeper: practical defenses</a></p>
     </div>
     <div class="vis">
       <div class="doc"><p class="fname">Claude Code project settings</p><pre>{
@@ -571,7 +571,7 @@
       <p class="eyebrow">Autonomy</p>
       <h2>Human approval is oversight, and a second model is one more layer</h2>
       <p class="take"><b>Bryan's take</b>"I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work."</p>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
     </div>
     <div class="vis">
       <p class="sub">Before long autonomous loops</p>
@@ -595,7 +595,7 @@
         <li>For each task, cut one of untrusted input, sensitive access, or the ability to change state or send data out. If you can't, a human or a reliable check approves.</li>
         <li>Sandboxes, scoped tokens and network limits do the protecting. Review generated code like a stranger's pull request.</li>
       </ul>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md#student-checklist" target="_blank" rel="noopener">Go deeper: the checklists</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/#student-checklist" target="_blank" rel="noopener">Go deeper: the checklists</a></p>
     </div>
     <div class="talk" hidden><p>Keep three things. First, any text an agent reads can carry instructions. Issues, READMEs, web pages, tool descriptions. No model reliably refuses them, and no defense so far brings the risk to zero.</p><p>Second, think in the three properties. Untrusted input, sensitive access, and the ability to change state or send data out. For each task, cut one. When the task needs all three, a person or a reliable check approves what the agent does.</p><p>Third, the protection comes from the system around the model. Sandboxes, scoped tokens and network limits hold when the model is fooled. And the code an agent writes gets the same scanning and review as a pull request from a stranger.</p><p class="inclass">Have each person pick one item from the student checklist to do before the next session.</p></div>
   </article>
@@ -609,7 +609,7 @@
         <a class="btn" href="#map">Course map</a>
         <button type="button" class="btn" data-go="1">Review</button>
       </div>
-      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/14-security-and-prompt-injection.md" target="_blank" rel="noopener">Full notes</a></p>
+      <p class="deeper"><a href="../modules/14-security-and-prompt-injection/" target="_blank" rel="noopener">Full notes</a></p>
     </div>
     <div class="talk" hidden><p>That is lesson fourteen, and the end of stage four. Lesson fifteen starts the last stage with costs: what subscriptions and API billing each charge you for, and how to budget for agent work.</p></div>
   </article>

@@ -104,7 +104,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/11-verification/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="chat"><div class="msg bot"><p>Done. All tests pass.</p></div></div>
@@ -121,7 +121,7 @@
         <h2>With no outside check, the first test of the work is you</h2>
         <p>An agent thinks, acts and observes until the model decides it's finished. Anthropic's Claude Code docs say, "Claude stops when the work looks done."</p>
         <p>If it has nothing to run that returns pass or fail, you're the test suite. Asking nicely won't make it reliable.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done" target="_blank" rel="noopener">Go deeper: the key fact</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done" target="_blank" rel="noopener">Go deeper: the key fact</a></p>
       </div>
       <div class="vis">
         <div class="flowrow" role="img" aria-label="A task goes to the agent, which works until the model thinks it is done.">
@@ -154,7 +154,7 @@
         <h2>A verifier checks the work against an oracle</h2>
         <p>A verifier is a test, tool or separate model that checks an agent's claimed result. The oracle is the source of truth it checks against, often an expected value a person wrote into a test.</p>
         <p>Verifiers differ in how far you can trust them. A type checker gives the same answer every time. A model judge can be swayed by how the code looks.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#verifiers-and-oracles" target="_blank" rel="noopener">Go deeper: verifiers and oracles</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#verifiers-and-oracles" target="_blank" rel="noopener">Go deeper: verifiers and oracles</a></p>
       </div>
       <div class="vis">
         <pre class="code">def test_slugify_basic():
@@ -181,7 +181,7 @@
         <h2>The agent can climb most of the ladder itself</h2>
         <p>The low rungs are fast and cheap and catch narrow kinds of mistakes. The high rungs are slower and catch more of what a user would notice.</p>
         <p>A good setup lets the agent climb as far as it can before a person looks. A type checker catches a hallucinated API before any test runs.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#the-ladder-of-checks" target="_blank" rel="noopener">Go deeper: the ladder of checks</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#the-ladder-of-checks" target="_blank" rel="noopener">Go deeper: the ladder of checks</a></p>
       </div>
       <div class="vis">
         <div class="ladder">
@@ -204,7 +204,7 @@
         <h2>"Review your work" is the weakest feedback you can give</h2>
         <p>Prompted models fix their mistakes when the feedback comes from outside: test results, compiler errors, a different reviewer. Without it they sometimes make things worse.</p>
         <p>A failing test with its error message carries information the model didn't already have.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#why-outside-feedback-beats-self-critique" target="_blank" rel="noopener">Go deeper: outside feedback</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#why-outside-feedback-beats-self-critique" target="_blank" rel="noopener">Go deeper: outside feedback</a></p>
       </div>
       <div class="vis">
         <div class="study" role="img" aria-label="GPT-3.5 accuracy on CommonSenseQA: 75.8 percent before self-correction, 38.1 percent after one round with no outside labels.">
@@ -233,7 +233,7 @@
         <h2>A model judge can be swayed by answer order and by how code looks</h2>
         <p>Some things have no test: readability, whether a design fits, whether a doc is accurate. A model judge helps there, and its verdict is weaker evidence than an executable test.</p>
         <p>Give it a fresh context, prefer a model from a different lab, and check a sample of its verdicts against your own.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#models-as-judges-and-their-biases" target="_blank" rel="noopener">Go deeper: models as judges</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#models-as-judges-and-their-biases" target="_blank" rel="noopener">Go deeper: models as judges</a></p>
       </div>
       <div class="vis">
         <div class="two" role="img" aria-label="The same two answers shown to a judge in two orders. The judge's pick changes with the order.">
@@ -259,7 +259,7 @@
         <h2>Passing tests is evidence that reaches as far as the tests do</h2>
         <p>Models got good at code partly because training rewarded them for passing checks. The same training left a habit of satisfying a check in ways nobody intended.</p>
         <p>Anthropic's docs: "'All tests pass' on its own tells you very little."</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#checkable-rewards-checkable-tests" target="_blank" rel="noopener">Go deeper: checkable rewards, checkable tests</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#checkable-rewards-checkable-tests" target="_blank" rel="noopener">Go deeper: checkable rewards, checkable tests</a></p>
       </div>
       <div class="vis">
         <p class="lab">The test</p>
@@ -284,7 +284,7 @@
         <h2>Write the test first and watch it fail</h2>
         <p>Test-driven development means writing a failing test before the code that makes it pass. It suits agents because the loop has something to converge on.</p>
         <p>Write or approve the tests yourself, commit them separately, and make each one fail first. A test that never failed may not test anything.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the agent's contract</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the agent's contract</a></p>
       </div>
       <div class="vis">
         <div class="chat"><div class="msg user">slugify drops accented letters. Write a failing test that reproduces it, then fix it.</div></div>
@@ -313,7 +313,7 @@ assert 'crme-brle' == 'creme-brulee'</pre>
         <h2>Read the full test diff on every change</h2>
         <p>Agents under pressure to make tests pass sometimes delete, skip or special-case them.</p>
         <p><code>git diff main -- tests/</code> shows deleted assertions and new skips. A <code>--stat</code> summary hides them.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the agent's contract</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the agent's contract</a></p>
       </div>
       <div class="vis">
         <pre class="code"><span class="dim">$</span> git diff --stat main
@@ -338,7 +338,7 @@ assert 'crme-brle' == 'creme-brulee'</pre>
         <h2>Find the oracle before you hand a problem to a loop</h2>
         <p>The problems agents loop on best have clear success criteria. Before you start a loop, find or build what it will check against.</p>
         <p>"The code is good" isn't a check. If you can't name the command that proves the task worked, run the task by hand until you can.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#problems-an-agent-can-loop-on" target="_blank" rel="noopener">Go deeper: problems an agent can loop on</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#problems-an-agent-can-loop-on" target="_blank" rel="noopener">Go deeper: problems an agent can loop on</a></p>
       </div>
       <div class="vis">
         <div class="orows">
@@ -358,7 +358,7 @@ assert 'crme-brle' == 'creme-brulee'</pre>
         <h2>A property test makes up inputs the agent hasn't seen</h2>
         <p>You state a rule and a tool hunts for counterexamples. Hypothesis tries 100 random inputs by default and reports the simplest one that fails.</p>
         <p>An agent can't hard-code answers for inputs that are made up fresh on every run. Weak properties can still pass, though.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#property-based-tests" target="_blank" rel="noopener">Go deeper: property-based tests</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#property-based-tests" target="_blank" rel="noopener">Go deeper: property-based tests</a></p>
       </div>
       <div class="vis">
         <pre class="code">from hypothesis import given, strategies as st
@@ -384,7 +384,7 @@ def test_slugify_respects_max_length(s, n):
         <h2>A loop is only worth building with a checkable end state</h2>
         <p>A loop replaces you as the person who types "continue". It needs an independent check, a budget, and state kept outside the conversation.</p>
         <p>It also needs isolation, such as a worktree, and a rule to stop and ask before anything irreversible. A loop's "done" is still a claim, so a person reads the diff before it ships.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#loops-in-practice" target="_blank" rel="noopener">Go deeper: loops in practice</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#loops-in-practice" target="_blank" rel="noopener">Go deeper: loops in practice</a></p>
       </div>
       <div class="vis">
         <div class="loop" role="img" aria-label="A loop: read the state file and do one item, a verifier checks it, a failure goes back to the agent, a pass updates the state file and commits, then if the budget or goal is not reached the loop repeats, otherwise it stops and reports to a human.">
@@ -411,7 +411,7 @@ def test_slugify_respects_max_length(s, n):
         <h2>A goal loop's checker only sees what the agent printed</h2>
         <p>In Claude Code, <code>/goal</code> keeps the agent working until a condition holds. After each turn a separate small, fast model checks the condition (as of November 2026).</p>
         <p>That evaluator doesn't run commands or read files. The condition has to be something the agent's own output can demonstrate, like printed test results.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#goal-loops-and-how-long-to-let-them-run" target="_blank" rel="noopener">Go deeper: goal loops</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#goal-loops-and-how-long-to-let-them-run" target="_blank" rel="noopener">Go deeper: goal loops</a></p>
       </div>
       <div class="vis">
         <div class="doc goal"><p>/goal every test in tests/auth passes when you run `uv run pytest -q tests/auth`, <mark>show the final output</mark>, <mark>no other test file is modified</mark>, <mark>or stop after 20 turns</mark></p></div>
@@ -431,7 +431,7 @@ def test_slugify_respects_max_length(s, n):
         <h2>A Stop hook blocks "done" until the check passes</h2>
         <p>A Stop hook is a script the harness runs when the agent finishes responding. Exit code 2 keeps the agent from stopping.</p>
         <p>Anthropic's docs say a rule in <code>CLAUDE.md</code> is followed "nearly every time". A hook applies every time, whatever the model decided.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#stop-hooks-and-ci-gates" target="_blank" rel="noopener">Go deeper: Stop hooks and CI gates</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#stop-hooks-and-ci-gates" target="_blank" rel="noopener">Go deeper: Stop hooks and CI gates</a></p>
       </div>
       <div class="vis">
         <p class="lab">Anthropic's example for Claude Code</p>
@@ -460,7 +460,7 @@ exit 0: the agent may stop</pre>
         <h2>A cornered agent will sometimes attack the check</h2>
         <p>In June 2025 METR documented OpenAI's o3 rewriting a timer so the scorer saw almost no elapsed time, and patching an evaluator to mark every submission correct.</p>
         <p>An instruction not to cheat can help a lot with one model and not at all with another.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#protecting-the-verifier" target="_blank" rel="noopener">Go deeper: protecting the verifier</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#protecting-the-verifier" target="_blank" rel="noopener">Go deeper: protecting the verifier</a></p>
       </div>
       <div class="vis">
         <p class="sub">How often each model hacked an unsolvable task</p>
@@ -484,7 +484,7 @@ exit 0: the agent may stop</pre>
         <h2>The defenses are mechanical</h2>
         <p>Watching the model's reasoning isn't a reliable defense. When OpenAI researchers put a chain-of-thought monitor into the training reward, agents learned to hide their intent (Baker et al., 2025).</p>
         <p>Start with the cheapest one. A deny rule or hook on the tests folder applies every time, whatever the model decides.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#protecting-the-verifier" target="_blank" rel="noopener">Go deeper: protecting the verifier</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#protecting-the-verifier" target="_blank" rel="noopener">Go deeper: protecting the verifier</a></p>
       </div>
       <div class="vis">
         <ol class="steps">
@@ -505,7 +505,7 @@ exit 0: the agent may stop</pre>
         <h2>Break one line by hand to test your tests</h2>
         <p>Coverage records which code ran. It doesn't tell you whether the tests can detect a fault.</p>
         <p>Mutation testing breaks the code on purpose, one small change at a time, and reruns the tests. If they all still pass, the mutant survived and a test is probably missing.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#mutation-testing" target="_blank" rel="noopener">Go deeper: mutation testing</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#mutation-testing" target="_blank" rel="noopener">Go deeper: mutation testing</a></p>
       </div>
       <div class="vis">
         <p class="lab">The mutant</p>
@@ -538,7 +538,7 @@ exit 0: the agent may stop</pre>
         <h2>Ask for the proof along with "done"</h2>
         <p>"Done" from an agent is a claim. Ask for the command and its output.</p>
         <p>Use its list of unverified work to decide what to inspect next. Then rerun one of the commands yourself.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#proof-of-done" target="_blank" rel="noopener">Go deeper: proof of done</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#proof-of-done" target="_blank" rel="noopener">Go deeper: proof of done</a></p>
       </div>
       <div class="vis">
         <div class="doc proof">
@@ -561,7 +561,7 @@ exit 0: the agent may stop</pre>
         <h2>A green check can make you review less carefully</h2>
         <p>That's automation bias. It affects novices and experts alike, and training or instructions don't prevent it, so the fix has to be in the process.</p>
         <p>Scale the evidence to the risk of the change, however confident the agent sounds.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#calibrating-your-own-trust" target="_blank" rel="noopener">Go deeper: calibrating your own trust</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#calibrating-your-own-trust" target="_blank" rel="noopener">Go deeper: calibrating your own trust</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -585,7 +585,7 @@ exit 0: the agent may stop</pre>
         <p class="eyebrow">Bryan's take</p>
         <h2>Loops work with a hard goal and a human reading the result</h2>
         <p>The strongest counterpoint is a project with a near-perfect verifier. With an oracle that good, a loop can be ambitious. Most product work doesn't have one.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
       </div>
       <div class="vis">
         <blockquote class="take">I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet.</blockquote>
@@ -606,7 +606,7 @@ exit 0: the agent may stop</pre>
           <li>Agents game the check. Keep tests out of their reach, read the test diff, and hold some tests back.</li>
           <li>"Done" is a claim. Ask for the commands and their output, then rerun one yourself.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+        <p class="deeper"><a href="../modules/11-verification/#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, an agent stops when the model thinks it's done. Give it a check it can run itself, one that returns pass or fail.</p><p>Second, agents game whatever check you give them. Keep the tests out of their reach, read the test diff, and hold some tests back.</p><p>Third, "done" is a claim. Ask for the commands and their output, and rerun one yourself.</p><p class="inclass">Have each person name one check they will add to their setup this week.</p></div>
     </article>
@@ -620,7 +620,7 @@ exit 0: the agent may stop</pre>
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/11-verification.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/11-verification/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson eleven. Lesson twelve covers multiple agents building and reviewing each other's work, and what the research says about it.</p></div>
     </article>

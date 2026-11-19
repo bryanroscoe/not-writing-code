@@ -92,7 +92,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="diff" aria-label="A diff that adds an except block returning an empty list">
@@ -113,7 +113,7 @@
         <p class="eyebrow">What review is for</p>
         <h2>Review has four jobs, and AI reviewers mostly help with one</h2>
         <p>Code review means someone other than the author reads a change before it merges.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#what-code-review-is-for" target="_blank" rel="noopener">Go deeper: what code review is for</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#what-code-review-is-for" target="_blank" rel="noopener">Go deeper: what code review is for</a></p>
       </div>
       <div class="vis">
         <div class="rows">
@@ -132,7 +132,7 @@
         <p class="eyebrow">Why now</p>
         <h2>Agents write code faster than people can review it</h2>
         <p>If review doesn't change, more of that code merges unread.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#why-it-matters-now" target="_blank" rel="noopener">Go deeper: why now</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#why-it-matters-now" target="_blank" rel="noopener">Go deeper: why now</a></p>
       </div>
       <div class="vis">
         <p class="sub">Lines of code merged per engineer per day at Anthropic</p>
@@ -154,7 +154,7 @@
         <p class="eyebrow">How reviewers work</p>
         <h2>An AI reviewer is a model prompted to find problems</h2>
         <p>Some reviewers use several models.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#how-ai-reviewers-work" target="_blank" rel="noopener">Go deeper: how AI reviewers work</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#how-ai-reviewers-work" target="_blank" rel="noopener">Go deeper: how AI reviewers work</a></p>
       </div>
       <div class="vis">
         <div class="rows">
@@ -172,7 +172,7 @@
         <p class="eyebrow">Strengths and limits</p>
         <h2>AI reviewers are good at local bugs and weak at intent</h2>
         <p>They catch what's wrong inside the diff. They're poor judges of whether the change should exist, and they flag things that aren't problems.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#what-they-are-good-and-bad-at" target="_blank" rel="noopener">Go deeper: what they are good and bad at</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#what-they-are-good-and-bad-at" target="_blank" rel="noopener">Go deeper: what they are good and bad at</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -208,7 +208,7 @@
         <p class="eyebrow">The tools</p>
         <h2>You can run a reviewer in your session, on the PR, or in your own CI</h2>
         <p>These products change monthly. This lineup is from each product's own docs, as of November 2026.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#the-tools-as-of-november-2026" target="_blank" rel="noopener">Go deeper: the tools</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#the-tools-as-of-november-2026" target="_blank" rel="noopener">Go deeper: the tools</a></p>
       </div>
       <div class="vis">
         <div class="three">
@@ -247,7 +247,7 @@
         <p class="eyebrow">Layered review</p>
         <h2>No single reviewer catches everything, so stack three layers</h2>
         <p>The author agent checks its own work. An independent bot reviews it. A human reviews what the bots can't.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
       </div>
       <div class="vis">
         <div class="flow" role="img" aria-label="The author agent finishes. Layer 1 is a self-check: tests, lint, typecheck, diff against the spec. CI runs the full suite and security scanners. Layer 2 is an independent bot review. Each finding is verified. Confirmed findings go back to the author agent to fix and through CI again. Refuted or low-value findings are noted and dismissed. Layer 3 is human review of intent, design and risk. The human who approves the merge owns it. After merge, watch errors, reverts and incidents.">
@@ -279,7 +279,7 @@
         <p class="eyebrow">Layer 1</p>
         <h2>The author agent checks its work against the spec first</h2>
         <p>Before it opens the PR, have the agent run the checks and show you the output. Then have it walk the spec line by line and name the file and test that cover each requirement.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
       </div>
       <div class="vis">
         <pre class="code wrap">Before you open the PR: run the full test suite, lint, and typecheck and show me the output. Then go through SPEC.md line by line and list each requirement with the file and test that covers it. Flag anything not covered.</pre>
@@ -299,7 +299,7 @@
         <p class="eyebrow">Layer 2</p>
         <h2>The second reviewer should start with a fresh context</h2>
         <p>A fresh reviewer isn't influenced by the conversation that produced the code. Ideally it's a model from a different lab, since models judging text tend to favor their own output.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -327,7 +327,7 @@
         <p class="eyebrow">Layer 3</p>
         <h2>The human reviews intent, design and risk</h2>
         <p>These are the questions the bots can't answer. The human doesn't need to find every null check again.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#a-layered-review-workflow" target="_blank" rel="noopener">Go deeper: a layered review workflow</a></p>
       </div>
       <div class="vis">
         <div class="three">
@@ -345,7 +345,7 @@
         <h2>Every bot finding is a hypothesis until you reproduce it</h2>
         <p>AI critics hallucinate bugs. And a reviewer asked to find problems "will always find <em>something</em>", so fixing every finding bloats the code.</p>
         <p>Ask for a failing test before any fix.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#verify-findings-before-acting" target="_blank" rel="noopener">Go deeper: verify findings before acting</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#verify-findings-before-acting" target="_blank" rel="noopener">Go deeper: verify findings before acting</a></p>
       </div>
       <div class="vis">
         <pre class="code wrap">The reviewer says: "&lt;finding&gt;". Don't fix it yet. First, write a test that demonstrates the failure, run it, and show me it fails. If you can't reproduce it, trace the relevant path and report REFUTED (with evidence) or UNRESOLVED (with the missing evidence). Failure to reproduce alone is not a refutation.</pre>
@@ -363,7 +363,7 @@
         <p class="eyebrow">Severity triage</p>
         <h2>Agree on severity levels before the bot starts commenting</h2>
         <p>Decide as a team what blocks a merge, what gets fixed or ticketed, and what the author can ignore.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#severity-triage" target="_blank" rel="noopener">Go deeper: severity triage</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#severity-triage" target="_blank" rel="noopener">Go deeper: severity triage</a></p>
       </div>
       <div class="vis">
         <div class="sev">
@@ -381,7 +381,7 @@
         <p class="eyebrow">False-positive fatigue</p>
         <h2>Every useless comment teaches people to skim the next one</h2>
         <p>Precision drives whether a team keeps using a bot more than recall does.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#false-positive-fatigue" target="_blank" rel="noopener">Go deeper: false-positive fatigue</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#false-positive-fatigue" target="_blank" rel="noopener">Go deeper: false-positive fatigue</a></p>
       </div>
       <div class="vis">
         <div class="cl" role="img" aria-label="Six bot comments on one pull request. Five are nits. One, in the middle, says a DELETE endpoint has no authorization check.">
@@ -408,7 +408,7 @@
         <p class="eyebrow">Configure the reviewer</p>
         <h2>A short, specific rules file beats a long, generic one</h2>
         <p>OpenAI recommends starting with two or three short rules for checks your reviewers keep having to explain. Give the safe path, and say what to skip.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#configure-the-reviewer" target="_blank" rel="noopener">Go deeper: configure the reviewer</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#configure-the-reviewer" target="_blank" rel="noopener">Go deeper: configure the reviewer</a></p>
       </div>
       <div class="vis">
         <pre class="code">## Code Review Rules
@@ -439,7 +439,7 @@
         <p class="eyebrow">Configure the reviewer</p>
         <h2>Check which branch the reviewer reads its rules from</h2>
         <p>If the rules come from the PR's own branch, the PR can change the rules its review follows. Text that talks the reviewer out of flagging something is a prompt-injection path.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#configure-the-reviewer" target="_blank" rel="noopener">Go deeper: configure the reviewer</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#configure-the-reviewer" target="_blank" rel="noopener">Go deeper: configure the reviewer</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -475,7 +475,7 @@
         <p class="eyebrow">Reviewing AI-written PRs</p>
         <h2>AI-written code fails in recognizable ways</h2>
         <p>It's usually tidy, well commented and plausible, which makes the problems easy to skim past. Read the description and <code>git diff --stat</code> first to see whether the PR does what was asked and nothing else.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs" target="_blank" rel="noopener">Go deeper: how humans should review AI-written PRs</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#how-humans-should-review-ai-written-prs" target="_blank" rel="noopener">Go deeper: how humans should review AI-written PRs</a></p>
       </div>
       <div class="vis">
         <ul class="checks">
@@ -497,7 +497,7 @@
         <p class="eyebrow">Reviewing AI-written PRs</p>
         <h2>Learn to spot swallowed errors and tests that can't fail</h2>
         <p>Both look like careful code. One hides failures from the caller. The other raises your test count without checking anything.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs" target="_blank" rel="noopener">Go deeper: how humans should review AI-written PRs</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#how-humans-should-review-ai-written-prs" target="_blank" rel="noopener">Go deeper: how humans should review AI-written PRs</a></p>
       </div>
       <div class="vis">
         <div class="ex">
@@ -527,7 +527,7 @@
         <p class="eyebrow">PR size</p>
         <h2>Small PRs are easier to review</h2>
         <p>Set a soft size limit for human review, such as a few hundred changed lines, and ask agents to split larger work.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#keep-prs-small" target="_blank" rel="noopener">Go deeper: keep PRs small</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#keep-prs-small" target="_blank" rel="noopener">Go deeper: keep PRs small</a></p>
       </div>
       <div class="vis">
         <p class="sub">Share of PRs where the review bot found something</p>
@@ -549,7 +549,7 @@
         <p class="eyebrow">Explain the change</p>
         <h2>If the author can't explain a line, it doesn't merge</h2>
         <p>That holds whether a person or an agent typed it. A PR template makes the author say what they verified and what the agent did.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#make-the-author-explain-the-change" target="_blank" rel="noopener">Go deeper: make the author explain the change</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#make-the-author-explain-the-change" target="_blank" rel="noopener">Go deeper: make the author explain the change</a></p>
       </div>
       <div class="vis">
         <div class="two wide-r">
@@ -585,7 +585,7 @@
         <p class="eyebrow">Accountability</p>
         <h2>The human who merges owns the code</h2>
         <p>Back this rule with repository settings so it doesn't depend on good intentions.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#accountability-the-human-who-merges-owns-it" target="_blank" rel="noopener">Go deeper: accountability</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#accountability-the-human-who-merges-owns-it" target="_blank" rel="noopener">Go deeper: accountability</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -614,7 +614,7 @@
         <p class="eyebrow">Team metrics</p>
         <h2>Watch review latency and escaped defects, and never target lines of code</h2>
         <p>Use these to find problems. Once a measure becomes a target it stops being a good measure, so don't rank engineers by them.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#team-metrics-what-to-watch-what-not-to-measure" target="_blank" rel="noopener">Go deeper: team metrics</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#team-metrics-what-to-watch-what-not-to-measure" target="_blank" rel="noopener">Go deeper: team metrics</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -648,7 +648,7 @@
         <p class="eyebrow">The research</p>
         <h2>Field studies disagree on whether review bots speed teams up</h2>
         <p>Bots find real issues. Few studies have measured whether fewer bugs reach production.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md#what-the-studies-agree-on" target="_blank" rel="noopener">Go deeper: what the studies agree on</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/#what-the-studies-agree-on" target="_blank" rel="noopener">Go deeper: what the studies agree on</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -686,7 +686,7 @@
           <li>Reproduce a finding before you fix it, and tune the bot until people read its comments.</li>
           <li>A named human approves every merge and owns the result.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, stack the layers. The author agent checks its own work against the spec. An independent bot reviews with a fresh context, from a different lab if you can. Then a person reviews intent, design and risk.</p><p>Second, treat findings as guesses. Reproduce one before you fix it, and keep tuning the bot until people actually read what it says.</p><p>Third, a named human approves every merge and owns the result.</p><p class="inclass">Have each person name one layer their team is missing and what they'd do this week to add it.</p></div>
     </article>
@@ -700,7 +700,7 @@
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/13-ai-code-review.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/13-ai-code-review/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson thirteen. Lesson fourteen covers what happens when text an agent reads is written by someone who wants it to misbehave.</p></div>
     </article>

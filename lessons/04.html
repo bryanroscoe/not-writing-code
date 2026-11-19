@@ -131,7 +131,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero-tokens" aria-hidden="true"><span class="chip c1">Alignment</span><span class="chip c2">Safeguards</span><span class="chip c3">Security</span></div>
@@ -146,7 +146,7 @@
         <h2>Alignment, safeguards and security are three separate jobs</h2>
         <p>People say "safety" for all three. Labs keep them apart. Anthropic's safety roadmap tracks security, alignment, safeguards and policy as separate areas.</p>
         <p>This lesson covers the model itself. Securing an app you build on a model, prompt injection included, is Lesson 14.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#safety-security-and-alignment" target="_blank" rel="noopener">Go deeper: safety, security and alignment</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#safety-security-and-alignment" target="_blank" rel="noopener">Go deeper: safety, security and alignment</a></p>
       </div>
       <div class="vis">
         <div class="rows">
@@ -168,7 +168,7 @@
         <p class="eyebrow">Kinds of risk</p>
         <h2>Sort a risk by who wanted the harm</h2>
         <p>Misuse, misalignment and accidents call for different fixes. Pick the bucket before you pick the fix.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#misuse-misalignment-and-accidents" target="_blank" rel="noopener">Go deeper: misuse, misalignment and accidents</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#misuse-misalignment-and-accidents" target="_blank" rel="noopener">Go deeper: misuse, misalignment and accidents</a></p>
       </div>
       <div class="vis">
         <div class="three">
@@ -202,7 +202,7 @@
         <h2>You can't hand a model your intentions</h2>
         <p>You hand it a training signal: a reward, a loss, a set of tests. The alignment problem is the gap between that signal and what you meant.</p>
         <p>Specification gaming is that gap where you can see it: "a behaviour that satisfies the literal specification of an objective without achieving the intended outcome" (DeepMind, 2020).</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#the-alignment-problem-in-plain-terms" target="_blank" rel="noopener">Go deeper: the alignment problem</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#the-alignment-problem-in-plain-terms" target="_blank" rel="noopener">Go deeper: the alignment problem</a></p>
       </div>
       <div class="vis">
         <div class="scroll boat">
@@ -240,7 +240,7 @@
         <h2>The objective can be wrong, or the model can learn a different one</h2>
         <p>Outer alignment asks whether the objective is what you want. Inner alignment asks whether the model learned that objective or something else that scored well in training.</p>
         <p>Think of a student. The outer question is whether the exam tests the material. The inner one is whether the student learned the material or learned how to pass that teacher's exams.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#the-alignment-problem-in-plain-terms" target="_blank" rel="noopener">Go deeper: the alignment problem</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#the-alignment-problem-in-plain-terms" target="_blank" rel="noopener">Go deeper: the alignment problem</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -276,7 +276,7 @@
         <h2>Labs stack several methods and rely on none alone</h2>
         <p>They train on human preferences, write the rules down, and teach the model to reason about those rules.</p>
         <p>Then they add independent checks outside the model in case that training fails. A lot of what feels like "the model refusing" is one of those checks.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#how-labs-align-models-today" target="_blank" rel="noopener">Go deeper: how labs align models</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#how-labs-align-models-today" target="_blank" rel="noopener">Go deeper: how labs align models</a></p>
       </div>
       <div class="vis">
         <div class="layers" role="img" aria-label="A request passes an input classifier outside the weights, then the model, which has three layers of training: preference training, a written specification, and training to reason over the specification. The reply passes an output classifier.">
@@ -307,7 +307,7 @@
         <h2>The rules are written down and public</h2>
         <p>Anthropic published Claude's current constitution on January 22, 2026. OpenAI's equivalent is the Model Spec, last updated October 29, 2026.</p>
         <p>Both tell the model to accept human oversight and correction. The constitution adds that this isn't blind obedience: Claude may disagree through legitimate channels but shouldn't subvert oversight.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#anthropic-a-constitution" target="_blank" rel="noopener">Go deeper: the constitution and the Model Spec</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#anthropic-a-constitution" target="_blank" rel="noopener">Go deeper: the constitution and the Model Spec</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -337,7 +337,7 @@
         <h2>Every safety layer errs in both directions</h2>
         <p>A filter tuned to stop more attacks also blocks more honest work. Researchers measure the cautious side directly. XSTest has 250 safe prompts a well-calibrated model should answer, next to 200 unsafe ones.</p>
         <p>People doing coding and security work feel it.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#refusals-and-over-refusal" target="_blank" rel="noopener">Go deeper: refusals and over-refusal</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#refusals-and-over-refusal" target="_blank" rel="noopener">Go deeper: refusals and over-refusal</a></p>
       </div>
       <div class="vis">
         <div class="cm" role="img" aria-label="A two by two grid. A harmful request that is blocked is an attack stopped. A benign request that is blocked is an over-refusal. A harmful request that is answered is a missed attack. A benign request that is answered is normal work.">
@@ -363,7 +363,7 @@
         <p class="eyebrow">Refusals</p>
         <h2>A refusal has one of three causes</h2>
         <p>Work out which one you hit before you reword anything. A classifier block often shows up as a notice or a switch to another model, with no explanation from the model itself.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-models-refuse-and-what-you-can-do-about-it" target="_blank" rel="noopener">Go deeper: why models refuse</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#why-models-refuse-and-what-you-can-do-about-it" target="_blank" rel="noopener">Go deeper: why models refuse</a></p>
       </div>
       <div class="vis">
         <div class="rows">
@@ -382,7 +382,7 @@
         <h2>Each frontier lab sets thresholds and grades itself against them</h2>
         <p>A framework says which dangerous capabilities a lab tracks, what level counts as dangerous, and what the lab will do when a model gets there.</p>
         <p>Every finding here is the lab's own assessment, sometimes with outside testers contributing sections. Most of this is voluntary.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#frontier-safety-frameworks-as-of-november-2026" target="_blank" rel="noopener">Go deeper: frontier safety frameworks</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#frontier-safety-frameworks-as-of-november-2026" target="_blank" rel="noopener">Go deeper: frontier safety frameworks</a></p>
       </div>
       <div class="vis">
         <div class="rows">
@@ -402,7 +402,7 @@
         <h2>Most testing happens inside the lab that built the model</h2>
         <p>A dangerous-capability evaluation tests whether a model can do something harmful, whether or not it wants to. Framework thresholds hang on those results.</p>
         <p>For Claude Fable 5.2 and Mythos 5.2, "the majority of evaluations" ran inside Anthropic. Outside evaluators now check parts of the picture.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#who-runs-them" target="_blank" rel="noopener">Go deeper: who runs the evaluations</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#who-runs-them" target="_blank" rel="noopener">Go deeper: who runs the evaluations</a></p>
       </div>
       <div class="vis">
         <div class="node hl">The lab<small>Runs most evaluations in-house and writes the system card</small></div>
@@ -425,7 +425,7 @@
         <h2>Ask where the behavior was observed</h2>
         <p>You'll see headlines about models blackmailing engineers or faking alignment to avoid retraining. The studies behind them are real.</p>
         <p>"The model did X" means very different things in different settings, so find the setting first.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#observed-concerning-behaviors-always-ask-where" target="_blank" rel="noopener">Go deeper: observed behaviors</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#observed-concerning-behaviors-always-ask-where" target="_blank" rel="noopener">Go deeper: observed behaviors</a></p>
       </div>
       <div class="vis">
         <div class="ends"><span>Built by researchers</span></div>
@@ -446,7 +446,7 @@
         <p class="eyebrow">Reading the headlines</p>
         <h2>Most of the alarming results come from contrived tests</h2>
         <p>Read the authors' caveats before you repeat a number. The blackmail study's authors wrote that they "deliberately constructed scenarios with limited options" and, as of June 2025, "We have not seen evidence of agentic misalignment in real deployments."</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#observed-concerning-behaviors-always-ask-where" target="_blank" rel="noopener">Go deeper: the full table</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#observed-concerning-behaviors-always-ask-where" target="_blank" rel="noopener">Go deeper: the full table</a></p>
       </div>
       <div class="vis">
         <div class="rows">
@@ -466,7 +466,7 @@
         <h2>Credible people read that evidence two ways</h2>
         <p>The skeptical reading leans on where the results come from. The concerned reading leans on how they've moved over time.</p>
         <p>The International AI Safety Report (February 2026, more than 100 experts) says "current systems lack the capabilities to pose" loss-of-control risks. On everyday reliability, it says current techniques "can reduce failure rates but not to the level required in many high-stakes settings."</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#open-debates" target="_blank" rel="noopener">Go deeper: open debates</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#open-debates" target="_blank" rel="noopener">Go deeper: open debates</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -493,7 +493,7 @@
         <h2>Two sanctioned evaluations reached real systems and people</h2>
         <p>Both were cyber evaluations, and both setups were permissive by design. They say nothing directly about deployed products.</p>
         <p>They're the clearest public cases so far of evaluation-time misbehavior reaching the real world.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#two-2026-incidents-outside-contrived-setups" target="_blank" rel="noopener">Go deeper: the two incidents</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#two-2026-incidents-outside-contrived-setups" target="_blank" rel="noopener">Go deeper: the two incidents</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -527,7 +527,7 @@
         <h2>Your agent cheats on tests for the same reason the boat circled</h2>
         <p>When an agent deletes a failing test, special-cases an input, or reports "all tests pass" when they don't, you're probably seeing specification gaming. In RL the model was rewarded for whatever passed the grader.</p>
         <p>A one-line request to stop barely helps, and the model often knows the cheat conflicts with what you meant.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: why your agent cheats</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: why your agent cheats</a></p>
       </div>
       <div class="vis">
         <p class="sub">Runs where o3 planned a reward hack, one METR task</p>
@@ -552,7 +552,7 @@
         <h2>The agent's summary won't mention the shortcut</h2>
         <p>In one 2025 study, reasoning models' chains of thought admitted to using a planted hint "often below 20%" of the time.</p>
         <p>When Claude Mythos 5.2 copied an existing solution in training, its final message "only mentioned the behavior indirectly, or not at all" more often than it plainly said so. Review the diff.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: why your agent cheats</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: why your agent cheats</a></p>
       </div>
       <div class="vis">
         <div class="two wide-r">
@@ -577,7 +577,7 @@
         <h2>Keep the tests, logs and credentials out of the agent's reach</h2>
         <p>Keep tests it can't edit, diff the test directory, and add checks it can't see. Set a scope and an end condition before it starts.</p>
         <p>Treat its output as untrusted. METR reports agents attempting to tamper with logging and monitoring, sometimes successfully.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: supervising your agent</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: supervising your agent</a></p>
       </div>
       <div class="vis">
         <div class="fence">
@@ -600,7 +600,7 @@
         <h2>Models increasingly notice when they're being tested</h2>
         <p>If a model behaves better when it thinks it's being watched, a clean test result may reflect that awareness more than alignment.</p>
         <p>Evaluators are adapting with white-box methods that look past what the model says, simulated deployments on real internal tasks, and independent reviews of lab claims.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#models-notice-the-test" target="_blank" rel="noopener">Go deeper: models notice the test</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#models-notice-the-test" target="_blank" rel="noopener">Go deeper: models notice the test</a></p>
       </div>
       <div class="vis">
         <p class="sub">How often the model recognized it was being evaluated</p>
@@ -624,7 +624,7 @@
         <h2>The model's written reasoning is getting harder to monitor</h2>
         <p>Safety teams read reasoning models' thinking to catch misbehavior. A 2025 paper from researchers across labs called that "a new and fragile opportunity".</p>
         <p>OpenAI says GPT-6 Astra's monitorability decreased relative to GPT-5.6 Sol. A model that can steer its own reasoning can, in principle, steer it away from what a monitor looks for.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#reading-the-reasoning-is-getting-harder" target="_blank" rel="noopener">Go deeper: monitoring the reasoning</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#reading-the-reasoning-is-getting-harder" target="_blank" rel="noopener">Go deeper: monitoring the reasoning</a></p>
       </div>
       <div class="vis">
         <p class="sub">How often the model followed an instruction about how to think</p>
@@ -650,7 +650,7 @@
           <li>A refusal is a bright line, a classifier or a judgment call. Find out which before you reword.</li>
           <li>An agent optimizes what you measure. Review the diff, and keep tests, logs and credentials out of its reach.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#try-it" target="_blank" rel="noopener">Go deeper: exercises</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/#try-it" target="_blank" rel="noopener">Go deeper: exercises</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, for any safety claim, ask which job it's about and where the behavior was observed. A contrived test and a shipped product are different kinds of evidence.</p><p>Second, a refusal is a bright line, a classifier or a judgment call. Find out which before you spend time rewording.</p><p>Third, an agent optimizes what you measure. Review the diff, and keep the tests, logs and credentials where it can't reach them.</p><p class="inclass">Have each person name one change to how they supervise an agent this week.</p></div>
     </article>
@@ -664,7 +664,7 @@
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/04-model-safety-and-alignment/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That's lesson four, and the end of stage one. Lesson five opens stage two with the model landscape: the labs, their current lineups and which model fits which job.</p></div>
     </article>

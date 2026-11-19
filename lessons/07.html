@@ -143,7 +143,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero-score" aria-hidden="true">
@@ -162,7 +162,7 @@
         <h2>"Good" is five separate questions</h2>
         <p>A model can lead on hard math, be middling at following your team's code style, and be too slow or expensive for autocomplete.</p>
         <p>Decide which of the five you care about before you look at a number.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#good-at-what-for-whom-at-what-cost" target="_blank" rel="noopener">Go deeper: good at what?</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#good-at-what-for-whom-at-what-cost" target="_blank" rel="noopener">Go deeper: good at what?</a></p>
       </div>
       <div class="vis">
         <div class="asks">
@@ -184,7 +184,7 @@
         <h2>A score describes a whole setup</h2>
         <p>A benchmark is a fixed set of tasks plus a scoring rule. Running one takes six ingredients, and the model is only the first.</p>
         <p>The harness is the program around the model that supplies tools and runs the loop. The grader decides pass or fail. Change any ingredient and the number moves.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#what-a-benchmark-actually-is" target="_blank" rel="noopener">Go deeper: what a benchmark is</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#what-a-benchmark-actually-is" target="_blank" rel="noopener">Go deeper: what a benchmark is</a></p>
       </div>
       <div class="vis">
         <div class="setup" role="img" aria-label="Six ingredients feed one reported score: model, harness, settings, task set and version, grader, and attempts.">
@@ -207,7 +207,7 @@
         <h2>The same model can look 99% reliable or 51%</h2>
         <p>Models are stochastic, so one task can pass on one run and fail on the next. Two metrics count repeated attempts in opposite ways.</p>
         <p>pass@k asks whether at least one of k attempts worked. pass^k asks whether all of them did. Check which one a score uses.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#why-evaluation-is-hard" target="_blank" rel="noopener">Go deeper: why evaluation is hard</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#why-evaluation-is-hard" target="_blank" rel="noopener">Go deeper: why evaluation is hard</a></p>
       </div>
       <div class="vis">
         <p class="given">One task. The model solves it <b>80%</b> of the time. Three independent attempts.</p>
@@ -239,7 +239,7 @@
         <h2>The model may have seen the test</h2>
         <p>Models train on huge scrapes of the internet. If a benchmark's questions or solutions are online, a high score can reflect memory as well as problem-solving. That's contamination.</p>
         <p>In a 2025 study, models saw only the text of a GitHub issue. They often named the file that needed fixing without ever seeing the repository.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#why-evaluation-is-hard" target="_blank" rel="noopener">Go deeper: why evaluation is hard</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#why-evaluation-is-hard" target="_blank" rel="noopener">Go deeper: why evaluation is hard</a></p>
       </div>
       <div class="vis">
         <p class="sub">Named the right file from the issue text alone</p>
@@ -260,7 +260,7 @@
         <h2>A benchmark stays useful for a year or two</h2>
         <p>When top models all score near the ceiling, a benchmark stops telling them apart. That's saturation. Add leaks into training data and wrong answer keys, and benchmarks keep getting retired.</p>
         <p>Look for fresh, held-out, realistic tasks and a documented harness. The names will change.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#the-state-of-coding-benchmarks-november-2026-high-level" target="_blank" rel="noopener">Go deeper: the state of coding benchmarks</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#the-state-of-coding-benchmarks-november-2026-high-level" target="_blank" rel="noopener">Go deeper: the state of coding benchmarks</a></p>
       </div>
       <div class="vis">
         <div class="status">
@@ -279,7 +279,7 @@
         <h2>Once a score sells a model, labs aim at the score</h2>
         <p>Goodhart's law: "When a measure becomes a target, it ceases to be a good measure."</p>
         <p>Benchmark-maxing is optimizing a model, or how it's presented, for scores at the expense of the behavior users get. It ranges from defensible to dishonest.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#benchmark-maxing" target="_blank" rel="noopener">Go deeper: benchmark-maxing</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#benchmark-maxing" target="_blank" rel="noopener">Go deeper: benchmark-maxing</a></p>
       </div>
       <div class="vis">
         <ol class="ways">
@@ -301,7 +301,7 @@
         <h2>A model can top the charts and still annoy its users</h2>
         <p>Claude Opus 5 launched in July 2026 with strong scores and a mixed reception. Opus 5.5 followed two months later and fixed what people complained about.</p>
         <p>No public evidence shows Opus 5 was trained on benchmark answers. The benchmarks scored task completion. Users also cared about communication, scope and judgment.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#a-recent-example-opus-5-to-opus-55" target="_blank" rel="noopener">Go deeper: Opus 5 to Opus 5.5</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#a-recent-example-opus-5-to-opus-55" target="_blank" rel="noopener">Go deeper: Opus 5 to Opus 5.5</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -328,7 +328,7 @@
         <h2>The same model scores differently in different harnesses</h2>
         <p>The Terminal-Bench team ran models in each vendor's own CLI and in a neutral research harness called Terminus-2. The scores moved, with the model held fixed.</p>
         <p>Compare models in the harness you'll use, at the settings you'll use.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#harness-matters" target="_blank" rel="noopener">Go deeper: harness effects</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#harness-matters" target="_blank" rel="noopener">Go deeper: harness effects</a></p>
       </div>
       <div class="vis">
         <div class="tlegend"><span><i class="sw"></i>Vendor's own CLI</span><span><i class="sw alt"></i>Terminus-2, neutral harness</span></div>
@@ -355,7 +355,7 @@
         <h2>A lead smaller than the error bar tells you little</h2>
         <p>A pass rate from a handful of tasks is a rough estimate. With 20 tasks and a 60% pass rate, the 95% interval is roughly plus or minus 22 points.</p>
         <p>Two configurations at 55% and 65% on 20 tasks are statistically indistinguishable. Ask for the interval before you believe a gap.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#the-statistics-of-small-evals" target="_blank" rel="noopener">Go deeper: the statistics of small evals</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#the-statistics-of-small-evals" target="_blank" rel="noopener">Go deeper: the statistics of small evals</a></p>
       </div>
       <div class="vis">
         <p class="sub">Two configurations, 20 tasks each</p>
@@ -378,7 +378,7 @@
         <p class="eyebrow">Reading a claim</p>
         <h2>Ask eight questions of any score</h2>
         <p>Most of the answers are in the footnotes. A missing answer is information too.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#reading-a-benchmark-claim-a-checklist" target="_blank" rel="noopener">Go deeper: the checklist</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#reading-a-benchmark-claim-a-checklist" target="_blank" rel="noopener">Go deeper: the checklist</a></p>
       </div>
       <div class="vis">
         <p class="claim">"Model X scores 72% on Benchmark Y"</p>
@@ -403,7 +403,7 @@
         <h2>Independent evaluators run every model the same way</h2>
         <p>A launch post comes from the lab, which picks the benchmarks and the settings. Independent evaluators give you consistency: one setup for every model.</p>
         <p>They still choose the benchmarks and harnesses, and some have commercial ties to labs. Use two or three as a cross-check.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#independent-evaluators" target="_blank" rel="noopener">Go deeper: independent evaluators</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#independent-evaluators" target="_blank" rel="noopener">Go deeper: independent evaluators</a></p>
       </div>
       <div class="vis">
         <div class="evs">
@@ -427,7 +427,7 @@
         <h2>Time horizon is a trend line, with a big asterisk</h2>
         <p>METR measures the 50% time horizon: the length of task, in skilled-human time, that a model completes half the time.</p>
         <p>It has grown fast. The 80% horizon is much shorter, and METR's tasks are cleaner and better specified than most real tickets.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#long-horizons" target="_blank" rel="noopener">Go deeper: long horizons</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#long-horizons" target="_blank" rel="noopener">Go deeper: long horizons</a></p>
       </div>
       <div class="vis">
         <p class="sub">Task length a frontier model finishes half the time</p>
@@ -450,7 +450,7 @@
         <h2>Studies of developer speed run from 56% less time to 19% more</h2>
         <p>Benchmarks measure models. Teams care whether people with models ship faster, and the experiments disagree.</p>
         <p>They measured different tasks, people, tools and outcomes. Greenfield tasks and less experienced developers show the biggest gains. Experts in their own mature repos show the least.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#real-world-productivity-evidence" target="_blank" rel="noopener">Go deeper: productivity evidence</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#real-world-productivity-evidence" target="_blank" rel="noopener">Go deeper: productivity evidence</a></p>
       </div>
       <div class="vis">
         <div class="axis"><span>← less time with AI</span><span>more time with AI →</span></div>
@@ -471,7 +471,7 @@
         <h2>People feel faster than they measure</h2>
         <p>In METR's 2025 study, developers predicted AI would make them 24% faster. Afterward they believed it had made them 20% faster. They were 19% slower.</p>
         <p>Surveys of how fast people feel aren't measured time savings. If you survey your team, pair it with something measured: cycle time, golden-task timing, or change-failure rate.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#self-report-vs-measurement" target="_blank" rel="noopener">Go deeper: self-report vs measurement</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#self-report-vs-measurement" target="_blank" rel="noopener">Go deeper: self-report vs measurement</a></p>
       </div>
       <div class="vis">
         <p class="sub">METR, 2025: the same 16 developers</p>
@@ -497,7 +497,7 @@
         <h2>Vibes are data once you write them down</h2>
         <p>Experienced users often spot a change before benchmarks do. Their impressions are also noisy: a new model feels smarter for a week, and you remember the one spectacular failure over forty quiet successes.</p>
         <p>Keep a log, one line per notable result. Decide what you're testing before you look, and judge again after two weeks.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#vibes-are-data-too" target="_blank" rel="noopener">Go deeper: vibes</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#vibes-are-data-too" target="_blank" rel="noopener">Go deeper: vibes</a></p>
       </div>
       <div class="vis">
         <p class="sub">A vibes log</p>
@@ -523,7 +523,7 @@
         <h2>Your best benchmark is your own merged PRs</h2>
         <p>A golden task is a real, solved piece of your work, frozen so you can replay it. Start with 10 to 20 from the last 3 to 12 months and grow toward 30 to 50.</p>
         <p>Mix bug fixes, small features, refactors and tests. Include one trap, where the right move is to ask a question or refuse.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#1-build-a-golden-task-set" target="_blank" rel="noopener">Go deeper: build a golden-task set</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#1-build-a-golden-task-set" target="_blank" rel="noopener">Go deeper: build a golden-task set</a></p>
       </div>
       <div class="vis">
         <div class="gold">
@@ -557,7 +557,7 @@ grading:
         <h2>Score each run blind, against a rubric</h2>
         <p>Hidden tests cover correctness. A rubric covers what tests miss: scope, code quality, and whether the summary is honest.</p>
         <p>Replace model names with random IDs and shuffle before anyone scores. Also record minutes, human interventions, and cost or quota used.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#3-scoring-rubric" target="_blank" rel="noopener">Go deeper: the scoring rubric</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#3-scoring-rubric" target="_blank" rel="noopener">Go deeper: the scoring rubric</a></p>
       </div>
       <div class="vis">
         <div class="blind"><span class="chip">r-7f3a</span><span class="chip">r-2c91</span><span class="chip">r-e044</span><span>The reviewer sees a diff, a final message and an ID.</span></div>
@@ -582,7 +582,7 @@ grading:
         <h2>Change one thing, then read the disagreements</h2>
         <p>A configuration is model plus harness plus version plus settings. Compare two that differ in one place, on identical tasks, three runs each if you can afford it.</p>
         <p>Then look at the tasks where one passed and the other failed. Reading those transcripts shows what separates the two.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#4-run-it-blind" target="_blank" rel="noopener">Go deeper: run it blind</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#4-run-it-blind" target="_blank" rel="noopener">Go deeper: run it blind</a></p>
       </div>
       <div class="vis">
         <p class="sub">20 golden tasks, two configurations</p>
@@ -604,7 +604,7 @@ grading:
         <h2>Rerun it whenever the model or the tool changes</h2>
         <p>The set pays off every time a model ships. Keep it in the repo next to the code, and review changes to it like code.</p>
         <p>Pin versions in the results file, so a result from three months ago still says what it measured.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#6-rerun-on-every-change" target="_blank" rel="noopener">Go deeper: rerun on every change</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#6-rerun-on-every-change" target="_blank" rel="noopener">Go deeper: rerun on every change</a></p>
       </div>
       <div class="vis">
         <div>
@@ -627,7 +627,7 @@ grading:
           <li>Benchmarks leak, saturate and get aimed at. Cross-check a launch post with independent runs and with what specific users report.</li>
           <li>Start with 10 to 20 golden tasks from your own merged PRs. Grade them blind, and rerun them when the model or the tool changes.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#build-your-own-eval" target="_blank" rel="noopener">Go deeper: build your own eval</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/#build-your-own-eval" target="_blank" rel="noopener">Go deeper: build your own eval</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, a score belongs to a whole setup. That means the model, the harness, the settings, the tasks, the grader and the number of attempts. Find all six before you compare two numbers.</p><p>Second, public benchmarks leak, saturate, and get aimed at. Read launch posts next to independent evaluators, and next to specific reports from people who use the model daily.</p><p>Third, the eval that decides things for you is your own. Start with ten to twenty tasks from your merged PRs, graded blind, and run again whenever the model or the tool changes.</p><p class="inclass">Homework. Each person turns two merged PRs into golden tasks, so the group has a shared set by next session.</p></div>
     </article>
@@ -641,7 +641,7 @@ grading:
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/07-judging-models/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson seven. The harness kept showing up as part of every score. Lesson eight opens it up: the programs that wrap a model, the tools they hand it, and MCP.</p></div>
     </article>

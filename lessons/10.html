@@ -103,7 +103,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero-tokens" aria-hidden="true"><span class="chip c1">explore</span><span class="hop"><span class="sp">→</span><span class="chip c2">plan</span></span><span class="hop"><span class="sp">→</span><span class="chip c3">implement</span></span><span class="hop"><span class="sp">→</span><span class="chip c4">verify</span></span><span class="hop"><span class="sp">→</span><span class="chip c5">commit</span></span></div>
@@ -117,7 +117,7 @@
         <h2>An agent is a model in a loop</h2>
         <p>A chat assistant answers once and waits. An agent keeps going: it thinks, calls a tool, reads the result, and thinks again.</p>
         <p>Lesson 08 showed this loop as code and named the pattern, ReAct. Every coding agent you'll use is a version of it with tools for files, shells and the web.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#the-agent-loop" target="_blank" rel="noopener">Go deeper: the agent loop</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-agent-loop" target="_blank" rel="noopener">Go deeper: the agent loop</a></p>
       </div>
       <div class="vis">
         <div class="flow" role="img" aria-label="Your task enters a loop of think, act and observe. The observation feeds the next thinking step. When the model decides it is done, it reports back and you verify.">
@@ -148,7 +148,7 @@
         <h2>The loop stops when the model thinks it's done</h2>
         <p>The agent stops when the work looks done to the model. Without a check it can run, you become the test suite.</p>
         <p>Give it a check that returns pass or fail: a test, a build, a linter, a screenshot. Then ask for the evidence.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done" target="_blank" rel="noopener">Go deeper: when the loop stops</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done" target="_blank" rel="noopener">Go deeper: when the loop stops</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -177,7 +177,7 @@ $ npm test
         <p class="eyebrow">What you control</p>
         <h2>You control four things, whatever the tool</h2>
         <p>What the agent knows, what it can do, how it knows it's done, and how long it may run.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#what-you-control" target="_blank" rel="noopener">Go deeper: what you control</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#what-you-control" target="_blank" rel="noopener">Go deeper: what you control</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -207,7 +207,7 @@ $ npm test
         <p class="eyebrow">The autonomy spectrum</p>
         <h2>Each level of autonomy moves your check further from the edit</h2>
         <p>"Using AI to code" covers very different amounts of delegation. Six levels cover it, from autocomplete to a pipeline where no human reads the code.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#the-autonomy-spectrum" target="_blank" rel="noopener">Go deeper: the autonomy spectrum</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-autonomy-spectrum" target="_blank" rel="noopener">Go deeper: the autonomy spectrum</a></p>
       </div>
       <div class="vis">
         <div class="rows g4">
@@ -229,7 +229,7 @@ $ npm test
         <h2>Yegge's chart measures how much you delegate</h2>
         <p>Steve Yegge published "Welcome to Gas Town" on January 1, 2026, and asked readers to "locate yourself on the chart" of eight stages. They've become common shorthand.</p>
         <p>The chart says nothing about quality. A stage 3 engineer with strong tests can ship better software than a stage 7 engineer without them.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#steve-yegges-eight-stages" target="_blank" rel="noopener">Go deeper: Yegge's eight stages</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#steve-yegges-eight-stages" target="_blank" rel="noopener">Go deeper: Yegge's eight stages</a></p>
       </div>
       <div class="vis">
         <div class="rows g3">
@@ -254,7 +254,7 @@ $ npm test
         <h2>Move up one stage at a time, and down when the task calls for it</h2>
         <p>Yegge assumes permissions off from stage 3 up. Sandboxes, deny rules and worktrees get you most of the speed without that exposure.</p>
         <p>Many experienced engineers switch stages by task: stage 6 for a batch of independent chores, stage 4 for a delicate change to payment code.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#steve-yegges-eight-stages" target="_blank" rel="noopener">Go deeper: moving up safely</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#steve-yegges-eight-stages" target="_blank" rel="noopener">Go deeper: moving up safely</a></p>
       </div>
       <div class="vis">
         <p class="sub">What to have in place at each stage</p>
@@ -277,7 +277,7 @@ $ npm test
         <h2>Explore, plan, implement, verify, commit</h2>
         <p>Anthropic's and OpenAI's docs recommend close to the same workflow. If the task is complex or hard to describe, have the agent plan before it codes.</p>
         <p>Then give it a check to run, and have someone who didn't write the code review it.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit" target="_blank" rel="noopener">Go deeper: the core loop</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-core-loop-explore--plan--implement--verify--commit" target="_blank" rel="noopener">Go deeper: the core loop</a></p>
       </div>
       <div class="vis">
         <div class="steps5" role="img" aria-label="Five steps in order: explore read-only, plan and read the plan, implement with a failing test first, verify with the command and its output, commit small.">
@@ -302,7 +302,7 @@ $ npm test
         <h2>Read-only exploration catches the wrong idea before any edit</h2>
         <p>Have the agent build a picture first, then ask for a plan and read it. It's the cheapest place to catch a mistake.</p>
         <p>Plan mode enforces this. In Claude Code, the agent "reads files and proposes a plan but makes no edits until you approve". Codex has a Plan mode too.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#a-sample-session" target="_blank" rel="noopener">Go deeper: a sample session</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#a-sample-session" target="_blank" rel="noopener">Go deeper: a sample session</a></p>
       </div>
       <div class="vis">
         <div class="chat">
@@ -323,7 +323,7 @@ $ npm test
         <h2>Ask for the failing test first, then the passing output</h2>
         <p>A test that fails before the fix and passes after it is the contract the agent works to. Tell it not to modify the test.</p>
         <p>"All tests pass" on its own "tells you very little", in Anthropic's words. Ask for the command and what it printed, then get a review from a fresh session.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the contract</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the contract</a></p>
       </div>
       <div class="vis">
         <pre class="term"><span class="cm">Added test "separate buckets per client behind one proxy"</span>
@@ -354,7 +354,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>When you don't know what you want, build a draft to find out</h2>
         <p>A throwaway version used to cost weeks, so teams argued over specs. An agent can build one in minutes, and you react to it.</p>
         <p>A prototype looks finished. People start treating it as the real thing before anyone has checked error handling, security or tests.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#prototype-first-draft-driven-development" target="_blank" rel="noopener">Go deeper: prototype first</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#prototype-first-draft-driven-development" target="_blank" rel="noopener">Go deeper: prototype first</a></p>
       </div>
       <div class="vis">
         <p class="q">"Plan to throw one away; you will, anyhow."<small>Fred Brooks, The Mythical Man-Month, 1975</small></p>
@@ -374,7 +374,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>Git is your undo button</h2>
         <p>Small diffs are easier to review and cheaper to throw away. Ask for the smallest change that satisfies the spec, and split big work into steps that each leave the build green.</p>
         <p>Harness checkpoints help, but they only cover files the agent changed with its own edit tools.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints" target="_blank" rel="noopener">Go deeper: small diffs and checkpoints</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#small-diffs-git-as-the-safety-net-checkpoints" target="_blank" rel="noopener">Go deeper: small diffs and checkpoints</a></p>
       </div>
       <div class="vis">
         <div class="cmds">
@@ -394,7 +394,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <p class="eyebrow">Steering a session</p>
         <h2>After two failed corrections, clear the session and write a better prompt</h2>
         <p>Anthropic's advice: "Watch the first minute, press <code>Esc</code> the moment Claude drifts, and after two failed corrections run <code>/clear</code> and write a better prompt instead of a third."</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#steering-a-session" target="_blank" rel="noopener">Go deeper: steering a session</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#steering-a-session" target="_blank" rel="noopener">Go deeper: steering a session</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -420,7 +420,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>Give each parallel agent its own worktree</h2>
         <p>A git worktree is another checkout of the same repository in another folder, on its own branch. Agents can edit at once without overwriting each other's files.</p>
         <p>Pick tasks that touch different files, keep a written task list, and review every branch before merging.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#worktrees-and-parallel-agents" target="_blank" rel="noopener">Go deeper: worktrees and parallel agents</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#worktrees-and-parallel-agents" target="_blank" rel="noopener">Go deeper: worktrees and parallel agents</a></p>
       </div>
       <div class="vis">
         <pre class="term">$ git worktree add ../.worktrees/myapp/rate-limit -b feat/rate-limit</pre>
@@ -443,7 +443,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>Answer five questions before you walk away</h2>
         <p>Most of the risk comes in when "I watch" becomes "I come back later". Anthropic's docs list five questions for any unattended run.</p>
         <p>For a scripted loop, the docs say: "Try it on three files first, see what goes wrong, fix the prompt, then run the rest."</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#background-and-unattended-runs" target="_blank" rel="noopener">Go deeper: unattended runs</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#background-and-unattended-runs" target="_blank" rel="noopener">Go deeper: unattended runs</a></p>
       </div>
       <div class="vis">
         <div class="rows g3">
@@ -462,7 +462,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <p class="eyebrow">Failure modes</p>
         <h2>Agents fail in known ways, and each has a counter-move</h2>
         <p>In one 2024 study, at least 5.2% of packages suggested by commercial models and 21.7% by open models didn't exist. Attackers register those names.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#failure-modes-and-counter-moves" target="_blank" rel="noopener">Go deeper: failure modes</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#failure-modes-and-counter-moves" target="_blank" rel="noopener">Go deeper: failure modes</a></p>
       </div>
       <div class="vis">
         <div class="nots">
@@ -481,7 +481,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <p class="eyebrow">Beyond writing code</p>
         <h2>Work that isn't feature code is often the safest place to start</h2>
         <p>Many engineers first trust agents with reading, debugging and chores, where the risk is often lower and the checks are clearer.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#ai-first-beyond-writing-code" target="_blank" rel="noopener">Go deeper: beyond writing code</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#ai-first-beyond-writing-code" target="_blank" rel="noopener">Go deeper: beyond writing code</a></p>
       </div>
       <div class="vis">
         <div class="two jobs">
@@ -502,7 +502,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>Unattended agents have built a C compiler and a web browser</h2>
         <p>Both ran in early 2026, with many agents in parallel for days or weeks.</p>
         <p>StrongDM's AI team runs a "software factory" on two rules: "Code must not be written by humans" and "Code must not be reviewed by humans."</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#the-case-for-full-autonomy" target="_blank" rel="noopener">Go deeper: the case for full autonomy</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-case-for-full-autonomy" target="_blank" rel="noopener">Go deeper: the case for full autonomy</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -539,7 +539,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>Developers felt 20% faster while measuring 19% slower</h2>
         <p>METR ran a randomized trial in early 2025: 16 experienced open-source developers, 246 real tasks in their own repositories.</p>
         <p>METR now calls those results out of date. Its 2026 follow-up points to modest speedups with wide error bars.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet" target="_blank" rel="noopener">Go deeper: the case against</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-case-against-or-at-least-not-yet" target="_blank" rel="noopener">Go deeper: the case against</a></p>
       </div>
       <div class="vis">
         <p class="sub">Effect of AI tools on task time</p>
@@ -561,7 +561,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>The successes come with asterisks</h2>
         <p>The authors list the limits themselves. Carlini writes that "the thought of programmers deploying software they've never personally verified is a real concern."</p>
         <p>Agents also cheat when they can. A pipeline that grades itself with tests the agent can see is grading on the honor system.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet" target="_blank" rel="noopener">Go deeper: the asterisks</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-case-against-or-at-least-not-yet" target="_blank" rel="noopener">Go deeper: the asterisks</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -593,7 +593,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <h2>Every autonomous success had a strong automated oracle</h2>
         <p>They also had greenfield code, a harness humans built, and a high tolerance for waste. Ordinary product work rarely has all four.</p>
         <p>Stronger oracles allow more autonomy. A C compiler is close to the best case.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#what-the-successes-have-in-common" target="_blank" rel="noopener">Go deeper: what the successes have in common</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#what-the-successes-have-in-common" target="_blank" rel="noopener">Go deeper: what the successes have in common</a></p>
       </div>
       <div class="vis">
         <div class="rows t3">
@@ -613,7 +613,7 @@ tests/rateLimit.test.ts  | 24 ++++++
         <p class="eyebrow">Bryan's take</p>
         <h2>Full autonomy doesn't work reliably today</h2>
         <p>Credible people disagree. The trend lines are steep, and Anthropic reports that as of May 2026 "more than 80% of the code we merge into Anthropic's codebase was authored by Claude".</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
       </div>
       <div class="vis">
         <div class="strip" role="img" aria-label="Yegge's eight stages, with stages 6 and 7 highlighted."><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span class="on">6</span><span class="on">7</span><span>8</span></div>
@@ -633,7 +633,7 @@ tests/rateLimit.test.ts  | 24 ++++++
           <li>Explore, plan, implement, verify, commit. Keep diffs small and give each parallel agent its own worktree.</li>
           <li>Turn autonomy up one notch at a time, and only when your automated checks can catch what you'll no longer see yourself.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, an agent is a loop that stops when the model thinks it is done. Give it a check it can run, and ask for the evidence.</p><p>Second, the workflow. Explore, plan, implement, verify, commit. Keep the diffs small, and give each parallel agent its own worktree.</p><p>Third, autonomy is a dial. Turn it up one notch at a time, and only when your automated checks can catch what you will no longer see yourself.</p><p class="inclass">Exercise from the full notes. Fix one small real bug with the full loop and save the plan, the failing output, the passing output and the diff stat. Then start a second agent in its own worktree and write down where your attention went.</p></div>
     </article>
@@ -647,7 +647,7 @@ tests/rateLimit.test.ts  | 24 ++++++
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/10-agentic-workflows.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson ten. Lesson eleven covers verification: how to give an agent a check that returns pass or fail, and how to keep the agent from gaming it.</p></div>
     </article>

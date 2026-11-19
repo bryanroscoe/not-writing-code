@@ -159,7 +159,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero-run" role="img" aria-label="15.6 trillion tokens of text, through 16,384 GPUs for about 67 days of compute, become 405 billion weights.">
@@ -180,7 +180,7 @@
         <h2>A model is made in stages</h2>
         <p>Pretraining reads a broad sweep of text and produces a base model. Post-training turns that base model into an assistant and a reasoner.</p>
         <p>Real pipelines are messier than this picture. Stages repeat, overlap and run in different orders at different labs.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#the-pipeline-at-a-glance" target="_blank" rel="noopener">Go deeper: the pipeline</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#the-pipeline-at-a-glance" target="_blank" rel="noopener">Go deeper: the pipeline</a></p>
       </div>
       <div class="vis">
         <div class="band">
@@ -225,7 +225,7 @@
         <h2>Pretraining data is the web, filtered hard</h2>
         <p>Most of it comes from web crawls such as Common Crawl. Duplicates, spam and boilerplate come out, classifiers score quality, and some personal data gets stripped.</p>
         <p>Labs add code, books, papers, math and many languages, plus a growing share of synthetic data written by other models.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
       </div>
       <div class="vis">
         <div class="funnel" role="img" aria-label="A funnel: Common Crawl's raw web pages, then duplicates, spam and boilerplate removed, then filtered for language and quality, then some personal data stripped, leaving about 15 trillion tokens in the FineWeb dataset.">
@@ -248,7 +248,7 @@
         <h2>Open models report tens of trillions of training tokens</h2>
         <p>Three open models published their pretraining token counts. Closed labs mostly don't publish these numbers.</p>
         <p>Quality counts as much as quantity, which is why so much of the work goes into filtering.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
       </div>
       <div class="vis">
         <div class="scale" role="img" aria-label="Pretraining tokens: Llama 3 more than 15 trillion, DeepSeek-V3 14.8 trillion, Qwen3 about 36 trillion.">
@@ -268,7 +268,7 @@
         <h2>A model is mostly matrix multiplication, so it runs on GPUs</h2>
         <p>A transformer layer multiplies token vectors by large weight matrices, over and over. A CPU has a few dozen powerful cores built for branchy code. A GPU has thousands of simpler cores plus dedicated matrix-multiply units.</p>
         <p>Google's TPUs, AWS's Trainium and AMD's Instinct chips make the same bet. Together they're called accelerators.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#why-gpus-a-model-is-mostly-matrix-multiplies" target="_blank" rel="noopener">Go deeper: why GPUs</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#why-gpus-a-model-is-mostly-matrix-multiplies" target="_blank" rel="noopener">Go deeper: why GPUs</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -299,7 +299,7 @@
         <h2>Training costs about 6 FLOPs per parameter per token</h2>
         <p>A FLOP is one floating-point multiply or add. Running a token forward through the network costs about 2 per parameter. Training adds a backward pass that costs about twice as much again.</p>
         <p>So the compute for a whole training run is roughly 6 × parameters × tokens.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#why-gpus-a-model-is-mostly-matrix-multiplies" target="_blank" rel="noopener">Go deeper: FLOPs</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#why-gpus-a-model-is-mostly-matrix-multiplies" target="_blank" rel="noopener">Go deeper: FLOPs</a></p>
       </div>
       <div class="vis">
         <p class="sub">FLOPs per parameter, for each token</p>
@@ -322,7 +322,7 @@
         <h2>The rule puts Llama 3 405B at about 67 days on 16,000 GPUs</h2>
         <p>Meta published enough to check each step of the rule. The estimate lands within about 17% of the GPU-hours on Meta's own model card.</p>
         <p>On one GPU the same run would take about 3,000 years.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#training-compute-a-worked-example" target="_blank" rel="noopener">Go deeper: a worked example</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#training-compute-a-worked-example" target="_blank" rel="noopener">Go deeper: a worked example</a></p>
       </div>
       <div class="vis">
         <ol class="calc">
@@ -343,7 +343,7 @@
         <h2>One model is trained across thousands of chips that talk constantly</h2>
         <p>The training state for Llama 3 405B is about 6.5 TB, more than 80 times one H100's memory. So the work is split across chips, over two tiers of wiring.</p>
         <p>Scale-up links such as NVIDIA's NVLink join a small group of chips tightly. Scale-out is the datacenter network between groups, and it carries much less per chip.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#interconnect-why-one-model-needs-thousands-of-chips" target="_blank" rel="noopener">Go deeper: interconnect</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#interconnect-why-one-model-needs-thousands-of-chips" target="_blank" rel="noopener">Go deeper: interconnect</a></p>
       </div>
       <div class="vis">
         <div class="cluster" role="img" aria-label="Two servers of eight GPUs each. Inside a server every GPU gets 1.8 terabytes per second of NVLink. Between servers, the whole server shares 1.6 terabytes per second of network.">
@@ -369,7 +369,7 @@
         <h2>One training run costs anywhere from $100 to hundreds of millions</h2>
         <p>Labs rarely disclose full costs, so read these as rough orders of magnitude.</p>
         <p>Epoch AI estimates frontier training costs have grown 2 to 3 times a year, and in 2024 projected the largest runs passing $1 billion by 2027.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
       </div>
       <div class="vis">
         <div class="costs" role="img" aria-label="Compute cost of one training run on a log scale: a teaching toy about 100 dollars, a small open model a few million dollars, a large efficient open model about 5 to 6 million, a frontier closed model hundreds of millions and rising.">
@@ -390,7 +390,7 @@
         <h2>The headline cost of one run understates the real bill</h2>
         <p>DeepSeek-V3's report gives 2.788 million GPU-hours, or $5.576 million at an assumed $2 per GPU-hour. That was widely reported as the cost of the model.</p>
         <p>The paper says the figure covers only the official training run.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#deepseek-v3s-gpu-hours-with-the-papers-caveats" target="_blank" rel="noopener">Go deeper: DeepSeek-V3's GPU-hours</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#deepseek-v3s-gpu-hours-with-the-papers-caveats" target="_blank" rel="noopener">Go deeper: DeepSeek-V3's GPU-hours</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -424,7 +424,7 @@
         <h2>Writing one token rereads every weight</h2>
         <p>When a model generates for one user, each weight is fetched from memory, used once and dropped. The math finishes almost instantly and the chip waits for the next fetch.</p>
         <p>Chips have gained compute much faster than memory bandwidth. That widening gap is called the memory wall.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#the-memory-wall" target="_blank" rel="noopener">Go deeper: the memory wall</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#the-memory-wall" target="_blank" rel="noopener">Go deeper: the memory wall</a></p>
       </div>
       <div class="vis">
         <p class="sub">One token from Llama 3 8B, for one user, on one H100</p>
@@ -450,7 +450,7 @@
         <h2>Batching shares one read of the weights across many users</h2>
         <p>Serve many users at once and each weight fetched gets used once per user. On an H100 it takes a batch of roughly 300 before decoding stops waiting on memory.</p>
         <p>Each user's KV cache, the saved attention state for their conversation, is separate, so those reads aren't shared.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#the-memory-wall" target="_blank" rel="noopener">Go deeper: the memory wall</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#the-memory-wall" target="_blank" rel="noopener">Go deeper: the memory wall</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -481,7 +481,7 @@
         <h2>Training is limited by compute, generation by memory speed</h2>
         <p>Training runs huge batches, so every weight a chip fetches gets reused across many tokens and the math units stay busy.</p>
         <p>Inference has two phases. Prefill reads your whole prompt at once and behaves like training. Decode writes one token per step and waits on memory.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#hbm-and-why-training-and-inference-hit-different-limits" target="_blank" rel="noopener">Go deeper: training and inference limits</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#hbm-and-why-training-and-inference-hit-different-limits" target="_blank" rel="noopener">Go deeper: training and inference limits</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -514,7 +514,7 @@
         <h2>Fewer bits per weight means less memory and faster tokens</h2>
         <p>Storing each number in fewer bits helps three ways. Weights take less memory, each token moves fewer bytes, and chips do more low-precision math per second.</p>
         <p>Quantization does this to a finished model. It costs some quality, so re-run your evaluation afterward.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#quantization-basics" target="_blank" rel="noopener">Go deeper: quantization</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#quantization-basics" target="_blank" rel="noopener">Go deeper: quantization</a></p>
       </div>
       <div class="vis">
         <p class="sub">Weights of an 8B model</p>
@@ -537,7 +537,7 @@
         <h2>Clusters are now planned in gigawatts</h2>
         <p>One H100 draws up to 700 W. A datacenter also powers CPUs, networking and cooling, and NVIDIA's Vera Rubin spec sheet plans about 2.5 kW of facility power per GPU.</p>
         <p>At that rate, one gigawatt runs roughly 400,000 GPUs.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#power-from-one-chip-to-the-grid" target="_blank" rel="noopener">Go deeper: power</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#power-from-one-chip-to-the-grid" target="_blank" rel="noopener">Go deeper: power</a></p>
       </div>
       <div class="vis">
         <div class="pw">
@@ -562,7 +562,7 @@
         <h2>Keep what's built separate from what's announced</h2>
         <p>Company announcements mix running clusters with plans that span years and chip generations.</p>
         <p>These examples are as the companies describe them, as of November 2026.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#power-from-one-chip-to-the-grid" target="_blank" rel="noopener">Go deeper: power</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#power-from-one-chip-to-the-grid" target="_blank" rel="noopener">Go deeper: power</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -593,7 +593,7 @@
         <h2>Distillation trains a small model to imitate a big one</h2>
         <p>The big model is the teacher and the small one is the student. Inside a lab, a big model often teaches its smaller siblings this way.</p>
         <p>Hinton, Vinyals and Dean showed in 2015 that the teacher's full probability distribution carries more information than the single right answer.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -627,7 +627,7 @@
         <h2>Distilling from text alone works through any API</h2>
         <p>There are three flavors. They differ in what passes between teacher and student.</p>
         <p>Output distillation needs only the teacher's text, which is why closed labs worry about it. The other two need the teacher's token probabilities.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
       </div>
       <div class="vis">
         <div class="flavs">
@@ -665,7 +665,7 @@
         <h2>Closed labs accuse rivals of distilling through their APIs</h2>
         <p>The major closed labs' terms prohibit using their outputs to build competing models. Distilling a strong model works, so labs now defend against it, and the defenses sometimes affect legitimate users.</p>
         <p>Critics point out that the same labs trained on web content without asking. Outsiders can't verify the account-level evidence.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
       </div>
       <div class="vis">
         <ol class="tl">
@@ -687,7 +687,7 @@
         <h2>Training on model output degrades a model unless real data stays in</h2>
         <p>Train each generation only on the previous generation's outputs and quality drops. Rare information vanishes first, then outputs converge on bland averages. This is called model collapse.</p>
         <p>In follow-up experiments, keeping the real data alongside the synthetic data avoided it.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#risks" target="_blank" rel="noopener">Go deeper: risks</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#risks" target="_blank" rel="noopener">Go deeper: risks</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -727,7 +727,7 @@
           <li>Training is limited by compute. Generating text is limited by how fast a chip can read its weights.</li>
           <li>Check a cost, power or distillation claim for what it counts and who is making it.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, a base model is what you get when trillions of filtered tokens meet thousands of GPUs for months. You can estimate the size of that job with six N D.</p><p>Second, training and generation hit different limits. Training runs out of compute. Generation waits on memory, which is why a model writes more slowly than it reads, and why batching and smaller numbers help.</p><p>Third, read the big claims carefully. A training cost usually covers one run. A gigawatt figure may be a plan. A distillation charge comes from a party with a stake.</p><p class="inclass">Assign the estimate exercise from the full notes. Pick an open model, compute six N D, and compare with the GPU-hours on its model card.</p></div>
     </article>
@@ -741,7 +741,7 @@
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/02-how-a-model-is-made/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson two. Lesson 03 picks up at the base model and covers post-training: how example conversations, preference tuning and reinforcement learning turn it into an assistant.</p></div>
     </article>

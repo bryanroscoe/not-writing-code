@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Inline course/lessons/NN.html into course/shell.html and write course/index.html.
+"""Inline lessons/NN.html into lessons/shell.html and write the lesson player.
 
 Fails with a list of problems when a lesson breaks the format. Run it after every lesson edit:
-    python3 -I course/build.py --only 02     # just lesson 02, written to course/build/02.html
-    python3 -I course/build.py               # every lesson, written to course/index.html
+    python3 scripts/build_lessons.py --only 02   # just lesson 02, written to build/lessons/02.html
+    python3 scripts/build_lessons.py             # every lesson, written to site/lessons/index.html
+
+scripts/build_site.py runs it after MkDocs, so the player is served at /lessons/ next to the modules.
 """
 import argparse
 import html
-import os
 import re
 import subprocess
 import sys
@@ -15,14 +16,15 @@ import tempfile
 from html.parser import HTMLParser
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-REPO_BLOB = 'https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/'
+ROOT = Path(__file__).resolve().parent.parent
+LESSONS = ROOT / 'lessons'
+MODULES = ROOT / 'modules'
+# Go-deeper links point at the module pages MkDocs builds next to /lessons/.
+MODULE_LINK = re.compile(r'^\.\./modules/([0-9]{2}-[a-z0-9-]+)/(?:#(.+))?$')
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr',
         'path', 'rect', 'circle', 'line', 'polyline', 'polygon', 'ellipse', 'use', 'stop'}
-ROOT = re.compile(r'^<section class="lesson" data-lesson="(\d\d)" data-title="([^"]+)" data-minutes="(\d+)" hidden>\n')
+FIRST_LINE = re.compile(r'^<section class="lesson" data-lesson="(\d\d)" data-title="([^"]+)" data-minutes="(\d+)" hidden>\n')
 TALK_MAX_CHARS = 1500
-SKELETON = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"></head><body>\n')
 CHECK_SAY = ('for (const [re, to] of JSON.parse(process.argv[1])) {'
              ' if (typeof to !== "string") throw new Error("spoken form must be a string"); new RegExp(re, "g"); }')
 
@@ -75,9 +77,9 @@ def text_of(fragment):
     return html.unescape(re.sub(r'<[^>]+>', '', fragment)).strip()
 
 
-def check_lesson(path, frag, modules_dir, slug_cache):
+def check_lesson(path, frag, slug_cache):
     problems = []
-    m = ROOT.match(frag)
+    m = FIRST_LINE.match(frag)
     if not m:
         return ['first line must be <section class="lesson" data-lesson="NN" data-title="..." data-minutes="N" hidden>']
     if m.group(1) != path.stem:
@@ -124,10 +126,10 @@ def check_lesson(path, frag, modules_dir, slug_cache):
     for href in re.findall(r'href="([^"]+)"', frag):
         if href.startswith('#lesson-') or href == '#map':
             continue
-        if href.startswith(REPO_BLOB):
-            rest = href[len(REPO_BLOB):]
-            name, _, anchor = rest.partition('#')
-            md = modules_dir / name
+        link = MODULE_LINK.match(href)
+        if link:
+            name, anchor = link.group(1) + '.md', link.group(2)
+            md = MODULES / name
             if not md.exists():
                 problems.append(f'link to missing module file {name}')
                 continue
@@ -137,6 +139,8 @@ def check_lesson(path, frag, modules_dir, slug_cache):
                     problems.append(f'link anchor #{anchor} not found in {name}')
         elif href.startswith('#'):
             problems.append(f'in-page link {href}: use #lesson-NN or #map')
+        elif href.startswith('../') or 'github.com/bryanroscoe/not-writing-code/blob/' in href:
+            problems.append(f'link {href}: link modules as ../modules/NN-name/#anchor')
     return problems
 
 
@@ -155,13 +159,11 @@ def check_scripts(page):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--modules', default=os.path.expanduser('~/Developer/not-writing-code-stages/modules'))
-    ap.add_argument('--only', help='build and check just this lesson, into build/NN.html')
+    ap.add_argument('--only', help='build and check just this lesson, into build/lessons/NN.html')
     args = ap.parse_args()
-    modules_dir = Path(args.modules)
 
-    shell = (HERE / 'shell.html').read_text()
-    lesson_paths = sorted((HERE / 'lessons').glob('[0-9][0-9].html'))
+    shell = (LESSONS / 'shell.html').read_text()
+    lesson_paths = sorted(LESSONS.glob('[0-9][0-9].html'))
     problems, frags, slug_cache = [], [], {}
     if args.only:
         lesson_paths = [p for p in lesson_paths if p.stem == args.only]
@@ -170,7 +172,7 @@ def main():
     for path in lesson_paths:
         frag = path.read_text()
         frags.append(frag.rstrip() + '\n')
-        for p in check_lesson(path, frag, modules_dir, slug_cache):
+        for p in check_lesson(path, frag, slug_cache):
             problems.append(f'{path.name}: {p}')
 
     page = shell.replace('<!-- LESSONS -->', '\n'.join(frags))
@@ -184,17 +186,14 @@ def main():
         problems.append(f'page: duplicate ids {dupes} (prefix lesson ids with lNN-)')
     problems += [f'page: {p}' for p in check_scripts(page)]
 
-    out = HERE / 'build' / f'{args.only}.html' if args.only else HERE / 'index.html'
-    out.parent.mkdir(exist_ok=True)
+    out = ROOT / 'build' / 'lessons' / f'{args.only}.html' if args.only else ROOT / 'site' / 'lessons' / 'index.html'
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page)
-    # index.html is for the Artifact, which adds its own document skeleton; static.html opens as a plain page.
-    if not args.only:
-        (HERE / 'static.html').write_text(SKELETON + page + '</body></html>\n')
     for path, frag in zip(lesson_paths, frags):
         screens = len(re.findall(r'<article class="screen', frag))
         talk = ' '.join(text_of(t) for t in re.findall(r'<div class="talk" hidden>(.*?)</div>', frag, re.S))
         print(f'{path.stem}: {screens} screens, {len(talk.split())} spoken words')
-    print(f'{out.relative_to(HERE)}: {len(page) // 1024} KB')
+    print(f'{out.relative_to(ROOT)}: {len(page) // 1024} KB')
     if problems:
         print('\nPROBLEMS')
         print('\n'.join(problems))

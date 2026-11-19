@@ -10,6 +10,8 @@ This is the first full draft (November 2026). Facts are dated in each module's h
 
 ## Start here
 
+Start with the [lessons](https://notwritingcode.bryanroscoe.com/lessons/).
+
 | You are | Read this | Then |
 | --- | --- | --- |
 | A **student** or new to AI coding tools | [Student path](paths/students.md) | The [course](course/syllabus.md) and its [labs](course/labs/) |

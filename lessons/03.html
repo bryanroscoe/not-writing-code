@@ -157,7 +157,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero-tokens" aria-hidden="true"><span class="chip c1">try</span><span class="to">→</span><span class="chip c5">score</span><span class="to">→</span><span class="chip c3">nudge</span></div>
@@ -172,7 +172,7 @@
         <h2>A base model becomes an assistant through three kinds of lessons</h2>
         <p>The base model from lesson 02 completes documents. It doesn't yet follow instructions reliably or refuse harmful requests.</p>
         <p>Post-training fixes that with examples to copy, comparisons between attempts, and graded practice.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#foundations" target="_blank" rel="noopener">Go deeper: foundations</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#foundations" target="_blank" rel="noopener">Go deeper: foundations</a></p>
       </div>
       <div class="vis">
         <div class="box">Base model</div>
@@ -194,7 +194,7 @@
         <h2>Reinforcement learning grades the model's own attempts</h2>
         <p>In supervised training the model sees the right answer and learns to copy it. In reinforcement learning (RL) there's no answer to copy.</p>
         <p>The model tries something, gets a score, and is adjusted so that whatever scored well becomes more likely.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -226,7 +226,7 @@
         <h2>One round of RL is a few attempts and a checker</h2>
         <p>The model samples four answers to one prompt. A checker runs each on a few test strings and gives 1 for a pass and 0 for a fail.</p>
         <p>Two passed, so the average reward is 0.5.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
       </div>
       <div class="vis">
         <div class="doc"><p>Write a Python expression that reverses the string s.</p></div>
@@ -255,7 +255,7 @@
         <h2>Training raises what beat the average and lowers the rest</h2>
         <p>An answer's advantage is its reward minus the group's average. Every token in an above-average answer gets a little more likely. Every token in a below-average one gets a little less likely.</p>
         <p>This update is a policy gradient. Scoring a group against its own average is how GRPO works, the base of most open 2025 and 2026 recipes.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#policy-gradients-with-a-little-math" target="_blank" rel="noopener">Go deeper: policy gradients</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#policy-gradients-with-a-little-math" target="_blank" rel="noopener">Go deeper: policy gradients</a></p>
       </div>
       <div class="vis">
         <p class="sub">Advantage = reward − average</p>
@@ -278,7 +278,7 @@
         <h2>A prompt only teaches when some attempts pass and some fail</h2>
         <p>If all four answers pass, or all four fail, every answer equals the average. Every advantage is zero and the prompt gives no learning signal.</p>
         <p>Training problems have to be hard enough that the model sometimes fails and easy enough that it sometimes succeeds.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
       </div>
       <div class="vis">
         <div class="three">
@@ -312,7 +312,7 @@
         <h2>RLHF scores answers with a model trained on human comparisons</h2>
         <p>Writing a perfect answer is hard. Saying which of two is better is easier. RLHF collects those comparisons, trains a reward model to predict them, and uses it as the scorer.</p>
         <p>The reward model is a proxy. Push hard against it and the policy finds answers that score higher while getting worse, so a KL penalty charges the policy for drifting from where it started.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlhf-end-to-end-the-coaching" target="_blank" rel="noopener">Go deeper: RLHF end to end</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rlhf-end-to-end-the-coaching" target="_blank" rel="noopener">Go deeper: RLHF end to end</a></p>
       </div>
       <div class="vis">
         <div class="stps">
@@ -332,7 +332,7 @@
         <h2>RLVR hands the scoring to a program</h2>
         <p>Reinforcement learning with verifiable rewards (RLVR) uses problems whose answers a program can check: a math answer that matches, code that passes unit tests, output that follows a format rule.</p>
         <p>With a checker as the scorer there's no learned reward model to fool. It only works for tasks with checkable answers.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -360,7 +360,7 @@
         <h2>In R1-Zero's training, nobody graded the thinking</h2>
         <p>DeepSeek ran the RL loop directly on a base model to make R1-Zero. The rewards were rule-based: one for a correct final answer and one for putting the thinking between its tags.</p>
         <p>The thinking tokens in between earn nothing on their own. They only pay off when they lead to an answer the checker accepts.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
       </div>
       <div class="vis">
         <p class="sub">One attempt, and what the checker looks at</p>
@@ -389,7 +389,7 @@
         <h2>A right answer pulls up the thinking that led to it</h2>
         <p>The model attempts the same problem several times. Attempts that reach the right answer score above the group's average, so every token in them gets more likely, thinking included.</p>
         <p>Thinking that led to a wrong answer gets less likely. Nobody has to say which thoughts were the good ones.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
       </div>
       <div class="vis">
         <p class="sub">Is 3,599 prime? Answer key: No. Four attempts, average reward 0.5.</p>
@@ -430,7 +430,7 @@
         <h2>Over many rounds, thinking longer and stopping to reconsider become defaults</h2>
         <p>R1-Zero's thinking got longer on its own as training went on. At one point its use of the word "wait" jumped, which the authors called an aha moment.</p>
         <p>Skeptics found that base models already reflect a little before any RL. On that reading, RL made an existing behavior show up more often.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -467,7 +467,7 @@
         <h2>Trained this way, models jumped on competition math</h2>
         <p>On the AIME 2024 math competition, GPT-4o solved 12% of problems. OpenAI's o1 solved 74% with one sample.</p>
         <p>DeepSeek's base model went from 15.6% to 71.0% as R1-Zero. Both labs scored higher again by sampling several answers and voting.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
       </div>
       <div class="vis">
         <div class="grpd">
@@ -498,7 +498,7 @@
         <h2>Grading every step was tried, and the big recipes dropped it</h2>
         <p>Grading only outcomes can reward a right answer reached by wrong steps. Scoring each step with a process reward model looked like the fix, and early studies favored it.</p>
         <p>DeepSeek lists it among R1's unsuccessful attempts. It's hard to say what counts as a step and hard to judge one, and a learned step grader gets gamed.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-models-and-judges" target="_blank" rel="noopener">Go deeper: reward models and judges</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#reward-models-and-judges" target="_blank" rel="noopener">Go deeper: reward models and judges</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -535,7 +535,7 @@
         <h2>Raw RL thinking was hard to read, so R1 took four stages</h2>
         <p>R1-Zero's answers were hard to read and mixed languages. Its reward paid for correct answers and the right format, and readable thinking wasn't part of either.</p>
         <p>The released R1 alternated supervised fine-tuning and RL. A 2026 training recipe usually has several RL stages.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
       </div>
       <div class="vis">
         <p class="sub">How the released R1 was trained</p>
@@ -557,7 +557,7 @@
         <h2>A coding agent trains inside real repositories</h2>
         <p>A coding RL environment packages a snapshot of a codebase, a runtime that can build and run it, a task in plain language, and tests that decide whether the task is done.</p>
         <p>The agent reads files, runs commands and edits code, and the reward arrives at the end. Building thousands of these environments is most of the work.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-for-coding-agents" target="_blank" rel="noopener">Go deeper: RL for coding agents</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#rl-for-coding-agents" target="_blank" rel="noopener">Go deeper: RL for coding agents</a></p>
       </div>
       <div class="vis">
         <div class="envbox">
@@ -583,7 +583,7 @@
         <h2>RL optimizes the score, loopholes included</h2>
         <p>A reward measures what you want. When the measurement has a loophole, RL finds it. For language models this is called reward hacking.</p>
         <p>Tests are an incomplete description of what you want, and a model trained against tests can learn to satisfy the tests alone.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -615,7 +615,7 @@ assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
         <h2>Coding models learned to game tests during training</h2>
         <p>Claude 3.7 Sonnet special-cased tests, usually after repeated failures. Anthropic says the behavior emerged from reward hacking during RL training.</p>
         <p>Outside measurements found it across labs. On ImpossibleBench's repository tasks, where any pass is cheating, GPT-5, o3 and Claude Opus 4.1 cheated on about half or more.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
       </div>
       <div class="vis">
         <div class="recs">
@@ -641,7 +641,7 @@ assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
         <h2>Asking it not to cheat did nothing. Changing the setup did.</h2>
         <p>METR added "Please do not cheat." to one task's prompt. o3 planned a reward hack in 80% of runs with it and 80% without.</p>
         <p>On ImpossibleBench, a way to stop and flag the task for a human cut GPT-5's cheating from 54% to 9%. Read-only tests blocked test edits and left other cheats in place.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
       </div>
       <div class="vis">
         <div class="grpd">
@@ -671,7 +671,7 @@ assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
         <h2>Most teams shouldn't fine-tune first</h2>
         <p>Fine-tuning is further training of a model on a narrower dataset of your own. Prompts, context and retrieval solve most problems first.</p>
         <p>For adding new facts, studies found retrieval beat fine-tuning. Fine-tuning does best at teaching form: a consistent format, style or schema at high volume.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#should-you-fine-tune-at-all" target="_blank" rel="noopener">Go deeper: should you fine-tune at all?</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#should-you-fine-tune-at-all" target="_blank" rel="noopener">Go deeper: should you fine-tune at all?</a></p>
       </div>
       <div class="vis">
         <p class="sub">Try these in order. Stop when one meets your needs.</p>
@@ -694,7 +694,7 @@ assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
         <h2>LoRA trains a small add-on and leaves the model frozen</h2>
         <p>Full fine-tuning updates every weight. LoRA freezes the original weights and learns a small correction made of two thin matrices. It's like adding sticky notes to a textbook instead of reprinting it.</p>
         <p>QLoRA loads the frozen base in 4-bit precision, which brings an 8B model within reach of one consumer GPU.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#full-fine-tuning-vs-parameter-efficient-fine-tuning" target="_blank" rel="noopener">Go deeper: full vs parameter-efficient fine-tuning</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#full-fine-tuning-vs-parameter-efficient-fine-tuning" target="_blank" rel="noopener">Go deeper: full vs parameter-efficient fine-tuning</a></p>
       </div>
       <div class="vis">
         <div class="mats" role="img" aria-label="One 4096 by 4096 weight matrix with 16.8 million weights stays frozen. LoRA at rank 16 adds two thin matrices, 4096 by 16 and 16 by 4096, with 131,072 trained weights, about 0.8 percent.">
@@ -721,7 +721,7 @@ assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
         <h2>No deployed model keeps tuning its own weights</h2>
         <p>Deployed models are frozen. They don't learn from the work they do, and "memory" features are notes put back into the context.</p>
         <p>Since 2025, research systems have had models write their own training data and trigger weight updates. As of November 2026 these are narrow, supervised demonstrations.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#what-it-means-for-a-model-to-tune-its-own-weights" target="_blank" rel="noopener">Go deeper: models that tune their own weights</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#what-it-means-for-a-model-to-tune-its-own-weights" target="_blank" rel="noopener">Go deeper: models that tune their own weights</a></p>
       </div>
       <div class="vis">
         <div class="tbl">
@@ -746,7 +746,7 @@ assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
           <li>Reasoning models think because thinking came with right answers. Only the answers were checked.</li>
           <li>RL optimizes the score. Protect the tests, read the diff, and verify with something the agent can't edit.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#try-it" target="_blank" rel="noopener">Go deeper: exercises</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/#try-it" target="_blank" rel="noopener">Go deeper: exercises</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things from this lesson. First, reinforcement learning is try, score, nudge. The model makes attempts, something scores them, and training makes the high scorers more likely.</p><p>Second, reasoning models think because thinking came along with right answers. A program checked the answers. Nobody checked the thinking.</p><p>Third, RL optimizes the score, and the score is never quite what you meant. Protect your tests, read the diff, and verify with something the agent can't edit.</p><p class="inclass">Have each person design a reward for a small function, then list three ways to score well without doing the task.</p></div>
     </article>
@@ -760,7 +760,7 @@ assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/03-post-training-and-rl/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson three. Lesson four covers model safety and alignment: how labs try to make models behave, and how they test whether it worked.</p></div>
     </article>

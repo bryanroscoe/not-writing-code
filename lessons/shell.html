@@ -1,5 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Writing Code Is Dead</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="../assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400..700&display=swap">
@@ -466,6 +471,8 @@ body.has-voice .talk-body li:hover .playline { border-color: var(--accent); }
   main, .notes, .notes.open { transition: none; }
 }
 </style>
+</head>
+<body>
 
 <header class="bar">
   <div class="bar-in gutter">
@@ -864,14 +871,15 @@ body.has-voice .talk-body li:hover .playline { border-color: var(--accent); }
 
   document.addEventListener('keydown', e => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    // preventDefault so closing the menu doesn't also end a narration in progress
+    // With the menu open, Escape only closes the menu; a narration in progress keeps going.
     if (!menu.hidden) { if (e.key === 'Escape') { e.preventDefault(); closeMenu(); menuBtn.focus(); } return; }
     if (lessonView.hidden || e.target.closest('input, select, textarea, [contenteditable], [role="slider"], [role="radiogroup"], [role="tablist"]')) return;
     if (e.shiftKey && e.key !== ' ') return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); if (current < L.END) go(current + 1); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); if (current > 0) go(current - 1); }
     else if (e.key === ' ' && !e.target.closest('button, a, input, select, textarea') && tts) { e.preventDefault(); toggleListen(); }
-    else if (e.key === 'Escape' && notesOpen && narrating < 0) setNotesOpen(false, true);
+    else if (e.key === 'Escape' && narrating >= 0) stopAndTidy();
+    else if (e.key === 'Escape' && notesOpen) setNotesOpen(false, true);
   });
 
   let touch = null;
@@ -983,6 +991,77 @@ body.has-voice .talk-body li:hover .playline { border-color: var(--accent); }
   const forEar = text => SAY.concat(L.say).reduce((t, [re, to]) => t.replace(re, to), text);
   const quiet = p => { if (p && p.catch) p.catch(() => {}); };
 
+  // Narration uses the browser's own voices. Chrome cuts off long utterances, so paragraphs go out a
+  // sentence at a time. Pause cancels and Resume restarts the sentence, because Android ignores pause().
+  function browserVoice() {
+    const synth = window.speechSynthesis;
+    if (!synth || !window.SpeechSynthesisUtterance) return null;
+    let run = null;
+    let rate = 1;
+    let lineCb = () => {};
+    const englishVoice = () => {
+      const en = synth.getVoices().filter(v => /^en\b/i.test(v.lang));
+      return en.find(v => /natural|premium|enhanced/i.test(v.name)) || en.find(v => v.default) || en[0] || null;
+    };
+    function sayPart(r) {
+      if (r !== run) return;
+      if (r.at >= r.parts.length) { run = null; r.resolve(); return; }
+      const part = r.parts[r.at];
+      const gen = ++r.gen;
+      const u = new SpeechSynthesisUtterance(part.text);
+      u.lang = 'en-US';
+      u.rate = rate;
+      const voice = englishVoice();
+      if (voice) u.voice = voice;
+      u.onstart = () => { if (part.first && r === run && gen === r.gen) lineCb({ id: part.id }); };
+      u.onend = () => { if (r === run && gen === r.gen) { r.at++; sayPart(r); } };
+      u.onerror = e => {
+        if (r !== run || gen !== r.gen || e.error === 'interrupted' || e.error === 'canceled') return;
+        run = null;
+        r.reject({ code: e.error });
+      };
+      r.utterance = u; // Chrome can drop events for an utterance nothing references
+      synth.speak(u);
+    }
+    return {
+      speak(lines, opts) {
+        this.stop();
+        rate = opts.rate;
+        const parts = lines.flatMap(({ text, id }) => text.split(/(?<=[.!?]["'”’)\]]*)\s+/).filter(Boolean)
+          .map((s, k) => ({ text: s, id, first: k === 0 })));
+        return new Promise((resolve, reject) => {
+          run = { parts, at: 0, gen: 0, paused: false, resolve, reject };
+          sayPart(run);
+        });
+      },
+      stop() {
+        const r = run;
+        run = null;
+        synth.cancel();
+        if (r) r.reject({ code: 'stopped' });
+      },
+      pause() {
+        if (!run || run.paused) return;
+        run.paused = true;
+        run.gen++;
+        synth.cancel();
+      },
+      resume() {
+        if (!run || !run.paused) return;
+        run.paused = false;
+        sayPart(run);
+      },
+      setRate(r) {
+        rate = r;
+        if (!run || run.paused) return;
+        run.gen++;
+        synth.cancel();
+        sayPart(run);
+      },
+      onLine(cb) { lineCb = cb; },
+    };
+  }
+
   let tts = null;
   let narrating = -1;
   let paused = false;
@@ -1049,32 +1128,14 @@ body.has-voice .talk-body li:hover .playline { border-color: var(--accent); }
     narrate(current, from);
   }
 
+  // The panel stays open so the listener can see where the reading stopped.
   function narrationFailed(e) {
-    const code = e && e.code;
     narrating = -1;
     paused = false;
     markLine(-1);
     renderListen();
-    if (code === 'not_granted' || code === 'unavailable') {
-      if (document.activeElement === listenBtn) notesBtn.focus();
-      tts = null;
-      listenBtn.hidden = true;
-      rateWrap.hidden = true;
-      document.body.classList.remove('has-voice');
-      return;
-    }
-    // Only the listener's own Stop or Escape puts the panel away. Tab switches, time limits and
-    // platform prompts leave it open so the listener can see where the reading was.
-    if (code === 'stopped') {
-      const byListener = !e.reason || e.reason === 'stopped' || e.reason === 'viewer_stopped';
-      if (byListener && openedByListen) setNotesOpen(false, false);
-      return;
-    }
     if (!notesOpen) setNotesOpen(true, false);
-    if (code === 'rate_limited') showVoiceNote('Voice limit reached. Try again later.');
-    else if (code === 'busy') showVoiceNote("Finish what's open, then press Listen.");
-    else if (code === 'no_gesture') showVoiceNote(e.retryAfterMs ? 'Wait a few seconds, then press Listen.' : 'Press Listen again.');
-    else showVoiceNote('Narration stopped.');
+    showVoiceNote(e && e.code === 'not-allowed' ? 'Press Listen again.' : 'Narration stopped.');
   }
 
   // Moving to another screen mid-narration keeps reading there; moving while paused stops.
@@ -1111,25 +1172,20 @@ body.has-voice .talk-body li:hover .playline { border-color: var(--accent); }
     startListening(Number(li.dataset.k));
   });
 
-  const ttsReady = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('tts').catch(() => null) : Promise.resolve(null);
-  ttsReady.then(t => {
-    if (!t) return;
-    tts = t;
+  tts = browserVoice();
+  if (tts) {
     listenBtn.hidden = false;
     rateWrap.hidden = false;
     document.body.classList.add('has-voice');
-    t.onState(({ state }) => {
-      if (narrating < 0 || (state !== 'paused' && state !== 'speaking')) return;
-      paused = state === 'paused';
-      renderListen();
-    });
-    t.onLine(({ id }) => {
+    tts.onLine(({ id }) => {
       const m = /^p(\d+)$/.exec(id || '');
       if (m && narrating === current) markLine(Number(m[1]));
     });
-  });
+  }
 
   window.addEventListener('hashchange', render);
   render();
 })();
 </script>
+</body>
+</html>

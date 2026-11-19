@@ -69,7 +69,7 @@
         <div class="actions intro-actions">
           <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="vis">
         <div class="hero15" role="img" aria-label="24 dollars 30 crossed out, then 3 dollars 73."><s>$24.30</s><span class="to">→</span><span>$3.73</span></div>
@@ -84,7 +84,7 @@
         <h2>Subscribe to a lab or a tool vendor, or pay per token</h2>
         <p>A chat subscription and a tool subscription are flat monthly fees with usage caps. An API key bills you per token for exactly what you use.</p>
         <p>Prices on these screens were checked on November 18, 2026. They change often, so learn the method and look up the numbers.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#three-ways-to-pay" target="_blank" rel="noopener">Go deeper: three ways to pay</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#three-ways-to-pay" target="_blank" rel="noopener">Go deeper: three ways to pay</a></p>
       </div>
       <div class="vis">
         <div class="three">
@@ -126,7 +126,7 @@
         <h2>An API bill has four lines that count</h2>
         <p>Input is everything you send. Output is everything the model writes, and it usually costs four to six times as much per token.</p>
         <p>The two cache lines are how agent work gets affordable. Storing a prompt prefix costs a little extra, and reusing it costs a small fraction of the input price.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#what-a-token-bill-is-made-of" target="_blank" rel="noopener">Go deeper: what a token bill is made of</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#what-a-token-bill-is-made-of" target="_blank" rel="noopener">Go deeper: what a token bill is made of</a></p>
       </div>
       <div class="vis">
         <p class="sub">Claude Opus 5.5, per million tokens</p>
@@ -148,7 +148,7 @@
         <h2>Thinking tokens bill as output</h2>
         <p>A reasoning model that thinks for 5,000 tokens and then writes a 300-token answer bills you for 5,300 output tokens.</p>
         <p>So the effort or thinking-budget setting changes your cost directly, at the most expensive rate on the bill.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#what-a-token-bill-is-made-of" target="_blank" rel="noopener">Go deeper: what a token bill is made of</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#what-a-token-bill-is-made-of" target="_blank" rel="noopener">Go deeper: what a token bill is made of</a></p>
       </div>
       <div class="vis">
         <div class="callrow">
@@ -175,7 +175,7 @@
         <h2>Every call sends the whole history again</h2>
         <p>The model needs the conversation so far on each call. In a simple agent loop, every tool result goes back along with everything before it.</p>
         <p>The first call here sends 20,000 tokens. Each call adds 2,500. By call 60 the agent is sending 167,500 tokens to get one more step.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: why agentic coding eats tokens</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: why agentic coding eats tokens</a></p>
       </div>
       <div class="vis">
         <p class="sub">Input tokens sent on one call</p>
@@ -198,7 +198,7 @@
         <h2>Input tokens grow with the square of the session</h2>
         <p>Each call is bigger than the last, so the total climbs faster than the call count. If every turn adds a fixed amount, total input grows roughly with the number of turns squared.</p>
         <p>Doubling the calls more than triples total input here. As sessions get longer, that multiplier approaches four.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: why agentic coding eats tokens</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: why agentic coding eats tokens</a></p>
       </div>
       <div class="vis">
         <p class="sub">Total input tokens for the whole session</p>
@@ -223,7 +223,7 @@
         <h2>Caching cuts the price of repeated input</h2>
         <p>Each call's prompt starts with the previous call's exact text. The provider can keep the processed state of that prefix and charge a small fraction of the input price to reuse it.</p>
         <p>Claude Code and Codex do this for you. If you build your own agent on the API, put the stable parts of the prompt first.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: prompt caching</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: prompt caching</a></p>
       </div>
       <div class="vis">
         <p class="sub">Call 31 of the session: 95,000 input tokens</p>
@@ -248,7 +248,7 @@
         <p class="eyebrow">Worked example</p>
         <h2>One hour of agent work is 5.6 million input tokens</h2>
         <p>Take one call a minute for an hour, with the same growth as before and 1,500 output tokens per call, thinking included.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
       </div>
       <div class="vis">
         <p class="sub">Assumptions</p>
@@ -271,7 +271,7 @@
         <h2>Caching takes that hour from $24 to under $4</h2>
         <p>Without caching, input is 93% of the bill. With caching, most input becomes cache reads and the hour costs 85% less.</p>
         <p>Once caching is on, output is the largest line.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -305,7 +305,7 @@
         <h2>Full-time use runs hundreds of dollars a month on the API</h2>
         <p>Run that cached hour 8 hours a day for 21 working days and a frontier model costs about $630 a month. A top-tier model costs about 1.7 times that, and three agents at once roughly triples it.</p>
         <p>A subscription costs less than that until you hit its cap.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
       </div>
       <div class="vis">
         <p class="sub">One month, one agent at a time</p>
@@ -329,7 +329,7 @@
         <h2>A coffee break can cost 75 cents</h2>
         <p>Anthropic's default cache lasts five minutes. Step away longer and the next call writes the whole prefix again at the write price.</p>
         <p>Caches match from the start of the prompt, so one change near the top throws away everything after it.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#cache-economics" target="_blank" rel="noopener">Go deeper: cache economics</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#cache-economics" target="_blank" rel="noopener">Go deeper: cache economics</a></p>
       </div>
       <div class="vis">
         <p class="sub">The next call on a 150,000-token context</p>
@@ -363,7 +363,7 @@
         <h2>Subscription caps are sold as multiples, with no token count</h2>
         <p>A plan says "5x Pro usage". It doesn't say how many tokens Pro is, so you can't compute what you're buying.</p>
         <p>Most plans have a weekly cap plus a rolling window of a few hours. You find yours by hitting it.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#price-snapshot-as-of-2026-11-08" target="_blank" rel="noopener">Go deeper: price snapshot</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#price-snapshot-as-of-2026-11-08" target="_blank" rel="noopener">Go deeper: price snapshot</a></p>
       </div>
       <div class="vis">
         <div class="plans">
@@ -387,7 +387,7 @@
         <h2>Subscription limits and terms keep changing</h2>
         <p>In about fifteen months the two labs between them added weekly caps and new tiers, cut an allowance at an existing price, and rewrote the rules for third-party tools.</p>
         <p>API prices are published per token. Plan as if today's subscription value isn't guaranteed next year.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#the-subscription-subsidy-and-its-limits" target="_blank" rel="noopener">Go deeper: the subscription subsidy and its limits</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#the-subscription-subsidy-and-its-limits" target="_blank" rel="noopener">Go deeper: the subscription subsidy and its limits</a></p>
       </div>
       <div class="vis">
         <div class="tl">
@@ -409,7 +409,7 @@
         <h2>A subscription login isn't an API key for your product</h2>
         <p>The rules for using a plan outside the vendor's own tools differ by vendor and changed during 2026.</p>
         <p>Use API keys for your own production service. For hosted agents and automation, read the vendor's current rules first.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#the-subscription-subsidy-and-its-limits" target="_blank" rel="noopener">Go deeper: the subscription subsidy and its limits</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#the-subscription-subsidy-and-its-limits" target="_blank" rel="noopener">Go deeper: the subscription subsidy and its limits</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -441,7 +441,7 @@
         <p class="eyebrow">Bryan's take</p>
         <h2>Subscriptions make daily agent work affordable, with limits</h2>
         <p>The worked example backs this for full-time use of frontier models. Caps and the other limits can change that.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
       </div>
       <div class="vis">
         <blockquote class="take"><cite>Bryan's take</cite>API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.</blockquote>
@@ -462,7 +462,7 @@
         <h2>A cheaper model can cost more per finished task</h2>
         <p>The number to judge is what it costs to get a correct, merged change. A model at a quarter of the price that needs three times the calls sends about seven times the input tokens.</p>
         <p>It also takes three times as many calls for you to supervise.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#cost-per-task-not-cost-per-token" target="_blank" rel="noopener">Go deeper: cost per task</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#cost-per-task-not-cost-per-token" target="_blank" rel="noopener">Go deeper: cost per task</a></p>
       </div>
       <div class="vis">
         <div class="cmp">
@@ -487,7 +487,7 @@
         <h2>Route easy work to a small model</h2>
         <p>Small models cost 20 to 100 times less per token than the bigger ones. Many harnesses let you set a different model for subagents.</p>
         <p>Give the small model the rote work and keep the frontier model for planning, hard debugging and review.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#cheaper-alternatives" target="_blank" rel="noopener">Go deeper: cheaper alternatives</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#cheaper-alternatives" target="_blank" rel="noopener">Go deeper: cheaper alternatives</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -514,7 +514,7 @@
         <h2>Use the API for services, automation and batch jobs</h2>
         <p>Subscriptions fit your own interactive work. Anything that serves other people or runs unattended belongs on metered API keys, where usage can be attributed and limited.</p>
         <p>A metered bill has no ceiling unless you set one. Put the controls in on day one.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#when-api-billing-is-the-right-choice" target="_blank" rel="noopener">Go deeper: when API billing is the right choice</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#when-api-billing-is-the-right-choice" target="_blank" rel="noopener">Go deeper: when API billing is the right choice</a></p>
       </div>
       <div class="vis">
         <div class="two">
@@ -550,7 +550,7 @@
         <h2>Your agent already logs what you spend</h2>
         <p>Claude Code, Codex and many other agent CLIs store usage data locally. ccusage reads it and prints token counts by day, week, month and session, with the API-equivalent cost.</p>
         <p>Run it after a normal week and compare the total with your subscription price.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
       </div>
       <div class="vis">
         <pre class="term"><span class="c"># Claude Code usage by day, with estimated API cost</span>
@@ -573,7 +573,7 @@ npx ccusage@latest codex daily</pre>
         <h2>A $200 seat costs about two engineer-hours a month</h2>
         <p>Price the tools in engineer time and show the assumptions, so leadership can change them.</p>
         <p>The return side needs evidence. In METR's 2025 study, experienced developers using early-2025 tools took 19% longer while believing they were 20% faster.</p>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md#team-budgeting" target="_blank" rel="noopener">Go deeper: team budgeting</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#team-budgeting" target="_blank" rel="noopener">Go deeper: team budgeting</a></p>
       </div>
       <div class="vis">
         <p class="sub">One engineer-hour</p>
@@ -602,7 +602,7 @@ npx ccusage@latest codex daily</pre>
           <li>Subscriptions fit your own interactive work until you hit the cap. Use the API for services, automation and batch.</li>
           <li>Judge cost per finished task, and measure your own usage before you budget.</li>
         </ul>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md" target="_blank" rel="noopener">Go deeper: the full module</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/" target="_blank" rel="noopener">Go deeper: the full module</a></p>
       </div>
       <div class="talk" hidden><p>Keep three things. First, without compaction an agent's input tokens grow roughly with the square of the session length. Prompt caching, shorter sessions and smaller tool outputs are what keep that affordable.</p><p>Second, a subscription is a flat fee with a cap. It fits your own interactive work until you reach the cap. Production services, automation and batch jobs go on the API, with spending limits set from the first day.</p><p>Third, judge a model by what a finished task costs. Then measure your own usage. These prices will be out of date soon. Rerun the calculation when you budget.</p><p class="inclass">Have each person run the usage report this week and bring one number back.</p></div>
     </article>
@@ -616,7 +616,7 @@ npx ccusage@latest codex daily</pre>
           <a class="btn" href="#map">Course map</a>
           <button type="button" class="btn" data-go="1">Review</button>
         </div>
-        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/15-costs-subscriptions-and-apis.md" target="_blank" rel="noopener">Full notes</a></p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/" target="_blank" rel="noopener">Full notes</a></p>
       </div>
       <div class="talk" hidden><p>That is lesson fifteen. Lesson sixteen covers the open-source ecosystem: the harnesses, frameworks, MCP servers and skills you can read and run yourself.</p></div>
     </article>
