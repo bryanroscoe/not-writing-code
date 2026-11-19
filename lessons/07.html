@@ -1,0 +1,648 @@
+<section class="lesson" data-lesson="07" data-title="How to tell if a model is good" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="07"] .hero-score { display: flex; flex-direction: column; gap: 14px; }
+    .lesson[data-lesson="07"] .hero-score .big { font: 760 clamp(72px, 12cqi, 150px)/.9 var(--display); letter-spacing: -.04em; }
+    .lesson[data-lesson="07"] .hero-score .on { font: 500 16px/1.4 var(--mono); color: var(--muted); margin: 0; }
+
+    .lesson[data-lesson="07"] .asks { display: flex; flex-direction: column; }
+    .lesson[data-lesson="07"] .grp { margin: 0 0 6px; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="07"] .ask + .grp { margin-top: 18px; }
+    .lesson[data-lesson="07"] .ask { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 10px 12px; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.4; }
+    .lesson[data-lesson="07"] .ask b { font: 720 17px/1.25 var(--display); }
+    .lesson[data-lesson="07"] .ask.hl { background: var(--mark); color: var(--on-mark); border: 0; border-radius: 10px; }
+
+    .lesson[data-lesson="07"] .setup { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="07"] .setup .down, .lesson[data-lesson="07"] .setup .score { grid-column: 1 / -1; }
+    .lesson[data-lesson="07"] .setup .score { text-align: center; align-items: center; font-size: 17px; }
+
+    .lesson[data-lesson="07"] .given { margin: 0; font-size: 15px; }
+    .lesson[data-lesson="07"] .tries { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .lesson[data-lesson="07"] .tries .chip { font-weight: 700; }
+    .lesson[data-lesson="07"] .tries span.v { font-size: 14px; font-weight: 700; margin-left: 4px; }
+    .lesson[data-lesson="07"] .calc { font: 500 14px/1.4 var(--mono); margin: 0; }
+    .lesson[data-lesson="07"] .pct { font: 760 clamp(34px, 4cqi, 48px)/1 var(--display); letter-spacing: -.02em; }
+
+    .lesson[data-lesson="07"] .strack i.alt { background: var(--accent-mid); }
+    .lesson[data-lesson="07"] .strack i.ink { background: var(--ink); }
+    .lesson[data-lesson="07"] .pair { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="07"] .pair + .pair { border-top: 1px solid var(--line); padding-top: 12px; }
+    .lesson[data-lesson="07"] .sw.alt { background: var(--accent-mid); }
+    .lesson[data-lesson="07"] .sw.bad { background: var(--bad); }
+
+    .lesson[data-lesson="07"] .status { display: flex; flex-direction: column; }
+    .lesson[data-lesson="07"] .st { display: grid; grid-template-columns: 10.5em minmax(0, 1fr); gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="07"] .st:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="07"] .st b { font: 720 16px/1.25 var(--display); }
+    .lesson[data-lesson="07"] .st small { display: block; font-size: 13px; color: var(--muted); line-height: 1.4; margin-top: 6px; }
+    .lesson[data-lesson="07"] .st .chip { font-size: 13px; }
+
+    .lesson[data-lesson="07"] .ways { list-style: none; margin: 0; padding: 0; counter-reset: way; display: flex; flex-direction: column; }
+    .lesson[data-lesson="07"] .ways li { counter-increment: way; display: grid; grid-template-columns: 1.6em 11em minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="07"] .ways li:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="07"] .ways li::before { content: counter(way); font: 700 13px/1.4 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="07"] .ways b { font: 700 15px/1.3 var(--display); }
+
+    .lesson[data-lesson="07"] .when { font: 600 12px/1.3 var(--mono); color: var(--muted); margin: 0; }
+    .lesson[data-lesson="07"] .kv { margin: 0; font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="07"] .kv b { display: block; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .lesson[data-lesson="07"] .take { margin: 0; border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; font-size: 15px; line-height: 1.5; }
+    .lesson[data-lesson="07"] .take b { display: block; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+
+    .lesson[data-lesson="07"] .ivls { position: relative; display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="07"] .ivls .both { position: absolute; top: 0; bottom: 18px; left: 44%; width: 33%; background: color-mix(in srgb, var(--mark) 22%, transparent); border-radius: 4px; }
+    .lesson[data-lesson="07"] .ivls .lab { position: relative; display: flex; justify-content: space-between; gap: 12px; font-size: 14px; flex-wrap: wrap; }
+    .lesson[data-lesson="07"] .ivls .lab span { color: var(--muted); font: 500 13px/1.5 var(--mono); }
+    .lesson[data-lesson="07"] .ivl { position: relative; height: 26px; }
+    .lesson[data-lesson="07"] .ivl::before { content: ""; position: absolute; left: 0; right: 0; top: 12px; border-top: 2px solid var(--line); }
+    .lesson[data-lesson="07"] .ivl .rng { position: absolute; top: 8px; height: 10px; left: var(--l); width: var(--w); background: var(--accent-mid); border-radius: 5px; }
+    .lesson[data-lesson="07"] .ivl .dot { position: absolute; top: 4px; left: var(--p); width: 18px; height: 18px; border-radius: 50%; background: var(--accent); border: 3px solid var(--surface); transform: translateX(-50%); }
+
+    .lesson[data-lesson="07"] .claim { font: 500 clamp(15px, 1.6cqi, 19px)/1.3 var(--mono); padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--sunk); margin: 0; }
+    .lesson[data-lesson="07"] .qs { list-style: none; margin: 0; padding: 0; counter-reset: q; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+    .lesson[data-lesson="07"] .qs li { counter-increment: q; display: grid; grid-template-columns: 1.5em minmax(0, 1fr); gap: 6px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.4; color: var(--muted); }
+    .lesson[data-lesson="07"] .qs li::before { content: counter(q); font: 700 13px/1.5 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="07"] .qs b { display: block; font: 700 15px/1.3 var(--display); color: var(--ink); }
+
+    .lesson[data-lesson="07"] .evs { display: flex; flex-direction: column; }
+    .lesson[data-lesson="07"] .ev { display: grid; grid-template-columns: 124px minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.4; }
+    .lesson[data-lesson="07"] .ev b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="07"] .ev.head { border-top: 0; padding-top: 0; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="07"] .ev .w { color: var(--bad); }
+
+    .lesson[data-lesson="07"] .axis { display: grid; grid-template-columns: 1fr 1fr; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="07"] .axis span:last-child { text-align: right; }
+    .lesson[data-lesson="07"] .dvs { display: flex; flex-direction: column; gap: 12px; }
+    .lesson[data-lesson="07"] .dv { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); height: 16px; background: var(--sunk); border-radius: 4px; }
+    .lesson[data-lesson="07"] .dv::after { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; border-left: 2px solid var(--muted); transform: translateX(-1px); }
+    .lesson[data-lesson="07"] .dv i { display: block; height: 100%; width: var(--w); }
+    .lesson[data-lesson="07"] .dv .f { justify-self: end; background: var(--accent); border-radius: 4px 0 0 4px; }
+    .lesson[data-lesson="07"] .dv .s { grid-column: 2; background: var(--bad); border-radius: 0 4px 4px 0; }
+    .lesson[data-lesson="07"] .dv .soft { background: var(--accent-mid); }
+
+    .lesson[data-lesson="07"] .log { display: flex; flex-direction: column; gap: 8px; font-size: 12.5px; line-height: 1.5; }
+    .lesson[data-lesson="07"] .log p span { color: var(--muted); }
+    .lesson[data-lesson="07"] .verdicts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .lesson[data-lesson="07"] .verdict { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 15px; display: flex; flex-direction: column; gap: 4px; }
+    .lesson[data-lesson="07"] .verdict small { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="07"] .verdict.no { color: var(--muted); border-style: dashed; }
+
+    .lesson[data-lesson="07"] .gold { display: grid; grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1.5fr); align-items: center; }
+    .lesson[data-lesson="07"] .gold .parts { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="07"] .yaml { margin: 0; font: 500 12.5px/1.55 var(--mono); white-space: pre; }
+    .lesson[data-lesson="07"] .yaml .c { color: var(--muted); }
+
+    .lesson[data-lesson="07"] .rub { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 8px 14px; align-items: center; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="07"] .rub b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="07"] .rub .passes i { width: 12px; height: 12px; border-radius: 3px; }
+    .lesson[data-lesson="07"] .rub > span:nth-child(3n) { color: var(--muted); }
+    .lesson[data-lesson="07"] .fails { border: 1.5px solid var(--bad); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+    .lesson[data-lesson="07"] .fails b { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--bad); }
+    .lesson[data-lesson="07"] .fails ul { margin: 0; padding-left: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 24px; }
+    .lesson[data-lesson="07"] .blind { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; }
+
+    .lesson[data-lesson="07"] .pg { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 10px; align-items: center; }
+    .lesson[data-lesson="07"] .pg .side { font: 700 14px/1 var(--mono); }
+    .lesson[data-lesson="07"] .pg .cells { display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: 3px; }
+    .lesson[data-lesson="07"] .pg .cells i { aspect-ratio: 1; border-radius: 3px; background: var(--accent); }
+    .lesson[data-lesson="07"] .pg .cells i.x { background: repeating-linear-gradient(135deg, var(--line) 0 2px, transparent 2px 5px); border: 1px solid var(--line); }
+    .lesson[data-lesson="07"] .pg .cells .br { grid-column: 10 / span 6; border: 2px solid var(--mark); border-top: 0; height: 8px; border-radius: 0 0 5px 5px; position: relative; margin-bottom: 22px; }
+    .lesson[data-lesson="07"] .pg .cells .br span { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 13px; font-weight: 700; }
+    .lesson[data-lesson="07"] .counts { display: flex; flex-wrap: wrap; gap: 6px; }
+    .lesson[data-lesson="07"] .counts .hot { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+
+    .lesson[data-lesson="07"] .trig { display: grid; grid-template-columns: minmax(0, 2fr) 24px minmax(0, 3fr); gap: 0; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.4; }
+    .lesson[data-lesson="07"] .trig:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="07"] .trig b { font: 700 16px/1.3 var(--display); }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="07"] .ask { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+      .lesson[data-lesson="07"] .st { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .lesson[data-lesson="07"] .ways li { grid-template-columns: 1.6em minmax(0, 1fr); }
+      .lesson[data-lesson="07"] .ways li span { grid-column: 2; }
+      .lesson[data-lesson="07"] .qs { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="07"] .ev { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+      .lesson[data-lesson="07"] .ev.head { display: none; }
+      .lesson[data-lesson="07"] .verdicts { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="07"] .gold { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .lesson[data-lesson="07"] .gold .ar { transform: rotate(90deg); }
+      .lesson[data-lesson="07"] .rub { grid-template-columns: auto minmax(0, 1fr); }
+      .lesson[data-lesson="07"] .rub > span:nth-child(3n) { grid-column: 1 / -1; margin-top: -6px; }
+      .lesson[data-lesson="07"] .fails ul { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="07"] .trig { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+      .lesson[data-lesson="07"] .trig .to { display: none; }
+      .lesson[data-lesson="07"] .pg .cells { gap: 2px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["pass@(\\d+)", "pass at $1"], ["pass@k", "pass at k"], ["pass\\^(\\d+)", "pass hat $1"], ["pass\\^k", "pass hat k"], ["\\bSWE-bench\\b", "swee bench"], ["τ-bench", "tau bench"], ["\\bMETR\\b", "meter"], ["\\bgemini-cli\\b", "Gemini C L I"], ["\\bTerminus-2\\b", "Terminus two"], ["\\bZvi Mowshowitz\\b", "Zvee Mo-sho-witz"]]</script>
+
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 2 · Choosing a model</p>
+        <h1>How to tell if a model is good</h1>
+        <p class="meta">Lesson 07 · 20 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-score" aria-hidden="true">
+          <span class="big">72%</span>
+          <p class="on">Model X on Benchmark Y</p>
+          <div class="chips"><span class="chip pill c1">which version?</span><span class="chip pill c2">which harness?</span><span class="chip pill c3">what effort?</span><span class="chip pill c4">how many attempts?</span><span class="chip pill c5">who ran it?</span><span class="chip pill c6">at what cost?</span></div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Every model launch comes with a chart of scores. This lesson is about reading those scores, and about what to trust when the scores and your own experience disagree.</p><p>By the end you will know what goes into a benchmark number, how the numbers go wrong, and how to build a small test of your own from work you have already shipped.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">What "good" means</p>
+        <h2>"Good" is five separate questions</h2>
+        <p>A model can lead on hard math, be middling at following your team's code style, and be too slow or expensive for autocomplete.</p>
+        <p>Decide which of the five you care about before you look at a number.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#good-at-what-for-whom-at-what-cost" target="_blank" rel="noopener">Go deeper: good at what?</a></p>
+      </div>
+      <div class="vis">
+        <div class="asks">
+          <p class="grp">What most public benchmarks measure</p>
+          <div class="ask hl"><b>Capability</b><span>Can it do the task at all?</span></div>
+          <p class="grp">Most of your daily experience</p>
+          <div class="ask"><b>Reliability</b><span>Every time, or one time in three?</span></div>
+          <div class="ask"><b>Fit</b><span>Does it work in your language, framework, repo size and tool?</span></div>
+          <div class="ask"><b>Cost and speed</b><span>Dollars, subscription quota and wall-clock time per finished task.</span></div>
+          <div class="ask"><b>Behavior</b><span>Does it stay in scope, say when it's unsure, and write code a reviewer can follow?</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>"Is this model good" has no single answer. The screen splits it into five questions.</p><p>Capability asks whether the model can do the task at all. That is the highlighted row, and it is what most public benchmarks measure.</p><p>The other four are what you live with. Reliability is whether it works every time or one time in three. Fit is whether it works in your language, your framework and your tool. Cost and speed cover dollars, quota and waiting. Behavior covers staying in scope, admitting doubt, and writing code a reviewer can follow.</p><p>So a model can top a leaderboard and still be the wrong pick for your team. Decide which rows you care about first. Then go looking for evidence on those rows.</p><p class="inclass">Ask each person to rank the five for their own work. Autocomplete users and people running overnight agents will rank them differently.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">What a benchmark is</p>
+        <h2>A score describes a whole setup</h2>
+        <p>A benchmark is a fixed set of tasks plus a scoring rule. Running one takes six ingredients, and the model is only the first.</p>
+        <p>The harness is the program around the model that supplies tools and runs the loop. The grader decides pass or fail. Change any ingredient and the number moves.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#what-a-benchmark-actually-is" target="_blank" rel="noopener">Go deeper: what a benchmark is</a></p>
+      </div>
+      <div class="vis">
+        <div class="setup" role="img" aria-label="Six ingredients feed one reported score: model, harness, settings, task set and version, grader, and attempts.">
+          <div class="node">Model<small>weights and version</small></div>
+          <div class="node">Harness<small>tools, system prompt, retries</small></div>
+          <div class="node">Settings<small>reasoning effort, token budget, temperature</small></div>
+          <div class="node">Task set and version<small>contamination, label errors</small></div>
+          <div class="node">Grader<small>unit tests, rubric, LLM judge, humans</small></div>
+          <div class="node">Attempts<small>pass@1, pass@k, best of N</small></div>
+          <div class="down">↓</div>
+          <div class="node hl score">Reported score</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A benchmark is a fixed set of tasks and a rule for scoring them. People read the result as a fact about the model. The diagram shows six things that go into it.</p><p>The model is one box. The harness is the program wrapped around the model. It sends the prompt, offers tools such as a shell, and decides when to stop. Settings cover reasoning effort and token budget. The task set has a version, and versions differ. The grader decides pass or fail. For code that usually means hidden unit tests. For writing it can be a person or another model acting as judge.</p><p>The last box is attempts. Most headline numbers are pass@1, the share of tasks solved on the first try.</p><p>When two scores differ, any of the six boxes could be the reason.</p><p class="inclass">Put a launch chart on screen and ask the room to find all six ingredients in its footnotes. Usually two or three are missing.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Attempts</p>
+        <h2>The same model can look 99% reliable or 51%</h2>
+        <p>Models are stochastic, so one task can pass on one run and fail on the next. Two metrics count repeated attempts in opposite ways.</p>
+        <p>pass@k asks whether at least one of k attempts worked. pass^k asks whether all of them did. Check which one a score uses.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#why-evaluation-is-hard" target="_blank" rel="noopener">Go deeper: why evaluation is hard</a></p>
+      </div>
+      <div class="vis">
+        <p class="given">One task. The model solves it <b>80%</b> of the time. Three independent attempts.</p>
+        <div class="two">
+          <div class="panel">
+            <h3>pass@3</h3>
+            <p class="note">At least one attempt succeeds</p>
+            <div class="tries"><span class="chip c3">✓</span><span class="chip c2">✗</span><span class="chip c2">✗</span><span class="v">counts as a pass</span></div>
+            <span class="pct">99%</span>
+            <p class="calc">1 − 0.2³</p>
+            <p class="note">For work you can cheaply check and retry: generate five patches, keep the one that passes the tests.</p>
+          </div>
+          <div class="panel">
+            <h3>pass^3</h3>
+            <p class="note">Every attempt succeeds</p>
+            <div class="tries"><span class="chip c3">✓</span><span class="chip c3">✓</span><span class="chip c2">✗</span><span class="v">counts as a fail</span></div>
+            <span class="pct">51%</span>
+            <p class="calc">0.8³</p>
+            <p class="note">For work where every run has to succeed: customer-facing agents, unattended automation.</p>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Run a model twice on one task and you can get a pass and a fail. Benchmarks handle that in two ways, and the two give very different pictures.</p><p>Take a model that solves a task 80 percent of the time, and give it three tries. The left panel is pass@3. It counts a pass if any one try works. The chance that all three fail is tiny, so the score is 99 percent.</p><p>The right panel is pass^3, written with a caret. It counts a pass only if all three tries work. That comes to 51 percent. Same model, same task.</p><p>Pick the metric that fits how you work. If you can check results cheaply and retry, pass@k is fair. If an agent runs unattended, you need pass^k. The τ-bench paper introduced it and found GPT-4o agents below 25 percent at eight tries in its retail domain.</p><p class="inclass">Ask which metric fits an autocomplete tool, a PR-writing agent, and an unattended nightly job.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Contamination</p>
+        <h2>The model may have seen the test</h2>
+        <p>Models train on huge scrapes of the internet. If a benchmark's questions or solutions are online, a high score can reflect memory as well as problem-solving. That's contamination.</p>
+        <p>In a 2025 study, models saw only the text of a GitHub issue. They often named the file that needed fixing without ever seeing the repository.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#why-evaluation-is-hard" target="_blank" rel="noopener">Go deeper: why evaluation is hard</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Named the right file from the issue text alone</p>
+        <div class="scale" role="img" aria-label="On SWE-bench Verified tasks, models named the right file up to 76 percent of the time. On repositories outside SWE-bench, the best was 53 percent.">
+          <div class="srow"><div class="lab"><b>SWE-bench Verified tasks</b><span>up to 76%</span></div><div class="strack"><i style="width:76%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Repositories outside SWE-bench</b><span>best 53%</span></div><div class="strack"><i class="alt" style="width:53%"></i></div></div>
+          <div class="ticks"><span>0</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+        </div>
+        <p class="cap">The models had no access to the repository in either case. The gap suggests they had seen the benchmark's repositories in training.</p>
+        <span class="tag">The SWE-Bench Illusion, Liang et al., 2025</span>
+      </div>
+      <div class="talk" hidden><p>Models learn from huge scrapes of the internet. Public benchmarks live on the internet. If the questions or their solutions were in the training data, a high score can reflect memory as well as skill. That is called contamination.</p><p>The bars come from a 2025 paper called The SWE-Bench Illusion. Models were shown only the text of a GitHub issue. They had no repository to look at. On tasks from SWE-bench Verified, they still named the file that needed fixing up to 76 percent of the time. On repositories outside the benchmark, the best was 53 percent.</p><p>You can also test for this by writing fresh questions. A 2024 study rewrote a grade-school math benchmark with new problems. Some model families lost up to 8 points.</p><p>Your own private code is less likely to be in anyone's training set, and that is one reason the last part of this lesson builds a test from it.</p><p class="inclass">Ask how a model could name the right file without seeing the repo. Then ask what that says about its score on those tasks.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Shelf life</p>
+        <h2>A benchmark stays useful for a year or two</h2>
+        <p>When top models all score near the ceiling, a benchmark stops telling them apart. That's saturation. Add leaks into training data and wrong answer keys, and benchmarks keep getting retired.</p>
+        <p>Look for fresh, held-out, realistic tasks and a documented harness. The names will change.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#the-state-of-coding-benchmarks-november-2026-high-level" target="_blank" rel="noopener">Go deeper: the state of coding benchmarks</a></p>
+      </div>
+      <div class="vis">
+        <div class="status">
+          <div class="st"><b>Saturated</b><div><div class="chips"><span class="chip">HumanEval</span><span class="chip">MBPP</span><span class="chip">MMLU</span><span class="chip">GPQA Diamond</span></div><small>Smoke tests only. Labs were reporting mid-90s on GPQA Diamond when Artificial Analysis dropped it in September 2026.</small></div></div>
+          <div class="st"><b>Retired, still quoted</b><div><div class="chips"><span class="chip c2">SWE-bench Verified</span><span class="chip c2">Aider Polyglot</span></div><small>OpenAI stopped reporting SWE-bench Verified in February 2026. Aider Polyglot has had no new results since October 2025.</small></div></div>
+          <div class="st"><b>Still separating models</b><div><div class="chips"><span class="chip c3">Terminal-Bench 4.1</span><span class="chip c3">SWE-bench Pro</span><span class="chip c3">METR long tasks</span><span class="chip c3">FrontierCode</span></div><small>Terminal-Bench went from 2.0 in November 2025 to 4.0 in August 2026, removing saturated tasks, and 4.1 followed in November. METR's suite is close to saturated.</small></div></div>
+        </div>
+        <span class="tag">As of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Benchmarks wear out. The first way is saturation. Once the top models all score in the nineties, the test can no longer separate them. The top row lists benchmarks in that state.</p><p>The second way is leaking into training data, which the last screen covered. The third is bad answer keys. One study estimated that about six and a half percent of the questions in MMLU, a popular knowledge test, contain errors.</p><p>The middle row has the best-known case. OpenAI audited 138 SWE-bench Verified tasks that its o3 model didn't solve reliably. It found material flaws in the tests or descriptions of about 59 percent of them. In February 2026 it stopped reporting that benchmark.</p><p>The bottom row lists benchmarks that still separate frontier models as of November 2026. Expect that row to change. When you meet a benchmark you don't know, ask how old it is, whether its tasks are held out, and whether it documents the harness.</p><p class="inclass">Watch for someone quoting a SWE-bench Verified score from a 2026 launch post as if it settled anything.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Benchmark-maxing</p>
+        <h2>Once a score sells a model, labs aim at the score</h2>
+        <p>Goodhart's law: "When a measure becomes a target, it ceases to be a good measure."</p>
+        <p>Benchmark-maxing is optimizing a model, or how it's presented, for scores at the expense of the behavior users get. It ranges from defensible to dishonest.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#benchmark-maxing" target="_blank" rel="noopener">Go deeper: benchmark-maxing</a></p>
+      </div>
+      <div class="vis">
+        <ol class="ways">
+          <li><b>Benchmark-like training data</b><span>Legitimate skill-building, until the training set looks so much like the test that scores rise faster than ability.</span></li>
+          <li><b>Contamination</b><span>Test items or solutions end up in training data, by accident or carelessness.</span></li>
+          <li><b>Eval-specific tuning</b><span>A variant tuned to please one grader or audience.</span></li>
+          <li><b>Reward hacking</b><span>Training rewards "tests pass", so the model learns to special-case tests or over-engineer.</span></li>
+          <li><b>Cherry-picked setup</b><span>Report the agent, effort level and benchmark version that look best. Drop the benchmark that looked bad.</span></li>
+          <li><b>Undisclosed best of N</b><span>Several attempts or a majority vote, reported as one score.</span></li>
+          <li><b>Selective private testing</b><span>Test many variants in private and publish only the winner.</span></li>
+        </ol>
+      </div>
+      <div class="talk" hidden><p>Goodhart's law says that when a measure becomes a target, it stops being a good measure. Benchmark scores sell models, so labs aim at them.</p><p>The list shows seven ways that happens. The first is the most defensible. Labs train on tasks shaped like popular benchmarks. That builds real skill, up to the point where the practice set looks too much like the exam.</p><p>Number three has a well-known example. In April 2025, Meta's Llama 4 launch highlighted a second-place ranking on the Arena leaderboard. The ranked entry was an experimental variant tuned for conversation. It was a different model from the one Meta released. When the released model was tested, it ranked far lower.</p><p>Numbers five and six are the ones you can catch yourself. They live in the footnotes: the effort level, the number of attempts, and the benchmark that appeared in the last launch post and is missing from this one.</p><p class="inclass">Ask the room where the line is. If a lab trains hard on coding tasks and gets better at coding benchmarks, is that benchmark-maxing?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Benchmark-maxing</p>
+        <h2>A model can top the charts and still annoy its users</h2>
+        <p>Claude Opus 5 launched in July 2026 with strong scores and a mixed reception. Opus 5.5 followed two months later and fixed what people complained about.</p>
+        <p>No public evidence shows Opus 5 was trained on benchmark answers. The benchmarks scored task completion. Users also cared about communication, scope and judgment.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#a-recent-example-opus-5-to-opus-55" target="_blank" rel="noopener">Go deeper: Opus 5 to Opus 5.5</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Claude Opus 5</h3>
+            <p class="when">July 24, 2026</p>
+            <p class="kv"><b>Scores</b>Claimed state of the art on several coding and knowledge-work evals. Led the Artificial Analysis index at launch.</p>
+            <p class="kv"><b>Daily use</b>Complaints about verbosity, over-engineering beyond the request, and spinning at high effort. Others praised its coding.</p>
+          </div>
+          <div class="panel">
+            <h3>Claude Opus 5.5</h3>
+            <p class="when">September 22, 2026</p>
+            <p class="kv"><b>Anthropic</b>"Major improvements to the way Opus 5.5 writes and communicates", which it called one of the most common areas of feedback on Opus 5.</p>
+            <p class="kv"><b>Daily use</b>"The most consistently positive set of reactions I have ever seen." (Zvi Mowshowitz)</p>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Anthropic released Claude Opus 5 on July 24, 2026. The scores were strong, and an independent index had it in first place at launch.</p><p>The reception from daily users was mixed. Zvi Mowshowitz collected reactions and told readers not to pay too much attention to the benchmarks. The complaints were about long, complicated writing, doing more than was asked, and going in circles at high effort. Anthropic's own system card described unproductive self-verification and over-engineering.</p><p>Opus 5.5 came out on September 22. Anthropic said it had improved how the model writes and communicates, and the reaction was far warmer.</p><p>Lesson 05 quoted Bryan's take that Opus 5 was benchmark-maxed. The evidence supports a narrower claim. Nobody has shown that Opus 5 was trained on test answers. The benchmarks scored whether tasks got done. They barely scored communication or restraint, and those were the complaints.</p><p class="inclass">Ask for a model people in the room liked less than its scores suggested. Then ask what exactly bothered them. Specific complaints are evidence.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The harness</p>
+        <h2>The same model scores differently in different harnesses</h2>
+        <p>The Terminal-Bench team ran models in each vendor's own CLI and in a neutral research harness called Terminus-2. The scores moved, with the model held fixed.</p>
+        <p>Compare models in the harness you'll use, at the settings you'll use.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#harness-matters" target="_blank" rel="noopener">Go deeper: harness effects</a></p>
+      </div>
+      <div class="vis">
+        <div class="tlegend"><span><i class="sw"></i>Vendor's own CLI</span><span><i class="sw alt"></i>Terminus-2, neutral harness</span></div>
+        <div class="scale" role="img" aria-label="GPT-5.5 scored 24.7 percent in Codex and 21.2 percent in Terminus-2. Gemini 3.1 scored 12.2 percent in gemini-cli and 7.3 percent in Terminus-2.">
+          <div class="pair">
+            <div class="srow"><div class="lab"><b>GPT-5.5 in Codex</b><span>24.7%</span></div><div class="strack"><i style="width:82.3%"></i></div></div>
+            <div class="srow"><div class="lab"><b>GPT-5.5 in Terminus-2</b><span>21.2%</span></div><div class="strack"><i class="alt" style="width:70.7%"></i></div></div>
+          </div>
+          <div class="pair">
+            <div class="srow"><div class="lab"><b>Gemini 3.1 in gemini-cli</b><span>12.2%</span></div><div class="strack"><i style="width:40.7%"></i></div></div>
+            <div class="srow"><div class="lab"><b>Gemini 3.1 in Terminus-2</b><span>7.3%</span></div><div class="strack"><i class="alt" style="width:24.3%"></i></div></div>
+          </div>
+          <div class="ticks"><span>0</span><span>10%</span><span>20%</span><span>30%</span></div>
+        </div>
+        <p class="cap">The authors note that none of these gaps reached statistical significance. Small samples can hide a harness effect or fake one.</p>
+        <span class="tag">Harbor-Index, Terminal-Bench team, June 2026</span>
+      </div>
+      <div class="talk" hidden><p>The harness is part of the score. These bars come from a June 2026 study by the Terminal-Bench team. They ran each model twice. Once in its vendor's own command-line tool, and once in a neutral research harness called Terminus-2.</p><p>GPT-5.5 scored 24.7 percent in Codex and 21.2 in the neutral harness. Gemini 3.1 scored 12.2 percent in gemini-cli and 7.3 in the neutral one. Both models have been replaced since, so read the bars for the size of the harness effect.</p><p>Read the caption too. The authors say none of these gaps reached statistical significance. The next screen is about that problem.</p><p>Effort and token budget count as harness settings. A 2026 paper that varied them across twelve models concluded that benchmark scores depend on the protocol. More effort is no guarantee either. Reviewers reported Opus 5 doing worse at its highest effort settings.</p><p>So when a leaderboard lists a model, look for the agent next to it. Then test in the tool you use.</p><p class="inclass">Ask which harness each person uses daily, and whether the last score they quoted came from that harness.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Error bars</p>
+        <h2>A lead smaller than the error bar tells you little</h2>
+        <p>A pass rate from a handful of tasks is a rough estimate. With 20 tasks and a 60% pass rate, the 95% interval is roughly plus or minus 22 points.</p>
+        <p>Two configurations at 55% and 65% on 20 tasks are statistically indistinguishable. Ask for the interval before you believe a gap.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#the-statistics-of-small-evals" target="_blank" rel="noopener">Go deeper: the statistics of small evals</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Two configurations, 20 tasks each</p>
+        <div class="ivls" role="img" aria-label="Configuration A passes 55 percent, with a 95 percent interval from about 33 to 77. Configuration B passes 65 percent, with an interval from about 44 to 86. The intervals overlap from 44 to 77.">
+          <div class="both" aria-hidden="true"></div>
+          <div class="lab"><b>A passes 11 of 20</b><span>55%, likely range 33 to 77</span></div>
+          <div class="ivl"><span class="rng" style="--l:33%;--w:44%"></span><span class="dot" style="--p:55%"></span></div>
+          <div class="lab"><b>B passes 13 of 20</b><span>65%, likely range 44 to 86</span></div>
+          <div class="ivl"><span class="rng" style="--l:44%;--w:42%"></span><span class="dot" style="--p:65%"></span></div>
+          <div class="ticks"><span>0</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+        </div>
+        <p class="cap">The shaded band is where both ranges overlap. Standard error is about √(p(1−p)/n), and the 95% range is about twice that on each side.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>A pass rate measured on a few tasks is an estimate, and estimates have a range. On screen are two configurations, each run on 20 tasks. A passed 11. B passed 13.</p><p>The dots are the pass rates, 55 and 65 percent. The pale bars are the ranges the true rate plausibly sits in. Each one is more than 40 points wide. The shaded band is where they overlap, and both dots sit inside it. On this evidence you cannot tell A from B.</p><p>Public leaderboards have the same problem at a smaller scale. On the Terminal-Bench 4.1 leaderboard on November 18, 2026, second place and fifth place were 1.9 points apart. Each score carried a 95 percent interval of about 3 points either way.</p><p>Anthropic's Opus 5.5 announcement, from September 2026, says benchmark margins have become a less reliable guide at these levels of capability.</p><p>More tasks shrink the range. Repeated runs help too. A later screen shows a third option, which is to compare on the same tasks and count disagreements.</p><p class="inclass">Ask how many tasks it would take to trust a 10-point gap. Then work out the standard error together for 100 tasks.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reading a claim</p>
+        <h2>Ask eight questions of any score</h2>
+        <p>Most of the answers are in the footnotes. A missing answer is information too.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#reading-a-benchmark-claim-a-checklist" target="_blank" rel="noopener">Go deeper: the checklist</a></p>
+      </div>
+      <div class="vis">
+        <p class="claim">"Model X scores 72% on Benchmark Y"</p>
+        <ol class="qs">
+          <li><span><b>Which version?</b>Different versions have different tasks.</span></li>
+          <li><span><b>Which harness?</b>The lab's agent, a vendor CLI, or a neutral one.</span></li>
+          <li><span><b>What settings?</b>Effort, token budget, number of attempts.</span></li>
+          <li><span><b>Who ran it?</b>The lab, the maintainers, or an independent evaluator.</span></li>
+          <li><span><b>Compared with what?</b>Rivals run the same way, or quoted from their own posts.</span></li>
+          <li><span><b>What's the error bar?</b></span></li>
+          <li><span><b>What's missing?</b>Benchmarks reported last time and dropped this time.</span></li>
+          <li><span><b>What does each task cost?</b>A higher score at three times the cost may be the worse buy.</span></li>
+        </ol>
+        <span class="tag">Illustrative claim</span>
+      </div>
+      <div class="talk" hidden><p>This is the checklist to run on any benchmark claim. Take the sentence at the top: Model X scores 72 percent on Benchmark Y.</p><p>The first three questions are about the setup. Which version of the benchmark, which harness, and what settings. A footnote that says "max effort, best of five" changes what the number means.</p><p>Question four is who ran it. Question five is what it was compared with. On Terminal-Bench, Anthropic's September 2026 Opus 5.5 post compares its model at extra-high effort against a rival's own reported figure at high effort. It says so in a footnote, and that footnote is the kind of thing you are looking for.</p><p>Six is the error bar. Seven is what's missing. If a lab reported a benchmark last time and dropped it this time, ask why. Eight is cost per task. Many 2026 launch posts now chart score against cost for that reason.</p><p class="inclass">Hand out a real launch post. Give the room five minutes to answer all eight from its text and footnotes, and count how many can't be answered.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Second opinions</p>
+        <h2>Independent evaluators run every model the same way</h2>
+        <p>A launch post comes from the lab, which picks the benchmarks and the settings. Independent evaluators give you consistency: one setup for every model.</p>
+        <p>They still choose the benchmarks and harnesses, and some have commercial ties to labs. Use two or three as a cross-check.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#independent-evaluators" target="_blank" rel="noopener">Go deeper: independent evaluators</a></p>
+      </div>
+      <div class="vis">
+        <div class="evs">
+          <div class="ev head"><span>Evaluator</span><span>What it does</span><span>Watch for</span></div>
+          <div class="ev"><b>Artificial Analysis</b><span>Standardized runs, a composite Intelligence Index, speed and price tracking</span><span class="w">The index's parts change every few months</span></div>
+          <div class="ev"><b>Epoch AI</b><span>Its own runs with error bars, plus trend research</span><span class="w">OpenAI funded its FrontierMath benchmark (disclosed)</span></div>
+          <div class="ev"><b>METR</b><span>Long-task time horizons, pre-deployment evaluations</span><span class="w">Works closely with labs. Few tasks at the top end</span></div>
+          <div class="ev"><b>Vals AI</b><span>Private and held-out evals in finance, legal and coding</span><span class="w">You can't inspect the proprietary sets</span></div>
+          <div class="ev"><b>Scale Labs</b><span>SWE-bench Pro and other evals with private splits</span><span class="w">Scale also sells training data to labs</span></div>
+          <div class="ev"><b>LiveBench</b><span>Regularly refreshed questions with objective answers</span><span class="w">Short tasks, less agentic</span></div>
+          <div class="ev"><b>Arena</b><span>Human preference votes between two anonymous models</span><span class="w">Voters reward style. Private testing by providers</span></div>
+        </div>
+        <span class="tag">As of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>A launch post is written by the company selling the model. It picks which benchmarks to show and which settings to use. The table lists seven groups that test models from the outside.</p><p>What they give you is consistency. Artificial Analysis, for example, runs every model under the same prompts and settings. A lab's chart can't offer that for its rivals.</p><p>The right-hand column is why you should read more than one. Each has a blind spot. Artificial Analysis keeps swapping the tests inside its index, so an old index number and a new one don't compare. Epoch's FrontierMath was funded by OpenAI. Scale sells training data to the labs it ranks.</p><p>Arena deserves a note. It ranks models by which answer people prefer in side-by-side chats. That tells you which model people enjoy talking to. It says much less about which one should drive a coding agent for three hours.</p><p class="inclass">Pull up two of these sites live and compare their top five. Ask the room to explain one disagreement using the six ingredients.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Long tasks</p>
+        <h2>Time horizon is a trend line, with a big asterisk</h2>
+        <p>METR measures the 50% time horizon: the length of task, in skilled-human time, that a model completes half the time.</p>
+        <p>It has grown fast. The 80% horizon is much shorter, and METR's tasks are cleaner and better specified than most real tickets.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#long-horizons" target="_blank" rel="noopener">Go deeper: long horizons</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Task length a frontier model finishes half the time</p>
+        <div class="scale" role="img" aria-label="50 percent time horizon: about 50 minutes for Claude 3.7 Sonnet in March 2025, about 320 minutes for Claude Opus 4.5 in January 2026, and about 12 hours for public frontier models in February to March 2026. The 80 percent horizon in that last report is about 1.5 hours.">
+          <div class="srow"><div class="lab"><b>Claude 3.7 Sonnet, reported March 2025</b><span>about 50 minutes</span></div><div class="strack"><i style="width:6.9%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Claude Opus 4.5, reported January 2026</b><span>about 320 minutes (170 to 729)</span></div><div class="strack"><i style="width:44.4%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Public frontier, February to March 2026</b><span>about 12 hours (5 to 61)</span></div><div class="strack"><i class="full"></i></div></div>
+          <div class="pair"><div class="srow"><div class="lab"><b>Same report, tasks finished 80% of the time</b><span>about 1.5 hours</span></div><div class="strack"><i class="ink" style="width:12.5%"></i></div></div></div>
+          <div class="ticks"><span>0</span><span>3 h</span><span>6 h</span><span>9 h</span><span>12 h</span></div>
+        </div>
+        <p class="cap">Ranges in brackets are 95% confidence intervals. In the last report, METR said the best agents had essentially saturated its task suite.</p>
+        <span class="tag">METR, 2025 to May 2026</span>
+      </div>
+      <div class="talk" hidden><p>One benchmark you will hear quoted a lot is METR's time horizon. It asks how long a task a model can finish, measured by how long the task takes a skilled person. The headline figure is the length the model completes half the time.</p><p>The top three bars show the growth. About 50 minutes in early 2025. About 320 minutes by January 2026. About 12 hours for the public frontier in February and March of 2026.</p><p>Now read the small print. The range on that 12-hour figure runs from 5 hours to 61. And the dark bar at the bottom is the same models at an 80 percent success rate. That horizon is about an hour and a half.</p><p>METR also reviewed the successful runs on its longest tasks and judged at least 16 percent of them illegitimate. The model had cheated.</p><p>Use this number as a trend. It says agents are getting better at long work, quickly. It doesn't promise that your eight-hour ticket will come back done.</p><p class="inclass">Ask which bar you would plan a project around: the one that works half the time or the one that works four times in five.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Productivity studies</p>
+        <h2>Studies of developer speed run from 56% less time to 19% more</h2>
+        <p>Benchmarks measure models. Teams care whether people with models ship faster, and the experiments disagree.</p>
+        <p>They measured different tasks, people, tools and outcomes. Greenfield tasks and less experienced developers show the biggest gains. Experts in their own mature repos show the least.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#real-world-productivity-evidence" target="_blank" rel="noopener">Go deeper: productivity evidence</a></p>
+      </div>
+      <div class="vis">
+        <div class="axis"><span>← less time with AI</span><span>more time with AI →</span></div>
+        <div class="dvs scale" role="img" aria-label="Peng 2023: 55.8 percent less time. Paradis 2024: about 21 percent less time. METR 2025: 19 percent more time. METR February 2026: 18 percent less time, which METR calls an unreliable signal.">
+          <div class="srow"><div class="lab"><b>Peng, 2023</b><span>55.8% less time</span></div><div class="dv"><i class="f" style="--w:93%"></i></div><p class="note">One small greenfield task, with 2022-era autocomplete</p></div>
+          <div class="srow"><div class="lab"><b>Paradis, 2024</b><span>about 21% less time</span></div><div class="dv"><i class="f" style="--w:35%"></i></div><p class="note">96 Google engineers, one enterprise task</p></div>
+          <div class="srow"><div class="lab"><b>METR, 2025</b><span>19% more time</span></div><div class="dv"><i class="s" style="--w:31.7%"></i></div><p class="note">16 experienced maintainers, 246 tasks in their own large repos</p></div>
+          <div class="srow"><div class="lab"><b>METR follow-up, February 2026</b><span>18% less time (CI −38% to +9%)</span></div><div class="dv"><i class="f soft" style="--w:30%"></i></div><p class="note">Returning developers. METR calls it an unreliable signal.</p></div>
+        </div>
+        <p class="cap">Not on this axis: three field experiments with 4,867 developers found 26% more completed tasks (Cui, Demirer et al., 2025). That counts output such as PRs, which is a different thing from time saved.</p>
+      </div>
+      <div class="talk" hidden><p>Everything so far measured models. Your team cares about a different question: do people with these tools ship faster. The controlled experiments on that disagree.</p><p>Bars to the left mean the AI group took less time. The top one is from 2023. People building a small web server with Copilot took about 56 percent less time. One greenfield task, with autocomplete from 2022.</p><p>The red bar is METR's 2025 study. Sixteen experienced open-source maintainers worked in their own large repositories with early-2025 tools. They took 19 percent longer with AI.</p><p>The pale bar is METR's follow-up with late-2025 tools. It points the other way, but METR calls it unreliable. Many developers held back tasks they didn't want to do without AI.</p><p>The studies differ in task, in who was measured, in tool generation, and in what was counted. A fair summary for a skeptical team: real speedups on some work, real slowdowns on other work. Measure your own.</p><p class="inclass">Ask which study looks most like the room's daily work. Most people will pick the one that matches what they already believed.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Self-report</p>
+        <h2>People feel faster than they measure</h2>
+        <p>In METR's 2025 study, developers predicted AI would make them 24% faster. Afterward they believed it had made them 20% faster. They were 19% slower.</p>
+        <p>Surveys of how fast people feel aren't measured time savings. If you survey your team, pair it with something measured: cycle time, golden-task timing, or change-failure rate.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#self-report-vs-measurement" target="_blank" rel="noopener">Go deeper: self-report vs measurement</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">METR, 2025: the same 16 developers</p>
+        <div class="axis"><span>← faster with AI</span><span>slower with AI →</span></div>
+        <div class="dvs scale" role="img" aria-label="Predicted beforehand: 24 percent faster. Believed afterward: 20 percent faster. Measured: 19 percent slower.">
+          <div class="srow"><div class="lab"><b>Predicted beforehand</b><span>24% faster</span></div><div class="dv"><i class="f soft" style="--w:40%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Believed afterward</b><span>20% faster</span></div><div class="dv"><i class="f soft" style="--w:33.3%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Measured</b><span>19% slower</span></div><div class="dv"><i class="s" style="--w:31.7%"></i></div></div>
+        </div>
+        <p class="sub">METR on Anthropic, November 2026</p>
+        <div class="scale" role="img" aria-label="Staff self-reported about 12 times uplift. Measured progress was about 2 times faster.">
+          <div class="srow"><div class="lab"><b>Staff self-reported uplift</b><span>about 12x</span></div><div class="strack"><i class="alt" style="width:100%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Measured progress vs 2024 to 2025</b><span>about 2x (plausibly 1.3x to 3x)</span></div><div class="strack"><i style="width:16.7%"></i></div></div>
+        </div>
+        <p class="cap">METR notes that individual uplift and an organization's speed aren't the same quantity. The gap is still large.</p>
+      </div>
+      <div class="talk" hidden><p>The top chart is the same METR study from the last screen, with two more bars. Before the experiment, the developers predicted AI would make them 24 percent faster. After it, they believed it had made them 20 percent faster. The measured result was 19 percent slower. They got the direction wrong about their own work.</p><p>The bottom chart is from November 2026. METR assessed AI research speed inside Anthropic. Staff reported that AI made them about twelve times more productive. Measured progress was about twice as fast as a year or two earlier. Those two numbers measure slightly different things, and the gap is still large.</p><p>Surveys show the same lean. In the 2025 DORA survey, more than 80 percent of respondents believed AI had raised their productivity.</p><p>So when someone says a tool made them three times faster, treat it as a feeling until there is a clock behind it. That includes your own sense of it.</p><p class="inclass">Ask everyone to write down how much faster AI makes them. Then ask who has timed it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Vibes</p>
+        <h2>Vibes are data once you write them down</h2>
+        <p>Experienced users often spot a change before benchmarks do. Their impressions are also noisy: a new model feels smarter for a week, and you remember the one spectacular failure over forty quiet successes.</p>
+        <p>Keep a log, one line per notable result. Decide what you're testing before you look, and judge again after two weeks.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#vibes-are-data-too" target="_blank" rel="noopener">Go deeper: vibes</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">A vibes log</p>
+        <div class="doc log">
+          <p><span>Nov 12 · Model A · CLI X 3.2 · refactor ·</span> renamed 14 call sites, stayed in scope</p>
+          <p><span>Nov 13 · Model A · CLI X 3.2 · bugfix ·</span> rewrote the invoice calculator for a one-line fix</p>
+          <p><span>Nov 14 · Model B · CLI X 3.2 · bugfix ·</span> one-line fix plus a regression test</p>
+          <p><span>Nov 17 · Model A · CLI X 3.2 · bugfix ·</span> added a config system nobody asked for</p>
+        </div>
+        <div class="verdicts">
+          <div class="verdict"><small>Counts</small>"It over-engineers small fixes."</div>
+          <div class="verdict no"><small>Doesn't</small>"It feels dumber."</div>
+        </div>
+        <p class="cap">Trust a vibe more when independent experienced users report the same specific behavior.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Vibes are the impressions of people who use a model every day. They are real evidence. In April 2025, OpenAI rolled back a GPT-4o update that had become too flattering. It wrote afterward that some expert testers had said the model felt off before launch, and the positive test metrics had won the argument. Its lesson was to give that kind of signal more weight.</p><p>Vibes are also noisy. New models get a honeymoon week. One viral post sets everyone's expectations. Memory keeps the disaster and drops the forty quiet wins.</p><p>The fix is on screen: a log. One line each time something notable happens, with the date, the model, the harness and version, the kind of task, and what happened. Then you count lines when you'd otherwise be recalling.</p><p>Two more habits. Hide the model names before you judge output, because people favor the model they expect to win. And prefer specific reports. Two entries in this log say the same specific thing about Model A. That is worth more than a general feeling.</p><p class="inclass">Ask who keeps any record of model failures. Start a shared log for the class today.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Your own eval</p>
+        <h2>Your best benchmark is your own merged PRs</h2>
+        <p>A golden task is a real, solved piece of your work, frozen so you can replay it. Start with 10 to 20 from the last 3 to 12 months and grow toward 30 to 50.</p>
+        <p>Mix bug fixes, small features, refactors and tests. Include one trap, where the right move is to ask a question or refuse.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#1-build-a-golden-task-set" target="_blank" rel="noopener">Go deeper: build a golden-task set</a></p>
+      </div>
+      <div class="vis">
+        <div class="gold">
+          <div class="node hl">A merged PR<small>from your repo</small></div>
+          <div class="ar">→</div>
+          <div class="parts">
+            <div class="node">Commit before the PR<small>the starting state</small></div>
+            <div class="node">The PR's tests, hidden from the agent<small>the grader</small></div>
+            <div class="node">How long the PR took<small>the human baseline</small></div>
+          </div>
+        </div>
+        <div class="doc scroll"><pre class="yaml">id: billing-proration-0142
+base_commit: 3f9c2e1     <span class="c"># commit before the original fix</span>
+category: bugfix
+human_minutes: 45
+prompt: |
+  Customers who upgrade plans mid-cycle are sometimes charged
+  one cent more than the prorated amount shown on the preview
+  screen. Find and fix the bug. Add a regression test.
+grading:
+  hidden_tests: evals/hidden/test_proration_0142.py
+  must_not_touch: [migrations/, src/api/public/]</pre></div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Public benchmarks tell you whether a model is strong in general. Your own eval tells you whether to use it in your tool, on your code. You can start one in an afternoon.</p><p>The raw material is merged pull requests. The diagram shows how one becomes a test. The commit just before the PR is the starting state. The PR's tests are the grader. Keep them where the agent can't see them, so it can't edit them to pass. The time the original took is your human baseline.</p><p>Below is a task file. It has the starting commit, the prompt a teammate might have written, the hidden tests, and paths the agent must leave alone.</p><p>Use recent PRs, since they are less likely to be in any training data. Mix the task types. Add one trap where the right answer is to ask a question or refuse an unsafe instruction.</p><p>Start with ten to twenty. A small set can only detect large differences, as the error bar screen showed.</p><p class="inclass">Have each person name one merged PR from the last few months that would make a good golden task, and one that would make a good trap.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Your own eval</p>
+        <h2>Score each run blind, against a rubric</h2>
+        <p>Hidden tests cover correctness. A rubric covers what tests miss: scope, code quality, and whether the summary is honest.</p>
+        <p>Replace model names with random IDs and shuffle before anyone scores. Also record minutes, human interventions, and cost or quota used.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#3-scoring-rubric" target="_blank" rel="noopener">Go deeper: the scoring rubric</a></p>
+      </div>
+      <div class="vis">
+        <div class="blind"><span class="chip">r-7f3a</span><span class="chip">r-2c91</span><span class="chip">r-e044</span><span>The reviewer sees a diff, a final message and an ID.</span></div>
+        <div class="rub" role="img" aria-label="Rubric out of 10: correctness 4 points, scope discipline 2, code quality 2, tests 1, communication 1.">
+          <b>Correctness</b><span class="passes"><i></i><i></i><i></i><i></i></span><span>All hidden tests pass</span>
+          <b>Scope discipline</b><span class="passes"><i></i><i></i></span><span>About as small as the reference change</span>
+          <b>Code quality</b><span class="passes"><i></i><i></i></span><span>A reviewer would approve as-is</span>
+          <b>Tests</b><span class="passes"><i></i></span><span>Adds a meaningful regression test</span>
+          <b>Communication</b><span class="passes"><i></i></span><span>Summary is accurate and flags real uncertainty</span>
+        </div>
+        <div class="fails">
+          <b>Hard fails: score 0</b>
+          <ul><li>Edits, deletes or skips tests to pass</li><li>Claims success the grading run doesn't confirm</li><li>Touches a forbidden path or leaks a secret</li><li>Runs a destructive command outside the sandbox</li></ul>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Passing tests is the start of grading. The rubric on screen has ten points. Four go to correctness. Two go to scope, meaning the change is about as small as the reference fix. Two go to code quality. One each goes to adding a real regression test and to an accurate summary.</p><p>Those lower rows are where the Opus 5 complaints lived. A model that rewrites the whole module to fix one line can pass every test and still lose points here.</p><p>The red box lists hard fails. Editing tests to make them pass scores zero. So does claiming a success the grading run doesn't confirm.</p><p>Then blind it. The chips at the top are random run IDs. The reviewer gets a diff and a final message with no model name attached. People reliably score the model they expect to win more kindly.</p><p>Alongside the score, write down the minutes, how often a human stepped in, and the cost.</p><p class="inclass">Give the room two diffs for the same task with names removed. Have everyone score both, then compare scores before the reveal.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Your own eval</p>
+        <h2>Change one thing, then read the disagreements</h2>
+        <p>A configuration is model plus harness plus version plus settings. Compare two that differ in one place, on identical tasks, three runs each if you can afford it.</p>
+        <p>Then look at the tasks where one passed and the other failed. Reading those transcripts shows what separates the two.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#4-run-it-blind" target="_blank" rel="noopener">Go deeper: run it blind</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">20 golden tasks, two configurations</p>
+        <div class="pg" role="img" aria-label="Twenty tasks. Both configurations pass nine. Only A passes five. Only B passes one. Both fail five. The six disagreements are bracketed.">
+          <span class="side">A</span><div class="cells"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i></div>
+          <span class="side">B</span><div class="cells"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i></div>
+          <span></span><div class="cells"><div class="br"><span>read these six</span></div></div>
+        </div>
+        <div class="counts"><span class="chip pill">both pass: 9</span><span class="chip pill hot">only A: 5</span><span class="chip pill hot">only B: 1</span><span class="chip pill">both fail: 5</span></div>
+        <p class="cap">A passes 70% and B passes 50%. At 20 tasks those ranges overlap. The paired view shows where the two differ, and those six transcripts show why.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Now run the comparison. A configuration is the full setup: model, harness, version and settings. Pick two that differ in one place. For example, two models in the same tool at the same effort. If you change two things, you won't know which one caused the difference.</p><p>Run every task three times per configuration if you can afford it. That gives you an average pass rate and a rough pass^3, the share of tasks solved all three times.</p><p>The grid shows one result. Each column is a task. Filled squares passed. A passed 14 of 20 and B passed 10. From the error bar screen, you know those two rates overlap at this size.</p><p>The paired view gives you more. Both passed nine tasks and both failed five. Those fourteen tell you nothing about the difference. The bracket marks the six where they split. Five went to A and one to B.</p><p>Open those six transcripts. You will find out whether A is better at something you care about, or whether B tripped on one quirk of your setup.</p><p class="inclass">Ask what you would conclude if all five of A's wins were refactors and B's one win was the trap task.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Your own eval</p>
+        <h2>Rerun it whenever the model or the tool changes</h2>
+        <p>The set pays off every time a model ships. Keep it in the repo next to the code, and review changes to it like code.</p>
+        <p>Pin versions in the results file, so a result from three months ago still says what it measured.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#6-rerun-on-every-change" target="_blank" rel="noopener">Go deeper: rerun on every change</a></p>
+      </div>
+      <div class="vis">
+        <div>
+          <div class="trig"><b>New model or version</b><span class="to">→</span><span>Rerun the full set before you switch your team's default.</span></div>
+          <div class="trig"><b>Harness update</b><span class="to">→</span><span>Rerun a five-task smoke subset. Harness changes have caused real regressions.</span></div>
+          <div class="trig"><b>Using an API</b><span class="to">→</span><span>Pin dated model snapshots. A "latest" alias can change underneath you.</span></div>
+          <div class="trig"><b>A task's fix is now public</b><span class="to">→</span><span>Replace the task once models start acing it.</span></div>
+          <div class="trig"><b>Any passing run</b><span class="to">→</span><span>Diff the test directory and read a sample of passing transcripts. Agents game graders.</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>An eval you ran once goes stale as fast as a public benchmark. The table shows when to run it again.</p><p>A new model or version means the full set, before you change your team's default. A harness update means a quick subset of about five tasks. Tool updates have caused real regressions with the model unchanged.</p><p>If you call models through an API, pin a dated snapshot. An alias like "latest" can point at a different model next month, and your old results would then describe something you no longer run.</p><p>Tasks leak too. If a fix becomes public and models start acing that task, swap it out.</p><p>The last row is about trusting your grader. Stronger agents are better at gaming tests. METR says checking for cheating is often most of the work of running its suite. The Terminal-Bench maintainers removed leaderboard entries that had hidden solutions inside the agent or pulled answers from the internet. So hide your tests, diff the test folder, and read some of the passing runs yourself.</p><p class="inclass">Ask who owns the rerun on the team when a new model ships. If nobody does, the eval will be run once.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>A score describes a model, a harness, settings, a task set, a grader and a number of attempts. Find all six before you compare.</li>
+          <li>Benchmarks leak, saturate and get aimed at. Cross-check a launch post with independent runs and with what specific users report.</li>
+          <li>Start with 10 to 20 golden tasks from your own merged PRs. Grade them blind, and rerun them when the model or the tool changes.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md#build-your-own-eval" target="_blank" rel="noopener">Go deeper: build your own eval</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, a score belongs to a whole setup. That means the model, the harness, the settings, the tasks, the grader and the number of attempts. Find all six before you compare two numbers.</p><p>Second, public benchmarks leak, saturate, and get aimed at. Read launch posts next to independent evaluators, and next to specific reports from people who use the model daily.</p><p>Third, the eval that decides things for you is your own. Start with ten to twenty tasks from your merged PRs, graded blind, and run again whenever the model or the tool changes.</p><p class="inclass">Homework. Each person turns two merged PRs into golden tasks, so the group has a shared set by next session.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 07 done</p>
+        <h2>Next: harnesses, tools, and MCP</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-08">Lesson 08</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/07-judging-models.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson seven. The harness kept showing up as part of every score. Lesson eight opens it up: the programs that wrap a model, the tools they hand it, and MCP.</p></div>
+    </article>
+</section>

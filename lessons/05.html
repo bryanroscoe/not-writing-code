@@ -1,0 +1,706 @@
+<section class="lesson" data-lesson="05" data-title="The model landscape" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="05"] .hero-name { display: flex; flex-wrap: wrap; gap: 10px; }
+    .lesson[data-lesson="05"] .hero-name .tk { gap: 8px; }
+    .lesson[data-lesson="05"] .hero-name .chip { font-size: clamp(28px, 4.2cqi, 56px); padding: .14em .22em; border-radius: 10px; font-weight: 600; }
+    .lesson[data-lesson="05"] .hero-name small { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+
+    .lesson[data-lesson="05"] .grp { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="05"] .grp-h { margin: 0; font: 600 12px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="05"] .labs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .lesson[data-lesson="05"] .labs .node { font-size: 14px; padding: 8px 10px; }
+    .lesson[data-lesson="05"] .labs .node small { font-size: 12.5px; line-height: 1.35; }
+    .lesson[data-lesson="05"] .labs .node.lead { border-color: var(--accent); }
+
+    .lesson[data-lesson="05"] .product { border: 1px dashed var(--accent-mid); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="05"] .layer { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 4px 12px; align-items: baseline; background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="05"] .layer b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="05"] .layer span { color: var(--muted); }
+    .lesson[data-lesson="05"] .layer.core { background: var(--accent-soft); border-color: var(--accent-mid); }
+
+    .lesson[data-lesson="05"] .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; }
+    .lesson[data-lesson="05"] .flow .box { font-size: 13px; padding: 6px 8px; }
+    .lesson[data-lesson="05"] .flow .box.shut { border-style: dashed; color: var(--muted); }
+
+    .lesson[data-lesson="05"] .legend4 { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="05"] .legend4 div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 10px; align-items: center; font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="05"] .legend4 .chip { justify-self: start; font-size: 13px; }
+    .lesson[data-lesson="05"] .names { display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--line); padding-top: 14px; }
+    .lesson[data-lesson="05"] .names .trow { gap: 6px; align-items: flex-start; }
+    .lesson[data-lesson="05"] .names .chip { font-size: clamp(16px, 1.9cqi, 22px); padding: 8px 10px; }
+    .lesson[data-lesson="05"] .idrow { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 14px; color: var(--muted); }
+    .lesson[data-lesson="05"] .idrow code { font-size: 14px; color: var(--ink); background: var(--sunk); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; }
+
+    .lesson[data-lesson="05"] .lab3 { display: grid; grid-template-columns: minmax(0, 1.25fr) repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .lesson[data-lesson="05"] .lab3 > div { padding: 10px 12px; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; min-width: 0; display: flex; flex-direction: column; gap: 5px; align-items: flex-start; }
+    .lesson[data-lesson="05"] .lab3 > .hd { border-top: 0; background: var(--sunk); font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="05"] .lab3 > .rl { background: var(--sunk); }
+    .lesson[data-lesson="05"] .lab3 .rl b { font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="05"] .lab3 small { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+    .lesson[data-lesson="05"] .lab3 .price { font: 600 13px/1.3 var(--mono); font-variant-numeric: tabular-nums; }
+    .lesson[data-lesson="05"] .lab3 .chip { font-size: 13px; white-space: normal; }
+    .lesson[data-lesson="05"] .lab3 .same { background: var(--accent-soft); }
+
+    .lesson[data-lesson="05"] .tl { stroke: var(--line); stroke-width: 1; }
+    .lesson[data-lesson="05"] .dot { fill: var(--accent); }
+    .lesson[data-lesson="05"] .dot.top { fill: var(--mark); stroke: var(--ink); stroke-width: 1.5; }
+    .lesson[data-lesson="05"] .ver { font-size: 13px; text-anchor: middle; fill: var(--ink); }
+    .lesson[data-lesson="05"] .ver.big { font-weight: 700; }
+    .lesson[data-lesson="05"] .rowl { font-size: 13px; fill: var(--ink); }
+    .lesson[data-lesson="05"] .mo { font-size: 11.5px; fill: var(--muted); text-anchor: middle; }
+
+    .lesson[data-lesson="05"] .score { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; }
+    .lesson[data-lesson="05"] .score .who { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+    .lesson[data-lesson="05"] .score .who small { font: 500 12px/1 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="05"] .score .track.dim i { background: var(--accent-mid); }
+
+    .lesson[data-lesson="05"] .chain { display: grid; grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr) 26px minmax(0, 1fr); grid-template-rows: auto 40px auto; }
+    .lesson[data-lesson="05"] .chain .mid { display: grid; place-items: center; color: var(--accent); font: 700 18px/1 var(--mono); }
+    .lesson[data-lesson="05"] .gaps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="05"] .gap { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.4; min-width: 0; }
+    .lesson[data-lesson="05"] .gap small { font: 600 11px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .lesson[data-lesson="05"] .gap b { font: 720 22px/1.15 var(--display); }
+
+    .lesson[data-lesson="05"] .cuts { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); gap: 14px 14px; align-items: center; }
+    .lesson[data-lesson="05"] .cuts .lab { font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="05"] .cuts .lab b { display: block; font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="05"] .cuts .lab span { color: var(--muted); font-size: 13px; }
+    .lesson[data-lesson="05"] .pair { display: flex; flex-direction: column; gap: 4px; }
+    .lesson[data-lesson="05"] .pair div { display: flex; align-items: center; gap: 8px; }
+    .lesson[data-lesson="05"] .pair i { display: block; height: 12px; width: var(--w); border-radius: 3px; background: var(--accent); flex: none; }
+    .lesson[data-lesson="05"] .pair i.old { background: var(--line); }
+    .lesson[data-lesson="05"] .pair span { font: 500 12px/1.2 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .lesson[data-lesson="05"] .pair .new span { color: var(--ink); font-weight: 700; }
+
+    .lesson[data-lesson="05"] .gate { display: grid; grid-template-columns: 7em minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .lesson[data-lesson="05"] .gate > div { padding: 10px 12px; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; min-width: 0; }
+    .lesson[data-lesson="05"] .gate > .hd { border-top: 0; background: var(--sunk); font: 600 12px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .lesson[data-lesson="05"] .gate b { font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="05"] .gate small { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+    .lesson[data-lesson="05"] .gate .held { background: var(--accent-soft); }
+    .lesson[data-lesson="05"] .lock { flex: none; }
+
+    .lesson[data-lesson="05"] .route { display: grid; grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1.2fr) 26px minmax(0, 1.2fr); align-items: center; }
+    .lesson[data-lesson="05"] .route .outs { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="05"] .route .node .chips { gap: 4px; margin-top: 4px; }
+    .lesson[data-lesson="05"] .route .node .chip { font-size: 12px; }
+
+    .lesson[data-lesson="05"] .jobs { display: flex; flex-direction: column; }
+    .lesson[data-lesson="05"] .job { display: grid; grid-template-columns: 8.5em minmax(0, 1fr) auto; gap: 4px 14px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="05"] .job:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="05"] .job b { font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="05"] .job small { display: block; color: var(--muted); font-size: 13px; }
+    .lesson[data-lesson="05"] .basis { font: 600 11px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: 4px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+    .lesson[data-lesson="05"] .basis.fact { border-color: var(--t3b); background: var(--t3); color: var(--ink); }
+
+    .lesson[data-lesson="05"] .take { border-left: 4px solid var(--mark); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="05"] .take small { font: 600 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="05"] .take p { margin: 0; font-size: 16px; line-height: 1.5; }
+
+    .lesson[data-lesson="05"] .quotes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="05"] .quotes li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+    .lesson[data-lesson="05"] .quotes small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+    .lesson[data-lesson="05"] .after { border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; font-size: 14px; line-height: 1.45; margin: 0; }
+
+    .lesson[data-lesson="05"] .events { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="05"] .event { border: 1px solid var(--line); border-radius: 12px; background: var(--sunk); padding: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4; min-width: 0; }
+    .lesson[data-lesson="05"] .event small { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="05"] .event b { font: 700 16px/1.25 var(--display); }
+
+    .lesson[data-lesson="05"] .launch { display: flex; flex-direction: column; gap: 8px; font-family: var(--body); font-size: 15px; line-height: 1.5; }
+    .lesson[data-lesson="05"] .launch h3 { font-size: 19px; }
+    .lesson[data-lesson="05"] .q { display: inline-grid; place-items: center; width: 1.5em; height: 1.5em; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 700 12px/1 var(--mono); vertical-align: 2px; margin-left: 3px; }
+    .lesson[data-lesson="05"] .qs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.4; }
+    .lesson[data-lesson="05"] .qs li { display: grid; grid-template-columns: 1.6em minmax(0, 1fr); gap: 8px; align-items: start; }
+    .lesson[data-lesson="05"] .qs .q { margin: 1px 0 0; }
+
+    .lesson[data-lesson="05"] .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); grid-auto-flow: column; gap: 8px 14px; counter-reset: step; }
+    .lesson[data-lesson="05"] .steps li { counter-increment: step; display: grid; grid-template-columns: 1.9em minmax(0, 1fr); gap: 8px; font-size: 14px; line-height: 1.4; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; }
+    .lesson[data-lesson="05"] .steps li::before { content: counter(step); font: 700 13px/1.5 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="05"] .steps b { display: block; font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="05"] .steps li.hl { background: var(--accent-soft); border-color: var(--accent-mid); }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="05"] .labs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lesson[data-lesson="05"] .layer { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="05"] .lab3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .lesson[data-lesson="05"] .lab3 > .hd:first-child { display: none; }
+      .lesson[data-lesson="05"] .lab3 > .rl { grid-column: 1 / -1; }
+      .lesson[data-lesson="05"] .lab3 > div { padding: 8px; font-size: 13px; }
+      .lesson[data-lesson="05"] .lab3 > .hd { font-size: 13.5px; }
+      .lesson[data-lesson="05"] .lab3 .chip { font-size: 12px; padding: 5px 6px; }
+      .lesson[data-lesson="05"] .lab3 .price { font-size: 12px; }
+      .lesson[data-lesson="05"] .gaps, .lesson[data-lesson="05"] .events, .lesson[data-lesson="05"] .steps { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="05"] .steps { grid-auto-flow: row; grid-template-rows: none; }
+      .lesson[data-lesson="05"] .cuts { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+      .lesson[data-lesson="05"] .cuts .pair { margin-bottom: 10px; }
+      .lesson[data-lesson="05"] .gate { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lesson[data-lesson="05"] .gate > .hd:first-child { display: none; }
+      .lesson[data-lesson="05"] .gate > .lab { grid-column: 1 / -1; background: var(--sunk); padding-bottom: 6px; }
+      .lesson[data-lesson="05"] .route { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+      .lesson[data-lesson="05"] .route .ar { transform: rotate(90deg); }
+      .lesson[data-lesson="05"] .job { grid-template-columns: minmax(0, 1fr) auto; }
+      .lesson[data-lesson="05"] .job > div { grid-column: 1 / -1; grid-row: 2; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bxAI\\b", "x A I"], ["\\bZ\\.ai\\b", "Z dot A I"], ["\\bQwen\\b", "Chwen"], ["\\bK3\\.1\\b", "K three point one"], ["Terminal-Bench 4\\.0", "Terminal Bench four"], ["\\bAPI-only\\b", "A P I only"], ["\\bgpt-oss\\b", "G P T O S S"]]</script>
+
+  <article class="screen" data-title="Start">
+    <div class="text">
+      <p class="eyebrow">Stage 2 · Choosing a model</p>
+      <h1>The model landscape</h1>
+      <p class="meta">Lesson 05 · 20 min</p>
+      <div class="actions intro-actions">
+        <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+      </div>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md" target="_blank" rel="noopener">Full notes</a></p>
+    </div>
+    <div class="vis">
+      <div class="hero-name" aria-hidden="true">
+        <span class="tk"><span class="chip c1">Claude</span><small>family</small></span>
+        <span class="tk"><span class="chip c3">Opus</span><small>tier</small></span>
+        <span class="tk"><span class="chip c2">5.5</span><small>generation</small></span>
+      </div>
+      <p class="cap">One of Anthropic's current models, as of November 2026.</p>
+    </div>
+    <div class="talk" hidden><p>This lesson is a map of who makes the models and how their lineups are organized. The names and prices on these screens are a snapshot from November 2026. They will be out of date within months.</p><p>So the lesson spends most of its time on things that last: how to read a model name, how the tiers work, and how to pick a model when a new one ships.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The labs</p>
+      <h2>Only a few labs can afford the frontier</h2>
+      <p>A frontier lab trains its own large models from scratch at the edge of what's possible. That takes tens of thousands of GPUs, a large dataset and months of work after the main training run.</p>
+      <p>Anthropic, OpenAI and Google DeepMind lead. Chinese labs lead the models you can download.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#the-labs-and-what-theyre-known-for" target="_blank" rel="noopener">Go deeper: the labs</a></p>
+    </div>
+    <div class="vis">
+      <div class="grp">
+        <p class="grp-h">Closed-weight leaders</p>
+        <div class="labs">
+          <div class="node lead">Anthropic<small>Claude, Claude Code, agentic coding</small></div>
+          <div class="node lead">OpenAI<small>ChatGPT, GPT-6 family, Codex</small></div>
+          <div class="node lead">Google DeepMind<small>Gemini, long context, video</small></div>
+        </div>
+      </div>
+      <div class="grp">
+        <p class="grp-h">Other closed-weight labs</p>
+        <div class="labs">
+          <div class="node">xAI<small>Grok, X posts, low list prices</small></div>
+          <div class="node">Meta<small>Muse family, mostly closed</small></div>
+        </div>
+      </div>
+      <div class="grp">
+        <p class="grp-h">Open-weight leaders</p>
+        <div class="labs">
+          <div class="node">DeepSeek<small>Very cheap, MIT licenses</small></div>
+          <div class="node">Moonshot<small>Kimi, agentic coding</small></div>
+          <div class="node">Alibaba<small>Qwen, the broadest open family</small></div>
+          <div class="node">Zhipu / Z.ai<small>GLM coding models</small></div>
+          <div class="node">MiniMax<small>M-series agentic models</small></div>
+          <div class="node">Mistral<small>France, European open weights</small></div>
+        </div>
+      </div>
+      <span class="tag">As of November 2026</span>
+    </div>
+    <div class="talk" hidden><p>A frontier lab trains its own large models from scratch, at the edge of what is possible. That takes tens of thousands of GPUs, a huge dataset, and months of work after the main training run. Lesson 02 covered the first two. Very few organizations can pay for that.</p><p>As of November 2026, three labs lead. They are Anthropic, OpenAI and Google DeepMind. xAI and Meta follow them. All five mostly keep their weights private.</p><p>The bottom group publishes weights that anyone can download. Since early 2025, Chinese labs have led that group: DeepSeek, Moonshot, Alibaba, Zhipu and MiniMax. Mistral, in France, is the main European name. Mistral's own model card says the Chinese open models score higher than its best one.</p><p class="inclass">Ask which of these labs people in the room have used this month. Most rooms name two or three.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Models and products</p>
+      <h2>The model is one layer of the product you use</h2>
+      <p>A model is the trained network. A product is what you open: ChatGPT, the Claude apps, Gemini, Claude Code, Codex.</p>
+      <p>One model can power many products, and one product can switch models under you.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#what-a-lab-is-and-why-there-are-so-few-at-the-top" target="_blank" rel="noopener">Go deeper: what a lab is</a></p>
+    </div>
+    <div class="vis">
+      <div class="chat"><div class="msg user">ChatGPT got worse.</div></div>
+      <p class="sub">Four things that could have changed</p>
+      <div class="product">
+        <div class="layer"><b>Harness</b><span>The program around the model: tools and the loop</span></div>
+        <div class="layer"><b>Router</b><span>Picks a model for each request</span></div>
+        <div class="layer"><b>System prompt</b><span>The product's standing instructions</span></div>
+        <div class="layer core"><b>Model</b><span>The trained network</span></div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>People use the product name and the model name as if they were the same thing. They are different. The model is the trained network. The product is what you open, such as ChatGPT, Claude Code or Codex.</p><p>A product wraps the model in a system prompt, a router that may choose a model for you, and a harness that runs tools.</p><p>So when someone says "ChatGPT got worse", any of the four could have changed. When OpenAI launched GPT-5 in August 2025, the router was down for much of launch day, and the new model looked weaker than it was. Lesson 08 covers harnesses.</p><p class="inclass">Ask the room: your coding agent felt worse this week. Which of the four layers would you check first, and how?</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Closed and open weights</p>
+      <h2>Labs release models in two ways</h2>
+      <p>With a closed-weight model you send text to the lab's servers and get text back. You never see the parameters.</p>
+      <p>With an open-weight model the lab publishes the parameters, so anyone can download and run it.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#what-a-lab-is-and-why-there-are-so-few-at-the-top" target="_blank" rel="noopener">Go deeper: what a lab is</a></p>
+    </div>
+    <div class="vis">
+      <div class="two">
+        <div class="panel">
+          <h3>Closed weight</h3>
+          <div class="flow"><span class="box">Your text</span><span class="to">→</span><span class="box shut">Lab's servers</span><span class="to">→</span><span class="box">Text back</span></div>
+          <div class="chips"><span class="chip pill c1">Claude</span><span class="chip pill c1">GPT-6 family</span><span class="chip pill c1">Gemini</span><span class="chip pill c1">Grok</span></div>
+        </div>
+        <div class="panel">
+          <h3>Open weight</h3>
+          <div class="flow"><span class="box">Published parameters</span><span class="to">→</span><span class="box">Your machine or any host</span></div>
+          <div class="chips"><span class="chip pill c3">DeepSeek</span><span class="chip pill c3">Kimi</span><span class="chip pill c3">Qwen</span><span class="chip pill c3">GLM</span><span class="chip pill c3">Mistral</span></div>
+          <p class="note">Closed labs publish a few too: OpenAI's gpt-oss, Google's Gemma, two of Meta's Muse models.</p>
+        </div>
+      </div>
+      <span class="tag">As of November 2026</span>
+    </div>
+    <div class="talk" hidden><p>Labs release models in two ways. With closed weights, the model stays on the lab's servers. You send text and get text back, and you never see the parameters. Claude, the GPT-6 family, Gemini and Grok work this way.</p><p>With open weights, the lab publishes the parameters. Anyone can download the model and run it, on their own machine or through a hosting company. DeepSeek, Kimi, Qwen, GLM and Mistral work this way.</p><p>The split isn't clean. OpenAI and Google each publish some smaller open models, and Meta has opened two of its Muse models. Open models mostly come from different labs than the top closed ones, and they arrive some months behind. Lesson 06 is all about this difference.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Reading names</p>
+      <h2>A model name packs several facts together</h2>
+      <p>Family is the lab's product line. Generation is the release number. Tier is the size, price and speed within that generation. A variant marks a specialization.</p>
+      <p>The API ID is the exact string you put in a request.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#how-to-read-model-names-and-tiers" target="_blank" rel="noopener">Go deeper: names and tiers</a></p>
+    </div>
+    <div class="vis">
+      <div class="legend4">
+        <div><span class="chip c1">family</span><span>Which lab, which product line</span></div>
+        <div><span class="chip c2">generation</span><span>Newer release, usually. No training date implied.</span></div>
+        <div><span class="chip c3">tier</span><span>Size, price and speed within the generation</span></div>
+        <div><span class="chip c4">variant</span><span>A specialization or serving mode</span></div>
+      </div>
+      <div class="names" role="img" aria-label="Four model names split into parts. Claude Opus 5.5: family Claude, tier Opus, generation 5.5. GPT-6.2 Sol: family GPT, generation 6.2, tier Sol. Gemini 3.8 Flash: family Gemini, generation 3.8, tier Flash. GPT-6 Cyber: family GPT, generation 6, variant Cyber.">
+        <div class="trow"><span class="chip c1">Claude</span><span class="chip c3">Opus</span><span class="chip c2">5.5</span></div>
+        <div class="trow"><span class="chip c1">GPT</span><span class="chip c2">6.2</span><span class="chip c3">Sol</span></div>
+        <div class="trow"><span class="chip c1">Gemini</span><span class="chip c2">3.8</span><span class="chip c3">Flash</span></div>
+        <div class="trow"><span class="chip c1">GPT</span><span class="chip c2">6</span><span class="chip c4">Cyber</span></div>
+      </div>
+      <div class="idrow"><span>API IDs</span><code>claude-opus-5-5</code><code>gpt-6.2-sol</code><code>gemini-3.8-flash</code></div>
+      <span class="tag">Names as of November 2026</span>
+    </div>
+    <div class="talk" hidden><p>A model name is several facts stuck together. The colors on screen separate them.</p><p>Blue is the family. It tells you the lab and the product line: Claude, GPT, Gemini. Orange is the generation. A higher number usually means a newer release. It does not tell you when the training data ends.</p><p>Green is the tier, and it is the part to read first. The tier tells you the size, the price and the speed. Opus is Anthropic's large tier. Sol is OpenAI's workhorse. Flash is Google's, through Gemini 3. Purple is a variant, such as the restricted Cyber version of GPT-6.</p><p>The bottom row shows API IDs. That is the exact string your code or your harness sends to select a model.</p><p class="inclass">Put a model name from this week's news on the board and have the room split it into family, generation, tier and variant.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The tier ladder</p>
+      <h2>Almost every lab sells the same three tiers</h2>
+      <p>A top model for the hardest work, a workhorse for most coding, and a fast, cheap one for bulk jobs and sub-agents.</p>
+      <p>The names on the ladder change often. OpenAI renamed its tiers in July 2026. The ladder itself has stayed put.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#how-to-read-model-names-and-tiers" target="_blank" rel="noopener">Go deeper: names and tiers</a></p>
+    </div>
+    <div class="vis">
+      <div class="lab3" role="table" aria-label="Tier names at Anthropic, OpenAI and Google for the top, workhorse and fast tiers, with typical list prices.">
+        <div class="hd"></div><div class="hd">Anthropic</div><div class="hd">OpenAI</div><div class="hd">Google</div>
+        <div class="rl"><b>Top</b><small>Hardest reasoning, long autonomous work</small><span class="price">$2–$8 in / $6–$40 out</span></div>
+        <div><span class="chip c4">Fable</span><span class="chip c3">Opus</span></div>
+        <div><span class="chip c3">Astra</span></div>
+        <div><span class="chip c3">Pro</span></div>
+        <div class="rl"><b>Workhorse</b><small>Most coding and knowledge work</small><span class="price">$1–$2 in / $5–$10 out</span></div>
+        <div><span class="chip c1">Sonnet</span></div>
+        <div><span class="chip c1">Sol</span><span class="chip c1">Terra</span></div>
+        <div><span class="chip c1">Flash</span></div>
+        <div class="rl"><b>Fast and cheap</b><small>Bulk processing, classification, sub-agents</small><span class="price">$0.10–$0.30 in / $0.50–$2.50 out</span></div>
+        <div><span class="chip c5">Haiku</span></div>
+        <div><span class="chip c5">Luna</span></div>
+        <div><span class="chip c5">Flash-Lite</span></div>
+      </div>
+      <p class="cap">Typical list prices per million tokens, November 2026. Fable is Anthropic's Mythos-class tier, one step above Opus. Google's Gemini 4 models use element names instead: Carbon and Argon on top, Hydrogen as the workhorse.</p>
+    </div>
+    <div class="talk" hidden><p>Almost every lab sells the same three tiers. The top tier is for the hardest reasoning and long autonomous work. The workhorse handles most coding and knowledge work. The fast, cheap tier is for bulk jobs, classification and sub-agents.</p><p>Read the table by row. On the workhorse row you see Sonnet from Anthropic, Sol and the cheaper Terra from OpenAI, and Flash from Google. The prices under each label are typical list prices per million tokens in November 2026.</p><p>The names move around. OpenAI switched to Sol, Terra and Luna in July 2026 and added Astra on top two months later. Anthropic added a tier above Opus this year, called Mythos-class, and its general release is named Fable. Google dropped Pro and Flash for Gemini 4 and named the models after elements: Carbon, Argon and Hydrogen.</p><p>When a new name shows up, place it on this ladder first.</p><p class="inclass">Ask which tier people use by default, and whether they ever chose it on purpose.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Version numbers</p>
+      <h2>A bigger version number can sit on a lower tier</h2>
+      <p>Anthropic shares version numbers across tiers, but the tiers don't move in lockstep. As of November 2026, Fable 5.2 is its top model, above Opus 5.5.</p>
+      <p>Anthropic shipped twelve models between February 5 and November 9, 2026.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#anthropics-names-explained-for-newcomers" target="_blank" rel="noopener">Go deeper: Anthropic's names</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Anthropic's 2026 releases, by tier</p>
+      <div class="scroll plot">
+        <svg viewBox="0 0 652 262" role="img" aria-label="Anthropic's 2026 releases on a timeline from February to November, in four rows. Mythos-class: Fable 5 in June, Fable 5.1 in September and Fable 5.2 in November. Opus: 4.6 in February, 4.7 in April, 4.8 in May, 5 in July, 5.5 in September. Sonnet: 4.6 in February, 5 in June, 5.5 in September. Haiku: 5.5 in October.">
+          <line x1="108" y1="56" x2="636" y2="56" class="tl"/><line x1="108" y1="106" x2="636" y2="106" class="tl"/><line x1="108" y1="156" x2="636" y2="156" class="tl"/><line x1="108" y1="206" x2="636" y2="206" class="tl"/>
+          <text x="4" y="60" class="rowl">Mythos-class</text>
+          <text x="4" y="110" class="rowl">Opus</text><text x="4" y="160" class="rowl">Sonnet</text><text x="4" y="210" class="rowl">Haiku</text>
+          <circle cx="331" cy="56" r="6" class="dot"/><text x="331" y="40" class="ver">Fable 5</text>
+          <circle cx="476" cy="56" r="6" class="dot"/><text x="476" y="40" class="ver">Fable 5.1</text>
+          <circle cx="596" cy="56" r="8" class="dot top"/><text x="596" y="38" class="ver big">Fable 5.2</text>
+          <circle cx="117" cy="106" r="6" class="dot"/><text x="117" y="92" class="ver">4.6</text>
+          <circle cx="238" cy="106" r="6" class="dot"/><text x="238" y="92" class="ver">4.7</text>
+          <circle cx="310" cy="106" r="6" class="dot"/><text x="310" y="92" class="ver">4.8</text>
+          <circle cx="409" cy="106" r="6" class="dot"/><text x="409" y="92" class="ver">5</text>
+          <circle cx="513" cy="106" r="6" class="dot"/><text x="513" y="92" class="ver big">5.5</text>
+          <circle cx="138" cy="156" r="6" class="dot"/><text x="138" y="142" class="ver">4.6</text>
+          <circle cx="367" cy="156" r="6" class="dot"/><text x="367" y="142" class="ver">5</text>
+          <circle cx="523" cy="156" r="6" class="dot"/><text x="523" y="142" class="ver">5.5</text>
+          <circle cx="539" cy="206" r="6" class="dot"/><text x="539" y="192" class="ver">5.5</text>
+          <text x="134" y="246" class="mo">Feb</text><text x="185" y="246" class="mo">Mar</text><text x="238" y="246" class="mo">Apr</text><text x="290" y="246" class="mo">May</text><text x="343" y="246" class="mo">Jun</text><text x="396" y="246" class="mo">Jul</text><text x="449" y="246" class="mo">Aug</text><text x="502" y="246" class="mo">Sep</text><text x="556" y="246" class="mo">Oct</text><text x="608" y="246" class="mo">Nov</text>
+          <line x1="110" y1="226" x2="110" y2="232" class="tl"/><line x1="158" y1="226" x2="158" y2="232" class="tl"/><line x1="212" y1="226" x2="212" y2="232" class="tl"/><line x1="264" y1="226" x2="264" y2="232" class="tl"/><line x1="317" y1="226" x2="317" y2="232" class="tl"/><line x1="369" y1="226" x2="369" y2="232" class="tl"/><line x1="423" y1="226" x2="423" y2="232" class="tl"/><line x1="476" y1="226" x2="476" y2="232" class="tl"/><line x1="528" y1="226" x2="528" y2="232" class="tl"/><line x1="582" y1="226" x2="582" y2="232" class="tl"/><line x1="634" y1="226" x2="634" y2="232" class="tl"/>
+        </svg>
+      </div>
+      <p class="cap">The restricted Mythos versions aren't shown.</p>
+    </div>
+    <div class="talk" hidden><p>It is tempting to rank models by version number. This chart shows why that fails. Each row is one of Anthropic's tiers, with the top tier in the top row. Each dot is a 2026 release, placed by date.</p><p>Fable 5.1 arrived on September 1. Three weeks later Anthropic shipped Opus 5.5, one row down. 5.5 was the bigger number, and Fable 5.1 was still the higher tier. "Claude 5.5" names a family of three models: Opus, Sonnet and Haiku. The yellow dot is Fable 5.2, from November 9. It is the top model, and its number is still smaller than 5.5.</p><p>Anthropic shipped twelve models between February and November. OpenAI kept a similar pace, and Google shipped a new Flash about every six weeks. A model you chose in spring was three generations old by autumn.</p><p class="inclass">Watch for people assuming the newest or highest-numbered model is the strongest. Have them find the tier first.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Price and quality</p>
+      <h2>A cheaper tier can beat a pricier one</h2>
+      <p>On Anthropic's own published numbers, Sonnet 5.5 scores higher than Opus 5.5 on Terminal-Bench 4.0, at half the price.</p>
+      <p>At its launch in September 2026, Opus 5.5 beat the pricier Fable 5.1 on several benchmarks.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#how-to-read-model-names-and-tiers" target="_blank" rel="noopener">Go deeper: names and tiers</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Terminal-Bench 4.0</p>
+      <div class="score" role="img" aria-label="Terminal-Bench 4.0 scores: Sonnet 5.5 at 70.6 percent, priced at 2 dollars in and 10 dollars out per million tokens. Opus 5.5 at 66.4 percent, priced at 4 dollars in and 20 out.">
+        <div class="who"><span class="chip c1">Sonnet 5.5</span><small>$2 / $10</small></div><div class="track"><i style="--w:70.6%"></i></div><span class="num">70.6%</span>
+        <div class="who"><span class="chip c3">Opus 5.5</span><small>$4 / $20</small></div><div class="track dim"><i style="--w:66.4%"></i></div><span class="num">66.4%</span>
+      </div>
+      <p class="cap">Scores published by Anthropic, September 2026. Opus 5.5 at its best effort setting. List prices per million tokens, input / output, as of November 2026.</p>
+    </div>
+    <div class="talk" hidden><p>A higher tier costs more. It does not always score higher. The two bars are Anthropic's own published results on Terminal-Bench 4.0, a benchmark of command-line tasks.</p><p>Sonnet 5.5 scores 70.6 percent. Opus 5.5 scores 66.4 percent. Sonnet is the cheaper tier, at half the price per token. Anthropic's launch post for Opus 5.5 shows it beating Fable 5.1, the top model at the time, on several benchmarks.</p><p>The public leaderboard for the newer 4.1 version runs its own setup. On November 18, 2026 it had Opus 5.5 at 65.8 percent and Sonnet 5.5 at 63.9, closer together than either score's margin of error.</p><p>One benchmark won't tell you which model is better for your work. Lesson 07 covers how to read these numbers. When you test candidates for a job, include a cheaper tier.</p><p class="inclass">Ask the room: when did you last try the cheaper tier on a task you normally give the expensive one?</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The current shape</p>
+      <h2>On paper, the top lineups now look alike</h2>
+      <p>Most current models take about a million tokens of context and reason by default. Anthropic and OpenAI charge the same list prices.</p>
+      <p>What separates them is harder to put in a table: behavior over long tasks, honesty about failures, communication style, harness integration and reliability.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#everyone-converged-on-the-same-shape" target="_blank" rel="noopener">Go deeper: the same shape</a></p>
+    </div>
+    <div class="vis">
+      <div class="lab3" role="table" aria-label="Current lineups at Anthropic, OpenAI and Google with list prices per million tokens, context size and the restricted cyber model.">
+        <div class="hd"></div><div class="hd">Anthropic</div><div class="hd">OpenAI</div><div class="hd">Google</div>
+        <div class="rl"><b>Top</b></div>
+        <div class="same">Fable 5.2<span class="price">$8 / $40</span></div>
+        <div class="same">GPT-6.2 Astra<span class="price">$8 / $40</span></div>
+        <div>Gemini 4 Carbon<span class="price">$2 / $10</span><small>$4 / $20 from Dec 1</small></div>
+        <div class="rl"><b>Workhorse</b></div>
+        <div class="same">Sonnet 5.5<span class="price">$2 / $10</span></div>
+        <div class="same">GPT-6.2 Sol<span class="price">$2 / $10</span></div>
+        <div>Gemini 4 Hydrogen<span class="price">$1.50 / $7.50</span></div>
+        <div class="rl"><b>Fast and cheap</b></div>
+        <div class="same">Haiku 5.5<span class="price">$0.10 / $0.50</span></div>
+        <div class="same">GPT-6 Luna<span class="price">$0.10 / $0.50</span></div>
+        <div>Gemini 3.5 Flash-Lite<span class="price">$0.30 / $2.50</span></div>
+        <div class="rl"><b>Context</b></div>
+        <div>1M tokens</div><div>1.05M tokens</div><div>1M tokens</div>
+        <div class="rl"><b>Restricted cyber model</b></div>
+        <div>Mythos 5.2</div><div>GPT-6 Cyber</div><div>None</div>
+      </div>
+      <p class="cap">List prices per million tokens, input / output, at short-context rates. Opus 5.5 sits between Anthropic's top two rows at $4 / $20.</p>
+      <span class="tag">As of November 18, 2026</span>
+    </div>
+    <div class="talk" hidden><p>As of November 18, 2026, Anthropic and OpenAI charge the same list price at all three tiers. Those are the tinted cells. The top tier is 8 dollars per million input tokens and 40 per million output tokens. The workhorse is 2 and 10. The small model is 10 cents and 50 cents.</p><p>Google is the exception. Its prices are lower, and the top one is an introductory rate that doubles on December 1.</p><p>Context is about a million tokens everywhere. Anthropic and OpenAI each keep a restricted cyber model. Google gave cyber defenders its top model first, then released it to everyone.</p><p>So the table can't make the choice for you. The differences show up in use: how a model behaves two hours into a task, whether it admits a failure, how it writes, and how well it fits your harness. Launch tables don't measure those well.</p><p class="inclass">Every number on this screen has a date on it. Have someone check one live against the lab's pricing page.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The chain</p>
+      <h2>Open models trail the closed frontier by months</h2>
+      <p>A capability that's frontier-only today tends to show up in open weights within months. Open labs get there partly through their own research and partly by training on frontier outputs, which is called distillation.</p>
+      <p>The measured gap depends on the task and the date.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#different-places-in-the-chain" target="_blank" rel="noopener">Go deeper: places in the chain</a></p>
+    </div>
+    <div class="vis">
+      <div class="chain" role="img" aria-label="A chain: the closed frontier leads to open-weight leaders months later, which lead to community and enterprise derivatives. Open-weight leaders also lead down to cheap hosting, which sets a price floor that puts pressure back on the closed frontier.">
+        <div class="node hl" style="grid-area:1/1">Closed frontier<small>Anthropic, OpenAI, Google</small></div>
+        <div class="ar" style="grid-area:1/2">→</div>
+        <div class="node" style="grid-area:1/3">Open-weight leaders<small>Kimi, GLM, DeepSeek, Qwen</small></div>
+        <div class="ar" style="grid-area:1/4">→</div>
+        <div class="node" style="grid-area:1/5">Derivatives<small>fine-tunes, quantizations, distillations</small></div>
+        <div class="ret" style="grid-area:2/1"><b>↑</b> price pressure</div>
+        <div class="mid" style="grid-area:2/3">↓</div>
+        <div class="node" style="grid-area:3/1/4/4">Cheap hosting<small>Anyone can host a good open model, and hosts compete on price</small></div>
+      </div>
+      <div class="gaps">
+        <div class="gap"><small>Epoch AI, 2024 study</small><b>About one year</b>Across benchmarks, with a 90% range of 5 to 22 months</div>
+        <div class="gap"><small>Epoch AI, October 2026</small><b>6 to 7 months</b>Cyber capabilities only</div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>Models sit at different places in a chain. The closed frontier labs are on the left. Months later, the open-weight leaders reach similar capability. From there the community makes fine-tunes and smaller versions.</p><p>Open labs catch up through their own research, and partly by training on the outputs of frontier models. That second route is called distillation. Labs use it on their own models all the time. It becomes a dispute when a competitor does it through someone else's API. In February 2026 Anthropic said it had found about 24,000 fraudulent accounts doing that, and attributed them to three Chinese labs. Those companies haven't confirmed it.</p><p>Epoch AI measured a gap of about a year across benchmarks in 2024. Its October 2026 study found six to seven months, for cyber tasks only. Neither number is a rule for every coding task. Compare current models on your own work.</p><p class="inclass">Watch for "open models are six months behind" quoted as a law. Ask what task and what date the number came from.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The chain</p>
+      <h2>Open models set a price floor</h2>
+      <p>When an open model is good enough, anyone can host it, and hosting companies compete on price. That adds to the pressure on closed labs' prices.</p>
+      <p>The September 2026 releases started what Simon Willison called "a new price war". Haiku 5.5 followed in October.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#open-models-set-the-price-floor" target="_blank" rel="noopener">Go deeper: the price floor</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">List prices, autumn 2026</p>
+      <div class="cuts" role="img" aria-label="Price cuts in the autumn 2026 releases. Opus went from 5 dollars in and 25 out to 4 and 20. GPT-6 Sol and Luna cost half the price of the GPT-5.6 models they replaced. Haiku 5.5 launched at 10 cents in and 50 cents out, a tenth of Haiku 4.5's 1 dollar and 5 dollars. Kimi K3.1 Pro, with open weights, costs half the price of Opus 5.5.">
+        <div class="lab"><b>Opus</b><span>5 to 5.5</span></div>
+        <div class="pair"><div><i class="old" style="--w:70%"></i><span>$5 / $25</span></div><div class="new"><i style="--w:56%"></i><span>$4 / $20</span></div></div>
+        <div class="lab"><b>GPT-6 Sol and Luna</b><span>against the GPT-5.6 models they replaced</span></div>
+        <div class="pair"><div><i class="old" style="--w:70%"></i><span>GPT-5.6</span></div><div class="new"><i style="--w:35%"></i><span>half</span></div></div>
+        <div class="lab"><b>Haiku</b><span>4.5 to 5.5</span></div>
+        <div class="pair"><div><i class="old" style="--w:70%"></i><span>$1 / $5</span></div><div class="new"><i style="--w:7%"></i><span>$0.10 / $0.50</span></div></div>
+        <div class="lab"><b>Kimi K3.1 Pro</b><span>open weights, against Opus 5.5</span></div>
+        <div class="pair"><div><i class="old" style="--w:56%"></i><span>Opus 5.5, $4 / $20</span></div><div class="new"><i style="--w:28%"></i><span>$2 / $10</span></div></div>
+      </div>
+      <p class="cap">Bars are drawn to scale within each pair.</p>
+    </div>
+    <div class="talk" hidden><p>Once an open model is good enough, anyone can host it. Hosting companies then compete on price, and that puts a floor under the market. The closed labs feel the pressure.</p><p>Autumn 2026 shows it. In the first three pairs, the grey bar is the old price and the colored bar is the new one. In September, Anthropic cut Opus by a fifth, and OpenAI's Sol and Luna came in at half the price of the models they replaced. In October, Haiku 5.5 launched at a tenth of the old Haiku price.</p><p>The last pair compares two different models. Kimi K3.1 Pro is an open-weight model from Moonshot. Its hosted price is half of Opus 5.5.</p><p>For you, the price of a given level of capability keeps falling. A job that was too expensive to automate last spring may be cheap now. Rerun the numbers when prices move.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Gated tiers</p>
+      <h2>Top labs now gate their most cyber-capable models</h2>
+      <p>This started in 2026. The strongest security model, or a less restricted version of it, goes to vetted users only, or to them first.</p>
+      <p>The public version routes or refuses some security and biology requests. If you do security work, check each lab's verification program.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#a-new-pattern-gated-tiers-for-dangerous-capability" target="_blank" rel="noopener">Go deeper: gated tiers</a></p>
+    </div>
+    <div class="vis">
+      <div class="gate" role="table" aria-label="For each lab, the general release and what vetted users get.">
+        <div class="hd"></div><div class="hd">Anyone</div><div class="hd"><svg class="lock" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="2.5" y="7" width="11" height="8" rx="1.5" class="f-muted"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Vetted users</div>
+        <div class="lab"><b>Anthropic</b></div>
+        <div>Fable 5.2<small>Classifiers for cyber, biology, chemistry and distillation</small></div>
+        <div class="held">Mythos 5.2<small>Same model, some safeguards lifted. Cyber and life sciences verification programs.</small></div>
+        <div class="lab"><b>OpenAI</b></div>
+        <div>GPT-6 family</div>
+        <div class="held">GPT-6 Cyber</div>
+        <div class="lab"><b>Google</b></div>
+        <div>Gemini 4 Carbon<small>Since November 10</small></div>
+        <div class="held">Gemini 4 Carbon, two weeks early<small>Cyber defenders in the Fairwind Program, from October 28</small></div>
+      </div>
+      <span class="tag">As of November 2026</span>
+    </div>
+    <div class="talk" hidden><p>In 2026 the top labs started gating their most capable security models. The right column shows what vetted users get, as of November 18.</p><p>Anthropic's top tier comes as two versions of one model. Fable is the general release, with classifiers that watch for cyber, biology and chemistry requests. Mythos has some of those safeguards lifted and goes only to vetted organizations. OpenAI has GPT-6 Cyber. Google took a different route. It announced Gemini 4 Carbon on October 28 for a subset of cyber defenders, then released it to all developers on November 10.</p><p>If you do security work, expect the public model to decline some requests or hand them to a weaker model. Each lab has a verification program for this.</p><p class="inclass">Ask whether anyone has had a harmless security task refused. What did they do next?</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Safety routing</p>
+      <h2>The model that answers may not be the one you picked</h2>
+      <p>With Fable, a classifier decides whether your request goes to Fable or to an older Opus model, and you're told when it does. When Fable 5 launched in June 2026, Anthropic said this happened in fewer than 5% of sessions on average.</p>
+      <p>For security tooling, dependency audits or bioinformatics, log which model answered.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#safety-routing-changes-what-the-model-means" target="_blank" rel="noopener">Go deeper: safety routing</a></p>
+    </div>
+    <div class="vis">
+      <div class="route" role="img" aria-label="Your request to Fable goes through a classifier. Most requests go on to Fable. Flagged requests go to an older Opus model.">
+        <div class="node">Your request<small>model: Fable</small></div>
+        <div class="ar">→</div>
+        <div class="node hl">Classifier<small>cyber, biology and chemistry, distillation</small></div>
+        <div class="ar">→</div>
+        <div class="outs">
+          <div class="node">Fable<small>most requests</small></div>
+          <div class="node">An older Opus model<small>flagged requests</small></div>
+        </div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>When you pick Fable, Anthropic's top general model, you don't always get Fable. A classifier reads each request first. Most requests go straight to Fable. A request flagged as cyber, biology or chemistry, or as an attempt to copy the model, is handed to an older Opus model instead. With Fable 5.2 that is Opus 4.8 for cyber and Opus 5 for biology.</p><p>When Fable 5 launched in June 2026, Anthropic said this happened in fewer than 5 percent of sessions on average, and that users are told each time. It says Fable 5.2 blocks about 55 percent less often than Fable 5.1 did.</p><p>Most coding sessions never trigger it. It changes things for security tooling, dependency audits and bioinformatics. There, the same prompt can reach a different model on different days. If you compare runs or debug a change in quality, log which model answered.</p><p class="inclass">Ask the room whether the lab should route a request to a different model without asking first. What disclosure would they want?</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Best model for the job</p>
+      <h2>Different jobs have different winners</h2>
+      <p>Some picks follow from prices or features. Others are judgment calls. Test them on your own tasks.</p>
+      <div class="take"><small>Bryan's take</small><p>For coding, Claude and Codex are the best. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding, because they fall far behind there.</p></div>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#best-model-for-the-job" target="_blank" rel="noopener">Go deeper: best model for the job</a></p>
+    </div>
+    <div class="vis">
+      <div class="jobs">
+        <div class="job"><b>Agentic coding</b><div>Opus 5.5 or Sonnet 5.5 in Claude Code. Sol or Astra in Codex.<small>Harness and model are tuned together</small></div><span class="basis">Opinion</span></div>
+        <div class="job"><b>Code review</b><div>A different model from the one that wrote the code<small>Different models make different mistakes</small></div><span class="basis">Opinion</span></div>
+        <div class="job"><b>Long documents and video</b><div>Gemini 4 Argon or Gemini 3.8 Flash<small>Native video input, 1M context</small></div><span class="basis fact">Fact + opinion</span></div>
+        <div class="job"><b>Cheap bulk processing</b><div>Haiku 5.5, GPT-6 Luna, Gemini 3.5 Flash-Lite, DeepSeek V4.1-Flash<small>Lowest list prices among capable models. Use batch APIs.</small></div><span class="basis fact">Fact</span></div>
+        <div class="job"><b>Local and private</b><div>Qwen3.8-27B, Gemma 4, gpt-oss-20b, Muse Glimmer 30B<small>Permissive licenses, sizes that fit one machine</small></div><span class="basis fact">Fact + opinion</span></div>
+        <div class="job"><b>Security research</b><div>Mythos 5.2 or GPT-6 Cyber through verification programs<small>General releases route or refuse this work</small></div><span class="basis fact">Fact</span></div>
+      </div>
+      <span class="tag">As of November 2026</span>
+    </div>
+    <div class="talk" hidden><p>No model wins every job. These are picks for six jobs as of November 2026. Haiku and Luna are on the bulk-processing row because of their price. The coding picks are judgment calls. They reflect what many practitioners choose, and the vendors' own benchmarks back them.</p><p>Look at the code review row. The advice there is to use a different model from the one that wrote the code, because different models make different mistakes. Lesson 13 comes back to that.</p><p>For coding Bryan uses Claude and Codex, and he keeps Grok and Gemini for narrow cases. Your tasks may point somewhere else, so test them.</p><p class="inclass">Ask which row someone would change today, and what evidence they would bring.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Reception</p>
+      <h2>Benchmarks and daily use often disagree</h2>
+      <p>Claude Opus 5 launched on July 24, 2026 at the top of a major leaderboard. Daily use surfaced complaints about how it communicated.</p>
+      <div class="take"><small>Bryan's take</small><p>Opus 5 felt benchmark-maxed. Great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5, people really liked.</p></div>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#reception-stories-launches-dont-always-land" target="_blank" rel="noopener">Go deeper: reception stories</a></p>
+    </div>
+    <div class="vis">
+      <div class="two">
+        <div class="panel">
+          <h3>Opus 5 at launch</h3>
+          <ul class="quotes">
+            <li>Led the Artificial Analysis leaderboard, ahead of Fable 5</li>
+            <li>"A good new default for Claude Code"<small>Simon Willison, July 2026</small></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Opus 5 in daily use</h3>
+          <ul class="quotes">
+            <li>Communication was "one of the most common areas of feedback we heard about Opus 5"<small>Anthropic, September 2026</small></li>
+            <li>Used 2.5x as many tokens as Opus 5.5 on a large code audit<small>A tester cited by Anthropic</small></li>
+          </ul>
+        </div>
+      </div>
+      <p class="after">Opus 5.5 arrived on September 22, 2026 at a lower price. Anthropic said it used less jargon and put the most important information first.</p>
+    </div>
+    <div class="talk" hidden><p>A launch chart tells you how a model scored on a set of tests. It tells you little about what the model is like to work with every day.</p><p>Claude Opus 5 is the example. It shipped on July 24, 2026 and led a major leaderboard, ahead of the higher-tier Fable 5. Early hands-on reviews were good.</p><p>Then people used it for weeks. Two months later, Anthropic's own announcement of Opus 5.5 said communication was one of the most common complaints about Opus 5. One tester found it used two and a half times as many tokens as Opus 5.5 on a large code audit. Opus 5.5 was pitched as clearer, more direct and cheaper.</p><p>Bryan's take is blunter. He thought Opus 5 was tuned for benchmarks and poor in daily use, and that people liked 5.5 much more.</p><p class="inclass">Ask what a benchmark measures that daily use doesn't, and the reverse.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Reception</p>
+      <h2>Routers, bugs and governments can break a good model</h2>
+      <p>A model change is also a product change. Routers fail, servers have bugs, export controls arrive overnight and announced models get cancelled.</p>
+      <p>If you can wait a week after a launch, do.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#reception-stories-launches-dont-always-land" target="_blank" rel="noopener">Go deeper: reception stories</a></p>
+    </div>
+    <div class="vis">
+      <div class="events">
+        <div class="event"><small>August 7, 2025</small><b>GPT-5</b>The automatic router was down for much of launch day, so GPT-5 seemed weaker than it was.</div>
+        <div class="event"><small>August to September 2025</small><b>Claude</b>Users suspected a quiet downgrade. Anthropic's postmortem traced it to three infrastructure bugs.</div>
+        <div class="event"><small>June 12 to July 1, 2026</small><b>Fable 5</b>Suspended for all users three days after launch, when US export controls took effect.</div>
+        <div class="event"><small>May to October 2026</small><b>Gemini 3.5 Pro</b>Promised for June. Google dropped it and shipped Gemini 4 Argon in October.</div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>GPT-5 launched in August 2025 behind an automatic router. The router was down for much of the first day, so the model seemed weaker than it was. Around the same time, Claude users were sure the model had been quietly downgraded. Anthropic traced it to three infrastructure bugs and said it never reduces quality because of demand or load.</p><p>In June 2026, three days after Fable 5 launched, the US government applied export controls to it. Anthropic couldn't verify nationality in real time, so it suspended access for everyone for almost three weeks. And Google promised Gemini 3.5 Pro for June 2026, then never shipped it.</p><p>If your work depends on one model, have a second one you have already tested. When you can, wait a week after a launch before you switch.</p><p class="inclass">Ask how much weight an announcement of a future model should carry when a team plans its tooling.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Reception</p>
+      <h2>A lab can be weak for one job and strong for another</h2>
+      <div class="take"><small>Bryan's take</small><p>I don't trust some labs much. Google in particular tends to overhype its models, and they underperform in my use.</p></div>
+      <p>There is evidence against that take.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#reception-stories-launches-dont-always-land" target="_blank" rel="noopener">Go deeper: reception stories</a></p>
+    </div>
+    <div class="vis">
+      <div class="two">
+        <div class="panel">
+          <h3>Where the critique fits</h3>
+          <ul class="quotes">
+            <li>The 2026 Pro line. Gemini 3.5 Pro was promised for June and never shipped.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Where it doesn't</h3>
+          <ul class="quotes">
+            <li>Gemini 3 Pro launched at the top of LMArena in November 2025.</li>
+            <li>Strong video understanding and native multimodal input.</li>
+            <li>Flash models are among the cheapest capable models.</li>
+            <li>A media stack few rivals match: images, video, live voice.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="cap">Google reports that Gemini 4 Argon ranked first on the Vals Index of finance, legal, tax and coding work at its launch in October 2026.</p>
+    </div>
+    <div class="talk" hidden><p>Bryan doesn't trust some labs much, and he thinks Google overhypes its models. That fits Google's Pro line in 2026. Gemini 3.5 Pro was promised for June and never shipped, and the next flagship came after months of delay.</p><p>It fits other areas badly. Gemini 3 Pro launched at the top of a public leaderboard in late 2025. Gemini has been strong on video and mixed media input. Its Flash models are among the cheapest capable models you can buy. And few rivals ship images, video and live voice together.</p><p>So ask about a lab one job at a time. A lab that is behind on agentic coding can still be the right pick for video or for cheap bulk work.</p><p class="inclass">Ask for one lab opinion from the room, then ask what evidence would change it.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Cost per task</p>
+      <h2>Compare the cost of a finished task</h2>
+      <p>The price per token is only part of the bill. How many tokens the model uses, how often you retry, and how the tokenizer counts your text all move the total.</p>
+      <p>A cheaper model can cost more per finished task once you include retries.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#price-per-token-vs-price-per-task" target="_blank" rel="noopener">Go deeper: price per token vs price per task</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Opus 5 to Opus 5.5</p>
+      <div class="cuts" role="img" aria-label="From Opus 5 to Opus 5.5 the price per token fell 20 percent, and Anthropic says the cost to run typical workloads fell 40 percent.">
+        <div class="lab"><b>Price per token</b></div>
+        <div class="pair"><div><i class="old" style="--w:70%"></i><span>Opus 5</span></div><div class="new"><i style="--w:56%"></i><span>20% lower</span></div></div>
+        <div class="lab"><b>Cost to run</b><span>typical workloads, Anthropic's figure</span></div>
+        <div class="pair"><div><i class="old" style="--w:70%"></i><span>Opus 5</span></div><div class="new"><i style="--w:42%"></i><span>40% lower</span></div></div>
+      </div>
+      <p class="cap">Fewer tokens per task and lower cache-read prices make up the difference.</p>
+      <p class="sub">Opus 4.7's new tokenizer</p>
+      <div class="cuts" role="img" aria-label="Opus 4.7's new tokenizer could map the same text to between 1.0 and 1.35 times as many tokens.">
+        <div class="lab"><b>Tokens for the same text</b></div>
+        <div class="pair"><div><i class="old" style="--w:52%"></i><span>before</span></div><div class="new"><i style="--w:70%"></i><span>up to 1.35×</span></div></div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>Price lists quote dollars per million tokens. What you pay for is a finished task, and the two can move differently.</p><p>The top pair of bars is the price per token from Opus 5 to Opus 5.5. It fell 20 percent. The second pair is Anthropic's figure for what a typical workload costs to run. That fell 40 percent. The newer model uses fewer tokens to finish the same work, and its cache reads are cheaper.</p><p>It can go the other way. The bottom pair is the tokenizer change in Opus 4.7. The same text could become up to 1.35 times as many tokens, at the same price per token. And a cheap model that needs three attempts can cost more than an expensive one that needs one.</p><p>So when you compare models, run the same tasks on each and add up the whole cost, retries included. Lesson 15 covers budgets and subscriptions.</p><p class="inclass">Ask how the room would measure cost per finished task for their own agent work this week.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The durable lesson</p>
+      <h2>Ask four questions about any new model</h2>
+      <p>You don't need to memorize names.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#the-durable-lesson" target="_blank" rel="noopener">Go deeper: the durable lesson</a></p>
+    </div>
+    <div class="vis">
+      <div class="doc launch">
+        <h3>Introducing Example 3 Max<span class="q">1</span></h3>
+        <p>Available today, <mark>API-only</mark><span class="q">2</span>, at <mark>$3 / $15 per million tokens</mark><span class="q">3</span>.</p>
+        <p>It scores 71% on a coding benchmark, <mark>run in our own agent at max effort</mark><span class="q">3</span><span class="q">4</span>.</p>
+      </div>
+      <ol class="qs">
+        <li><span class="q">1</span><span>Which lab, and which tier?</span></li>
+        <li><span class="q">2</span><span>Closed or open weight?</span></li>
+        <li><span class="q">3</span><span>What does it cost per task, at the effort level you'd use?</span></li>
+        <li><span class="q">4</span><span>What harness was it tested in, and does that match yours?</span></li>
+      </ol>
+      <span class="tag">Illustrative launch post</span>
+    </div>
+    <div class="talk" hidden><p>The launch post on screen is made up. The four questions work on any real one.</p><p>Question one. Which lab is it from, and which tier is it? The name usually tells you. Question two. Is it closed or open weight? "API-only" means closed.</p><p>Question three is cost per task. The post gives a price per token and a score at max effort. You may never run it at max, so measure what a finished task costs at the effort level you'd use.</p><p>Question four is the harness. Here the lab tested the model in its own agent. Yours is different, and results change with the harness. Lesson 07 goes deep on questions three and four.</p><p class="inclass">Pull up a real launch post from the last month and answer the four questions together.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Picking a model</p>
+      <h2>Pick your next model by testing your own tasks</h2>
+      <p>Re-test when a model launches or your current one starts to feel off.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#how-to-pick-a-model-next-month-when-all-of-this-is-stale" target="_blank" rel="noopener">Go deeper: how to pick a model next month</a></p>
+    </div>
+    <div class="vis">
+      <ol class="steps">
+        <li><span><b>Define the job</b>Coding, review, bulk extraction, chat, research</span></li>
+        <li><span><b>Pick two or three candidates</b>Different labs, your current default, one cheaper tier</span></li>
+        <li><span><b>Check access rules</b>Data retention, region, safety routing, approved vendors</span></li>
+        <li><span><b>Read the launch post skeptically</b>Harness, effort level, who ran the competitor numbers</span></li>
+        <li class="hl"><span><b>Run five to ten of your own tasks</b>Your repo, your harness. Score result, tokens and time.</span></li>
+        <li><span><b>Compare cost per finished task</b></span></li>
+        <li><span><b>Try the effort settings</b>Max can waste money</span></li>
+        <li><span><b>Wait a week if you can</b>Launch weeks have bugs and tight rate limits</span></li>
+        <li><span><b>Check the subscription math</b>A flat-rate plan can change what's affordable</span></li>
+        <li><span><b>Write down the decision and the date</b>Revisit it monthly</span></li>
+      </ol>
+    </div>
+    <div class="talk" hidden><p>The tables in this lesson will be out of date next month. Start by naming the job, because different jobs have different winners. Pick two or three candidates from different labs. Include the model you use now and one cheaper tier. Check the access rules before you get attached: data retention, region, and your company's approved vendors.</p><p>Run five to ten real tasks from your own repo in your own harness. Score the result, the tokens and the time. Then compare the cost of a finished task.</p><p>Try lower effort settings as well. Simon Willison found that Opus 5.5 at max effort could use its whole output budget without answering. Wait a week after launch if you can.</p><p>Last, write down what you chose and the date. Look again in a month.</p><p class="inclass">Exercise for after class. Pick three small real tasks, run them on two models from different labs in the same harness, and write one paragraph on which you'd choose.</p></div>
+  </article>
+
+  <article class="screen solo">
+    <div class="text">
+      <p class="eyebrow">What to remember</p>
+      <h2>Three things to keep</h2>
+      <ul class="remember">
+        <li>Learn the tier ladder. The names on it change every few months.</li>
+        <li>Launch charts and daily use often disagree, so test candidates on your own tasks.</li>
+        <li>Compare cost per finished task, write down the date, and check again next month.</li>
+      </ul>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md#the-durable-lesson" target="_blank" rel="noopener">Go deeper: the durable lesson</a></p>
+    </div>
+    <div class="talk" hidden><p>Keep three things from this lesson. First, learn the ladder. Almost every lab sells a top model, a workhorse and a cheap fast one. The names change every few months and the ladder stays.</p><p>Second, a launch chart and daily use often disagree. Test candidates on your own tasks before you switch.</p><p>Third, compare what a finished task costs. Write down your choice with the date, and check it again next month.</p><p class="inclass">Have each person name the model they use most, its tier, and the date they last compared it with anything else.</p></div>
+  </article>
+
+  <article class="screen solo" data-title="Done">
+    <div class="text">
+      <p class="eyebrow">Lesson 05 done</p>
+      <h2>Next: open weight vs closed weight</h2>
+      <div class="actions">
+        <a class="btn primary arrow-r" href="#lesson-06">Lesson 06</a>
+        <a class="btn" href="#map">Course map</a>
+        <button type="button" class="btn" data-go="1">Review</button>
+      </div>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/05-model-landscape.md" target="_blank" rel="noopener">Full notes</a></p>
+    </div>
+    <div class="talk" hidden><p>That is lesson five. Lesson six looks at open weight and closed weight models: what the licenses allow, what it takes to run a model yourself, and when that is worth doing.</p></div>
+  </article>
+</section>

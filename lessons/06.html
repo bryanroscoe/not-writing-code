@@ -1,0 +1,556 @@
+<section class="lesson" data-lesson="06" data-title="Open weight vs closed weight" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="06"] .heq { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .lesson[data-lesson="06"] .heq .chip { font-size: clamp(22px, 3cqi, 40px); padding: .2em .3em; border-radius: 10px; font-weight: 600; }
+    .lesson[data-lesson="06"] .heq .op { font: 600 clamp(22px, 3cqi, 40px)/1 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="06"] .lockline { display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .lesson[data-lesson="06"] .rows { display: flex; flex-direction: column; }
+    .lesson[data-lesson="06"] .row { display: grid; grid-template-columns: 10em minmax(0, 1fr) minmax(0, 1fr); gap: 6px 14px; align-items: start; padding: 11px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="06"] .rows.duo .row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .lesson[data-lesson="06"] .rows.lean .row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: 8px 0; }
+    .lesson[data-lesson="06"] .row:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="06"] .row:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="06"] .row b { font: 720 15.5px/1.25 var(--display); }
+    .lesson[data-lesson="06"] .row p { margin: 0; }
+    .lesson[data-lesson="06"] .row small { display: block; font: 500 12.5px/1.4 var(--mono); color: var(--muted); margin-top: 2px; }
+    .lesson[data-lesson="06"] .m { color: var(--muted); }
+    .lesson[data-lesson="06"] .gets { display: flex; flex-wrap: wrap; gap: 5px; }
+    .lesson[data-lesson="06"] .gets span { font-size: 12.5px; line-height: 1.2; padding: 4px 8px; border-radius: 999px; border: 1px dashed var(--line); color: var(--muted); text-decoration: line-through; }
+    .lesson[data-lesson="06"] .gets .has { background: var(--t3); border: 1px solid var(--t3b); color: var(--ink); text-decoration: none; font-weight: 700; }
+    .lesson[data-lesson="06"] .ext { display: flex; flex-wrap: wrap; gap: 5px; }
+    .lesson[data-lesson="06"] .shift { display: grid; grid-template-columns: 5.5em minmax(0, 1fr) 20px minmax(0, 1fr); gap: 8px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="06"] .shift:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="06"] .shift b { font: 720 15.5px/1.25 var(--display); }
+    .lesson[data-lesson="06"] .shift div { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--sunk); }
+    .lesson[data-lesson="06"] .shift div.now { background: var(--accent-soft); border-color: var(--accent-mid); }
+    .lesson[data-lesson="06"] .shift small { display: block; font: 600 12px/1.3 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="06"] .checks { margin: 0; padding: 0; list-style: none; counter-reset: c; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 18px; }
+    .lesson[data-lesson="06"] .checks li { counter-increment: c; position: relative; padding-left: 30px; font-size: 15px; line-height: 1.4; }
+    .lesson[data-lesson="06"] .checks li::before { content: counter(c); position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); font: 700 12px/22px var(--mono); text-align: center; }
+    .lesson[data-lesson="06"] .pl { display: flex; flex-direction: column; gap: 2px; font: 700 14px/1.2 var(--display); }
+    .lesson[data-lesson="06"] .pl small { font: 500 11.5px/1.2 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="06"] .track.base i { background: var(--ink); }
+    .lesson[data-lesson="06"] .formula { margin: 0; font: 600 15px/1.5 var(--mono); padding: 12px 14px; border-radius: 10px; background: var(--sunk); border: 1px solid var(--line); }
+    .lesson[data-lesson="06"] .formula small { display: block; font-weight: 500; font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .lesson[data-lesson="06"] .experts { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; max-width: 420px; }
+    .lesson[data-lesson="06"] .experts i { aspect-ratio: 1; border-radius: 5px; background: var(--sunk); border: 1px solid var(--line); }
+    .lesson[data-lesson="06"] .experts i.on { background: var(--mark); border-color: var(--mark); }
+    .lesson[data-lesson="06"] .pair { display: grid; grid-template-columns: 4.2em minmax(0, 1fr) auto; gap: 5px 10px; align-items: center; font-size: 13px; }
+    .lesson[data-lesson="06"] .pair b { grid-column: 1 / -1; font: 720 15.5px/1.25 var(--display); }
+    .lesson[data-lesson="06"] .pair .track { height: 14px; }
+    .lesson[data-lesson="06"] .pair .track.act i { background: var(--mark); min-width: 4px; }
+    .lesson[data-lesson="06"] .term { margin: 0; font: 500 13.5px/1.6 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+    .lesson[data-lesson="06"] .term .c { color: var(--muted); }
+    .lesson[data-lesson="06"] .keep { border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; margin: 0; font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="06"] .take { margin: 4px 0 0; border-left: 5px solid var(--mark); padding: 6px 0 6px 18px; font: 600 clamp(20px, 2.1cqi, 28px)/1.35 var(--display); letter-spacing: -.01em; text-wrap: pretty; }
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="06"] .row, .lesson[data-lesson="06"] .rows.duo .row { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="06"] .shift { grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr); }
+      .lesson[data-lesson="06"] .shift b { grid-column: 1 / -1; }
+      .lesson[data-lesson="06"] .checks { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bgpt-oss[-:](\\d+)b\\b", "G P T O S S $1 B"], ["\\bgpt-oss\\b", "G P T O S S"], ["\\b(\\d+)B-A(\\d+)B\\b", "$1 B, A $2 B"], ["\\bGGUF\\b", "G G U F"], ["\\bllama\\.cpp\\b", "llama C P P"], ["\\bvLLM\\b", "V L L M"], ["\\bSGLang\\b", "S G lang"], ["\\bOLMo\\b", "olmo"], ["\\bAI2\\b", "A I two"], ["\\bQwen\\b", "chwen"], ["\\bZ\\.ai\\b", "Z dot A I"], ["\\bVRAM\\b", "V RAM"], ["\\bKV\\b", "K V"], ["\\bK3\\b", "K three"], ["\\bK2\\b", "K two"], ["\\bM2\\.5\\b", "M two point five"], ["\\bM2\\b", "M two"], ["\\bM3\\b", "M three"], ["\\bV4\\b", "V four"], ["--oss\\b", "dash dash O S S"]]</script>
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 2 · Choosing a model</p>
+        <h1>Open weight vs closed weight</h1>
+        <p class="meta">Lesson 06 · 20 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="heq" aria-hidden="true"><span class="chip c1">30B parameters</span><span class="op">×</span><span class="chip c5">~0.57 bytes</span><span class="op">≈</span><span class="chip c3">17 GB</span></div>
+        <p class="cap">A 30-billion-parameter model stored at 4 bits per weight.</p>
+      </div>
+      <div class="talk" hidden><p>Lesson 05 sorted models into closed weight and open weight. Some you can download, and others you can only call over an API. This lesson covers that split. By the end you'll be able to read a model license, estimate whether a model fits on your machine, and say where your code goes when you use one.</p><p>The equation on screen is the lesson's main piece of arithmetic. A 30 billion parameter model, stored at a little over half a byte per parameter, needs about 17 gigabytes.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Weights</p>
+        <h2>Open weight means you can download the model</h2>
+        <p>Weights are the numbers training adjusted, billions or trillions of them. Closed-weight labs keep them on their servers and sell access. Open-weight labs publish them as files.</p>
+        <p>With the files you can run the model on hardware you control, fine-tune it and inspect its internals. You still don't know what data it was trained on or how to rebuild it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#what-weights-actually-are" target="_blank" rel="noopener">Go deeper: what weights are</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Closed weight</h3>
+            <div class="box">Your prompt</div>
+            <div class="down">↓</div>
+            <div class="box">The lab's API</div>
+            <div class="down">↓</div>
+            <div class="box lockline">Weights, on the lab's servers <svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="7" width="11" height="8" rx="1.5" class="f-ink"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div>
+            <p class="note">Claude, GPT-6, Gemini, Grok, Muse Wonder</p>
+          </div>
+          <div class="panel">
+            <h3>Open weight</h3>
+            <div class="box">Weights, as files you download</div>
+            <div class="down">↓</div>
+            <div class="box">Hardware you control</div>
+            <ul class="attrs"><li>run it</li><li>fine-tune it</li><li>inspect it</li></ul>
+            <p class="note">Kimi K3, DeepSeek V4, gpt-oss, Gemma 4</p>
+          </div>
+        </div>
+        <span class="tag">Examples as of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Weights are the numbers inside a model, the ones training adjusted. A model has billions of them, and the largest have trillions. Whoever holds those numbers can run the model.</p><p>A closed-weight lab keeps them on its own servers. You send a prompt to its API or app and get text back. Claude, GPT-6 and Gemini work this way. An open-weight lab publishes the weights as files you can download. Kimi K3, DeepSeek V4 and Gemma 4 are examples as of November 2026.</p><p>With the files you can run the model on hardware you control, change it by fine-tuning, and look at its internals. You still can't see what data it was trained on, and you can't rebuild it from scratch.</p><p class="inclass">Ask who has run a model on their own machine, and which one.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Weight files</p>
+        <h2>Weights are big files of numbers, and one old format can run code</h2>
+        <p>Safetensors is the standard format on Hugging Face. GGUF is the single-file format that llama.cpp, Ollama and LM Studio use.</p>
+        <p>Older PyTorch files are built on Python's pickle and can run arbitrary code when loaded. Treat them like executables from strangers.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#what-weights-actually-are" target="_blank" rel="noopener">Go deeper: weight file formats</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows duo">
+          <div class="row"><div class="ext"><span class="chip c3">.safetensors</span></div><p>Arrays of numbers and no executable code.</p></div>
+          <div class="row"><div class="ext"><span class="chip c1">.gguf</span></div><p>One file, usually already quantized.</p></div>
+          <div class="row"><div class="ext"><span class="chip c2">.bin</span><span class="chip c2">.pt</span></div><p>Pickle-based. <span class="flag">Can run arbitrary code when loaded</span></p></div>
+        </div>
+        <p class="cap">Safetensors covers the weight file. Code shipped beside it and the software that loads it can still be unsafe.</p>
+      </div>
+      <div class="talk" hidden><p>On disk, weights are large files of numbers. You'll meet three kinds.</p><p>Safetensors is the standard format on Hugging Face, the main site for sharing models. A safetensors file holds arrays of numbers and no executable code. GGUF is a single-file format used by llama.cpp, Ollama and LM Studio. A GGUF file usually comes already compressed to fewer bits per weight.</p><p>The third kind is the old PyTorch format, with file names ending in dot bin or dot P T. Those are built on Python's pickle, and loading one can run arbitrary code on your machine. Treat it like a program a stranger sent you.</p><p>One caveat. Safetensors protects you from the weight file. The code shipped next to it and the software that loads it can still be unsafe.</p><p class="inclass">Open a model page on Hugging Face and find the file list. Have the room name each format.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Openness</p>
+        <h2>Open weight isn't open source</h2>
+        <p>The Open Source Initiative's definition for AI (October 2024) asks for the weights, the complete code used to train and run the system, and enough detail about the training data to build an equivalent. All of it has to be usable for any purpose.</p>
+        <p>Most "open" models publish only the weights.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#the-openness-spectrum" target="_blank" rel="noopener">Go deeper: the openness spectrum</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows duo">
+          <div class="row"><div><b>Closed, API only</b><small>Claude, GPT-6, Gemini, Grok</small></div><div class="gets"><span>weights</span><span>any-purpose license</span><span>training code</span><span>data details</span><span>training data</span></div></div>
+          <div class="row"><div><b>Open weight, restrictive license</b><small>Kimi K3, Qwen3.8-Max, GLM-5.3, Llama 4</small></div><div class="gets"><span class="has">weights</span><span>any-purpose license</span><span>training code</span><span>data details</span><span>training data</span></div></div>
+          <div class="row"><div><b>Open weight, Apache 2.0 or MIT</b><small>DeepSeek V4, gpt-oss, Gemma 4</small></div><div class="gets"><span class="has">weights</span><span class="has">any-purpose license</span><span>training code</span><span>data details</span><span>training data</span></div></div>
+          <div class="row"><div><b>Open source AI, by the OSI definition</b><small>Few models qualify</small></div><div class="gets"><span class="has">weights</span><span class="has">any-purpose license</span><span class="has">training code</span><span class="has">data details</span><span>training data</span></div></div>
+          <div class="row"><div><b>Fully open</b><small>AI2's OLMo 3</small></div><div class="gets"><span class="has">weights</span><span class="has">any-purpose license</span><span class="has">training code</span><span class="has">data details</span><span class="has">training data</span></div></div>
+        </div>
+        <span class="tag">Examples as of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>People say open source when they mean open weight. The two are different. The Open Source Initiative published a definition for AI in October 2024. To qualify, a release needs the weights, the complete code used to train and run the system, and enough detail about the training data that a skilled person could build an equivalent. It also has to allow use, study, modification and sharing for any purpose.</p><p>Each row on screen lights up what you get. Closed models give you none of it. Most open models give you the weights and stop there. Few models meet the full definition. At the bottom, AI2's OLMo family publishes the training data too. Those fully open models usually trail the best open-weight models in raw capability.</p><p>The labs are getting careful about the wording. Moonshot calls Kimi K3 open weight.</p><p class="inclass">Ask what you could study with weights alone, and what you'd need the training data for.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Licenses</p>
+        <h2>Many frontier open models carry custom licenses</h2>
+        <p>Apache 2.0 and MIT are simple. Many 2026 frontier open models use custom terms with revenue thresholds, attribution rules or a non-commercial default.</p>
+        <p>The usual target is a company that hosts the model and sells it as a service. Most engineers never hit the clause. Read the license before you ship anyway.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#licenses-in-practice" target="_blank" rel="noopener">Go deeper: licenses in practice</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row"><b>Apache 2.0, MIT</b><p>Use, modify and sell. Keep the notice. Apache adds a patent grant.</p><p class="m">gpt-oss, Gemma 4, DeepSeek V4</p></div>
+          <div class="row"><b>Revenue-tiered</b><p>Free for most uses. Hosting the model as a service above a revenue line needs a separate agreement.</p><p class="m">Kimi K3: over $20M in 12 months. Qwen3.8-Max: over $50M.</p></div>
+          <div class="row"><b>Non-commercial by default</b><p>Commercial use needs a notice, and prior authorization above $20M in yearly revenue.</p><p class="m">MiniMax M3</p></div>
+          <div class="row"><b>Llama Community</b><p>Free under 700M monthly users. Display "Built with Llama". Acceptable-use policy.</p><p class="m">Llama 3.x, Llama 4</p></div>
+        </div>
+        <span class="tag">As of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Apache 2.0 and MIT are the simple licenses. You can use the model, modify it and sell products built on it. gpt-oss, Gemma 4 and DeepSeek V4 ship that way.</p><p>Many of the 2026 frontier open models use custom licenses. The most common kind is revenue-tiered. Most uses are free. If you run a business hosting the model for paying customers, and you're above a revenue line, you need a separate agreement with the lab. For Kimi K3 the line is 20 million dollars over twelve months.</p><p>MiniMax M3 goes further and defaults to non-commercial. Meta's Llama license is free until 700 million monthly users and asks you to display "Built with Llama".</p><p>For most engineers these clauses change nothing. For a company that resells inference, they change a lot.</p><p class="inclass">Ask who the revenue-tiered clause is aimed at. Answer: cloud and inference providers that would undercut the lab's own API.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Licenses</p>
+        <h2>The license can change between versions of one family</h2>
+        <p>An upgrade to the next version can move you from MIT to a custom license. Re-read the license every time you upgrade.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#licenses-in-practice" target="_blank" rel="noopener">Go deeper: licenses in practice</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="shift"><b>MiniMax</b><div><small>M2, M2.5</small>Modified MIT</div><span class="to">→</span><div class="now"><small>M3</small>Non-commercial by default</div></div>
+          <div class="shift"><b>GLM</b><div><small>GLM-5</small>MIT</div><span class="to">→</span><div class="now"><small>GLM-5.3</small>Custom license</div></div>
+          <div class="shift"><b>Kimi</b><div><small>K2</small>Modified MIT</div><span class="to">→</span><div class="now"><small>K3</small>Revenue-tiered</div></div>
+          <div class="shift"><b>Gemma</b><div><small>Gemma 1 to 3</small>Custom terms of use</div><span class="to">→</span><div class="now"><small>Gemma 4</small>Apache 2.0</div></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A license belongs to one version of a model. It can change at the next release of the same family.</p><p>The rows show four changes. MiniMax M2 and M2.5 used a modified MIT license, and M3 defaults to non-commercial. GLM-5 was MIT, and GLM-5.3 has a custom license. Kimi K2 was modified MIT, and K3 is revenue-tiered. Gemma went the other way. Versions one through three had custom terms, and Gemma 4 moved to Apache 2.0.</p><p>Bumping a model version can change your legal position, so read the new license as part of the upgrade.</p><p class="inclass">Watch for "we already approved this model family." The approval covered one version's license.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Licenses</p>
+        <h2>Eight things to check before you build on an open model</h2>
+        <p>Many companies keep an approved-model list. Get the model on it before you build.</p>
+        <p>This is engineering guidance. Legal advice comes from your legal team.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#what-to-check-before-using-an-open-model-at-work" target="_blank" rel="noopener">Go deeper: the license checklist</a></p>
+      </div>
+      <div class="vis">
+        <ol class="checks">
+          <li>Commercial use, or non-commercial by default</li>
+          <li>Thresholds on users, revenue or hosting, for you and your customers</li>
+          <li>"Built with X" display and naming rules</li>
+          <li>An acceptable-use policy that can change later</li>
+          <li>Rights withheld in your region</li>
+          <li>Training other models on outputs, and what fine-tunes inherit</li>
+          <li>Patents and warranty</li>
+          <li>Your legal team's approved-model list</li>
+        </ol>
+      </div>
+      <div class="talk" hidden><p>Of the eight checks, the first three catch most problems. Check whether commercial use is allowed at all. Look for thresholds on users, revenue or hosting, and think about your customers as well as your own company. Check for display rules, such as showing "Built with" and the model's name.</p><p>The next ones are easier to miss. An acceptable-use policy can be pulled in by reference and changed later. Some rights are withheld by region. Llama 4's policy withholds its multimodal models from people and companies based in the EU. Check whether you can train other models on the outputs, and whether a fine-tune inherits the license. On patents, Apache 2.0 includes a grant and MIT doesn't mention them.</p><p>Last, many companies keep an approved-model list. Get the model on it first. This is engineering guidance, and legal advice comes from your legal team.</p><p class="inclass">Team exercise. Give each group one permissive and one custom license, and a product with 2 million users and 30 million dollars in yearly revenue that hosts the model for customers. Which models can it use as-is?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Why labs release</p>
+        <h2>Labs give weights away for strategic reasons</h2>
+        <p>A frontier model costs at least tens of millions of dollars to train. Releasing it buys adoption, hiring, pricing pressure on rivals and customers for the lab's own hosted API.</p>
+        <p>The strategy can change. In 2026 Meta kept its best Muse models closed and released two open ones.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#why-labs-release-weights" target="_blank" rel="noopener">Go deeper: why labs release weights</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows duo">
+          <div class="row"><b>Become the default</b><p>Qwen derivatives were over 40% of new language models on Hugging Face by mid-2025.</p></div>
+          <div class="row"><b>Avoid a rival's closed platform</b><p>Mark Zuckerberg's 2024 argument for open models at Meta.</p></div>
+          <div class="row"><b>Sell the hosted API</b><p>Revenue-tiered licenses let anyone self-host and stop large hosts from undercutting the lab.</p></div>
+          <div class="row"><b>Recruit researchers</b><p>They want to publish.</p></div>
+          <div class="row"><b>Geopolitics</b><p>Chinese labs gain global adoption despite US chip export controls. Mistral pitches European "AI sovereignty".</p></div>
+          <div class="row"><b>Set a price floor</b><p>Closed labs have to answer a good-enough open model.</p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A frontier model costs at least tens of millions of dollars to train, and some labs then give the weights away. The rows give their reasons.</p><p>Adoption comes first. If developers build on your model and your formats, you become the default. By mid-2025, Qwen derivatives were over 40 percent of new language models on Hugging Face. Second, an open model protects you from depending on a rival's closed platform. Mark Zuckerberg made that argument for Meta in 2024.</p><p>Third, money. Many open labs earn from their own hosted API. The revenue-tiered licenses from the last screens let anyone self-host while keeping big hosting companies from undercutting that API.</p><p>The rest are recruiting, geopolitics and price pressure on the closed labs. These are business choices, and they can change. In 2026 Meta kept its best Muse models closed and released two open ones.</p><p class="inclass">Ask which of these reasons would survive if the lab's hosted API stopped making money.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The safety debate</p>
+        <h2>A weight release can't be undone</h2>
+        <p>Open weights let defenders and researchers work without asking permission. Once a model is out, anyone can strip its safeguards, and nobody can recall it.</p>
+        <p>Most current policy treats today's open models as acceptable and monitors the frontier.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#the-safety-debate" target="_blank" rel="noopener">Go deeper: the safety debate</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>For release</h3>
+            <ul class="dos">
+              <li>Defenders need no permission. In July 2026 Hugging Face's team analyzed an attack with a self-hosted open model after commercial APIs blocked their requests.</li>
+              <li>Data can stay on your machines.</li>
+              <li>Researchers can study the internals.</li>
+              <li>No single point of control.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Against release</h3>
+            <ul class="dos">
+              <li>Safeguards come off cheaply. A copy of Muse Spark Open with its refusals removed was on Hugging Face two days after its October 2026 release.</li>
+              <li>Dangerous capability spreads with a lag. Epoch estimated 6 to 7 months on cyber tasks in October 2026.</li>
+              <li>Agent security varies. NIST's CAISI found agents on DeepSeek R1-0528 were 12 times more likely than US frontier models to follow hijacking instructions (2025).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>People who study this disagree about whether releasing weights is safe. The two panels give each side's strongest points.</p><p>For release: defenders and researchers can use the model without asking anyone. In July 2026, Hugging Face's team was analyzing an attack by autonomous agents. Commercial model APIs blocked their requests, so they used a self-hosted open model. Open weights also let researchers study a model's internals, and they keep a widely used technology out of one company's control.</p><p>Against release: it is permanent, and the safety training can be removed. Research showed that cheap fine-tuning strips it, and that refusals can be edited out of the weights directly. That edit is called abliteration. A copy of Muse Spark Open with its refusals removed was on Hugging Face two days after release.</p><p>Capability also spreads. In October 2026 Epoch estimated that open models trail the closed frontier by 6 to 7 months on cyber tasks. Most policy today accepts current open models and watches the frontier.</p><p class="inclass">Ask the room: if an open model is safe to release today, what would have to be true to release one six months more capable?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hardware math</p>
+        <h2>Memory is parameters times bytes per parameter</h2>
+        <p>Quantization stores each weight with fewer bits. 8-bit is usually close to lossless. 4-bit is the common local default, with a modest loss that shows up in coding and long reasoning before casual chat.</p>
+        <p>Below about 3 bits, quality drops noticeably.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#step-1-weight-memory" target="_blank" rel="noopener">Go deeper: weight memory</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Weights of a 30B model</p>
+        <div class="bars" role="img" aria-label="Memory for a 30 billion parameter model's weights by precision: 32-bit 120 GB, 16-bit as released 60 GB, 8-bit about 32 GB, 4-bit about 17 GB, about 3-bit about 13 GB.">
+          <span class="pl">32-bit<small>4 bytes each</small></span><div class="track"><i style="--w:100%"></i></div><span class="num">120 GB</span>
+          <span class="pl">16-bit, as released<small>2 bytes</small></span><div class="track"><i style="--w:50%"></i></div><span class="num">60 GB</span>
+          <span class="pl">8-bit<small>~1 byte</small></span><div class="track"><i style="--w:26.7%"></i></div><span class="num">~32 GB</span>
+          <span class="pl">4-bit<small>~0.57 bytes</small></span><div class="track"><i style="--w:14.2%"></i></div><span class="num">~17 GB</span>
+          <span class="pl">~3-bit<small>~0.4 bytes</small></span><div class="track"><i style="--w:10.8%"></i></div><span class="num">~13 GB</span>
+        </div>
+        <p class="cap">Some models are trained with quantization in mind and lose little at 4-bit. gpt-oss and Kimi K3 are released that way.</p>
+      </div>
+      <div class="talk" hidden><p>To know whether a model fits on your machine, multiply. Memory for the weights is the number of parameters times the bytes each one takes.</p><p>The bars show a 30 billion parameter model. At full 32-bit precision it needs 120 gigabytes. Most models are released at 16 bits, which is 60. Quantization stores each weight in fewer bits. At 8 bits you need about 32 gigabytes, and quality is usually close to the original. At 4 bits you need about 17, with a modest loss. That's the usual choice for running locally.</p><p>The loss isn't even across tasks. Coding and long reasoning tend to suffer before casual chat does. Below about 3 bits, quality drops noticeably.</p><p>Some models are trained with quantization in mind, so their 4-bit version loses little. gpt-oss and Kimi K3 are released that way.</p><p class="inclass">Have everyone work out the 4-bit size of an 8 billion parameter model. Answer: about 4.7 gigabytes.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hardware math</p>
+        <h2>Context takes memory on top of the weights</h2>
+        <p>While generating, the model stores keys and values for every token in the context. This KV cache grows with context length.</p>
+        <p>Many 2026 models use attention variants that shrink it a lot, so check the model card. Budget for your context length, simultaneous requests and runtime buffers.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#step-2-add-room-for-context-the-kv-cache" target="_blank" rel="noopener">Go deeper: the KV cache</a></p>
+      </div>
+      <div class="vis">
+        <p class="formula">KV bytes per token ≈ 2 × layers × KV heads × head dimension × bytes per value<small>2 × 48 × 8 × 128 × 2 ≈ 0.2 MB per token</small></p>
+        <div class="bars" role="img" aria-label="A 30 billion parameter model's 4-bit weights take about 17 GB. The KV cache for the illustrative model adds about 1.6 GB at 8K tokens of context, 6 GB at 32K and 25 GB at 128K.">
+          <span class="pl">Weights<small>30B at 4-bit</small></span><div class="track base"><i style="--w:65%"></i></div><span class="num">~17 GB</span>
+          <span class="pl">8K context</span><div class="track"><i style="--w:6%"></i></div><span class="num">+1.6 GB</span>
+          <span class="pl">32K context</span><div class="track"><i style="--w:24%"></i></div><span class="num">+6 GB</span>
+          <span class="pl">128K context</span><div class="track"><i style="--w:98%"></i></div><span class="num">+25 GB</span>
+        </div>
+        <span class="tag">Illustrative model: 48 layers, 8 KV heads, 16-bit values</span>
+      </div>
+      <div class="talk" hidden><p>The weights aren't the whole bill. While it generates, the model keeps keys and values for every token in the context, so it doesn't have to recompute them. This is the KV cache, and it grows with every token you add.</p><p>The formula on screen gives the size per token. For an illustrative model with 48 layers, it comes to about a fifth of a megabyte per token. A 32,000-token context then needs about 6 gigabytes on top of the weights. The bars carry the same arithmetic to other lengths. At 128,000 tokens the cache is bigger than the 4-bit weights of a 30 billion parameter model.</p><p>Many 2026 models use attention variants that shrink the cache a lot, so read the model card before you trust this estimate. Then budget for the context length you want, the number of requests running at once, and the runtime's own buffers.</p><p class="inclass">Watch for "it fits, the file is only 17 gigabytes." Ask what context length they plan to run.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hardware math</p>
+        <h2>Memory follows total parameters, speed follows active ones</h2>
+        <p>A mixture-of-experts (MoE) model has many expert sub-networks and uses only a few for each token. Fast inference usually keeps all of them in memory.</p>
+        <p>Almost every frontier open model of 2026 is built this way, with roughly 2 to 6% of its parameters active per token.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#step-3-mixture-of-experts-moe-changes-speed-not-memory" target="_blank" rel="noopener">Go deeper: mixture of experts</a></p>
+      </div>
+      <div class="vis">
+        <div class="experts" role="img" aria-label="A grid of fifty expert sub-networks with two highlighted: one token uses only a few."><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="cap">Every expert stays loaded. One token runs through the lit ones.</p>
+        <div class="pair"><b>Gemma 4 26B-A4B</b><span>Stored</span><div class="track"><i style="--w:100%"></i></div><span class="num">26B</span><span>Active</span><div class="track act"><i style="--w:15.4%"></i></div><span class="num">~4B</span></div>
+        <div class="pair"><b>Kimi K3</b><span>Stored</span><div class="track"><i style="--w:100%"></i></div><span class="num">2.8T</span><span>Active</span><div class="track act"><i style="--w:3.7%"></i></div><span class="num">104B</span></div>
+        <p class="cap">Kimi K3's 4-bit weights are about 1.56 TB.</p>
+        <span class="tag">Grid is illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Most large open models are mixtures of experts. The network holds many expert sub-networks, and each token goes through only a few of them. The grid on screen shows the idea, with two cells lit out of fifty.</p><p>That gives a model two sizes. Total parameters set how much memory the weights need, because fast inference keeps every expert loaded. Active parameters are the ones a token uses, and they help estimate the computation per token.</p><p>Gemma 4's 26B-A4B model stores 26 billion parameters and uses about 4 billion per token. It needs the memory of a 26 billion parameter model. Kimi K3 stores 2.8 trillion and uses 104 billion. Its 4-bit weights are about 1.56 terabytes, which is data-center hardware.</p><p>Fewer active parameters mean less computation. They don't promise the speed of a dense model that small, since routing and memory access cost time too.</p><p class="inclass">Ask the room: a model card says 816B-A42B. Roughly how much memory do its 4-bit weights need? Answer: size it on the 816 billion, so around 450 to 500 gigabytes.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hardware math</p>
+        <h2>Memory bandwidth caps tokens per second</h2>
+        <p>Generating a token means reading all the active weights from memory once. Bandwidth divided by the bytes of active weights gives a rough ceiling, and real output is slower.</p>
+        <p>An MoE model reads far fewer bytes per token, which is why MoE models are popular locally.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#step-4-speed-is-mostly-memory-bandwidth" target="_blank" rel="noopener">Go deeper: speed and memory bandwidth</a></p>
+      </div>
+      <div class="vis">
+        <p class="formula">tokens per second ≲ memory bandwidth ÷ bytes of active weights</p>
+        <div class="two">
+          <div class="panel">
+            <h3>Dense 30B at 4-bit</h3>
+            <p class="note">Reads ~17 GB per token</p>
+            <div class="box">270 GB/s ÷ 17 GB ≈ 16 tokens/s</div>
+            <p class="note">That's the ceiling.</p>
+          </div>
+          <div class="panel">
+            <h3>MoE with 3B active at 4-bit</h3>
+            <p class="note">Reads ~1.7 GB per token</p>
+            <div class="box">Several times faster on the same machine</div>
+          </div>
+        </div>
+        <span class="tag">Illustrative machine: ~270 GB/s</span>
+      </div>
+      <div class="talk" hidden><p>Speed has its own rule of thumb. To produce one token, the machine reads every active weight from memory once. So the speed of your memory sets a ceiling.</p><p>Divide memory bandwidth by the bytes of active weights. Take a dense 30 billion parameter model at 4-bit, about 17 gigabytes, on a machine that moves about 270 gigabytes a second. 270 divided by 17 is about 16 tokens per second. That's the ceiling, and real output is slower.</p><p>Now take a mixture-of-experts model with 3 billion active parameters. Each token reads about 1.7 gigabytes. On the same machine it can run several times faster. That's a big part of why these models are popular for local use.</p><p class="inclass">Live demo. Run a local model and read off its tokens per second. Compare with the ceiling for that machine.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hardware math</p>
+        <h2>Frontier open models don't fit on a laptop</h2>
+        <p>A discrete GPU needs the whole model in its own VRAM to run fast. An Apple silicon Mac shares one pool of unified memory between CPU and GPU, so a 64 to 128 GB Mac loads models no consumer GPU can, at lower bandwidth.</p>
+        <p>The headline open models need a server rack. "Local" usually means a model one or two tiers smaller.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#what-fits-where-approximate-4-bit-unless-noted" target="_blank" rel="noopener">Go deeper: what fits where</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Runs comfortably at 4-bit</p>
+        <div class="rows duo">
+          <div class="row"><div><b>18 GB Mac</b><small>~12 GB for the model</small></div><p>4B to 14B dense: Gemma 4 E4B or 12B, small Qwen models</p></div>
+          <div class="row"><div><b>24 GB GPU</b><small>~22 GB</small></div><p>27B to 32B dense with moderate context: Qwen3.8-27B, Gemma 4 31B, Muse Glimmer 30B</p></div>
+          <div class="row"><div><b>36 GB Mac</b><small>~24 to 27 GB</small></div><p>The same 27B to 32B models, and gpt-oss-20b with long context</p></div>
+          <div class="row"><div><b>64 GB Mac</b><small>~45 to 48 GB</small></div><p>70B-class dense, slowly</p></div>
+          <div class="row"><div><b>128 GB Mac or workstation</b><small>~96 GB and up</small></div><p>gpt-oss-120b, 120B MoE such as Nemotron 3 Super</p></div>
+          <div class="row"><div><b>8 × 80 GB data-center GPUs</b><small>~640 GB</small></div><p>300B to 800B MoE: GLM-5.3 at about 420 GB</p></div>
+          <div class="row"><div><b>Multi-node cluster</b><small>1 TB and up</small></div><p>Kimi K3, DeepSeek V4-Pro, Qwen3.8-Max</p></div>
+        </div>
+        <span class="tag">Approximate, November 2026</span>
+      </div>
+      <div class="talk" hidden><p>The table lines machines up against what they run comfortably at 4-bit. An 18 gigabyte Mac handles models up to about 14 billion parameters. A 24 gigabyte graphics card or a 36 gigabyte Mac handles the 27 to 32 billion class. A 128 gigabyte Mac or workstation reaches gpt-oss-120b.</p><p>Two kinds of memory are in play. A graphics card has its own fast memory, called VRAM, and the model has to fit there to run fast. Apple silicon Macs share one pool between the CPU and the graphics chip. That lets a big Mac load models no consumer graphics card can hold, though its memory is slower. By default macOS lets the GPU use roughly two-thirds to three-quarters of the RAM.</p><p>Below those rows the hardware stops being personal. GLM-5.3 at 4-bit is about 420 gigabytes. Kimi K3 needs a multi-node cluster. Most people use those models through a hosted provider, and local usually means a model one or two tiers smaller.</p><p class="inclass">Have each person find their machine's row and name one model they could run tonight.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Running locally</p>
+        <h2>One command runs a model on your laptop</h2>
+        <p>Ollama is the easiest start, and LM Studio is the desktop-app route. Each runs a local server your tools can call. vLLM and SGLang are GPU servers for a team or a product.</p>
+        <p>Check free disk space before you pull a model. Weights are large, and each tool keeps its own copy.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#tools-for-running-open-models" target="_blank" rel="noopener">Go deeper: tools for running open models</a></p>
+      </div>
+      <div class="vis">
+        <div class="doc"><pre class="term"><span class="c"># Ollama: downloads about 14 GB the first time</span>
+ollama run gpt-oss:20b
+
+<span class="c"># llama.cpp: an OpenAI-compatible API on port 8080</span>
+llama-server -hf ggml-org/gpt-oss-20b-GGUF
+
+<span class="c"># vLLM: a GPU server for a team, on an 80 GB-class GPU</span>
+vllm serve openai/gpt-oss-120b
+
+<span class="c"># delete the weights when you're done</span>
+ollama rm gpt-oss:20b</pre></div>
+        <div class="via"><span>Local servers</span><span class="chip c1">Ollama :11434</span><span class="chip c4">LM Studio :1234</span><span class="chip c3">llama-server :8080</span></div>
+      </div>
+      <div class="talk" hidden><p>Running a model locally takes one command. The first line on screen uses Ollama. It downloads about 14 gigabytes the first time, then drops you into a chat. LM Studio does the same job as a desktop app with a model search.</p><p>Both also start a local server, so your editor or agent can call the local model. Under many of these tools sits llama.cpp, the engine in the second command.</p><p>The third command is a different class of tool. vLLM and SGLang are high-throughput servers for a team or a product, and they want data-center GPUs.</p><p>Check your free disk space before you pull anything. Weights are large and each tool keeps its own copy. Delete models when you're done.</p><p class="inclass">Individual exercise. Run a model that fits your machine. Ask it to explain a function from your codebase and write a unit test. Record tokens per second, memory used, and whether the test passes.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hosted open models</p>
+        <h2>The same open model can behave differently on each host</h2>
+        <p>You don't need hardware to use open weights. Providers host them and charge per token.</p>
+        <p>If a model seems worse than its benchmarks, try the lab's own API or another host before you give up on it. Pin a provider for anything you evaluate.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#hosted-open-models" target="_blank" rel="noopener">Go deeper: hosted open models</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows duo">
+          <div class="row"><b>Router</b><p>OpenRouter: one API key, many providers</p></div>
+          <div class="row"><b>GPU clouds</b><p>Together AI, Fireworks, Baseten, DeepInfra</p></div>
+          <div class="row"><b>Custom chips, very fast output</b><p>Groq, Cerebras</p></div>
+          <div class="row"><b>The labs' own APIs</b><p>DeepSeek, Moonshot, Z.ai, MiniMax, Alibaba Cloud, Mistral</p></div>
+          <div class="row"><b>Hyperscalers</b><p>AWS Bedrock, Google Vertex AI, Microsoft Foundry</p></div>
+        </div>
+        <div class="via"><span>Each host sets its own</span><span class="chip pill c5">quantization</span><span class="chip pill c1">chat template</span><span class="chip pill c4">context limit</span><span class="chip pill c2">tool-call parsing</span></div>
+      </div>
+      <div class="talk" hidden><p>You can use open weights without owning hardware. Many providers host them and charge per token. The rows list the kinds. A router like OpenRouter reaches many providers with one key. GPU clouds specialize in open models. Some providers run custom chips with very fast output. Then there are the labs' own APIs and the big clouds.</p><p>The same model name can mean different things on different hosts. A host picks the quantization, the chat template, the context limit and the code that parses tool calls. Any of those can change the model's behavior.</p><p>So if an open model seems worse than its benchmarks, try the lab's own API or a second host before you write it off. When you evaluate a model, pin one provider, or you're measuring a mix.</p><p class="inclass">Watch for "I tried that model and it was bad." Ask which host served it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Coding harnesses</p>
+        <h2>Most coding harnesses can run open models</h2>
+        <p>OpenCode auto-detects local Ollama, LM Studio and vLLM servers. Codex CLI runs local models with <code>--oss</code>. Claude Code can point at an endpoint that speaks Anthropic's API, and several open-model labs offer one.</p>
+        <p>A local 20B to 30B model handles small, well-specified edits. It struggles with the long multi-file tasks frontier models finish. Hosted frontier open models come much closer.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#using-open-models-in-coding-harnesses" target="_blank" rel="noopener">Go deeper: open models in coding harnesses</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Claude Code settings, trimmed from Z.ai's docs</p>
+        <div class="doc"><pre class="term">{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "&lt;your Z.ai key&gt;",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-5.3[1m]",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-5.3[1m]",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-5.3-flash[1m]"
+  }
+}</pre></div>
+        <span class="flag">Anthropic "doesn't support routing Claude Code to non-Claude models through any gateway."</span>
+        <p class="cap">It often works. Thinking blocks, tool formats, caching and effort settings can break or behave differently, so test before you depend on it.</p>
+      </div>
+      <div class="talk" hidden><p>Most coding harnesses can now talk to more than one provider. OpenCode is an open-source coding agent built for that. It auto-detects local Ollama, LM Studio and vLLM servers. Codex CLI has a flag, --oss, that runs local models through Ollama or LM Studio.</p><p>Claude Code can be pointed at any endpoint that speaks Anthropic's API format, and several open-model labs offer one. The settings on screen come from Z.ai's documentation. They send Claude Code's requests to GLM-5.3.</p><p>Anthropic's docs say it doesn't support routing Claude Code to non-Claude models. It often works. Features built around Claude's API can break, such as thinking blocks, tool formats, caching and effort settings. Test before you depend on it.</p><p>Set your expectations by model size. A local model of 20 to 30 billion parameters handles small, well-specified edits and explanations. It struggles with the long multi-file tasks frontier models finish. Hosted frontier open models come much closer.</p><p class="inclass">Live demo. Give the same small bug fix to a local model and a frontier model in the same harness. Compare the diffs.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Privacy</p>
+        <h2>Your data goes where the model runs</h2>
+        <p>Self-hosting a Chinese lab's weights keeps your prompts and code on your own machines. Calling that lab's hosted API sends them to its servers.</p>
+        <p>Those are separate risk decisions. Check the hosting region and terms of the service you call.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#privacy-data-residency-and-compliance" target="_blank" rel="noopener">Go deeper: privacy and data residency</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Where your prompts and code go</p>
+        <div class="rows duo">
+          <div class="row"><div><b>Self-hosted open weights</b><small>your laptop, your cloud account</small></div><p>Nowhere outside your infrastructure. You own security, updates and monitoring.</p></div>
+          <div class="row"><div><b>US or EU host serving Chinese-origin weights</b><small>Together, Fireworks, Bedrock</small></div><p>That host, under its terms and jurisdiction.</p></div>
+          <div class="row"><div><b>A Chinese lab's own API</b><small>DeepSeek, Moonshot, Z.ai, MiniMax, Alibaba</small></div><p>That company's servers, under Chinese law. DeepSeek's privacy policy says it stores personal data "in People's Republic of China."</p></div>
+          <div class="row"><div><b>Closed US lab API</b><small>Anthropic, OpenAI, Google</small></div><p>That lab's servers, under retention terms you can often configure.</p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Two questions get mixed up here. One is where the weights came from. The other is where the computation runs. Your data follows the second one.</p><p>Go down the rows. If you self-host open weights, your prompts and code stay on your infrastructure, whichever lab trained the model. If a US or European host serves Chinese-origin weights, your data goes to that host, under its terms.</p><p>If you call a Chinese lab's own API, your data goes to that company's servers and Chinese law applies. DeepSeek's privacy policy says it stores personal data in the People's Republic of China. A closed US lab's API sends your data to that lab, under retention terms you can often configure.</p><p>So a rule against using Chinese models and a rule against sending code to China are different rules. Find out which one your company has before you send source code anywhere new.</p><p class="inclass">Ask the room: is self-hosting a Chinese lab's weights different from calling an American lab's API? List what each one protects and what it leaves open.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Self-hosting</p>
+        <h2>Self-hosting fixes data flow and adds new risks</h2>
+        <p>Model behavior travels with the weights. An open model running an agent with shell access is as exposed to prompt injection as a closed one, sometimes more.</p>
+        <p>Download weights only from the publisher's official repository, and check hashes.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#self-hosting-isnt-automatically-safer" target="_blank" rel="noopener">Go deeper: self-hosting isn't automatically safer</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Removes</h3>
+            <ul class="dos">
+              <li>Data leaving your infrastructure</li>
+              <li>A model that gets updated or retired under you</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Adds</h3>
+            <ul class="dos">
+              <li>Unpatched inference servers</li>
+              <li>Exposed endpoints with no authentication</li>
+              <li>Model files from unofficial mirrors</li>
+              <li>No vendor abuse monitoring</li>
+            </ul>
+          </div>
+        </div>
+        <p class="keep">Model bias and prompt-injection susceptibility stay the same. CAISI found DeepSeek models repeated inaccurate Chinese Communist Party narratives four times as often as US reference models (2025).</p>
+      </div>
+      <div class="talk" hidden><p>Self-hosting removes one risk, which is your data leaving. It also gives you a frozen model. A closed API can be updated or retired, and a file on your disk stays the same. That helps in regulated work.</p><p>It adds the risks in the right panel. You now run an inference server that needs patching. A local server can end up listening on every network interface with no authentication. Model files from unofficial mirrors may not be what the publisher released. And no vendor is watching for abuse.</p><p>Some things don't change at all. A model's behavior travels with its weights. A NIST evaluation in 2025 found DeepSeek models repeated inaccurate Chinese Communist Party narratives four times as often as US reference models. An open model driving an agent with shell access is as exposed to prompt injection as a closed one, sometimes more.</p><p>Download weights only from the publisher's official repository, and check the hashes.</p><p class="inclass">Ask who has a local model server running right now, and what address it's listening on.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Choosing</p>
+        <h2>Pick open or closed by the constraint you have</h2>
+        <p>Open models give you control, privacy and customization. Cost and capability depend on the model and the task, so compare candidates in your own harness.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#when-to-choose-open-vs-closed" target="_blank" rel="noopener">Go deeper: when to choose open vs closed</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Lean toward</p>
+        <div class="rows lean">
+          <div class="row"><p>Hardest agentic coding, large refactors</p><span class="chip pill c2">Closed frontier</span></div>
+          <div class="row"><p>Code or data can't leave your network</p><span class="chip pill c3">Open, self-hosted</span></div>
+          <div class="row"><p>Bulk jobs at millions of calls</p><span class="chip pill c5">Open, or a cheap closed tier</span></div>
+          <div class="row"><p>Fine-tuning on proprietary data</p><span class="chip pill c3">Open</span></div>
+          <div class="row"><p>Offline or edge use</p><span class="chip pill c3">Open, small</span></div>
+          <div class="row"><p>A frozen model for audits or research</p><span class="chip pill c3">Open</span></div>
+          <div class="row"><p>Small team, no ML ops</p><span class="chip pill c2">Closed</span></div>
+          <div class="row"><p>Policy bars a vendor's jurisdiction</p><span class="chip pill c5">Open from a trusted host, or another vendor</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>The table pairs a situation with a default. For the hardest agentic coding and large refactors, start with the closed frontier models, and compare them against current open models in your own harness. If code or data can't leave your network, self-host an open model. For bulk jobs like tagging and extraction at millions of calls, compare a hosted open model with the cheapest closed tier on price per token.</p><p>Open is also the default when you need to fine-tune on your own data, run offline, or keep a frozen model for an audit. A small team with nobody to run servers should lean closed.</p><p>Open models give you control, privacy and customization. Cost and capability depend on the model and the task, and the measured gap between open and closed varies by domain. Lesson 07 shows how to test that on your own work.</p><p class="inclass">Ask what share of the team's work a local 30 billion parameter model could handle, and what evidence would settle it.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">Bryan's take</p>
+        <h2>For coding, open models sit at a different place in the chain</h2>
+        <blockquote class="take">"For coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain."</blockquote>
+        <p>Bryan also holds that subscriptions are what make heavy agentic use affordable, more than API billing. Keep that in mind when you compare a self-hosted or per-token open model against a flat-rate plan.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
+      </div>
+      <div class="talk" hidden><p>This one is an opinion, and lesson 05 gave the first half of it. Bryan's take, in his words: for coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain.</p><p>He holds a related view about cost. Subscriptions are what make heavy agentic use affordable, more than API billing. Keep that in mind when you compare a self-hosted or per-token open model against a flat-rate plan. Lesson 15 covers costs.</p><p>Opinions about specific models are dated, like everything else in this field. This one is from November 2026.</p><p class="inclass">Ask who disagrees, and what they've seen an open model do well.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>Open weight means downloadable weights under some license. Re-read the license at every upgrade.</li>
+          <li>Memory is parameters times bytes per parameter, plus room for context. A laptop runs a 30B model, and frontier open models need a rack.</li>
+          <li>Your data goes where the model runs. Self-hosting keeps it on your machines, and a hosted API sends it to that provider.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md#when-to-choose-open-vs-closed" target="_blank" rel="noopener">Go deeper: when to choose open vs closed</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things. First, open weight means you can download the weights under some license. That license may be far from open source, and it can change with the next version.</p><p>Second, the memory a model needs is its parameter count times the bytes per parameter, plus room for context. That puts a 30 billion parameter model on a good laptop and the frontier open models in a data center.</p><p>Third, your data goes where the computation runs. Self-hosting keeps it on your machines. A hosted API sends it to that provider, whoever trained the weights.</p><p class="inclass">Have each person write down one model they could self-host and one reason they would.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 06 done</p>
+        <h2>Next: how to tell if a model is good</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-07">Lesson 07</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/06-open-vs-closed-weights.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson six. Lesson seven covers how to tell if a model is good: benchmarks, how to read them, and how to build your own tests.</p></div>
+    </article>
+</section>

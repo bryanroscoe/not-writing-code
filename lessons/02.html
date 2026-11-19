@@ -1,0 +1,748 @@
+<section class="lesson" data-lesson="02" data-title="How a model is made" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="02"] .hero-run { display: grid; grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr); align-items: stretch; }
+    .lesson[data-lesson="02"] .hero-run > div { background: var(--sunk); border: 1px solid var(--line); border-radius: 12px; padding: 16px 14px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .lesson[data-lesson="02"] .hero-run > div.hl { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+    .lesson[data-lesson="02"] .hero-run b { font: 720 clamp(22px, 2.7cqi, 36px)/1.05 var(--display); letter-spacing: -.02em; }
+    .lesson[data-lesson="02"] .hero-run span { font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="02"] .hero-run .ar { align-self: center; }
+
+    .lesson[data-lesson="02"] .band { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="02"] .bl { margin: 0; font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .lesson[data-lesson="02"] .flow { display: flex; align-items: stretch; }
+    .lesson[data-lesson="02"] .flow .node { flex: 1 1 0; font-size: 14px; }
+    .lesson[data-lesson="02"] .flow .node small { font-size: 12.5px; }
+    .lesson[data-lesson="02"] .flow .ar { flex: 0 0 22px; }
+    .lesson[data-lesson="02"] .flow .node.dash { border-style: dashed; background: transparent; }
+
+    .lesson[data-lesson="02"] .funnel { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .lesson[data-lesson="02"] .funnel div { width: var(--w); min-width: 0; text-align: center; font-size: 14px; line-height: 1.3; padding: 9px 10px; border-radius: 8px; background: var(--sunk); border: 1px solid var(--line); }
+    .lesson[data-lesson="02"] .funnel div.hl { background: var(--mark); border-color: var(--mark); color: var(--on-mark); font-weight: 700; }
+    .lesson[data-lesson="02"] .funnel div b { display: block; font: 720 20px/1.2 var(--display); }
+    .lesson[data-lesson="02"] .funnel .down { width: auto; border: 0; background: none; padding: 0; }
+    .lesson[data-lesson="02"] .adds { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .lesson[data-lesson="02"] .adds > span:first-child { font: 600 12px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+    .lesson[data-lesson="02"] .srow .strack { height: 20px; }
+
+    .lesson[data-lesson="02"] .cores { height: 96px; border-radius: 6px; }
+    .lesson[data-lesson="02"] .cores.cpu { background: linear-gradient(90deg, var(--sunk) 5px, transparent 5px) 0 0 / 32px 32px, linear-gradient(var(--sunk) 5px, transparent 5px) 0 0 / 32px 32px, var(--ink); }
+    .lesson[data-lesson="02"] .cores.gpu { background: linear-gradient(90deg, var(--sunk) 2px, transparent 2px) 0 0 / 8px 8px, linear-gradient(var(--sunk) 2px, transparent 2px) 0 0 / 8px 8px, var(--accent); }
+    .lesson[data-lesson="02"] .bars.wide-l { grid-template-columns: minmax(0, 11em) minmax(0, 1fr) auto; }
+    .lesson[data-lesson="02"] .bars .bl2 { font-size: 14px; line-height: 1.3; }
+    .lesson[data-lesson="02"] .bars .bl2 small { display: block; color: var(--muted); font-size: 12.5px; }
+    .lesson[data-lesson="02"] .track.ink i { background: var(--ink); }
+    .lesson[data-lesson="02"] .track i { min-width: 2px; }
+
+    .lesson[data-lesson="02"] .passcost { display: grid; grid-template-columns: 2fr 4fr; gap: 6px; }
+    .lesson[data-lesson="02"] .passcost > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .lesson[data-lesson="02"] .cells6 { display: flex; gap: 4px; }
+    .lesson[data-lesson="02"] .cells6 i { flex: 1; height: 44px; border-radius: 6px; background: var(--accent); }
+    .lesson[data-lesson="02"] .cells6.bw i { background: var(--accent-mid); }
+    .lesson[data-lesson="02"] .passcost p { margin: 0; font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="02"] .passcost p b { font-family: var(--display); }
+    .lesson[data-lesson="02"] .rule { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+    .lesson[data-lesson="02"] .rule .eq { font-size: clamp(18px, 2.2cqi, 24px); }
+    .lesson[data-lesson="02"] .rule p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+
+    .lesson[data-lesson="02"] .calc { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+    .lesson[data-lesson="02"] .calc li { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 4px 14px; padding: 11px 0; border-top: 1px solid var(--line); align-items: baseline; }
+    .lesson[data-lesson="02"] .calc li:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="02"] .calc b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="02"] .calc span { font: 500 14px/1.5 var(--mono); }
+    .lesson[data-lesson="02"] .calc span em { font-style: normal; background: var(--mark); color: var(--on-mark); border-radius: 4px; padding: 0 4px; }
+    .lesson[data-lesson="02"] .calc small { grid-column: 2; font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+    .lesson[data-lesson="02"] .cluster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) minmax(0, 1fr); align-items: center; }
+    .lesson[data-lesson="02"] .srv { background: var(--accent-soft); border: 2px solid var(--accent); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .lesson[data-lesson="02"] .gpus { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+    .lesson[data-lesson="02"] .gpus i { font: 600 10.5px/1 var(--mono); font-style: normal; text-align: center; padding: 9px 0; border-radius: 5px; background: var(--surface); border: 1px solid var(--accent-mid); }
+    .lesson[data-lesson="02"] .srv p, .lesson[data-lesson="02"] .wire p { margin: 0; font-size: 13px; line-height: 1.35; }
+    .lesson[data-lesson="02"] .srv p b, .lesson[data-lesson="02"] .wire p b { font-family: var(--mono); font-size: 13px; }
+    .lesson[data-lesson="02"] .wire { display: flex; flex-direction: column; gap: 6px; text-align: center; padding: 0 2px; }
+    .lesson[data-lesson="02"] .wire i { display: block; height: 0; border-top: 2px solid var(--muted); }
+    .lesson[data-lesson="02"] .splits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="02"] .splits div { border-top: 3px solid var(--line); padding-top: 8px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="02"] .splits div:first-child { border-top-color: var(--accent); }
+    .lesson[data-lesson="02"] .splits small { display: block; font: 600 11px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 3px; }
+
+    .lesson[data-lesson="02"] .split { display: flex; height: 26px; border-radius: 6px; overflow: hidden; gap: 2px; }
+    .lesson[data-lesson="02"] .split i { display: block; background: var(--accent); }
+    .lesson[data-lesson="02"] .split i.b { background: var(--accent-mid); }
+    .lesson[data-lesson="02"] .split i.c { background: var(--bad); }
+    .lesson[data-lesson="02"] .sw.b { background: var(--accent-mid); }
+    .lesson[data-lesson="02"] .sw.c { background: var(--bad); }
+    .lesson[data-lesson="02"] .seg { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="02"] .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="02"] .tiles div { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 12px; font-size: 14px; line-height: 1.35; min-width: 0; }
+    .lesson[data-lesson="02"] .tiles b { display: block; font: 720 clamp(20px, 2.2cqi, 28px)/1.1 var(--display); letter-spacing: -.015em; margin-bottom: 4px; }
+
+    .lesson[data-lesson="02"] .costs { display: flex; flex-direction: column; gap: 14px; }
+    .lesson[data-lesson="02"] .cost { display: flex; flex-direction: column; gap: 5px; }
+    .lesson[data-lesson="02"] .cost .lab { display: flex; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; font-size: 15px; }
+    .lesson[data-lesson="02"] .cost .lab b { font-weight: 700; }
+    .lesson[data-lesson="02"] .cost .lab span { font: 600 14px/1.4 var(--mono); }
+    .lesson[data-lesson="02"] .cost .track { height: 14px; }
+    .lesson[data-lesson="02"] .cost small { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+    .lesson[data-lesson="02"] .lst { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="02"] .lst li { font-size: 14px; line-height: 1.4; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+    .lesson[data-lesson="02"] .lst li b { font-family: var(--mono); font-size: 13.5px; }
+    .lesson[data-lesson="02"] .lst li small { display: block; color: var(--muted); font-size: 12.5px; }
+    .lesson[data-lesson="02"] .lst.out li { border-style: dashed; background: transparent; }
+    .lesson[data-lesson="02"] .panel .sum { margin: 0; font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="02"] .kind { margin: 0; align-self: flex-start; font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 5px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); }
+
+    .lesson[data-lesson="02"] .ptime { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; }
+    .lesson[data-lesson="02"] .ptime p { grid-column: 1 / -1; margin: 6px 0 0; font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="02"] .ptime p:first-child { margin-top: 0; }
+    .lesson[data-lesson="02"] .growth { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; font-size: 13px; color: var(--muted); }
+    .lesson[data-lesson="02"] .growth .chip { font-size: 13px; }
+
+    .lesson[data-lesson="02"] .passes i { width: 7px; height: 7px; }
+    .lesson[data-lesson="02"] .even { border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; margin: 0; font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="02"] .even b { font-family: var(--mono); font-size: 13.5px; }
+
+    .lesson[data-lesson="02"] .prec { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; }
+    .lesson[data-lesson="02"] .prec .pl { font: 700 15px/1.2 var(--display); }
+    .lesson[data-lesson="02"] .prec .pl small { display: block; font: 500 12px/1.3 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="02"] .prec .q { grid-column: 1 / -1; margin: 0 0 8px; font-size: 13.5px; color: var(--muted); line-height: 1.35; }
+
+    .lesson[data-lesson="02"] .pw { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 16px; align-items: baseline; }
+    .lesson[data-lesson="02"] .pw b { font: 720 clamp(20px, 2.4cqi, 30px)/1.2 var(--display); letter-spacing: -.015em; text-align: right; white-space: nowrap; padding: 7px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="02"] .pw span { font-size: 14px; line-height: 1.4; padding: 7px 0; border-top: 1px solid var(--line); align-self: stretch; display: flex; align-items: center; }
+    .lesson[data-lesson="02"] .pw b:first-child, .lesson[data-lesson="02"] .pw b:first-child + span { border-top: 0; }
+
+    .lesson[data-lesson="02"] .flav { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 6px 14px; padding: 12px 0; border-top: 1px solid var(--line); align-items: start; }
+    .lesson[data-lesson="02"] .flav:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="02"] .flav h3 { font-size: 16px; }
+    .lesson[data-lesson="02"] .flav .ts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .lesson[data-lesson="02"] .flav .ts .chip { font-size: 13px; }
+    .lesson[data-lesson="02"] .flav .ts .to { font-size: 13px; }
+    .lesson[data-lesson="02"] .flav p { margin: 6px 0 0; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="02"] .flav p.ex { color: var(--muted); font-size: 13px; }
+    .lesson[data-lesson="02"] .flavs { display: flex; flex-direction: column; }
+
+    .lesson[data-lesson="02"] .tl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+    .lesson[data-lesson="02"] .tl li { display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 2px 14px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="02"] .tl li:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="02"] .tl time { font: 600 12.5px/1.6 var(--mono); color: var(--muted); }
+
+    .lesson[data-lesson="02"] .gens { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+    .lesson[data-lesson="02"] .gens figure { margin: 0; display: flex; flex-direction: column; gap: 3px; }
+    .lesson[data-lesson="02"] .gens svg { width: 100%; height: auto; display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+    .lesson[data-lesson="02"] .gens path { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+    .lesson[data-lesson="02"] .gens figcaption { font: 500 11px/1.2 var(--mono); color: var(--muted); text-align: center; }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="02"] .hero-run { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .lesson[data-lesson="02"] .hero-run .ar, .lesson[data-lesson="02"] .flow .ar { transform: rotate(90deg); flex-basis: 22px; }
+      .lesson[data-lesson="02"] .flow { flex-direction: column; }
+      .lesson[data-lesson="02"] .flow .node { flex: 0 0 auto; }
+      .lesson[data-lesson="02"] .funnel div { width: 100%; }
+      .lesson[data-lesson="02"] .bars.wide-l { grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr) auto; }
+      .lesson[data-lesson="02"] .calc li, .lesson[data-lesson="02"] .tl li, .lesson[data-lesson="02"] .flav { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="02"] .calc small { grid-column: 1; }
+      .lesson[data-lesson="02"] .cluster { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .lesson[data-lesson="02"] .wire i { width: 0; height: 22px; border-top: 0; border-left: 2px solid var(--muted); margin: 0 auto; }
+      .lesson[data-lesson="02"] .splits, .lesson[data-lesson="02"] .tiles { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="02"] .pw { gap: 0 12px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\b405B\\b", "four oh five B"], ["\\b8B\\b", "eight B"], ["\\bH100s\\b", "H one hundreds"], ["\\bH100\\b", "H one hundred"], ["\\bH800s\\b", "H eight hundreds"], ["\\bBF16\\b", "B F sixteen"], ["\\bDeepSeek-V3\\b", "DeepSeek V three"], ["\\bNVLink\\b", "N V Link"], ["\\bKV cache\\b", "K V cache"], ["\\bgpt-oss\\b", "G P T O S S"], ["\\bGGUF\\b", "G G U F"], ["\\bFLOPs\\b", "flops"], ["\\bFLOP\\b", "flop"]]</script>
+
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 1 · How the machine works</p>
+        <h1>How a model is made</h1>
+        <p class="meta">Lesson 02 · 21 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-run" role="img" aria-label="15.6 trillion tokens of text, through 16,384 GPUs for about 67 days of compute, become 405 billion weights.">
+          <div><b>15.6 trillion</b><span>tokens of text</span></div>
+          <span class="ar">→</span>
+          <div><b>16,384 GPUs</b><span>about 67 days of compute</span></div>
+          <span class="ar">→</span>
+          <div class="hl"><b>405 billion</b><span>weights</span></div>
+        </div>
+        <p class="cap">Llama 3 405B, from the figures Meta published.</p>
+      </div>
+      <div class="talk" hidden><p>Lesson 01 treated the weights as given. This lesson covers where they come from: the data, the chips and the training run that turn text into a model.</p><p>The three boxes on screen are one real run, Meta's Llama 3 405B. You will be able to do that arithmetic yourself by the end.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The pipeline</p>
+        <h2>A model is made in stages</h2>
+        <p>Pretraining reads a broad sweep of text and produces a base model. Post-training turns that base model into an assistant and a reasoner.</p>
+        <p>Real pipelines are messier than this picture. Stages repeat, overlap and run in different orders at different labs.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#the-pipeline-at-a-glance" target="_blank" rel="noopener">Go deeper: the pipeline</a></p>
+      </div>
+      <div class="vis">
+        <div class="band">
+          <p class="bl">Pretraining</p>
+          <div class="flow">
+            <div class="node">Pretraining<small>next-token prediction on trillions of tokens</small></div>
+            <span class="ar">→</span>
+            <div class="node">Mid-training<small>curated data, long context, code, math</small></div>
+            <span class="ar">→</span>
+            <div class="node hl">Base model<small>completes documents</small></div>
+          </div>
+        </div>
+        <div class="band">
+          <p class="bl">Post-training</p>
+          <div class="flow">
+            <div class="node">Supervised fine-tuning<small>example conversations</small></div>
+            <span class="ar">→</span>
+            <div class="node">Preference tuning<small>better and worse responses</small></div>
+            <span class="ar">→</span>
+            <div class="node">Reinforcement learning<small>reasoning, then agentic, then general</small></div>
+            <span class="ar">→</span>
+            <div class="node">Safety training<small>and evaluation</small></div>
+          </div>
+        </div>
+        <div class="band">
+          <p class="bl">After release</p>
+          <div class="flow">
+            <div class="node">Released model</div>
+            <span class="ar">⇢</span>
+            <div class="node dash">Your fine-tune<small>open weights only</small></div>
+            <div class="ar"></div>
+            <div class="node dash">Distilled smaller models</div>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A model is built in stages, and each stage is more training on different data.</p><p>The top row is pretraining. The network predicts the next token across trillions of tokens. Near the end comes a loosely named phase called mid-training. The data gets better and more specialized, the sequences get longer, and the learning rate comes down. The learning rate is how far each training step moves the weights. What comes out is a base model. It completes documents, and it doesn't yet follow instructions reliably.</p><p>The middle row is post-training: example conversations, feedback on better and worse answers, then rounds of reinforcement learning on tasks a program can check. Lesson 01 called the first of those instruction tuning. Lesson 03 covers the whole row.</p><p>The bottom row is what happens after release. Open weights can be fine-tuned, and big models get distilled into smaller ones. Treat the whole diagram as a mental model. Recent open recipes run several reinforcement learning stages in different orders.</p><p class="inclass">Ask which box the room thinks costs the most compute. Then come back to the question after the cost screens.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Pretraining data</p>
+        <h2>Pretraining data is the web, filtered hard</h2>
+        <p>Most of it comes from web crawls such as Common Crawl. Duplicates, spam and boilerplate come out, classifiers score quality, and some personal data gets stripped.</p>
+        <p>Labs add code, books, papers, math and many languages, plus a growing share of synthetic data written by other models.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
+      </div>
+      <div class="vis">
+        <div class="funnel" role="img" aria-label="A funnel: Common Crawl's raw web pages, then duplicates, spam and boilerplate removed, then filtered for language and quality, then some personal data stripped, leaving about 15 trillion tokens in the FineWeb dataset.">
+          <div style="--w:100%">Common Crawl: raw web pages</div>
+          <div style="--w:86%">Remove duplicates, spam and boilerplate</div>
+          <div style="--w:72%">Filter for language and quality</div>
+          <div style="--w:60%">Strip some personal data</div>
+          <div class="down">↓</div>
+          <div class="hl" style="--w:60%"><b>About 15 trillion tokens</b>FineWeb, Hugging Face's open dataset</div>
+        </div>
+        <div class="adds"><span>Labs add</span><span class="chip pill c1">code from public repositories</span><span class="chip pill c2">books</span><span class="chip pill c3">scientific papers</span><span class="chip pill c4">math</span><span class="chip pill c5">many languages</span><span class="chip pill c6">synthetic data</span></div>
+        <span class="tag">Widths illustrative</span>
+      </div>
+      <div class="talk" hidden><p>The raw material for pretraining is mostly the public web. Common Crawl is a free archive of crawled pages, and many datasets start there.</p><p>Follow the funnel down. Duplicate pages come out, along with spam and navigation boilerplate. Filters keep the pages that are in the right language and pass quality checks. Some personal data is stripped. Hugging Face documented this whole process in an open project called FineWeb, and it ended with about 15 trillion tokens.</p><p>The chips underneath are what labs add on top: code from public repositories, books, papers, math, other languages. More and more of it is synthetic, meaning another model wrote it.</p><p>This explains a pattern from lesson 01. A model is strong on what the web has a lot of, and weak on your private codebase, which it never saw. The data is also contested. There are copyright lawsuits and consent debates over it. Lesson 18 covers a related question, the copyright status of the code a model writes.</p><p class="inclass">Ask what is over-represented on the public web, and what is missing. Then ask how that shows up in the code a model writes.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Pretraining data</p>
+        <h2>Open models report tens of trillions of training tokens</h2>
+        <p>Three open models published their pretraining token counts. Closed labs mostly don't publish these numbers.</p>
+        <p>Quality counts as much as quantity, which is why so much of the work goes into filtering.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
+      </div>
+      <div class="vis">
+        <div class="scale" role="img" aria-label="Pretraining tokens: Llama 3 more than 15 trillion, DeepSeek-V3 14.8 trillion, Qwen3 about 36 trillion.">
+          <p class="sub">Pretraining tokens, as published</p>
+          <div class="srow"><div class="lab"><b>Llama 3 (Meta, 2024)</b><span>more than 15 trillion</span></div><div class="strack"><i style="width:37.5%"></i></div></div>
+          <div class="srow"><div class="lab"><b>DeepSeek-V3 (2024)</b><span>14.8 trillion</span></div><div class="strack"><i style="width:37%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Qwen3 (Alibaba, 2025)</b><span>about 36 trillion</span></div><div class="strack"><i style="width:90%"></i></div></div>
+          <div class="ticks"><span>0</span><span>10T</span><span>20T</span><span>30T</span><span>40T tokens</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Three open models published how many tokens they were pretrained on. Meta's Llama 3 used more than 15 trillion. DeepSeek-V3 used 14.8 trillion. Alibaba's Qwen3, a year later, reports about 36 trillion.</p><p>For scale, lesson 01 said a token is about three quarters of a word. Fifteen trillion tokens is on the order of eleven trillion words.</p><p>The closed labs mostly don't publish their counts, so these open reports are the best public evidence of the scale.</p><p>More tokens only help if they are good ones. The filtering on the previous screen is where that effort goes.</p><p class="inclass">Watch for "the model has read the whole internet." It has read a filtered slice, once, and kept a fuzzy impression of it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hardware</p>
+        <h2>A model is mostly matrix multiplication, so it runs on GPUs</h2>
+        <p>A transformer layer multiplies token vectors by large weight matrices, over and over. A CPU has a few dozen powerful cores built for branchy code. A GPU has thousands of simpler cores plus dedicated matrix-multiply units.</p>
+        <p>Google's TPUs, AWS's Trainium and AMD's Instinct chips make the same bet. Together they're called accelerators.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#why-gpus-a-model-is-mostly-matrix-multiplies" target="_blank" rel="noopener">Go deeper: why GPUs</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>CPU</h3>
+            <div class="cores cpu" aria-hidden="true"></div>
+            <p class="note">A few dozen powerful cores, built for branchy, unpredictable code.</p>
+          </div>
+          <div class="panel">
+            <h3>GPU</h3>
+            <div class="cores gpu" aria-hidden="true"></div>
+            <p class="note">Thousands of simpler cores, plus units that only multiply matrices.</p>
+          </div>
+        </div>
+        <p class="sub">One NVIDIA H100</p>
+        <div class="bars wide-l" role="img" aria-label="An H100 does about 67 TFLOPS of general FP32 math and 989 TFLOPS of BF16 matrix math on its Tensor Cores.">
+          <span class="bl2">General math<small>32-bit floats</small></span><div class="track ink"><i style="--w:6.8%"></i></div><span class="num">67 TFLOPS</span>
+          <span class="bl2">Matrix math<small>16-bit, on Tensor Cores</small></span><div class="track"><i style="--w:100%"></i></div><span class="num">989 TFLOPS</span>
+        </div>
+        <p class="cap">TFLOPS: trillions of floating-point operations per second. NVIDIA's headline 1,979 assumes sparse matrices. The dense figure is 989.</p>
+      </div>
+      <div class="talk" hidden><p>Lesson 01 described what a transformer layer does. Under the hood, nearly all of that work is one operation: multiplying vectors by very large matrices of weights.</p><p>A CPU is the wrong tool for it. A CPU has a few dozen powerful cores designed for code full of branches. A GPU has thousands of simpler cores, and it adds units that do nothing except multiply matrices. NVIDIA calls those Tensor Cores.</p><p>The two bars are the same chip, an NVIDIA H100. On general math it does about 67 trillion operations a second. On matrix math it does 989 trillion. That is roughly fifteen times more, on the one operation a model needs.</p><p>Google, Amazon and AMD build their own chips on the same idea. The shared name is accelerators. One caution when you read a spec sheet. NVIDIA's headline numbers usually assume a trick called sparsity that doubles them, so halve the number before you compare.</p><p class="inclass">Pull up one accelerator's spec page and find the dense 16-bit figure together.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Compute</p>
+        <h2>Training costs about 6 FLOPs per parameter per token</h2>
+        <p>A FLOP is one floating-point multiply or add. Running a token forward through the network costs about 2 per parameter. Training adds a backward pass that costs about twice as much again.</p>
+        <p>So the compute for a whole training run is roughly 6 × parameters × tokens.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#why-gpus-a-model-is-mostly-matrix-multiplies" target="_blank" rel="noopener">Go deeper: FLOPs</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">FLOPs per parameter, for each token</p>
+        <div class="passcost" role="img" aria-label="Six blocks: two for the forward pass and four for the backward pass.">
+          <div><div class="cells6"><i></i><i></i></div><p><b>Forward pass: 2</b><br>one multiply, one add</p></div>
+          <div><div class="cells6 bw"><i></i><i></i><i></i><i></i></div><p><b>Backward pass: 4</b><br>works out how to adjust each weight</p></div>
+        </div>
+        <div class="rule">
+          <span class="eq">6 × N × D</span>
+          <p>N: parameters in the model<br>D: tokens it trains on</p>
+        </div>
+        <p class="cap">Inference only runs the forward pass, so generating or reading a token costs about 2 FLOPs per parameter.</p>
+      </div>
+      <div class="talk" hidden><p>You can estimate the compute for any training run with one rule.</p><p>The unit is the FLOP, one floating-point multiply or add. To push one token forward through the network, each parameter costs about two of them: one multiply and one add. Those are the two dark blocks.</p><p>Training has a second half. After the forward pass, the network works backward to find how each weight should change. That backward pass costs about twice the forward pass, so four more blocks. Six in total.</p><p>Multiply that by the number of parameters and by the number of training tokens, and you have the whole run. People write it as six N D. The rule comes from a 2020 paper on scaling laws.</p><p>Using a model only runs the forward pass.</p><p class="inclass">Have the room estimate before the next screen. 405 billion parameters, 15.6 trillion tokens, times six. Just the exponent will do.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Compute</p>
+        <h2>The rule puts Llama 3 405B at about 67 days on 16,000 GPUs</h2>
+        <p>Meta published enough to check each step of the rule. The estimate lands within about 17% of the GPU-hours on Meta's own model card.</p>
+        <p>On one GPU the same run would take about 3,000 years.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#training-compute-a-worked-example" target="_blank" rel="noopener">Go deeper: a worked example</a></p>
+      </div>
+      <div class="vis">
+        <ol class="calc">
+          <li><b>Total work</b><span>6 × 405 billion × 15.6 trillion ≈ <em>3.8 × 10²⁵ FLOPs</em></span><small>The paper reports the same figure.</small></li>
+          <li><b>Per GPU</b><span>about 400 TFLOPS, measured</span><small>The spec sheet says 989. Meta got about 40% of that in practice.</small></li>
+          <li><b>GPU time</b><span>3.8 × 10²⁵ ÷ 4 × 10¹⁴ per second ≈ <em>26 million GPU-hours</em></span></li>
+          <li><b>Calendar</b><span>÷ 16,384 H100s ≈ 1,600 hours ≈ <em>67 days</em></span><small>Pure compute, with no interruptions.</small></li>
+          <li><b>Reported</b><span>30.84 million H100-hours</span><small>Meta's model card for Llama 3.1 405B, about 17% above the estimate. The card doesn't say where the extra went.</small></li>
+        </ol>
+        <p class="cap">Figures from the Llama 3 paper and the Llama 3.1 model card.</p>
+      </div>
+      <div class="talk" hidden><p>Here is the rule applied to a real model, Meta's Llama 3 405B. Meta published enough numbers to check every step.</p><p>Step one is the total work. Six, times 405 billion parameters, times 15.6 trillion tokens. That is about 3.8 times ten to the 25th FLOPs, which matches the paper.</p><p>Step two is how fast one chip really goes. The spec sheet says 989 trillion a second. Meta measured about 400 trillion. No real job reaches the peak, so use the measured rate.</p><p>Divide, and you get about 26 million GPU-hours. Spread that across 16,384 chips and it is roughly 1,600 hours, or 67 days. A single GPU would need about 3,000 years.</p><p>The last row is the check. Meta's model card reports 30.84 million GPU-hours, about 17 percent more than our estimate. The card doesn't say where the extra went. That is close enough to sanity-check a claim you read about a training run.</p><p class="inclass">Run this live on a whiteboard. Then hand out a second model's parameter and token counts and have pairs repeat it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Interconnect</p>
+        <h2>One model is trained across thousands of chips that talk constantly</h2>
+        <p>The training state for Llama 3 405B is about 6.5 TB, more than 80 times one H100's memory. So the work is split across chips, over two tiers of wiring.</p>
+        <p>Scale-up links such as NVIDIA's NVLink join a small group of chips tightly. Scale-out is the datacenter network between groups, and it carries much less per chip.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#interconnect-why-one-model-needs-thousands-of-chips" target="_blank" rel="noopener">Go deeper: interconnect</a></p>
+      </div>
+      <div class="vis">
+        <div class="cluster" role="img" aria-label="Two servers of eight GPUs each. Inside a server every GPU gets 1.8 terabytes per second of NVLink. Between servers, the whole server shares 1.6 terabytes per second of network.">
+          <div class="srv"><div class="gpus"><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i></div><p>Scale-up, NVLink<br><b>1.8 TB/s per GPU</b></p></div>
+          <div class="wire"><i></i><p>Scale-out, network<br><b>1.6 TB/s per server</b></p></div>
+          <div class="srv"><div class="gpus"><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i><i>GPU</i></div><p>Scale-up, NVLink<br><b>1.8 TB/s per GPU</b></p></div>
+        </div>
+        <p class="cap">An 8-GPU NVIDIA HGX B300 server. Per GPU, the network carries about 9× less than NVLink.</p>
+        <p class="sub">How Llama 3 405B was split</p>
+        <div class="splits">
+          <div><small>Inside a server</small>Each weight matrix is cut across the 8 GPUs. This split talks the most, so it gets NVLink.</div>
+          <div><small>Across servers</small>The layers are cut into 16 consecutive groups, run like an assembly line.</div>
+          <div><small>Across the cluster</small>Up to 128 copies of that pipeline, each on a different slice of the batch.</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>One chip can't train a frontier model. It would take thousands of years, and the model doesn't fit. Training keeps about 16 bytes of state for every parameter. For 405 billion parameters that is about 6.5 terabytes, and one H100 holds 80 gigabytes.</p><p>So the work is split, and the chips have to talk to each other the whole time. The diagram shows the two kinds of wiring. Inside a server, eight GPUs share a link called NVLink. Each GPU gets 1.8 terabytes per second. Between servers, the whole box shares 1.6 terabytes per second of ordinary network. Per GPU that is about nine times less.</p><p>That gap decides how the software is laid out. The bottom row is how Meta split Llama 3. The split that needs the most communication cuts each weight matrix across the eight GPUs in one server, so it stays on the fast link. The layers are cut into sixteen groups along a pipeline. Then up to 128 copies of that pipeline each take a different slice of the data.</p><p>The names for these are tensor, pipeline and data parallelism.</p><p class="inclass">Ask why you can't just buy more servers and connect them with ordinary networking. Answer: the split that talks the most would be waiting on the slow link.</p></div>
+    </article>
+
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Cost</p>
+        <h2>One training run costs anywhere from $100 to hundreds of millions</h2>
+        <p>Labs rarely disclose full costs, so read these as rough orders of magnitude.</p>
+        <p>Epoch AI estimates frontier training costs have grown 2 to 3 times a year, and in 2024 projected the largest runs passing $1 billion by 2027.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#pretraining-reading-the-library" target="_blank" rel="noopener">Go deeper: pretraining</a></p>
+      </div>
+      <div class="vis">
+        <div class="costs" role="img" aria-label="Compute cost of one training run on a log scale: a teaching toy about 100 dollars, a small open model a few million dollars, a large efficient open model about 5 to 6 million, a frontier closed model hundreds of millions and rising.">
+          <div class="cost"><div class="lab"><b>Teaching toy</b><span>about $100</span></div><div class="track"><i style="--w:12.5%"></i></div><small>Karpathy's nanochat (2025): a small, very limited chat model in about 4 hours on one 8-GPU node.</small></div>
+          <div class="cost"><div class="lab"><b>Small open model, about 8B parameters</b><span>a few million dollars</span></div><div class="track"><i style="--w:68.5%"></i></div><small>Meta reports roughly 1.3 to 1.5 million H100 GPU-hours for its Llama 3 and 3.1 8B models.</small></div>
+          <div class="cost"><div class="lab"><b>Large efficient open model</b><span>about $5 to 6 million</span></div><div class="track"><i style="--w:72%"></i></div><small>DeepSeek-V3's official training run, at a rental price.</small></div>
+          <div class="cost"><div class="lab"><b>Frontier closed model</b><span>hundreds of millions, rising</span></div><div class="track"><i style="--w:93.5%"></i></div></div>
+          <div class="ticks"><span>$10</span><span>$1K</span><span>$100K</span><span>$10M</span><span>$1B</span></div>
+        </div>
+        <p class="cap">Log scale. Each tick is 100 times the one before.</p>
+      </div>
+      <div class="talk" hidden><p>Pretraining is where most of that compute goes, and compute is money. The chart shows four rough price points. The scale is logarithmic. Each tick is a hundred times the one before it.</p><p>At the bottom, about 100 dollars. Andrej Karpathy's nanochat project trains a small and very limited chat model in about four hours on one rented machine with eight GPUs.</p><p>A small open model with around 8 billion parameters costs a few million dollars. DeepSeek reported about five and a half million for the official training run of a large model, and the next screen looks hard at that number. Frontier closed models cost hundreds of millions.</p><p>Labs rarely publish full costs, so these are orders of magnitude. A research group called Epoch AI estimates the top end has grown two to three times a year.</p><p class="inclass">Go back to the earlier question about which stage costs the most. DeepSeek-V3 spent about 2.66 million of its 2.79 million GPU-hours on pretraining.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Cost</p>
+        <h2>The headline cost of one run understates the real bill</h2>
+        <p>DeepSeek-V3's report gives 2.788 million GPU-hours, or $5.576 million at an assumed $2 per GPU-hour. That was widely reported as the cost of the model.</p>
+        <p>The paper says the figure covers only the official training run.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#deepseek-v3s-gpu-hours-with-the-papers-caveats" target="_blank" rel="noopener">Go deeper: DeepSeek-V3's GPU-hours</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Counted in the $5.6 million</h3>
+            <ul class="lst">
+              <li><b>2,664,000</b> GPU-hours of pretraining</li>
+              <li><b>119,000</b> for context extension</li>
+              <li><b>5,000</b> for post-training</li>
+            </ul>
+            <p class="note">2.788 million GPU-hours on 2,048 H800s, priced at $2 per hour of rental.</p>
+          </div>
+          <div class="panel">
+            <h3>Left out</h3>
+            <ul class="lst out">
+              <li>"Prior research and ablation experiments on architectures, algorithms, or data"</li>
+              <li>Buying, housing and powering the 2,048 GPUs</li>
+              <li>The compute behind R1, whose reasoning V3's post-training distilled</li>
+              <li>Data work and people</li>
+            </ul>
+          </div>
+        </div>
+        <p class="cap">V3 uses 37 billion of its 671 billion parameters for each token. By 6 × N × D that's about 11.5× fewer FLOPs than Llama 3 405B, and it took about 11× fewer GPU-hours. On this rough comparison, most of the saving came from doing less math.</p>
+      </div>
+      <div class="talk" hidden><p>DeepSeek-V3's 5.6 million dollars was widely reported as the cost of the model. The number comes from DeepSeek's own report, and it covers less than that.</p><p>The left panel is what was counted. About 2.8 million GPU-hours, nearly all of it pretraining, priced at two dollars an hour as if the chips were rented. The chips were H800s, the export-limited version of the H100 sold in China.</p><p>The right panel is what was left out, and the paper says so itself. The first item is a direct quote: prior research and ablation experiments. Those are the exploratory runs and side-by-side tests that came before the official one. Then the cost of owning the cluster, the earlier model that V3 learned reasoning from, and the people.</p><p>The caption explains why the run was cheap at all. V3 is a mixture-of-experts model. Most of its weights sit in specialist blocks called experts, and each token goes through only a few of them. So it runs 37 billion of its 671 billion parameters for each token. Put that into six N D and you get about eleven times less work than Llama 3 405B. The GPU-hours came out about eleven times lower too. The chips and number formats differed, so treat the match as rough.</p><p class="inclass">Ask what you would need to know to compare two labs' costs fairly. Then ask who benefits from a small headline number, and who benefits from a large one.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The memory wall</p>
+        <h2>Writing one token rereads every weight</h2>
+        <p>When a model generates for one user, each weight is fetched from memory, used once and dropped. The math finishes almost instantly and the chip waits for the next fetch.</p>
+        <p>Chips have gained compute much faster than memory bandwidth. That widening gap is called the memory wall.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#the-memory-wall" target="_blank" rel="noopener">Go deeper: the memory wall</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">One token from Llama 3 8B, for one user, on one H100</p>
+        <div class="ptime" role="img" aria-label="Reading 16 gigabytes of weights takes about 4.8 milliseconds. The math for the token takes about 16 microseconds.">
+          <p>Reading the weights: 16 GB at 3.35 TB/s</p>
+          <div class="track"><i style="--w:100%"></i></div><span class="num">4.8 ms</span>
+          <p>Doing the math: 16 billion FLOPs at 989 TFLOPS</p>
+          <div class="track ink"><i style="--w:.34%"></i></div><span class="num">0.016 ms</span>
+        </div>
+        <div class="tiles" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+          <div><b>About 210</b>tokens per second, the limit memory sets</div>
+          <div><b>About 60,000</b>tokens per second, if math were the limit</div>
+        </div>
+        <div class="growth"><span>Growth every two years</span><span class="chip c1">compute 3.0×</span><span class="chip c2">memory bandwidth 1.6×</span><span class="chip c3">interconnect 1.4×</span></div>
+        <p class="cap">Peak specs, for a dense model. A mixture-of-experts model reads only the experts each token uses.</p>
+      </div>
+      <div class="talk" hidden><p>Training is limited by how much math the chips can do. Generating text is limited by something else, and it explains why a model writes more slowly than it reads.</p><p>Take a small model, Llama 3 8B, writing for one user on one H100. Its weights take 16 gigabytes. To produce one token, the chip has to read all 16 gigabytes from its memory. The top bar is that read: about 4.8 milliseconds.</p><p>The bottom bar is the math for the same token. It takes 16 microseconds. You can barely see it. The chip spends more than 99 percent of each token waiting on memory.</p><p>The two tiles turn that into speed. Memory limits this setup to about 210 tokens a second. If math were the limit it would be about 60,000.</p><p>The chips at the bottom show why this keeps getting worse. Every two years compute has grown about three times, and memory bandwidth only about 1.6 times. People call that gap the memory wall. Lesson 06 uses the same sum to estimate speed on a laptop.</p><p class="inclass">Ask the room to guess which is the bottleneck before you reveal the bars. Most people guess math.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The memory wall</p>
+        <h2>Batching shares one read of the weights across many users</h2>
+        <p>Serve many users at once and each weight fetched gets used once per user. On an H100 it takes a batch of roughly 300 before decoding stops waiting on memory.</p>
+        <p>Each user's KV cache, the saved attention state for their conversation, is separate, so those reads aren't shared.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#the-memory-wall" target="_blank" rel="noopener">Go deeper: the memory wall</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>1 user</h3>
+            <div class="box">Weights read once</div>
+            <div class="down">↓</div>
+            <div class="passes" aria-hidden="true"><i></i></div>
+            <p class="note">Each weight does one user's math. About 1 FLOP per byte fetched.</p>
+          </div>
+          <div class="panel">
+            <h3>300 users</h3>
+            <div class="box">Weights read once</div>
+            <div class="down">↓</div>
+            <div class="passes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="note">Each weight does 300 users' math. About 300 FLOPs per byte fetched.</p>
+          </div>
+        </div>
+        <p class="even">An H100 can do <b>989 TFLOPS ÷ 3.35 TB/s ≈ 295 FLOPs</b> for every byte it reads. Below that, the chip waits on memory.</p>
+        <p class="cap">Newer chips land between about 210 and 310: 280 for NVIDIA's B200, 210 for Rubin, 215 for AMD's MI455X and 310 for Google's Ironwood, from vendor specs as of November 2026.</p>
+      </div>
+      <div class="talk" hidden><p>The fix for the memory wall is to share the read.</p><p>On the left, one user. The chip reads every weight and does one user's math with it. One square.</p><p>On the right, 300 users at once. The chip still reads every weight once per step. Now it does 300 users' math with each one. Three hundred squares from the same read.</p><p>The line underneath gives the break-even for an H100. Divide its peak math by its memory bandwidth and you get about 295 operations for every byte it reads. So you need a batch of roughly 300 before the math units are the limit. Newer chips land between about 210 and 310, so a batch in the low hundreds is still the target.</p><p>One thing isn't shared. Each conversation has its own saved attention state, called the KV cache, and it has to be read separately. That is why serving at scale is mostly a batching and memory-management problem.</p><p class="inclass">Tie this back to lesson 01. Batching is also why temperature zero isn't perfectly repeatable on hosted models.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The memory wall</p>
+        <h2>Training is limited by compute, generation by memory speed</h2>
+        <p>Training runs huge batches, so every weight a chip fetches gets reused across many tokens and the math units stay busy.</p>
+        <p>Inference has two phases. Prefill reads your whole prompt at once and behaves like training. Decode writes one token per step and waits on memory.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#hbm-and-why-training-and-inference-hit-different-limits" target="_blank" rel="noopener">Go deeper: training and inference limits</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Training</h3>
+            <p class="kind">Compute-bound</p>
+            <ul class="lst">
+              <li><b>16 million</b> tokens per step for Llama 3 405B</li>
+              <li><b>38 to 43%</b> of peak FLOPs went into the model's own math<small>called MFU, model FLOPs utilization</small></li>
+              <li><b>About 16 bytes</b> of memory per parameter<small>6.5 TB for 405B: at least 81 H100s just to hold it</small></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Inference</h3>
+            <p class="kind">Mostly bandwidth-bound</p>
+            <ul class="lst">
+              <li><b>Prefill</b> reads the prompt, many tokens through the same weights<small>compute-heavy</small></li>
+              <li><b>Decode</b> writes one token per sequence per step<small>bandwidth-bound</small></li>
+              <li><b>Up to 7.4×</b> more requests served by putting the two phases on separate GPUs<small>DistServe, 2024</small></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Put the last few screens side by side and you get two different machines.</p><p>Training, on the left, is compute-bound. Llama 3 405B trained on 16 million tokens per step. Every weight a chip fetches gets used on many tokens, so the math units stay busy. Meta got 38 to 43 percent of the chips' peak math into the model itself. That is the 400 out of 989 from the worked example. Training's memory problem is space. It keeps about 16 bytes per parameter, which is why a 405 billion parameter model needs at least 81 GPUs just to hold its state.</p><p>Inference, on the right, has two phases. Prefill is the model reading your prompt. All the tokens go through together, so it is fast per token. Decode is the model writing, one token per step, waiting on memory each time.</p><p>You see this every day. A long prompt is read in a moment and the answer trickles out. One research system served up to 7.4 times more requests by putting the two phases on separate GPUs, and chip vendors have started designing separate chips for the two jobs. Google announced a training chip and an inference chip in April 2026.</p><p class="inclass">Ask why an agent that reads ten files and writes a two-line fix feels fast, and one that writes a 500-line file feels slow.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Low precision</p>
+        <h2>Fewer bits per weight means less memory and faster tokens</h2>
+        <p>Storing each number in fewer bits helps three ways. Weights take less memory, each token moves fewer bytes, and chips do more low-precision math per second.</p>
+        <p>Quantization does this to a finished model. It costs some quality, so re-run your evaluation afterward.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#quantization-basics" target="_blank" rel="noopener">Go deeper: quantization</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Weights of an 8B model</p>
+        <div class="prec" role="img" aria-label="An 8 billion parameter model's weights take about 16 gigabytes at 16-bit, about 8 at 8-bit and about 4.5 to 5 at 4-bit.">
+          <span class="pl">16-bit<small>2 bytes each</small></span><div class="track"><i style="--w:100%"></i></div><span class="num">~16 GB</span>
+          <p class="q">The reference. The usual format for training and for released weights.</p>
+          <span class="pl">8-bit<small>1 byte each</small></span><div class="track"><i style="--w:50%"></i></div><span class="num">~8 GB</span>
+          <p class="q">Usually close to the reference.</p>
+          <span class="pl">4-bit<small>about ½ byte</small></span><div class="track"><i style="--w:30%"></i></div><span class="num">~4.5 to 5 GB</span>
+          <p class="q">Often a small loss. More noticeable in small models and on code and math.</p>
+        </div>
+        <p class="cap">DeepSeek-V3 trained in 8-bit mixed precision. OpenAI's gpt-oss-120b ships most of its weights in a 4-bit format, which lets a 120B model run on one 80 GB GPU.</p>
+      </div>
+      <div class="talk" hidden><p>If memory is the limit, the cheapest fix is smaller numbers.</p><p>Each weight is stored with some number of bits. The chart is an 8 billion parameter model at three sizes. At 16 bits the weights take about 16 gigabytes. That is the usual format for training and for released weights. At 8 bits they take about 8 gigabytes, and quality is usually close. At 4 bits they take about 4.5 to 5 gigabytes, often with a small loss.</p><p>Shrinking a finished model this way is called quantization. It is how open models fit on a laptop. If you download a file in the GGUF format, the label on it tells you how many bits it uses.</p><p>The loss is uneven. It shows more in small models, and it shows more on code and math, which is our use case. So after you quantize, run your own evaluation again.</p><p>Labs use the same idea at full scale. DeepSeek-V3 was trained mostly in 8 bits. OpenAI's open model gpt-oss stores most of its weights in 4 bits so that 120 billion parameters fit on a single 80 gigabyte GPU.</p><p class="inclass">Ask why a 4-bit model would hurt code more than chat. One wrong character breaks a program. A slightly odd word doesn't break a sentence.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Power</p>
+        <h2>Clusters are now planned in gigawatts</h2>
+        <p>One H100 draws up to 700 W. A datacenter also powers CPUs, networking and cooling, and NVIDIA's Vera Rubin spec sheet plans about 2.5 kW of facility power per GPU.</p>
+        <p>At that rate, one gigawatt runs roughly 400,000 GPUs.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#power-from-one-chip-to-the-grid" target="_blank" rel="noopener">Go deeper: power</a></p>
+      </div>
+      <div class="vis">
+        <div class="pw">
+          <b>700 W</b><span>One H100, at most</span>
+          <b>2.5 kW</b><span>One Rubin-class GPU plus its share of the building</span>
+          <b>100 MW</b><span>40,000 of those GPUs</span>
+          <b>1 GW</b><span>Roughly 400,000 GPUs. Running all year, that's 8.76 TWh.</span>
+        </div>
+        <div class="scale" role="img" aria-label="A 5 gigawatt campus at full load would use about 44 terawatt-hours a year. All U.S. data centers used 192 terawatt-hours in 2024.">
+          <p class="sub">Electricity in a year</p>
+          <div class="srow"><div class="lab"><b>One 5 GW campus at full load</b><span>about 44 TWh</span></div><div class="strack"><i style="width:22.9%"></i></div></div>
+          <div class="srow"><div class="lab"><b>All U.S. data centers, 2024</b><span>192 TWh</span></div><div class="strack"><i style="width:100%"></i></div></div>
+        </div>
+        <p class="cap">Announced capacity isn't average draw, so 44 TWh is a ceiling. The 192 TWh was 4.7% of U.S. electricity (Lawrence Berkeley National Laboratory). Training Llama 3.1 405B took about 21.6 GWh for the GPUs alone, at their 700 W rating.</p>
+      </div>
+      <div class="talk" hidden><p>All of this runs on electricity, and the amounts have become a public issue.</p><p>Climb the ladder on screen. One H100 draws up to 700 watts. NVIDIA plans about 2.5 kilowatts for each of its newest GPUs, counting its share of the cooling and networking. Forty thousand of those is 100 megawatts. A gigawatt is roughly 400,000 GPUs, and a gigawatt running all year is 8.76 terawatt-hours.</p><p>The two bars give that a reference. All the data centers in the United States used 192 terawatt-hours in 2024, which was 4.7 percent of the country's electricity. A single 5 gigawatt campus running flat out would use about 44. That is close to a quarter of the 2024 total, from one site. It is a ceiling, because announced capacity isn't average draw.</p><p>One training run is small next to that. Llama 3.1 405B took about 21.6 gigawatt-hours for the GPUs. The surprise in Meta's paper was the swings. When tens of thousands of GPUs pause together to save a checkpoint, power draw moves by tens of megawatts at once.</p><p class="inclass">Ask the room to guess the share of U.S. electricity that went to data centers in 2024 before you show the caption.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Power</p>
+        <h2>Keep what's built separate from what's announced</h2>
+        <p>Company announcements mix running clusters with plans that span years and chip generations.</p>
+        <p>These examples are as the companies describe them, as of November 2026.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#power-from-one-chip-to-the-grid" target="_blank" rel="noopener">Go deeper: power</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Built and running</h3>
+            <ul class="lst">
+              <li>AWS's Project Rainier for Anthropic: "nearly half a million" Trainium2 chips across several U.S. data centers<small>October 2025</small></li>
+              <li>Oracle's Stargate site in Abilene, Texas, for OpenAI: 75% of capacity delivered<small>Oracle's site, November 2026</small></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Announced</h3>
+            <ul class="lst out">
+              <li>OpenAI and NVIDIA: a letter of intent for at least 10 GW<small>September 2025</small></li>
+              <li>OpenAI and AMD: 6 GW over several chip generations<small>October 2025</small></li>
+              <li>Anthropic: up to 5 GW with Amazon, plus 5 GW of TPU capacity with Google and Broadcom<small>May 2026</small></li>
+              <li>Meta: expanding its Richland Parish, Louisiana site to 5 GW<small>July 2026</small></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>You will keep seeing gigawatt numbers in the news. Sort each one into one of two bins before you react to it.</p><p>The left panel is capacity that exists. Amazon says its Project Rainier cluster for Anthropic has nearly half a million of its own chips running. Oracle says its Abilene site for OpenAI has delivered 75 percent of its capacity.</p><p>The right panel is announcements. OpenAI and NVIDIA signed a letter of intent for at least 10 gigawatts. OpenAI and AMD announced 6 gigawatts across several chip generations. Anthropic announced up to 5 with Amazon and 5 more with Google and Broadcom. Meta is expanding a Louisiana site to 5.</p><p>All of it is in the companies' own words, as of November 2026, and it will date quickly.</p><p class="inclass">Bring one current headline about a datacenter deal. Have the room decide which panel it belongs in, and what evidence would move it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Distillation</p>
+        <h2>Distillation trains a small model to imitate a big one</h2>
+        <p>The big model is the teacher and the small one is the student. Inside a lab, a big model often teaches its smaller siblings this way.</p>
+        <p>Hinton, Vinyals and Dean showed in 2015 that the teacher's full probability distribution carries more information than the single right answer.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>What a label says</h3>
+            <div class="bars">
+              <span class="chip c1">cat</span><div class="track ink"><i style="--w:100%"></i></div><span class="num">1.00</span>
+              <span class="chip c2">lynx</span><div class="track ink"><i style="--w:0%; min-width:0"></i></div><span class="num">0</span>
+              <span class="chip c3">dog</span><div class="track ink"><i style="--w:0%; min-width:0"></i></div><span class="num">0</span>
+            </div>
+            <p class="note">One right answer. Every wrong answer is equally wrong.</p>
+          </div>
+          <div class="panel">
+            <h3>What the teacher says</h3>
+            <div class="bars">
+              <span class="chip c1">cat</span><div class="track"><i style="--w:70%"></i></div><span class="num">0.70</span>
+              <span class="chip c2">lynx</span><div class="track"><i style="--w:20%"></i></div><span class="num">0.20</span>
+              <span class="chip c3">dog</span><div class="track"><i style="--w:5%"></i></div><span class="num">0.05</span>
+            </div>
+            <p class="note">A lynx is a much better wrong guess than a dog. The student gets that too.</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>The last part of this lesson is about models training models. The main technique is distillation. You take a large model, the teacher, and train a smaller model, the student, to imitate it. Labs do this routinely, with a big model teaching its smaller siblings.</p><p>The idea goes back to a 2015 paper by Geoffrey Hinton and two colleagues. Compare the panels. On the left is an ordinary training label for a picture. The answer is cat, and everything else is equally wrong.</p><p>On the right is what a trained teacher says about the same picture. Cat, 70 percent. Lynx, 20 percent. Dog, 5 percent. The teacher is telling the student that a lynx is a reasonable mistake and a dog is a poor one. Every example carries that extra information about how things relate.</p><p>This is the next-token distribution from lesson 01, put to work as teaching material.</p><p class="inclass">Ask what else the teacher's spread tells you about the picture, beyond the top answer.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Distillation</p>
+        <h2>Distilling from text alone works through any API</h2>
+        <p>There are three flavors. They differ in what passes between teacher and student.</p>
+        <p>Output distillation needs only the teacher's text, which is why closed labs worry about it. The other two need the teacher's token probabilities.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
+      </div>
+      <div class="vis">
+        <div class="flavs">
+          <div class="flav">
+            <h3>Logit distillation</h3>
+            <div>
+              <div class="ts"><span class="chip c1">Teacher</span><span class="to">→ token probabilities →</span><span class="chip c3">Student</span></div>
+              <p>Text alone isn't enough for this one, so it mostly happens inside a lab.</p>
+            </div>
+          </div>
+          <div class="flav">
+            <h3>Output distillation</h3>
+            <div>
+              <div class="ts"><span class="chip c1">Teacher</span><span class="to">→ lots of written answers →</span><span class="chip c3">Student</span></div>
+              <p>The student is fine-tuned on the text. Works through any API that returns text.</p>
+              <p class="ex">Stanford Alpaca, March 2023: 52,000 examples generated with an OpenAI model, under $600 in total.</p>
+            </div>
+          </div>
+          <div class="flav">
+            <h3>On-policy distillation</h3>
+            <div>
+              <div class="ts"><span class="chip c3">Student</span><span class="to">→ its own answers →</span><span class="chip c1">Teacher</span><span class="to">→ a grade for every token →</span><span class="chip c3">Student</span></div>
+              <p>The student learns from its own mistakes instead of copying the teacher's text. The grade comes from the teacher's token probabilities.</p>
+              <p class="ex">About a tenth of reinforcement learning's GPU-hours in the Qwen3 team's comparison: 1,800 against 17,920.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>With language models there are three ways to distill, and each row shows what passes between teacher and student.</p><p>In the first, the student sees the teacher's probabilities for every token. That is the richest signal, like the cat and lynx example. It needs access that outsiders don't get, so it mostly happens inside one lab.</p><p>In the second, the student only sees text. You ask the teacher a huge number of questions, save the answers and fine-tune the student on them. This works through any API. In 2023 a Stanford team did it for under 600 dollars, using 52,000 examples from an OpenAI model. They restricted it to research, partly because OpenAI's terms forbid building competing models that way.</p><p>The third is newer. The student writes its own answers and the teacher grades every token, which again takes the teacher's probabilities. The student is corrected on its own mistakes. In the Qwen3 team's comparison it needed about a tenth of the GPU-hours of reinforcement learning and scored higher. Recent open models use it between training stages so that earlier skills aren't forgotten.</p><p class="inclass">Ask which of the three a company with only API access could run. Answer: output distillation only. Then ask what the API provider could do about it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Distillation</p>
+        <h2>Closed labs accuse rivals of distilling through their APIs</h2>
+        <p>The major closed labs' terms prohibit using their outputs to build competing models. Distilling a strong model works, so labs now defend against it, and the defenses sometimes affect legitimate users.</p>
+        <p>Critics point out that the same labs trained on web content without asking. Outsiders can't verify the account-level evidence.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#distillation-and-synthetic-data" target="_blank" rel="noopener">Go deeper: distillation</a></p>
+      </div>
+      <div class="vis">
+        <ol class="tl">
+          <li><time>Jan 2025</time><span>After DeepSeek-R1's release, OpenAI says it has seen evidence of distillation by DeepSeek, as reported at the time.</span></li>
+          <li><time>Aug 2025</time><span>Anthropic cuts off OpenAI's access to Claude, citing terms against building competing products. OpenAI says it was benchmarking.</span></li>
+          <li><time>Feb 12, 2026</time><span>OpenAI tells a U.S. House committee that DeepSeek used distillation to "free-ride" on U.S. labs.</span></li>
+          <li><time>Feb 23, 2026</time><span>Anthropic says DeepSeek, Moonshot and MiniMax ran more than 16 million exchanges with Claude through about 24,000 fraudulent accounts.</span></li>
+          <li><time>Jun 2026</time><span>Claude Fable 5 launches, routing flagged requests to an older model. Days later Anthropic apologizes for one safeguard that changed answers without telling users.</span></li>
+          <li><time>Oct 12, 2026</time><span>Anthropic describes further defenses and claims they cut the data distillers harvest by about 90 to 99%.</span></li>
+        </ol>
+        <p class="cap">Each line is one party's claim or a press report. Anthropic also calls distillation "a widely used and legitimate training method" in general.</p>
+      </div>
+      <div class="talk" hidden><p>Because output distillation works through an API, a rival can learn from a closed model by paying for it. The closed labs' terms forbid that, and it has turned into a public fight. The timeline has six entries.</p><p>In January 2025, after DeepSeek released R1, OpenAI said it had seen evidence that DeepSeek distilled its models. That August, Anthropic cut off OpenAI's access to Claude. In February 2026, OpenAI repeated its charge in a memo to a U.S. House committee. Eleven days later, Anthropic said three labs had run more than 16 million exchanges through about 24,000 fraudulent accounts.</p><p>Then the defenses reached ordinary users. In June 2026 Anthropic launched a model that answers requests flagged as distillation with an older model. Within days it apologized, after reports that one safeguard was changing answers without telling users. In October it described more defenses.</p><p>Hold three cautions together. Outsiders can't check the evidence. Critics note that the labs making these claims trained on web content without permission. And the claims land in a fight over export controls, where every party has an interest.</p><p class="inclass">Discussion. Anthropic calls distillation legitimate and also calls some of it an attack. Where is the line, and does the labs' own use of web data change your answer?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Synthetic data</p>
+        <h2>Training on model output degrades a model unless real data stays in</h2>
+        <p>Train each generation only on the previous generation's outputs and quality drops. Rare information vanishes first, then outputs converge on bland averages. This is called model collapse.</p>
+        <p>In follow-up experiments, keeping the real data alongside the synthetic data avoided it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#risks" target="_blank" rel="noopener">Go deeper: risks</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Replace the real data</h3>
+            <div class="gens" role="img" aria-label="Three generations: the spread of outputs gets narrower each time and the tails disappear.">
+              <figure><svg viewBox="0 0 100 46"><path d="M2,42 C30,42 36,6 50,6 C64,6 70,42 98,42 Z"/></svg><figcaption>Gen 1</figcaption></figure>
+              <figure><svg viewBox="0 0 100 46"><path d="M24,42 C38,42 42,5 50,5 C58,5 62,42 76,42 Z"/></svg><figcaption>Gen 2</figcaption></figure>
+              <figure><svg viewBox="0 0 100 46"><path d="M38,42 C45,42 47,4 50,4 C53,4 55,42 62,42 Z"/></svg><figcaption>Gen 3</figcaption></figure>
+            </div>
+            <p class="note">Each generation trains only on the last one's output. The tails go first.</p>
+            <p class="note">Shumailov et al., Nature, 2024</p>
+          </div>
+          <div class="panel">
+            <h3>Keep the real data</h3>
+            <div class="gens" role="img" aria-label="Three generations: the spread of outputs stays wide.">
+              <figure><svg viewBox="0 0 100 46"><path d="M2,42 C30,42 36,6 50,6 C64,6 70,42 98,42 Z"/></svg><figcaption>Gen 1</figcaption></figure>
+              <figure><svg viewBox="0 0 100 46"><path d="M3,42 C31,42 37,6 50,6 C63,6 69,42 97,42 Z"/></svg><figcaption>Gen 2</figcaption></figure>
+              <figure><svg viewBox="0 0 100 46"><path d="M4,42 C32,42 37,6 50,6 C63,6 68,42 96,42 Z"/></svg><figcaption>Gen 3</figcaption></figure>
+            </div>
+            <p class="note">Synthetic data is added to the real data. No collapse.</p>
+            <p class="note">Gerstgrasser et al., 2024</p>
+          </div>
+        </div>
+        <p class="cap">Labs generate math problems with checked answers, code with tests and reasoning traces, and keep only the outputs that verify.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Models now write a lot of the data that trains other models. That raises an obvious worry about a loop feeding on itself.</p><p>The left panel is the worry, and it is real. A 2024 paper in Nature trained each generation of a model only on the previous generation's output. Quality dropped. The curves show the spread of what the model can produce. Rare information, out in the tails, vanished first. Then everything converged on a bland middle. The name is model collapse.</p><p>The right panel is the follow-up. When researchers kept the original real data and added synthetic data to it, collapse didn't happen.</p><p>Labs do the second thing, with a filter. They generate math problems with checked answers, code with tests and reasoning traces, and they keep only what verifies. So collapse is a risk for careless loops, and it can be avoided.</p><p class="inclass">Watch for "the internet is filling with AI text, so models will get worse." That depends on whether real data stays in and whether outputs are filtered.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>Pretraining turns trillions of filtered tokens and months of GPU time into a base model.</li>
+          <li>Training is limited by compute. Generating text is limited by how fast a chip can read its weights.</li>
+          <li>Check a cost, power or distillation claim for what it counts and who is making it.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, a base model is what you get when trillions of filtered tokens meet thousands of GPUs for months. You can estimate the size of that job with six N D.</p><p>Second, training and generation hit different limits. Training runs out of compute. Generation waits on memory, which is why a model writes more slowly than it reads, and why batching and smaller numbers help.</p><p>Third, read the big claims carefully. A training cost usually covers one run. A gigawatt figure may be a plan. A distillation charge comes from a party with a stake.</p><p class="inclass">Assign the estimate exercise from the full notes. Pick an open model, compute six N D, and compare with the GPU-hours on its model card.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 02 done</p>
+        <h2>Next: post-training and reinforcement learning</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-03">Lesson 03</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/02-how-a-model-is-made.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson two. Lesson 03 picks up at the base model and covers post-training: how example conversations, preference tuning and reinforcement learning turn it into an assistant.</p></div>
+    </article>
+</section>

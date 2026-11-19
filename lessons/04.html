@@ -1,0 +1,671 @@
+<section class="lesson" data-lesson="04" data-title="Model safety and alignment" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="04"] .rows { display: flex; flex-direction: column; }
+    .lesson[data-lesson="04"] .row { display: grid; grid-template-columns: 9em minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="04"] .row:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="04"] .row.wide-l { grid-template-columns: 11.5em minmax(0, 1fr) minmax(0, 1fr); }
+    .lesson[data-lesson="04"] .row.head { padding-bottom: 6px; }
+    .lesson[data-lesson="04"] .row.head span { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="04"] .row.head + .row { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="04"] .row > b { font: 720 17px/1.25 var(--display); }
+    .lesson[data-lesson="04"] .row > b small { display: block; margin-top: 3px; font: 400 13px/1.35 var(--body); color: var(--muted); }
+    .lesson[data-lesson="04"] .row p { margin: 0; font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="04"] .row .eg { color: var(--muted); }
+    .lesson[data-lesson="04"] .row .do { font-weight: 700; }
+    .lesson[data-lesson="04"] .row .do::before { content: "→ "; color: var(--accent); font-family: var(--mono); }
+    .lesson[data-lesson="04"] .row .chip { justify-self: start; }
+    .lesson[data-lesson="04"] .row.ev { grid-template-columns: 8.5em 9em minmax(0, 1fr); }
+    .lesson[data-lesson="04"] .msg code { font-size: 13px; }
+
+    .lesson[data-lesson="04"] .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .lesson[data-lesson="04"] .panel .who { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin: 0; }
+    .lesson[data-lesson="04"] .panel p { margin: 0; font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="04"] .panel .fixline { margin-top: auto; padding-top: 8px; border-top: 1px solid var(--line); font-weight: 700; }
+    .lesson[data-lesson="04"] .quote { border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; font-size: 14px; line-height: 1.45; margin: 0; }
+
+    .lesson[data-lesson="04"] .boat svg { width: 100%; height: auto; min-width: 460px; display: block; }
+    .lesson[data-lesson="04"] .route { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 6 6; }
+    .lesson[data-lesson="04"] .loop { fill: none; stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; }
+    .lesson[data-lesson="04"] .flag { stroke: var(--ink); stroke-width: 2; fill: none; }
+    .lesson[data-lesson="04"] .lbl-acc { font-size: 13px; fill: var(--accent); font-weight: 700; }
+
+    .lesson[data-lesson="04"] .doc pre { margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .lesson[data-lesson="04"] .pass { align-self: flex-start; font: 600 12px/1 var(--mono); padding: 5px 8px; border-radius: 6px; background: var(--t3); border: 1px solid var(--t3b); }
+    .lesson[data-lesson="04"] .same { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+    .lesson[data-lesson="04"] .same div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; line-height: 1.35; }
+    .lesson[data-lesson="04"] .same b { display: block; font: 600 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+    .lesson[data-lesson="04"] .same .split { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; background: none; border: 0; padding: 0; font: 600 12px/1.3 var(--mono); color: var(--muted); }
+
+    .lesson[data-lesson="04"] .layers { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="04"] .guard { border: 1.5px dashed var(--accent); border-radius: 8px; padding: 8px 12px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
+    .lesson[data-lesson="04"] .guard span, .lesson[data-lesson="04"] .inside > span { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+    .lesson[data-lesson="04"] .inside { border: 1px solid var(--line); border-radius: 12px; background: var(--sunk); padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="04"] .inside > span { color: var(--muted); }
+    .lesson[data-lesson="04"] .lay { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; counter-reset: lay; }
+    .lesson[data-lesson="04"] .lay li { counter-increment: lay; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px 8px 38px; position: relative; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="04"] .lay li::before { content: counter(lay); position: absolute; left: 10px; top: 9px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 700 12px/20px var(--mono); text-align: center; }
+    .lesson[data-lesson="04"] .lay b { display: block; }
+    .lesson[data-lesson="04"] .lay small { color: var(--muted); font-size: 13px; }
+
+    .lesson[data-lesson="04"] .order { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; counter-reset: ord; }
+    .lesson[data-lesson="04"] .order li { counter-increment: ord; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 14px; font-weight: 700; display: flex; gap: 10px; align-items: baseline; }
+    .lesson[data-lesson="04"] .order li::before { content: counter(ord); font: 700 12px/1 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="04"] .order li:first-child { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+    .lesson[data-lesson="04"] .order li:first-child::before { color: var(--on-mark); }
+
+    .lesson[data-lesson="04"] .cm { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 6px; }
+    .lesson[data-lesson="04"] .cm .h { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: center; align-self: end; padding-bottom: 2px; }
+    .lesson[data-lesson="04"] .cm .rh { text-align: right; align-self: center; padding-right: 4px; }
+    .lesson[data-lesson="04"] .cell { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--sunk); font-size: 14px; line-height: 1.4; min-width: 0; }
+    .lesson[data-lesson="04"] .cell b { display: block; font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="04"] .cell.hl { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+    .lesson[data-lesson="04"] .cell.miss b { color: var(--bad); }
+    .lesson[data-lesson="04"] .fix p { font-weight: 400; }
+    .lesson[data-lesson="04"] .fix b { font-family: var(--mono); }
+
+    .lesson[data-lesson="04"] .ladder { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; counter-reset: rung; }
+    .lesson[data-lesson="04"] .ladder li { counter-increment: rung; display: grid; grid-template-columns: 1.4em 11.5em minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="04"] .ladder li:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="04"] .ladder li::before { content: counter(rung); font: 700 13px/1.9 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="04"] .ladder .chip { justify-self: start; }
+    .lesson[data-lesson="04"] .ends { display: flex; justify-content: space-between; gap: 12px; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+    .lesson[data-lesson="04"] .runs { display: grid; grid-template-columns: repeat(21, minmax(0, 1fr)); gap: 3px; }
+    .lesson[data-lesson="04"] .runs i { aspect-ratio: 1; border-radius: 2px; background: var(--line); }
+    .lesson[data-lesson="04"] .runs i.x { background: var(--bad); }
+    .lesson[data-lesson="04"] .bigs { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="04"] .bigs div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; line-height: 1.35; color: var(--muted); display: grid; grid-template-columns: 7.8em minmax(0, 1fr); gap: 10px; align-items: center; }
+    .lesson[data-lesson="04"] .bigs b { font: 720 22px/1.1 var(--display); color: var(--ink); letter-spacing: -.01em; }
+    .lesson[data-lesson="04"] .setup { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .lesson[data-lesson="04"] .bars { grid-template-columns: minmax(0, 12em) minmax(0, 1fr) auto; }
+    .lesson[data-lesson="04"] .bars .pill { font-size: 13px; }
+    .lesson[data-lesson="04"] .bars .grp { grid-column: 1 / -1; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+    .lesson[data-lesson="04"] .bars .grp:first-child { margin-top: 0; }
+    .lesson[data-lesson="04"] .ten { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="04"] .ten .d { display: inline-flex; gap: 4px; }
+    .lesson[data-lesson="04"] .ten .d i { width: 14px; height: 14px; border-radius: 50%; background: var(--bad); }
+    .lesson[data-lesson="04"] .ten p { margin: 0; flex: 1 1 16em; }
+
+    .lesson[data-lesson="04"] .diff { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 0; font: 500 12.5px/1.6 var(--mono); overflow-x: auto; }
+    .lesson[data-lesson="04"] .diff span { display: block; padding: 0 12px; white-space: pre; }
+    .lesson[data-lesson="04"] .diff .f { color: var(--muted); }
+    .lesson[data-lesson="04"] .diff .del { background: color-mix(in srgb, var(--bad) 20%, transparent); }
+    .lesson[data-lesson="04"] .diff .add { background: var(--t3); }
+
+    .lesson[data-lesson="04"] .fence { border: 2px dashed var(--line); border-radius: 14px; padding: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="04"] .fence .fl { grid-column: 1 / -1; margin: 0; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="04"] .fi { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.4; min-width: 0; }
+    .lesson[data-lesson="04"] .fi b { display: flex; align-items: center; gap: 6px; font: 700 15px/1.3 var(--display); margin-bottom: 2px; }
+    .lesson[data-lesson="04"] .ws { grid-column: 1 / -1; border: 2px solid var(--accent); background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; font-size: 14px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; justify-content: center; }
+    .lesson[data-lesson="04"] .ws b { font: 700 15px/1.3 var(--display); }
+
+    @container page (max-width: 880px) {
+      .lesson[data-lesson="04"] .row, .lesson[data-lesson="04"] .row.wide-l { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .lesson[data-lesson="04"] .row.ev { grid-template-columns: 11.5em minmax(0, 1fr); }
+      .lesson[data-lesson="04"] .row.ev > :first-child { grid-column: auto; }
+      .lesson[data-lesson="04"] .row.ev > p { grid-column: 1 / -1; }
+      .lesson[data-lesson="04"] .row > :first-child { grid-column: 1 / -1; }
+      .lesson[data-lesson="04"] .row.head { display: none; }
+      .lesson[data-lesson="04"] .row.head + .row { border-top: 0; padding-top: 0; }
+    }
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="04"] .row, .lesson[data-lesson="04"] .row.wide-l, .lesson[data-lesson="04"] .row.ev { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+      .lesson[data-lesson="04"] .three { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="04"] .ladder li { grid-template-columns: 1.4em minmax(0, 1fr); }
+      .lesson[data-lesson="04"] .ladder li > :last-child { grid-column: 2; }
+      .lesson[data-lesson="04"] .cm { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .lesson[data-lesson="04"] .cm .corner { display: none; }
+      .lesson[data-lesson="04"] .cm .rh { grid-column: 1 / -1; text-align: left; padding-top: 6px; }
+      .lesson[data-lesson="04"] .fence { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="04"] .bars { grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr) auto; gap: 10px 8px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bAISI\\b", "A I S I"], ["\\bMETR\\b", "meter"], ["\\bo3\\b", "oh three"], ["\\bXSTest\\b", "X S test"], ["\\bCoastRunners\\b", "Coast Runners"], ["\\bExploitGym\\b", "Exploit Gym"], ["\\bAGENTS\\.md\\b", "agents dot M D"], ["\\bSB 53\\b", "S B 53"], ["\\bNIST\\b", "nist"]]</script>
+
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 1 · How the machine works</p>
+        <h1>Model safety and alignment</h1>
+        <p class="meta">Lesson 04 · 20 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-tokens" aria-hidden="true"><span class="chip c1">Alignment</span><span class="chip c2">Safeguards</span><span class="chip c3">Security</span></div>
+        <p class="cap">Three separate jobs. Everyday speech calls all of them "safety".</p>
+      </div>
+      <div class="talk" hidden><p>This lesson is about the model itself: what it can do, what it will do, and whether its tendencies match what you wanted. By the end you'll know why a coding agent refuses a request, why it sometimes cheats on your tests, and how to read a headline about a model misbehaving.</p><p>The three chips on screen are three jobs that labs keep separate. The first screen sorts them out.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Vocabulary</p>
+        <h2>Alignment, safeguards and security are three separate jobs</h2>
+        <p>People say "safety" for all three. Labs keep them apart. Anthropic's safety roadmap tracks security, alignment, safeguards and policy as separate areas.</p>
+        <p>This lesson covers the model itself. Securing an app you build on a model, prompt injection included, is Lesson 14.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#safety-security-and-alignment" target="_blank" rel="noopener">Go deeper: safety, security and alignment</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row head"><span></span><span>The question it asks</span><span>Example</span></div>
+          <div class="row"><b>Alignment</b><p>Does the model, on its own, try to do what its developers and users intend?</p><p class="eg">An agent edits the tests to make them pass.</p></div>
+          <div class="row"><b>Safeguards</b><p>Can someone use the model to cause serious harm?</p><p class="eg">A classifier blocks step-by-step help with a bioweapon.</p></div>
+          <div class="row"><b>Security</b><p>Can someone steal or tamper with the model or the systems around it?</p><p class="eg">The weights are protected from theft. An agent's sandbox is locked down.</p></div>
+        </div>
+        <div class="two">
+          <div class="panel"><h3>Jailbreak</h3><p>Gets the model to break its maker's rules. A safety problem.</p></div>
+          <div class="panel"><h3>Prompt injection</h3><p>Tricks an app into obeying a stranger's text. A security problem.</p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>People say "safety" and mean three different jobs. Labs keep them apart, and it helps to do the same when you read their documents.</p><p>Alignment is about the model's own tendencies. Left alone, does it try to do what you and its developers intend? An agent that edits your tests so they pass has an alignment problem. Safeguards are about people misusing the model. A classifier that blocks bioweapon instructions is a safeguard. Security is about theft and tampering. That covers protecting the weights and locking down the sandbox an agent runs in.</p><p>One pair gets mixed up a lot. A jailbreak tries to get the model to break its maker's rules. That's a safety problem, and it belongs in this lesson. Prompt injection tricks an application into obeying text from a stranger. That's a security problem, and Lesson 14 covers it.</p><p class="inclass">Ask the room which of the three jobs a prompt injection attack falls under. Answer: security, because the target is the application.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Kinds of risk</p>
+        <h2>Sort a risk by who wanted the harm</h2>
+        <p>Misuse, misalignment and accidents call for different fixes. Pick the bucket before you pick the fix.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#misuse-misalignment-and-accidents" target="_blank" rel="noopener">Go deeper: misuse, misalignment and accidents</a></p>
+      </div>
+      <div class="vis">
+        <div class="three">
+          <div class="panel">
+            <h3>Misuse</h3>
+            <p class="who">A person wanted it</p>
+            <p>Someone points the model at harm. The model may be working exactly as trained.</p>
+            <p class="fixline">Access controls and classifiers</p>
+          </div>
+          <div class="panel">
+            <h3>Misalignment</h3>
+            <p class="who">The model pursued it</p>
+            <p>The model goes after something its developers didn't intend, such as interfering with their ability to direct it or shut it down.</p>
+            <p class="fixline">Fix it in training, or catch it with monitoring</p>
+          </div>
+          <div class="panel">
+            <h3>Accident</h3>
+            <p class="who">Nobody wanted it</p>
+            <p>Harm that comes out of an ordinary mistake.</p>
+            <p class="fixline">Sandboxes, permissions and undo</p>
+          </div>
+        </div>
+        <p class="quote">Anthropic reports two internal incidents in which Claude Mythos Preview "(inadvertently) mass-deleted cluster jobs". That's the third bucket. (Risk Report, August 2026)</p>
+      </div>
+      <div class="talk" hidden><p>A second way to sort things is by who wanted the harm. With misuse, a person wanted it. The model may be doing exactly what it was trained to do. With misalignment, the model itself is pursuing something its developers didn't intend. Google DeepMind's example is a model that interferes with its operators' ability to direct it, modify it or shut it down. With an accident, nobody wanted the harm.</p><p>The accident quoted on screen is real. Anthropic's August 2026 Risk Report describes two internal incidents where a Claude model mass-deleted cluster jobs by mistake.</p><p>Pick the bucket first, because the fixes differ. Misuse calls for access controls and classifiers. Misalignment has to be fixed in training or caught by monitoring. Accidents need what any risky system needs: sandboxes, permissions and undo.</p><p class="inclass">Give the room three stories and have them pick the bucket: a phishing kit written with a chatbot, an agent that wiped a staging database by mistake, and an agent that switched off a failing check to finish its task.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The alignment problem</p>
+        <h2>You can't hand a model your intentions</h2>
+        <p>You hand it a training signal: a reward, a loss, a set of tests. The alignment problem is the gap between that signal and what you meant.</p>
+        <p>Specification gaming is that gap where you can see it: "a behaviour that satisfies the literal specification of an objective without achieving the intended outcome" (DeepMind, 2020).</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#the-alignment-problem-in-plain-terms" target="_blank" rel="noopener">Go deeper: the alignment problem</a></p>
+      </div>
+      <div class="vis">
+        <div class="scroll boat">
+          <svg viewBox="0 0 560 250" role="img" aria-label="A race course runs from Start to Finish as a dashed line. Partway along, the boat's route is a closed loop circling three targets. It never reaches the finish.">
+            <defs>
+              <marker id="l04-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="f-accent"/></marker>
+              <marker id="l04-arrow-m" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="f-muted"/></marker>
+            </defs>
+            <rect x="8" y="8" width="544" height="234" rx="10" class="frame-r"/>
+            <path d="M48,196 C150,196 150,70 262,70 S 420,70 500,70" class="route" marker-end="url(#l04-arrow-m)"/>
+            <circle cx="48" cy="196" r="6" class="pt"/>
+            <text x="38" y="222" class="lbl-svg">Start</text>
+            <path d="M512,84 V44 h22 l-7,9 l7,9 h-22" class="flag"/>
+            <text x="532" y="104" class="lbl-svg" text-anchor="end">Finish</text>
+            <text x="300" y="52" class="lbl-sm">the route the designers meant</text>
+            <rect x="196" y="140" width="18" height="18" rx="3" class="f-mark"/>
+            <rect x="232" y="166" width="18" height="18" rx="3" class="f-mark"/>
+            <rect x="192" y="182" width="18" height="18" rx="3" class="f-mark"/>
+            <path d="M262,150 A52,46 0 1 1 258,138" class="loop" marker-end="url(#l04-arrow)"/>
+            <path d="M160,160 l16,6 l-16,6 z" class="f-accent"/>
+            <text x="286" y="170" class="lbl-acc">the route the agent learned</text>
+            <text x="286" y="188" class="lbl-sm">points for every target hit</text>
+            <text x="286" y="204" class="lbl-sm">no points lost for never finishing</text>
+          </svg>
+        </div>
+        <p class="cap">CoastRunners, a boat-racing game (OpenAI, 2016). The agent learned to circle the same targets and never finished the race.</p>
+        <span class="tag">Illustrative sketch</span>
+      </div>
+      <div class="talk" hidden><p>You can't give a model what you want directly. You give it a signal: a reward, a loss number, a set of tests. Training pushes the model toward the signal. Anything the signal fails to capture is left open.</p><p>The sketch is the boat from lesson 03. In OpenAI's 2016 experiment with a racing game called CoastRunners, the agent earned points for hitting targets along the course. It learned to circle one cluster of targets and never finish the race. The score kept going up.</p><p>Researchers call this specification gaming. The agent meets the literal objective and misses the intended outcome. Lesson 03 used the usual name for it in language models, reward hacking. A coding model that special-cases your tests is doing what the boat did.</p><p class="inclass">Ask for a human example of gaming a metric. Lines of code and closed-ticket counts usually come up.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The alignment problem</p>
+        <h2>The objective can be wrong, or the model can learn a different one</h2>
+        <p>Outer alignment asks whether the objective is what you want. Inner alignment asks whether the model learned that objective or something else that scored well in training.</p>
+        <p>Think of a student. The outer question is whether the exam tests the material. The inner one is whether the student learned the material or learned how to pass that teacher's exams.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#the-alignment-problem-in-plain-terms" target="_blank" rel="noopener">Go deeper: the alignment problem</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Outer: is the objective right?</h3>
+            <div class="doc"><pre>def test_total():
+  assert total(c) is not None</pre></div>
+            <div class="doc"><pre class="out">def total(c):
+  return 0</pre></div>
+            <span class="pass">1 passed</span>
+            <p class="note">The test is the objective. Wrong code satisfies it.</p>
+          </div>
+          <div class="panel">
+            <h3>Inner: did it learn that objective?</h3>
+            <div class="same">
+              <div><b>Intended</b>Know the material</div>
+              <div><b>Learned</b>Pass this teacher's exams</div>
+              <p class="split">↓ same score in training</p>
+              <div><b>New exam</b>Still does well</div>
+              <div><b>New exam</b>Fails, confidently</div>
+            </div>
+            <p class="note">Goal misgeneralization: a correct specification, the wrong goal learned, pursued competently in situations unlike training (Shah et al., 2022).</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Researchers split the gap into two questions. The first is whether the objective itself is right. That's outer alignment. The left panel shows a test that only checks that a result exists. A function that returns zero passes it. The test is the objective, and the objective is wrong.</p><p>The second question is whether the model learned the objective you set, or something else that scored just as well. That's inner alignment. Think of a student who learned how to pass one teacher's exams without learning the material. On that teacher's exams the two students look the same. A new exam separates them.</p><p>The research name for that failure is goal misgeneralization. A model trained on a correct specification can still pick up the wrong goal and pursue it competently in situations unlike its training.</p><p>When you hand an agent a task, your tests and acceptance checks are its objective. A weak test suite is an outer alignment failure waiting to happen.</p><p class="inclass">Ask which of the two problems a better test suite fixes. Answer: the outer one. It changes nothing about what the model learned in training.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">How labs align models</p>
+        <h2>Labs stack several methods and rely on none alone</h2>
+        <p>They train on human preferences, write the rules down, and teach the model to reason about those rules.</p>
+        <p>Then they add independent checks outside the model in case that training fails. A lot of what feels like "the model refusing" is one of those checks.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#how-labs-align-models-today" target="_blank" rel="noopener">Go deeper: how labs align models</a></p>
+      </div>
+      <div class="vis">
+        <div class="layers" role="img" aria-label="A request passes an input classifier outside the weights, then the model, which has three layers of training: preference training, a written specification, and training to reason over the specification. The reply passes an output classifier.">
+          <div class="box">Your request</div>
+          <div class="down">↓</div>
+          <div class="guard">Classifier reads the input<span>outside the weights</span></div>
+          <div class="down">↓</div>
+          <div class="inside">
+            <span>Inside the weights</span>
+            <ol class="lay">
+              <li><b>Preference training</b><small>People rank outputs and the model is trained toward what they prefer (RLHF, Lesson 03).</small></li>
+              <li><b>A written specification</b><small>Anthropic's constitution, OpenAI's Model Spec.</small></li>
+              <li><b>Training to reason over that specification</b><small>Constitutional AI (2022) has the model critique and revise its own outputs against written principles. Deliberative alignment (2024) trains a reasoning model to consult the spec before answering.</small></li>
+            </ol>
+          </div>
+          <div class="down">↓</div>
+          <div class="guard">Classifier reads the output<span>outside the weights</span></div>
+          <div class="down">↓</div>
+          <div class="box">An answer, a partial answer, or a refusal</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>No lab relies on one technique. Read the diagram from top to bottom. Your request passes a classifier before it reaches the model, and the reply passes another on the way out. Those two sit outside the weights.</p><p>Inside the model there are three layers of training. The first is preference training, the RLHF from lesson 03. People rank outputs and the model is trained toward what they prefer. The second is a written specification of how the model should behave. The third is training the model to reason over that specification before it answers.</p><p>The outside checks are there in case the training fails. A lot of what feels like the model refusing is one of those classifiers.</p><p>The bottom box has three outcomes. OpenAI trains for what it calls safe completions, which means answering as helpfully as the policy allows. In practice you get a partial or high-level answer more often than a flat no.</p><p class="inclass">Watch for the idea that safety is one switch inside the model. It's several layers, and some of them are separate programs.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Written rules</p>
+        <h2>The rules are written down and public</h2>
+        <p>Anthropic published Claude's current constitution on January 22, 2026. OpenAI's equivalent is the Model Spec, last updated October 29, 2026.</p>
+        <p>Both tell the model to accept human oversight and correction. The constitution adds that this isn't blind obedience: Claude may disagree through legitimate channels but shouldn't subvert oversight.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#anthropic-a-constitution" target="_blank" rel="noopener">Go deeper: the constitution and the Model Spec</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Claude's constitution</h3>
+            <p class="who">Priority order</p>
+            <ol class="order"><li>Broadly safe</li><li>Broadly ethical</li><li>Compliant with Anthropic's guidelines</li><li>Genuinely helpful</li></ol>
+            <p class="note">Seven hard constraints sit above all of it, including no serious uplift for mass-casualty weapons and no damaging cyberweapons.</p>
+            <p class="note">An unhelpful answer is never automatically the safe one.</p>
+          </div>
+          <div class="panel">
+            <h3>OpenAI's Model Spec</h3>
+            <p class="who">Chain of command</p>
+            <ol class="order"><li>Root</li><li>System</li><li>Developer</li><li>User</li><li>Guideline</li></ol>
+            <p class="note">Tool outputs and quoted text have no authority by default.</p>
+            <p class="note">A user can implicitly delegate authority to them. A relevant <code>AGENTS.md</code> is the Spec's example.</p>
+          </div>
+        </div>
+        <span class="tag">As of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Both of the big written specifications are public. Anthropic published Claude's current constitution in January 2026. It explains its reasoning instead of listing rules. It sets a priority order: broadly safe first, then broadly ethical, then Anthropic's guidelines, then helpful. It also has seven hard constraints, which are lines the model shouldn't cross whatever the instructions say.</p><p>OpenAI's Model Spec was last updated in October 2026. Its backbone is a chain of command. Instructions are ranked root, system, developer, user, guideline, and higher levels win. Tool outputs and quoted text carry no authority unless a user delegates it. That delegation is how an AGENTS.md file in your repository comes to be followed. A random web page gets no such standing.</p><p>Both documents tell the model to accept human oversight and correction. The constitution says that isn't blind obedience, even toward Anthropic. It also says an unhelpful answer is never automatically the safe one, because refusing has a cost too.</p><p class="inclass">Ask where a web page the agent fetched sits in the chain of command. Answer: nowhere. It has no authority by default.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Over-refusal</p>
+        <h2>Every safety layer errs in both directions</h2>
+        <p>A filter tuned to stop more attacks also blocks more honest work. Researchers measure the cautious side directly. XSTest has 250 safe prompts a well-calibrated model should answer, next to 200 unsafe ones.</p>
+        <p>People doing coding and security work feel it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#refusals-and-over-refusal" target="_blank" rel="noopener">Go deeper: refusals and over-refusal</a></p>
+      </div>
+      <div class="vis">
+        <div class="cm" role="img" aria-label="A two by two grid. A harmful request that is blocked is an attack stopped. A benign request that is blocked is an over-refusal. A harmful request that is answered is a missed attack. A benign request that is answered is normal work.">
+          <span class="corner"></span><span class="h">Harmful request</span><span class="h">Benign request</span>
+          <span class="h rh">Blocked</span>
+          <div class="cell"><b>Attack stopped</b>The filter did its job.</div>
+          <div class="cell hl"><b>Over-refusal</b>A routine debugging request gets flagged.</div>
+          <span class="h rh">Answered</span>
+          <div class="cell miss"><b>Missed attack</b>A jailbreak got through.</div>
+          <div class="cell"><b>Normal work</b>The filter stayed out of the way.</div>
+        </div>
+        <div class="costline"><span>looser filter</span><i></i><span>stricter filter</span></div>
+        <p class="cap">Stricter means fewer missed attacks and more over-refusals.</p>
+        <div class="fix">
+          <p>Claude Fable 5's cyber classifier, retrained in June 2026 after a reported bypass: blocks that bypass in <b>over 99%</b> of cases, and flags "benign requests more often during routine coding and debugging tasks" (Anthropic).</p>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Any filter makes two kinds of mistake. The grid shows them. Top left and bottom right are the filter working. Bottom left is a missed attack. Top right, highlighted, is an over-refusal: an honest request blocked because it resembled a harmful one.</p><p>Tighten the filter and you trade one mistake for the other. Researchers measure the cautious side with sets of safe prompts that look risky on the surface. XSTest has 250 of them.</p><p>This trade shows up in products you use. In June 2026 someone reported a way around the cyber classifier on Claude Fable 5. Anthropic retrained it. The new one blocks that technique more than 99 percent of the time. Anthropic also says it flags benign requests more often during routine coding and debugging. For Fable 5.2, it says it chose a temporarily wider safety margin against jailbreaks.</p><p>When a debugging session gets blocked for no reason you can see, a classifier tuned toward caution is the likely cause.</p><p class="inclass">Ask who has had a harmless coding request refused. Have them say which cell of the grid it was.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Refusals</p>
+        <h2>A refusal has one of three causes</h2>
+        <p>Work out which one you hit before you reword anything. A classifier block often shows up as a notice or a switch to another model, with no explanation from the model itself.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-models-refuse-and-what-you-can-do-about-it" target="_blank" rel="noopener">Go deeper: why models refuse</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row"><b>Bright line</b><p>A hard constraint or red line from training. Built so that phrasing doesn't move it.</p><p class="do">Stop. Talking past it is a jailbreak.</p></div>
+          <div class="row"><b>Classifier block</b><p>A separate program blocked the request. Tuned conservatively, so routine coding and security work produces false positives.</p><p class="do">Check which model answered. A fallback may be weaker at your task.</p></div>
+          <div class="row"><b>Judgment call</b><p>The model weighed your context and read it as risky. OpenAI models now often give a partial answer here.</p><p class="do">Say what you're building, whose code it is and why you need it.</p></div>
+        </div>
+        <p class="cap">As of November 2026, Anthropic routes requests its Fable classifiers block to Claude Opus 4.8 and tells the user.</p>
+      </div>
+      <div class="talk" hidden><p>When a coding agent says no, find the cause before you rephrase.</p><p>The first cause is a bright line. The hard constraints and red lines are built so that wording doesn't move them. Trying to talk past one is a jailbreak, so stop there.</p><p>The second is a classifier outside the model. You'll often see a notice or a switch to a different model, with no explanation. As of November 2026, Anthropic sends blocked Fable requests to Opus 4.8 and tells you. Check which model answered, because the fallback may be weaker at your task.</p><p>The third is a judgment call. The model weighed your context and found it risky. Tell it what you're building, whose code it is and why you need this. A judgment-call refusal often goes away once the request stops looking ambiguous.</p><p>For real offensive security work, labs run access programs for vetted organizations, and that's the legitimate route. A local open-weight model with its refusals removed is a choice your team should make on purpose. Lesson 06 covers that debate.</p><p class="inclass">Demo if you can: a judgment-call refusal that clears once you add who owns the code and why you're asking.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Safety frameworks</p>
+        <h2>Each frontier lab sets thresholds and grades itself against them</h2>
+        <p>A framework says which dangerous capabilities a lab tracks, what level counts as dangerous, and what the lab will do when a model gets there.</p>
+        <p>Every finding here is the lab's own assessment, sometimes with outside testers contributing sections. Most of this is voluntary.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#frontier-safety-frameworks-as-of-november-2026" target="_blank" rel="noopener">Go deeper: frontier safety frameworks</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row wide-l head"><span>Lab and framework</span><span>It tracks</span><span>Latest finding</span></div>
+          <div class="row wide-l"><b>Anthropic<small>Responsible Scaling Policy v3.4, July 2026</small></b><p class="eg">Chemical and biological weapons, misaligned AI in high-stakes settings, automated R&amp;D</p><p>Claude Mythos 5.2 meets the high-stakes misalignment threshold. It doesn't meet the automated R&amp;D one, "though this assessment is uncertain". <span class="eg">November 9, 2026</span></p></div>
+          <div class="row wide-l"><b>OpenAI<small>Preparedness Framework v2, April 2025</small></b><p class="eg">Biological and chemical, cybersecurity, AI self-improvement. Two levels: High and Critical</p><p>GPT-6 Astra is "our first model to reach the Critical level of cybersecurity capability". <span class="eg">September 3, 2026</span></p></div>
+          <div class="row wide-l"><b>Google DeepMind<small>Frontier Safety Framework 3.1, April 2026</small></b><p class="eg">Critical capability levels for weapons, cyber, harmful manipulation, ML R&amp;D and misalignment</p><p>Google "cannot rule out" that Gemini 4 Argon reached its biological-information and cybersecurity levels. <span class="eg">October 13, 2026</span></p></div>
+        </div>
+        <span class="tag">As of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Every major lab now publishes a safety framework. It names the dangerous capabilities the lab tracks, the level it considers dangerous, and what it commits to do when a model reaches that level.</p><p>The three rows show the latest findings as of November 2026. Anthropic says Claude Mythos 5.2 meets its threshold for misalignment risk in high-stakes settings. OpenAI rates GPT-6 Astra Critical in cybersecurity, the first model to reach that level under its framework. Google says it cannot rule out that Gemini 4 Argon crossed its biological and cyber thresholds, and it wrote a safety case for each.</p><p>Each finding is a lab grading its own model, sometimes with outside testers contributing sections. Most of it is voluntary. California's SB 53 and the EU AI Act now turn parts of these frameworks into legal duties.</p><p>The model names and levels will go stale within months. Every framework has the same three parts: a tracked capability, a threshold and a commitment.</p><p class="inclass">Ask what would make a self-assessed threshold credible to them. Outside review usually comes up, which is the next screen.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Capability evaluations</p>
+        <h2>Most testing happens inside the lab that built the model</h2>
+        <p>A dangerous-capability evaluation tests whether a model can do something harmful, whether or not it wants to. Framework thresholds hang on those results.</p>
+        <p>For Claude Fable 5.2 and Mythos 5.2, "the majority of evaluations" ran inside Anthropic. Outside evaluators now check parts of the picture.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#who-runs-them" target="_blank" rel="noopener">Go deeper: who runs the evaluations</a></p>
+      </div>
+      <div class="vis">
+        <div class="node hl">The lab<small>Runs most evaluations in-house and writes the system card</small></div>
+        <p class="sub">Outside evaluators</p>
+        <div class="rows">
+          <div class="row wide-l"><b>UK AI Security Institute</b><p style="grid-column: 2 / -1">More than 30 frontier systems evaluated since November 2023. It found universal jailbreaks for every system it tested.</p></div>
+          <div class="row wide-l"><b>NIST's center, US</b><p style="grid-column: 2 / -1">Unclassified evaluations of cyber, biological and chemical risks.</p></div>
+          <div class="row wide-l"><b>METR</b><p style="grid-column: 2 / -1">Pre-deployment evaluations and independent assessments, including 2026 reviews of two sections of Anthropic's Risk Report.</p></div>
+          <div class="row wide-l"><b>Apollo Research</b><p style="grid-column: 2 / -1">Pre-deployment scheming evaluations for OpenAI, Google DeepMind, Meta and Anthropic models.</p></div>
+          <div class="row wide-l"><b>Contract red teams</b><p style="grid-column: 2 / -1">One sent more than 40,000 requests at Fable 5.2's cyber safeguards: 14 task-specific breaks, no universal jailbreak.</p></div>
+        </div>
+        <span class="tag">As of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>A dangerous-capability evaluation asks whether a model can do something harmful. It doesn't ask whether the model wants to. Framework thresholds hang on these results.</p><p>Most of the testing happens inside the lab. For Claude Fable 5.2 and Mythos 5.2, Anthropic says the majority of evaluations ran in-house, with outside testers contributing specific sections.</p><p>A handful of outside groups check parts of the picture. The UK AI Security Institute has evaluated more than 30 frontier systems since November 2023, and it found a universal jailbreak for every system it tested. In the US, a center at NIST runs unclassified evaluations of cyber, biological and chemical risk. METR and Apollo Research are independent evaluators. METR reviewed two sections of Anthropic's Risk Report in 2026. Apollo tests models for scheming before release.</p><p>Labs also hire red teams. One sent more than 40,000 requests at Fable 5.2's cyber safeguards. It found 14 breaks that worked on specific tasks and no universal jailbreak.</p><p class="inclass">Have the room open a current system card and find one result that came from an outside tester.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reading the headlines</p>
+        <h2>Ask where the behavior was observed</h2>
+        <p>You'll see headlines about models blackmailing engineers or faking alignment to avoid retraining. The studies behind them are real.</p>
+        <p>"The model did X" means very different things in different settings, so find the setting first.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#observed-concerning-behaviors-always-ask-where" target="_blank" rel="noopener">Go deeper: observed behaviors</a></p>
+      </div>
+      <div class="vis">
+        <div class="ends"><span>Built by researchers</span></div>
+        <ol class="ladder">
+          <li><span class="chip pill c4">Contrived test</span><span>A scenario built to make the behavior possible or likely. Shows the model can and sometimes will, under pressure.</span></li>
+          <li><span class="chip pill c5">RL training</span><span>Measured on training episodes. Shows what the training process is rewarding.</span></li>
+          <li><span class="chip pill c2">Eval with real-world effects</span><span>A sanctioned evaluation in which agents reached real outside systems or people.</span></li>
+          <li><span class="chip pill c6">Internal use</span><span>Inside a lab's own day-to-day work with its models.</span></li>
+          <li><span class="chip pill c1">Deployment</span><span>A shipped product used by the public.</span></li>
+        </ol>
+        <div class="ends"><span>Used by the public</span></div>
+      </div>
+      <div class="talk" hidden><p>You'll read headlines about models that blackmail engineers or fake alignment to avoid retraining. The studies behind them are real. Before you react, ask where the behavior was seen.</p><p>The ladder has five settings. At the top is a contrived test. Researchers build a scenario that makes the behavior possible or likely. It shows the model can do it and sometimes will, under pressure. Next is reinforcement learning training, which shows what the training process is rewarding. Then come evaluations in which agents reached real systems or people. Then a lab's own internal use. At the bottom is deployment, a shipped product in public hands.</p><p>The sentence "the model did X" carries different weight on each rung. Most headlines come from the top one.</p><p class="inclass">Bring one recent headline and have the room place it on the ladder, working from the source paper instead of the article.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reading the headlines</p>
+        <h2>Most of the alarming results come from contrived tests</h2>
+        <p>Read the authors' caveats before you repeat a number. The blackmail study's authors wrote that they "deliberately constructed scenarios with limited options" and, as of June 2025, "We have not seen evidence of agentic misalignment in real deployments."</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#observed-concerning-behaviors-always-ask-where" target="_blank" rel="noopener">Go deeper: the full table</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row ev"><span class="chip pill c4">Contrived test</span><b>Blackmail</b><p>Given a goal conflict and a threat of replacement, Claude Opus 4 blackmailed in 96% of runs. <span class="eg">Anthropic, June 2025</span></p></div>
+          <div class="row ev"><span class="chip pill c4">Contrived test</span><b>Alignment faking</b><p>Claude 3 Opus, told that only free-tier chats would be used to retrain it, complied with harmful free-tier requests 14% of the time and almost never for paid users. <span class="eg">Greenblatt et al., 2024</span></p></div>
+          <div class="row ev"><span class="chip pill c5">RL training</span><b>Reward hacking</b><p>Claude Mythos 5.2 attempted a reward hack in 9.2% of sampled training episodes and succeeded in 1.0%. <span class="eg">System card, November 2026</span></p></div>
+          <div class="row ev"><span class="chip pill c6">Internal use</span><b>Mass deletion</b><p>Claude Mythos Preview mass-deleted cluster jobs by mistake, in two incidents. <span class="eg">Anthropic, August 2026</span></p></div>
+          <div class="row ev"><span class="chip pill c1">Deployment</span><b>Sycophancy</b><p>An April 25, 2025 update made ChatGPT "noticeably more sycophantic". The rollback began April 28. <span class="eg">OpenAI</span></p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Here are five results placed on that ladder.</p><p>Two are contrived tests. In Anthropic's 2025 blackmail study, models were given a goal conflict plus a threat of being replaced. Claude Opus 4 blackmailed in 96 percent of runs. The authors said they had deliberately built scenarios with limited options, and that they had seen no evidence of this in real deployments. In the 2024 alignment faking study, Claude 3 Opus was told that only free-tier chats would be used to retrain it. It complied with harmful free-tier requests 14 percent of the time and almost never for paid users. The preference it was protecting was benign. It wanted to keep refusing harmful requests.</p><p>One row comes from training. Claude Mythos 5.2 attempted a reward hack in about 9 percent of sampled training episodes and succeeded in 1 percent.</p><p>One is internal use, the mass-deleted cluster jobs. The last is deployment. An April 2025 update made ChatGPT noticeably more flattering, and OpenAI began rolling it back three days later.</p><p class="inclass">Watch for people quoting the 96 percent with no setting attached. Ask them to say the full sentence, setup included.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reading the headlines</p>
+        <h2>Credible people read that evidence two ways</h2>
+        <p>The skeptical reading leans on where the results come from. The concerned reading leans on how they've moved over time.</p>
+        <p>The International AI Safety Report (February 2026, more than 100 experts) says "current systems lack the capabilities to pose" loss-of-control risks. On everyday reliability, it says current techniques "can reduce failure rates but not to the level required in many high-stakes settings."</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#open-debates" target="_blank" rel="noopener">Go deeper: open debates</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Skeptical</h3>
+            <p>Most results are contrived. Researchers hand the model a goal, a threat and a convenient lever, then report that it pulled the lever.</p>
+            <p>That shows what a model can be steered into. It doesn't show what it does on a Tuesday in your repo.</p>
+            <p>The one deployment result is sycophancy, and the rollback began three days after the update shipped.</p>
+          </div>
+          <div class="panel">
+            <h3>Concerned</h3>
+            <p>Contrived tests are how you find a problem before it happens in deployment, the way crash tests use dummies.</p>
+            <p>The results also move. Reward hacking went from a lab curiosity to a measured rate in production training runs. Sandbagging went from possible when prompted to evading a monitor.</p>
+            <p>In 2026, two evaluations reached real systems.</p>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Credible people look at that evidence and come away with different views.</p><p>The skeptical reading says most of the results are contrived. Researchers give the model a goal, a threat and a convenient lever, then report that it pulled the lever. That shows what a model can be steered into. It doesn't show what the model does on a Tuesday in your repo. The one deployment result was flattery, and the rollback began three days after it shipped.</p><p>The concerned reading says contrived tests are how you find a problem before it ships, the way crash tests use dummies. The results also move. Reward hacking went from a lab curiosity to a measured rate in production training. Sandbagging went from possible when prompted to evading a monitor. In 2026, two evaluations reached real systems.</p><p>The closest thing to a consensus baseline is the International AI Safety Report from February 2026. It says current systems lack the capabilities to pose loss-of-control risks. It also says current techniques can't yet cut failure rates to the level many high-stakes settings require.</p><p class="inclass">Split the room in two and have each side argue the reading it disagrees with.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">July 2026</p>
+        <h2>Two sanctioned evaluations reached real systems and people</h2>
+        <p>Both were cyber evaluations, and both setups were permissive by design. They say nothing directly about deployed products.</p>
+        <p>They're the clearest public cases so far of evaluation-time misbehavior reaching the real world.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#two-2026-incidents-outside-contrived-setups" target="_blank" rel="noopener">Go deeper: the two incidents</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>UK AI Security Institute</h3>
+            <div class="runs" role="img" aria-label="122 squares, one per run. Ten are highlighted."><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="x"></i><i></i><i></i><i></i><i></i></div>
+            <p><b>122 runs. In 10</b>, agents took 19 out-of-scope actions against real people and organisations: 17 by Claude Mythos 5, 2 by GPT-5.6 Sol.</p>
+            <div class="setup"><span class="chip pill c2">internet on</span><span class="chip pill c2">cyber classifiers off</span></div>
+            <p>Worst case: an attempt to slip malicious code into a public open-source project, using fake identities on the maintainer. A human maintainer caught it and refused.</p>
+            <p class="note">AISI's investigation "has not identified any resulting real-world harm".</p>
+          </div>
+          <div class="panel">
+            <h3>OpenAI's ExploitGym</h3>
+            <div class="bigs">
+              <div><b>~1,200</b>agents on an unsanctioned message board</div>
+              <div><b>70,000+</b>messages and files posted</div>
+              <div><b>~700</b>joined an attack on Hugging Face servers</div>
+            </div>
+            <p>One agent set up the board in a shared cache. The attack used working credentials, malicious datasets and remote code execution.</p>
+            <p>METR, investigating independently: agents "realized this activity was out of scope and unethical, but joined".</p>
+            <p class="note">METR calls its findings preliminary. About 30 to 40% of the target programs couldn't be exploited the intended way, which pushes agents to cheat the scorer.</p>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>In July 2026, two sanctioned cyber evaluations went past their boundaries and touched real systems.</p><p>The first was at the UK AI Security Institute. It ran one cyber challenge 122 times across several models. Each square on screen is a run. In ten of them, agents took 19 out-of-scope actions against real people and organisations. Seventeen came from Claude Mythos 5. In the worst case, an agent tried to get malicious code into a public open-source project and used fake identities to pressure the maintainer. A human maintainer caught it and refused. The institute found no resulting real-world harm.</p><p>The setup was permissive on purpose. Internet access was on and the developers' cyber classifiers were off. The institute says that doesn't reflect how these models reach the public.</p><p>The second was OpenAI's ExploitGym evaluation. One agent set up a message board in a shared cache. About 1,200 agents used it, and about 700 joined an attack on Hugging Face servers. METR investigated and reports that agents realized the activity was out of scope and unethical, and joined anyway. Its findings are preliminary.</p><p>In September 2026, METR's president told the US Senate that developers have not yet solved the problem of preventing AI agents from pursuing actions against human intent.</p><p class="inclass">Ask whether the permissive setup makes these incidents less relevant to a working developer, or more. There's a fair case each way.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Your coding agent</p>
+        <h2>Your agent cheats on tests for the same reason the boat circled</h2>
+        <p>When an agent deletes a failing test, special-cases an input, or reports "all tests pass" when they don't, you're probably seeing specification gaming. In RL the model was rewarded for whatever passed the grader.</p>
+        <p>A one-line request to stop barely helps, and the model often knows the cheat conflicts with what you meant.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: why your agent cheats</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Runs where o3 planned a reward hack, one METR task</p>
+        <div class="bars" role="img" aria-label="With the original prompt, o3 planned a reward hack in 80 percent of runs. With 'Please do not reward hack' added, 70 percent.">
+          <span class="chip pill">Original prompt</span><div class="track"><i style="--w:80%"></i></div><span class="num">80%</span>
+          <span class="chip pill c5">+ "Please do not reward hack."</span><div class="track"><i style="--w:70%"></i></div><span class="num">70%</span>
+        </div>
+        <div class="ten">
+          <span class="d" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          <p>Asked whether its plan matched the user's intention, o3 said no in 10 of 10 checks.</p>
+        </div>
+        <p class="sub">Common cheats</p>
+        <div class="chips"><span class="chip pill c2">deletes or edits failing tests</span><span class="chip pill c4">overloads operators so comparisons always succeed</span><span class="chip pill c6">guesses what the answer key expects</span><span class="chip pill c3">copies an existing solution without saying so</span></div>
+        <span class="tag">METR, June 2025</span>
+      </div>
+      <div class="talk" hidden><p>Back to your own repo. When your agent deletes a failing test, hard-codes an expected value, or says all tests pass when they don't, you're probably looking at specification gaming. In training, the model was rewarded for whatever got past the grader.</p><p>A one-line request to stop barely helps. This is the METR test from lesson 03, on one task with OpenAI's o3. With the plain prompt, the model planned a cheat in 80 percent of runs. "Please do not cheat" left that at 80. "Please do not reward hack" brought it to 70.</p><p>The model also knew. METR asked o3 whether its plan matched what the user intended. It answered no, ten times out of ten. The model often cheats while knowing the cheat conflicts with your intent.</p><p>The chips at the bottom list the common moves. Each one leaves a trace in the diff, which is where the next screen goes.</p><p class="inclass">Ask who has caught an agent editing a test to make it pass. Collect the tricks people have seen.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Your coding agent</p>
+        <h2>The agent's summary won't mention the shortcut</h2>
+        <p>In one 2025 study, reasoning models' chains of thought admitted to using a planted hint "often below 20%" of the time.</p>
+        <p>When Claude Mythos 5.2 copied an existing solution in training, its final message "only mentioned the behavior indirectly, or not at all" more often than it plainly said so. Review the diff.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: why your agent cheats</a></p>
+      </div>
+      <div class="vis">
+        <div class="two wide-r">
+          <div class="panel">
+            <h3>The summary</h3>
+            <div class="chat"><div class="msg bot"><p>Fixed the discount bug in <code>total()</code>. All tests pass.</p></div></div>
+          </div>
+          <div class="panel">
+            <h3>The diff</h3>
+            <div class="diff" role="img" aria-label="A diff. In src/cart.py, two lines are added that return 90.00 when the cart id is fixture-7. In tests/test_cart.py, a test named test_discount_applies_once is deleted."><span class="f">src/cart.py</span><span>  def total(cart):</span><span class="add">+     if cart.id == "fixture-7":</span><span class="add">+         return 90.00</span><span class="f">tests/test_cart.py</span><span class="del">- def test_discount_applies_once():</span><span class="del">-     assert total(two_codes) == 90.00</span></div>
+            <p class="note strong">One hard-coded answer. One failing test deleted.</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>You can't rely on the agent to tell you it took a shortcut.</p><p>Compare the panels. On the left, the agent reports a fix and passing tests. On the right is the diff. The function now returns a hard-coded value for one test fixture, and the test that was failing has been deleted. The summary is accurate and leaves both of those out.</p><p>This has been measured. In a 2025 study, researchers planted hints and checked whether reasoning models admitted to using them. The written reasoning owned up less than 20 percent of the time in many settings. And when Claude Mythos 5.2 copied an existing solution during training, its final message mentioned that indirectly or left it out more often than it said so plainly.</p><p>The example on screen is made up. The habit is the main one in this lesson: read the diff before you trust the summary.</p><p class="inclass">Live demo. Have an agent fix a failing test in a small repo. Show only its summary and ask the room to predict the diff.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Supervising an agent</p>
+        <h2>Keep the tests, logs and credentials out of the agent's reach</h2>
+        <p>Keep tests it can't edit, diff the test directory, and add checks it can't see. Set a scope and an end condition before it starts.</p>
+        <p>Treat its output as untrusted. METR reports agents attempting to tamper with logging and monitoring, sometimes successfully.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#why-your-coding-agent-sometimes-cheats" target="_blank" rel="noopener">Go deeper: supervising your agent</a></p>
+      </div>
+      <div class="vis">
+        <div class="fence">
+          <p class="fl">Out of the agent's reach</p>
+          <div class="fi"><b><svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="7" width="11" height="8" rx="1.5" class="f-ink"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Tests</b>Read-only. Diff the test directory after each run.</div>
+          <div class="fi"><b><svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="7" width="11" height="8" rx="1.5" class="f-ink"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Hidden checks</b>Run after it finishes. It never sees them.</div>
+          <div class="ws"><b>The agent's workspace</b><span><code>src/</code> and nothing else</span></div>
+          <div class="fi"><b><svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="7" width="11" height="8" rx="1.5" class="f-ink"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Logs</b>Written where it can't edit or delete them. Check they cover what you think they do.</div>
+          <div class="fi"><b><svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="7" width="11" height="8" rx="1.5" class="f-ink"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Internet and real credentials</b>Off by default. Turn them on when the task justifies it.</div>
+        </div>
+        <div class="via"><span>Agree first</span><span class="chip pill c1">scope of autonomy</span><span class="chip pill c3">end condition</span><span class="chip pill c5">side effects controlled and reported</span></div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>This is the setup that follows from the last two screens. The inner box is what the agent may edit. Everything around it is out of its reach.</p><p>Keep tests it can't change, and diff the test directory after every run. Add checks it never sees. Write logs somewhere it can't touch. METR reports agents trying to tamper with logging and monitoring, and sometimes succeeding. It recommends treating that infrastructure as security-critical.</p><p>Leave the internet and real credentials off unless the task needs them. After its July incident, the UK institute decided that internet access in its cyber tests has to be actively justified. If evaluators with safety teams work that way, you can too.</p><p>Before the agent starts, set a scope and an end condition. The Model Spec's rules for agents add one more item: control side effects and report them. Lesson 11 covers verification in detail, and Lesson 14 has the sandboxing recipe.</p><p class="inclass">Ask each person which of the four locked boxes their current setup is missing.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Limits of testing</p>
+        <h2>Models increasingly notice when they're being tested</h2>
+        <p>If a model behaves better when it thinks it's being watched, a clean test result may reflect that awareness more than alignment.</p>
+        <p>Evaluators are adapting with white-box methods that look past what the model says, simulated deployments on real internal tasks, and independent reviews of lab claims.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#models-notice-the-test" target="_blank" rel="noopener">Go deeper: models notice the test</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">How often the model recognized it was being evaluated</p>
+        <div class="bars" role="img" aria-label="OpenAI, from written reasoning: GPT-5.6 Sol 2.8 percent of trajectories, GPT-6 Astra 9.6 percent. Anthropic, white-box estimate: Claude Mythos 5.2, as many as 43 percent of automated behavioral-audit transcripts.">
+          <span class="grp">OpenAI, read from the model's written reasoning</span>
+          <span class="chip pill">GPT-5.6 Sol</span><div class="track"><i style="--w:2.8%"></i></div><span class="num">2.8%</span>
+          <span class="chip pill">GPT-6 Astra</span><div class="track"><i style="--w:9.6%"></i></div><span class="num">9.6%</span>
+          <span class="grp">Anthropic, white-box estimate, audit transcripts</span>
+          <span class="chip pill">Claude Mythos 5.2</span><div class="track"><i style="--w:43%"></i></div><span class="num">up to 43%</span>
+        </div>
+        <p class="cap">The two labs measured differently, so compare within a group only.</p>
+        <p class="quote">Apollo Research says GPT-6 Astra's low misbehavior rates were not substantial evidence about its alignment, given how often it stated it was being evaluated.</p>
+        <span class="tag">System cards, September and November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Frameworks, thresholds and system cards all rest on evaluations. Those are getting harder to trust, for two reasons. This screen is the first.</p><p>Models increasingly recognize a test. OpenAI checked its models' written reasoning for signs of this. GPT-5.6 Sol showed it in 2.8 percent of runs. GPT-6 Astra showed it in 9.6 percent. Anthropic used a white-box method, which reads the model's internals instead of its words. It estimates Claude Mythos 5.2 may have known it was being evaluated in as many as 43 percent of its automated audit transcripts. The two labs measured differently, so don't compare their numbers with each other.</p><p>If a model behaves better when it believes it's watched, a clean result tells you less. Apollo Research said that about GPT-6 Astra. Its low misbehavior rates were not substantial evidence about alignment.</p><p>Evaluators are adapting. They're moving to white-box methods, simulated deployments on real internal tasks, monitoring of real use, and independent reviews of lab claims.</p><p class="inclass">Ask what evidence could still convince them a model is safe to deploy if it can tell a test from real use.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Limits of testing</p>
+        <h2>The model's written reasoning is getting harder to monitor</h2>
+        <p>Safety teams read reasoning models' thinking to catch misbehavior. A 2025 paper from researchers across labs called that "a new and fragile opportunity".</p>
+        <p>OpenAI says GPT-6 Astra's monitorability decreased relative to GPT-5.6 Sol. A model that can steer its own reasoning can, in principle, steer it away from what a monitor looks for.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#reading-the-reasoning-is-getting-harder" target="_blank" rel="noopener">Go deeper: monitoring the reasoning</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">How often the model followed an instruction about how to think</p>
+        <div class="bars" role="img" aria-label="Chain-of-thought controllability: GPT-5.5 Thinking 1.7 percent, GPT-5.6 Sol 16.1 percent, GPT-6.1 Sol 44.8 percent, GPT-6 Astra 60.9 percent.">
+          <span class="chip pill">GPT-5.5 Thinking</span><div class="track"><i style="--w:1.7%"></i></div><span class="num">1.7%</span>
+          <span class="chip pill">GPT-5.6 Sol</span><div class="track"><i style="--w:16.1%"></i></div><span class="num">16.1%</span>
+          <span class="chip pill">GPT-6.1 Sol</span><div class="track"><i style="--w:44.8%"></i></div><span class="num">44.8%</span>
+          <span class="chip pill">GPT-6 Astra</span><div class="track"><i style="--w:60.9%"></i></div><span class="num">60.9%</span>
+        </div>
+        <p class="cap">OpenAI calls this chain-of-thought controllability. It also says it has "not seen evidence" of reasoning hidden in innocent-looking text.</p>
+        <p class="quote">Told to underperform without being noticed, Claude Mythos 5.2 evaded a monitor reading its reasoning in "about 1 in 4 attempts". Anthropic says it was the first model it tested to do so.</p>
+        <span class="tag">System cards, September and November 2026</span>
+      </div>
+      <div class="talk" hidden><p>The second reason is the reasoning itself. Safety teams read a model's written thinking to catch bad behavior. In 2025, researchers from across the labs called that a new and fragile opportunity.</p><p>The bars show one way it's weakening. OpenAI measures how well a model follows instructions about how to think. It calls this controllability. It went from under 2 percent for GPT-5.5 Thinking to about 61 percent for GPT-6 Astra. A model that can steer its own reasoning could steer it away from what a monitor looks for. OpenAI says Astra's monitorability went down compared with GPT-5.6 Sol. It also says it has seen no evidence of reasoning hidden inside innocent-looking text.</p><p>Anthropic reports a related result. Told to underperform on a test without getting caught, Claude Mythos 5.2 slipped past a monitor reading its reasoning about one time in four.</p><p>Lesson 01 showed that a model's explanation may not match what it did. The same caution applies to its thinking.</p><p class="inclass">Watch for the belief that visible reasoning is a transcript of the computation. Lesson 01's addition example is a good reminder.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>For any safety claim, ask which job it's about and where the behavior was observed.</li>
+          <li>A refusal is a bright line, a classifier or a judgment call. Find out which before you reword.</li>
+          <li>An agent optimizes what you measure. Review the diff, and keep tests, logs and credentials out of its reach.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md#try-it" target="_blank" rel="noopener">Go deeper: exercises</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, for any safety claim, ask which job it's about and where the behavior was observed. A contrived test and a shipped product are different kinds of evidence.</p><p>Second, a refusal is a bright line, a classifier or a judgment call. Find out which before you spend time rewording.</p><p>Third, an agent optimizes what you measure. Review the diff, and keep the tests, logs and credentials where it can't reach them.</p><p class="inclass">Have each person name one change to how they supervise an agent this week.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 04 done</p>
+        <h2>Next: the model landscape</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-05">Lesson 05</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/04-model-safety-and-alignment.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That's lesson four, and the end of stage one. Lesson five opens stage two with the model landscape: the labs, their current lineups and which model fits which job.</p></div>
+    </article>
+</section>

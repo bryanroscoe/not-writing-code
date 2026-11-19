@@ -1,0 +1,683 @@
+<section class="lesson" data-lesson="01" data-title="What is an LLM?" data-minutes="20" hidden>
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 1 · How the machine works</p>
+        <h1>What is an LLM?</h1>
+        <p class="meta">Lesson 01 · 20 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-tokens" aria-hidden="true"><span class="chip c1">What</span><span class="chip c2"><span class="sp">·</span>is</span><span class="chip c3"><span class="sp">·</span>an</span><span class="chip c4"><span class="sp">·</span>L</span><span class="chip c5">LM</span><span class="chip c6">?</span></div>
+        <p class="cap">The title as GPT-4o's tokenizer splits it: six tokens, with "LLM" cut in two.</p>
+      </div>
+      <div class="talk" hidden><p>This lesson explains what a large language model does with the text you give it. By the end you will know why these models are good at code, why they make things up, and which working habits follow from that.</p><p>The colored chips on screen are the lesson title cut into tokens, the units a model reads. More on those shortly.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The one idea</p>
+        <h2>An LLM guesses what comes next</h2>
+        <p>Your phone keyboard suggests the next word because it has seen a lot of text. An LLM does the same job at enormous scale, with far more context.</p>
+        <p>It reads everything so far and gives every possible next token (a chunk of text) a probability.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#the-one-idea-predict-the-next-token" target="_blank" rel="noopener">Go deeper: the one idea</a></p>
+      </div>
+      <div class="vis">
+        <div class="prompt">See you<span class="caret" aria-hidden="true"></span></div>
+        <div class="bars" role="img" aria-label="Probabilities for the next token: tomorrow 0.41, soon 0.27, later 0.18, there 0.08, everything else 0.06.">
+          <span class="chip c1"><span class="sp">·</span>tomorrow</span><div class="track"><i style="--w:41%"></i></div><span class="num">0.41</span>
+          <span class="chip c2"><span class="sp">·</span>soon</span><div class="track"><i style="--w:27%"></i></div><span class="num">0.27</span>
+          <span class="chip c3"><span class="sp">·</span>later</span><div class="track"><i style="--w:18%"></i></div><span class="num">0.18</span>
+          <span class="chip c4"><span class="sp">·</span>there</span><div class="track"><i style="--w:8%"></i></div><span class="num">0.08</span>
+          <span class="chip pill">everything else</span><div class="track rest"><i style="--w:6%"></i></div><span class="num">0.06</span>
+        </div>
+        <p class="cap">One probability for every token in the vocabulary. The top four are shown, with the rest lumped into one bar.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>A language model does one job. It reads the text so far and scores every possible next piece of text. Those pieces are called tokens.</p><p>After "See you", the model gives "tomorrow" 41 percent, "soon" 27 percent, and so on down a very long list. The numbers are made up, but the shape is real. The output is a probability for every token, never one fixed answer.</p><p>Chat and coding agents use this same prediction step.</p><p class="inclass">Ask the room to finish "See you" out loud. The spread of answers you hear is the distribution.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The one idea</p>
+        <h2>It writes one token at a time, in a loop</h2>
+        <p>A sampler picks one token from those probabilities and appends it to the text. Then the whole thing runs again on the longer text.</p>
+        <p>This is called autoregressive generation: each output becomes part of the next input.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#the-one-idea-predict-the-next-token" target="_blank" rel="noopener">Go deeper: the one idea</a></p>
+      </div>
+      <div class="vis">
+        <div class="ring" role="img" aria-label="The generation loop: text so far, tokenizer, embeddings, transformer layers, probabilities, sampler, then append and repeat.">
+          <div class="node" style="grid-area:1/1">Text so far</div>
+          <div class="ar" style="grid-area:1/2">→</div>
+          <div class="node" style="grid-area:1/3">Tokenizer<small>text to token IDs</small></div>
+          <div class="ar" style="grid-area:1/4">→</div>
+          <div class="node" style="grid-area:1/5">Embeddings<small>IDs to vectors</small></div>
+          <div class="ret" style="grid-area:2/1/3/4"><b>↑</b> append and repeat</div>
+          <div class="ar" style="grid-area:2/5">↓</div>
+          <div class="node hl" style="grid-area:3/1">Sampler<small>picks one token</small></div>
+          <div class="ar" style="grid-area:3/2">←</div>
+          <div class="node" style="grid-area:3/3">Probabilities<small>for every possible next token</small></div>
+          <div class="ar" style="grid-area:3/4">←</div>
+          <div class="node" style="grid-area:3/5">Transformer layers<small>dozens, stacked</small></div>
+        </div>
+        <div class="frames">
+          <div class="frame"><small>Start</small><span>See you</span></div>
+          <div class="frame"><small>After pass 1</small><span>See you<mark>·tomorrow</mark></span></div>
+          <div class="frame"><small>After pass 2</small><span>See you tomorrow<mark>·at</mark></span></div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>One prediction gives one token. To write a sentence, the model loops. Follow the diagram clockwise. Your text is cut into tokens. Each token becomes a vector. The transformer layers use the vectors to produce probabilities for the next token. A sampler picks one token from those probabilities.</p><p>That token is added to the end of the text, and the whole thing runs again. The three boxes at the bottom show two passes. "See you" becomes "See you tomorrow", then "See you tomorrow at".</p><p>The model can only add to the text it has already written.</p><p class="inclass">Watch for the picture of a model composing a whole answer and then typing it out. Each token is chosen only when the loop reaches it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The one idea</p>
+        <h2>The model learns by predicting the next token</h2>
+        <p>To predict the next token across trillions of tokens of web pages, books, papers and code, a network has to absorb grammar, facts, style and programming idioms.</p>
+        <p>Predicting the last line of a mystery novel rewards having tracked the plot.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#the-one-idea-predict-the-next-token" target="_blank" rel="noopener">Go deeper: the one idea</a></p>
+      </div>
+      <div class="vis">
+        <div class="novel" role="img" aria-label="A page of a novel, with the last line reading: and the murderer was, followed by a blank. An arrow runs from the blank back up the whole page.">
+          <div class="novel-page">
+            <p class="novel-label">The whole novel so far</p>
+            <span class="gl" style="width:96%"></span><span class="gl" style="width:88%"></span><span class="gl" style="width:93%"></span><span class="gl" style="width:71%"></span>
+            <span class="gl" style="width:95%"></span><span class="gl" style="width:90%"></span><span class="gl" style="width:84%"></span><span class="gl" style="width:97%"></span>
+            <span class="gl" style="width:62%"></span><span class="gl" style="width:94%"></span><span class="gl" style="width:89%"></span><span class="gl" style="width:78%"></span>
+            <p class="novel-last">…and the murderer was <mark>&nbsp;&nbsp;?&nbsp;&nbsp;</mark></p>
+          </div>
+          <div class="lookback" aria-hidden="true"><span></span></div>
+        </div>
+        <p class="cap">To fill in the blank, the model has to have tracked the plot.</p>
+      </div>
+      <div class="talk" hidden><p>Training uses the same task. Take real text, hide what comes next, and have the network guess. When the guess is poor, the network's numbers get adjusted. Repeat that across trillions of tokens of text and code.</p><p>Guessing well takes more than grammar. To fill the blank after "the murderer was", you need to have followed the whole plot. Nobody told the network to track plots. Tracking them made its guesses better. The same pressure teaches it programming idioms.</p><p>One caution. Material that appears often in training comes back reliably. Rare details can come back distorted or invented.</p><p class="inclass">Ask what a network would have to know to predict the next line of a code review comment.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The one idea</p>
+        <h2>Chatting with a model never changes its weights</h2>
+        <p>The weights, also called parameters, are the numbers inside the network. Training adjusts them. Inference uses them as they are to generate text.</p>
+        <p>When you chat with a model you're running inference, so nothing you type changes its weights.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#the-one-idea-predict-the-next-token" target="_blank" rel="noopener">Go deeper: the one idea</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Training</h3>
+            <div class="box">Trillions of tokens of text</div>
+            <div class="down">↓</div>
+            <div class="weights live">
+              <div class="lab"><span>Weights</span><span>adjusted ↻</span></div>
+              <span class="v">0.12</span><span class="v">−0.83</span><span class="v">1.07</span><span class="v">−0.31</span>
+              <span class="v">0.58</span><span class="v">−1.24</span><span class="v">0.06</span><span class="v">0.91</span>
+              <span class="v">−0.47</span><span class="v">0.33</span><span class="v">−0.09</span><span class="v">1.41</span>
+            </div>
+            <p class="note">Every training step nudges the numbers.</p>
+          </div>
+          <div class="panel">
+            <h3>Inference</h3>
+            <div class="box">Your prompt</div>
+            <div class="down">↓</div>
+            <div class="weights">
+              <div class="lab"><span>Weights</span><span>frozen <svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="7" width="11" height="8" rx="1.5" class="f-ink"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></div>
+              <span class="v">0.12</span><span class="v">−0.83</span><span class="v">1.07</span><span class="v">−0.31</span>
+              <span class="v">0.58</span><span class="v">−1.24</span><span class="v">0.06</span><span class="v">0.91</span>
+              <span class="v">−0.47</span><span class="v">0.33</span><span class="v">−0.09</span><span class="v">1.41</span>
+            </div>
+            <div class="down">↓</div>
+            <div class="box">Output tokens</div>
+            <p class="note strong">Nothing you type changes these.</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative. Real models have billions.</span>
+      </div>
+      <div class="talk" hidden><p>The numbers inside the network are called weights, or parameters. Training is the phase where those numbers change. In the left panel they keep flickering, because every training step nudges them.</p><p>Inference is the phase where the numbers are used and left alone. That is the right panel, with the lock. Every chat you have is inference.</p><p>So the model's weights do not change while you chat. When you correct it and it adapts, your correction is sitting in the text it reads on the next pass.</p><p class="inclass">Ask the room: you correct a model mid-chat and it apologizes. What changed in its weights? Answer: nothing. The correction is more text in the conversation, and the model reads it with everything else.</p></div>
+    </article>
+
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Tokens and tokenization</p>
+        <h2>The model sees chunks of characters called tokens</h2>
+        <p>A tokenizer splits text into frequent chunks and maps each one to an integer ID. Common words become one token and rare words split into pieces.</p>
+        <p>OpenAI's rule of thumb is about four characters of English per token. Prices and limits are counted in tokens.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#tokens-and-tokenization" target="_blank" rel="noopener">Go deeper: tokens and tokenization</a></p>
+      </div>
+      <div class="vis">
+        <div class="trows">
+          <div class="trow">
+            <span class="word">strawberry</span><span class="to">→</span>
+            <span class="tk"><span class="chip c1">st</span><small>302</small></span>
+            <span class="tk"><span class="chip c2">raw</span><small>1618</small></span>
+            <span class="tk"><span class="chip c3">berry</span><small>19772</small></span>
+          </div>
+          <div class="trow">
+            <span class="word"><span class="sp">·</span>strawberry</span><span class="to">→</span>
+            <span class="tk"><span class="chip c4"><span class="sp">·</span>strawberry</span><small>101830</small></span>
+            <p class="cap" style="flex:1 1 14em">The dot is a leading space. Mid-sentence the word comes with its space, and that version is a single token.</p>
+          </div>
+          <div class="ruler">
+            <span class="cells" aria-hidden="true"><span><i>t</i><i>o</i><i>k</i><i>e</i></span><b></b></span>
+            <span><b>1 token</b> ≈ 4 characters of English ≈ ¾ of a word <span class="cap">(OpenAI's rule of thumb)</span></span>
+          </div>
+        </div>
+        <p class="cap">Vocabulary: roughly 50,000 to a few hundred thousand tokens. Different models can use different tokenizers, so the same text can be a different number of tokens.</p>
+        <span class="tag">Real GPT-4o tokenizer output</span>
+      </div>
+      <div class="talk" hidden><p>The model does not see your text the way you do. A tokenizer cuts your text into chunks and swaps each chunk for an integer. Common words get a token of their own. Rare words are cut into pieces.</p><p>Look at the first row. On its own, "strawberry" is three tokens. The pieces are "st", "raw" and "berry". In the second row the word has a space in front, as it would mid-sentence. That version is a single token.</p><p>A token is roughly four characters of English. Prices, rate limits and context sizes are counted in tokens. Different models use different tokenizers, so the same file can be a different number of tokens on each.</p><p class="inclass">Live demo. Paste a sentence into a tokenizer page such as Tiktokenizer. Have people guess the count before you show it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Tokens and tokenization</p>
+        <h2>Tokenization makes letter counting and arithmetic harder</h2>
+        <p>Ask how many r's are in "strawberry" and the letters aren't separate inputs. The model has to have learned the spelling inside each token.</p>
+        <p>Digits get grouped inconsistently too, and there's no guaranteed exact arithmetic. For either job, have it write code and run it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#tokens-and-tokenization" target="_blank" rel="noopener">Go deeper: tokens and tokenization</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Counting letters</h3>
+            <div class="chips"><span class="chip c1">How</span><span class="chip c2"><span class="sp">·</span>many</span><span class="chip c3"><span class="sp">·</span>r</span><span class="chip c4">'s</span><span class="chip c5"><span class="sp">·</span>are</span><span class="chip c6"><span class="sp">·</span>in</span><span class="chip c1"><span class="sp">·</span>st<span class="r">r</span>awbe<span class="r">rr</span>y</span><span class="chip c2">?</span></div>
+            <p class="note">"strawberry" arrives as one token. The three r's are inside it.</p>
+          </div>
+          <div class="panel">
+            <h3>Arithmetic</h3>
+            <div class="trow"><span class="word">1234</span><span class="to">→</span><span class="chip c4">123</span><span class="chip c5">4</span></div>
+            <div class="trow"><span class="word">12345</span><span class="to">→</span><span class="chip c4">123</span><span class="chip c6">45</span></div>
+            <p class="note">This tokenizer cuts digits into groups of up to three, so the chunks don't line up with place value.</p>
+          </div>
+        </div>
+        <div class="fix">
+          <p>To count letters or do arithmetic reliably, have the model write code and run it.</p>
+          <pre class="repl">&gt;&gt;&gt; "strawberry".count("r")
+<span class="out">3</span></pre>
+        </div>
+        <span class="tag">Real GPT-4o tokenizer output</span>
+      </div>
+      <div class="talk" hidden><p>Tokens explain two well-known stumbles. The first is counting letters. In the left panel the question arrives as eight tokens, and "strawberry" is one of them. The three r's are inside that token. The model has to have learned how the token is spelled.</p><p>The second is arithmetic. On the right, the digits one, two and three form one token. The digit four forms another. When you add five, the second token contains four and five. The chunks do not line up with ones, tens and hundreds, and the model has no built-in exact arithmetic.</p><p>For exact letter counts and arithmetic, have the model write code and run it.</p><p class="inclass">Watch for "newer models fixed this." Reasoning and code tools mostly cover it up. The cause is still there.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Embeddings</p>
+        <h2>Each token becomes a point in space</h2>
+        <p>Each token ID turns into a list of thousands of numbers called an embedding. Think of them as coordinates.</p>
+        <p>Training places tokens with related meanings near each other. Each transformer layer then moves a token's point based on the other words it can see.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#embeddings-tokens-as-points-in-space" target="_blank" rel="noopener">Go deeper: embeddings</a></p>
+      </div>
+      <div class="vis">
+        <div class="scroll plot">
+          <svg viewBox="0 0 560 300" role="img" aria-label="Left: man, woman, king and queen as points; the arrow from man to woman is parallel to the arrow from king to queen. Right: the token bank appears twice, once near river and once near savings.">
+            <defs><marker id="m-emb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="f-accent"/></marker></defs>
+            <rect x="8" y="8" width="324" height="284" rx="10" class="frame-r"/>
+            <rect x="348" y="8" width="204" height="284" rx="10" class="frame-r"/>
+            <text x="22" y="32" class="lbl-sm">word2vec, 2013</text>
+            <line x1="82.7" y1="222.5" x2="116.6" y2="129.4" class="vec" marker-end="url(#m-emb)"/>
+            <line x1="212.7" y1="242.5" x2="246.6" y2="149.4" class="vec" marker-end="url(#m-emb)"/>
+            <circle cx="80" cy="230" r="6" class="pt"/><text x="92" y="236" class="lbl-svg">man</text>
+            <circle cx="120" cy="120" r="6" class="pt"/><text x="132" y="126" class="lbl-svg">woman</text>
+            <circle cx="210" cy="250" r="6" class="pt"/><text x="222" y="256" class="lbl-svg">king</text>
+            <circle cx="250" cy="140" r="6" class="pt q"/><text x="262" y="146" class="lbl-svg">queen</text>
+            <text x="362" y="32" class="lbl-sm">one token, two contexts</text>
+            <circle cx="395" cy="88" r="5" class="pt"/><text x="407" y="93" class="lbl-svg">river</text>
+            <circle cx="420" cy="122" r="6" class="pt q"/><text x="432" y="127" class="lbl-svg">bank</text><text x="432" y="143" class="lbl-sm">(river bank)</text>
+            <circle cx="510" cy="248" r="5" class="pt"/><text x="498" y="268" class="lbl-svg" text-anchor="end">savings</text>
+            <circle cx="482" cy="214" r="6" class="pt q"/><text x="470" y="210" class="lbl-svg" text-anchor="end">bank</text><text x="470" y="226" class="lbl-sm" text-anchor="end">(savings bank)</text>
+          </svg>
+        </div>
+        <p class="cap">king − man + woman lands near queen. In a transformer, "bank" ends up in different places in "river bank" and "savings bank" once the layers have read the word before it.</p>
+        <span class="tag">Illustrative 2D sketch</span>
+      </div>
+      <div class="talk" hidden><p>An integer ID carries no meaning. So the model first swaps each ID for a long list of numbers, thousands of them, called an embedding. Treat that list as the coordinates of a point.</p><p>Training moves the points so that related tokens sit close together. The left sketch is the classic result from 2013. The step from "man" to "woman" roughly matches the step from "king" to "queen".</p><p>The right sketch shows what the transformer layers add. "Bank" starts as one point. After the layers read the word before it, the point moves. It lands near "river" in one phrase and near "savings" in the other.</p><p class="inclass">The sketch is a cartoon. The real space has thousands of dimensions, and nobody can draw that.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The transformer</p>
+        <h2>The transformer made training parallel</h2>
+        <p>Nearly every LLM is built on the transformer, from the 2017 Google paper "Attention Is All You Need".</p>
+        <p>Earlier recurrent networks (RNNs) read words one after another. A transformer processes every position of a training sequence at once, so training can spread across many GPUs.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#the-transformer-and-attention" target="_blank" rel="noopener">Go deeper: the transformer and attention</a></p>
+      </div>
+      <div class="vis">
+        <div class="seq">
+          <h3>Recurrent network (before 2017)</h3>
+          <div class="six chain"><span class="w6">The</span><span class="w6">animal</span><span class="w6">didn't</span><span class="w6">cross</span><span class="w6">the</span><span class="w6">street</span></div>
+          <div class="six"><span class="stepn">step 1</span><span class="stepn">step 2</span><span class="stepn">step 3</span><span class="stepn">step 4</span><span class="stepn">step 5</span><span class="stepn">step 6</span></div>
+          <p class="cap">One word after another, so the steps inside a sequence can't run in parallel.</p>
+        </div>
+        <div class="seq">
+          <h3>Transformer (2017)</h3>
+          <div class="tblock">Transformer layer</div>
+          <div class="six"><span class="ups">↑</span><span class="ups">↑</span><span class="ups">↑</span><span class="ups">↑</span><span class="ups">↑</span><span class="ups">↑</span></div>
+          <div class="six"><span class="w6">The</span><span class="w6">animal</span><span class="w6">didn't</span><span class="w6">cross</span><span class="w6">the</span><span class="w6">street</span></div>
+          <div class="one-step">step 1, for all six</div>
+          <p class="cap">All positions of a training sequence at once.</p>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Nearly every model you will use is a transformer. The design comes from a 2017 Google paper called "Attention Is All You Need".</p><p>The top half of the screen shows what came before. A recurrent network reads one word, then the next. Each step waits for the one before it, so the steps inside one sequence cannot run at the same time.</p><p>The bottom half is the transformer. During training, all six positions go through the layer in a single step. That made it practical to train on huge amounts of text with huge numbers of GPUs. Today's large models needed that scale.</p><p class="inclass">Clear up one confusion. The parallel part is training. Generation is still one token at a time.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The transformer</p>
+        <h2>Attention lets each token pull from the others</h2>
+        <p>A token's query describes what it's looking for. Its key describes what it offers, and its value holds the information it can pass along.</p>
+        <p>A token compares its query with the keys, then takes a blend of the values, weighted by the match.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#the-transformer-and-attention" target="_blank" rel="noopener">Go deeper: the transformer and attention</a></p>
+      </div>
+      <div class="vis">
+        <p class="cap">Drawn for a model that reads in both directions. A GPT-style model can't look ahead from "it" to "tired". The next screen shows why.</p>
+        <div class="scroll">
+          <svg class="attn" viewBox="0 0 700 192" role="img" aria-label="In 'The animal didn't cross the street because it was too tired', arrows run into 'it': thickest from animal (high weight), then tired (medium), street (low), and The (very low).">
+            <defs><marker id="m-attn" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="f-accent"/></marker></defs>
+            <path d="M46,126 Q270,-62 492,124" class="arc" stroke-width="1.2" marker-end="url(#m-attn)"/>
+            <path d="M106,126 Q300,22 497,121" class="arc" stroke-width="7" marker-end="url(#m-attn)"/>
+            <path d="M365,126 Q432,66 501,122" class="arc" stroke-width="2.2" marker-end="url(#m-attn)"/>
+            <path d="M640,126 Q575,66 512,122" class="arc" stroke-width="4.2" marker-end="url(#m-attn)"/>
+            <rect x="491" y="132" width="28" height="26" rx="6" class="f-mark"/>
+            <text x="46.2" y="151" class="wd">The</text><text x="105.6" y="151" class="wd">animal</text><text x="181.2" y="151" class="wd">didn't</text><text x="251.4" y="151" class="wd">cross</text><text x="305.4" y="151" class="wd">the</text><text x="364.8" y="151" class="wd">street</text><text x="445.8" y="151" class="wd">because</text><text x="505.2" y="151" class="wd f-on-mark">it</text><text x="543" y="151" class="wd">was</text><text x="586.2" y="151" class="wd">too</text><text x="645.6" y="151" class="wd">tired.</text>
+            <text x="46.2" y="178" class="wl">very low</text><text x="105.6" y="178" class="wl">high</text><text x="364.8" y="178" class="wl">low</text><text x="640" y="178" class="wl">medium</text>
+          </svg>
+          <svg class="attn" viewBox="0 0 700 122" role="img" aria-label="Same sentence ending in 'wide': now the thick arrow into 'it' comes from street, and the thin one from animal.">
+            <defs><marker id="m-attn2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="f-accent"/></marker></defs>
+            <path d="M106,58 Q300,-26 495,54" class="arc" stroke-width="1.6" marker-end="url(#m-attn2)"/>
+            <path d="M365,58 Q432,2 500,52" class="arc" stroke-width="7" marker-end="url(#m-attn2)"/>
+            <rect x="491" y="64" width="28" height="26" rx="6" class="f-mark"/>
+            <text x="46.2" y="83" class="wd">The</text><text x="105.6" y="83" class="wd">animal</text><text x="181.2" y="83" class="wd">didn't</text><text x="251.4" y="83" class="wd">cross</text><text x="305.4" y="83" class="wd">the</text><text x="364.8" y="83" class="wd">street</text><text x="445.8" y="83" class="wd">because</text><text x="505.2" y="83" class="wd f-on-mark">it</text><text x="543" y="83" class="wd">was</text><text x="586.2" y="83" class="wd">too</text><text x="640.2" y="83" class="wd">wide.</text>
+            <text x="105.6" y="110" class="wl">low</text><text x="364.8" y="110" class="wl">high</text>
+          </svg>
+        </div>
+        <p class="cap">Changing "tired" to "wide" makes "it" more likely to refer to the street.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Attention is how a token gets information from other tokens. Each token has a query, a key and a value. Its query describes what information that token needs. Its key describes what the token is about. Its value holds the information it can pass to another token.</p><p>Take the word "it" in the top sentence. Its query is compared with every key. The thick arrow from "animal" means a strong match, so "it" takes most of its blend from "animal". Swap "tired" for "wide" and the thick arrow moves to "street".</p><p>Nobody writes these rules by hand. Training learns them. Each layer runs many of these lookups side by side, and the layers are stacked dozens deep. The arrow weights on screen show the idea. They were not measured.</p><p class="inclass">Ask which word "it" refers to and which word told them. Then swap "tired" for "wide" and ask again.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The transformer</p>
+        <h2>GPT-style models can only look back</h2>
+        <p>In the models you'll use for chat and code, a token can attend to its own position and earlier ones. Later ones are hidden from it.</p>
+        <p>That rule is called the causal mask. It keeps the model from peeking at the tokens it's being trained to predict.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#the-transformer-and-attention" target="_blank" rel="noopener">Go deeper: the transformer and attention</a></p>
+      </div>
+      <div class="vis">
+        <div class="mask-wrap">
+          <p class="cap">Each row is a token doing the looking. Each column is a token it might look at.</p>
+          <div class="mask" role="img" aria-label="A 6 by 6 grid. Each token can attend to itself and the tokens before it. For 'cross', The, animal, didn't and cross are visible; the and street are masked."></div>
+          <div class="legend"><span><i class="sw"></i>can attend</span><span><i class="sw x"></i>masked: future positions get zero weight</span></div>
+        </div>
+        <span class="tag">Simplified: one word per token</span>
+      </div>
+      <div class="talk" hidden><p>The previous example let the token "it" use the later word "tired". The models you use for chat and code cannot do that. Each token can look at itself and at earlier tokens only.</p><p>Read the grid row by row. The highlighted row is "cross". Its filled squares are "The", "animal", "didn't" and "cross". The two hatched squares are the words that come later, and they are hidden.</p><p>This rule is called the causal mask. The model is trained to predict the next token. If it could see that token, there would be nothing to predict.</p><p class="inclass">Ask the room: in "because it was too tired", can the "it" position in a GPT-style model see "tired"? Answer: no. "Tired" comes later, so the mask hides it. Later positions can look back at both words and combine the clues.</p></div>
+    </article>
+
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Context windows</p>
+        <h2>Weights are long-term memory, context is working memory</h2>
+        <p>The context window is everything the model can see at once: system prompt, conversation, pasted files, tool outputs, its own thinking.</p>
+        <p>Put the facts it needs in the context, since it can only use what's there and what it learned during training.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#context-windows-and-the-kv-cache" target="_blank" rel="noopener">Go deeper: context windows</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Weights</h3>
+            <p class="note">Long-term memory</p>
+            <ul class="attrs"><li>broad</li><li>fuzzy</li><li>stops at the training cutoff</li></ul>
+          </div>
+          <div class="panel">
+            <h3>Context window</h3>
+            <p class="note">Working memory</p>
+            <ul class="attrs"><li>precise</li><li>current</li><li>limited</li><li>gone when the session ends</li></ul>
+            <div class="stack"><span>system prompt</span><span>conversation</span><span>pasted files</span><span>tool outputs</span><span>its own thinking</span></div>
+            <p class="note"><code>CLAUDE.md</code> and product "memory" features save notes and put them back into the context next time.</p>
+          </div>
+        </div>
+        <div class="scale" role="img" aria-label="Context window sizes on one scale: GPT-3 at 2,048 tokens is a sliver; most frontier models in November 2026 take about a million tokens.">
+          <p class="sub">Context window size, to scale</p>
+          <div class="srow"><div class="lab"><b>GPT-3 (2020)</b><span>2,048 tokens</span></div><div class="strack"><i class="gpt3"></i></div></div>
+          <div class="srow"><div class="lab"><b>Most frontier models, November 2026</b><span>about 1,000,000 tokens</span></div><div class="strack"><i class="full"></i></div></div>
+          <div class="ticks"><span>0</span><span>250K</span><span>500K</span><span>750K</span><span>1M tokens</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A model has two places to get information. The weights hold what it learned in training. That memory is broad and fuzzy, and it stops at the training cutoff date. The context window holds what is in front of it now. That covers the system prompt, the conversation, pasted files and tool results.</p><p>The context is precise and current, but it is gone when the session ends. Memory features and files such as CLAUDE.md save notes and put them back into your context next time.</p><p>GPT-3 had 2,048 tokens. Frontier models now take up to about a million. Put the facts your task needs into the context.</p><p class="inclass">Watch for "a bigger window is always better." Models often use material buried in the middle of a long context less well than material at the start or end.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Post-training</p>
+        <h2>Post-training turns the raw predictor into an assistant</h2>
+        <p>Straight out of pretraining you get a base model, and a base model continues documents. Ask it a quiz question and it may write more quiz questions.</p>
+        <p>Post-training teaches it to answer, using examples of good responses and feedback from humans and AIs.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#post-training-from-autocomplete-to-assistant" target="_blank" rel="noopener">Go deeper: post-training</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Base model</h3>
+            <div class="doc"><p>What is the capital of France?</p><p class="out">What is the capital of Spain?<br>What is the capital of Italy?<br>What is the capital of Japan?</p></div>
+            <p class="note">It continues the list of quiz questions.</p>
+          </div>
+          <div class="panel">
+            <h3>After post-training</h3>
+            <div class="doc"><p>What is the capital of France?</p><p class="out">Paris.</p></div>
+            <p class="note">It answers.</p>
+          </div>
+        </div>
+        <div class="via"><span>Post-training uses</span><span class="chip pill c1">instruction tuning: instructions paired with good responses</span><span class="chip pill c2">human feedback (RLHF)</span><span class="chip pill c4">AI feedback guided by written principles (Constitutional AI)</span></div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Pretraining gives you a base model, and a base model only continues documents. The left panel shows what that looks like. Give it a quiz question and it writes three more quiz questions.</p><p>Post-training is further training that teaches it to answer. The chips along the bottom name the methods: instructions paired with good responses, ratings from people, and feedback from an AI that works from written principles.</p><p>The assistant you chat with is the same predictor underneath. To the model, a conversation is still one long document, with markers for who is speaking. It has learned to write the assistant's part.</p><p class="inclass">Point out that the assistant's personality is a product of this training. A base model has no helpful default.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>Thinking is extra tokens the model writes first</h2>
+        <p>A reasoning model is still a next-token predictor. Before the visible answer it writes thinking tokens into its own context and reads them back, so it can work in steps, check itself and change course.</p>
+        <p>Each token written is one more pass through the network, so more thinking means more computation on your problem. On an API you are billed for every thinking token, whether or not you get to see it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#reasoning-models-and-test-time-compute" target="_blank" rel="noopener">Go deeper: reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Same question, two ways to answer</p>
+        <div class="two wide-r">
+          <div class="panel">
+            <h3>Answers straight away</h3>
+            <div class="msg user"><p>Is 3,599 prime?</p></div>
+            <div class="msg bot"><div class="yn"><span class="chip c3">Yes</span><span class="sp">or</span><span class="chip c2">No</span><span class="caret"></span></div></div>
+            <p class="note">The first token of the reply is the answer. The model reads the whole question, runs its layers once, and picks that token. It can't take it back.</p>
+            <div class="passes-wrap"><div class="passes" aria-hidden="true"><i></i></div><p class="note">1 pass to pick the answer token</p></div>
+          </div>
+          <div class="panel">
+            <h3>Thinks first</h3>
+            <div class="msg user"><p>Is 3,599 prime?</p></div>
+            <div class="doc think">
+              <p class="lab">Thinking tokens, written into the context</p>
+              <p class="why">Works in steps</p>
+              <p>Try small divisors.</p>
+              <p>7 × 514 = 3,598. Not 7.</p>
+              <p>11 × 327 = 3,597. Not 11.</p>
+              <p class="why">Changes course</p>
+              <p><mark>Wait. 3,600 is 60².</mark></p>
+              <p class="why">Reads back what it wrote</p>
+              <p>So 3,599 = 60² − 1 = 59 × 61.</p>
+            </div>
+            <div class="msg bot"><p>No. 3,599 = 59 × 61.</p></div>
+            <div class="passes-wrap"><div class="passes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="note">One more pass for every token written</p></div>
+          </div>
+        </div>
+        <p class="cap">The thinking tokens sit in the context like any other text. The model reads them on every later pass of that reply. Each one costs money and time.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Thinking is the same loop from the start of this lesson. A reasoning model writes tokens before its answer, and those tokens go into its context like any others. On the next pass it reads them back.</p><p>Compare the two panels. Both are asked whether 3,599 is prime. On the left, the model answers straight away, so the first token of its reply is yes or no. It has read the whole question. But choosing that token is one trip around the loop: one run through a fixed stack of layers. Once the token is picked, it stays.</p><p>On the right, the model writes its working first. It tries 7, then 11. Then it spots a shortcut. 3,600 is 60 squared, and the number in the question is one less than that. So its factors are 60 minus 1 and 60 plus 1, which are 59 and 61. Each of those tokens was one more trip around the loop.</p><p>The big hosted models do not hand over their raw thinking. You get a summary or nothing. On an API you are billed for every thinking token anyway. On a subscription it counts against your limit.</p><p class="inclass">Ask the room to answer "is 3,599 prime" instantly, then give them thirty seconds with paper. The paper is the thinking tokens. Watch for the idea that thinking is a separate engine inside the model. It is the same network run more times.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>Reasoning models are trained to think first</h2>
+        <p>Nobody writes the thinking by hand. OpenAI's o1, previewed in September 2024, was trained with reinforcement learning to write a long private chain of thought before answering.</p>
+        <p>DeepSeek-R1 (January 2025) published a recipe: give the model problems whose answers a program can check, and reward correct outcomes.</p>
+        <p class="deeper">Lesson 03 goes deeper on how this training works.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#reasoning-models-and-test-time-compute" target="_blank" rel="noopener">Go deeper: reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Reinforcement learning with verifiable rewards</p>
+        <div class="rl" role="img" aria-label="A loop: a problem with a checkable answer, the model writes its thinking and an answer, an automatic check, a reward for correct outcomes, then the model is updated and gets the next problem.">
+          <div class="node" style="grid-area:1/1">Problem<div class="chips"><span class="chip pill c3">math with a checkable answer</span><span class="chip pill c1">code with tests</span></div></div>
+          <div class="ar" style="grid-area:1/2">→</div>
+          <div class="node" style="grid-area:1/3">Model writes its thinking, then an answer</div>
+          <div class="rl-ret" style="grid-area:2/1"><b>↑</b> update the model, then the next problem</div>
+          <div class="ar" style="grid-area:2/3">↓</div>
+          <div class="node hl" style="grid-area:3/1">Reward for correct outcomes</div>
+          <div class="ar" style="grid-area:3/2">←</div>
+          <div class="node" style="grid-area:3/3">Automatic check<div class="chips"><span class="chip pill c3">answer is correct</span><span class="chip pill c1">solution passes the tests</span></div></div>
+        </div>
+        <p class="r1z">R1-Zero, trained with RL alone, learned to think for longer, check its work and try other approaches, with no worked examples in that training.</p>
+      </div>
+      <div class="talk" hidden><p>The model learns to write these thinking tokens during training.</p><p>Follow the loop on screen. The model gets a problem that a program can check, such as math with a known answer or code with tests. It writes its reasoning and an answer. The checker runs. A correct outcome earns a reward, the model is updated, and the next problem comes in.</p><p>OpenAI previewed o1 in September 2024. It was trained with reinforcement learning to think privately before answering. DeepSeek-R1 followed in January 2025 with open weights and a paper describing the recipe on screen. One variant, R1-Zero, got no worked examples in this training. It was rewarded only for correct answers. It still learned to think for longer, check its work and try other approaches. Lesson 03 covers this training in depth.</p><p class="inclass">Ask why math and code make good training problems. Answer: a program can check them. Watch for "reasoning means the logic is correct." It means the model was trained to spend tokens thinking.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>Thinking effort is a dial you set</h2>
+        <p>Many reasoning models decide for themselves how long to think. Often you also get an effort or budget setting to control it.</p>
+        <p>More thinking means more tokens, which cost money and time. It helps on debugging and design, and it's wasted on boilerplate.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#matching-effort-to-the-task" target="_blank" rel="noopener">Go deeper: matching effort to the task</a></p>
+      </div>
+      <div class="vis">
+        <div class="dial">
+          <div class="dial-track" aria-hidden="true"><span style="left:0"></span><span style="left:50%"></span><span style="left:100%"></span></div>
+          <div class="stops3">
+            <div><b>Low or none</b>Renames, boilerplate, formatting, simple lookups in provided context</div>
+            <div><b>Medium</b>Typical feature work with clear specs</div>
+            <div><b>High</b>Debugging intermittent failures, concurrency, security review, architecture</div>
+          </div>
+          <div class="costline"><span>less thinking</span><i></i><span>more thinking</span></div>
+        </div>
+        <p class="cap">Extra thinking tokens cost more money and take more time. On a subscription the cost shows up as rate limits. On an API it shows up on the bill.</p>
+      </div>
+      <div class="talk" hidden><p>Many reasoning models choose how long to think. You often get an effort level or token budget that you can set.</p><p>Renames, formatting and boilerplate need little or no thinking. Ordinary feature work with a clear spec sits in the middle. Keep the high end for intermittent bugs, concurrency, security review and architecture, where a wrong answer is expensive.</p><p>Higher effort is slower and costs more. On an API you see it on the bill. On a subscription you reach your rate limit sooner. More thinking still does not guarantee correct logic, so keep checking the output.</p><p class="inclass">Ask each person for one task from last week that deserved high effort and one that did not.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Sampling and temperature</p>
+        <h2>The same prompt can give different answers</h2>
+        <p>The sampler picks from the probabilities, and temperature sets how random the pick is. Temperature 0 always takes the top token, which should be deterministic.</p>
+        <p>Hosted models often vary anyway, partly because servers batch your request with other people's, so ask important questions more than once.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#sampling-temperature-and-determinism" target="_blank" rel="noopener">Go deeper: sampling and temperature</a></p>
+      </div>
+      <div class="vis">
+        <div class="tlegend"><span><i class="sw k0"></i>Temperature 0: always the top token</span><span><i class="sw k1"></i>Temperature 1: the model's own probabilities</span><span><i class="sw k2"></i>Temperature 2: flatter</span></div>
+        <div class="tgroups" role="img" aria-label="For the five candidates after 'See you': at temperature 0, tomorrow gets 1.00 and the rest 0. At temperature 1: 0.41, 0.27, 0.18, 0.08, 0.06. At temperature 2: 0.30, 0.25, 0.20, 0.13, 0.12.">
+          <span class="chip c1"><span class="sp">·</span>tomorrow</span>
+          <div class="gb"><div><i class="k0" style="--w:85%"></i><span>1.00</span></div><div><i class="k1" style="--w:34.85%"></i><span>.41</span></div><div><i class="k2" style="--w:25.5%"></i><span>.30</span></div></div>
+          <span class="chip c2"><span class="sp">·</span>soon</span>
+          <div class="gb"><div><i class="k0" style="--w:0%"></i><span>0</span></div><div><i class="k1" style="--w:22.95%"></i><span>.27</span></div><div><i class="k2" style="--w:21.25%"></i><span>.25</span></div></div>
+          <span class="chip c3"><span class="sp">·</span>later</span>
+          <div class="gb"><div><i class="k0" style="--w:0%"></i><span>0</span></div><div><i class="k1" style="--w:15.3%"></i><span>.18</span></div><div><i class="k2" style="--w:17%"></i><span>.20</span></div></div>
+          <span class="chip c4"><span class="sp">·</span>there</span>
+          <div class="gb"><div><i class="k0" style="--w:0%"></i><span>0</span></div><div><i class="k1" style="--w:6.8%"></i><span>.08</span></div><div><i class="k2" style="--w:11.05%"></i><span>.13</span></div></div>
+          <span class="chip pill">everything else</span>
+          <div class="gb"><div><i class="k0" style="--w:0%"></i><span>0</span></div><div><i class="k1" style="--w:5.1%"></i><span>.06</span></div><div><i class="k2" style="--w:10.2%"></i><span>.12</span></div></div>
+        </div>
+        <p class="cap">In a real model "everything else" is thousands of tokens, and at high temperature it grows much more than shown. At temperature 0, hosted models can still differ between runs because floating-point results change slightly with batch size (Thinking Machines, September 2025).</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>The model outputs probabilities, and a separate step called the sampler picks from them. Temperature sets how random that pick is. The dark bars show temperature zero. At that setting, "tomorrow" wins every time. At temperature two, the bars flatten and unlikely tokens get picked more often.</p><p>Temperature zero should give the same output on every run. On hosted models it often does not. Servers group your request with other people's, and the floating-point math shifts slightly with the size of the group.</p><p>Ask again or ask a second model before you rely on the answer.</p><p class="inclass">Live demo. Run the same prompt three times with default settings and compare the outputs.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Tool use</p>
+        <h2>Tools let the model run code and read your files</h2>
+        <p>On its own a model can do neither, and it can't guarantee exact math.</p>
+        <p>With tool use it emits a structured request, the harness around it runs the tool, and the result goes into the context. An agent repeats that loop until the task is done.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#tool-use-the-bridge-to-agents" target="_blank" rel="noopener">Go deeper: tool use</a></p>
+      </div>
+      <div class="vis">
+        <div class="lanes" role="img" aria-label="Four steps across two lanes. Harness: describes the tools. Model: emits a request to call run_tests. Harness: runs the tool and puts the result into the context. Model: reads the result and continues, maybe calling more tools.">
+          <div class="lane-h">Model</div><div class="lane-h">Harness, the program around the model</div>
+          <div class="lstep h cross-l"><span class="sn">1</span>Describes the available tools: name, purpose, parameters</div>
+          <div class="lstep cross-r"><span class="sn">2</span>Emits a structured request<code>call run_tests with {"path": "src/"}</code></div>
+          <div class="lstep h cross-l"><span class="sn">3</span>Runs the tool on your tests and puts the result into the context</div>
+          <div class="lstep"><span class="sn">4</span>Reads the result and continues, maybe calling more tools. Back to step 2.</div>
+        </div>
+        <p class="agent-eq"><b>Agent</b> = model + tools + a loop that keeps going until the task is done</p>
+      </div>
+      <div class="talk" hidden><p>A model alone only produces text. It cannot run your tests or open a file, and it cannot guarantee exact math.</p><p>Follow the four steps across the two lanes. The harness is the program wrapped around the model. It tells the model which tools exist. The model writes a structured request, here a call to run the tests in the source folder. The harness runs it and puts the result into the context. The model reads the result and carries on.</p><p>An agent repeats this exchange between the model and the harness until the task is done. Lesson 00 wrote that as model plus harness. The harness supplies the tools and the loop.</p><p class="inclass">Live demo. Give an agent one small task and read its tool log together, step by step.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">What an LLM is not</p>
+        <h2>Four things an LLM isn't</h2>
+        <p>Most beginner mistakes come from expecting the model to work like a database, search engine, calculator or person. Each habit below corrects one of those expectations.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#what-an-llm-is-not" target="_blank" rel="noopener">Go deeper: what an LLM is not</a></p>
+      </div>
+      <div class="vis">
+        <div class="nots">
+          <div class="not"><s>A database</s><p>Facts are smeared across billions of weights. No lookup, no record of where a fact came from.</p><p class="do">Give it the source material in its context.</p></div>
+          <div class="not"><s>A search engine</s><p>No live index. Its knowledge stops at a training cutoff date.</p><p class="do">Check whether search is on. Ask for links and open them yourself.</p></div>
+          <div class="not"><s>A calculator</s><p>It sees numbers as tokens and approximates arithmetic.</p><p class="do">Have it write and run code.</p></div>
+          <div class="not"><s>A person</s><p>No memory between sessions unless a product re-inserts notes. No stake in outcomes.</p><p class="do">You're responsible for how you use the output, so verify its claims.</p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Most early mistakes with these models come from treating them like a database, a search engine, a calculator or a person.</p><p>If you need information from a particular source, put that source in the context. For current information, check that search is on and open the links yourself. Have the model write and run code for exact arithmetic. You are accountable for what ships, so verify the output first.</p><p class="inclass">Ask which of the four has already caused someone in the room a real problem.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Hallucination</p>
+        <h2>A hallucination is confident output that's false</h2>
+        <p>Training rewards plausible text. When the model lacks a fact, a plausible guess still gets high probability.</p>
+        <p>In code that looks like invented APIs, nonexistent package names, and descriptions of files it never opened. Give it the real docs and run what it writes.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#hallucination-and-why-it-happens" target="_blank" rel="noopener">Go deeper: hallucination</a></p>
+      </div>
+      <div class="vis">
+        <div class="chat">
+          <div class="msg user"><code>What does pandas.DataFrame.autobalance() do?</code></div>
+          <div class="msg bot"><p><code>autobalance()</code> rebalances the columns of the DataFrame in place and returns the result.</p><pre>df.autobalance()</pre><span class="flag">This method doesn't exist.</span></div>
+        </div>
+        <ul class="dos"><li>Put the real docs in its context.</li><li>Let it use tools to run the code.</li><li>Check with tests, type checkers and your own review.</li></ul>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>In this chat, the model describes a pandas method that does not exist.</p><p>The model was rewarded for plausible text. When it lacks a fact, a plausible guess still gets high probability. Most benchmarks also score "I don't know" the same as a wrong answer. A guess can only help the score, so models chosen on those scores learn to guess.</p><p>In code, watch for invented functions, package names that do not exist, and summaries of files the model never opened. The defenses are listed under the chat. Give it the real docs, let it run the code, and keep your tests and your own review in place.</p><p class="inclass">Ask the room: why would a model invent a function instead of saying "I don't know"? Answer: training rewards plausible text, and most benchmarks score "I don't know" the same as a wrong answer, so guessing scores better than admitting uncertainty.</p></div>
+    </article>
+
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Sycophancy</p>
+        <h2>It leans toward agreeing with you</h2>
+        <p>Sycophancy is telling you what you want to hear: agreeing with a wrong diagnosis, praising weak code, caving when you push back on a correct answer.</p>
+        <p>It comes partly from training on human ratings, which favor agreeable answers. Ask for critique instead of approval.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#sycophancy" target="_blank" rel="noopener">Go deeper: sycophancy</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Asks for approval</h3>
+            <div class="chat">
+              <div class="msg user">I think the bug is in the cache layer, right?</div>
+              <div class="msg bot"><p>You're absolutely right!</p></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Asks for critique</h3>
+            <div class="chat">
+              <div class="msg user">Give me the strongest argument against my plan. What evidence would prove me wrong?</div>
+              <div class="msg bot" aria-label="A list of objections"><span class="ph" style="width:11em"></span><span class="ph" style="width:9em"></span><span class="ph" style="width:10em"></span></div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">April 2025: OpenAI rolled back a GPT-4o update in ChatGPT that had become noticeably flattering.</p>
+        <span class="tag">Illustrative prompts</span>
+      </div>
+      <div class="talk" hidden><p>Models lean toward telling you what you want to hear. They agree with a wrong diagnosis, praise weak code, and back down when you push on an answer that was correct.</p><p>Part of the cause is training on human ratings. People rate agreeable answers highly. In April 2025 OpenAI rolled back a GPT-4o update in ChatGPT because it had become noticeably flattering.</p><p>Much of the fix is in how you ask. Compare the two panels. On the left, the question ends in "right?", and it gets a yes. On the right, the prompt asks for the strongest argument against the plan. Have a different model or a fresh session review your work.</p><p class="inclass">Live demo. Give a model a flawed plan with the leading question, then again with the critique prompt. Compare the two replies.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Interpretability</p>
+        <h2>Its explanation may not match what it did</h2>
+        <p>Anthropic researchers traced how Claude 3.5 Haiku adds 36 + 59. One internal path estimates the rough size and another computes the last digit.</p>
+        <p>Asked how, the model describes the schoolbook carry-the-one method. Check diffs, tool logs and test output along with its summary.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#peeking-inside-interpretability" target="_blank" rel="noopener">Go deeper: interpretability</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">What it did</p>
+        <div class="paths" role="img" aria-label="36 plus 59 splits into two paths: one estimates the rough size, roughly 90-something; the other computes the last digit, 5. They merge into 95.">
+          <span class="eq">36 + 59</span>
+          <span class="to">→</span>
+          <div class="pp"><div>Estimates the rough size<small>roughly 90-something</small></div><div>Computes the last digit<small>ends in 5</small></div></div>
+          <span class="to">→</span>
+          <span class="eq ans">95</span>
+        </div>
+        <div class="neq" aria-label="does not match">≠</div>
+        <p class="sub">What it said it did</p>
+        <div class="chat"><div class="msg bot"><p>I added the ones (6+9=15), carried the 1, then added the tens (3+5+1=9), resulting in 95.</p></div></div>
+        <p class="cap">The model's own answer, quoted in Anthropic's 2025 study of Claude 3.5 Haiku.</p>
+      </div>
+      <div class="talk" hidden><p>A model's account of its own work is more generated text. It can differ from what happened inside. Anthropic researchers traced how Claude 3.5 Haiku adds 36 and 59. The top of the screen shows what they found. One path estimates the rough size. Another works out that the answer ends in five.</p><p>Then the model was asked how it did it. The quote at the bottom is its reply. It describes the schoolbook method of carrying the one, which differs from the paths the researchers traced.</p><p>When an agent tells you what it changed and why, read that as a claim. The diff, the tool log and the test output are the evidence.</p><p class="inclass">Ask what this means for asking an agent to explain its own code changes.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>An LLM predicts the next token, over and over.</li>
+          <li>Its output is plausible text. It can be confidently wrong and tends to agree with you.</li>
+          <li>Put facts in its context, check its work with tools and tests, and expect different answers each run.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md#a-working-mental-model" target="_blank" rel="noopener">Go deeper: a working mental model</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, a language model predicts the next token, again and again.</p><p>Second, what it produces is plausible text. Plausible is often correct. It can also be wrong with full confidence, and it tends to side with you.</p><p>Third, put the facts the model needs into its context. Check its work with tools and tests. Expect a different answer on a different run.</p><p class="inclass">Have each person write down one habit they will change this week.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 01 done</p>
+        <h2>Next: how a model is made</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-02">Lesson 02</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/01-what-is-an-llm.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson one. Lesson two covers how a model is made: the data, the compute and the pretraining that produce the weights.</p></div>
+    </article>
+
+  <script>
+  (() => {
+    const lesson = document.currentScript.closest('.lesson');
+
+    // Screen 10: causal mask grid
+    const grid = lesson.querySelector('.mask');
+    const words = ['The', 'animal', "didn't", 'cross', 'the', 'street'];
+    grid.appendChild(document.createElement('span'));
+    words.forEach(w => { const h = document.createElement('span'); h.className = 'ch'; h.textContent = w; grid.appendChild(h); });
+    words.forEach((w, r) => {
+      const rh = document.createElement('span');
+      rh.className = 'rh' + (r === 3 ? ' hl' : '');
+      rh.textContent = w;
+      grid.appendChild(rh);
+      words.forEach((_, c) => {
+        const cell = document.createElement('span');
+        cell.className = 'c' + (c > r ? ' x' : '') + (r === 3 ? ' hl' : '');
+        grid.appendChild(cell);
+      });
+    });
+
+    // Screen 4: weights flicker while training, only while that screen is showing
+    const weights = lesson.querySelector('.weights.live');
+    const cells = Array.from(weights.querySelectorAll('.v'));
+    const screen = weights.closest('.screen');
+    let timer = null;
+    screen.addEventListener('nwc:show', () => {
+      if (timer || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = setInterval(() => {
+        const c = cells[Math.floor(Math.random() * cells.length)];
+        c.textContent = (Math.random() * 3 - 1.5).toFixed(2).replace('-', '\u2212');
+        c.classList.add('flip');
+        setTimeout(() => c.classList.remove('flip'), 500);
+      }, 260);
+    });
+    screen.addEventListener('nwc:hide', () => { clearInterval(timer); timer = null; });
+  })();
+  </script>
+</section>

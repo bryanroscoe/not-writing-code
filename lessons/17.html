@@ -1,0 +1,673 @@
+<section class="lesson" data-lesson="17" data-title="Keeping up without drowning" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="17"] .hero-rel { display: flex; flex-wrap: wrap; gap: 8px; }
+    .lesson[data-lesson="17"] .hero-rel .chip { font-size: clamp(17px, 2.2cqi, 30px); padding: .3em .45em; border-radius: 10px; font-weight: 600; }
+
+    .lesson[data-lesson="17"] .tl { display: grid; grid-template-columns: 4.6em minmax(0, 1fr); gap: 9px 14px; align-items: center; }
+    .lesson[data-lesson="17"] .tl .d { font: 600 13px/1.2 var(--mono); color: var(--muted); text-align: right; }
+    .lesson[data-lesson="17"] .tl .chip { font-size: 14px; white-space: normal; line-height: 1.25; }
+    .lesson[data-lesson="17"] .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; border-top: 1px solid var(--line); padding-top: 14px; }
+    .lesson[data-lesson="17"] .stat b { display: block; font: 720 28px/1.1 var(--display); letter-spacing: -.01em; }
+    .lesson[data-lesson="17"] .stat span { font-size: 14px; color: var(--muted); line-height: 1.4; display: block; margin-top: 4px; }
+
+    .lesson[data-lesson="17"] .rows { display: flex; flex-direction: column; }
+    .lesson[data-lesson="17"] .row { display: grid; gap: 4px 14px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; align-items: baseline; }
+    .lesson[data-lesson="17"] .row:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="17"] .row:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="17"] .row b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="17"] .row .m { color: var(--muted); }
+    .lesson[data-lesson="17"] .row .k { font: 600 12px/1.4 var(--mono); color: var(--muted); white-space: nowrap; }
+    .lesson[data-lesson="17"] .row .chip { font-size: 13px; padding: 4px 8px; }
+    .lesson[data-lesson="17"] .skills .row { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) 5.6em; }
+    .lesson[data-lesson="17"] .skills .k { text-align: right; }
+    .lesson[data-lesson="17"] .inc .row { grid-template-columns: 6.4em minmax(0, 1fr) minmax(0, 1fr) 8.6em; }
+    .lesson[data-lesson="17"] .inc .chips { justify-content: flex-end; }
+    .lesson[data-lesson="17"] .pin .row { grid-template-columns: minmax(0, 4fr) 20px minmax(0, 6fr); }
+    .lesson[data-lesson="17"] .labs .row { grid-template-columns: 5.6em minmax(0, 1fr); }
+    .lesson[data-lesson="17"] .src .row { grid-template-columns: 8.4em minmax(0, 1fr) minmax(0, 1fr); }
+    .lesson[data-lesson="17"] .src s { font: 700 15px/1.3 var(--display); text-decoration-thickness: 2px; text-decoration-color: var(--bad); }
+    .lesson[data-lesson="17"] .aft-rows .row { grid-template-columns: 6.6em minmax(0, 1fr); }
+
+    .lesson[data-lesson="17"] .test { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 10px; background: var(--sunk); }
+    .lesson[data-lesson="17"] .ck { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="17"] .ck li { padding-left: 22px; position: relative; }
+    .lesson[data-lesson="17"] .ck li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font: 700 14px/1.4 var(--mono); }
+    .lesson[data-lesson="17"] .ck.x li::before, .lesson[data-lesson="17"] .ck li.x::before { content: "✕"; color: var(--bad); }
+    .lesson[data-lesson="17"] .ck li.pm::before { content: "±"; color: var(--muted); }
+    .lesson[data-lesson="17"] .ck .k { font: 600 12px/1.4 var(--mono); color: var(--muted); }
+
+    .lesson[data-lesson="17"] .stack5 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 10.5em); gap: 6px 14px; }
+    .lesson[data-lesson="17"] .layer { grid-column: 1; display: grid; grid-template-columns: 5.4em minmax(0, 1fr); gap: 10px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; background: var(--sunk); font-size: 13.5px; line-height: 1.35; color: var(--muted); }
+    .lesson[data-lesson="17"] .layer .chip { justify-content: center; font-weight: 700; }
+    .lesson[data-lesson="17"] .r1 { grid-row: 1; } .lesson[data-lesson="17"] .r2 { grid-row: 2; } .lesson[data-lesson="17"] .r3 { grid-row: 3; } .lesson[data-lesson="17"] .r4 { grid-row: 4; } .lesson[data-lesson="17"] .r5 { grid-row: 5; }
+    .lesson[data-lesson="17"] .side { grid-column: 2; display: flex; align-items: center; padding-left: 12px; border-left: 3px solid var(--accent); font-size: 13.5px; font-weight: 700; line-height: 1.35; }
+    .lesson[data-lesson="17"] .side.mid { grid-row: 2 / 5; }
+    .lesson[data-lesson="17"] .side.bot { grid-row: 5; border-left-color: var(--muted); color: var(--muted); }
+
+    .lesson[data-lesson="17"] .quote { margin: 0; border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; display: flex; flex-direction: column; gap: 4px; }
+    .lesson[data-lesson="17"] .quote p { margin: 0; font-size: 16px; line-height: 1.45; }
+    .lesson[data-lesson="17"] .quote small, .lesson[data-lesson="17"] .take small { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="17"] .quote.open { border-left-color: var(--muted); border-left-style: dashed; }
+    .lesson[data-lesson="17"] .take { margin: 0; border-left: 4px solid var(--mark); padding: 4px 0 4px 14px; display: flex; flex-direction: column; gap: 4px; }
+    .lesson[data-lesson="17"] .take p { margin: 0; font-size: 16px; line-height: 1.45; }
+
+    .lesson[data-lesson="17"] .flow { display: flex; flex-direction: column; gap: 5px; }
+    .lesson[data-lesson="17"] .q { display: grid; grid-template-columns: minmax(0, 1fr) 3.4em minmax(0, 1fr); align-items: center; gap: 8px; }
+    .lesson[data-lesson="17"] .q .node { font-size: 14px; }
+    .lesson[data-lesson="17"] .q .node .k { font-family: var(--mono); color: var(--accent); margin-right: 6px; }
+    .lesson[data-lesson="17"] .q .go { font: 700 12px/1 var(--mono); color: var(--accent); text-align: center; white-space: nowrap; }
+    .lesson[data-lesson="17"] .act { background: var(--accent-soft); border-radius: 10px; padding: 9px 12px; font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="17"] .act.end { background: var(--sunk); border: 1px dashed var(--line); }
+    .lesson[data-lesson="17"] .nx { font: 600 12px/1 var(--mono); color: var(--muted); padding-left: 14px; }
+
+    .lesson[data-lesson="17"] .kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; font-size: 14px; line-height: 1.35; margin: 0; }
+    .lesson[data-lesson="17"] .kv dt { color: var(--muted); }
+    .lesson[data-lesson="17"] .kv dd { margin: 0; font-family: var(--mono); font-size: 13px; text-align: right; }
+
+    .lesson[data-lesson="17"] .span3, .lesson[data-lesson="17"] .span3-l { display: grid; grid-template-columns: minmax(42px, 3fr) 19fr 7fr; }
+    .lesson[data-lesson="17"] .span3 { height: 34px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+    .lesson[data-lesson="17"] .span3 i { background: var(--accent-soft); }
+    .lesson[data-lesson="17"] .span3 i.off { background: repeating-linear-gradient(135deg, var(--bad) 0 3px, transparent 3px 8px); border-inline: 2px solid var(--bad); }
+    .lesson[data-lesson="17"] .span3-l span { font: 600 12px/1.3 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="17"] .span3-l b { color: var(--bad); font-weight: 700; }
+
+    .lesson[data-lesson="17"] .post { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 11px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="17"] .post h4 { margin: 0; font: 720 18px/1.2 var(--display); }
+    .lesson[data-lesson="17"] .ln { display: flex; gap: 8px; align-items: flex-start; }
+    .lesson[data-lesson="17"] .ln > div { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+    .lesson[data-lesson="17"] .n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--mark); color: var(--on-mark); font: 700 12px/1 var(--mono); flex: none; }
+    .lesson[data-lesson="17"] .mb { display: grid; grid-template-columns: 6.2em minmax(0, 1fr) auto; gap: 5px 8px; align-items: center; font: 500 12px/1 var(--mono); }
+    .lesson[data-lesson="17"] .mb .track { height: 12px; }
+    .lesson[data-lesson="17"] .mb .old i { background: var(--accent-mid); }
+    .lesson[data-lesson="17"] .vid { display: grid; place-items: center; text-align: center; padding: 12px 8px; border-radius: 8px; background: var(--sunk); border: 1px solid var(--line); color: var(--muted); font: 600 12px/1.3 var(--mono); }
+    .lesson[data-lesson="17"] .qs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="17"] .qs li { display: flex; gap: 8px; align-items: flex-start; }
+
+    .lesson[data-lesson="17"] .chain4 { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr); align-items: stretch; }
+    .lesson[data-lesson="17"] .chain4 .node { font-size: 14px; }
+    .lesson[data-lesson="17"] .chain4 .node small { font-family: var(--mono); font-size: 12px; line-height: 1.4; }
+    .lesson[data-lesson="17"] .ev { border: 1px dashed var(--line); border-radius: 10px; padding: 9px 12px; font-size: 14px; text-align: center; }
+
+    .lesson[data-lesson="17"] .cad { display: grid; grid-template-columns: 7.4em minmax(0, 1fr); gap: 6px 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="17"] .cad:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="17"] .cad:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="17"] .cad .t b { display: block; font: 720 17px/1.2 var(--display); }
+    .lesson[data-lesson="17"] .cad .t span { font: 600 13px/1.4 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="17"] .cad ul { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 3px; }
+    .lesson[data-lesson="17"] .seg { display: grid; gap: 3px; }
+    .lesson[data-lesson="17"] .seg span { font: 600 12px/1.25 var(--mono); padding: 7px 8px; border-radius: 6px; border: 1px solid; min-width: 0; }
+    .lesson[data-lesson="17"] .seg.week { grid-template-columns: 10fr 15fr 5fr; }
+    .lesson[data-lesson="17"] .seg.aft { grid-template-columns: 20fr 20fr 110fr 45fr 30fr 15fr; }
+    .lesson[data-lesson="17"] .seg.aft span { padding: 9px 0; text-align: center; overflow: hidden; }
+
+    .lesson[data-lesson="17"] .rings { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="17"] .rings div { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.35; color: var(--muted); }
+    .lesson[data-lesson="17"] .rings .chip { font-weight: 700; color: var(--ink); }
+    .lesson[data-lesson="17"] .file { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .lesson[data-lesson="17"] .file-h { font: 600 12px/1 var(--mono); color: var(--muted); padding: 9px 12px; background: var(--sunk); border-bottom: 1px solid var(--line); }
+    .lesson[data-lesson="17"] .rad { display: grid; grid-template-columns: 4.6em minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 9px 12px; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="17"] .file-h + .rad { border-top: 0; }
+    .lesson[data-lesson="17"] .rad .chip { font-size: 12px; padding: 4px 7px; justify-self: start; font-weight: 700; }
+    .lesson[data-lesson="17"] .rad b { font-weight: 700; display: block; }
+    .lesson[data-lesson="17"] .rad .m { color: var(--muted); }
+    .lesson[data-lesson="17"] .rad .k { font: 500 12px/1.4 var(--mono); color: var(--muted); text-align: right; white-space: nowrap; }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="17"] .stats { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="17"] .skills .row, .lesson[data-lesson="17"] .inc .row, .lesson[data-lesson="17"] .src .row, .lesson[data-lesson="17"] .labs .row, .lesson[data-lesson="17"] .aft-rows .row { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="17"] .skills .k { text-align: left; }
+      .lesson[data-lesson="17"] .inc .chips { justify-content: flex-start; }
+      .lesson[data-lesson="17"] .pin .row { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="17"] .pin .to { display: none; }
+      .lesson[data-lesson="17"] .stack5 { display: flex; flex-direction: column; }
+      .lesson[data-lesson="17"] .side { padding: 4px 0 8px 12px; }
+      .lesson[data-lesson="17"] .q { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .lesson[data-lesson="17"] .q .go { text-align: left; padding-left: 14px; }
+      .lesson[data-lesson="17"] .chain4 { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .lesson[data-lesson="17"] .chain4 .ar { transform: rotate(90deg); height: 20px; }
+      .lesson[data-lesson="17"] .cad { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="17"] .rings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lesson[data-lesson="17"] .rad { grid-template-columns: 4.6em minmax(0, 1fr); }
+      .lesson[data-lesson="17"] .rad .k { grid-column: 2; text-align: left; }
+      .lesson[data-lesson="17"] .seg.aft span { font-size: 10px; }
+      .lesson[data-lesson="17"] .seg.week { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bAGENTS\\.md\\b", "agents dot M D"], ["\\bxAI\\b", "x A I"], ["\\bSWE-bench\\b", "swee bench"], ["\\b0\\.167\\b", "zero point one six seven"], ["\\b0\\.170\\b", "zero point one seven zero"]]</script>
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 5 · Practice for the long run</p>
+        <h1>Keeping up without drowning</h1>
+        <p class="meta">Lesson 17 · 20 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-rel" aria-hidden="true"><span class="chip c1">Claude Opus 5</span><span class="chip c5">Terminal-Bench 3.0</span><span class="chip c5">Terminal-Bench 4.0</span><span class="chip c1">Claude Fable 5.1</span><span class="chip c3">GPT-6 Astra</span><span class="chip c1">Claude Opus 5.5</span><span class="chip c3">GPT-6 Sol</span><span class="chip c3">GPT-6 Luna</span><span class="chip c4">Gemini 4 Argon</span></div>
+        <p class="cap">Released July 24 to October 13, 2026.</p>
+      </div>
+      <div class="talk" hidden><p>This lesson is about living with the pace of this field. New models, tool versions and benchmark revisions arrive almost every week, and quality goes down as well as up.</p><p>By the end you will have a way to diagnose a bad week, a way to read a launch post, and a routine that takes about thirty minutes a week.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The pace</p>
+        <h2>Something major ships almost every week</h2>
+        <p>A model, a tool version or a benchmark revision lands nearly every week. This is one three-month window from 2026.</p>
+        <p>You can't track all of it, and you don't need to.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#how-fast-it-moves" target="_blank" rel="noopener">Go deeper: how fast it moves</a></p>
+      </div>
+      <div class="vis">
+        <div class="tl" role="img" aria-label="July 24: Claude Opus 5. July 30: Terminal-Bench 3.0. August 28: Terminal-Bench 4.0 replaces it. September 1: Claude Fable 5.1. September 3: GPT-6 Astra. September 22: Claude Opus 5.5, GPT-6 Sol and GPT-6 Luna. October 13: Gemini 4 Argon.">
+          <span class="d">Jul 24</span><div class="chips"><span class="chip c1">Claude Opus 5</span></div>
+          <span class="d">Jul 30</span><div class="chips"><span class="chip c5">Terminal-Bench 3.0</span></div>
+          <span class="d">Aug 28</span><div class="chips"><span class="chip c5">Terminal-Bench 4.0 replaces 3.0</span></div>
+          <span class="d">Sep 1</span><div class="chips"><span class="chip c1">Claude Fable 5.1</span></div>
+          <span class="d">Sep 3</span><div class="chips"><span class="chip c3">GPT-6 Astra</span></div>
+          <span class="d">Sep 22</span><div class="chips"><span class="chip c1">Claude Opus 5.5</span><span class="chip c3">GPT-6 Sol</span><span class="chip c3">GPT-6 Luna</span></div>
+          <span class="d">Oct 13</span><div class="chips"><span class="chip c4">Gemini 4 Argon</span></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>0.170</b><span>Codex CLI version on November 18, 2026</span></div>
+          <div class="stat"><b>12 revisions</b><span>of the Artificial Analysis Intelligence Index, August 2025 to November 2026</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>This is one three-month stretch of 2026. In late July, Anthropic released Claude Opus 5. Six days later Terminal-Bench 3.0 came out, and four weeks after that version 4.0 replaced it. September brought Claude Fable 5.1, then GPT-6 Astra two days later. On September 22, Opus 5.5 and two more GPT-6 models landed on the same day. Google's Gemini 4 Argon followed on October 13.</p><p>The tools around the models move just as fast. OpenAI's Codex command line tool reached version 0.170 on November 18. Twelve days earlier it was at 0.167. Artificial Analysis revised its Intelligence Index twelve times in about fifteen months, and eight of those revisions changed which evaluations it includes.</p><p>So the scoreboards change along with the models they score. Nobody reads all of this. The rest of the lesson is about deciding what deserves your attention.</p><p class="inclass">Ask the room how many of these releases they tried, and how many changed how they work.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">What stays stable</p>
+        <h2>The skills that make you effective change slowly</h2>
+        <p>Most of what this course taught survives a release, because it rests on limits every model shares.</p>
+        <p>For any new technique, ask whether it will still be useful after the next model.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#what-stays-stable" target="_blank" rel="noopener">Go deeper: what stays stable</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows skills">
+          <div class="row"><b>Giving the model the right context</b><span class="m">Every model is limited by what you show it</span><span class="k">Lesson 09</span></div>
+          <div class="row"><b>Verifying output</b><span class="m">Models are still confidently wrong some of the time</span><span class="k">Lessons 11, 13</span></div>
+          <div class="row"><b>Security habits</b><span class="m">Attacks target the agent pattern, whatever the model</span><span class="k">Lesson 14</span></div>
+          <div class="row"><b>Breaking work into checkable steps</b><span class="m">Reliability falls with task length for every model</span><span class="k">Lesson 10</span></div>
+          <div class="row"><b>Your own eval set</b><span class="m">Tells you what any release means for your work</span><span class="k">Lesson 07</span></div>
+          <div class="row"><b>Cost awareness</b><span class="m">Prices and limits change. The habit of measuring doesn't.</span><span class="k">Lesson 15</span></div>
+        </div>
+        <div class="test">
+          <p class="sub">Will it still be useful after the next model?</p>
+          <ul class="ck"><li>"Write a clear spec and a test first."</li><li class="x">"Use this magic phrase to make Model X behave."</li></ul>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Six skills are on screen, and each has a reason it outlives any single model. Every model is limited by what you show it, so giving it the right context stays useful. Models are still confidently wrong some of the time, so you keep verifying. Attacks go after the agent pattern itself, so the security habits carry over.</p><p>Reliability drops as tasks get longer, for every model. That keeps small, checkable steps worth the effort. Your own eval set tells you what a release means for your work. Prices and limits will keep changing, and the habit of measuring them stays.</p><p>The box at the bottom is a quick test for any new technique. Ask whether it will still be useful after the next model ships. Writing a clear spec and a test first passes. A magic phrase that makes one model behave usually fails.</p><p>The advice from 2023 and 2024 bears this out. Prompt tricks mostly aged badly. Giving the model examples, context and a way to check its work aged well.</p><p class="inclass">Ask for one piece of 2023 prompting advice people remember. Then ask whether it still works.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Ups and downs</p>
+        <h2>The quality you feel comes from a stack of five layers</h2>
+        <p>Any layer can change without notice, and quality goes down as well as up.</p>
+        <p>People usually blame the weights. In the documented incidents, the cause was more often in the middle of the stack.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#ups-and-downs-are-normal" target="_blank" rel="noopener">Go deeper: ups and downs are normal</a></p>
+      </div>
+      <div class="vis">
+        <div class="stack5" role="img" aria-label="Five layers from top to bottom: you, harness, product, serving, model. The model layer is the one people blame first. The harness, product and serving layers are where the documented causes more often were.">
+          <div class="layer r1"><span class="chip pill c5">You</span><span>task, prompt, session length, repo size</span></div>
+          <div class="layer r2"><span class="chip pill c1">Harness</span><span>CLI or IDE version, system prompt, default effort, tools and MCP servers, compaction</span></div>
+          <div class="layer r3"><span class="chip pill c4">Product</span><span>plan, usage limits, model routing, model picker</span></div>
+          <div class="layer r4"><span class="chip pill c6">Serving</span><span>hardware, load balancing, sampling code, caching</span></div>
+          <div class="side mid">Where the documented causes more often were</div>
+          <div class="layer r5"><span class="chip pill c2">Model</span><span>weights and version</span></div>
+          <div class="side bot">Blamed first</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>When a tool feels worse, something changed, and there are five places it could be. Read the stack from the top. First there is you: the task, the prompt, how long the session has run, how big the repo is.</p><p>Next is the harness, the program around the model. It has a version, a system prompt, a default effort level, a set of tools, and compaction. Compaction is the harness summarizing older parts of a long session to make room.</p><p>Under that is the product: your plan, your usage limits, which model your request gets routed to. Then serving, which is the hardware and software that run the model. The weights are at the bottom.</p><p>The usual complaint is that the company nerfed the model, which points at the bottom layer. The next screen goes through the incidents the companies have confirmed. More of them started in the three middle layers.</p><p class="inclass">Ask where "they nerfed the model" sits on this stack, and what evidence it would take to place a problem there.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Ups and downs</p>
+        <h2>Most confirmed regressions started above the weights</h2>
+        <p>Each of these was acknowledged by the company involved. The chips show which layer its stated cause sits in.</p>
+        <p>In the 2026 Claude Code case, the API and the weights were unaffected the whole time.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#a-field-guide-to-recent-ups-and-downs" target="_blank" rel="noopener">Go deeper: a field guide to recent ups and downs</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows inc">
+          <div class="row"><span class="k">Apr 2025</span><span>A GPT-4o update in ChatGPT turned flattering. OpenAI rolled it back within days.</span><span class="m">Training put too much weight on short-term user feedback</span><div class="chips"><span class="chip pill c2">Model</span></div></div>
+          <div class="row"><span class="k">Aug 2025</span><span>GPT-5 launched and older models left ChatGPT's model picker. GPT-4o came back for paid users within days.</span><span class="m">A product decision</span><div class="chips"><span class="chip pill c4">Product</span></div></div>
+          <div class="row"><span class="k">Aug–Sep 2025</span><span>Some Claude users got noticeably worse answers for weeks.</span><span class="m">Three infrastructure bugs</span><div class="chips"><span class="chip pill c6">Serving</span></div></div>
+          <div class="row"><span class="k">Sep–Oct 2025</span><span>Reports that Codex "got worse" after a new model launched.</span><span class="m">No single cause: some older hardware, a sampling bug, repeated compaction, more MCP tools</span><div class="chips"><span class="chip pill c6">Serving</span><span class="chip pill c1">Harness</span><span class="chip pill c5">You</span></div></div>
+          <div class="row"><span class="k">Mar–Apr 2026</span><span>About six weeks of Claude Code quality complaints.</span><span class="m">Lower default effort, a bug that wiped reasoning history every turn, a system prompt limiting verbosity</span><div class="chips"><span class="chip pill c1">Harness</span></div></div>
+          <div class="row"><span class="k">Jul–Sep 2026</span><span>Opus 5 posted strong benchmarks and got mixed daily-use reviews.</span><span class="m">Model behavior: verbosity, scope, communication</span><div class="chips"><span class="chip pill c2">Model</span></div></div>
+        </div>
+        <p class="cap">Causes are as each company stated them. The layer labels are this lesson's reading of those causes.</p>
+      </div>
+      <div class="talk" hidden><p>Here are six incidents from the last two years, each with the cause the company gave. Two of them are about the model itself. In April 2025 a GPT-4o update turned flattering, and OpenAI traced it to training. In 2026, Opus 5 scored well on benchmarks and got mixed reviews in daily use.</p><p>The other four started higher up. When GPT-5 launched, older models disappeared from ChatGPT's picker. That was a product decision, and OpenAI reversed part of it within days. In late summer 2025, some Claude users got worse answers for weeks because of three infrastructure bugs.</p><p>The Codex complaints that autumn had no single cause. OpenAI found some older hardware, a sampling bug, long sessions worn down by repeated compaction, and users adding more tools.</p><p>The 2026 Claude Code case is the clearest. Anthropic found three changes in the product around the model: a lower default effort, a bug that wiped the model's reasoning history every turn, and a system prompt that limited verbosity. The weights never changed.</p><p class="inclass">Give each group one incident and its primary postmortem. Have them report what users saw, what caused it, and what check would have caught it sooner.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Ups and downs</p>
+        <h2>Users noticed before the labs' own evals did</h2>
+        <p>The postmortems name the same obstacles. Evals are noisy, changes overlap, and rollouts are staged, so you and a coworker can be on different versions the same day.</p>
+        <p>You can't verify a vendor's statement about its own quality. You can rerun your golden tasks: real, solved pieces of your own work, frozen so you can replay them.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#why-regressions-are-hard-to-detect-even-for-the-labs" target="_blank" rel="noopener">Go deeper: why regressions are hard to detect</a></p>
+      </div>
+      <div class="vis">
+        <blockquote class="quote"><p>"The evaluations we ran simply didn't capture the degradation users were reporting."</p><small>Anthropic postmortem, September 2025</small></blockquote>
+        <blockquote class="quote"><p>The issues "were challenging to distinguish from normal variation in user feedback at first."</p><small>Anthropic postmortem, April 2026</small></blockquote>
+        <blockquote class="quote open"><p>Anthropic "never reduce[s] model quality due to demand, time of day, or server load."</p><small>Anthropic postmortem, September 2025. Outside users can't check it.</small></blockquote>
+        <div class="via"><span>Why labs miss it</span><span class="chip pill c1">privacy controls limit looking at real sessions</span><span class="chip pill c2">a 3% drop hides in normal variation</span><span class="chip pill c4">overlapping changes hit different users</span><span class="chip pill c6">staged rollouts</span></div>
+      </div>
+      <div class="talk" hidden><p>The labs' own monitoring often missed what users were reporting. The first two quotes are from Anthropic's postmortems. In 2025 it wrote that its evaluations didn't capture the degradation. In 2026 it wrote that the problems were hard to tell apart from normal variation in feedback.</p><p>The chips at the bottom list why. Privacy controls limit how engineers can look at real sessions. Evals are noisy, and Anthropic found one test showing a 3 percent drop only after weeks of reports. Several changes can overlap and reach different users. Staged rollouts mean two people can run different versions on the same day.</p><p>Anthropic and OpenAI both responded by having more of their own staff use the builds the public gets. That tells you their internal users had been seeing a different product.</p><p>The third quote is a claim you have to take on trust. Anthropic says it never reduces quality because of demand or load. You can't test that from outside. You can rerun your own golden tasks, which is why they anchor the rest of this lesson.</p><p class="inclass">Ask how an outside user could test a claim like the third quote. There is no clean answer.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Diagnosis</p>
+        <h2>When it feels worse, check four things in order</h2>
+        <p>Work through this before you post that the model got dumber.</p>
+        <p>If every check comes back clean, write it in your vibes log, a dated record of notable wins and failures, and look again in a week.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#is-it-the-model-the-task-or-the-harness" target="_blank" rel="noopener">Go deeper: model, task or harness</a></p>
+      </div>
+      <div class="vis">
+        <div class="flow">
+          <div class="q"><div class="node"><span><span class="k">1</span> Is there a status page incident or an incident report?</span></div><span class="go">yes →</span><div class="act">Wait it out, or switch tools for now.</div></div>
+          <span class="nx">no ↓</span>
+          <div class="q"><div class="node"><span><span class="k">2</span> Did your harness version, plan, default settings or MCP setup change?</span></div><span class="go">yes →</span><div class="act">Pin or roll back. Rerun a five-task smoke test.</div></div>
+          <span class="nx">no ↓</span>
+          <div class="q"><div class="node"><span><span class="k">3</span> Do your golden tasks still pass at the usual rate?</span></div><span class="go">no →</span><div class="act">Probably a real regression. Collect specifics, report it, consider switching.</div></div>
+          <span class="nx">yes ↓</span>
+          <div class="q"><div class="node"><span><span class="k">4</span> Is today's task harder? Bigger repo, longer session, vaguer spec, more tools?</span></div><span class="go">yes →</span><div class="act">Fix the context: fresh session, smaller step, clearer spec.</div></div>
+          <span class="nx">no ↓</span>
+          <div class="act end">Log it in your vibes log. Recheck in a week.</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>This is the order to check things when a tool feels worse. Start at the top and stop at the first box that applies.</p><p>First, look at the vendor's status page. If there is an incident, wait it out or use another tool for the day. Second, look at what changed in your tool. It may have updated itself, or its default model, effort level or context setting may have moved. If so, pin or roll back, and rerun a small smoke test.</p><p>Third, run your golden tasks. If they fail more than usual, you probably have a real regression. Collect specifics and report it. A report like "since this version it ignores my test command" is worth far more than "it got dumber".</p><p>Fourth, if the golden tasks still pass, look at today's task. A bigger repo, a longer session or a vaguer spec makes the same model look worse. Start a fresh session with a smaller step.</p><p>If none of that explains it, write a line in your vibes log and check again in a week.</p><p class="inclass">Ask someone to describe their last "it got worse" moment, and walk it through the four checks as a group.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Diagnosis</p>
+        <h2>Check what changed on your side before you blame the model</h2>
+        <p>Tools update themselves and setups grow. A two-hour session with several compactions is a harder task than a fresh one.</p>
+        <p>OpenAI's Codex investigation found that evals favored minimal setups and short, focused conversations.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#is-it-the-model-the-task-or-the-harness" target="_blank" rel="noopener">Go deeper: model, task or harness</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Three weeks ago</h3>
+            <dl class="kv">
+              <dt>CLI version</dt><dd>2.3</dd>
+              <dt>Default effort</dt><dd>high</dd>
+              <dt>MCP servers</dt><dd>2</dd>
+              <dt><code>AGENTS.md</code></dt><dd>40 lines</dd>
+              <dt>Session</dt><dd>fresh</dd>
+            </dl>
+          </div>
+          <div class="panel">
+            <h3>Today</h3>
+            <dl class="kv">
+              <dt>CLI version</dt><dd><mark>2.7, auto-updated</mark></dd>
+              <dt>Default effort</dt><dd><mark>medium</mark></dd>
+              <dt>MCP servers</dt><dd><mark>7</mark></dd>
+              <dt><code>AGENTS.md</code></dt><dd><mark>310 lines</mark></dd>
+              <dt>Session</dt><dd><mark>2 hours, 3 compactions</mark></dd>
+            </dl>
+          </div>
+        </div>
+        <p class="cap">With API access, run a pinned, dated model snapshot on the same task. If the API is fine and the app isn't, look at product settings and the harness first.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Step two of that checklist deserves a closer look, because the change is often yours. The two panels show a made-up setup three weeks apart. The model's name is the same in both.</p><p>The tool updated itself and the default effort dropped. Five more tool servers got added. The instructions file grew from 40 lines to 310. And today's session has run for two hours and been compacted three times.</p><p>Any one of those can make the same model do worse work. When OpenAI investigated the Codex complaints, it found that its evals favored minimal setups and short, focused conversations. So before you blame the model, start a fresh session and try again.</p><p>Two more checks help. Ask whether it is only you. A specific, reproducible report from someone you trust counts for more than a trending thread. And if you have API access, run a pinned, dated version of the model on the same task. If that works and the app doesn't, the harness and product settings are the first suspects.</p><p class="inclass">Have everyone count their installed MCP servers and the lines in their instructions file. Compare with what they had three months ago.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Pinning</p>
+        <h2>Pin what you can, so upgrades happen on your schedule</h2>
+        <p>Apps and subscription tools change system prompts, default effort, routing and context handling without changing the model's name.</p>
+        <p>Pinning turns some of those surprises into upgrades you choose.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#silent-changes-and-how-to-pin-things" target="_blank" rel="noopener">Go deeper: silent changes and how to pin things</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows pin">
+          <div class="row"><b>A model behind an API</b><span class="to">→</span><span>Use a dated snapshot for anything automated. Upgrade deliberately.</span></div>
+          <div class="row"><b>Your CLI</b><span class="to">→</span><span>Pin the version and turn off auto-update. Upgrade after a smoke test.</span></div>
+          <div class="row"><b>Your own configuration</b><span class="to">→</span><span>Keep <code>AGENTS.md</code>, <code>CLAUDE.md</code> and MCP settings in version control, so you can tell what you changed.</span></div>
+          <div class="row"><b>An app's system prompt</b><span class="to">→</span><span>You can't pin it. Anthropic publishes system prompt release notes for its apps. Read them when behavior shifts.</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A chat app or a subscription tool can change a lot while the model keeps the same name. The system prompt, the default effort, the routing and the way context gets handled can all move without an announcement.</p><p>You can't stop that, but you can cut down on the surprises. Four things are on screen. APIs usually offer dated snapshots, which are fixed versions of a model. Use those for anything automated, and move to a newer one on purpose.</p><p>Command line tools let you pin a version and switch off auto-update. Then you upgrade when you have time to run a quick smoke test afterward.</p><p>Keep your own configuration in version control. That covers your instruction files and your tool server settings. When quality drops, the history shows what you changed.</p><p>The last row is the one you can't pin. An app's system prompt belongs to the vendor. Anthropic publishes release notes for the system prompts in its apps, so read those when behavior shifts.</p><p class="inclass">Ask who knows which version of their CLI they are running right now, and whether auto-update is on.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Switching</p>
+        <h2>Switch tools only on strong evidence</h2>
+        <p>Switching costs you new habits, new configuration and new failure modes.</p>
+        <p>A drop on your golden tasks that repeats a week later is evidence. One bad afternoon is not.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#when-to-switch-tools" target="_blank" rel="noopener">Go deeper: when to switch tools</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Good reasons</h3>
+            <ul class="ck">
+              <li>Your golden tasks show a consistent drop across two or more runs, a week apart.</li>
+              <li>A competitor beats your tool on your golden tasks by more than your error bar, at a cost you can afford.</li>
+              <li>Pricing, limits, data policy or security posture changed in a way that affects you.</li>
+              <li>A long bad stretch with no fix, no postmortem and no communication.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Bad reasons</h3>
+            <ul class="ck x">
+              <li>One bad afternoon</li>
+              <li>A launch-day benchmark chart</li>
+              <li>A viral thread</li>
+              <li>Fear of missing out</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Changing your main tool is expensive. You have to build new habits, redo your configuration, and learn a new set of failure modes. So the bar for switching should be high.</p><p>The left panel lists reasons that clear it. Your golden tasks show a consistent drop, on at least two runs a week apart. Or a competitor beats your current tool on those same tasks, by more than the noise in your measurements, at a price you can pay.</p><p>The other two are about the vendor. Pricing, limits, data policy or security may change in a way that affects you. Or the vendor may sit in a long bad stretch and say nothing about it.</p><p>The right panel lists the reasons people switch anyway. One bad afternoon, a launch-day chart, a viral thread, and fear of missing out. None of them is a measurement of your own work.</p><p class="inclass">Ask who has switched main tools in the last six months, and which panel their reason belongs in.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Switching</p>
+        <h2>Keep a second tool installed, configured and in use</h2>
+        <p>Claude Fable 5 launched on June 9, 2026. Three days later it was suspended for all users, until July 1. The cause was US export controls, and it had nothing to do with quality.</p>
+        <p>A second vendor gives you a fallback, and it makes multi-model review possible.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#when-to-switch-tools" target="_blank" rel="noopener">Go deeper: when to switch tools</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Claude Fable 5 availability, June 2026</p>
+        <div role="img" aria-label="A bar from June 9 to July 8, 2026. Fable 5 launches on June 9, is suspended for all users from June 12 to July 1, then is available again.">
+          <div class="span3"><i></i><i class="off"></i><i></i></div>
+          <div class="span3-l"><span>Jun 9</span><span>Jun 12 · <b>suspended for all users</b></span><span>Jul 1</span></div>
+        </div>
+        <div>
+          <p class="sub">A warm backup is</p>
+          <ul class="ck" style="margin-top:8px"><li>installed</li><li>configured</li><li>used at least occasionally</li></ul>
+        </div>
+        <blockquote class="take"><small>Bryan's take</small><p>Claude and Codex have both had ups and downs.</p></blockquote>
+      </div>
+      <div class="talk" hidden><p>Not switching on impulse is half of it. The other half is being able to switch quickly when you have to.</p><p>The bar on screen shows why. Anthropic launched Claude Fable 5 on June 9, 2026. Three days later it suspended the model for every user, for nearly three weeks. Nothing was wrong with the model. US export controls applied immediately, and Anthropic had no real-time way to verify a user's nationality. If Fable was your only tool, you lost it overnight.</p><p>The regressions from earlier in this lesson hit hardest for the same group of people, the ones with a single option.</p><p>So keep a second tool installed and configured, and use it now and then so your setup doesn't rot. That is a warm backup. Bryan's take is that Claude and Codex have both had ups and downs, and the documented record backs that up for both vendors.</p><p>A second vendor also lets you have one model review another's work, which Lessons 12 and 13 covered.</p><p class="inclass">Ask what else, apart from quality, could take a tool away overnight. Pricing, policy and outages should all come up.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Launch claims</p>
+        <h2>A launch post is marketing written by people who also do science</h2>
+        <p>Read it the way you'd read any vendor's claims. Six questions cover most of it.</p>
+        <p>Independent numbers from Artificial Analysis, Epoch AI, Arena and others usually arrive within days.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#weighing-launch-claims" target="_blank" rel="noopener">Go deeper: weighing launch claims</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="post" aria-label="A made-up launch post with six numbered claims">
+            <h4>Introducing Model X</h4>
+            <div class="ln"><span class="n">1</span><div><span>State of the art on CodeBench: 71.3%</span></div></div>
+            <div class="ln"><span class="n">2</span><div>
+              <div class="mb"><span>Model X</span><div class="track"><i style="--w:71%"></i></div><span>71.3</span><span>Rival 4</span><div class="track old"><i style="--w:64%"></i></div><span>64.0</span></div></div></div>
+            <div class="ln"><span class="n">3</span><div><div class="vid">▶ Watch it build an app in 90 seconds</div></div></div>
+            <div class="ln"><span class="n">4</span><div><span>Available today*</span></div></div>
+            <div class="ln"><span class="n">5</span><div><span>"It cut our review time in half." A launch partner</span></div></div>
+          </div>
+          <ol class="qs">
+            <li><span class="n">1</span><span>Who ran the benchmark, in what harness, with what settings?</span></li>
+            <li><span class="n">2</span><span>Which benchmark or competitor is missing from the chart?</span></li>
+            <li><span class="n">3</span><span>Was the demo live, edited or sped up?</span></li>
+            <li><span class="n">4</span><span>Available to whom: which tier, which organizations, API only?</span></li>
+            <li><span class="n">5</span><span>Did anyone check the figure in the customer quote?</span></li>
+            <li><span class="n">6</span><span>What do independent evaluators report?</span></li>
+          </ol>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>On the left is a made-up launch post with the usual parts. On the right are the questions to ask of each part.</p><p>Start with the benchmark. Ask who ran it, in what harness, and whether the rival's number was run the same way or copied from the rival's own post. Then look at what's missing. A benchmark that was in the last launch and has vanished from this one is a signal. So is a competitor left off the chart.</p><p>A demo may be one selected run, edited or sped up. "Available today" can mean one tier, the API only, or a short list of organizations. OpenAI's GPT-6 Astra launch in September 2026 started with a limited set of organizations.</p><p>Customer quotes are testimonials, usually from partners with early access. Lab-run numbers deserve the same care. Anthropic's Opus 5 post labels its headline benchmark results as an internal run.</p><p>The sixth question has no number on the post, because the answer isn't there yet. Independent evaluators usually publish within days, so wait for them.</p><p class="inclass">Pull up a real launch post from this year and have the room answer the six questions from the page alone.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Track records</p>
+        <h2>No lab has a clean record</h2>
+        <p>Judge a lab on four things: how its launch numbers survive independent testing, how honestly it handles regressions, whether its demos match the product, and how stable its pricing and limits are.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#lab-track-records" target="_blank" rel="noopener">Go deeper: lab track records</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows labs">
+          <div class="row"><b>Meta</b><ul class="ck"><li class="x"><span class="k">Apr 2025</span> Promoted an Arena ranking earned by an experimental chat-tuned variant instead of the released Llama 4.</li></ul></div>
+          <div class="row"><b>xAI</b><ul class="ck"><li class="x"><span class="k">Feb 2025</span> Grok 3's launch chart left out a rival's majority-vote score. An OpenAI employee called it misleading. xAI disputed that.</li></ul></div>
+          <div class="row"><b>OpenAI</b><ul class="ck"><li class="x"><span class="k">2025</span> The GPT-4o sycophancy rollback and the model-picker reversal.</li><li><span class="k">Oct 2025</span> Published a detailed investigation of the Codex complaints.</li><li><span class="k">Feb 2026</span> Retired SWE-bench Verified, a benchmark it created, after its own audit found flawed tasks.</li></ul></div>
+          <div class="row"><b>Anthropic</b><ul class="ck"><li class="pm"><span class="k">Sep 2025, Apr 2026</span> Detailed public postmortems, both after weeks in which users noticed first.</li><li class="x"><span class="k">Jul 2026</span> Opus 5's strong benchmarks didn't match many users' daily experience.</li></ul></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Every major lab has made claims that didn't hold up, and every major lab has also earned credit. Here are documented episodes for four of them.</p><p>Meta promoted a leaderboard ranking for Llama 4 that had been earned by an experimental variant tuned for chat. The released model was a different one. xAI's Grok 3 chart left out a rival's best score. An OpenAI employee said that made the comparison misleading, and xAI disputed it.</p><p>OpenAI has entries on both sides. It shipped the flattering GPT-4o update and pulled older models from the picker. It also retired SWE-bench Verified, a benchmark it had created, after auditing the tasks and finding material flaws. And its Codex team published a detailed investigation of its own regressions.</p><p>Anthropic published two detailed postmortems, and both came after weeks in which users had noticed the problem first. Its Opus 5 launch showed strong benchmarks that many users' daily experience didn't match.</p><p>Judge each lab on documented episodes like these, and date them, because records change.</p><p class="inclass">Pick a lab and have two volunteers argue for and against trusting its next launch, using only documented episodes.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Track records</p>
+        <h2>Google's record has evidence on both sides</h2>
+        <p>Bryan distrusts Google's launch claims, and the documented episodes cut both ways.</p>
+        <p>An afternoon with your golden tasks will tell you which side shows up in your own coding work.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#lab-track-records" target="_blank" rel="noopener">Go deeper: lab track records</a></p>
+      </div>
+      <div class="vis">
+        <blockquote class="take"><small>Bryan's take</small><p>I don't trust Google's launch claims much. In my experience they overhype Gemini, and it underperforms what was promised, especially for coding. I'll use Gemini for some specific tasks, but not as my coding agent.</p></blockquote>
+        <div class="two">
+          <div class="panel">
+            <h3>Against trusting the claims</h3>
+            <ul class="ck x">
+              <li><span class="k">Dec 2023</span> The "Hands-on with Gemini" video was staged. Google acknowledged feeding the model still frames and text prompts.</li>
+              <li><span class="k">Jun 2026</span> On the Terminal-Bench team's Harbor-Index, Gemini 3.1 solved 12.2% of tasks in its own CLI and GPT-5.5 solved 24.7%. Gemini also trailed in a neutral harness.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>For</h3>
+            <ul class="ck">
+              <li><span class="k">Jul 2025</span> Its International Mathematical Olympiad gold-medal result was graded and certified by IMO coordinators.</li>
+              <li><span class="k">Nov 2025</span> Gemini 3 Pro topped Arena at launch.</li>
+              <li><span class="k">Nov 8, 2026</span> Gemini 4 Carbon (High) is first on Arena's text leaderboard, with a rating still marked preliminary.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Bryan's take is on screen. He doesn't trust Google's launch claims much. In his experience Gemini gets overhyped and then underperforms, especially for coding. He uses it for some specific tasks and keeps it out of the coding agent seat.</p><p>The left panel has evidence that supports him. In December 2023, a Gemini demo video turned out to be staged. Google acknowledged it had fed the model still frames and text prompts. In June 2026, the Terminal-Bench team's Harbor-Index had Gemini 3.1 solving about half as many tasks as GPT-5.5, in its own harness and in a neutral one.</p><p>The right panel has evidence against him. Google's 2025 math olympiad result was graded and certified by the olympiad's own coordinators. That is a higher bar than most lab claims get. Gemini 3 Pro topped Arena at launch. As of early November 2026, a Gemini 4 model leads Arena's text leaderboard with a preliminary rating.</p><p>Bryan's opinions come from daily use, mostly of Claude and Codex. Read them as one experienced user's view. Then run your own tasks.</p><p class="inclass">Ask whether anyone's daily experience with Gemini matches or contradicts the take. Have them say what they used it for.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Sources</p>
+        <h2>A rumor gains credibility each time it's repeated</h2>
+        <p>Rumor laundering starts with an anonymous post. A blog picks it up, an "AI news" article adds invented specifics, and soon the claim is described as "reported".</p>
+        <p>When a claim affects a decision, trace it to a primary source or treat it as unverified.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#the-attention-economy-around-ai" target="_blank" rel="noopener">Go deeper: the attention economy around AI</a></p>
+      </div>
+      <div class="vis">
+        <div class="costline"><span>anonymous</span><i></i><span>official-looking</span></div>
+        <div class="chain4" role="img" aria-label="Four steps: an anonymous post, a blog post, an AI news article with invented specifics, and finally the word reported. The evidence behind all four is the same anonymous post.">
+          <div class="node">Anonymous post<small>"heard Model X drops next week"</small></div>
+          <div class="ar">→</div>
+          <div class="node">Blog post<small>"Sources say Model X is coming next week"</small></div>
+          <div class="ar">→</div>
+          <div class="node">"AI news" article<small>"Model X: 4M context, launches Tuesday"</small></div>
+          <div class="ar">→</div>
+          <div class="node hl">"Reported"<small>"Model X is reported to launch Tuesday"</small></div>
+        </div>
+        <div class="ev">Evidence at every step: <b>one anonymous post</b></div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Before choosing sources, it helps to see how bad information travels. The chain on screen is called rumor laundering.</p><p>It starts with an anonymous post. A blog repeats it and adds "sources say". An auto-generated news site picks that up and fills in details nobody supplied, like a context size and a launch day. After that, people describe the claim as reported.</p><p>Each step looks more official than the last. The box at the bottom shows what stayed the same. The evidence was one anonymous post the whole way through.</p><p>Launch days make this worse. They are built for attention, with leaks, countdowns, charts and viral demos. Benchmark tables come out before independent tests. Creators get rewarded for saying everything has changed. None of that is evidence about your work.</p><p>So when a claim affects a decision, follow it back to a primary source. If you can't find one, treat the claim as unverified.</p><p class="inclass">Bring one recent AI rumor and trace it backward as a group until you reach a primary source or run out of links.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Sources</p>
+        <h2>Follow two or three sources and know each one's bias</h2>
+        <p>Add the changelogs and status pages for the tools you use, and that's the whole diet.</p>
+        <p>Never cite SEO or auto-generated "AI news" sites. Many of them invent or garble model details.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#a-curated-information-diet" target="_blank" rel="noopener">Go deeper: a curated information diet</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows src">
+          <div class="row"><b>Labs</b><span>Authoritative on what shipped. Selective about how good it is.</span><span class="m">Changelogs, release notes, status pages</span></div>
+          <div class="row"><b>Independent evaluators</b><span>Consistent, but bound to benchmarks. Some have commercial ties.</span><span class="m">Epoch AI, METR, Artificial Analysis, Arena</span></div>
+          <div class="row"><b>Individual writers</b><span>Curate well and have viewpoints. Early access can shape their tone.</span><span class="m">Simon Willison, Latent Space, Interconnects, Import AI, One Useful Thing, The Pragmatic Engineer, Zvi Mowshowitz</span></div>
+          <div class="row"><b>Communities</b><span>Fastest and noisiest. They amplify both "it's amazing" and "it's nerfed".</span><span class="m">Hacker News, r/LocalLLaMA, X</span></div>
+          <div class="row"><s>"AI news" sites</s><span>Many invent or garble model details.</span><span class="m">Go to the primary source</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>You need a few good sources and the discipline to stop there. The screen groups them into types, because each type is wrong in its own way.</p><p>Labs are the authority on what they shipped, and their changelogs are the first place to look when behavior changes. They are selective about how good it is, and a changelog can leave out a prompt or default change.</p><p>Independent evaluators are consistent, but they can only tell you about what their benchmarks cover, and some have commercial ties. Individual writers curate well. They also have viewpoints, and some get early access, which can shape their tone. One example is Import AI, whose author co-founded Anthropic.</p><p>Communities like Hacker News and Reddit are the fastest and the noisiest. They amplify the excitement and the complaints alike.</p><p>The last row is the one to avoid. The course authors found many auto-generated news sites that invented or garbled model details. The full notes list fourteen sources with what each is good for. Pick two or three.</p><p class="inclass">Ask each person to name the two sources they would keep if they could keep only two, and what bias each one has.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Routine</p>
+        <h2>Thirty minutes a week is enough to keep up</h2>
+        <p>The routine has three cadences: read weekly, test monthly, review quarterly.</p>
+        <p>Write down the result of every monthly test, even when it's "no change".</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#a-sustainable-routine" target="_blank" rel="noopener">Go deeper: a sustainable routine</a></p>
+      </div>
+      <div class="vis">
+        <div>
+          <div class="cad">
+            <div class="t"><b>Weekly</b><span>30 min</span></div>
+            <div class="seg week" role="img" aria-label="Ten minutes on changelogs, fifteen on newsletters, five on the try list."><span class="c1" style="background:var(--t1);border-color:var(--t1b)">10 min<br>changelogs for your two or three tools</span><span style="background:var(--t3);border-color:var(--t3b)">15 min<br>one or two newsletters</span><span style="background:var(--t5);border-color:var(--t5b)">5 min<br>try list</span></div>
+          </div>
+          <div class="cad">
+            <div class="t"><b>Monthly</b><span>60–90 min</span></div>
+            <ul><li>Pick the one or two most relevant releases from the try list.</li><li>Run your golden tasks on them and write down the result.</li><li>Remove one tool, plugin or MCP server you no longer use.</li></ul>
+          </div>
+          <div class="cad">
+            <div class="t"><b>Quarterly</b><span>half a day</span></div>
+            <ul><li>Compare what you pay with what you get.</li><li>Refresh the golden tasks: retire leaked ones, add recent work.</li><li>Review security settings.</li><li>Update the team radar.</li></ul>
+          </div>
+        </div>
+        <p class="cap">Add at most one item to the try list each week.</p>
+      </div>
+      <div class="talk" hidden><p>This is a routine you can keep up for years. It has three cadences.</p><p>Every week, spend thirty minutes. Ten go to the changelogs of the two or three tools you use. Fifteen go to one or two newsletters. In the last five, add at most one item to a try list. That cap keeps the list from turning into a backlog.</p><p>Every month, spend an hour to an hour and a half. Pick the one or two releases from the try list that are closest to your work, and run your golden tasks on them. Write down what happened, even if nothing changed. Then remove one tool, plugin or tool server you've stopped using.</p><p>Every quarter, take half a day. Look at what you pay against what you get. Refresh your golden tasks by retiring any that have leaked and adding recent work. Go over your security settings, and update the team radar, which is coming up in two screens.</p><p class="inclass">Ask whether this time should come out of the work week. Let the leads in the room answer first.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Routine</p>
+        <h2>Wait two weeks unless a release fixes a problem you have today</h2>
+        <p>Most releases don't change how you work. The few that do will still be there in two weeks, with better documentation and fewer bugs.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#a-sustainable-routine" target="_blank" rel="noopener">Go deeper: a sustainable routine</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Launch day</h3>
+            <dl class="kv">
+              <dt>Launch-week bugs</dt><dd>still in</dd>
+              <dt>Capacity</dt><dd>strained</dd>
+              <dt>Reaction</dt><dd>hype and backlash</dd>
+              <dt>Documentation</dt><dd>thin</dd>
+            </dl>
+          </div>
+          <div class="panel">
+            <h3>Two weeks later</h3>
+            <dl class="kv">
+              <dt>Launch-week bugs</dt><dd><mark>fixed</mark></dd>
+              <dt>Capacity</dt><dd><mark>improved</mark></dd>
+              <dt>Reaction</dt><dd><mark>settled</mark></dd>
+              <dt>Documentation</dt><dd><mark>better</mark></dd>
+            </dl>
+          </div>
+        </div>
+        <ul class="dos">
+          <li>Change one thing at a time: model, harness or configuration.</li>
+          <li>Adopt a release when it does better on your tasks.</li>
+          <li>Ignore moves of a few points on a public benchmark.</li>
+          <li>Mute any source that mostly makes you anxious.</li>
+        </ul>
+      </div>
+      <div class="talk" hidden><p>The two-week rule is the simplest protection against churn. Unless a release solves a problem you have today, leave it alone for two weeks.</p><p>The panels show what those two weeks buy you. Launch-week bugs get fixed. Capacity improves. The reaction settles, so you can tell what people think once the launch excitement is over. Opus 5's reputation looked very different at week two than it did on day one.</p><p>Four more rules are listed below the panels. Change one thing at a time. If you swap the model, the harness and your configuration in the same week, you won't know which one helped.</p><p>Adopt a release when it does better on your own tasks. Ignore small benchmark moves, because a few points on a public benchmark is usually noise for your purposes. And mute freely. If a source mostly makes you anxious, drop it. You'll hear about anything big anyway.</p><p class="inclass">Watch for the worry that waiting means falling behind. Ask what anyone here lost by not using a model in its first two weeks.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Team radar</p>
+        <h2>A team radar spreads the load across people</h2>
+        <p>One person can't track everything. Borrow the Thoughtworks Technology Radar format: four rings, and every entry has evidence, an owner and a revisit date.</p>
+        <p>A scout rotates each month. Items move at most one ring per 30-minute review, and only with evidence.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#team-ai-radar" target="_blank" rel="noopener">Go deeper: team AI radar</a></p>
+      </div>
+      <div class="vis">
+        <div class="rings">
+          <div><span class="chip pill c3">Adopt</span>Proven on our golden tasks. The recommended default.</div>
+          <div><span class="chip pill c1">Trial</span>Promising. A few people use it on real work.</div>
+          <div><span class="chip pill c5">Assess</span>Worth an afternoon. Someone is testing it.</div>
+          <div><span class="chip pill c2">Hold</span>Don't start new work with it, with a reason.</div>
+        </div>
+        <div class="file">
+          <div class="file-h">docs/ai-radar.md</div>
+          <div class="rad"><span class="chip pill c3">Adopt</span><div><b>Claude Code + current Opus, high effort</b><span class="m">Golden set 26/30, median 9 min per task</span></div><span class="k">Priya · 2027-01</span></div>
+          <div class="rad"><span class="chip pill c3">Adopt</span><div><b>Codex CLI + current GPT</b><span class="m">Golden set 25/30, best on migrations</span></div><span class="k">Sam · 2027-01</span></div>
+          <div class="rad"><span class="chip pill c5">Assess</span><div><b>Gemini CLI + Gemini 4</b><span class="m">Not yet run on golden set</span></div><span class="k">Dana · 2026-12</span></div>
+          <div class="rad"><span class="chip pill c2">Hold</span><div><b>Auto-merge of agent PRs</b><span class="m">Two incidents. Review stays mandatory.</span></div><span class="k">Lee · 2027-02</span></div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>One person can't follow everything, and on a team nobody has to. A radar is a shared file that records what the team uses and why. The format comes from the Thoughtworks Technology Radar.</p><p>It has four rings. Adopt means proven on your golden tasks and recommended as the default. Trial means a few people are using it on real work. Assess means someone is giving it an afternoon. Hold means don't start new work with it, and the entry says why.</p><p>The file on screen is an example. Each row has the evidence, an owner, and a date to look again. A radar can hold practices as well as products. In the Hold row, auto-merging agent pull requests caused two incidents, so review stays mandatory.</p><p>Running it is light. Each month one person is the scout. They skim the sources, propose items, and run an afternoon evaluation on anything promising. The team meets for thirty minutes, and an item moves at most one ring per meeting, with evidence.</p><p>For leads, the file doubles as the record of why the team uses what it uses. That helps with budget conversations and onboarding.</p><p class="inclass">Draft a radar live. List the tools the room uses, place each in a ring, and write down what evidence is missing.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">New releases</p>
+        <h2>One afternoon on your own tasks tells you what a release is worth</h2>
+        <p>The plan is time-boxed to four hours and uses the golden tasks you built in Lesson 07.</p>
+        <p>If the result is close, wait and revisit in two weeks.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#evaluating-a-brand-new-release-in-an-afternoon" target="_blank" rel="noopener">Go deeper: evaluating a release in an afternoon</a></p>
+      </div>
+      <div class="vis">
+        <div class="seg aft" role="img" aria-label="Four hours split into six steps: 20 minutes reading claims, 20 minutes checking independent signals, 110 minutes running golden tasks, 45 minutes on one real task, 30 minutes on cost and limits, 15 minutes to decide and record.">
+          <span style="background:var(--t1);border-color:var(--t1b)">1</span><span style="background:var(--t6);border-color:var(--t6b)">2</span><span style="background:var(--t3);border-color:var(--t3b)">3 · golden tasks</span><span style="background:var(--t4);border-color:var(--t4b)">4</span><span style="background:var(--t5);border-color:var(--t5b)">5</span><span style="background:var(--t2);border-color:var(--t2b)">6</span>
+        </div>
+        <div class="rows aft-rows">
+          <div class="row"><span class="k">0:00–0:20</span><span><b>1 · Read the claims.</b> Launch post, pricing, limits, availability, the system card's limitations. Write down two or three claims to test.</span></div>
+          <div class="row"><span class="k">0:20–0:40</span><span><b>2 · Check independent signals.</b> If none exist yet, note that and lower your confidence.</span></div>
+          <div class="row"><span class="k">0:40–2:30</span><span><b>3 · Run 10 golden tasks.</b> Your usual harness and settings. Blind the outputs and grade with your rubric.</span></div>
+          <div class="row"><span class="k">2:30–3:15</span><span><b>4 · One real task</b> from this week's backlog. Watch whether it stays in scope and explains itself honestly.</span></div>
+          <div class="row"><span class="k">3:15–3:45</span><span><b>5 · Cost and limits.</b> Tokens or quota per task, and speed, against your current default.</span></div>
+          <div class="row"><span class="k">3:45–4:00</span><span><b>6 · Decide and record.</b> Adopt, Trial, Assess again in two weeks, or Hold. Three sentences and a revisit date.</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>When something on your try list looks promising, this is how to evaluate it in one afternoon. The bar across the top shows where the four hours go. Almost half is spent running your own tasks.</p><p>Spend the first twenty minutes reading. Go through the launch post, pricing, limits and the system card's limitations. Write down two or three specific claims to test, like "better at long refactors". Spend the next twenty on independent signals. If nobody independent has published yet, note that and trust the claims less.</p><p>Then run ten golden tasks in the harness you use, with your normal settings. Hide which model produced which output before you grade.</p><p>After that, give it one real task from this week's backlog and watch how it works. See whether it stays in scope and asks good questions. Then compare tokens, quota and speed with your current default.</p><p>Use the last fifteen minutes to decide. Write three sentences with the evidence and a date to look again. If it's close, wait two weeks.</p><p class="inclass">Homework. Run a shortened version with five golden tasks on the most recent release that affects you, and bring the three sentences back.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>Releases arrive weekly, and the skills that make you effective change slowly.</li>
+          <li>When quality drops, check the status page, your own setup and your golden tasks before you blame the model.</li>
+          <li>Trust results on your own tasks over launch posts, wait two weeks, and keep a second tool warm.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md#how-durable-is-your-knowledge" target="_blank" rel="noopener">Go deeper: how durable is your knowledge</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, releases arrive every week, and you can let most of them pass. Context, verification, security and review change slowly.</p><p>Second, when a tool feels worse, check in order. Look at the status page, then at what changed in your own setup, then at your golden tasks. In the documented record, the cause was more often above the weights.</p><p>Third, your own tasks are the evidence that counts. Launch posts are marketing, one bad release doesn't mean a lab has lost its way, and one great chart doesn't make a model better to work with. Wait two weeks, test, and keep a second tool ready.</p><p class="inclass">Have each person set up a vibes log before they leave: date, model, harness and version, task type, what happened.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 17 done</p>
+        <h2>Next: learning, careers, and responsible use</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-18">Lesson 18</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/17-keeping-up.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson seventeen. The tools on your radar will turn over every year or two, and your skill at evaluating them can keep growing. Lesson eighteen covers what that means for learning, careers and using these tools responsibly.</p></div>
+    </article>
+</section>

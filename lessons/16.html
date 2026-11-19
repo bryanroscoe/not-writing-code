@@ -1,0 +1,559 @@
+<section class="lesson" data-lesson="16" data-title="The open-source ecosystem" data-minutes="19" hidden>
+  <style>
+    .lesson[data-lesson="16"] .hero-tokens .chip { font-size: clamp(22px, 3cqi, 40px); }
+    .lesson[data-lesson="16"] .take { margin: 0; border-left: 4px solid var(--mark); padding: 4px 0 4px 12px; font-size: 15px; line-height: 1.45; }
+    .lesson[data-lesson="16"] .take b { display: block; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .lesson[data-lesson="16"] .rows { display: flex; flex-direction: column; }
+    .lesson[data-lesson="16"] .row { display: grid; grid-template-columns: 133px minmax(0, 1fr) minmax(0, 1fr); gap: 6px 14px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.45; align-items: start; }
+    .lesson[data-lesson="16"] .row:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="16"] .row.duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .lesson[data-lesson="16"] .row.dated { grid-template-columns: 60px 105px minmax(0, 1fr); }
+    .lesson[data-lesson="16"] .row.wide-r { grid-template-columns: 168px 118px minmax(0, 1fr); }
+    .lesson[data-lesson="16"] .row b { font: 720 16px/1.25 var(--display); }
+    .lesson[data-lesson="16"] .row p { margin: 0; }
+    .lesson[data-lesson="16"] .row .dim { color: var(--muted); }
+    .lesson[data-lesson="16"] .row .when { font: 600 12.5px/1.6 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="16"] .row.head { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-bottom: 6px; }
+    .lesson[data-lesson="16"] .row .chips .chip { font-size: 13px; padding: 5px 7px; }
+    .lesson[data-lesson="16"] .matrix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
+    .lesson[data-lesson="16"] .matrix .ch { font: 600 12px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: center; }
+    .lesson[data-lesson="16"] .matrix .rh { grid-column: 1 / -1; font: 700 15px/1.25 var(--display); margin-top: 6px; }
+    .lesson[data-lesson="16"] .matrix .cell { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="16"] .matrix .cell b { display: block; font-size: 15px; }
+    .lesson[data-lesson="16"] .layers { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="16"] .layer { display: grid; grid-template-columns: 10.5em minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 8px 12px; border: 1px solid var(--line); border-left-width: 5px; border-radius: 8px; background: var(--sunk); font-size: 13.5px; line-height: 1.4; }
+    .lesson[data-lesson="16"] .layer b { font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="16"] .layer .ex { color: var(--muted); }
+    .lesson[data-lesson="16"] .layer .who { font: 600 11px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .lesson[data-lesson="16"] .layer.core { border-left-color: var(--mark); background: var(--surface); }
+    .lesson[data-lesson="16"] .layer.core .who { color: var(--ink); }
+    .lesson[data-lesson="16"] .tri { display: grid; grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr) 22px minmax(0, 1fr); align-items: stretch; }
+    .lesson[data-lesson="16"] .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="16"] .trio .node { background: var(--surface); }
+    .lesson[data-lesson="16"] .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .lesson[data-lesson="16"] .stat { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--muted); line-height: 1.4; }
+    .lesson[data-lesson="16"] .stat b { font: 720 clamp(26px, 3.2cqi, 38px)/1 var(--display); color: var(--ink); font-variant-numeric: tabular-nums; }
+    .lesson[data-lesson="16"] .reach { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+    .lesson[data-lesson="16"] .code { margin: 0; font: 500 12px/1.6 var(--mono); background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; overflow-x: auto; white-space: pre; font-variant-ligatures: none; }
+    .lesson[data-lesson="16"] .twenty { display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: 3px; }
+    .lesson[data-lesson="16"] .twenty i { aspect-ratio: 1; border-radius: 3px; background: var(--line); }
+    .lesson[data-lesson="16"] .twenty i.real { background: var(--accent); }
+    .lesson[data-lesson="16"] .twenty i.part { background: repeating-linear-gradient(135deg, var(--accent) 0 2px, var(--line) 2px 5px); }
+    .lesson[data-lesson="16"] .share { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="16"] .share .lab { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+    .lesson[data-lesson="16"] .share .lab span { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+    .lesson[data-lesson="16"] .quote { margin: 0; border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; font: 600 clamp(18px, 2cqi, 24px)/1.3 var(--display); }
+    .lesson[data-lesson="16"] .quote small { display: block; font: 400 14px/1.4 var(--body); color: var(--muted); margin-top: 4px; }
+    .lesson[data-lesson="16"] .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="16"] .steps.cols { display: block; columns: 2; column-gap: 22px; }
+    .lesson[data-lesson="16"] .steps li { counter-increment: s; position: relative; padding-left: 28px; font-size: 14.5px; line-height: 1.4; break-inside: avoid; }
+    .lesson[data-lesson="16"] .steps.cols li { margin-bottom: 9px; }
+    .lesson[data-lesson="16"] .steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 20px; text-align: right; font: 700 12.5px/1.6 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="16"] .phone { max-width: 400px; width: 100%; align-self: center; border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: var(--surface); }
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="16"] .row, .lesson[data-lesson="16"] .row.duo, .lesson[data-lesson="16"] .row.dated, .lesson[data-lesson="16"] .row.wide-r { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .lesson[data-lesson="16"] .row.head { display: none; }
+      .lesson[data-lesson="16"] .row.head + .row { border-top: 0; padding-top: 0; }
+      .lesson[data-lesson="16"] .layer { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="16"] .tri, .lesson[data-lesson="16"] .trio { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+      .lesson[data-lesson="16"] .tri .ar { transform: rotate(90deg); }
+      .lesson[data-lesson="16"] .steps.cols { columns: 1; }
+      .lesson[data-lesson="16"] .twenty { gap: 2px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bllama\\.cpp\\b", "llama C P P"], ["\\bAGENTS\\.md\\b", "agents dot M D"], ["\\bSKILL\\.md\\b", "skill dot M D"], ["\\bDSPy\\b", "D S pie"], ["\\bQEMU\\b", "Q E M U"], ["\\bGentoo\\b", "jen-too"], ["\\bGhostty\\b", "ghost-tee"], ["\\bCensys\\b", "sen-sis"]]</script>
+
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 5 · Practice for the long run</p>
+        <h1>The open-source ecosystem</h1>
+        <p class="meta">Lesson 16 · 19 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-tokens" aria-hidden="true"><span class="chip c1">OpenCode</span><span class="chip c2">Aider</span><span class="chip c3">Cline</span><span class="chip c4">goose</span><span class="chip c5">OpenHands</span><span class="chip c6">Codex CLI</span></div>
+        <p class="cap">Open-source coding harnesses, November 2026.</p>
+      </div>
+      <div class="talk" hidden><p>This lesson is a map of the open-source tools around coding agents: harnesses, frameworks, extensions, and the people who maintain them. By the end you will know which layers you need, how to judge a tool before you depend on it, and how to contribute to someone else's project with AI without wasting a maintainer's time.</p><p>The chips on screen are six open-source harnesses that come up along the way.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Two kinds of open</p>
+        <h2>Open-source software and open-weight models are separate choices</h2>
+        <p>An open-weight model publishes its trained weights. Open-source software publishes a tool's code under a license that lets you read, modify and redistribute it. This lesson is about the software.</p>
+        <p>Either one can be paired with the closed version of the other.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#what-open-source-means-here" target="_blank" rel="noopener">Go deeper: what "open source" means here</a></p>
+      </div>
+      <div class="vis">
+        <div class="matrix" role="img" aria-label="A two by two grid. Open-source harness with a closed model: Codex CLI. Open-source harness with an open-weight model: OpenCode or Aider with a local model. Closed harness with a closed model: Claude Code. Closed harness with an open-weight model: a closed IDE running an open-weight model.">
+          <span class="ch">Closed model</span><span class="ch">Open-weight model</span>
+          <span class="rh">Open-source harness</span>
+          <div class="cell"><b>Codex CLI</b>calls OpenAI's closed models by default</div>
+          <div class="cell"><b>OpenCode or Aider</b>pointed at a local open-weight model</div>
+          <span class="rh">Closed harness</span>
+          <div class="cell"><b>Claude Code</b>a closed product on closed models</div>
+          <div class="cell"><b>A closed IDE</b>running an open-weight model</div>
+        </div>
+        <p class="cap">With an open client you can read every prompt and tool and audit what's sent. The model is still a remote service with its own terms, rate limits and data policies.</p>
+      </div>
+      <div class="talk" hidden><p>Two different things get called open. An open-weight model publishes its trained weights, so you can run it yourself. Lesson 06 covered those. Open-source software publishes the code of a tool under a license that lets you read it, change it and pass it on. This lesson is about the software.</p><p>The grid shows that the two choices are independent. Codex CLI is open-source software that calls OpenAI's closed models by default. OpenCode and Aider can drive a closed frontier model or a local open-weight one. A closed IDE can run an open-weight model.</p><p>The top-left cell is common, and it has a limit. With an open client you can read every prompt and every tool, and you can audit what gets sent. The model is still a remote service with its own terms, rate limits and data policies. For a stack that is open all the way down, you need a model-agnostic harness, an open-weight model and a local runtime.</p><p class="inclass">Ask the room to place the tools they use today on the grid.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Licenses</p>
+        <h2>Read the license file before you depend on a tool</h2>
+        <p>Most tools in this lesson use MIT or Apache-2.0. Both allow almost anything with attribution, and Apache-2.0 adds an explicit patent grant.</p>
+        <p>A source-available license such as the FSL lets you read and modify the code but forbids a competing commercial product. Some projects use different licenses for different parts.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#what-open-source-means-here" target="_blank" rel="noopener">Go deeper: licenses you'll meet</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row head"><span>License</span><span>Allows</span><span>Seen on</span></div>
+          <div class="row"><b>MIT</b><p>Almost anything, with attribution</p><p class="dim">OpenCode, Kilo Code, OpenHands, T3 Code, Gas Town, Beads, Inspect</p></div>
+          <div class="row"><b>Apache-2.0</b><p>Almost anything, with attribution, plus an explicit patent grant</p><p class="dim">Codex CLI, Gemini CLI, Aider, Cline, goose</p></div>
+          <div class="row"><b>FSL-1.1-MIT</b><p>Source-available. Use and modify, but no competing commercial product. Each release converts to MIT after two years.</p><p class="dim">Crush</p></div>
+        </div>
+        <p class="cap">Cline's VS Code extension is Apache-2.0. Its JetBrains plugin isn't open source.</p>
+      </div>
+      <div class="talk" hidden><p>Three licenses cover most of what you will meet. MIT lets you do almost anything as long as you keep the attribution. Apache 2.0 allows the same and adds an explicit patent grant. Both are open source.</p><p>The third row is a different kind of license. The Functional Source License is source-available. You can read and modify the code, but you can't build a competing commercial product with it. Each release converts to MIT after two years. Crush, a terminal agent from Charm, uses it.</p><p>Projects also mix licenses. Cline's VS Code extension is Apache 2.0, and its JetBrains plugin isn't open source at all. So open the license file for the part you plan to use.</p><p class="inclass">Watch for "it's on GitHub, so it's open source." Source-available code is on GitHub too.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Why open source</p>
+        <h2>Harness ideas show up in open projects first</h2>
+        <p>You can read an open harness's system prompt and tool code, which is the best way to understand what it does. You can also run it where your code lives, including air-gapped machines with local models.</p>
+        <p>Open projects work as the industry's research lab. Vendors watch them, and good ideas reach commercial products within months.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#open-source-as-the-fields-rd-lab" target="_blank" rel="noopener">Go deeper: open source as the R&amp;D lab</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row head duo"><span>Idea</span><span>Appeared in</span></div>
+          <div class="row duo"><p><b>Repository map</b><br>A compact summary of a codebase's symbols, so the agent gets a map before whole files</p><p><span class="chip c1">Aider</span></p></div>
+          <div class="row duo"><p><b>The Ralph loop</b><br>A dumb outer loop that restarts the agent with a fresh context</p><p class="dim">Public experiments</p></div>
+          <div class="row duo"><p><b>Git-backed agent memory</b><br>Structured tasks that many agents share</p><p><span class="chip c3">Beads</span> <span class="chip c4">Gas Town</span></p></div>
+          <div class="row duo"><p><b>Skills</b><br>Adopted by a growing list of other agent products within a year</p><p><span class="chip c5">anthropics/skills</span></p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>An open harness lets you read its system prompt and the code for its tools. That is the best way to learn what a harness does on your behalf. You can also run it where your code lives, including on-premises or air-gapped machines with a local model.</p><p>The list on screen is the other reason to pay attention. Aider's repository map is a compact summary of a codebase's symbols. It showed that an agent needs a map of the code before it needs whole files. The Ralph loop showed how far a dumb outer loop with fresh contexts can go. Beads and Gas Town pushed structured, git-backed memory that many agents share.</p><p>The skills format started in Anthropic's public repository. Within a year a growing list of other agent products had adopted it.</p><p>Vendors watch these projects closely. Ideas that work show up in commercial products within months.</p><p class="inclass">Ask who has read the system prompt of a harness they use. The individual exercise in the full notes starts there.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The stack</p>
+        <h2>You don't need every layer of the stack</h2>
+        <p>"Open source" in AI tooling covers seven layers, from the model up to evaluation tools.</p>
+        <p>A typical engineer uses a model, one harness, and a few MCP servers and skills. Running models locally adds a runtime. Building a product adds a framework or SDK and an eval tool.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#a-map-of-the-stack" target="_blank" rel="noopener">Go deeper: a map of the stack</a></p>
+      </div>
+      <div class="vis">
+        <div class="layers">
+          <div class="layer core"><b>Models</b><span class="ex">API, subscription or open-weight</span><span class="who">Most people</span></div>
+          <div class="layer"><b>Inference runtimes</b><span class="ex">llama.cpp, Ollama, vLLM, SGLang, MLX</span><span class="who">Running locally</span></div>
+          <div class="layer"><b>Frameworks and SDKs</b><span class="ex">LangGraph, Pydantic AI, DSPy, OpenAI Agents SDK, Claude Agent SDK</span><span class="who">Building a product</span></div>
+          <div class="layer core"><b>Harnesses</b><span class="ex">OpenCode, Aider, Cline, Kilo Code, goose, OpenHands, Codex CLI</span><span class="who">Most people</span></div>
+          <div class="layer core"><b>Extensions</b><span class="ex">MCP servers, Agent Skills, plugins</span><span class="who">Most people</span></div>
+          <div class="layer"><b>Orchestrators and GUIs</b><span class="ex">Gas Town, Beads, OpenHands Agent Canvas, T3 Code</span><span class="who">Many agents</span></div>
+          <div class="layer"><b>Evaluation</b><span class="ex">SWE-bench harness, Inspect, promptfoo</span><span class="who">Building a product</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>The phrase open source covers seven layers of AI tooling. From the top of the screen: models, the runtimes that serve them, frameworks and SDKs, harnesses, extensions such as MCP servers and skills, orchestrators, and evaluation tools.</p><p>You don't need all seven. The highlighted rows are what a typical engineer uses: a model through an API or a subscription, one harness, and a few MCP servers and skills.</p><p>The other rows are for particular jobs. If you run models on your own hardware, you add a runtime such as Ollama or llama.cpp. Lesson 06 covered those. If you build a product with an agent inside it, you add a framework or SDK and an eval tool. Orchestrators come in when you run many agents at once.</p><p class="inclass">Ask each person to name the layers they touched this week.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Harnesses</p>
+        <h2>Pick a harness by where you work</h2>
+        <p>For one terminal agent that works with any model, start with OpenCode or Aider. If you live in VS Code and want to approve each diff, try Cline or Kilo Code.</p>
+        <p>Whichever you pick, check its last release date and open-issue count first. Stars measure attention.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#open-source-coding-harnesses" target="_blank" rel="noopener">Go deeper: open-source coding harnesses</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row duo"><p><b>One terminal agent, any model</b></p><div class="chips"><span class="chip c1">OpenCode</span><span class="chip c2">Aider</span></div></div>
+          <div class="row duo"><p><b>VS Code, approving each diff</b></p><div class="chips"><span class="chip c3">Cline</span><span class="chip c4">Kilo Code</span></div></div>
+          <div class="row duo"><p><b>A general desktop agent</b><br><span class="dim">Built around MCP extensions, and used for more than code</span></p><div class="chips"><span class="chip c5">goose</span></div></div>
+          <div class="row duo"><p><b>Running and comparing several agents</b></p><div class="chips"><span class="chip c6">OpenHands</span><span class="chip c1">T3 Code</span></div></div>
+          <div class="row duo"><p><b>A lab's own open client</b><br><span class="dim">Gemini CLI has served only enterprise Gemini Code Assist since June 18, 2026</span></p><div class="chips"><span class="chip c2">Codex CLI</span><span class="chip c3">Gemini CLI</span></div></div>
+        </div>
+        <span class="tag">As of November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Start from where you work. The first row is the terminal. OpenCode is model-agnostic and very popular, at about 225,000 GitHub stars as of November 2026. Aider dates from 2023 and was one of the first terminal pair-programmers. It pioneered the repository map and a git commit for every change.</p><p>If you live in VS Code and want to approve each diff, try Cline or Kilo Code. Goose is a general-purpose desktop agent built around MCP extensions. OpenHands and T3 Code let you run and compare several agents. T3 Code is a GUI over the agent CLIs you already have, so it needs one of those installed.</p><p>The last row is the labs' own open clients. Codex CLI is OpenAI's. Since June 18, 2026, Gemini CLI is aimed at enterprise Gemini Code Assist, and individual users were moved to Google's Antigravity CLI.</p><p>Before you commit to any of them, check the last release date and the open-issue count. Run that check on Aider too. As of November 2026, its last release was in February. Stars measure attention.</p><p class="inclass">Live demo. Open one harness's repository and find its last release date and open-issue count.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Churn</p>
+        <h2>2026 was a hard year for open-source AI tools</h2>
+        <p>The pattern is old. Venture-funded companies build open tools to win adoption, then pivot, sell or shut down.</p>
+        <p>You can still run an archived tool, and you can fork it. Nobody has to maintain the fork. Weigh a tool's governance along with its features.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#churn-and-capture" target="_blank" rel="noopener">Go deeper: churn and capture</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row dated"><span class="when">Feb 14</span><b>OpenClaw</b><p>Creator joined OpenAI. The project moved to the nonprofit OpenClaw Foundation on July 8</p></div>
+          <div class="row dated"><span class="when">Mar 9</span><b>Promptfoo</b><p>OpenAI announced it would acquire it and said the open-source project would continue</p></div>
+          <div class="row dated"><span class="when">May 15</span><b>Roo Code</b><p>Extension, cloud and router shut down. Repository archived. The team pivoted to a hosted product</p></div>
+          <div class="row dated"><span class="when">Jun 18</span><b>Gemini CLI</b><p>Still open source. Individual users moved to Antigravity CLI</p></div>
+          <div class="row dated"><span class="when">Jun 19</span><b>Continue</b><p>Final 2.0 release. The README says the repository is no longer maintained</p></div>
+          <div class="row dated"><span class="when">Oct 16</span><b>AutoGen</b><p>README marked archived and no longer maintained. Microsoft points new users to Agent Framework</p></div>
+        </div>
+        <p class="cap">The Agentic AI Foundation, a neutral home with several members, now hosts MCP, AGENTS.md, goose and Agent Skills.</p>
+      </div>
+      <div class="talk" hidden><p>Open-source AI tooling had a rough 2026. In February, OpenClaw's creator joined OpenAI. The project moved to its own nonprofit foundation in July. In March, OpenAI announced it would buy Promptfoo and said the open-source project would continue. In May, Roo Code shut down its extension, cloud and router, and the team pivoted to a hosted product.</p><p>In June, Gemini CLI stopped serving individual users. A day later Continue shipped a final 2.0 release, and its repository is no longer maintained. In October, Microsoft marked AutoGen archived and pointed new users to its Agent Framework.</p><p>This has happened in earlier open-source eras. A venture-funded company builds an open tool to win adoption, then pivots, sells or shuts down.</p><p>Open source gives you some protection. You can still run an archived tool, and you can fork it. Nobody has to maintain that fork, though. So look at who governs a tool: a single company, or a foundation with several members. The Agentic AI Foundation is one such neutral home. It hosts MCP, AGENTS.md, goose and Agent Skills.</p><p class="inclass">Ask how the team would decide whether to depend on an open-source AI tool. Push for criteria beyond features.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Case study: OpenClaw</p>
+        <h2>OpenClaw showed how much people want a personal agent</h2>
+        <p>OpenClaw is an open-source personal assistant by Peter Steinberger. It runs on your own machine, uses a model you choose, and talks to you through Signal, Telegram, Discord or WhatsApp.</p>
+        <p>It can act on your email, calendar, files and accounts, and it extends itself with skills. It passed 247,000 GitHub stars by early March 2026.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#case-study-openclaw-and-personal-agents" target="_blank" rel="noopener">Go deeper: OpenClaw and personal agents</a></p>
+      </div>
+      <div class="vis">
+        <div class="phone">
+          <div class="chat">
+            <div class="msg user">Move my 3pm with Sam to Thursday and let them know.</div>
+            <div class="msg bot"><p>Done. It's Thursday at 3 on your calendar, and I emailed Sam the new time.</p></div>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+        <div class="frames">
+          <div class="frame"><small>Before Jan 27, 2026</small><span>Clawdbot</span></div>
+          <div class="frame"><small>Jan 27, 2026</small><span>Moltbot</span></div>
+          <div class="frame"><small>Jan 30, 2026</small><span><mark>OpenClaw</mark></span></div>
+        </div>
+        <p class="cap">Renamed Moltbot after trademark complaints from Anthropic, then OpenClaw three days later.</p>
+      </div>
+      <div class="talk" hidden><p>OpenClaw is the case study for this lesson. It is an open-source personal assistant agent by Peter Steinberger. It runs on your own machine, connects to a model you choose, and talks to you through the messaging apps you already use. The chat on screen is the kind of request it handles. It can act on your email, calendar, files and accounts.</p><p>The name changed twice in four days. It was Clawdbot until January 27, 2026. It became Moltbot after trademark complaints from Anthropic, and OpenClaw on January 30.</p><p>It grew faster than almost any project before it, passing 247,000 GitHub stars by early March. On February 14 Steinberger announced he was joining OpenAI and that the project would move to a foundation. The nonprofit OpenClaw Foundation was announced on July 8. Version 2.0 shipped on August 30.</p><p>The demand is the first thing to take from it. People want an agent that lives where they already talk, keeps memory between sessions, and acts across their accounts. That is a different product from a coding agent.</p><p class="inclass">Ask who in the room has run a personal agent, and what they let it touch.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Case study: OpenClaw</p>
+        <h2>A personal agent is the lethal trifecta in one package</h2>
+        <p>It reads untrusted content, holds private data, and can send messages and take actions. Those three together make prompt injection dangerous.</p>
+        <p>Reviewers of OpenClaw 2.0 still criticized it for not enabling its sandbox by default and not encrypting stored secrets.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#case-study-openclaw-and-personal-agents" target="_blank" rel="noopener">Go deeper: OpenClaw and personal agents</a></p>
+      </div>
+      <div class="vis">
+        <div class="tri" role="img" aria-label="Three things a personal agent has at once: it reads untrusted content, it holds private data, and it can act.">
+          <div class="node">Reads untrusted content<small>emails, messages, web pages</small></div>
+          <div class="ar">+</div>
+          <div class="node">Holds private data<small>email, calendar, files, accounts</small></div>
+          <div class="ar">+</div>
+          <div class="node">Can act<small>sends messages, takes actions</small></div>
+        </div>
+        <div class="down">↓</div>
+        <div class="node hl">One injected email can direct an agent that holds your accounts</div>
+        <p class="sub">What such an agent needs</p>
+        <ul class="dos"><li>A sandbox</li><li>Least-privilege credentials</li><li>Vetted extensions</li><li>Confirmation before irreversible actions</li></ul>
+      </div>
+      <div class="talk" hidden><p>Lesson 14 introduced the lethal trifecta. An agent is dangerous to its owner when it has three things at once: exposure to untrusted content, access to private data, and a way to send things out or take actions.</p><p>A personal agent has all three by design. It reads your email, your messages and web pages, and any of those can carry instructions written by a stranger. It holds your private data. It can send messages and act on your accounts. So a prompt injection in one email can turn the agent against you.</p><p>The list at the bottom is what such an agent needs: a sandbox, credentials with the least privilege that works, vetted extensions, and a confirmation step before anything irreversible. Reviewers of OpenClaw 2.0 still criticized it for shipping with its sandbox off by default and for not encrypting stored secrets.</p><p class="inclass">Ask which of the three the room would take away first from an email agent, and what the agent could still do afterwards.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Case study: OpenClaw</p>
+        <h2>Deployment configuration is security policy</h2>
+        <p>Security researchers found tens of thousands of OpenClaw instances exposed to the internet in late January and early February 2026.</p>
+        <p>Censys says the default listener was localhost, so the exposure came from deployment choices. The counts alone don't tell you how many of those users had other controls in place.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#case-study-openclaw-and-personal-agents" target="_blank" rel="noopener">Go deeper: OpenClaw and personal agents</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Default</h3>
+            <div class="box">OpenClaw listening on localhost</div>
+            <div class="reach">Reachable from <span class="chip pill c3">your machine</span></div>
+          </div>
+          <div class="panel">
+            <h3>As deployed</h3>
+            <div class="box">OpenClaw listening on a public address</div>
+            <div class="reach">Reachable from <span class="chip pill c3">your machine</span><span class="chip pill c2">anyone on the internet</span></div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>21,639</b>exposed instances on January 31, 2026 (Censys)</div>
+          <div class="stat"><b>30,000+</b>across January 27 to February 8, 2026 (Bitsight)</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Security researchers scanned the internet for OpenClaw in its first weeks. Censys counted 21,639 exposed instances on January 31, 2026. Bitsight counted more than 30,000 between January 27 and February 8.</p><p>Censys also says the default listener was localhost. That is the left panel. Out of the box, only your own machine could reach it. The exposure in the right panel came from how people deployed it.</p><p>For an agent, a setting like the listening address is security policy. Whoever changes it is deciding who can talk to a program that holds your accounts.</p><p>One caveat on the numbers. An exposed instance is reachable, and that is all the scan can tell you. The counts don't say how many of those users had other controls in place.</p><p class="inclass">Watch for "the defaults were insecure." The default was localhost. The deployments changed it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Skill registries</p>
+        <h2>A skill registry is a software supply chain</h2>
+        <p>A skill is instructions, often with scripts your agent will run. Koi Security audited 2,857 skills on OpenClaw's public ClawHub registry and flagged 341 as malicious.</p>
+        <p>Read a skill before you install it, and pin versions for team use.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#skill-collections" target="_blank" rel="noopener">Go deeper: skill collections</a></p>
+      </div>
+      <div class="vis">
+        <div class="bars" role="img" aria-label="Of 2,857 skills audited on ClawHub, 341 were flagged as malicious, and 335 of those were tied to one campaign.">
+          <span class="chip pill">Skills audited</span><div class="track"><i style="--w:100%"></i></div><span class="num">2,857</span>
+          <span class="chip pill c2">Flagged malicious</span><div class="track"><i style="--w:11.9%"></i></div><span class="num">341</span>
+          <span class="chip pill c2">From one campaign</span><div class="track"><i style="--w:11.7%"></i></div><span class="num">335</span>
+        </div>
+        <p class="cap">That campaign delivered password-stealing malware to macOS and Windows users. The maintainers responded with reporting tools, malware scanning and minimum account ages for uploaders.</p>
+        <span class="tag">Koi Security audit, February 2026</span>
+      </div>
+      <div class="talk" hidden><p>OpenClaw extends itself with skills. A skill is a folder with a SKILL.md file, the same format as Agent Skills. It holds instructions, often with scripts the agent will run. ClawHub is the public registry where people share them.</p><p>Koi Security audited 2,857 skills on ClawHub. The bars show what they found. They flagged 341 as malicious, about 12 percent. 335 of those were tied to a single campaign that delivered password-stealing malware to macOS and Windows users.</p><p>The maintainers responded with reporting tools, malware scanning and a minimum account age for uploaders.</p><p>People were installing skills the way they save browser bookmarks. A skill runs with your agent's permissions, so read it first. For a team, pin the version, so an update can't change what it does without a review.</p><p class="inclass">Ask who has installed a skill or an MCP server without reading it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Frameworks</p>
+        <h2>A working agent loop is about 30 lines</h2>
+        <p>Anthropic's "Building effective agents" warns that frameworks "often create extra layers of abstraction that can obscure the underlying prompts," and suggests starting with direct API calls.</p>
+        <p>This loop has one tool, a permission check, truncated tool output and a turn budget. It has no sandbox, so run it only in a disposable environment without real credentials.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#framework-or-just-a-loop" target="_blank" rel="noopener">Go deeper: framework or just a loop?</a></p>
+      </div>
+      <div class="vis">
+        <pre class="code">def run(cmd: str) -&gt; str:
+    if <mark>input(f"run `{cmd}`? [y/N] ")</mark>.strip() != "y":  # the permission system
+        return "The user declined to run this command."
+    p = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=120)
+    return (p.stdout + p.stderr)<mark>[-10_000:]</mark>  # crude context management
+
+messages = [{"role": "user", "content": "Make the failing test in tests/ pass."}]
+for turn in <mark>range(30)</mark>:  # a budget, so it can't run forever
+    resp = client.messages.create(model=MODEL, max_tokens=4096,
+                                  tools=TOOLS, messages=messages)
+    messages.append({"role": "assistant", "content": resp.content})
+    if resp.stop_reason != "tool_use":
+        print("".join(b.text for b in resp.content if b.type == "text"))
+        break
+    messages.append({"role": "user", "content": [
+        {"type": "tool_result", "tool_use_id": b.id, "content": run(b.input["cmd"])}
+        for b in resp.content if b.type == "tool_use"
+    ]})</pre>
+        <p class="cap">Anthropic Python SDK. The imports and the definition of the one <code>bash</code> tool are left out.</p>
+      </div>
+      <div class="talk" hidden><p>Before you reach for an agent framework, look at how small an agent is. Anthropic's guide, Building effective agents, warns that frameworks often add layers of abstraction that hide the underlying prompts. It suggests starting with direct API calls.</p><p>The code on screen is most of a working agent. Start at the for loop. It sends the conversation to the model. If the model asks for a tool, the loop runs the command and appends the result. If the model answers in plain text, the loop prints it and stops.</p><p>The three highlights are the controls. The input prompt is the whole permission system. The slice that keeps the last ten thousand characters is the context management. The range of thirty is a turn budget, so it can't run forever.</p><p>This is a teaching example. It has no sandbox and no error recovery, and the shell tool runs whatever you approve. Run it only in a disposable environment with no real credentials.</p><p class="inclass">Live demo. Run the loop against a toy repository with one failing test, and read each command aloud before approving it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Frameworks</p>
+        <h2>Move to a framework when you need state, tracing or many agents</h2>
+        <p>A framework gives you building blocks for agents: model clients, tool definitions, memory, state, tracing, multi-agent coordination. An SDK from a lab gives you that lab's harness as a library.</p>
+        <p>If what you want is a coding agent you can script, use an existing harness.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#agent-frameworks-and-sdks" target="_blank" rel="noopener">Go deeper: agent frameworks and SDKs</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>A plain loop is enough</h3>
+            <ul class="dos"><li>One agent</li><li>A handful of tools</li><li>Short sessions</li></ul>
+          </div>
+          <div class="panel">
+            <h3>Move to a framework or SDK</h3>
+            <ul class="dos"><li>State that survives restarts</li><li>Tracing and observability in production</li><li>Many tools or many agents</li><li>Human approval steps mid-workflow</li><li>Systematic prompt optimization</li></ul>
+          </div>
+        </div>
+        <div class="rows">
+          <div class="row duo"><p>Durable, resumable workflows with approval steps</p><div class="chips"><span class="chip c1">LangGraph</span></div></div>
+          <div class="row duo"><p>Typed inputs and outputs in a Python service</p><div class="chips"><span class="chip c3">Pydantic AI</span></div></div>
+          <div class="row duo"><p>Tuning prompts against an eval set</p><div class="chips"><span class="chip c4">DSPy</span></div></div>
+          <div class="row duo"><p>A coding agent, scripted</p><div class="chips"><span class="chip c5">Claude Agent SDK</span><span class="chip c2">Codex CLI headless</span><span class="chip c6">OpenCode</span></div></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>The left panel is when the plain loop is enough: one agent, a handful of tools, short sessions. The right panel is when it stops being enough. You need state that survives a restart, tracing in production, many tools or many agents, a human approval step in the middle of a workflow, or systematic prompt optimization.</p><p>A framework gives you building blocks for those: model clients, tool definitions, memory, state, tracing, and coordination between agents. An SDK from a lab is a little different. It gives you that lab's own harness as a library.</p><p>The rows at the bottom pair a need with a tool. LangGraph builds stateful graphs with checkpoints and approval steps. Pydantic AI gives you typed, validated inputs and outputs in Python. DSPy tunes prompts against a metric, so you need an eval set first.</p><p>If what you want is a coding agent you can script, use an existing harness: the Claude Agent SDK, Codex CLI in headless mode, or OpenCode.</p><p class="inclass">Ask for one project in the room that outgrew a plain loop, and which of the five needs forced the move.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Extensions</p>
+        <h2>MCP servers and skills are dependencies</h2>
+        <p>They run with your agent's permissions, and an MCP server's tool descriptions go straight into your agent's context.</p>
+        <p>Prefer servers maintained by the service's own vendor. Read before you install, pin versions, and give each server the narrowest credentials that work.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#extensions-are-dependencies" target="_blank" rel="noopener">Go deeper: extensions are dependencies</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row head wide-r"><span>Extension</span><span>Maintainer</span><span>What it gives an agent</span></div>
+          <div class="row wide-r"><b>GitHub MCP server</b><p class="dim">GitHub</p><p>Issues, pull requests, code search and Actions</p></div>
+          <div class="row wide-r"><b>Playwright MCP</b><p class="dim">Microsoft</p><p>A browser it can drive, so it can test the web app it just built</p></div>
+          <div class="row wide-r"><b>Chrome DevTools MCP</b><p class="dim">Google</p><p>Console logs, network requests and performance traces from a real Chrome</p></div>
+          <div class="row wide-r"><b>MCP reference servers</b><p class="dim">The MCP project</p><p>Educational examples. The README says "not production-ready solutions."</p></div>
+          <div class="row wide-r"><b>anthropics/skills</b><p class="dim">Anthropic</p><p>The document skills behind Claude's file features, a template and the specification</p></div>
+          <div class="row wide-r"><b>obra/superpowers</b><p class="dim">Jesse Vincent</p><p>Workflow skills: test-driven development, planning, systematic debugging</p></div>
+        </div>
+        <p class="cap">The MCP Registry is the official catalog of published servers.</p>
+      </div>
+      <div class="talk" hidden><p>MCP servers, skills and plugins run with your agent's permissions. Treat each one like any other dependency.</p><p>The table lists some worth knowing. GitHub's official server covers issues, pull requests, code search and Actions. Playwright MCP, from Microsoft, drives a browser so an agent can test the web app it just built. Chrome DevTools MCP, from Google, gives the agent console logs, network requests and performance traces. The MCP project's own reference servers are a different case. Their README calls them educational examples and says they are not production-ready solutions.</p><p>For skills, Anthropic's repository holds the document skills behind Claude's file features, plus a template and the specification. Superpowers, by Jesse Vincent, is a popular community library of workflow skills.</p><p>Prefer the server maintained by the service's own vendor. Read the tool descriptions before you connect a server, because they go straight into your agent's context. Give each server the narrowest credentials that work. Pin versions, and watch for updates that change behavior.</p><p class="inclass">Have each person list the MCP servers and skills they have installed, and who maintains each one.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Orchestration</p>
+        <h2>Gas Town is built to run 20 to 30 coding agents at once</h2>
+        <p>Steve Yegge's Gas Town (January 2026, MIT) is a workspace manager for a fleet of agents. Claude Code is the default runtime, and it also supports Codex, Gemini, Cursor, Amp, OpenCode and others.</p>
+        <p>It depends on Beads, a graph issue tracker for agents. They create tasks, record dependencies, find unblocked work, claim it and close it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#orchestration-projects" target="_blank" rel="noopener">Go deeper: orchestration projects</a></p>
+      </div>
+      <div class="vis">
+        <div class="tri" role="img" aria-label="A Mayor agent assigns work to Polecats, the worker agents, and a Refinery batches and verifies finished work before merging.">
+          <div class="node">Mayor<small>takes your request and assigns work</small></div>
+          <div class="ar">→</div>
+          <div class="node">Polecats<small>20 to 30 worker agents</small></div>
+          <div class="ar">→</div>
+          <div class="node">Refinery<small>batches and verifies finished work before merging</small></div>
+        </div>
+        <div class="trio">
+          <div class="node">Rigs<small>wrap repositories</small></div>
+          <div class="node">Witness<small>watches for stuck agents</small></div>
+          <div class="node">Beads<small>the task graph the agents share</small></div>
+        </div>
+        <p class="take"><b>Bryan's take</b>OpenClaw had a couple of issues, but it was Gas Town that really did not work for me.</p>
+      </div>
+      <div class="talk" hidden><p>Gas Town is Steve Yegge's workspace manager for running 20 to 30 coding agents at once. It came out in January 2026 under the MIT license, with a deliberately colorful vocabulary.</p><p>Follow the top row. A Mayor agent takes your request and assigns the work. Polecats are the worker agents. A Refinery batches and verifies finished work before it merges. In the bottom row, Rigs wrap repositories and a Witness watches for stuck agents.</p><p>Gas Town depends on Beads, also by Yegge. Beads is a graph issue tracker for agents, backed by a version-controlled database called Dolt. Agents create tasks, record dependencies, find unblocked work, claim it and close it. It replaces sprawling markdown plan files with structured memory that many agents can share.</p><p>Bryan's take is on screen. OpenClaw had a couple of issues for him, but it was Gas Town that really did not work. That is one person's experience.</p><p class="inclass">Ask what would have to be true of your tests and your review process before 20 parallel agents would help.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Maintainer burden</p>
+        <h2>AI made reports cheap to write and left the reading to maintainers</h2>
+        <p>Open source runs on volunteer review time. A plausible-looking pull request or bug report is now nearly free to produce, and a maintainer still has to read each one.</p>
+        <p>curl ended its bug bounty on January 31, 2026. Over its life the program confirmed 87 vulnerabilities and paid more than $100,000.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden" target="_blank" rel="noopener">Go deeper: AI slop and maintainer burden</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">curl bug bounty reports that turned out to be real</p>
+        <div class="share">
+          <div class="lab"><b>Earlier years</b><span>above 15%, more than 3 in 20</span></div>
+          <div class="twenty" role="img" aria-label="Twenty squares, three filled."><i class="real"></i><i class="real"></i><i class="real"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="share">
+          <div class="lab"><b>From 2025 on</b><span>below 5%, fewer than 1 in 20</span></div>
+          <div class="twenty" role="img" aria-label="Twenty squares, less than one filled."><i class="part"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="quote">"Not even one in twenty was real."<small>Daniel Stenberg, curl's founder and lead developer, January 26, 2026</small></p>
+        <p class="cap">curl still takes reports through GitHub's private vulnerability reporting and email, with no payouts.</p>
+      </div>
+      <div class="talk" hidden><p>Open source runs on volunteer review time. AI tools made it nearly free to produce a plausible-looking pull request or bug report. The cost moved to the maintainers, who have to read every one.</p><p>The curl project is the clearest case. Its founder and lead developer, Daniel Stenberg, had complained about AI-generated security reports since early 2024. In January 2026 he announced the end of curl's bug bounty, effective January 31.</p><p>The squares show why. In earlier years, more than 15 percent of reports turned out to be real. That is more than three in every twenty. From 2025 on, the share fell below 5 percent. In Stenberg's words, not even one in twenty was real.</p><p>Over its life the program had confirmed 87 vulnerabilities and paid more than 100,000 dollars. Stenberg argued that the money drew in low-effort submissions, and he wrote that the never-ending slop takes a serious mental toll to manage. The project still takes reports, through GitHub's private vulnerability reporting and by email, with no payouts.</p><p class="inclass">Ask who should bear the cost of filtering AI-generated reports: reporters, platforms, AI vendors or maintainers.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Project AI policies</p>
+        <h2>Project policies run from bans to "disclose it and own it"</h2>
+        <p>Through 2026 the trend has been away from blanket bans and toward disclosure, accountability and protecting maintainer time.</p>
+        <p>Where AI is allowed, a human has to understand, stand behind and be able to discuss every line they submit.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#the-other-side-ai-slop-and-maintainer-burden" target="_blank" rel="noopener">Go deeper: project AI policies</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows">
+          <div class="row wide-r"><b>Gentoo</b><p><span class="chip pill c2">Ban</span></p><p>No content created with AI assistance. Reasons given: copyright, quality and ethics.</p></div>
+          <div class="row wide-r"><b>QEMU</b><p><span class="chip pill c2">Decline</span></p><p>Declines contributions believed to include or derive from AI-generated content. AI for research or debugging is fine if its output isn't submitted.</p></div>
+          <div class="row wide-r"><b>LLVM</b><p><span class="chip pill c5">Human in the loop</span></p><p>Read and review all generated code before asking others to. Label substantial AI help. Write your own PR description.</p></div>
+          <div class="row wide-r"><b>Linux kernel</b><p><span class="chip pill c5">Human accountability</span></p><p>"AI agents MUST NOT add Signed-off-by tags." The human submitter takes full responsibility.</p></div>
+          <div class="row wide-r"><b>Ghostty</b><p><span class="chip pill c3">Disclose and understand</span></p><p>"All AI usage in any form must be disclosed." First-time contributors need a maintainer to vouch for them.</p></div>
+        </div>
+        <p class="cap">LLVM's golden rule: "a contribution should be worth more to the project than the time it takes to review it."</p>
+      </div>
+      <div class="talk" hidden><p>Projects have answered with written AI policies. The rows run from bans at the top to disclosure rules at the bottom.</p><p>Gentoo bans content created with AI assistance, citing copyright, quality and ethics. QEMU declines contributions believed to include or derive from AI-generated content. Using AI for research or debugging is fine there, as long as its output isn't submitted.</p><p>LLVM allows AI with a human in the loop. You have to read and review all generated code before asking anyone else to. You label substantial AI help, and you write your own description. The Linux kernel says AI agents must not add Signed-off-by tags. Only a human can certify where the code came from, and that human takes full responsibility.</p><p>Ghostty requires disclosure of all AI use, and first-time contributors need a maintainer to vouch for them.</p><p>Through 2026 the trend has been away from blanket bans, toward disclosure, accountability and protecting maintainer time. LLVM's golden rule gives the test: a contribution should be worth more to the project than the time it takes to review it.</p><p class="inclass">Ask which policy the room would adopt for a project they maintain, and why.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Etiquette</p>
+        <h2>Contribute the way you'd want others to contribute to your project</h2>
+        <p>If you can't explain the change and its edge cases without the AI open, you aren't ready to submit it.</p>
+        <p>Maintainers want to talk to you, so write the description and the review replies yourself.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#etiquette-for-contributing-with-ai" target="_blank" rel="noopener">Go deeper: etiquette for contributing with AI</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Before a pull request or issue on someone else's project</p>
+        <ol class="steps cols">
+          <li>Read <code>CONTRIBUTING.md</code> and the AI policy, and follow them.</li>
+          <li>Understand every line.</li>
+          <li>Reproduce the problem yourself, on a real build.</li>
+          <li>Keep it to one logical change per pull request.</li>
+          <li>Run the project's tests and linters locally.</li>
+          <li>Write the description and review replies yourself.</li>
+          <li>Disclose AI assistance, even where it isn't required.</li>
+          <li>Accept a no. Don't reopen the same PR with a new prompt.</li>
+          <li>Never let an agent post on your behalf.</li>
+        </ol>
+        <p class="take"><b>Bryan's take</b>Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.</p>
+      </div>
+      <div class="talk" hidden><p>This list is the etiquette for contributing to someone else's project with AI. Start at number one. Read the contributing guide and the AI policy. If the project bans AI-generated contributions, don't send them. If it requires disclosure, disclose.</p><p>Number two is the test for everything after it. If you can't explain the change and its edge cases with the AI closed, you aren't ready to submit it. For bug and security reports, reproduce the problem yourself on a real build. Don't forward a model's speculation.</p><p>Keep each pull request to one logical change, and don't let the agent also clean up unrelated files. Run the project's tests and linters locally, so the maintainers' CI doesn't find what you could have found. Write the description and your review replies yourself. Disclose your AI use and name the tool. If a maintainer says no, accept it. And never let an agent post on its own to an issue tracker, a pull request or a mailing list.</p><p>Bryan's take is at the bottom, in his words. He finds it valuable to have several agents or models review each other's work, and he does that before opening a pull request on someone else's project. Get a second reviewer on your diff before a maintainer has to look at it.</p><p class="inclass">Run the maintainer's chair exercise from the full notes: ten pull requests, timed reviews, then guess which ones were unreviewed AI output.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">For students</p>
+        <h2>Use AI to understand the project before you change it</h2>
+        <p>Contributing to open source is one of the best ways for a student to learn real engineering. Asking an agent to explain the architecture or trace a request is the highest-value, lowest-risk use.</p>
+        <p>If an agent drafts the fix, rework it until you could have written it, then delete what you can't defend.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#how-students-can-contribute-to-open-source-with-ai-responsibly" target="_blank" rel="noopener">Go deeper: how students can contribute</a></p>
+      </div>
+      <div class="vis">
+        <div class="trio">
+          <div class="panel">
+            <h3>Before you write code</h3>
+            <ol class="steps">
+              <li>Pick a project you use.</li>
+              <li>Read the contributing guide and AI policy.</li>
+              <li>Have an agent explain the code to you.</li>
+              <li>Choose an issue and say you're working on it.</li>
+            </ol>
+          </div>
+          <div class="panel">
+            <h3>The change</h3>
+            <ol class="steps" style="counter-reset: s 4">
+              <li>Reproduce the bug by hand and write a failing test.</li>
+              <li>Write or heavily revise the fix yourself.</li>
+              <li>Have a different model or a classmate review your diff.</li>
+            </ol>
+          </div>
+          <div class="panel">
+            <h3>The pull request</h3>
+            <ol class="steps" style="counter-reset: s 7">
+              <li>Write the description in your own words and disclose your AI use.</li>
+              <li>Handle review feedback yourself.</li>
+              <li>Keep a log of what you learned.</li>
+            </ol>
+          </div>
+        </div>
+        <p class="cap">LLVM forbids AI tools on issues labelled "good first issue", because they exist to teach.</p>
+      </div>
+      <div class="talk" hidden><p>Contributing to open source is one of the best ways for a student to learn real engineering. The ten steps on screen are a path through a first contribution.</p><p>The first panel happens before you write any code. Pick a project you use, because you'll understand its users and care about the result. Read the contributing guide and the AI policy. Then use AI to understand the code. Ask an agent to explain the architecture, trace a request, or explain why a test fails. That is the highest-value and lowest-risk use.</p><p>Say which issue you're taking before you start. Some projects forbid AI tools on good first issues. LLVM is one, because those issues exist to teach.</p><p>The second panel is the change. Reproduce the bug by hand and write a failing test. Write or heavily revise the fix yourself. If an agent drafts it, rework it until you could have written it, and delete what you can't defend. Then get a different model or a classmate to review the diff.</p><p>The third panel is the pull request. Write the description in your own words, disclose how you used AI, and answer review questions from your own understanding. Keep a log of what you learned. For a course, that log is the evidence of learning. The merged pull request is a bonus.</p><p class="inclass">Ask what a student should do when a reviewer asks a question they can't answer. Answer: say so, then go find out.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>"Open source" covers a stack of layers. An open harness can still drive a closed model.</li>
+          <li>Harnesses, MCP servers and skills are dependencies. Check the license, the maintainer and the governance before you install.</li>
+          <li>On someone else's project, understand every line, disclose your AI use and follow the project's policy.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, open source in AI tooling is a stack of layers, and one open layer tells you nothing about the next. An open harness can drive a closed model.</p><p>Second, every harness, MCP server and skill you install is a dependency that runs with your agent's permissions. Check the license, the maintainer and who governs the project. Read it before you install it.</p><p>Third, when you contribute to someone else's project, understand every line, disclose your AI use, and follow the project's policy. Review time is what maintainers are short of.</p><p class="inclass">Have each person name one tool or extension they will audit this week.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 16 done</p>
+        <h2>Next: keeping up without drowning</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-17">Lesson 17</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/16-open-source-ecosystem.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson sixteen. Lesson seventeen is about keeping up with a field that changes every month: model regressions, the ups and downs, and which sources to trust.</p></div>
+    </article>
+</section>

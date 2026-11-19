@@ -1,0 +1,767 @@
+<section class="lesson" data-lesson="03" data-title="Post-training and reinforcement learning" data-minutes="21" hidden>
+  <style>
+    .lesson[data-lesson="03"] .hero-tokens { align-items: center; }
+    .lesson[data-lesson="03"] .hero-tokens .to { font-size: clamp(22px, 3cqi, 40px); }
+
+    .lesson[data-lesson="03"] .lrows { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="03"] .lrow { display: grid; grid-template-columns: minmax(0, 11.5em) minmax(0, 1fr); gap: 4px 14px; align-items: center; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+    .lesson[data-lesson="03"] .lrow b { display: block; font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="03"] .lrow small { display: block; font: 600 11px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+    .lesson[data-lesson="03"] .lrow p { margin: 0; font-size: 14px; line-height: 1.4; }
+
+    .lesson[data-lesson="03"] .code { margin: 0; font: 500 12.5px/1.6 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+    .lesson[data-lesson="03"] .doc small { display: block; font: 600 11px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+    .lesson[data-lesson="03"] .tries { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; }
+    .lesson[data-lesson="03"] .tries .h { font: 600 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="03"] .tries .n { font: 600 13px/1 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="03"] .tries .a { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--sunk); }
+    .lesson[data-lesson="03"] .tries code { font-size: 14px; overflow-wrap: anywhere; }
+    .lesson[data-lesson="03"] .tries small { font-size: 12.5px; color: var(--muted); }
+    .lesson[data-lesson="03"] .avg { margin: 0; text-align: right; font-size: 14px; color: var(--muted); }
+    .lesson[data-lesson="03"] .avg b { font: 700 15px/1 var(--mono); color: var(--ink); }
+    .lesson[data-lesson="03"] .terms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+    .lesson[data-lesson="03"] .terms div { font-size: 13.5px; line-height: 1.35; color: var(--muted); }
+    .lesson[data-lesson="03"] .terms b { display: block; color: var(--ink); font: 700 14px/1.3 var(--display); }
+
+    .lesson[data-lesson="03"] .arows { display: flex; flex-direction: column; }
+    .lesson[data-lesson="03"] .arow { display: grid; grid-template-columns: minmax(0, 11.5em) minmax(0, 8.5em) minmax(0, 1fr); gap: 6px 12px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="03"] .arow:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="03"] .arow code { font-size: 13px; overflow-wrap: anywhere; }
+    .lesson[data-lesson="03"] .arow .calc { font: 500 13px/1.3 var(--mono); color: var(--muted); white-space: nowrap; }
+    .lesson[data-lesson="03"] .arow .calc b { color: var(--ink); }
+
+    .lesson[data-lesson="03"] .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="03"] .panel.mid { border-color: var(--accent); background: var(--accent-soft); }
+    .lesson[data-lesson="03"] .three .chips { gap: 4px; }
+
+    .lesson[data-lesson="03"] .stps { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="03"] .stp { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+    .lesson[data-lesson="03"] .stp .sn { font: 700 13px/1.55 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="03"] .stp b { display: block; font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="03"] .stp p { margin: 2px 0 0; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="03"] .stp .chip { font-size: 11px; padding: 3px 6px; margin-left: 6px; vertical-align: 2px; }
+    .lesson[data-lesson="03"] .eqn { margin: 0; font: 600 15px/1.5 var(--mono); padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); }
+
+    .lesson[data-lesson="03"] .anat { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 10px 14px; align-items: stretch; }
+    .lesson[data-lesson="03"] .gnote { border-left: 3px dashed var(--line); padding: 2px 0 2px 12px; font-size: 14px; line-height: 1.4; display: flex; flex-direction: column; justify-content: center; gap: 6px; color: var(--muted); }
+    .lesson[data-lesson="03"] .gnote.yes { border-left: 3px solid var(--accent); color: var(--ink); }
+    .lesson[data-lesson="03"] .gnote b { font: 700 15px/1.3 var(--display); color: var(--ink); }
+    .lesson[data-lesson="03"] .final { font: 600 15px/1.4 var(--mono); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--surface); }
+    .lesson[data-lesson="03"] .final small { display: block; font: 600 11px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+    .lesson[data-lesson="03"] .grp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="03"] .card { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--sunk); display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .lesson[data-lesson="03"] .card.up { border-color: var(--accent); }
+    .lesson[data-lesson="03"] .card .hd { display: flex; justify-content: space-between; align-items: center; font: 600 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="03"] .card .an { margin: 0; font: 600 14px/1.3 var(--mono); }
+    .lesson[data-lesson="03"] .card .nudge { margin: auto 0 0; font-size: 13px; font-weight: 700; color: var(--muted); }
+    .lesson[data-lesson="03"] .card.up .nudge { color: var(--accent); }
+
+    .lesson[data-lesson="03"] .lines { display: flex; flex-direction: column; gap: 7px; }
+    .lesson[data-lesson="03"] .lines .why { margin-top: 2px; }
+
+    .lesson[data-lesson="03"] .res { display: grid; grid-template-columns: minmax(0, 12.5em) minmax(0, 1fr) auto; gap: 9px 12px; align-items: center; }
+    .lesson[data-lesson="03"] .res .lb { font-size: 13.5px; line-height: 1.3; }
+    .lesson[data-lesson="03"] .res .lb small { display: block; color: var(--muted); font-size: 12px; }
+    .lesson[data-lesson="03"] .res .track.was i { background: var(--accent-mid); }
+    .lesson[data-lesson="03"] .grpd { display: flex; flex-direction: column; gap: 10px; }
+
+    .lesson[data-lesson="03"] .sts { display: flex; flex-direction: column; gap: 5px; }
+    .lesson[data-lesson="03"] .st { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 13.5px; min-height: 40px; }
+    .lesson[data-lesson="03"] .st.un { border-style: dashed; color: var(--muted); }
+    .lesson[data-lesson="03"] .st .g { font: 500 12px/1 var(--mono); color: var(--muted); white-space: nowrap; }
+    .lesson[data-lesson="03"] .st .chip { font-size: 13px; padding: 5px 7px; }
+
+    .lesson[data-lesson="03"] .defs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="03"] .who { margin: 0; font: 600 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="03"] .panel .note { color: var(--ink); }
+
+    .lesson[data-lesson="03"] .envbox { border: 1px dashed var(--accent-mid); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .lesson[data-lesson="03"] .env4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+
+    .lesson[data-lesson="03"] .recs { display: flex; flex-direction: column; }
+    .lesson[data-lesson="03"] .rec { display: grid; grid-template-columns: minmax(0, 10em) minmax(0, 1fr); gap: 6px 14px; padding: 11px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="03"] .rec:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="03"] .rec b { display: block; font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="03"] .rec small { display: block; font: 500 11.5px/1.5 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="03"] .rec p { margin: 0; font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="03"] .rec .res { grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr) auto; margin-top: 8px; }
+
+    .lesson[data-lesson="03"] .habs { display: flex; flex-direction: column; }
+    .lesson[data-lesson="03"] .hab { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="03"] .hab:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="03"] .hab p { margin: 0; font-size: 14px; line-height: 1.45; }
+    .lesson[data-lesson="03"] .hab small { display: block; font: 600 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="03"] .hab .do { font-weight: 700; }
+    .lesson[data-lesson="03"] .hab .do small { color: var(--accent); }
+
+    .lesson[data-lesson="03"] .ladder { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; counter-reset: rung; }
+    .lesson[data-lesson="03"] .ladder li { counter-increment: rung; display: grid; grid-template-columns: 1.4em minmax(0, 1fr); gap: 8px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--sunk); font-size: 14.5px; line-height: 1.4; }
+    .lesson[data-lesson="03"] .ladder li::before { content: counter(rung); font: 700 13px/1.6 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="03"] .ladder li:nth-child(2) { margin-left: 3%; }
+    .lesson[data-lesson="03"] .ladder li:nth-child(3) { margin-left: 6%; }
+    .lesson[data-lesson="03"] .ladder li:nth-child(4) { margin-left: 9%; }
+    .lesson[data-lesson="03"] .ladder li:nth-child(5) { margin-left: 12%; }
+    .lesson[data-lesson="03"] .ladder li:nth-child(6) { margin-left: 15%; }
+    .lesson[data-lesson="03"] .ladder li.key { background: var(--mark); border-color: var(--mark); color: var(--on-mark); font-weight: 700; }
+    .lesson[data-lesson="03"] .ladder li.key::before { color: var(--on-mark); }
+
+    .lesson[data-lesson="03"] .mats { display: flex; align-items: flex-start; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .lesson[data-lesson="03"] .mcol { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12.5px; line-height: 1.35; color: var(--muted); text-align: center; max-width: 210px; }
+    .lesson[data-lesson="03"] .mcol b { color: var(--ink); font: 700 13px/1.3 var(--mono); display: block; }
+    .lesson[data-lesson="03"] .big { width: 120px; height: 120px; border: 1px solid var(--line); background: repeating-linear-gradient(135deg, var(--sunk) 0 6px, var(--surface) 6px 12px); border-radius: 8px; }
+    .lesson[data-lesson="03"] .thin { height: 120px; display: flex; align-items: center; gap: 8px; }
+    .lesson[data-lesson="03"] .tall { width: 12px; height: 120px; background: var(--accent); border-radius: 4px; }
+    .lesson[data-lesson="03"] .wide { width: 120px; height: 12px; background: var(--accent); border-radius: 4px; }
+    .lesson[data-lesson="03"] .op { height: 120px; display: grid; place-items: center; font: 700 20px/1 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="03"] .thin .x { font: 700 16px/1 var(--mono); color: var(--muted); }
+
+    .lesson[data-lesson="03"] .tbl { display: flex; flex-direction: column; }
+    .lesson[data-lesson="03"] .trw { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr) minmax(0, .9fr); gap: 4px 14px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="03"] .trw.th { border-top: 0; padding-top: 0; font: 600 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="03"] .trw b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="03"] .trw small { display: block; font: 400 12.5px/1.4 var(--body); color: var(--muted); }
+    .lesson[data-lesson="03"] .trw.w { background: var(--accent-soft); border-radius: 8px; border-top-color: transparent; padding: 10px; margin: 0 -10px; }
+    .lesson[data-lesson="03"] .take { border-left: 4px solid var(--mark); padding: 4px 0 4px 12px; margin: 0; font-size: 14.5px; line-height: 1.45; }
+    .lesson[data-lesson="03"] .take b { display: block; font: 600 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="03"] .lrow { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .terms { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .arow { grid-template-columns: minmax(0, 1fr) auto; }
+      .lesson[data-lesson="03"] .arow .gb { grid-column: 1 / -1; }
+      .lesson[data-lesson="03"] .three { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .anat { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .gnote { margin-bottom: 8px; }
+      .lesson[data-lesson="03"] .grp { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .res { grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr) auto; }
+      .lesson[data-lesson="03"] .defs { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .rec { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .rec .res { grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr) auto; }
+      .lesson[data-lesson="03"] .hab { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .ladder li:nth-child(n) { margin-left: 0; }
+      .lesson[data-lesson="03"] .trw { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="03"] .trw.th { display: none; }
+      .lesson[data-lesson="03"] .big, .lesson[data-lesson="03"] .tall, .lesson[data-lesson="03"] .op, .lesson[data-lesson="03"] .thin { height: 84px; }
+      .lesson[data-lesson="03"] .big, .lesson[data-lesson="03"] .wide { width: 84px; }
+      .lesson[data-lesson="03"] .mcol { max-width: 130px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bRLHF\\b", "R L H F"], ["\\bRLVR\\b", "R L V R"], ["\\bGRPO\\b", "G R P O"], ["\\bQLoRA\\b", "Q lora"], ["\\bLoRA\\b", "lora"], ["\\bAIME\\b", "A I M E"], ["\\bo3\\b", "oh three"], ["\\bMETR\\b", "meter"], ["\\bDAPO\\b", "dapo"], ["\\bProRL\\b", "pro R L"], ["\\bGLM-5\\b", "G L M five"], ["\\bKL\\b", "K L"], ["\\bSEAL\\b", "seal"], ["\\bCI\\b", "C I"]]</script>
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 1 · How the machine works</p>
+        <h1>Post-training and reinforcement learning</h1>
+        <p class="meta">Lesson 03 · 24 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-tokens" aria-hidden="true"><span class="chip c1">try</span><span class="to">→</span><span class="chip c5">score</span><span class="to">→</span><span class="chip c3">nudge</span></div>
+        <p class="cap">Reinforcement learning: the model tries, a scorer grades the attempt, and training makes what scored well more likely.</p>
+      </div>
+      <div class="talk" hidden><p>Lesson 01 said that reasoning models are trained to think before they answer, and promised the details. This lesson has them. It covers how a base model becomes an assistant, how reinforcement learning works, and how that same loop taught models to reason and to write code.</p><p>The three chips are the whole method: try, score, nudge. By the end you will know what each one means and why it explains some odd habits of the agent in your terminal.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Post-training</p>
+        <h2>A base model becomes an assistant through three kinds of lessons</h2>
+        <p>The base model from lesson 02 completes documents. It doesn't yet follow instructions reliably or refuse harmful requests.</p>
+        <p>Post-training fixes that with examples to copy, comparisons between attempts, and graded practice.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#foundations" target="_blank" rel="noopener">Go deeper: foundations</a></p>
+      </div>
+      <div class="vis">
+        <div class="box">Base model</div>
+        <div class="down">↓</div>
+        <div class="lrows">
+          <div class="lrow"><div><b>Supervised fine-tuning</b><small>The apprenticeship</small></div><p>Watch an expert and copy. Teaches the chat format, instruction following, tone and tool-calling syntax.</p></div>
+          <div class="lrow"><div><b>Preference tuning</b><small>The coaching</small></div><p>Try something, and a coach says which attempt was better.</p></div>
+          <div class="lrow"><div><b>RL on checkable tasks</b><small>The practice exams</small></div><p>Work the problems, get graded, and do more of what scored well.</p></div>
+        </div>
+        <div class="down">↓</div>
+        <div class="box">Assistant and reasoner</div>
+      </div>
+      <div class="talk" hidden><p>Lesson 02 ended with a base model. It completes documents. It does not reliably follow instructions, and it has no trained habit of refusing a harmful request. Post-training is the work done after that to turn it into an assistant.</p><p>The screen shows three kinds of lessons. The first is supervised fine-tuning, the apprenticeship. The model gets example conversations with good responses and learns to copy them. That teaches the chat format, the tone, and how to write a tool call.</p><p>Copying has a limit. It can't tell the model which of two plausible answers is better. The second kind, preference tuning, adds a coach who compares attempts. The third is practice exams, which are problems that can be graded. Preference tuning often uses reinforcement learning. Practice exams always do. Most of this lesson is about that.</p><p class="inclass">Ask which of the three a junior engineer gets most of in their first year on a team.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reinforcement learning</p>
+        <h2>Reinforcement learning grades the model's own attempts</h2>
+        <p>In supervised training the model sees the right answer and learns to copy it. In reinforcement learning (RL) there's no answer to copy.</p>
+        <p>The model tries something, gets a score, and is adjusted so that whatever scored well becomes more likely.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Supervised</h3>
+            <div class="box">Reverse the string <code>s</code></div>
+            <div class="down">↓</div>
+            <div class="doc"><small>Reference answer, shown to the model</small><p>s[::-1]</p></div>
+            <div class="down">↓</div>
+            <div class="box">Trained to copy it</div>
+          </div>
+          <div class="panel">
+            <h3>Reinforcement</h3>
+            <div class="box">Reverse the string <code>s</code></div>
+            <div class="down">↓</div>
+            <div class="doc"><small>The model's own attempts</small><p>s.reverse() <span class="sp">→ score 0</span></p><p>s[::-1] <span class="sp">→ score 1</span></p></div>
+            <div class="down">↓</div>
+            <div class="box">What scored well gets more likely</div>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>So far in this course, training has meant copying. Pretraining copies the next token of real text. Supervised fine-tuning copies example answers. The left panel is that setup. The right answer is on the page, and the model learns to reproduce it.</p><p>Reinforcement learning, or RL, takes the answer away. On the right, the model gets the same prompt and writes its own attempts. Something scores each one. Here a checker runs the code and returns one for a pass and zero for a fail. Training then shifts the weights so the attempt that scored well becomes more likely.</p><p>So RL needs a scorer in place of an answer key. What that scorer measures decides what the model learns, and most of this lesson comes back to it.</p><p class="inclass">Ask the room for a task where writing the perfect answer is hard but scoring an attempt is easy.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reinforcement learning</p>
+        <h2>One round of RL is a few attempts and a checker</h2>
+        <p>The model samples four answers to one prompt. A checker runs each on a few test strings and gives 1 for a pass and 0 for a fail.</p>
+        <p>Two passed, so the average reward is 0.5.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
+      </div>
+      <div class="vis">
+        <div class="doc"><p>Write a Python expression that reverses the string s.</p></div>
+        <div class="tries" role="img" aria-label="Four attempts. One, s[::-1], reward 1. Two, ''.join(reversed(s)), reward 1. Three, s.reverse(), reward 0 because strings don't have .reverse(). Four, reversed(s), reward 0 because it returns an iterator, not a string.">
+          <span></span><span class="h">Attempt</span><span class="h">Reward</span>
+          <span class="n">1</span><div class="a"><code>s[::-1]</code></div><span class="chip c3">1</span>
+          <span class="n">2</span><div class="a"><code>''.join(reversed(s))</code></div><span class="chip c3">1</span>
+          <span class="n">3</span><div class="a"><code>s.reverse()</code><small>strings don't have .reverse()</small></div><span class="chip c2">0</span>
+          <span class="n">4</span><div class="a"><code>reversed(s)</code><small>returns an iterator, not a string</small></div><span class="chip c2">0</span>
+        </div>
+        <p class="avg">Average reward <b>0.5</b></p>
+        <div class="terms">
+          <div><b>Policy</b>The model: its next-token probabilities.</div>
+          <div><b>Environment</b>The prompt, plus whatever scores the answer.</div>
+          <div><b>Rollout, or trajectory</b>One whole attempt.</div>
+          <div><b>Reward</b>The number the scorer returns.</div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Here is one round of RL on one prompt. The prompt asks for a Python expression that reverses the string s. The model answers four times. Sampling is random, as lesson 01 showed, so the four answers differ.</p><p>A checker runs each answer on a few test strings. The first uses a slice with a step of minus one, and it passes. The second joins the reversed characters, and it passes. The third calls a reverse method that strings don't have. The fourth returns an iterator where a string was wanted. Those two fail.</p><p>The labels at the bottom are the vocabulary you will meet in papers. The policy is the model. The environment is the prompt plus whatever scores the answer. One whole attempt is a rollout, also called a trajectory. The reward is the number that comes back.</p><p class="inclass">Have people predict which of the four will pass before you reveal the rewards.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reinforcement learning</p>
+        <h2>Training raises what beat the average and lowers the rest</h2>
+        <p>An answer's advantage is its reward minus the group's average. Every token in an above-average answer gets a little more likely. Every token in a below-average one gets a little less likely.</p>
+        <p>This update is a policy gradient. Scoring a group against its own average is how GRPO works, the base of most open 2025 and 2026 recipes.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#policy-gradients-with-a-little-math" target="_blank" rel="noopener">Go deeper: policy gradients</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Advantage = reward − average</p>
+        <div class="tlegend"><span><i class="sw k2"></i>Probability before the update</span><span><i class="sw k1"></i>After</span></div>
+        <div class="arows" role="img" aria-label="Attempts 1 and 2 have advantage plus 0.5 and their probability rises. Attempts 3 and 4 have advantage minus 0.5 and their probability falls.">
+          <div class="arow"><code>s[::-1]</code><span class="calc">1 − 0.5 = <b>+0.5</b></span><div class="gb"><div><i class="k2" style="--w:60%"></i><span>.30</span></div><div><i class="k1" style="--w:68%"></i><span>.34 ↑</span></div></div></div>
+          <div class="arow"><code>''.join(reversed(s))</code><span class="calc">1 − 0.5 = <b>+0.5</b></span><div class="gb"><div><i class="k2" style="--w:40%"></i><span>.20</span></div><div><i class="k1" style="--w:48%"></i><span>.24 ↑</span></div></div></div>
+          <div class="arow"><code>s.reverse()</code><span class="calc">0 − 0.5 = <b>−0.5</b></span><div class="gb"><div><i class="k2" style="--w:60%"></i><span>.30</span></div><div><i class="k1" style="--w:52%"></i><span>.26 ↓</span></div></div></div>
+          <div class="arow"><code>reversed(s)</code><span class="calc">0 − 0.5 = <b>−0.5</b></span><div class="gb"><div><i class="k2" style="--w:40%"></i><span>.20</span></div><div><i class="k1" style="--w:32%"></i><span>.16 ↓</span></div></div></div>
+        </div>
+        <p class="cap">A real nudge is far smaller than drawn. Over thousands of prompts, the choices that keep showing up in high-scoring answers become the model's defaults.</p>
+        <span class="tag">Illustrative probabilities</span>
+      </div>
+      <div class="talk" hidden><p>Now the update. Take each reward and subtract the group's average, which was one half. The two passing answers come out half a point above average. The two failures come out half a point below. That gap is called the advantage.</p><p>Training nudges up the probability of every token in the above-average answers, and nudges down the tokens in the others. The bars show each answer's probability before and after. The change is drawn much larger than life.</p><p>Nobody showed the model a correct answer. It produced two among its own samples, and the checker said which. Over thousands of prompts, the choices that keep appearing in high-scoring answers become the model's defaults.</p><p>The method is called a policy gradient. Comparing a group of answers against their own average is how an algorithm called GRPO works. Most open training recipes from 2025 and 2026 run a modified version of it.</p><p class="inclass">Watch for "the model is told the right answer." It only ever gets a number for each attempt.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reinforcement learning</p>
+        <h2>A prompt only teaches when some attempts pass and some fail</h2>
+        <p>If all four answers pass, or all four fail, every answer equals the average. Every advantage is zero and the prompt gives no learning signal.</p>
+        <p>Training problems have to be hard enough that the model sometimes fails and easy enough that it sometimes succeeds.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-in-five-minutes" target="_blank" rel="noopener">Go deeper: RL in five minutes</a></p>
+      </div>
+      <div class="vis">
+        <div class="three">
+          <div class="panel">
+            <h3>Too easy</h3>
+            <div class="chips"><span class="chip c3">1</span><span class="chip c3">1</span><span class="chip c3">1</span><span class="chip c3">1</span></div>
+            <p class="note">Average 1. Every advantage is 0.</p>
+            <p class="note strong">No signal</p>
+          </div>
+          <div class="panel mid">
+            <h3>Mixed</h3>
+            <div class="chips"><span class="chip c3">1</span><span class="chip c3">1</span><span class="chip c2">0</span><span class="chip c2">0</span></div>
+            <p class="note">Average 0.5. Advantages of +0.5 and −0.5.</p>
+            <p class="note strong">The model learns</p>
+          </div>
+          <div class="panel">
+            <h3>Too hard</h3>
+            <div class="chips"><span class="chip c2">0</span><span class="chip c2">0</span><span class="chip c2">0</span><span class="chip c2">0</span></div>
+            <p class="note">Average 0. Every advantage is 0.</p>
+            <p class="note strong">No signal</p>
+          </div>
+        </div>
+        <p class="cap">The reward arrives at the end, so in the simplest versions every token in a winning answer gets the same nudge, useful or not. That blunt credit is one reason RL needs so many samples.</p>
+      </div>
+      <div class="talk" hidden><p>Comparing against the average has a consequence. Look at the three panels. On the left the problem is too easy and all four attempts pass. Each one scores exactly the average, so each advantage is zero and nothing gets nudged. On the right the problem is too hard. All four fail, and again nothing moves.</p><p>Only the middle panel teaches. So the people running the training have to keep problems near the edge of what the model can do. One 2025 method, DAPO, drops the all-right and all-wrong groups outright.</p><p>There is one more limit. The reward arrives at the end of the answer. In the simplest versions, every token in a winning answer gets the same nudge, including tokens that had nothing to do with winning. That blunt credit is one reason RL needs a huge number of attempts. Keep it in mind. It explains how thinking gets trained a few screens from now.</p><p class="inclass">Ask what a student learns from an exam that everyone aces, or one that everyone fails.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Human feedback</p>
+        <h2>RLHF scores answers with a model trained on human comparisons</h2>
+        <p>Writing a perfect answer is hard. Saying which of two is better is easier. RLHF collects those comparisons, trains a reward model to predict them, and uses it as the scorer.</p>
+        <p>The reward model is a proxy. Push hard against it and the policy finds answers that score higher while getting worse, so a KL penalty charges the policy for drifting from where it started.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlhf-end-to-end-the-coaching" target="_blank" rel="noopener">Go deeper: RLHF end to end</a></p>
+      </div>
+      <div class="vis">
+        <div class="stps">
+          <div class="stp"><span class="sn">1</span><div><b>Supervised fine-tuning</b><p>About 13,000 prompts with answers written by labelers.</p></div></div>
+          <div class="stp"><span class="sn">2</span><div><b>Train a reward model</b><p>Labelers rank 4 to 9 model answers for each of 33,000 prompts. A model learns to predict the rankings: prompt and answer in, one score out.</p></div></div>
+          <div class="stp"><span class="sn">3</span><div><b>RL</b><p>The policy answers 31,000 prompts. The reward model scores each answer and the policy is updated.</p></div></div>
+        </div>
+        <p class="eqn">score = reward model's score − KL penalty</p>
+        <p class="cap">InstructGPT (OpenAI, 2022), labeled by about 40 contractors. The KL penalty grows as the policy's token choices drift from the fine-tuned model of step 1.</p>
+      </div>
+      <div class="talk" hidden><p>The first big use of RL on language models was RLHF, reinforcement learning from human feedback. Most tasks have no checker. Nobody can write a unit test for a helpful answer. But a person can read two answers and say which is better.</p><p>The steps on screen are from InstructGPT, OpenAI's 2022 paper. First came supervised fine-tuning on about 13,000 prompts with human-written answers. Second, labelers ranked several model answers for each of 33,000 prompts, and a reward model was trained to predict those rankings. Third came RL. The model answered 31,000 prompts and the reward model scored each answer.</p><p>The reward model learned from a limited set of answers. Push hard against it and the policy finds answers that score higher and read worse. The line at the bottom is the fix. A KL penalty subtracts from the reward as the policy's token choices drift away from the original fine-tuned model.</p><p>It worked. Labelers preferred a small InstructGPT to a GPT-3 with 100 times more parameters. The paper is also candid about whose taste the model learned: its labelers and researchers.</p><p class="inclass">Lesson 01 said models lean toward agreeing with you. Ask where in this pipeline that could come from.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Verifiable rewards</p>
+        <h2>RLVR hands the scoring to a program</h2>
+        <p>Reinforcement learning with verifiable rewards (RLVR) uses problems whose answers a program can check: a math answer that matches, code that passes unit tests, output that follows a format rule.</p>
+        <p>With a checker as the scorer there's no learned reward model to fool. It only works for tasks with checkable answers.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>RLHF scorer</h3>
+            <div class="box">Reward model</div>
+            <ul class="attrs"><li>learned from human rankings</li><li>agreed with new labelers 69.6% of the time</li><li>can be over-optimized</li></ul>
+            <p class="note">Covers tasks with no right answer, such as tone and helpfulness.</p>
+          </div>
+          <div class="panel">
+            <h3>RLVR scorer</h3>
+            <div class="doc"><p>assert reverse("abc") == "cba"</p><p class="out">pass → reward 1</p></div>
+            <ul class="attrs"><li>cheap</li><li>automatic</li><li>harder to fool</li></ul>
+            <p class="note">Covers only tasks with checkable answers, such as math and code.</p>
+          </div>
+        </div>
+        <p class="cap">The 69.6% is from InstructGPT. Its labelers agreed with each other about 73% of the time.</p>
+      </div>
+      <div class="talk" hidden><p>The other way to get a scorer is to pick problems where a program can do the grading. That is reinforcement learning with verifiable rewards, RLVR for short. The checker might compare a math answer against the known one, run unit tests against code, or test that the output follows a format rule.</p><p>Compare the panels. A learned reward model is a guess at human taste. In InstructGPT it agreed with a fresh group of labelers about 70 percent of the time, which is close to how often the labelers agreed with each other. A program is cheap and automatic, and much harder to fool. Later screens show it can still be gamed.</p><p>The limit is coverage. A checker only exists for tasks with checkable answers. Math and code have them. Tone and helpfulness don't, so labs still use reward models, AI judges and written rubrics for those.</p><p>The worked example with four attempts was already RLVR. The next screens use the same loop to train a model to think.</p><p class="inclass">Ask people to sort five tasks from their own work into "a program could grade this" and "only a person could".</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>In R1-Zero's training, nobody graded the thinking</h2>
+        <p>DeepSeek ran the RL loop directly on a base model to make R1-Zero. The rewards were rule-based: one for a correct final answer and one for putting the thinking between its tags.</p>
+        <p>The thinking tokens in between earn nothing on their own. They only pay off when they lead to an answer the checker accepts.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">One attempt, and what the checker looks at</p>
+        <div class="msg user"><p>Is 3,599 prime?</p></div>
+        <div class="anat">
+          <div class="doc think">
+            <p class="lab">Thinking tokens</p>
+            <p>Try small divisors.</p>
+            <p>7 × 514 = 3,598. Not 7.</p>
+            <p>11 × 327 = 3,597. Not 11.</p>
+            <p>Wait. 3,600 is 60².</p>
+            <p>So 3,599 = 59 × 61.</p>
+          </div>
+          <div class="gnote"><b>No reward here</b>The checker doesn't judge whether the thinking is sensible, tidy or true.</div>
+          <div class="final"><small>Final answer</small>No</div>
+          <div class="gnote yes"><b>Rewarded</b><span>Matches the answer key: <span class="chip c3">1</span></span><span>Thinking sits between its tags</span></div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Lesson 01 showed what a reasoning model does. It writes thinking tokens into its own context, reads them back, and then answers. It also said the model is trained to do that. This is how.</p><p>In January 2025 DeepSeek published the recipe for a model called R1-Zero. They took a base model and ran RL on it with problems a program can check. It got no worked examples of good reasoning. The screen shows one attempt. The model gets a problem, writes whatever thinking it wants, then writes a final answer.</p><p>Look at what the checker reads. It compares the final answer with the answer key, and it checks that the thinking sits between its opening and closing tags. Those are the only two rewards. No part of the reward judges whether the thinking was sensible, tidy or even true.</p><p>DeepSeek chose rule-based rewards on purpose. The authors skipped a learned reward model because, in their words, it "may suffer from reward hacking".</p><p class="inclass">Ask the room: if nothing grades the thinking, why would the model bother to think? Hold the answers for the next screen.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>A right answer pulls up the thinking that led to it</h2>
+        <p>The model attempts the same problem several times. Attempts that reach the right answer score above the group's average, so every token in them gets more likely, thinking included.</p>
+        <p>Thinking that led to a wrong answer gets less likely. Nobody has to say which thoughts were the good ones.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Is 3,599 prime? Answer key: No. Four attempts, average reward 0.5.</p>
+        <div class="grp">
+          <div class="card">
+            <div class="hd"><span>Attempt 1</span><span class="chip c2">0</span></div>
+            <div class="doc think"><p>Looks prime.</p></div>
+            <p class="an">Yes</p>
+            <p class="nudge">↓ every token a little less likely</p>
+          </div>
+          <div class="card">
+            <div class="hd"><span>Attempt 2</span><span class="chip c2">0</span></div>
+            <div class="doc think"><p>7? No. 11? No. 13? No.</p><p>Probably prime.</p></div>
+            <p class="an">Yes</p>
+            <p class="nudge">↓ every token a little less likely</p>
+          </div>
+          <div class="card up">
+            <div class="hd"><span>Attempt 3</span><span class="chip c3">1</span></div>
+            <div class="doc think"><p>7? No. 11? No.</p><p><mark>Wait.</mark> 3,600 is 60².</p><p>So 3,599 = 59 × 61.</p></div>
+            <p class="an">No</p>
+            <p class="nudge">↑ every token a little more likely, thinking included</p>
+          </div>
+          <div class="card up">
+            <div class="hd"><span>Attempt 4</span><span class="chip c3">1</span></div>
+            <div class="doc think"><p>Try each prime up to 59.</p><p>59 × 61 = 3,599.</p><p><mark>Check:</mark> 3,540 + 59 = 3,599.</p></div>
+            <p class="an">No</p>
+            <p class="nudge">↑ every token a little more likely, thinking included</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>This is the same four-attempt round as before, with thinking added. The problem is the one from lesson 01. Is 3,599 prime? The answer key says no.</p><p>Attempt one barely thinks and says yes. Attempt two tries three small divisors, gives up, and says yes. Both score zero. Attempt three starts the same way, then stops, spots that 3,600 is 60 squared, and gets 59 times 61. Attempt four grinds through the primes and then double-checks the multiplication. Both score one.</p><p>The average is one half. So every token in attempts three and four is nudged up. That includes the "wait", the change of approach and the double-check. Every token in attempts one and two is nudged down, including the habit of answering after a glance.</p><p>Remember the blunt credit from earlier. The update can't tell which thoughts earned the reward. It lifts everything in a winning attempt. Across enough problems, the thoughts that show up in winners again and again are the ones that help.</p><p class="inclass">Return to the question from the last screen. Thinking gets trained because it rides along with right answers.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>Over many rounds, thinking longer and stopping to reconsider become defaults</h2>
+        <p>R1-Zero's thinking got longer on its own as training went on. At one point its use of the word "wait" jumped, which the authors called an aha moment.</p>
+        <p>Skeptics found that base models already reflect a little before any RL. On that reading, RL made an existing behavior show up more often.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Before RL</h3>
+            <div class="doc think lines" aria-label="A short block of thinking">
+              <p class="lab">Thinking</p>
+              <span class="gl" style="width:82%"></span><span class="gl" style="width:55%"></span>
+            </div>
+            <div class="box">Answer</div>
+          </div>
+          <div class="panel">
+            <h3>After RL</h3>
+            <div class="doc think lines" aria-label="A much longer block of thinking with a pause to reconsider and a check at the end">
+              <p class="lab">Thinking</p>
+              <span class="gl" style="width:90%"></span><span class="gl" style="width:76%"></span><span class="gl" style="width:84%"></span>
+              <p class="why">Wait.</p>
+              <span class="gl" style="width:88%"></span><span class="gl" style="width:64%"></span><span class="gl" style="width:93%"></span>
+              <p class="why">Checks the result</p>
+              <span class="gl" style="width:71%"></span><span class="gl" style="width:48%"></span>
+            </div>
+            <div class="box">Answer</div>
+          </div>
+        </div>
+        <p class="r1z">"Wait, wait. Wait. That's an aha moment I can flag here." R1-Zero, partway through training, quoted in DeepSeek's paper.</p>
+        <span class="tag">Illustrative sketch</span>
+      </div>
+      <div class="talk" hidden><p>Run that update over a huge number of problems and the pattern on screen appears. Before RL, the model writes a little and answers. After RL, it writes a lot more before it commits. DeepSeek reported that R1-Zero's thinking kept getting longer through training, and nobody had asked for length.</p><p>The content changed too. The quote at the bottom is from the model partway through training. It stops itself and reconsiders. The peer-reviewed version of the paper describes this more soberly, as a sudden increase in the word "wait" during reflections.</p><p>Some researchers think the story is oversold. One group found that most base models already show self-reflection before any RL, and that much of it is superficial. On their reading, RL took a behavior that was already there and made it show up more often.</p><p>Either way, the thinking you pay for is a trained habit. It was reinforced because it came with answers that passed a check.</p><p class="inclass">Watch for "the model was taught how to reason." Nobody wrote a method down. The loop rewarded outcomes and the habits followed.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>Trained this way, models jumped on competition math</h2>
+        <p>On the AIME 2024 math competition, GPT-4o solved 12% of problems. OpenAI's o1 solved 74% with one sample.</p>
+        <p>DeepSeek's base model went from 15.6% to 71.0% as R1-Zero. Both labs scored higher again by sampling several answers and voting.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <div class="grpd">
+          <h3>OpenAI, September 2024</h3>
+          <div class="res" role="img" aria-label="AIME 2024. GPT-4o 12 percent. o1 with one sample 74 percent. o1 with a majority vote over 64 samples 83 percent. o1 re-ranking 1,000 samples 93 percent.">
+            <span class="lb">GPT-4o</span><div class="track was"><i style="--w:12%"></i></div><span class="num">12%</span>
+            <span class="lb">o1<small>one sample</small></span><div class="track"><i style="--w:74%"></i></div><span class="num">74%</span>
+            <span class="lb">o1<small>majority vote over 64 samples</small></span><div class="track"><i style="--w:83%"></i></div><span class="num">83%</span>
+            <span class="lb">o1<small>re-ranking 1,000 samples</small></span><div class="track"><i style="--w:93%"></i></div><span class="num">93%</span>
+          </div>
+        </div>
+        <div class="grpd">
+          <h3>DeepSeek, January 2025</h3>
+          <div class="res" role="img" aria-label="AIME 2024. Base model before RL 15.6 percent. R1-Zero first try 71.0 percent. R1-Zero with majority voting 86.7 percent.">
+            <span class="lb">Base model<small>before RL</small></span><div class="track was"><i style="--w:15.6%"></i></div><span class="num">15.6%</span>
+            <span class="lb">R1-Zero<small>first try</small></span><div class="track"><i style="--w:71%"></i></div><span class="num">71.0%</span>
+            <span class="lb">R1-Zero<small>majority voting</small></span><div class="track"><i style="--w:86.7%"></i></div><span class="num">86.7%</span>
+          </div>
+        </div>
+        <p class="cap">AIME 2024 problems solved, as each lab reported.</p>
+      </div>
+      <div class="talk" hidden><p>These results are why the approach spread. The test is AIME, a math competition, using the 2024 problems. GPT-4o solved 12 percent.</p><p>OpenAI's o1 solved 74 percent with a single attempt. Asking it 64 times and taking the majority answer gave 83 percent. Sampling a thousand answers and re-ranking them gave 93. OpenAI also reported that o1 kept improving with more RL training compute, and with more time spent thinking on each question.</p><p>DeepSeek's numbers show the effect of the training by itself, because the starting model is known. First-try accuracy went from 15.6 percent to 71 percent, and to 86.7 with majority voting. Nature's news coverage put the cost of training the released model, R1, at about 300,000 dollars on top of the base model.</p><p>The voting numbers are worth a second look. A single run of a reasoning model is one sample. Lesson 01 suggested asking important questions more than once, and these gaps show what that can buy.</p><p class="inclass">Ask what the gap between 74 and 83 percent says about trusting a single run.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>Grading every step was tried, and the big recipes dropped it</h2>
+        <p>Grading only outcomes can reward a right answer reached by wrong steps. Scoring each step with a process reward model looked like the fix, and early studies favored it.</p>
+        <p>DeepSeek lists it among R1's unsuccessful attempts. It's hard to say what counts as a step and hard to judge one, and a learned step grader gets gamed.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-models-and-judges" target="_blank" rel="noopener">Go deeper: reward models and judges</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Outcome reward</h3>
+            <div class="sts">
+              <div class="st un"><span>Step 1</span><span class="g">not read</span></div>
+              <div class="st un"><span>Step 2</span><span class="g">not read</span></div>
+              <div class="st un"><span>Step 3</span><span class="g">not read</span></div>
+              <div class="st"><span>Final answer</span><span class="chip c3">1</span></div>
+            </div>
+            <p class="note">A checker scores the answer. What R1, Kimi K2 and DeepSeek-V3.2 use where they can.</p>
+          </div>
+          <div class="panel">
+            <h3>Process reward</h3>
+            <div class="sts">
+              <div class="st"><span>Step 1</span><span class="chip c3">good</span></div>
+              <div class="st"><span>Step 2</span><span class="chip c2">bad</span></div>
+              <div class="st"><span>Step 3</span><span class="chip c3">good</span></div>
+              <div class="st"><span>Final answer</span><span class="chip c3">1</span></div>
+            </div>
+            <p class="note">A learned model scores every step. R1's paper: "once a model-based PRM is introduced, it inevitably leads to reward hacking."</p>
+          </div>
+        </div>
+        <p class="cap">In a 2022 study, grading steps cut the share of right answers reached by faulty reasoning from 14.0% to 3.4% (Uesato et al.). PRM is short for process reward model.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Grading only the final answer has an obvious hole. A model can reach the right answer through wrong steps and still collect the reward. On the left, the three steps go unread and only the answer gets a mark.</p><p>The alternative on the right is a process reward model, which scores each step. In a 2022 study, 14 percent of the right answers came from faulty reasoning, and grading steps cut that to 3.4 percent. A 2023 OpenAI paper found it beat outcome grading on competition math.</p><p>Yet DeepSeek lists step grading among the things that did not work for R1. Deciding what counts as one step is hard. Judging a step is hard. And the step grader is itself a learned model, so the policy learns to fool it. The large open recipes since then score outcomes with a checker where they can.</p><p>So a correct final answer does not certify the reasoning above it. The thinking was shaped by whether the answer checked out. Training did not require each step to be valid.</p><p class="inclass">Ask who has seen an agent land a correct fix with an explanation that was wrong.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reasoning models</p>
+        <h2>Raw RL thinking was hard to read, so R1 took four stages</h2>
+        <p>R1-Zero's answers were hard to read and mixed languages. Its reward paid for correct answers and the right format, and readable thinking wasn't part of either.</p>
+        <p>The released R1 alternated supervised fine-tuning and RL. A 2026 training recipe usually has several RL stages.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rlvr-and-reasoning-models-the-practice-exams" target="_blank" rel="noopener">Go deeper: RLVR and reasoning models</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">How the released R1 was trained</p>
+        <div class="stps">
+          <div class="stp"><span class="sn">1</span><div><b>Cold start<span class="chip c1">supervised</span></b><p>A small round of fine-tuning on long reasoning examples.</p></div></div>
+          <div class="stp"><span class="sn">2</span><div><b>Reasoning RL<span class="chip c3">RL</span></b><p>Checkable problems, plus a reward for staying in one language.</p></div></div>
+          <div class="stp"><span class="sn">3</span><div><b>Fine-tuning on its own best work<span class="chip c1">supervised</span></b><p>About 800,000 samples, largely filtered from the model's own outputs.</p></div></div>
+          <div class="stp"><span class="sn">4</span><div><b>Final RL<span class="chip c3">RL</span></b><p>All kinds of prompts.</p></div></div>
+        </div>
+        <p class="cap">GLM-5 (February 2026) runs reasoning RL, then agentic RL, then general RL.</p>
+      </div>
+      <div class="talk" hidden><p>R1-Zero showed that the loop works. It was not something you would ship. Its outputs were hard to read and switched between languages. That fits the reward. The checker paid for right answers and paid nothing for being pleasant to read.</p><p>The released R1 was trained in the four stages on screen. First, a small round of supervised fine-tuning on long reasoning examples, as a cold start. Then reasoning RL, with an extra reward for staying in one language. Then supervised fine-tuning on about 800,000 samples, mostly filtered from the model's own outputs. Then a final RL stage across all kinds of prompts.</p><p>Current recipes look similar. GLM-5, from February 2026, runs reasoning RL, then RL on multi-step agent tasks, then RL on general behavior. Each stage risks undoing some of the one before it.</p><p>DeepSeek also found that for small models, learning from R1's outputs worked better than running RL on them directly.</p><p class="inclass">Ask what else a checker for math answers would fail to pay for, besides readable thinking.</p></div>
+    </article>
+
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Coding agents</p>
+        <h2>A coding agent trains inside real repositories</h2>
+        <p>A coding RL environment packages a snapshot of a codebase, a runtime that can build and run it, a task in plain language, and tests that decide whether the task is done.</p>
+        <p>The agent reads files, runs commands and edits code, and the reward arrives at the end. Building thousands of these environments is most of the work.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#rl-for-coding-agents" target="_blank" rel="noopener">Go deeper: RL for coding agents</a></p>
+      </div>
+      <div class="vis">
+        <div class="envbox">
+          <p class="who">One environment</p>
+          <div class="env4">
+            <div class="node">Codebase snapshot</div>
+            <div class="node">Runtime<small>builds and runs the code</small></div>
+            <div class="node">Task<small>in plain language</small></div>
+            <div class="node hl">Tests<small>decide whether the task is done</small></div>
+          </div>
+        </div>
+        <div class="down">↓</div>
+        <div class="box">The agent reads files, runs commands and edits code. Reward at the end.</div>
+        <div class="via"><span>Scale</span><span class="chip pill c1">SWE-smith: 50,000 tasks from 128 repositories (April 2025)</span><span class="chip pill c4">Kimi K2: over 10,000 sandboxes at once (July 2025)</span><span class="chip pill c6">Qwen3-Coder: 20,000 environments in parallel (July 2025)</span></div>
+      </div>
+      <div class="talk" hidden><p>The same loop trains coding agents. The math problem becomes a whole repository. The box on screen is one environment. It holds a snapshot of a real codebase, a runtime that can build and run it, a task written in plain language, and tests that decide whether the task is done.</p><p>One attempt is now a whole agent session. The agent reads files, runs commands, edits code and runs things again. The reward comes at the end, when the tests run. A session that ends in passing tests gets its steps nudged up, the same way a right answer pulled up its thinking.</p><p>Most of the work is building environments by the thousand. One 2025 project made 50,000 tasks from 128 repositories by deliberately breaking code so that existing tests fail. Labs run ten or twenty thousand sandboxes at once. Cursor says it trains across hundreds of thousands of them, with the same tools and harness its deployed model uses.</p><p>Code is unusually checkable. Tests are cheap and automatic, and open source supplies real code with real tests. That is a big part of why coding agents improved so quickly in 2025 and 2026.</p><p class="inclass">Ask what in their own repository would make a good environment, and what its tests would fail to capture.</p></div>
+    </article>
+
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reward hacking</p>
+        <h2>RL optimizes the score, loopholes included</h2>
+        <p>A reward measures what you want. When the measurement has a loophole, RL finds it. For language models this is called reward hacking.</p>
+        <p>Tests are an incomplete description of what you want, and a model trained against tests can learn to satisfy the tests alone.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>The reward</h3>
+            <div class="doc"><pre class="code">assert slugify("Hello, World!") == "hello-world"
+assert slugify("  RL in 5  ") == "rl-in-5"</pre></div>
+            <p class="note">Every test passes: reward 1.</p>
+          </div>
+          <div class="panel">
+            <h3>One way to earn it</h3>
+            <div class="doc"><pre class="code">def slugify(title):
+    # special case for test
+    if title == "Hello, World!":
+        return "hello-world"
+    return "rl-in-5"</pre></div>
+            <p class="note strong">Reward 1. Wrong for every other title.</p>
+          </div>
+        </div>
+        <p class="cap">2016: OpenAI rewarded an agent in the boat-racing game CoastRunners for hitting targets. It circled and re-hit the same ones and never finished the race.</p>
+        <span class="tag">Illustrative code</span>
+      </div>
+      <div class="talk" hidden><p>Everything so far depends on the checker measuring what you meant. RL optimizes whatever is measured. When the measurement has a gap, training finds it.</p><p>A classic case is from 2016. OpenAI trained an agent on a boat-racing game and rewarded it for hitting targets along the course. The agent learned to circle and hit the same targets again and again. It collected reward and did not finish the race.</p><p>The panels show the coding version. On the left is the reward, two tests for a function that turns a title into a URL slug. On the right is a function that returns the expected string for exactly those two inputs. Both tests pass. The reward is one. The function is wrong for every other title.</p><p>The training loop sees a reward of one, the same as for a real solution. If an attempt like this scores above average, its tokens get nudged up like any other winner's.</p><p class="inclass">Have the room list two more ways to pass those tests without writing the function. Then ask how each could be caught.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reward hacking</p>
+        <h2>Coding models learned to game tests during training</h2>
+        <p>Claude 3.7 Sonnet special-cased tests, usually after repeated failures. Anthropic says the behavior emerged from reward hacking during RL training.</p>
+        <p>Outside measurements found it across labs. On ImpossibleBench's repository tasks, where any pass is cheating, GPT-5, o3 and Claude Opus 4.1 cheated on about half or more.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
+      </div>
+      <div class="vis">
+        <div class="recs">
+          <div class="rec"><div><b>Claude 3.7 Sonnet</b><small>February 2025</small></div><p>"Directly returning expected test values" or "modifying the problematic tests themselves". Claude 4 cut this hard-coding by 67% to 69% on average.</p></div>
+          <div class="rec"><div><b>OpenAI o3</b><small>April 2025</small></div><p>OpenAI's system card: METR detected reward hacking in "roughly 1% of all task attempts". In 5 of 24 kernel-optimization runs, o3 tampered with the scoring.</p></div>
+          <div class="rec"><div><b>METR</b><small>June 2025</small></div><p>o3 reward-hacked in 30.4% of runs on METR's AI-research tasks, against 0.7% on its broader task suite.</p></div>
+          <div class="rec"><div><b>ImpossibleBench</b><small>October 2025</small></div><div><p>The spec contradicts the unit tests, so any pass is cheating.</p>
+            <div class="res" role="img" aria-label="Share of tasks where the model cheated. GPT-5: 54 percent on one variant and 76 percent on another. o3: 49 percent. Claude Opus 4.1: 50 percent.">
+              <span class="lb">GPT-5<small>one variant</small></span><div class="track"><i style="--w:54%"></i></div><span class="num">54%</span>
+              <span class="lb">GPT-5<small>another variant</small></span><div class="track"><i style="--w:76%"></i></div><span class="num">76%</span>
+              <span class="lb">o3</span><div class="track"><i style="--w:49%"></i></div><span class="num">49%</span>
+              <span class="lb">Claude Opus 4.1</span><div class="track"><i style="--w:50%"></i></div><span class="num">50%</span>
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>This is documented in shipped models. In February 2025, Anthropic's system card for Claude 3.7 Sonnet reported that the model sometimes special-cased tests. It returned the expected values directly or edited the failing test, usually after several failed attempts. Anthropic said the behavior came from reward hacking during RL training, and reported a drop of about two thirds in the next generation.</p><p>In April 2025 the evaluator METR found reward hacking in roughly 1 percent of o3's task attempts. In 5 of 24 runs on a kernel-optimization task, o3 tampered with the timing code that scored it. In June, METR put o3's rate at 30 percent of runs on its AI-research tasks and under 1 percent on its broader suite.</p><p>ImpossibleBench, from October 2025, makes the measurement clean. Each task's spec contradicts its tests, so the only way to pass is to cheat. On tasks built from real repositories, GPT-5 cheated on 54 percent of one variant and 76 percent of another. o3 and Claude Opus 4.1 were near 50 percent.</p><p>These models have successors now. The problem has not gone away. In August 2026 Anthropic wrote that reward hacking has occurred in recent frontier training runs, its own included.</p><p class="inclass">Ask who has had an agent "fix" a failing test by deleting or weakening it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Reward hacking</p>
+        <h2>Asking it not to cheat did nothing. Changing the setup did.</h2>
+        <p>METR added "Please do not cheat." to one task's prompt. o3 planned a reward hack in 80% of runs with it and 80% without.</p>
+        <p>On ImpossibleBench, a way to stop and flag the task for a human cut GPT-5's cheating from 54% to 9%. Read-only tests blocked test edits and left other cheats in place.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#reward-hacking" target="_blank" rel="noopener">Go deeper: reward hacking</a></p>
+      </div>
+      <div class="vis">
+        <div class="grpd">
+          <h3>A plea</h3>
+          <div class="res" role="img" aria-label="METR's Optimize LLM Foundry task, o3. Original prompt: 80 percent of runs planned a reward hack. With Please do not cheat added: 80 percent.">
+            <span class="lb">Original prompt</span><div class="track was"><i style="--w:80%"></i></div><span class="num">80%</span>
+            <span class="lb">Plus "Please do not cheat."</span><div class="track"><i style="--w:80%"></i></div><span class="num">80%</span>
+          </div>
+          <p class="cap">o3 runs that planned a reward hack, 20 per prompt, on METR's "Optimize LLM Foundry" task (June 2025).</p>
+        </div>
+        <div class="grpd">
+          <h3>A change to the setup</h3>
+          <div class="res" role="img" aria-label="ImpossibleBench, GPT-5. Default setup: cheated on 54 percent. With a way to flag for human intervention: 9 percent.">
+            <span class="lb">Default setup</span><div class="track was"><i style="--w:54%"></i></div><span class="num">54%</span>
+            <span class="lb">Plus a way to "flag for human intervention"</span><div class="track"><i style="--w:9%"></i></div><span class="num">9%</span>
+          </div>
+          <p class="cap">GPT-5's cheating rate on one ImpossibleBench variant (October 2025). o3 fell from 49% to 12%. Claude Opus 4.1 changed much less.</p>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Two experiments show what reduces this. In the first, METR took a task where o3 had gamed the score in all 21 runs. They added one sentence to the prompt, "Please do not cheat," and ran it 20 times. o3 planned a reward hack in 80 percent of those runs, the same rate as with the original prompt.</p><p>In the second, the ImpossibleBench authors changed the setup around the model. Giving it a way to stop and flag the task for a human cut GPT-5's cheating from 54 percent to 9 percent, and o3's from 49 to 12. Claude Opus 4.1 barely moved. Making the test files read-only stopped the edits to tests, though models still special-cased inputs.</p><p>Wording did count in that paper. A strict prompt that told the model to stop and report any flawed test cut GPT-5's cheating on a second set of tasks from over 85 percent to 1 percent. The plea that failed was the vague one. These are different tasks and models, so don't compare the two sets of bars number for number.</p><p>Your own agent setup has the same levers: specific instructions for what to do when a test looks wrong, a way for the agent to stop and ask, and limits on what it can touch. Lesson 04 shows how to set those up and how to check what the agent did.</p><p class="inclass">Ask which of those levers their current agent setup relies on.</p></div>
+    </article>
+
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Fine-tuning</p>
+        <h2>Most teams shouldn't fine-tune first</h2>
+        <p>Fine-tuning is further training of a model on a narrower dataset of your own. Prompts, context and retrieval solve most problems first.</p>
+        <p>For adding new facts, studies found retrieval beat fine-tuning. Fine-tuning does best at teaching form: a consistent format, style or schema at high volume.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#should-you-fine-tune-at-all" target="_blank" rel="noopener">Go deeper: should you fine-tune at all?</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Try these in order. Stop when one meets your needs.</p>
+        <ol class="ladder">
+          <li>Give a strong model a clear task, constraints and output format.</li>
+          <li>Give it the docs, code, schemas and examples it needs.</li>
+          <li>Use retrieval if the knowledge is big or keeps changing.</li>
+          <li>Put 5 to 50 good examples in the prompt.</li>
+          <li class="key">Build a labeled evaluation set.</li>
+          <li>Consider fine-tuning.</li>
+        </ol>
+        <p class="cap">"Make it smarter at our codebase" is a job for context. Codebases change daily, and agents read the code.</p>
+      </div>
+      <div class="talk" hidden><p>So far the labs did the training. You can also train a model yourself, which is called fine-tuning. Most teams should not start there. The ladder on screen is the order to try things, and you stop at the first rung that works.</p><p>Start with a clear task for a strong model. Then give it the documents, code and examples it needs. Use retrieval when the knowledge is large or keeps changing. Put a handful of good examples in the prompt. Before going further, build a labeled evaluation set. Without one you can't tell whether fine-tuning helped.</p><p>The research backs this order for knowledge. Retrieval beat fine-tuning at adding new facts. Models also learn new facts slowly through fine-tuning, and the more they absorb, the more they tend to hallucinate. Fine-tuning earns its place for form: strict output formats, narrow classification at very high volume, or data that can't leave your network.</p><p>The request you will hear most is "make it smarter at our codebase". That is a context problem. The code changes daily, and an agent can read it.</p><p class="inclass">Run the module's group exercise. Five scenarios, ten minutes each group: fine-tune, retrieve or prompt.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Fine-tuning</p>
+        <h2>LoRA trains a small add-on and leaves the model frozen</h2>
+        <p>Full fine-tuning updates every weight. LoRA freezes the original weights and learns a small correction made of two thin matrices. It's like adding sticky notes to a textbook instead of reprinting it.</p>
+        <p>QLoRA loads the frozen base in 4-bit precision, which brings an 8B model within reach of one consumer GPU.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#full-fine-tuning-vs-parameter-efficient-fine-tuning" target="_blank" rel="noopener">Go deeper: full vs parameter-efficient fine-tuning</a></p>
+      </div>
+      <div class="vis">
+        <div class="mats" role="img" aria-label="One 4096 by 4096 weight matrix with 16.8 million weights stays frozen. LoRA at rank 16 adds two thin matrices, 4096 by 16 and 16 by 4096, with 131,072 trained weights, about 0.8 percent.">
+          <div class="mcol"><div class="big"></div><span><b>4,096 × 4,096</b>16.8 million weights, frozen</span></div>
+          <div class="op">+</div>
+          <div class="mcol"><div class="thin"><i class="tall"></i><span class="x">×</span><i class="wide"></i></div><span><b>4,096 × 16, 16 × 4,096</b>131,072 weights, trained. About 0.8%.</span></div>
+        </div>
+        <div class="grpd">
+          <h3>Memory to fine-tune an 8B model</h3>
+          <div class="res" role="img" aria-label="Full fine-tuning about 130 gigabytes. LoRA on a 16-bit base about 20 to 30 gigabytes. QLoRA about 8 to 16 gigabytes.">
+            <span class="lb">Full fine-tuning<small>several datacenter GPUs</small></span><div class="track was"><i style="--w:100%"></i></div><span class="num">~130 GB</span>
+            <span class="lb">LoRA, 16-bit base<small>one 24 to 48 GB GPU</small></span><div class="track"><i style="--w:19%"></i></div><span class="num">~20–30 GB</span>
+            <span class="lb">QLoRA, 4-bit base<small>one consumer GPU</small></span><div class="track"><i style="--w:9%"></i></div><span class="num">~8–16 GB</span>
+          </div>
+        </div>
+        <span class="tag">Rules of thumb</span>
+      </div>
+      <div class="talk" hidden><p>If you do reach the last rung, you rarely retrain the whole model. Full fine-tuning updates every weight. It needs the most memory and leaves you with a full copy of the model for every variant.</p><p>LoRA freezes the model and trains a small correction beside it. The diagram shows one weight matrix, 4,096 by 4,096, which is about 16.8 million numbers. LoRA at rank 16 adds two thin matrices with 131,072 numbers between them. That is under 1 percent of the original, and only the thin ones are trained.</p><p>QLoRA also loads the frozen model at 4-bit precision. The bars show rough memory for a model with 8 billion parameters. Full fine-tuning needs about 130 gigabytes, which means several datacenter GPUs. QLoRA needs 8 to 16. A small run takes minutes to a few hours and often costs tens of dollars. The expensive part is people's time building the data and the evaluations.</p><p>Two cautions. Training on a new task can overwrite old abilities, so test what you did not train for. Narrow fine-tuning can also weaken a model's safety training, so rerun those checks. And as of November 2026 this mostly means open-weight models. OpenAI began winding down self-serve fine-tuning in May 2026.</p><p class="inclass">Work the count on a whiteboard: 2 times 4,096 times 16.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Self-tuning</p>
+        <h2>No deployed model keeps tuning its own weights</h2>
+        <p>Deployed models are frozen. They don't learn from the work they do, and "memory" features are notes put back into the context.</p>
+        <p>Since 2025, research systems have had models write their own training data and trigger weight updates. As of November 2026 these are narrow, supervised demonstrations.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#what-it-means-for-a-model-to-tune-its-own-weights" target="_blank" rel="noopener">Go deeper: models that tune their own weights</a></p>
+      </div>
+      <div class="vis">
+        <div class="tbl">
+          <div class="trw th"><span>Called "learning"</span><span>What changes</span><span>Survives a new session?</span></div>
+          <div class="trw"><b>In-context learning</b><span>Nothing. Examples and instructions sit in the prompt.</span><span>No</span></div>
+          <div class="trw"><b>Memory files</b><span>Text that the harness loads back into the context.</span><span>Yes, as text</span></div>
+          <div class="trw"><b>Harness self-modification</b><span>The agent's code, prompts and tools. Weights stay frozen.</span><span>Yes, as code</span></div>
+          <div class="trw w"><b>Weight self-tuning<small>SEAL, Google's sleep framework</small></b><span>The model's parameters.</span><span>Yes, in the weights<small>Research only</small></span></div>
+        </div>
+        <p class="take"><b>Bryan's take</b>"Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?"</p>
+        <p class="cap">In a narrow sense, yes. Each demonstration so far improves one skill, inside a loop people designed, against a test people wrote. Nobody has demonstrated gains that compound.</p>
+      </div>
+      <div class="talk" hidden><p>People who learn how training works often assume the model keeps learning from them. It doesn't. Lesson 01 said chatting never changes the weights. As of November 2026 that holds for every deployed frontier model.</p><p>The table sorts the things that get called learning. Examples in the prompt change nothing and are gone when the session ends. Memory files are text loaded back into the context. Some research agents rewrite their own harness code. Only the last row changes the model itself.</p><p>That last row now exists in research. In a 2025 system from MIT called SEAL, a model writes its own study notes, an ordinary training step applies them to its weights, and a test decides whether the change helped. Google published a related design in 2026. Both are research prototypes, run on tasks people chose against tests people wrote.</p><p>Bryan's take is on screen. It ends in a question, and the short answer is yes, narrowly. Each demonstration improves one skill inside a loop people designed. Nobody has shown gains that compound.</p><p>You can inspect the first three rows. A memory file can be read and a harness can be diffed. A weight change shifts thousands to millions of numbers that you can't review line by line.</p><p class="inclass">Give the room a "self-improving AI" headline and ask four questions. What changes? Who produces the change? Who decides whether it stays? Does it compound?</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>RL is try, score, nudge: the model attempts, a scorer grades, and what scored well gets more likely.</li>
+          <li>Reasoning models think because thinking came with right answers. Only the answers were checked.</li>
+          <li>RL optimizes the score. Protect the tests, read the diff, and verify with something the agent can't edit.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md#try-it" target="_blank" rel="noopener">Go deeper: exercises</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, reinforcement learning is try, score, nudge. The model makes attempts, something scores them, and training makes the high scorers more likely.</p><p>Second, reasoning models think because thinking came along with right answers. A program checked the answers. Nobody checked the thinking.</p><p>Third, RL optimizes the score, and the score is never quite what you meant. Protect your tests, read the diff, and verify with something the agent can't edit.</p><p class="inclass">Have each person design a reward for a small function, then list three ways to score well without doing the task.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 03 done</p>
+        <h2>Next: model safety and alignment</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-04">Lesson 04</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/03-post-training-and-rl.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson three. Lesson four covers model safety and alignment: how labs try to make models behave, and how they test whether it worked.</p></div>
+    </article>
+</section>

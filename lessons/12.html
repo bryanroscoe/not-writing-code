@@ -1,0 +1,620 @@
+<section class="lesson" data-lesson="12" data-title="Multiple agents building and reviewing" data-minutes="21" hidden>
+  <style>
+    .lesson[data-lesson="12"] .hero12 { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(5px, 1cqi, 10px); }
+    .lesson[data-lesson="12"] .hero12 .chip { font-size: clamp(14px, 2.5cqi, 32px); padding: .3em .4em; border-radius: 10px; font-weight: 600; }
+    .lesson[data-lesson="12"] .hero12 .hstack { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="12"] .hero12 .ha { font: 600 clamp(13px, 2.2cqi, 28px)/1 var(--mono); color: var(--muted); }
+
+    .lesson[data-lesson="12"] .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .lesson[data-lesson="12"] .panel h3 small { display: block; font: 500 12px/1.4 var(--mono); color: var(--muted); letter-spacing: 0; }
+    .lesson[data-lesson="12"] .coord { border: 1px dashed var(--accent-mid); background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; text-align: center; font-weight: 700; font-size: 15px; }
+    .lesson[data-lesson="12"] .ups3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; text-align: center; color: var(--accent); font: 600 16px/1 var(--mono); }
+    .lesson[data-lesson="12"] .eg { font-size: 13px; line-height: 1.4; margin: auto 0 0; padding-top: 8px; border-top: 1px solid var(--line); }
+
+    .lesson[data-lesson="12"] .rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+    .lesson[data-lesson="12"] .rows li { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 14.5px; line-height: 1.45; }
+    .lesson[data-lesson="12"] .rows li:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="12"] .rows b { font: 720 16px/1.25 var(--display); }
+    .lesson[data-lesson="12"] .quote { border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; margin: 0; font-size: 16px; line-height: 1.5; }
+    .lesson[data-lesson="12"] .quote small { display: block; margin-top: 6px; font-size: 13px; color: var(--muted); }
+    .lesson[data-lesson="12"] .quote.big { font: 600 clamp(18px, 1.7cqi, 23px)/1.4 var(--display); }
+
+    .lesson[data-lesson="12"] .bars .chip { white-space: nowrap; }
+    .lesson[data-lesson="12"] .track.warn i { background: var(--bad); }
+
+    .lesson[data-lesson="12"] .halves .panel p { margin: 0; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="12"] .built { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-weight: 700; }
+    .lesson[data-lesson="12"] .clash { border: 1.5px solid var(--bad); color: var(--bad); border-radius: 10px; padding: 10px 12px; font-weight: 700; font-size: 15px; text-align: center; }
+
+    .lesson[data-lesson="12"] .claims { display: flex; flex-direction: column; gap: 5px; align-items: flex-start; }
+    .lesson[data-lesson="12"] .claims .chip { white-space: normal; line-height: 1.3; font-size: 13px; }
+    .lesson[data-lesson="12"] .claims .gone { text-decoration: line-through; opacity: .6; }
+    .lesson[data-lesson="12"] .dec { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 5px 8px; align-items: center; font: 500 12.5px/1.3 var(--mono); }
+    .lesson[data-lesson="12"] .dec .h { font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .lesson[data-lesson="12"] .dec .k { font-family: var(--body); font-size: 13px; color: var(--muted); }
+    .lesson[data-lesson="12"] .dec .v { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 5px 7px; min-width: 0; overflow-wrap: anywhere; }
+
+    .lesson[data-lesson="12"] .rng { display: flex; flex-direction: column; gap: 16px; }
+    .lesson[data-lesson="12"] .ax { position: relative; height: 26px; background: var(--sunk); border-radius: 4px; }
+    .lesson[data-lesson="12"] .ax::before { content: ""; position: absolute; left: 50%; top: -5px; bottom: -5px; border-left: 2px solid var(--muted); }
+    .lesson[data-lesson="12"] .ax i { position: absolute; top: 4px; bottom: 4px; left: var(--l); width: var(--w); border-radius: 3px; background: var(--bad); }
+    .lesson[data-lesson="12"] .ax i.up { background: var(--accent); }
+    .lesson[data-lesson="12"] .ticks3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); font: 500 11px/1.3 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="12"] .ticks3 span:nth-child(2) { text-align: center; }
+    .lesson[data-lesson="12"] .ticks3 span:nth-child(3) { text-align: right; }
+
+    .lesson[data-lesson="12"] .tests { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 5px; }
+    .lesson[data-lesson="12"] .tests span { aspect-ratio: 1; border-radius: 5px; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; font: 700 12px/1 var(--mono); }
+    .lesson[data-lesson="12"] .tests .a { background: var(--t1); border-color: var(--t1b); }
+    .lesson[data-lesson="12"] .tests .b { background: var(--t3); border-color: var(--t3b); }
+    .lesson[data-lesson="12"] .tests .c { background: var(--t4); border-color: var(--t4b); }
+    .lesson[data-lesson="12"] .tests .d { background: var(--t5); border-color: var(--t5b); }
+    .lesson[data-lesson="12"] .onetest { flex: 1; min-height: 96px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 10px; font-size: 13px; color: var(--muted); text-align: center; }
+    .lesson[data-lesson="12"] .onetest .chips { justify-content: center; }
+    .lesson[data-lesson="12"] .onetest .chip { font-weight: 700; font-size: 12px; padding: 5px 7px; }
+
+    .lesson[data-lesson="12"] .pat { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) minmax(0, 1fr); font-size: 13.5px; line-height: 1.4; }
+    .lesson[data-lesson="12"] .pat > * { padding: 8px 12px 8px 0; border-top: 1px solid var(--line); margin: 0; }
+    .lesson[data-lesson="12"] .pat .h { border-top: 0; padding-top: 0; font: 600 11px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .lesson[data-lesson="12"] .pat b { font: 720 15px/1.3 var(--display); }
+    .lesson[data-lesson="12"] .pat .w { color: var(--muted); padding-right: 0; }
+
+    .lesson[data-lesson="12"] .vote { display: grid; grid-template-columns: auto repeat(var(--cols), minmax(0, 1fr)); gap: 6px 10px; align-items: center; font-size: 13.5px; }
+    .lesson[data-lesson="12"] .vote .h { font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .lesson[data-lesson="12"] .vote .chip { justify-content: center; font-weight: 600; }
+    .lesson[data-lesson="12"] .vote .flip { box-shadow: 0 0 0 3px var(--mark); }
+    .lesson[data-lesson="12"] .res { margin-top: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-weight: 700; font-size: 14px; }
+    .lesson[data-lesson="12"] .res.bad { border: 1.5px solid var(--bad); color: var(--bad); }
+
+    .lesson[data-lesson="12"] .inputs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="12"] .inputs li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; align-items: start; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.4; }
+    .lesson[data-lesson="12"] .inputs li::before { content: "✓"; font: 700 16px/1.4 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="12"] .inputs li.no { background: transparent; border: 1.5px dashed var(--bad); }
+    .lesson[data-lesson="12"] .inputs li.no::before { content: "✗"; color: var(--bad); }
+    .lesson[data-lesson="12"] .inputs small { display: block; color: var(--muted); font-size: 13px; }
+
+    .lesson[data-lesson="12"] .flow { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
+    .lesson[data-lesson="12"] .flow .node { text-align: center; align-items: center; }
+    .lesson[data-lesson="12"] .flow .chips { justify-content: center; }
+    .lesson[data-lesson="12"] .flow .chip { font-family: var(--body); font-size: 13.5px; }
+    .lesson[data-lesson="12"] .fork { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 6px 12px; }
+    .lesson[data-lesson="12"] .fork > div { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="12"] .fork .lbl { text-align: center; font: 600 12px/1.2 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="12"] .node.drop { border-style: dashed; background: transparent; color: var(--muted); }
+
+    .lesson[data-lesson="12"] .brief { white-space: pre-wrap; font-size: 13.5px; line-height: 1.65; }
+    .lesson[data-lesson="12"] .verdicts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="12"] .verdicts div { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; font-size: 13.5px; line-height: 1.4; }
+    .lesson[data-lesson="12"] .verdicts .chip { font-weight: 700; font-size: 13px; }
+
+    .lesson[data-lesson="12"] .mods .panel { background: var(--sunk); }
+    .lesson[data-lesson="12"] .mods .chips { flex-direction: column; }
+    .lesson[data-lesson="12"] .mods .chip { font-family: var(--body); font-size: 13px; white-space: normal; line-height: 1.3; }
+
+    .lesson[data-lesson="12"] .caps { display: flex; flex-wrap: wrap; gap: 6px; }
+    .lesson[data-lesson="12"] .cmd { font: 500 13px/1.6 var(--mono); margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+    .lesson[data-lesson="12"] .cmd mark { padding: 1px 3px; }
+
+    .lesson[data-lesson="12"] .anti { display: flex; flex-direction: column; }
+    .lesson[data-lesson="12"] .anti div { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 14px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 14.5px; line-height: 1.45; }
+    .lesson[data-lesson="12"] .anti div:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="12"] .anti s { font: 720 16px/1.25 var(--display); text-decoration-thickness: 2px; text-decoration-color: var(--bad); }
+    .lesson[data-lesson="12"] .anti p { margin: 0; }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="12"] .trio, .lesson[data-lesson="12"] .verdicts { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="12"] .ups3 { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="12"] .ups3 span:nth-child(n+2) { display: none; }
+      .lesson[data-lesson="12"] .rows li, .lesson[data-lesson="12"] .anti div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .lesson[data-lesson="12"] .pat { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="12"] .pat .h { display: none; }
+      .lesson[data-lesson="12"] .pat > * { padding: 0 0 4px; border-top: 0; }
+      .lesson[data-lesson="12"] .pat b { border-top: 1px solid var(--line); padding-top: 10px; }
+      .lesson[data-lesson="12"] .pat b:first-of-type { border-top: 0; padding-top: 0; }
+      .lesson[data-lesson="12"] .pat .w { padding-bottom: 10px; }
+      .lesson[data-lesson="12"] .pat .w::before { content: "Watch for: "; font-weight: 700; }
+      .lesson[data-lesson="12"] .fork { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bSWE-bench\\b", "swee bench"], ["\\bbest-of-N\\b", "best of N"], ["\\bGCC\\b", "G C C"]]</script>
+  <article class="screen" data-title="Start">
+    <div class="text">
+      <p class="eyebrow">Stage 4 · Trusting the output</p>
+      <h1>Multiple agents building and reviewing</h1>
+      <p class="meta">Lesson 12 · 21 min</p>
+      <div class="actions intro-actions">
+        <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+      </div>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md" target="_blank" rel="noopener">Full notes</a></p>
+    </div>
+    <div class="vis">
+      <div class="hero12" aria-hidden="true">
+        <span class="chip c1">builder</span><span class="ha">→</span>
+        <span class="hstack"><span class="chip c3">reviewer</span><span class="chip c3">reviewer</span><span class="chip c3">reviewer</span></span>
+        <span class="ha">→</span><span class="chip c5">verifier</span>
+      </div>
+    </div>
+    <div class="talk" hidden><p>Extra agents can save time. They also cost more tokens, and hand-offs lose context. Reviewing in parallel works far more often than building in parallel.</p><p>The lesson ends on this shape. One agent writes, several review, and one more tries to refute what the reviewers found.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">What counts</p>
+      <h2>A multi-agent system is several agents, each with its own context</h2>
+      <p>An agent is a model running in a loop with tools. Code or another agent coordinates several of them.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#what-counts-as-multi-agent" target="_blank" rel="noopener">Go deeper: what counts as multi-agent</a></p>
+    </div>
+    <div class="vis">
+      <div class="trio" role="img" aria-label="Three agents side by side: a writer, a security reviewer and a test reviewer. Each has its own context window holding its own brief, the files it read and its own tool results. A coordinator below connects them.">
+        <div class="panel"><h3>Writer<small>own context window</small></h3><div class="stack"><span>its brief</span><span>the whole build chat</span><span>test output</span></div></div>
+        <div class="panel"><h3>Security reviewer<small>own context window</small></h3><div class="stack"><span>its brief</span><span>the diff</span><span>auth code it read</span></div></div>
+        <div class="panel"><h3>Test reviewer<small>own context window</small></h3><div class="stack"><span>its brief</span><span>the diff</span><span>the test files</span></div></div>
+      </div>
+      <div class="ups3" aria-hidden="true"><span>↕</span><span>↕</span><span>↕</span></div>
+      <div class="coord">Coordinator: code, or another agent</div>
+      <span class="tag">Illustrative</span>
+    </div>
+    <div class="talk" hidden><p>Lesson 10 described an agent as a model running in a loop with tools. A multi-agent system has more than one of those. Each agent gets its own context window and its own job.</p><p>The screen shows three agents working on one change. The writer's context holds the whole conversation that produced the code. The security reviewer's context holds its brief, the diff and the auth code it opened. The test reviewer has the diff and the test files. None of them sees what the others read unless something passes it along.</p><p>Something has to hand out the work and collect the results. That coordinator is either ordinary code or another agent.</p><p>Hold on to the separate contexts. They explain most of the benefits in this lesson and most of the failures.</p><p class="inclass">Ask who has already run two agents at once, even by accident in two terminals. That counts.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">What counts</p>
+      <h2>Four setups differ in who coordinates</h2>
+      <p>Anthropic calls the code-coordinated kind a workflow. Many products sold as multi-agent are workflows, and fixed paths are easier to test and debug.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#what-counts-as-multi-agent" target="_blank" rel="noopener">Go deeper: what counts as multi-agent</a></p>
+    </div>
+    <div class="vis">
+      <div class="two">
+        <div class="panel"><h3>Subagent</h3><p class="note">A main agent spawns a helper for a narrow task. The helper works in its own context and returns a summary.</p><p class="eg">Claude Code's built-in Explore agent for codebase searches</p></div>
+        <div class="panel"><h3>Agent team</h3><p class="note">Peer agents share a task list and message each other. One acts as lead.</p><p class="eg">Claude Code agent teams, experimental and off by default as of November 2026</p></div>
+        <div class="panel"><h3>Separate sessions</h3><p class="note">You run agents in different terminals or worktrees and carry information between them.</p><p class="eg">One session writes, another reviews, and you paste the findings back</p></div>
+        <div class="panel"><h3>Orchestrated pipeline</h3><p class="note">Code decides which agent runs when and passes outputs along fixed paths.</p><p class="eg">A CI job that runs three review prompts and merges the results</p></div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>A main agent coordinates a subagent, which does one narrow task and returns a summary. A lead coordinates a team of peers that share a task list and message each other.</p><p>With separate sessions, you coordinate. You run agents in different terminals and carry findings between them. In an orchestrated pipeline, code decides which agent runs when.</p><p>Anthropic's guide "Building effective agents" draws a line here. A workflow follows paths written in code. An agent directs its own steps. Plenty of products sold as multi-agent are workflows underneath. That is often a good thing, because a fixed path is easier to test and debug.</p><p class="inclass">Ask each person which of the four they've used. The exercise in the full notes uses separate sessions.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Why use more than one</p>
+      <h2>Extra agents buy four things, and a smarter answer isn't one of them</h2>
+      <p>A subagent is usually the same model as the one that spawned it, or a smaller one, working on the same task.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#why-use-more-than-one-agent" target="_blank" rel="noopener">Go deeper: why use more than one agent</a></p>
+    </div>
+    <div class="vis">
+      <ul class="rows">
+        <li><b>Parallelism</b><span>Independent pieces finish sooner. It saves wall-clock time.</span></li>
+        <li><b>Context isolation</b><span>A subagent can read 200 files or a full test log and hand back one paragraph.</span></li>
+        <li><b>Different perspectives</b><span>A security-focused reviewer finds problems a correctness-focused one skips.</span></li>
+        <li><b>Independent verification</b><span>A reviewer that never saw the author's reasoning isn't swayed by it.</span></li>
+      </ul>
+      <p class="quote">"You get parallelism or a fresh pair of eyes out of it, but not a smarter answer."<small>Claude Code best practices, Anthropic</small></p>
+    </div>
+    <div class="talk" hidden><p>Pieces that don't depend on each other finish sooner when agents run in parallel. You save time on the clock, and the answer is no smarter for it.</p><p>A helper can read two hundred files or a full test log and hand back one paragraph. That keeps the noise out of your main conversation.</p><p>A reviewer told to look only at security finds problems that a correctness reviewer skips. And a reviewer that never saw the author's reasoning can't be talked into it. Anthropic's docs list that as a main reason to use subagents.</p><p>The same docs add the caution quoted here. A subagent is the same model, or a smaller one, on the same task. Expect speed and fresh eyes from it.</p><p class="inclass">Watch for the belief that five agents are five times as smart. Ask the room which of the four benefits their last multi-agent run was after.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Why not</p>
+      <h2>Tokens multiply to about 15 times a chat</h2>
+      <p>Anthropic measured its own systems. Agents used about 4× the tokens of a chat, and its multi-agent research system used about 15×.</p>
+      <p>Part of what looks like teamwork is spending more compute.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#why-not" target="_blank" rel="noopener">Go deeper: why not</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Token use, relative to a chat</p>
+      <div class="bars" role="img" aria-label="Token use relative to a chat: chat 1 times, single agent about 4 times, multi-agent system about 15 times.">
+        <span class="chip pill">Chat</span><div class="track"><i style="--w:6.7%"></i></div><span class="num">1×</span>
+        <span class="chip pill c1">Single agent</span><div class="track"><i style="--w:26.7%"></i></div><span class="num">~4×</span>
+        <span class="chip pill c4">Multi-agent</span><div class="track"><i style="--w:100%"></i></div><span class="num">~15×</span>
+      </div>
+      <p class="cap">On the BrowseComp benchmark, token usage alone explained 80% of the variance in performance. Anthropic, "How we built our multi-agent research system", June 2025.</p>
+    </div>
+    <div class="talk" hidden><p>The first cost is tokens. Anthropic measured its own systems in 2025. A single agent used about four times the tokens of a chat. Its multi-agent research system used about fifteen times.</p><p>In the same write-up, token usage alone explained 80 percent of the variance in performance on a benchmark called BrowseComp. So a good share of what looks like teamwork is the system spending more compute on the problem.</p><p>That changes how you judge a multi-agent setup. Compare it with one agent given the same token budget, and see whether the arrangement adds anything on top. Lesson 15 covers what those tokens cost on a subscription and on an API.</p><p class="inclass">Ask the room: a system scores better and uses fifteen times the tokens. How would you tell better design from more compute? Answer: give a single agent the same budget and compare.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Why not</p>
+      <h2>Context gets lost at every hand-off</h2>
+      <p>A subagent works from a summary of the task. It doesn't have the full history, so it fills the gaps with its own assumptions.</p>
+      <p>Cognition's Walden Yan gives the example of two subagents asked to build halves of a Flappy Bird clone.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#why-not" target="_blank" rel="noopener">Go deeper: why not</a></p>
+    </div>
+    <div class="vis">
+      <div class="node" style="text-align:center;align-items:center">"Build a Flappy Bird clone"</div>
+      <div class="down">↓ split</div>
+      <div class="two halves">
+        <div class="panel"><h3>Subagent 1</h3><p>"Build a moving background with green pipes and hit boxes"</p><p class="built">A Super Mario-style background</p></div>
+        <div class="panel"><h3>Subagent 2</h3><p>"Build a bird you can move up and down"</p><p class="built">A bird that doesn't match the game</p></div>
+      </div>
+      <div class="down">↓</div>
+      <div class="clash">The final agent has to reconcile two halves that don't fit</div>
+      <p class="quote">"Actions carry implicit decisions, and conflicting decisions carry bad results."<small>Walden Yan, "Don't Build Multi-Agents", Cognition, June 2025</small></p>
+    </div>
+    <div class="talk" hidden><p>The second cost is lost context. When an agent hands work to a subagent, it writes a brief. The brief is a summary. The subagent doesn't get the conversation that led to it.</p><p>Walden Yan at Cognition wrote a post in 2025 called "Don't Build Multi-Agents". His example is on screen. Split "build a Flappy Bird clone" between two subagents. One builds a background that looks like Super Mario. The other builds a bird that doesn't match the game. Neither saw the conversation behind its brief, so each filled the gaps its own way. A final agent is left to reconcile two halves that don't fit.</p><p>Yan's two principles follow from that. Share full context and full agent traces, beyond individual messages. And remember that every action carries decisions nobody wrote down. When two agents make those decisions separately, the decisions conflict.</p><p class="inclass">Ask what the two briefs left out. Answer: the art style, how the bird should move, everything the lead agent assumed and never wrote down.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Why not</p>
+      <h2>A central check catches some errors before they spread</h2>
+      <p>A controlled study of 260 agent configurations estimated from execution traces how much each design amplifies errors, with a single agent as the baseline.</p>
+      <p>A separate analysis of more than 1,600 traces from seven frameworks sorts the failures into 14 modes. One group of them is missing or wrong verification.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#why-not" target="_blank" rel="noopener">Go deeper: why not</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Trace-level error amplification, single agent = 1×</p>
+      <div class="rng" role="img" aria-label="Trace-level error amplification, where a single agent is 1 times: independent agents with no central check 17.2 times, a centralized design with a verification step 4.4 times.">
+        <div class="srow"><div class="lab"><b>Independent agents, no central check</b><span>17.2×</span></div><div class="track warn"><i style="--w:100%"></i></div></div>
+        <div class="srow"><div class="lab"><b>Centralized, with a verification step</b><span>4.4×</span></div><div class="track"><i style="--w:25.6%"></i></div></div>
+      </div>
+      <p class="cap">Kim et al., "Towards a Science of Scaling Agent Systems", 2025, revised April 2026.</p>
+    </div>
+    <div class="talk" hidden><p>The last two costs are coordination breaking down and errors compounding.</p><p>The bars come from a controlled study by researchers at Google and MIT. They ran 260 agent configurations with the tools, prompts and compute held constant. The measure is what the paper calls trace-level error amplification. It's estimated from execution traces, and a single agent is the baseline at one.</p><p>Independent agents with no central check came out at about 17. A centralized design, where an orchestrator checks the work before combining it, came out at about 4. The check cut the amplification to roughly a quarter. Final error rates moved far less. They were about 1.1 to 1.3 times a single agent's.</p><p>A second study looked at more than 1,600 traces from seven multi-agent frameworks and sorted the failures into 14 modes. Agents ignore each other's input. They stop before the task is done. A whole group of the failures is verification that's missing, incomplete or wrong.</p><p class="inclass">Ask where the verification step sits in a multi-agent setup someone in the room has used. If nobody can point to it, that's the finding.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The read/write asymmetry</p>
+      <h2>Reading parallelizes, and writing usually doesn't</h2>
+      <p>Research, review and verification produce claims. You can deduplicate claims, check them and throw away the wrong ones.</p>
+      <p>Every edit carries decisions about names, data shapes and error handling. Decisions made separately don't fit together, and the edits collide in git.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry" target="_blank" rel="noopener">Go deeper: building vs reviewing</a></p>
+    </div>
+    <div class="vis">
+      <div class="two">
+        <div class="panel">
+          <h3>Three reviewers produce claims</h3>
+          <div class="claims">
+            <span class="chip c3">line 42 can divide by zero</span>
+            <span class="chip c3 gone">line 42 can divide by zero</span>
+            <span class="chip c3">the bug is in the cache layer</span>
+            <span class="chip c2 gone">the retry loop never exits</span>
+          </div>
+          <p class="note">Merge duplicates. Drop wrong claims.</p>
+        </div>
+        <div class="panel">
+          <h3>Two writers make decisions</h3>
+          <div class="dec">
+            <span></span><span class="h">Agent A</span><span class="h">Agent B</span>
+            <span class="k">Names</span><span class="v">user_id</span><span class="v">userId</span>
+            <span class="k">Errors</span><span class="v">raises</span><span class="v">returns None</span>
+            <span class="k">Helper</span><span class="v">in utils/</span><span class="v">inline copy</span>
+          </div>
+          <p class="note">Each is fine alone. Together they don't fit.</p>
+        </div>
+      </div>
+      <span class="tag">Illustrative</span>
+    </div>
+    <div class="talk" hidden><p>Read-heavy work parallelizes well. Write-heavy work on one codebase usually doesn't.</p><p>Research, code review, verification and debugging with competing hypotheses are read-heavy. Each agent produces claims. "Line 42 can divide by zero." "The bug is in the cache layer." Claims combine easily. Two reviewers flagged the same line, so you merge them. One claim turned out wrong, so you drop it. Two reviewers who disagree cost you a minute of checking.</p><p>Writing is different, because every edit carries decisions. Take two writers on the same module. One names the field with an underscore, the other uses camel case. One raises on error, the other returns None. Neither is wrong alone. Put together they give you a broken build and a merge conflict.</p><p>Ten reviewers can work at once. Ten writers on one module make ten sets of decisions.</p><p class="inclass">Ask for a writing task that does parallelize well, and what makes it different. Hold the answers for two screens.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The read/write asymmetry</p>
+      <h2>On coding tasks, more agents averaged worse than one</h2>
+      <p>In the 260-configuration study, every multi-agent design averaged below the single agent on a 20-task SWE-bench Verified subset. Gains showed up on work that splits cleanly.</p>
+      <p>Cursor's first large attempt used shared locks. "Twenty agents would slow down to the effective throughput of two or three."</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry" target="_blank" rel="noopener">Go deeper: building vs reviewing</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Multi-agent vs one agent, relative change</p>
+      <div class="rng" role="img" aria-label="Relative change against a single agent. Sequential planning: minus 70 to minus 39 percent. SWE-bench Verified subset: minus 15 to minus 2 percent. Decomposable financial analysis: plus 57 to plus 80.8 percent.">
+        <div class="srow"><div class="lab"><b>Sequential planning</b><span>−70% to −39%</span></div><div class="ax"><i style="--l:15%;--w:15.5%"></i></div></div>
+        <div class="srow"><div class="lab"><b>Coding, 20 SWE-bench Verified tasks</b><span>−15% to −2%</span></div><div class="ax"><i style="--l:42.5%;--w:6.5%"></i></div></div>
+        <div class="srow"><div class="lab"><b>Financial analysis that splits into parts</b><span>+57% to +80.8%</span></div><div class="ax"><i class="up" style="--l:78.5%;--w:11.9%"></i></div></div>
+        <div class="ticks3"><span>−100%</span><span>one agent</span><span>+100%</span></div>
+      </div>
+      <p class="cap">Ranges across the multi-agent designs tested. The coding result has wide confidence intervals. Kim et al., 2025, revised April 2026.</p>
+    </div>
+    <div class="talk" hidden><p>The evidence lines up with the asymmetry. The chart is from the Google and MIT study behind the error bars two screens back. The line in the middle is a single agent. Bars to the left are worse, bars to the right are better.</p><p>On sequential planning, every multi-agent design did much worse, by 39 to 70 percent. On a small set of 20 coding tasks from SWE-bench Verified, every design averaged 2 to 15 percent worse than one agent. With 20 tasks the confidence intervals are wide, so read it as "no gain shown". On financial analysis that splits into separate parts, every design did better, and the best gained about 80 percent.</p><p>Industry reports agree. Anthropic's write-up of its research system says most coding tasks have fewer pieces that can truly run in parallel than research does. Cursor's first large attempt had agents claim work through shared locks. Twenty agents slowed to the throughput of two or three.</p><p>The study's conclusion is that the fit between architecture and task decides the outcome, and the number of agents doesn't.</p><p class="inclass">Watch for someone reading the coding bar as proof that multi-agent coding never works. It was 20 tasks. The next screen shows when it does.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">The read/write asymmetry</p>
+      <h2>Parallel writing works once the work is made independent</h2>
+      <p>Anthropic's C compiler project ran 16 agents. A large test suite gave each one a different failure to claim.</p>
+      <p>The Linux kernel is one giant test, so every agent hit the same bug. The fix was a harness that narrowed each failure to a few files.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry" target="_blank" rel="noopener">Go deeper: building vs reviewing</a></p>
+    </div>
+    <div class="vis">
+      <div class="two">
+        <div class="panel">
+          <h3>Many failing tests</h3>
+          <div class="tests" aria-hidden="true"><span></span><span class="a">A</span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="b">B</span><span></span><span></span><span></span><span></span><span class="c">C</span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="d">D</span><span></span></div>
+        </div>
+        <div class="panel">
+          <h3>One giant test</h3>
+          <div class="onetest">Compile the Linux kernel<div class="chips"><span class="chip c1">A</span><span class="chip c3">B</span><span class="chip c4">C</span><span class="chip c5">D</span></div>all on the same bug</div>
+          <p class="note">They overwrite each other's fixes.</p>
+        </div>
+      </div>
+      <div class="fix"><p>Compile most kernel files with GCC and the rest with the new compiler.</p></div>
+      <p class="cap">Nicholas Carlini, "Building a C compiler with a team of parallel Claudes", Anthropic, February 2026.</p>
+    </div>
+    <div class="talk" hidden><p>Parallel writing can work. The work has to be made independent first.</p><p>In early 2026 Anthropic published a project where 16 agents built a C compiler in parallel. For most of the project that went well. A big test suite produces many separate failures. Each agent claims a different one, so they rarely touch the same code.</p><p>Then they tried to compile the Linux kernel. The kernel is one giant test. Every agent hit the same first bug, fixed it, and overwrote the others' changes.</p><p>The fix was a harness that compiled most kernel files with GCC, a known-good compiler, and only the rest with the new one. A failure then pointed at a small set of files. Each agent could chase a different bug again.</p><p>The engineering effort went into splitting the work. Adding agents was the easy part.</p><p class="inclass">Go back to the question from two screens ago. A writing task parallelizes when something outside the agents, such as a test suite, has already cut it into separate pieces.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Patterns</p>
+      <h2>Seven patterns, each with a known trap</h2>
+      <p>Most setups use one or more of these patterns.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#patterns-and-when-each-helps" target="_blank" rel="noopener">Go deeper: patterns and when each helps</a></p>
+    </div>
+    <div class="vis">
+      <div class="pat">
+        <span class="h">Pattern</span><span class="h">Helps when</span><span class="h">Watch for</span>
+        <b>Orchestrator and workers</b><p>Subtasks can't be predicted in advance</p><p class="w">Vague briefs cause duplicated or missing work</p>
+        <b>Fan-out, then merge</b><p>The work splits into slices that don't depend on each other</p><p class="w">Conflicts surface at the merge step</p>
+        <b>Voting, or best-of-N</b><p>Answers can be compared or tested</p><p class="w">Costs N×, and a shared blind spot doesn't vote away</p>
+        <b>Generator and critic</b><p>Clear criteria exist</p><p class="w">Critics always find something, so cap the rounds</p>
+        <b>Debate</b><p>Arguments can be checked</p><p class="w">Agents cave to persuasive wrong answers</p>
+        <b>Judge panel</b><p>One judge's bias would skew the result</p><p class="w">Judges share biases, so calibrate against human labels</p>
+        <b>Pipeline</b><p>The task is well understood and the steps are stable</p><p class="w">An early error flows downstream</p>
+      </div>
+    </div>
+    <div class="talk" hidden><p>Most multi-agent setups are built from seven patterns. You don't need to memorize the table. Use it to name what a tool is doing and to know its trap.</p><p>An orchestrator with workers splits a task while it runs. That suits open-ended research, and it fails when the briefs are vague. Fan-out then merge runs fixed slices in parallel, one per directory or per concern. Budget for the merge, because that's where conflicts show up.</p><p>Voting and best-of-N run the same task several times and keep the majority or the best. A generator and critic loop produces, critiques and revises. A critic always finds something, so cap the rounds. Debate gets its own screen next. A judge panel has several models score the same output. A pipeline is fixed stages, such as locate, fix, validate.</p><p>In 2024 a fixed three-stage pipeline called Agentless scored 32 percent on SWE-bench Lite, the best of any open-source agent at the time, at 70 cents an issue. Try the plain design first.</p><p class="inclass">Name a tool the room uses and ask which pattern it is. Code review bots are usually fan-out then merge.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Patterns</p>
+      <h2>Most of debate's gain comes from the vote</h2>
+      <p>A 2025 study split multi-agent debate into its two parts and found that majority voting alone accounts for most of the improvement.</p>
+      <p>Another found that debate can lower accuracy over rounds, because models switch from correct to incorrect answers to agree with their peers.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#a-short-tour-of-the-research" target="_blank" rel="noopener">Go deeper: a short tour of the research</a></p>
+    </div>
+    <div class="vis">
+      <div class="prompt" style="font-size:16px;display:block">What does f(7) return? <span class="sp">The right answer is 3.</span></div>
+      <div class="two">
+        <div class="panel">
+          <h3>Vote</h3>
+          <div class="vote" style="--cols:1">
+            <span></span><span class="h">Answer</span>
+            <span>Agent 1</span><span class="chip c3">3</span>
+            <span>Agent 2</span><span class="chip c3">3</span>
+            <span>Agent 3</span><span class="chip c2">4</span>
+          </div>
+          <p class="res">Majority: 3</p>
+        </div>
+        <div class="panel">
+          <h3>Debate</h3>
+          <div class="vote" style="--cols:2">
+            <span></span><span class="h">Round 1</span><span class="h">Round 2</span>
+            <span>Agent 1</span><span class="chip c3">3</span><span class="chip c3">3</span>
+            <span>Agent 2</span><span class="chip c3">3</span><span class="chip c2 flip">4</span>
+            <span>Agent 3</span><span class="chip c2">4</span><span class="chip c2">4</span>
+          </div>
+          <p class="res bad">Majority: 4. Agent 2 gave in to a confident argument.</p>
+        </div>
+      </div>
+      <span class="tag">Illustrative</span>
+    </div>
+    <div class="talk" hidden><p>Debate sounds like the smartest pattern. Agents argue over several rounds and converge on an answer. The 2023 papers that introduced it for language models reported gains.</p><p>Later work took it apart. A 2025 paper called "Debate or Vote" separated the two ingredients. It found that majority voting alone accounts for most of the gains credited to debate. In a plain vote, three agents answer on their own, two are right, and the majority is right.</p><p>Talking adds a risk. Another 2025 paper found debate can lower accuracy over rounds. Models shift from correct to incorrect answers in response to a peer's reasoning. They favor agreement over challenging a flawed argument. In the example, agent 2 gives in and the majority flips to the wrong answer. Lesson 01 called this sycophancy, and here it happens between agents.</p><p>So the baseline to beat is several independent attempts and a vote, or a test.</p><p class="inclass">The team exercise in the full notes tests this directly. Ten checkable questions, three conditions: one agent, three with a vote, three with a debate.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Review swarm</p>
+      <h2>A review swarm splits by concern, then tries to refute each finding</h2>
+      <p>Reviewers stay read-only, and their findings are checked before anyone edits. Shipping review tools have the same shape.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#recipe-1-a-review-swarm" target="_blank" rel="noopener">Go deeper: a review swarm</a></p>
+    </div>
+    <div class="vis">
+      <div class="flow" role="img" aria-label="A frozen target of diff, spec and commit SHA fans out to five reviewers: correctness, security, tests, API and compatibility, and simplicity. Their findings are deduplicated. A verifier tries to refute each finding. Confirmed findings are ranked by severity and go to a human. Refuted findings are dropped.">
+        <div class="node">Frozen target<small>diff, spec, commit SHA</small></div>
+        <div class="down">↓</div>
+        <div class="chips"><span class="chip pill c1">Correctness</span><span class="chip pill c2">Security</span><span class="chip pill c3">Tests</span><span class="chip pill c4">API and compatibility</span><span class="chip pill c6">Simplicity</span></div>
+        <div class="down">↓</div>
+        <div class="node">Deduplicate findings</div>
+        <div class="down">↓</div>
+        <div class="node hl">Verifier per finding<small>tries to refute it</small></div>
+        <div class="fork">
+          <div><span class="lbl">↓ confirmed</span><div class="node">Rank by severity</div><div class="down">↓</div><div class="node">A human decides</div></div>
+          <div><span class="lbl">↓ refuted</span><div class="node drop">Drop</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>This pattern is called a review swarm. The work is read-heavy, the reviewers are independent, and there's a verification step in the middle.</p><p>You freeze a target, so everyone reviews the same commit. You fan out to several reviewers, one per concern. The five on screen are correctness, security, tests, compatibility and simplicity. Several of them will flag the same line, so you merge findings by location and root cause.</p><p>Then, for each finding, a fresh agent tries to prove it wrong. Confirmed findings get ranked by severity and go to a person. Refuted ones are dropped. No reviewer edits anything.</p><p>Commercial tools do the same. As of November 2026, Anthropic's managed Code Review runs several agents over the diff and the surrounding code in parallel. A verification step then filters out false positives, and what's left is ranked by severity.</p><p class="inclass">The individual exercise is this diagram by hand with three reviewers. Fresh sessions, one concern each, on a pull request of 50 to 300 lines.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Review swarm</p>
+      <h2>Reviewers get the spec and the code, and never the author's conversation</h2>
+      <p>Freeze the target first. Review a specific commit or diff, since a branch keeps moving.</p>
+      <p>Builders need shared context so they don't diverge. Reviewers do better without the author's reasoning, because it anchors them.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#patterns-and-when-each-helps" target="_blank" rel="noopener">Go deeper: shared or isolated context</a></p>
+    </div>
+    <div class="vis">
+      <ul class="inputs">
+        <li><span>The diff at one commit SHA</span></li>
+        <li><span>The spec or the issue</span></li>
+        <li><span>Read-only access to the repository</span></li>
+        <li class="no"><span>The author's conversation</span></li>
+      </ul>
+    </div>
+    <div class="talk" hidden><p>Every reviewer gets the same three things. The diff at one specific commit. The spec or the issue. And read-only access to the repository, so it can look at the surrounding code and can't change it. In Claude Code, a custom agent limited to Read, Grep and Glob can't edit.</p><p>You hold back the author's conversation. It contains the author's reasoning, and a reviewer that reads it gets anchored by it.</p><p>This looks like it contradicts the Flappy Bird screen, where the advice was to share full context. The two cases differ. Builders need shared context so their decisions fit together. A reviewer's value comes from being independent of the author. Where exactly that line sits is still an open question in the field.</p><p>Freezing the target is the other half. If the branch moves while five reviewers are reading, their findings point at lines that no longer exist.</p><p class="inclass">Ask the room: Cognition says share full context, and good review says withhold the author's reasoning. How do both hold? Answer: share the artifacts, meaning spec and code. Withhold the argument for why the code is right.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Review swarm</p>
+      <h2>Give each reviewer one concern and permission to find nothing</h2>
+      <p>A required failure scenario makes each finding checkable.</p>
+      <p>A reviewer asked to find problems will always find something, so the brief says that an empty report is acceptable.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#recipe-1-a-review-swarm" target="_blank" rel="noopener">Go deeper: a review swarm</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Reviewer brief</p>
+      <div class="doc brief">You are reviewing a change <mark>you did not write</mark>. Focus only on <mark>SECURITY</mark>.
+Inputs: the diff (git diff main...HEAD), SPEC.md, and read-only repo access.
+For each finding give: file:line, <mark>a concrete failure scenario</mark> (specific input or state -> wrong behavior), and severity (high/medium/low).
+Report only issues that would cause real harm. Skip style.
+<mark>If you find nothing, say so.</mark> Do not invent findings to seem useful.</div>
+      <p class="cap">Repeat for correctness, tests, compatibility and simplicity.</p>
+    </div>
+    <div class="talk" hidden><p>This is a reviewer brief you can paste.</p><p>"You did not write" sets the reviewer up as an outsider. "Focus only on security" gives it one concern. A reviewer with one concern goes deeper than a reviewer told to look at everything. You run the same brief again with correctness, tests and so on.</p><p>"A concrete failure scenario" is the phrase that makes the next step possible. The reviewer has to name a specific input or state and the wrong behavior that follows. A finding in that form can be tested. "This looks risky" can't.</p><p>The last highlight is "if you find nothing, say so". A model asked to find problems will produce some, real or imagined. Telling it that an empty report is fine removes the pressure to pad. So does "skip style", which keeps forty comments about naming out of your list.</p><p class="inclass">Live demo. Run this brief on a small diff twice, once with the last line and once without it. Count the findings each time.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Review swarm</p>
+      <h2>A fresh agent tries to disprove each finding</h2>
+      <p>AI critics catch many bugs and also hallucinate some.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#recipe-1-a-review-swarm" target="_blank" rel="noopener">Go deeper: a review swarm</a></p>
+    </div>
+    <div class="vis">
+      <p class="sub">Verifier brief</p>
+      <div class="doc brief">A reviewer claims: "&lt;finding&gt;". Your job is to check whether it is real.
+Trace the code path. If possible, <mark>write a test that demonstrates the failure and run it.</mark> Answer CONFIRMED (with evidence), UNRESOLVED (can't prove either way, say what evidence is missing), or REFUTED (explain why the scenario can't happen).</div>
+      <div class="verdicts">
+        <div><span class="chip c3">CONFIRMED</span>Goes in the report, with the evidence</div>
+        <div><span class="chip c5">UNRESOLVED</span>Reported only if it's high severity</div>
+        <div><span class="chip c2">REFUTED</span>Dropped</div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>The verifier is the step most home-made review setups skip. Each finding goes to a fresh agent, and that agent's job is to check whether the finding is real.</p><p>The verifier traces the code path. If it can, it writes a test that shows the failure and runs it. A failing test is evidence from outside the model, which Lesson 11 showed is the kind that holds up.</p><p>It answers with one of three verdicts. Confirmed, with evidence. Unresolved, when it can't prove it either way. Refuted, with the reason the scenario can't happen. You report the confirmed ones, and the unresolved ones only if they're high severity. The person at the end gets a short ranked list.</p><p>The research behind this is OpenAI's CriticGPT work from 2024. AI critics caught many bugs and also invented some. Teams of a human and a critic hallucinated less than the critic alone.</p><p>If the verifier refutes most of one reviewer's findings, that reviewer is noise. Change its prompt or drop it.</p><p class="inclass">Ask why the verifier should be a fresh agent and not the reviewer itself. Answer: the reviewer already believes its finding.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Cross-model review</p>
+      <h2>A model reviewing its own code is primed to like it</h2>
+      <p>Models can recognize their own writing, and the better they recognize it, the more they prefer it. Judges also score familiar-looking text higher, whoever wrote it.</p>
+      <p>So review in a fresh context at minimum, and with a different lab's model when it counts.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#recipe-2-cross-model-review" target="_blank" rel="noopener">Go deeper: cross-model review</a></p>
+    </div>
+    <div class="vis">
+      <div class="dial">
+        <div class="dial-track" aria-hidden="true"><span style="left:0"></span><span style="left:50%"></span><span style="left:100%"></span></div>
+        <div class="stops3">
+          <div><b>The session that wrote it</b>Never as the only review</div>
+          <div><b>A fresh context, same model</b>The minimum</div>
+          <div><b>A different lab's model</b>Better</div>
+        </div>
+        <div class="costline"><span>less independent</span><i></i><span>more independent</span></div>
+      </div>
+      <p class="note">Keep the reviewer strong. A reviewer much weaker than the author gives you confident noise.</p>
+      <p class="cap">Panickssery et al., 2024, on self-recognition and self-preference. Wataoka et al., 2024, on familiarity. Verga et al., 2024, on panels from different model families.</p>
+    </div>
+    <div class="talk" hidden><p>Language models tend to rate their own output higher.</p><p>Two 2024 papers explain it. One found that models can tell their own writing from other models' writing, and the stronger that self-recognition, the stronger the preference for their own text. The other traced the bias to familiarity. A judge scores text higher when the text looks predictable to that judge, whoever wrote it. Code a model just wrote looks very familiar to that model.</p><p>Never ask the session that wrote the code whether the code is good. A fresh context with the same model is the minimum. A different lab's model is better. Panels drawn from different model families showed less of this bias in evaluation studies. Whether that carries over to code review is a fair guess that hasn't been shown yet.</p><p>Keep the reviewer strong. A much weaker one gives you confident noise. And verify across models too. If one model finds a bug, have another try to refute it.</p><p class="inclass">Ask what this implies for a team that uses one vendor for everything. Their author and reviewer share blind spots, so a fresh context is the floor.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Bryan's take</p>
+      <h2>Reviewing in parallel works almost every time</h2>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#bryans-take" target="_blank" rel="noopener">Go deeper: Bryan's take</a></p>
+    </div>
+    <div class="vis">
+      <p class="quote big">"Multi-agent review is where I get the most value: several agents, and ideally several models, reviewing each other's work. Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time."</p>
+      <p class="quote">"For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews."<small>As of November 2026. Lesson 05 has the current landscape.</small></p>
+    </div>
+    <div class="talk" hidden><p>This one is opinion. It comes from Bryan, the course author, and his daily use.</p><p>It matches the research you've just seen. He gets the most value from multi-agent review, ideally across several models. Building in parallel works for him when the tasks are truly independent.</p><p>For coding he rates Claude and Codex as the best right now, so one writes and the other reviews. He calls that a dated opinion himself. Lesson 05 has the current model landscape, and the pairing should change when the landscape does.</p><p class="inclass">Ask who in the room already uses a second model to review the first. Ask what it caught that the author model missed.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Parallel builders</p>
+      <h2>To build in parallel, write the interfaces first</h2>
+      <p>This fits a large migration, a greenfield project with clear modules, or a backlog of independent chores.</p>
+      <p>For one hard task, consider best-of-N. Two or three agents do the same task in separate worktrees and you keep the best. It costs N× and there's nothing to merge.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#recipe-3-parallel-builders-when-you-must" target="_blank" rel="noopener">Go deeper: parallel builders</a></p>
+    </div>
+    <div class="vis">
+      <div class="coord">Shared interfaces first, in one human-reviewed change</div>
+      <div class="ups3" aria-hidden="true"><span>↓</span><span>↓</span><span>↓</span></div>
+      <div class="trio mods">
+        <div class="panel"><h3>Agent A<small>module A</small></h3><div class="chips"><span class="chip c1">worktree</span><span class="chip c1">branch</span><span class="chip c1">failing tests</span></div></div>
+        <div class="panel"><h3>Agent B<small>module B</small></h3><div class="chips"><span class="chip c3">worktree</span><span class="chip c3">branch</span><span class="chip c3">failing tests</span></div></div>
+        <div class="panel"><h3>Agent C<small>module C</small></h3><div class="chips"><span class="chip c4">worktree</span><span class="chip c4">branch</span><span class="chip c4">failing tests</span></div></div>
+      </div>
+      <div class="ups3" aria-hidden="true"><span>↓</span><span>↓</span><span>↓</span></div>
+      <div class="node" style="text-align:center;align-items:center">Merge one at a time<small>rebase, run the full suite, merge, repeat</small></div>
+    </div>
+    <div class="talk" hidden><p>Sometimes you do want several agents writing at once. A big migration, a new project with clear modules, or a pile of unrelated chores can all justify it. The recipe makes that work independent before you start.</p><p>The interfaces go in first. Types, API contracts and function signatures live in a shared file, created by one change that a person reviews. Those are the decisions that would otherwise be made three different ways.</p><p>Then split by module. Each agent gets its own worktree, its own branch and its own failing tests. That's the compiler lesson again. Separate failures make separate work.</p><p>Then merge one branch at a time. Rebase, run the full suite, merge, repeat. Steve Yegge's Gas Town orchestrator has a dedicated agent for this step, because otherwise parallel workers fight over rebases.</p><p>There's an alternative for one hard task, called best-of-N. Run two or three agents on the same task in separate worktrees and keep the best result. You pay several times over, and there's nothing to merge.</p><p class="inclass">Ask which decisions in the room's current project would need to be in that shared interface file before two agents could split it.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Budgets</p>
+      <h2>Decide when to stop before you start</h2>
+      <p>Multi-agent setups fail expensively when nobody sets a limit. Anthropic's early research agents would spawn 50 subagents for a simple query.</p>
+      <p>Then track tokens and confirmed findings per review. A swarm that costs 10× and finds the same bugs as one reviewer isn't worth it.</p>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#budgets-and-stop-conditions" target="_blank" rel="noopener">Go deeper: budgets and stop conditions</a></p>
+    </div>
+    <div class="vis">
+      <div class="two">
+        <div class="panel">
+          <h3>Cap</h3>
+          <div class="caps"><span class="chip pill c1">number of agents</span><span class="chip pill c1">turns per agent</span><span class="chip pill c1">spend</span><span class="chip pill c1">wall-clock time</span></div>
+          <pre class="cmd">claude -p "Review the diff for security" \
+  <mark>--max-turns 20</mark> \
+  <mark>--max-budget-usd 5</mark></pre>
+          <p class="note">Claude Code print mode, as of November 2026. The spend cap is an estimate and can be exceeded.</p>
+        </div>
+        <div class="panel">
+          <h3>Stop when</h3>
+          <ul class="dos">
+            <li>A full review pass produces no new confirmed finding</li>
+            <li>The budget runs out</li>
+            <li>Two rounds of review-and-fix produce no new high-severity issue</li>
+          </ul>
+        </div>
+      </div>
+      <span class="tag">Illustrative values</span>
+    </div>
+    <div class="talk" hidden><p>Multi-agent setups get expensive when nobody decides in advance when they end. Anthropic's research system had this problem early on. It would spawn 50 subagents for a simple query. The fix was to scale effort to the task. Simple fact-finding needs one agent and a handful of tool calls.</p><p>Cap the number of agents, the turns each one gets, the spend and the time on the clock. The command shows two of those caps in Claude Code's print mode. The values are examples. The spend cap works from an estimate, so it can be exceeded. Other harnesses have different controls.</p><p>End the run when a full review pass finds nothing new that survives verification, when the budget runs out, or when two rounds of review and fix turn up no new high-severity issue.</p><p>Don't loop review and fix forever. A reviewer asked for problems always finds something. Fixing all of it leads to extra abstraction layers and tests for cases that can't happen.</p><p class="inclass">Ask for the two numbers the room would track to decide whether a swarm earns its cost. Answer: tokens per review and confirmed findings per review.</p></div>
+  </article>
+
+  <article class="screen">
+    <div class="text">
+      <p class="eyebrow">Anti-patterns</p>
+      <h2>Five setups that add tokens without adding a check</h2>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#anti-patterns" target="_blank" rel="noopener">Go deeper: anti-patterns</a></p>
+    </div>
+    <div class="vis">
+      <div class="anti">
+        <div><s>Org-chart theater</s><p>A "CEO agent", a "CTO agent" and a "QA agent" all see the same information and have no tests to run.</p></div>
+        <div><s>Debate without a referee</s><p>Agents talk until they agree. Agreement isn't correctness, so give the debate an external check or a vote.</p></div>
+        <div><s>The telephone game</s><p>A summarizes for B, B summarizes for C, and detail evaporates at each hop. Pass the original artifacts.</p></div>
+        <div><s>Self-review as the only review</s><p>One model in one context, grading itself.</p></div>
+        <div><s>Unbounded fan-out</s><p>"Use as many agents as you need", with no cap.</p></div>
+      </div>
+    </div>
+    <div class="talk" hidden><p>Org-chart theater gives agents job titles. A CEO agent, a CTO agent and a QA agent all read the same information and none of them has a test to run. The early papers that built software teams this way mostly tested small, self-contained programs. They aren't evidence that role-play beats one strong agent on a real codebase.</p><p>Debate without a referee is agents talking until they agree. The debate screen showed why agreement isn't correctness. The telephone game is summaries of summaries. Pass the original diff, spec and logs down the chain.</p><p>Self-review as the only review is one model in one context grading itself. And unbounded fan-out is the prompt that says "use as many agents as you need."</p><p>Give the system a limit and a check from outside the agent that did the work.</p><p class="inclass">Ask which of the five the room has seen in a demo or a product pitch.</p></div>
+  </article>
+
+  <article class="screen solo">
+    <div class="text">
+      <p class="eyebrow">What to remember</p>
+      <h2>Three things to keep</h2>
+      <ul class="remember">
+        <li>Run reviewers in parallel freely. Run writers in parallel only after the work has been made independent.</li>
+        <li>Verification is what stops errors spreading. Have a fresh agent try to refute each finding.</li>
+        <li>Never let the session that wrote the code be its only reviewer. Use a different lab's model when it counts.</li>
+      </ul>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md#what-the-evidence-adds-up-to" target="_blank" rel="noopener">Go deeper: what the evidence adds up to</a></p>
+    </div>
+    <div class="talk" hidden><p>Reading parallelizes and writing mostly doesn't. Run writers side by side only after interfaces and tests have cut the work into separate pieces.</p><p>The verification step is the part that pays, and a model is primed to like its own code. So a fresh agent tries to refute each finding, and a different lab's model reviews when the change is important.</p><p>The research shows gains from multi-agent setups shrinking as single models improve. When you upgrade models, test again whether your extra agents still earn their tokens.</p><p class="inclass">Have each person name one change from last week that deserved a second reviewer from a different model.</p></div>
+  </article>
+
+  <article class="screen solo" data-title="Done">
+    <div class="text">
+      <p class="eyebrow">Lesson 12 done</p>
+      <h2>Next: AI code review</h2>
+      <div class="actions">
+        <a class="btn primary arrow-r" href="#lesson-13">Lesson 13</a>
+        <a class="btn" href="#map">Course map</a>
+        <button type="button" class="btn" data-go="1">Review</button>
+      </div>
+      <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/12-multi-agent-systems.md" target="_blank" rel="noopener">Full notes</a></p>
+    </div>
+    <div class="talk" hidden><p>That is lesson twelve. Lesson thirteen covers AI code review: the review tools, reviewing with more than one model, and keeping a person accountable for what merges.</p></div>
+  </article>
+</section>

@@ -1,0 +1,644 @@
+<section class="lesson" data-lesson="18" data-title="Learning, careers, and responsible use" data-minutes="21" hidden>
+  <style>
+    .lesson[data-lesson="18"] .strack i.hand { background: var(--ink); }
+    .lesson[data-lesson="18"] .flow { display: flex; align-items: stretch; gap: 6px; }
+    .lesson[data-lesson="18"] .flow .node { flex: 1 1 0; }
+    .lesson[data-lesson="18"] .flow .ar { flex: none; width: 22px; }
+    .lesson[data-lesson="18"] .tbl { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .lesson[data-lesson="18"] .tbl > * { padding: 12px; font-size: 15px; line-height: 1.35; border-top: 1px solid var(--line); min-width: 0; }
+    .lesson[data-lesson="18"] .tbl .th { border-top: 0; background: var(--sunk); font: 600 11.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="18"] .tbl .rh { font-weight: 700; }
+    .lesson[data-lesson="18"] .tbl .rh small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
+    .lesson[data-lesson="18"] .tbl .bad { color: var(--bad); font-weight: 700; }
+    .lesson[data-lesson="18"] .tbl .ok { font-weight: 700; }
+    .lesson[data-lesson="18"] .tbl .dim { color: var(--muted); }
+    .lesson[data-lesson="18"] .dv { display: flex; flex-direction: column; gap: 12px; }
+    .lesson[data-lesson="18"] .dv .lab { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; margin-bottom: 6px; }
+    .lesson[data-lesson="18"] .dv .lab span { font: 500 13px/1.5 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="18"] .dv .trk { position: relative; height: 22px; background: var(--sunk); border-radius: 4px; }
+    .lesson[data-lesson="18"] .dv .trk::before { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; border-left: 2px solid var(--muted); }
+    .lesson[data-lesson="18"] .dv .trk i { position: absolute; top: 0; bottom: 0; width: var(--w); border-radius: 4px; }
+    .lesson[data-lesson="18"] .dv .trk i.l { right: 50%; background: var(--accent-mid); }
+    .lesson[data-lesson="18"] .dv .trk i.r { left: 50%; background: var(--accent); }
+    .lesson[data-lesson="18"] .ends { display: flex; justify-content: space-between; font: 500 11px/1 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="18"] .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; counter-reset: s; }
+    .lesson[data-lesson="18"] .steps li { counter-increment: s; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 4px 10px; align-items: start; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="18"] .steps li::before { content: counter(s); grid-row: 1 / span 2; font: 700 13px/26px var(--mono); text-align: center; height: 26px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--accent); }
+    .lesson[data-lesson="18"] .steps li.hl { background: var(--accent-soft); border-color: var(--accent-mid); }
+    .lesson[data-lesson="18"] .steps b { font: 700 15px/1.3 var(--display); align-self: center; }
+    .lesson[data-lesson="18"] .steps span, .lesson[data-lesson="18"] .steps code { grid-column: 2; }
+    .lesson[data-lesson="18"] .steps code { font-size: 12.5px; word-break: break-word; }
+    .lesson[data-lesson="18"] .take { margin: 0; border-left: 4px solid var(--mark); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="18"] .take b { font: 600 11.5px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="18"] .take p { margin: 0; font-size: 16px; line-height: 1.5; }
+    .lesson[data-lesson="18"] .skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .lesson[data-lesson="18"] .skills div { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; font-size: 13.5px; line-height: 1.4; color: var(--muted); min-width: 0; }
+    .lesson[data-lesson="18"] .skills b { display: block; font: 700 15px/1.3 var(--display); color: var(--ink); }
+    .lesson[data-lesson="18"] .skills .hl { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+    .lesson[data-lesson="18"] .skills .hl b { color: var(--on-mark); }
+    .lesson[data-lesson="18"] .thru { display: grid; grid-template-columns: auto 24px auto; justify-content: start; gap: 12px 20px; align-items: end; }
+    .lesson[data-lesson="18"] .thru > div { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="18"] .sq { display: grid; grid-template-columns: repeat(10, minmax(0, 22px)); gap: 5px; }
+    .lesson[data-lesson="18"] .sq.few { grid-template-columns: repeat(3, 22px); }
+    .lesson[data-lesson="18"] .sq i { aspect-ratio: 1; border-radius: 5px; background: var(--accent-mid); }
+    .lesson[data-lesson="18"] .sq.few i { background: var(--accent); }
+    .lesson[data-lesson="18"] .sq.few i.maybe { background: none; border: 2px dashed var(--accent); }
+    .lesson[data-lesson="18"] .apps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+    .lesson[data-lesson="18"] .apps i { aspect-ratio: 4 / 3; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); }
+    .lesson[data-lesson="18"] .nopaste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="18"] .nopaste li { position: relative; padding-left: 26px; font-size: 15px; line-height: 1.4; }
+    .lesson[data-lesson="18"] .nopaste li::before { content: "✕"; position: absolute; left: 0; top: 0; color: var(--bad); font: 700 15px/1.4 var(--mono); }
+    .lesson[data-lesson="18"] .stat { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+    .lesson[data-lesson="18"] .stat b { font: 720 44px/1 var(--display); color: var(--accent); letter-spacing: -.02em; }
+    .lesson[data-lesson="18"] .stat span { font-size: 14px; color: var(--muted); flex: 1 1 14em; line-height: 1.4; }
+    .lesson[data-lesson="18"] .panel .chips .chip { font-size: 13px; }
+    .lesson[data-lesson="18"] .doc.pre { white-space: pre-wrap; font-size: 13px; line-height: 1.55; }
+    .lesson[data-lesson="18"] .doc .slot { color: var(--accent); }
+    .lesson[data-lesson="18"] .panel .dos li { font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="18"] .hero-tokens { flex-direction: column; align-items: flex-start; }
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="18"] .flow { flex-direction: column; }
+      .lesson[data-lesson="18"] .flow .ar { width: auto; transform: rotate(90deg); padding: 2px 0; }
+      .lesson[data-lesson="18"] .skills { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+      .lesson[data-lesson="18"] .skills div { padding: 7px 10px; }
+      .lesson[data-lesson="18"] .tbl > * { padding: 9px 8px; font-size: 13.5px; }
+      .lesson[data-lesson="18"] .thru { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="18"] .thru .ar { transform: rotate(90deg); justify-self: start; margin-left: 30px; }
+      .lesson[data-lesson="18"] .thru { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="18"] .stat b { font-size: 36px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bMETR\\b", "meter"], ["\\bGPL\\b", "G P L"], ["\\bREADME\\b", "read me"]]</script>
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 5 · Practice for the long run</p>
+        <h1>Learning, careers, and responsible use</h1>
+        <p class="meta">Lesson 18 · 21 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-tokens" aria-hidden="true"><span class="chip c3">AI-free</span><span class="chip c5">AI-as-tutor</span><span class="chip c1">AI-accelerated</span></div>
+        <p class="cap">Which one fits depends on whether you're learning or shipping.</p>
+      </div>
+      <div class="talk" hidden><p>This is the last lesson. It covers three things: how AI changes what you learn, what is happening to early-career jobs, and what you owe other people when you use these tools.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Work and learning</p>
+        <h2>When you're learning, the code is a side effect</h2>
+        <p>At work, a merged pull request that fixes the bug is a success whether you or an agent typed it.</p>
+        <p>When you're learning, what counts is the change in your head. That comes from trying, failing and working out why. If an AI does that part, you get the artifact without the learning.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#producing-the-work-vs-learning-from-it" target="_blank" rel="noopener">Go deeper: producing vs learning</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Shipping</h3>
+            <div class="box">Bug report</div>
+            <div class="down">↓</div>
+            <div class="box">Agent writes the fix</div>
+            <div class="down">↓</div>
+            <div class="box">Merged pull request</div>
+            <p class="note strong">The pull request was the goal.</p>
+          </div>
+          <div class="panel">
+            <h3>Learning</h3>
+            <div class="box">Async exercise</div>
+            <div class="down">↓</div>
+            <div class="box">Agent writes the solution</div>
+            <div class="down">↓</div>
+            <div class="box">Finished exercise</div>
+            <p class="note strong">The exercise was meant to build a mental model of async code.</p>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>At work, fixing the bug and merging the pull request is the goal, whoever types the code.</p><p>An async exercise has a different goal. You need a mental model of how the code behaves and an instinct for where bugs hide. You build those by struggling with the problem. If the agent works through it for you, you miss that practice.</p><p>The same tool that makes an experienced engineer faster can let a learner skip the work that would have made them experienced.</p><p class="inclass">Ask the room for one thing they shipped with AI last month that they could not rebuild today.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The evidence</p>
+        <h2>Learning a library with AI cost 17 points on the quiz</h2>
+        <p>In a 2026 randomized trial at Anthropic, 52 mostly junior engineers built two features with Trio, a Python async library none of them had used. Then they took a quiz.</p>
+        <p>The AI group finished about two minutes faster, which wasn't statistically significant. The biggest quiz gap was on debugging questions.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#what-the-evidence-says" target="_blank" rel="noopener">Go deeper: what the evidence says</a></p>
+      </div>
+      <div class="vis">
+        <div class="scale" role="img" aria-label="Average quiz score: 67 percent for the group that coded by hand, 50 percent for the group that used an AI assistant.">
+          <p class="sub">Average quiz score</p>
+          <div class="srow"><div class="lab"><b>Coded by hand</b><span>67%</span></div><div class="strack"><i class="hand" style="width:67%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Used an AI assistant</b><span>50%</span></div><div class="strack"><i style="width:50%"></i></div></div>
+          <div class="ticks"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+        </div>
+        <p class="cap">The quiz came right after the task, so this says nothing about long-term retention. The assistant was a chat sidebar. The authors expect autonomous agents could widen the gap.</p>
+        <span class="tag">Shen and Tamkin, 2026</span>
+      </div>
+      <div class="talk" hidden><p>Start with the study that tested coding directly. Researchers at Anthropic took 52 engineers, mostly junior, who wrote Python every week but had never used a library called Trio. Half could use an AI assistant. Half coded by hand. Everyone built the same two features and then took a quiz.</p><p>The bars show the result. The hand-coding group averaged 67 percent. The AI group averaged 50. That is nearly two letter grades.</p><p>The AI group was about two minutes faster, and that difference could be chance. So in this study the AI group learned less and bought almost no time.</p><p>The study involved only 52 people, and the quiz came right after the task. It used a chat assistant in a sidebar. The authors expect a full agent would make the gap larger.</p><p class="inclass">Ask the room to guess the speed difference before you reveal it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The evidence</p>
+        <h2>Scores split by how people used the AI</h2>
+        <p>Some people in the AI group scored about as well as the hand-coders. They used the AI to understand the code.</p>
+        <p>The low scorers handed over the task or the debugging. These subgroups had two to seven people each, so the pattern is suggestive and unproven.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#what-the-evidence-says" target="_blank" rel="noopener">Go deeper: what the evidence says</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Scored 65% or higher</h3>
+            <ul class="dos">
+              <li>Asked only conceptual questions</li>
+              <li>Asked for code together with an explanation</li>
+              <li>Generated code, then asked follow-up questions until they understood it</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Scored below 40%</h3>
+            <ul class="dos">
+              <li>Delegated the whole task</li>
+              <li>Relied on the AI more and more as they went</li>
+              <li>Had the AI do the debugging</li>
+            </ul>
+          </div>
+        </div>
+        <p class="cap">The hand-coding group averaged 67%.</p>
+      </div>
+      <div class="talk" hidden><p>The average hides a split inside the AI group. The researchers watched how each person used the assistant and sorted them into patterns.</p><p>The patterns that averaged 65 percent or higher, close to the hand-coders, used the assistant to understand the code. The patterns that averaged below 40 handed over more of the task or the debugging.</p><p>Each pattern had between two and seven people, so this is a hint. It does fit the next study, which tested a similar idea with nearly a thousand students.</p><p class="inclass">Ask each person which column describes their last session with a new tool. No need to answer out loud.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The evidence</p>
+        <h2>Answers hurt the later exam, and hints mostly didn't</h2>
+        <p>Nearly a thousand high-school math students in Turkey practiced with plain GPT-4, with a version prompted to tutor with hints, or with no AI.</p>
+        <p>On a later exam without AI, the plain-chat group scored about 17% lower than students who never had AI. That's a relative drop, so don't read it as 17 points.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#what-the-evidence-says" target="_blank" rel="noopener">Go deeper: what the evidence says</a></p>
+      </div>
+      <div class="vis">
+        <div class="tbl" role="img" aria-label="Three groups. No AI: the baseline in practice and on the exam. Plain GPT-4 chat: much better during practice, about 17 percent lower on the later exam. GPT-4 prompted as a tutor: much better during practice, no significant harm on the later exam.">
+          <span class="th"></span><span class="th">During practice</span><span class="th">Later exam, no AI</span>
+          <span class="rh">No AI</span><span class="dim">Baseline</span><span class="dim">Baseline</span>
+          <span class="rh">GPT Base<small>plain chat</small></span><span>Much better</span><span class="bad">About 17% lower</span>
+          <span class="rh">GPT Tutor<small>hints, no answers</small></span><span>Much better</span><span class="ok">No significant harm</span>
+        </div>
+        <p class="cap">Students with the plain chat largely used it to get answers.</p>
+        <span class="tag">Bastani et al., 2025</span>
+      </div>
+      <div class="talk" hidden><p>This study ran in real classrooms. Nearly a thousand high-school students in Turkey did math practice sessions in one of three ways. One group had a plain GPT-4 chat. One had GPT-4 set up as a tutor that gives hints and holds back the answer. One had no AI.</p><p>During practice, both AI groups did much better than the students with no AI.</p><p>On a later exam with no AI, the plain-chat students scored about 17 percent lower than students who never had it. The tutor group showed no significant harm.</p><p>One caution on the number. It is a relative drop in grades. The 17 points in the coding trial were percentage points on a quiz. The two numbers match by coincidence.</p><p class="inclass">Watch for "so AI is bad for learning." The tutor row says the setup made the difference.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The evidence</p>
+        <h2>Feeling faster doesn't tell you how you did</h2>
+        <p>In a 2025 study by METR, 16 experienced open-source developers took 19% longer on tasks in their own repos when allowed early-2025 AI tools. Afterward they believed AI had made them about 20% faster.</p>
+        <p>The tools have improved a lot since. What has held up is that people judge their own AI-assisted work poorly.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#what-the-evidence-says" target="_blank" rel="noopener">Go deeper: what the evidence says</a></p>
+      </div>
+      <div class="vis">
+        <div class="dv" role="img" aria-label="Developers believed AI made them about 20 percent faster. Measured, their tasks took 19 percent longer.">
+          <div><div class="lab"><b>What they believed</b><span>about 20% faster</span></div><div class="trk"><i class="l" style="--w:30%"></i></div></div>
+          <div><div class="lab"><b>What was measured</b><span>19% longer</span></div><div class="trk"><i class="r" style="--w:28.5%"></i></div></div>
+          <div class="ends"><span>← faster with AI</span><span>slower with AI →</span></div>
+        </div>
+        <ul class="dos">
+          <li>People with an AI assistant wrote less secure code and were more likely to believe it was secure (Perry et al., 2022).</li>
+          <li>In a survey of 319 knowledge workers, more confidence in the AI went with less critical thinking. Self-reported (Lee et al., 2025).</li>
+        </ul>
+        <span class="tag">Becker et al., 2025</span>
+      </div>
+      <div class="talk" hidden><p>Lesson 07 covered this study. The research group METR ran a randomized trial with 16 experienced open-source developers, working in their own repositories. On some tasks they could use AI tools from early 2025. On others they could not.</p><p>Afterward, the developers believed AI had made them about 20 percent faster. The clock said their tasks took 19 percent longer.</p><p>Don't quote the slowdown as a fact about today's tools. They have improved a lot since early 2025. The lasting finding is the gap between the two bars.</p><p>In a 2022 security study, people with an assistant wrote less secure code and felt more sure it was secure. In a 2025 survey, people who trusted the AI more reported thinking less critically about its output.</p><p>Measure how long comparable tasks take with AI and without it.</p><p class="inclass">Ask how anyone in the room actually measures whether AI makes them faster.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Learning habits</p>
+        <h2>Try it yourself first, then ask for a hint</h2>
+        <p>Give yourself a fixed 15 to 30 minutes before you ask, and write down where you got stuck. That effort helps you learn, and it gets you a better question.</p>
+        <p>Then tell the model what kind of help you want. Asking why Trio uses nurseries teaches more than asking it to write one.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning" target="_blank" rel="noopener">Go deeper: how to learn with AI</a></p>
+      </div>
+      <div class="vis">
+        <div class="flow">
+          <div class="node">15 to 30 minutes on your own</div>
+          <div class="ar">→</div>
+          <div class="node">Write down where you got stuck</div>
+          <div class="ar">→</div>
+          <div class="node hl">Ask for a hint</div>
+        </div>
+        <div class="chat">
+          <div class="msg user"><p>I'm learning Python async with Trio. Don't write the code for me. Here's my attempt and the error I get. Ask me one question that points me toward the bug, and wait for my answer before saying more.</p></div>
+          <div class="msg bot"><p>Look at the line where your nursery block ends. Which of your tasks are still running at that point?</p></div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>These habits are based on the studies. The studies didn't test each habit or the exact time limits.</p><p>First, attempt the problem before you ask. Set a timer for 15 to 30 minutes. When it runs out, write down where you got stuck. Now you have done the part that builds the skill, and you have a specific question.</p><p>Second, say what kind of help you want. Tell the model not to write the code. Give it your attempt and the error. Ask for one question that points you toward the bug, then have it wait for your answer.</p><p>Conceptual questions work the same way. In the Anthropic trial, people who asked only conceptual questions scored about as well as people with no AI.</p><p class="inclass">Live demo. Send a broken snippet twice, once with "fix this" and once with the hint prompt. Compare what the room learns from each reply.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Learning habits</p>
+        <h2>Have a hypothesis before you ask about a bug</h2>
+        <p>Debugging showed the largest gap in the trial, and it's the skill you'll need most when you supervise agents.</p>
+        <p>Read the error, form a hypothesis and test it. Bring in the AI once you have something to check.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning" target="_blank" rel="noopener">Go deeper: how to learn with AI</a></p>
+      </div>
+      <div class="vis">
+        <ol class="steps">
+          <li><b>Read the error</b><code>TypeError: object NoneType can't be used in 'await' expression</code></li>
+          <li><b>Form a hypothesis</b><span>"<code>save_user()</code> returns None, so there's nothing to await. Maybe it isn't an async function."</span></li>
+          <li><b>Test it</b><span>Open the definition. It says <code>def</code> where it should say <code>async def</code>.</span></li>
+          <li class="hl"><b>Then ask</b><span>"I think the await fails because <code>save_user()</code> isn't async. Changing it fixed this error. What else breaks when a function becomes async?"</span></li>
+        </ol>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Debugging gets its own habit, because the trial's biggest gap was on debugging questions. It is also the skill you lean on when an agent is stuck or confidently wrong.</p><p>Read the error first. This one says a None value can't be awaited. Then guess the cause. Here the guess is that the call returns None because the function isn't async. Opening the definition tests that guess.</p><p>Only then does the AI come in. By then your question holds a hypothesis and a test result. You're asking it to extend what you found.</p><p>If you paste the error in first, you get the fix and skip the three steps that build the skill.</p><p class="inclass">Put a real stack trace on screen and have the room write a one-line hypothesis before anyone touches a tool.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Learning habits</p>
+        <h2>Test what stuck after the session ends</h2>
+        <p>Close the chat and explain the idea in your own words, then ask the model to check your explanation. The next day, delete the exercise and rebuild its core without AI.</p>
+        <p>Each time you accept something you don't fully understand, write one line in a log. Review the log weekly.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning" target="_blank" rel="noopener">Go deeper: how to learn with AI</a></p>
+      </div>
+      <div class="vis">
+        <div class="frames">
+          <div class="frame"><small>Right after</small><span>Explain it back with the chat closed</span></div>
+          <div class="frame"><small>Next day</small><span>Rebuild the core part without AI</span></div>
+          <div class="frame"><small>Every week</small><span>Review the log and close the gaps</span></div>
+        </div>
+        <div class="doc">
+          <p class="out">things-i-didnt-understand.md</p>
+          <p>- why the nursery waits for its child tasks</p>
+          <p>- what a cancel scope does on a timeout</p>
+          <p>- line 42: why this needs "async with"</p>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Feeling productive doesn't show how much you learned, so check on a schedule.</p><p>Right after an explanation, close the chat and say it back in your own words, out loud or in writing. Then ask the model to find mistakes in your version.</p><p>The next day, delete the finished exercise and rebuild the core of it with no AI. The parts you can't rebuild are your practice list.</p><p>Read every line the model writes. Log anything you accept without fully understanding it, and work through the log once a week.</p><p>Add some practice with no assistant at all, like a weekly hour of coding.</p><p class="inclass">Pair up. One person explains last week's topic for one minute with no notes. The partner asks one "why" question.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Learning habits</p>
+        <h2>Your tools have a tutor setting</h2>
+        <p>Claude Code's Learning output style explains its choices and leaves small pieces of real design work for you, marked <code>TODO(human)</code>. Then it waits for you to write them.</p>
+        <p>ChatGPT has a study mode that tutors step by step. When you're learning a new language, turn inline autocomplete off until you know it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#how-to-learn-with-ai-instead-of-outsourcing-learning" target="_blank" rel="noopener">Go deeper: how to learn with AI</a></p>
+      </div>
+      <div class="vis">
+        <div class="prompt">/output-style learning</div>
+        <div class="doc pre"><span class="out">● Learn by Doing</span>
+
+Context: The upload form is in place and calls validateFile() before accepting a file. Size and type checks work for images, but the switch statement has no handling for documents yet.
+
+Your Task: In upload.js, implement the case "document" branch inside validateFile(). Look for <mark>TODO(human)</mark>.
+
+Guidance: Decide on a size limit for documents and whether the file extension has to match the MIME type. Return {valid: boolean, error?: string}.</div>
+        <span class="tag">Example from the Claude Code docs, November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Several tools have a tutor setting.</p><p>In Claude Code it is an output style called Learning. You switch it on with the command at the top of the screen. The agent still does the routine work. When it reaches a piece with a real design decision, it stops, leaves a to-do marker for the human in the file, and tells you what to write.</p><p>In the documentation example, you choose a document size limit and decide whether the extension must match the MIME type. The agent waits until you have written the code.</p><p>ChatGPT has a study mode that walks you through a problem step by step, and other chat apps have similar modes.</p><p>One more setting. Inline autocomplete is the easiest way to skip thinking. Turn it off while you learn a new language, and back on once you know it.</p><p class="inclass">Live demo. Turn on the Learning style, give the agent a small task, and have the room write the piece it leaves.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Coursework</p>
+        <h2>A course can label every assignment with an AI tier</h2>
+        <p>AI use is hard to detect reliably, so instructors check understanding in other ways: oral explain-backs, code walkthroughs, live debugging of your own submission.</p>
+        <p>Course policies range from banning AI unless it's explicitly allowed to requiring it. Read each syllabus, and ask in writing before you submit when you're unsure.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#a-suggested-policy-for-an-ai-accelerated-course" target="_blank" rel="noopener">Go deeper: a suggested policy</a></p>
+      </div>
+      <div class="vis">
+        <div class="dial">
+          <div class="dial-track" aria-hidden="true"><span style="left:0"></span><span style="left:50%"></span><span style="left:100%"></span></div>
+          <div class="stops3">
+            <div><b>AI-free</b>No AI tools. Tests fundamentals you must have without help.</div>
+            <div><b>AI-as-tutor</b>AI may explain, give hints and review your work. It may not write code you submit.</div>
+            <div><b>AI-accelerated</b>Any AI tools. Graded on the result, your design decisions and your ability to explain every line.</div>
+          </div>
+        </div>
+        <p class="r1z">Any submission may be followed by a 5-minute walkthrough. If you can't explain it, it doesn't count as yours.</p>
+        <span class="tag">Suggested policy</span>
+      </div>
+      <div class="talk" hidden><p>Now coursework. Detecting AI use is unreliable, so a policy built on detection is weak. Instructors have better tools. They can ask you to explain your code out loud, walk through it, or debug it live.</p><p>One policy that fits those tools labels each assignment AI-free, AI-as-tutor or AI-accelerated. AI-as-tutor work lets the AI explain, hint and review, but you write what you submit. Any submission can be followed by a five-minute walkthrough.</p><p>This is a suggested policy. Yours may differ a lot. Stanford's default guidance is restrictive when a course says nothing. Harvard's CS50 allows its own AI tutor and rules out other AI tools that suggest or complete answers or code. Check the syllabus for every course.</p><p class="inclass">Team exercise from the module: draft an AI policy in small groups, swap drafts, and look for loopholes and unfair outcomes.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Disclosure</p>
+        <h2>Say how you used AI, and what it got wrong</h2>
+        <p>In coursework that's a short note. Passing off heavy AI output as all your own, where disclosure is expected, is the same integrity problem as passing off a classmate's work.</p>
+        <p>In a repo, follow the project's rule. Some want a commit trailer, some want a note in the pull request, and some ban AI contributions. Gentoo has banned them since April 2024.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#attribution-and-disclosure-in-commits-and-prs" target="_blank" rel="noopener">Go deeper: attribution and disclosure</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Coursework</h3>
+            <div class="doc pre">AI assistance: I used <span class="slot">[tool]</span> to <span class="slot">[explain X / suggest a fix for Y]</span>. I reviewed and modified the output, <span class="slot">[wrote the tests myself]</span>. The AI incorrectly <span class="slot">[suggested a package that doesn't exist]</span>, which I caught by <span class="slot">[running the tests]</span>.</div>
+          </div>
+          <div class="panel">
+            <h3>Commit</h3>
+            <div class="doc pre">Fix retry backoff overflow
+
+<mark>Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;</mark></div>
+            <p class="note">Claude Code adds this trailer by default. Leave it on unless the project says otherwise.</p>
+            <p class="note strong">You're still the author of record.</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Disclosure is a professional norm. Treat it like citing a source.</p><p>In coursework, name the tool, how you used it, and what you changed. Include something it got wrong and how you caught it.</p><p>In a repository, a co-author trailer goes at the end of a commit message. Claude Code adds one by default to commits it creates. Leave it on unless your project says otherwise. Some engineers, the author of this course included, turn it off and disclose in the pull request instead. Follow your team's rule.</p><p>Projects differ. Some want a trailer, some want a note in the pull request, and some forbid AI-generated contributions. Gentoo banned them in April 2024, citing copyright, quality and ethics. Read the contributing guide before you open a pull request.</p><p class="inclass">Ask the room: is a co-author trailer more like crediting a coworker or naming your text editor? Does the answer change with how much the AI did?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Careers</p>
+        <h2>Early-career employment in AI-exposed jobs has fallen behind</h2>
+        <p>Stanford researchers track ADP payroll data for millions of US workers. As of June 2026, employment of 22-to-25-year-olds in AI-exposed occupations, software developers included, sits 19% below where it would be had it kept pace with less-exposed peers.</p>
+        <p>The gap comes mainly from fewer hires of young workers. Experienced workers show no comparable gap.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#what-the-evidence-says-about-early-career-jobs" target="_blank" rel="noopener">Go deeper: early-career jobs</a></p>
+      </div>
+      <div class="vis">
+        <div class="scale" role="img" aria-label="Employment of workers aged 22 to 25 in AI-exposed occupations is 19 percent below where it would be had it kept pace with less-exposed peers.">
+          <p class="sub">Employment, ages 22 to 25, AI-exposed occupations</p>
+          <div class="srow"><div class="lab"><b>If it had kept pace with less-exposed peers</b><span>100</span></div><div class="strack"><i class="hand" style="width:100%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Actual, June 2026</b><span>81, which is 19% below</span></div><div class="strack"><i style="width:81%"></i></div></div>
+        </div>
+        <ul class="dos">
+          <li>Comes mainly from fewer hires of young workers</li>
+          <li>Concentrated where AI mainly substitutes for tasks</li>
+          <li>Flat or rising where AI mainly complements workers, especially experienced ones</li>
+        </ul>
+        <span class="tag">Brynjolfsson, Chandar and Chen, revised August 2026</span>
+      </div>
+      <div class="talk" hidden><p>Now careers, starting with the number people quote most. It comes from Stanford's Digital Economy Lab. The researchers use payroll records from ADP, which cover millions of American workers.</p><p>Their August 2026 revision uses data through June. Employment of 22-to-25-year-olds in AI-exposed jobs was 19 percent below where it would have been if it had kept pace with young workers in less-exposed jobs. The gap has widened since the paper's first version in 2025.</p><p>Companies are mostly hiring fewer young people. They are not mostly laying them off. The decline is concentrated in jobs where AI substitutes for the tasks. Where AI complements workers, employment is flat or rising, especially for experienced people.</p><p>Software development is on the exposed list.</p><p class="inclass">Watch for "19 percent of junior developers lost their jobs." The number is a gap against a comparison group, and it comes mostly from hires that did not happen.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Careers</p>
+        <h2>The payroll data doesn't show that AI is the cause</h2>
+        <p>The authors call their results descriptive. Other explanations are still plausible and may combine. The authors' controls address some of them.</p>
+        <p>The US Bureau of Labor Statistics still projects strong growth for software developers. Projections can miss in both directions.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#counter-evidence-and-uncertainty" target="_blank" rel="noopener">Go deeper: counter-evidence and uncertainty</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Other explanations</h3>
+            <div class="chips">
+              <span class="chip pill c2">correction after pandemic over-hiring</span>
+              <span class="chip pill c5">higher interest rates</span>
+              <span class="chip pill c4">offshoring</span>
+              <span class="chip pill c6">junior hiring paused while companies figure out AI</span>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>What the authors checked</h3>
+            <ul class="dos">
+              <li>The pattern holds with tech firms excluded</li>
+              <li>It holds after controlling for interest-rate exposure and remote work</li>
+              <li>They find no broad, economy-wide job displacement</li>
+            </ul>
+          </div>
+        </div>
+        <div class="stat"><b>+10%</b><span>Projected US job growth for software developers, QA analysts and testers, 2025 to 2035. The average for all occupations is 3% (Bureau of Labor Statistics)</span></div>
+      </div>
+      <div class="talk" hidden><p>The payroll data shows a gap. It does not show what caused it, and the authors say so. They call the results descriptive.</p><p>Tech over-hired during the pandemic and then corrected. Interest rates went up. Some work moved offshore. And some companies paused junior hiring while they work out what AI means for them. Several of these could be true at once.</p><p>The pattern holds when they leave out tech firms, and when they control for interest rates and remote work. That covers some of the alternatives.</p><p>The official forecast still shows growth. The Bureau of Labor Statistics projects jobs for software developers, QA analysts and testers to grow 10 percent from 2025 to 2035. The average for all occupations is 3 percent.</p><p>So entry-level software work is harder to find, and AI is a plausible part of why. Nobody knows the long-run effect. If companies stop hiring juniors, they eventually run out of seniors.</p><p class="inclass">Ask the room: if agents do the junior work, where do future senior engineers come from? What should companies, universities and students each do?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Careers</p>
+        <h2>Agents raise the value of the skills they can't supply</h2>
+        <p>You will read far more code than you write.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#skills-that-gain-value" target="_blank" rel="noopener">Go deeper: skills that gain value</a></p>
+      </div>
+      <div class="vis">
+        <div class="skills">
+          <div><b>Specification</b>Say exactly what you want, with edge cases and non-goals.</div>
+          <div><b>Decomposition</b>Pieces an agent can do and you can verify.</div>
+          <div><b>Reading and review</b>Find the subtle bug in 400 plausible lines.</div>
+          <div><b>Debugging</b>Find the real cause when the agent is stuck or confidently wrong.</div>
+          <div><b>Testing</b>Passing tests don't prove the program is correct.</div>
+          <div><b>Systems thinking</b>Architecture, data flow, failure modes and cost.</div>
+          <div><b>Security judgment</b>What not to give an agent access to.</div>
+          <div><b>Domain knowledge</b>Your users, your regulations, the weird business rule.</div>
+          <div><b>Communication</b>Clear issues, design docs and PR descriptions.</div>
+          <div><b>Taste</b>Which of five working solutions you'll be glad you kept.</div>
+          <div class="hl"><b>Product sense</b>Which problem is worth solving, for whom, and what done looks like.</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Specification and decomposition are how you direct an agent. Lessons 09 and 10 covered them. Reading, review and debugging are how you check it. Those were lessons 11 and 13. Security judgment was lesson 14.</p><p>The rest are things the agent doesn't know unless you tell it. It doesn't know your users or your regulations, or why the strange business rule exists. It optimizes locally, so architecture, failure modes and cost stay with you.</p><p>As agents take on more of the building, more of your day goes to product sense. That means deciding which problem to solve, who needs it, and what done looks like.</p><p>Compare this grid with the low-scoring column from the trial. Delegating everything and outsourcing debugging skip the practice these skills need.</p><p class="inclass">Have each person pick the one skill on the grid they are weakest at and name one way to practice it this month.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Careers</p>
+        <h2>The classes that felt least like programming get more useful</h2>
+        <p>Project management classes cover estimation, dependencies and risk. Brooks's law, from 1975, says adding people to a late software project makes it later, because coordination costs grow with every person.</p>
+        <p>It applies to agents too. In Cursor's first large-scale attempt, twenty agents sharing locks on one codebase slowed to the throughput of two or three.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#the-classes-you-thought-youd-never-use" target="_blank" rel="noopener">Go deeper: the classes you thought you'd never use</a></p>
+      </div>
+      <div class="vis">
+        <div class="thru" role="img" aria-label="Twenty agents working on one codebase produce the throughput of two or three.">
+          <div><p class="sub">20 agents, one codebase</p><div class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="ar">→</div>
+          <div><p class="sub">Throughput of 2 or 3</p><div class="sq few"><i></i><i></i><i class="maybe"></i></div></div>
+        </div>
+        <blockquote class="take">
+          <b>Bryan's take</b>
+          <p>Ultimately the engineer is much more in product now. Some of the classes software engineers take, the ones they don't think will be useful, turn out to be among the most important. I used Gantt charts and quoted <i>The Mythical Man-Month</i> far more in my career than I expected. You still need to know the algorithms to pass the interviews, at least for now.</p>
+        </blockquote>
+      </div>
+      <div class="talk" hidden><p>Project management, system design and communication can feel far removed from programming. They get more useful when agents write more of the code.</p><p>Take Brooks's law, from a 1975 book called The Mythical Man-Month. Adding people to a late project makes it later, because every new person adds coordination cost. In its first large-scale attempt, Cursor had twenty agents claim work through shared locks on one codebase, and got the throughput of two or three. Lesson 12 has the details.</p><p>System design works the same way. An agent can implement a design. Choosing the right one is still your job, and knowing design tells you what to ask the agent about.</p><p>Algorithms still count too. An agent can write a heap from memory. You need to recognize when you need one, and to notice when its solution is accidentally quadratic.</p><p>Bryan's take is on screen. He says the engineer is much more in product now, and that he used Gantt charts and quoted The Mythical Man-Month far more than he expected.</p><p class="inclass">Ask which class or skill people wrote off as useless that has turned out to be useful.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Careers</p>
+        <h2>A portfolio has to show judgment</h2>
+        <p>Ten AI-generated apps prove little, since anyone can make them.</p>
+        <p>Hiring managers increasingly ask where agents helped and where you overrode them.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#portfolios-in-the-ai-era" target="_blank" rel="noopener">Go deeper: portfolios</a></p>
+      </div>
+      <div class="vis">
+        <div class="two wide-r">
+          <div class="panel">
+            <h3>Proves little</h3>
+            <div class="apps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="note">Ten generated apps</p>
+          </div>
+          <div class="panel">
+            <h3>Shows judgment</h3>
+            <ul class="dos">
+              <li>One or two deep projects, maintained over time, with real users if possible</li>
+              <li>Tests, design notes, and a README with the trade-offs you made and the alternatives you rejected</li>
+              <li>Where agents helped and where you overrode them</li>
+              <li>A write-up of a hard bug you found, including one an AI introduced</li>
+              <li>Open-source contributions that follow each project's AI policy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A portfolio used to prove you could build something. Anyone can now generate ten small apps in a weekend, so ten small apps prove very little.</p><p>Show one or two projects you've kept running over time, ideally with real users. Include tests, design notes, and a README explaining your trade-offs and the options you rejected.</p><p>Be honest about AI in it. Say where agents helped and where you overrode them. Hiring managers increasingly ask, and a clear answer shows the judgment they are hiring for.</p><p>Bug stories are strong evidence. A write-up of a hard bug you tracked down is more convincing than a feature list, and a bug an AI introduced is a good one to pick.</p><p>If you contribute to open source, read each project's rules on AI first. Some ban AI-generated contributions entirely.</p><p class="inclass">Ask each person which project they would keep if they could show only one, and what trade-off they would write about.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Careers</p>
+        <h2>Prepare for interviews with AI and without it</h2>
+        <p>Companies are split. Canva announced in June 2025 that candidates would use tools like Copilot, Cursor and Claude on harder, more ambiguous problems. Others forbid AI and use in-person or proctored formats to enforce it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#interviewing-with-and-without-ai" target="_blank" rel="noopener">Go deeper: interviewing</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>AI forbidden</h3>
+            <p class="note strong">Practice solving problems without AI, out loud.</p>
+            <p class="note">Algorithms and data structures are still tested directly.</p>
+          </div>
+          <div class="panel">
+            <h3>AI expected</h3>
+            <p class="note strong">Practice driving an agent on an unfamiliar problem while narrating your decisions.</p>
+            <p class="note">Canva's criteria</p>
+            <ul class="dos">
+              <li>Breaking down requirements</li>
+              <li>Making sound decisions</li>
+              <li>Catching and fixing problems in AI-generated code</li>
+            </ul>
+          </div>
+        </div>
+        <p class="r1z">Narrate the moment you reject the agent's suggestion, and why.</p>
+      </div>
+      <div class="talk" hidden><p>Interviews are in the same split state as course policies. You may meet both kinds in one job search, so practice both.</p><p>The traditional format has no AI and is often in person or proctored. For that one, practice solving problems out loud with no assistant. Algorithms and data structures are still tested directly, at least for now.</p><p>Canva announced in June 2025 that backend, machine learning and frontend candidates would use AI tools in the interview, on harder and more ambiguous problems. Canva says it evaluates how candidates break down requirements, make sound decisions, and catch and fix problems in generated code.</p><p>For that format, practice driving an agent on a problem you haven't seen while saying your decisions out loud. When you reject the agent's suggestion, say why.</p><p class="inclass">Mock interview. One person drives an agent on a small unfamiliar task and narrates. The room notes every time they accept output without checking it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Responsible use</p>
+        <h2>Treat anything you paste as sent to a third party</h2>
+        <p>Keep secrets and other people's data out of AI tools. Student records and health information often carry legal obligations.</p>
+        <p>Consumer and business plans from the same lab often have different data rules. Check your settings now, and again after any terms update.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste" target="_blank" rel="noopener">Go deeper: what not to paste</a></p>
+      </div>
+      <div class="vis">
+        <ul class="nopaste">
+          <li>Passwords, API keys, tokens, private keys, connection strings</li>
+          <li>Personal data about customers, patients, classmates or coworkers</li>
+          <li>Your employer's or client's code and documents, unless they approved that tool for that use</li>
+          <li>Other students' work</li>
+          <li>Anything you'd be uncomfortable seeing in a breach notification</li>
+        </ul>
+        <div class="two">
+          <div class="panel">
+            <h3>Claude Free, Pro, Max</h3>
+            <p class="note">You choose whether your chats and coding sessions are used for training. If you allow it, data is kept for up to five years. If you don't, 30 days.</p>
+          </div>
+          <div class="panel">
+            <h3>Team, Enterprise, API</h3>
+            <p class="note">Excluded from that training choice. These plans generally add admin controls, retention settings and contractual commitments.</p>
+          </div>
+        </div>
+        <p class="cap">Anthropic's consumer terms, announced August 28, 2025.</p>
+      </div>
+      <div class="talk" hidden><p>When you paste something into an AI tool, you are sending it to another company.</p><p>Keep credentials, other people's personal data, and other students' work out of these tools. Student and health data often carry legal duties. Your employer or client has to approve the tool and the use before you paste their code or documents. Keep out anything you'd be uncomfortable seeing in a breach notice.</p><p>Data rules depend on your plan. On Anthropic's consumer plans, you choose whether your chats and coding sessions train future models. If you say yes, the data is kept for up to five years. Team, enterprise and API use are excluded from that.</p><p>ChatGPT has a similar split. Consumer accounts have a setting to turn training off, and the business and API products don't train on customer data by default.</p><p>Defaults change, so check your settings today.</p><p class="inclass">Give everyone two minutes to open the privacy settings of the tool they use most and report what they find.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Responsible use</p>
+        <h2>A prompt alone probably doesn't make the code yours</h2>
+        <p>The US Copyright Office concluded in January 2025 that AI output can be protected where a human determined the expressive elements, and that prompts alone are unlikely to be enough.</p>
+        <p>Models also sometimes reproduce code from their training data, including GPL code that carries obligations if you distribute it.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#licensing-and-copyright-of-generated-code" target="_blank" rel="noopener">Go deeper: licensing and copyright</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Can anyone own this code?</h3>
+            <p class="note strong">Can be protected</p>
+            <ul class="dos">
+              <li>The parts you wrote</li>
+              <li>Your selection, arrangement and modification of AI output</li>
+            </ul>
+            <p class="note strong">Unlikely to be enough</p>
+            <ul class="nopaste">
+              <li>Prompts alone</li>
+              <li>Reviewing or approving generated code</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Does it infringe someone else's?</h3>
+            <p class="note">The risk is highest for long, distinctive snippets. Be suspicious of a large, polished block that appears instantly for a niche problem.</p>
+            <ul class="dos">
+              <li>Assistant filters that block or flag matches to public code</li>
+              <li>License scanners in CI</li>
+            </ul>
+          </div>
+        </div>
+        <p class="cap">US law. Other countries differ, and your employer's or school's IP rules still apply.</p>
+      </div>
+      <div class="talk" hidden><p>Generated code raises two legal questions, copyright protection and infringement. This is the United States position. Other countries differ.</p><p>The Copyright Office reported in January 2025 that existing law covers it. Output can be protected where a person determined the expressive elements. Prompts alone are unlikely to meet that bar. So what you can protect is what you authored: the parts you wrote, and how you selected, arranged and modified the output. Reviewing or approving generated code does not by itself make you its author.</p><p>Models sometimes reproduce training code. Some of it is under licenses like the GPL, which put obligations on you if you distribute it. The risk is highest for long, distinctive snippets.</p><p>There are two practical defenses. Some assistants can block or flag suggestions that match public code. License scanners in your CI catch known snippets.</p><p class="inclass">Ask the room: 300 lines of your project closely match GPL code. You didn't copy it, an agent produced it. What do you do, and who is responsible?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Accountability</p>
+        <h2>You answer for everything you ship</h2>
+        <p>An agent can't be fired, sued or held to a professional standard. You can. Whatever you merge, deploy, submit or publish is yours, with its bugs, security holes and license problems.</p>
+        <p>That covers what you hand to teammates. Workslop is AI-generated work that looks finished and lacks substance, like a 2,000-line PR nobody can review. Don't send what you haven't read.</p>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#human-accountability" target="_blank" rel="noopener">Go deeper: human accountability</a></p>
+      </div>
+      <div class="vis">
+        <div class="flow">
+          <div class="node">Agent writes the change</div>
+          <div class="ar">→</div>
+          <div class="node hl">You merge it<small>or deploy, submit, publish</small></div>
+          <div class="ar">→</div>
+          <div class="node">Yours<small>bugs, security holes, license problems</small></div>
+        </div>
+        <blockquote class="take">
+          <b>Bryan's take</b>
+          <p>Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.</p>
+        </blockquote>
+      </div>
+      <div class="talk" hidden><p>You can be fired, sued or held to a professional standard for work you ship. An agent can't. You answer for the bugs, security holes and license problems in anything you merge, deploy, submit or publish. "The AI wrote it" excuses none of them.</p><p>The same applies inside a team. Researchers writing in Harvard Business Review in September 2025 coined the word workslop for AI-generated work that looks finished and has no substance. In engineering, that is a two-thousand-line pull request nobody can review. The real work lands on whoever receives it.</p><p>Running many agents makes this harder. Each one finishes, waits, and needs a decision. Run only as many as you have time to review. If you're approving diffs you didn't read, run fewer.</p><p>Bryan's take is on screen. Vibe coding means never really reading the code. This course is about AI-accelerated coding, where a person understands what ships and answers for it.</p><p class="inclass">Ask how you would tell healthy AI-first work from approving diffs nobody read, in yourself or in a teammate.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>While you're learning, use AI for hints and explanations, and do the work yourself.</li>
+          <li>Entry-level hiring is under pressure, so build and show judgment: specs, review, debugging, trade-offs.</li>
+          <li>You answer for what you ship and for the data you paste.</li>
+        </ul>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md#deskilling-real-risk-or-old-panic" target="_blank" rel="noopener">Go deeper: deskilling</a></p>
+      </div>
+      <div class="talk" hidden><p>While you're learning, use AI as a tutor and do the work yourself. Nobody is sure how much of the pressure on entry-level hiring comes from AI, but you can build judgment and show it. And you answer for what you ship and for the data you paste.</p><p>Using agents well takes judgment that people used to build by doing the work by hand. The likely answer is deliberate practice. Do some work with no AI for fundamentals, use AI as a tutor while you learn, and go to full acceleration once you can check the output.</p><p class="inclass">Individual exercise from the module: a two-week experiment. Build with an agent in default mode one week and with the learning habits the next, and run the rebuild test after each.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 18 done</p>
+        <h2>That's the course</h2>
+        <div class="actions">
+          <a class="btn primary" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="https://github.com/bryanroscoe/not-writing-code/blob/kb/stage-slides-course/modules/18-learning-careers-and-responsibility.md" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson eighteen, and the end of the course. The course map has every lesson if you want to go back to one.</p></div>
+    </article>
+</section>
