@@ -14,7 +14,7 @@ This path is for university students, bootcamp learners, and anyone who can prog
 
 ## How to read each module
 
-Every module has three depth levels. Start with the TL;DR and Bryan's take, then read Foundations and In practice. Do the short "Try it" exercises to practice what you've read. Skim Going deeper unless a topic grabs you or the syllabus says to read it.
+Every module has three depth levels. Start with the TL;DR and the author's note, then read Foundations and In practice. Do the short "Try it" exercises to practice what you've read. Skim Going deeper unless a topic grabs you or the syllabus says to read it.
 
 ## The path
 

@@ -21,7 +21,7 @@ Catalog description (draft). Coding agents now read codebases, run commands, and
 
 Vibe coding means accepting whatever a model writes without reading the code ([module 00](../modules/00-orientation.md#ai-accelerated-coding-not-vibe-coding)). This course is AI-accelerated coding: agents do much of the typing. Students decide what to build, write the checks, read what matters, and answer for the result.
 
-> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
+> **Author's note:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 The course carries `[3]` credit hours (placeholder; the [workload estimates](#workload) assume 3) and meets `[meeting pattern, for example two 75-minute sessions per week]`. Each unit lists its readings, which are due before the unit's first session.
 
@@ -74,9 +74,9 @@ Plans bill by the month, so the cost depends on how long the course runs. A 15-w
 - **Nobody's grade depends on ability to pay.** `[Department: describe how students who can't buy a plan get access, for example loaner seats on a team plan or lab accounts.]` Each term, the instructor checks that every lab fits within one $20 plan's limits ([refresh checklist](instructor-guide.md#refresh-checklist-for-each-term)).
 - Consumer plans may let the vendor train on your chats and coding sessions, depending on a setting you control, and education and enterprise terms differ. Check that setting before the first lab ([module 18](../modules/18-learning-careers-and-responsibility.md#data-privacy-what-not-to-paste)).
 
-> **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
+> **Author's note:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
-> **Bryan's take:** For coding, Claude and Codex are the best, in my opinion. Different models are better for different use cases.
+> **Author's note:** For coding, Claude and Codex are the best, in my opinion. Different models are better for different use cases.
 
 Opinions about models go stale fast. The course works with any frontier coding agent that can read a repository, run commands, and edit files. [Module 05](../modules/05-model-landscape.md#best-model-for-the-job) covers the current options.
 

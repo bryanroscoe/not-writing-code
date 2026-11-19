@@ -650,7 +650,7 @@ Earlier knowledge can erode as edits accumulate. Optimizing a score can reinforc
 
 ## On self-tuning models
 
-> **Bryan's take:** Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?
+> **Author's note:** Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?
 
 <!--
 This is my opinion, quoted from the module.

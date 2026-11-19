@@ -377,9 +377,9 @@ In October 2025, a Claude Code user running v2.0.22 under WSL2 reported that the
 - Can model judges become reliable for code? Current studies find them swayed by names, comments, formatting and order. Watch for judges that hold up under those changes.
 - What's the oracle for product work? Until the spec lives somewhere an agent can run it, most of the checking stays with people.
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](./10-agentic-workflows.md#bryans-take).)
+> **Author's note:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](./10-agentic-workflows.md#authors-note).)
 
 The strongest counterpoint is a project with a near-perfect verifier. Carlini's C compiler had GCC to diff against and decades of conformance tests, and parallel agents built it mostly unattended ([module 10](./10-agentic-workflows.md#what-the-successes-have-in-common)). With an oracle that good, a loop can be ambitious. Most product work doesn't have an oracle that good. You have to build and protect its checks.
 

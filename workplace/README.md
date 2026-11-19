@@ -36,7 +36,7 @@ Use the [modules](../modules/) to adopt AI-accelerated engineering on a team, wi
 - Reach for the tool by default, and keep the skills to work without it ([module 18](../modules/18-learning-careers-and-responsibility.md#the-human-side)).
 - Tools can write, review, and fix code, but a person approves every change and answers for the result ([module 13](../modules/13-ai-code-review.md#accountability-the-human-who-merges-owns-it)).
 - The productivity research is mixed ([module 07](../modules/07-judging-models.md#real-world-productivity-evidence)), so measure your own team.
-- Bryan Roscoe's opinions appear only in "Bryan's take" callouts. Everything else links to a sourced module section.
+- Bryan Roscoe's opinions appear only in "Author's note" callouts. Everything else links to a sourced module section.
 
 ## Keeping it fresh
 

@@ -339,7 +339,7 @@ If you're a student, remember this slide when a required course feels pointless.
 
 <!-- _class: take -->
 
-> **Bryan's take:** Ultimately the engineer is much more in product now. Some of the classes software engineers take, the ones they don't think will be useful, turn out to be among the most important. I used Gantt charts and quoted *The Mythical Man-Month* far more in my career than I expected. You still need to know the algorithms to pass the interviews, at least for now. Having good system design chops helps a lot too. You need to know what questions to talk to the agent about.
+> **Author's note:** Ultimately the engineer is much more in product now. Some of the classes software engineers take, the ones they don't think will be useful, turn out to be among the most important. I used Gantt charts and quoted *The Mythical Man-Month* far more in my career than I expected. You still need to know the algorithms to pass the interviews, at least for now. Having good system design chops helps a lot too. You need to know what questions to talk to the agent about.
 
 <!--
 That's from my own career. The skills and classes we just covered include product sense and Brooks's law from The Mythical Man-Month.
@@ -458,7 +458,7 @@ Imposter feelings are common either way. Specification, judgment, and verificati
 
 ## AI-accelerated coding, not vibe coding
 
-> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
+> **Author's note:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 <!--
 Being "a human in charge" means you understand what you ship, you protect other people's data, and you answer for the result. For Yegge's stages of AI-assisted work, see module 10.

@@ -47,7 +47,7 @@ def prose_lines(text):
             continue
         if re.match(r"^## ", line):
             in_sources = line.strip() == "## Sources and further reading"
-        if in_fence or in_sources or line.startswith("> **Bryan's take:**"):
+        if in_fence or in_sources or line.startswith("> **Author's note:**"):
             continue
         yield n, re.sub(r"`[^`]*`|\]\([^)]*\)", "", line)
 

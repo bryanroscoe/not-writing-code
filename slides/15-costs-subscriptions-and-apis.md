@@ -373,7 +373,7 @@ The weekly cost review matters most in the first month of any new agent workflow
 
 # Teams and trade-offs
 
-Pricing it in engineer-hours, and Bryan's take
+Pricing it in engineer-hours, and the author's note
 
 <!--
 We'll work out what a lead can tell leadership about costs. I'll also give my opinion on subscriptions.
@@ -410,7 +410,7 @@ Before a rollout, get in writing: training on your content, retention and ZDR, d
 
 ## Subscriptions vs API
 
-> **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
+> **Author's note:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
 <!--
 This is my opinion, from daily use.

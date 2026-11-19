@@ -1,0 +1,428 @@
+<section class="lesson" data-lesson="00" data-title="What this is and how to use it" data-minutes="11" hidden>
+  <style>
+    .lesson[data-lesson="00"] .k { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0; }
+    .lesson[data-lesson="00"] .lz { font: 500 12px/1.3 var(--mono); color: var(--muted); white-space: nowrap; }
+
+    .lesson[data-lesson="00"] .diff { margin: 0; font: 500 clamp(12.5px, 1.25cqi, 16px)/1.7 var(--mono); background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 10px 0; overflow-x: auto; display: grid; }
+    .lesson[data-lesson="00"] .diff span { display: block; padding: 0 14px; white-space: pre; }
+    .lesson[data-lesson="00"] .diff .add { background: var(--t3); }
+    .lesson[data-lesson="00"] .diff .del { background: var(--t2); }
+    .lesson[data-lesson="00"] .owns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="00"] .owns .node { font-size: clamp(17px, 1.8cqi, 22px); font-family: var(--display); }
+    .lesson[data-lesson="00"] .owns .node small { order: -1; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+
+    .lesson[data-lesson="00"] .flow { display: grid; grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr) 22px minmax(0, 1fr) 22px minmax(0, 1fr); }
+    .lesson[data-lesson="00"] .share { height: 28px; border-radius: 6px; overflow: hidden; background: repeating-linear-gradient(135deg, var(--line) 0 3px, transparent 3px 7px); border: 1px solid var(--line); }
+    .lesson[data-lesson="00"] .share i { display: block; height: 100%; width: var(--w); background: var(--accent); }
+    .lesson[data-lesson="00"] .share-l { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+    .lesson[data-lesson="00"] .share-l span:last-child { color: var(--muted); }
+
+    .lesson[data-lesson="00"] .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .lesson[data-lesson="00"] .three .panel p { margin: 0; font-size: 14px; line-height: 1.4; }
+
+    .lesson[data-lesson="00"] .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; counter-reset: s; }
+    .lesson[data-lesson="00"] .steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px 7px 32px; font-size: 14px; line-height: 1.35; position: relative; }
+    .lesson[data-lesson="00"] .steps li::before { content: counter(s); position: absolute; left: 11px; font: 700 12px/1.6 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="00"] .quote { font-family: var(--body); font-size: 15px; line-height: 1.45; }
+    .lesson[data-lesson="00"] .take { margin: 0; border-left: 4px solid var(--mark); padding: 4px 0 4px 12px; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column; gap: 4px; }
+
+    .lesson[data-lesson="00"] .modes { display: flex; flex-direction: column; }
+    .lesson[data-lesson="00"] .mrow { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.45fr) minmax(0, 1.3fr) minmax(0, 1.5fr); gap: 10px; padding: 8px 10px; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.35; }
+    .lesson[data-lesson="00"] .mrow b { font: 700 14.5px/1.3 var(--display); }
+    .lesson[data-lesson="00"] .mhead { border-top: 0; padding-bottom: 6px; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="00"] .mrow.hl { background: var(--accent-soft); border-radius: 8px; border-top-color: transparent; box-shadow: inset 4px 0 0 var(--accent); }
+    .lesson[data-lesson="00"] .mrow.hl + .mrow { border-top-color: transparent; }
+    .lesson[data-lesson="00"] .mrow .gf { color: var(--muted); }
+    .lesson[data-lesson="00"] .mrow.hl .gf { color: var(--ink); }
+
+    .lesson[data-lesson="00"] .cant { display: flex; flex-wrap: wrap; gap: 6px; }
+    .lesson[data-lesson="00"] .cant s { font: 700 16px/1.2 var(--display); padding: 6px 10px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); text-decoration-thickness: 2px; text-decoration-color: var(--bad); }
+    .lesson[data-lesson="00"] .reasons { display: flex; flex-direction: column; }
+    .lesson[data-lesson="00"] .reasons div { padding: 12px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 14px; align-items: start; }
+    .lesson[data-lesson="00"] .reasons div:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="00"] .reasons b { font: 700 16px/1.25 var(--display); }
+    .lesson[data-lesson="00"] .reasons p { margin: 0; font-size: 14px; line-height: 1.45; }
+
+    .lesson[data-lesson="00"] .vocab { align-items: center; }
+    .lesson[data-lesson="00"] .vocab .chip { font-size: 13px; }
+
+    .lesson[data-lesson="00"] .ideas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; counter-reset: n; }
+    .lesson[data-lesson="00"] .ideas li { counter-increment: n; background: var(--sunk); border: 1px solid var(--line); border-radius: 12px; padding: 12px 12px 12px 44px; position: relative; display: flex; flex-direction: column; gap: 4px; }
+    .lesson[data-lesson="00"] .ideas li::before { content: counter(n); position: absolute; left: 12px; top: 12px; width: 22px; height: 22px; border-radius: 6px; background: var(--mark); color: var(--on-mark); font: 700 13px/22px var(--mono); text-align: center; }
+    .lesson[data-lesson="00"] .ideas b { font: 700 16px/1.25 var(--display); }
+    .lesson[data-lesson="00"] .ideas p { margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--muted); }
+
+    .lesson[data-lesson="00"] .stg { display: flex; flex-direction: column; }
+    .lesson[data-lesson="00"] .stg > div { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; padding: 11px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="00"] .stg > div:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="00"] .stg > div:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="00"] .stg .chip { justify-content: center; font-weight: 700; }
+    .lesson[data-lesson="00"] .stg b { font: 700 17px/1.25 var(--display); display: block; }
+    .lesson[data-lesson="00"] .stg p { margin: 2px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
+    .lesson[data-lesson="00"] .stg .lz { padding-top: 3px; }
+
+    .lesson[data-lesson="00"] .rules { list-style: none; margin: 0; padding: 0; counter-reset: r; display: flex; flex-direction: column; }
+    .lesson[data-lesson="00"] .rules li { counter-increment: r; padding: 10px 0 10px 36px; border-top: 1px solid var(--line); position: relative; font-size: 14px; line-height: 1.4; color: var(--muted); }
+    .lesson[data-lesson="00"] .rules li:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="00"] .rules li:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="00"] .rules li::before { content: counter(r); position: absolute; left: 0; top: 10px; width: 22px; height: 22px; border-radius: 6px; background: var(--accent-soft); color: var(--ink); font: 700 13px/22px var(--mono); text-align: center; }
+    .lesson[data-lesson="00"] .rules li:first-child::before { top: 0; }
+    .lesson[data-lesson="00"] .rules b { display: block; font: 700 16px/1.3 var(--display); color: var(--ink); }
+
+    .lesson[data-lesson="00"] .kit { display: flex; flex-direction: column; }
+    .lesson[data-lesson="00"] .kit > div { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 6px 14px; align-items: start; padding: 14px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="00"] .kit > div:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="00"] .kit > div:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="00"] .kit .k { padding-top: 8px; }
+    .lesson[data-lesson="00"] .kit .body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .lesson[data-lesson="00"] .kit .chip.pill { font-size: 15px; font-weight: 700; }
+    .lesson[data-lesson="00"] .kit s { text-decoration-thickness: 2px; text-decoration-color: var(--bad); }
+
+    .lesson[data-lesson="00"] .cut { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="00"] .cut-bar { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: 13.5px; line-height: 1.3; }
+    .lesson[data-lesson="00"] .cut-bar span { padding: 10px 12px; }
+    .lesson[data-lesson="00"] .cut-bar .known { background: var(--accent-soft); border-right: 3px solid var(--accent); }
+    .lesson[data-lesson="00"] .cut-bar .after { background: repeating-linear-gradient(135deg, var(--line) 0 3px, transparent 3px 7px); font-weight: 700; }
+    .lesson[data-lesson="00"] .cut-l { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+    .lesson[data-lesson="00"] .cut-l span { text-align: right; }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="00"] .flow { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .lesson[data-lesson="00"] .flow .ar { transform: rotate(90deg); height: 18px; }
+      .lesson[data-lesson="00"] .three { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="00"] .owns { gap: 6px; }
+      .lesson[data-lesson="00"] .mhead { display: none; }
+      .lesson[data-lesson="00"] .mrow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2px 10px; padding: 9px 10px; }
+      .lesson[data-lesson="00"] .mrow:nth-child(2) { border-top: 0; }
+      .lesson[data-lesson="00"] .mrow b, .lesson[data-lesson="00"] .mrow .gf { grid-column: 1 / -1; }
+      .lesson[data-lesson="00"] .mrow span::before { display: block; font: 600 10.5px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+      .lesson[data-lesson="00"] .mrow span:nth-child(2)::before { content: "Writes"; }
+      .lesson[data-lesson="00"] .mrow span:nth-child(3)::before { content: "Reads"; }
+      .lesson[data-lesson="00"] .reasons div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .lesson[data-lesson="00"] .ideas { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="00"] .stg > div { grid-template-columns: 34px minmax(0, 1fr); }
+      .lesson[data-lesson="00"] .stg .lz { grid-column: 2; padding-top: 0; }
+      .lesson[data-lesson="00"] .kit > div { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="00"] .kit .k { padding-top: 0; }
+    }
+  </style>
+
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Orientation</p>
+        <h1>What this is and how to use it</h1>
+        <p class="meta">Lesson 00 · 11 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="../modules/00-orientation/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="diff" role="img" aria-label="A five-line code change to a refund function: one line removed, three added."><span>  def refund(order):</span><span class="del">-     return order.total</span><span class="add">+     if order.refunded:</span><span class="add">+         raise AlreadyRefunded(order.id)</span><span class="add">+     return order.total - order.fees</span></div>
+        <div class="owns">
+          <div class="node">An agent<small>Typed by</small></div>
+          <div class="node hl">You<small>Read by</small></div>
+          <div class="node hl">You<small>Owned by</small></div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>This is the orientation for Writing Code Is Dead. It covers what the course is for, who it's for, how the five stages fit together, and what you need to follow along.</p><p>The title is a joke with a point. You'll type far less code by hand, and the engineering around the code becomes most of your job. On screen, an agent typed the change. You still read it and you still own it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Why this exists</p>
+        <h2>Coding agents now do the whole change, start to pull request</h2>
+        <p>AI coding tools have moved past autocomplete and chat.</p>
+        <p>Anthropic reports that as of May 2026, more than 80% of the code merged into its own codebase was authored by Claude.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#why-this-exists" target="_blank" rel="noopener">Go deeper: why this exists</a></p>
+      </div>
+      <div class="vis">
+        <div class="flow" role="img" aria-label="What a coding agent does: reads the codebase, runs commands, writes and tests a change, opens a pull request.">
+          <div class="node">Reads the codebase</div>
+          <div class="ar">→</div>
+          <div class="node">Runs commands</div>
+          <div class="ar">→</div>
+          <div class="node">Writes and tests a change</div>
+          <div class="ar">→</div>
+          <div class="node hl">Opens a pull request</div>
+        </div>
+        <p class="sub">Code merged into Anthropic's codebase, May 2026</p>
+        <div class="share" role="img" aria-label="More than 80 percent of merged code was authored by Claude."><i style="--w:80%"></i></div>
+        <div class="share-l"><span><b>More than 80%</b> authored by Claude</span><span>the rest</span></div>
+        <p class="cap">Anthropic's own figure. It counts merged lines attributed to Claude, and says nothing about whether a person directed and reviewed them.</p>
+      </div>
+      <div class="talk" hidden><p>AI coding tools started as autocomplete, then chat. Today's tools are coding agents. An agent reads your codebase, runs commands, writes and tests a change, and opens a pull request for you to review.</p><p>Anthropic reports that as of May 2026, more than 80 percent of the code merged into its own codebase was authored by Claude.</p><p>That number counts lines of merged code attributed to Claude. It says nothing about whether a person directed the work and reviewed it. Directing agents, checking what they produce and owning the result is what the rest of this course teaches.</p><p class="inclass">Ask the room what share of their last pull request an AI typed, and what share of it they read.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Who it's for</p>
+        <h2>It's written for students, working engineers and leads</h2>
+        <p>Students may be learning in courses that restrict AI tools while preparing for jobs where they'll use them.</p>
+        <p>Plenty of working engineers tried an AI tool in 2024, found it wrong half the time, and reasonably gave up. What they tried isn't what exists now.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#why-this-exists" target="_blank" rel="noopener">Go deeper: why this exists</a></p>
+      </div>
+      <div class="vis">
+        <div class="three">
+          <div class="panel">
+            <h3>Students</h3>
+            <p class="k">Start from</p>
+            <p>Can program a little. Have used ChatGPT.</p>
+            <p class="k">Need</p>
+            <p>Mental models, fundamentals, safe habits, hands-on labs.</p>
+          </div>
+          <div class="panel">
+            <h3>Working engineers</h3>
+            <p class="k">Start from</p>
+            <p>Ship code daily. May be skeptical of AI, or use it casually.</p>
+            <p class="k">Need</p>
+            <p>Concrete workflows, tool choices, where it breaks.</p>
+          </div>
+          <div class="panel">
+            <h3>Leads</h3>
+            <p class="k">Start from</p>
+            <p>Want their team to adopt AI well.</p>
+            <p class="k">Need</p>
+            <p>Costs, policy, how to measure, how to answer objections.</p>
+          </div>
+        </div>
+        <p class="cap">Everyone takes the same lessons. They start at "what is a language model?" and assume no machine learning background.</p>
+      </div>
+      <div class="talk" hidden><p>The course is written for three kinds of people. Many students are in courses that restrict AI tools, and they're headed for jobs where they'll use those tools.</p><p>A lot of working engineers tried an AI tool in 2024, found it wrong half the time, and gave up. That was a reasonable call. The tools they tried have since been replaced by something quite different.</p><p>Leads who want their teams to adopt these tools well need costs, policy, and answers to the objections they'll hear.</p><p>All three take the same lessons. The course starts at what a language model is, so you don't need a machine learning background. It stays on using AI to build software. Building AI features into a product, such as a chatbot, gets only light treatment.</p><p class="inclass">Ask who tried an AI coding tool before 2025 and stopped. Ask what made them stop.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Vibe coding</p>
+        <h2>Vibe coding means nobody reads the code</h2>
+        <p>Andrej Karpathy coined the phrase in February 2025. It works for throwaway projects, personal tools and prototypes. It's a bad way to build software other people depend on.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#ai-accelerated-coding-not-vibe-coding" target="_blank" rel="noopener">Go deeper: vibe coding</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Vibe coding</h3>
+            <div class="doc quote"><p>"…fully give in to the vibes, embrace exponentials, and forget that the code even exists."</p></div>
+            <p class="note">Andrej Karpathy, February 2, 2025</p>
+            <ol class="steps"><li>Describe what you want</li><li>Accept whatever the model writes</li><li>Paste the errors back in</li></ol>
+          </div>
+          <div class="panel">
+            <h3>AI-accelerated coding</h3>
+            <ol class="steps"><li>The AI does a lot of the typing</li><li>You read the code</li><li>You test it</li><li>You answer for what ships</li></ol>
+            <p class="note">Simon Willison, March 2025: if you review, test and can explain the code an LLM wrote, that isn't vibe coding.</p>
+          </div>
+        </div>
+        <blockquote class="take"><span class="k">Author's note</span>Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here.</blockquote>
+      </div>
+      <div class="talk" hidden><p>Andrej Karpathy coined "vibe coding" in a post in February 2025. He was a founding member of OpenAI and ran AI at Tesla. You describe what you want, accept whatever the model writes, paste errors back in, and never read the diff.</p><p>That works for a prototype or a personal tool. It's a bad way to build software other people depend on.</p><p>This course teaches AI-accelerated coding. The AI does a lot of the typing. You read the code, test it, and answer for what ships. Simon Willison drew that line in March 2025. By early 2026 he reported that "agentic engineering" was winning as the name for the disciplined version.</p><p>People now say vibe coding for any coding with AI. In this course it keeps Karpathy's meaning, which is that nobody reads the code.</p><p class="inclass">Ask when not reading the code is the right call. Prototypes and throwaway scripts are good answers.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The spectrum</p>
+        <h2>Most of this course is about supervised agents</h2>
+        <p>Ways of coding with AI differ in who writes the code and who reads it. With a supervised agent, the agent edits the repo and you review every diff.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#ai-accelerated-coding-not-vibe-coding" target="_blank" rel="noopener">Go deeper: the spectrum</a></p>
+      </div>
+      <div class="vis">
+        <div class="modes">
+          <div class="mrow mhead"><span>Mode</span><span>Writes the code</span><span>Reads it</span><span>Good for</span></div>
+          <div class="mrow"><b>Hand-coding</b><span>You</span><span>You</span><span class="gf">Learning, tricky core logic</span></div>
+          <div class="mrow"><b>Autocomplete</b><span>You, with suggestions</span><span>You</span><span class="gf">Boilerplate, familiar code</span></div>
+          <div class="mrow"><b>Chat-assisted</b><span>Model writes snippets, you paste</span><span>You</span><span class="gf">Explanations, one-off functions</span></div>
+          <div class="mrow hl"><b>Supervised agent</b><span>Agent edits the repo</span><span>You review every diff</span><span class="gf">Most professional work today</span></div>
+          <div class="mrow hl"><b>Parallel supervised agents</b><span>Several agents, separate tasks</span><span>You review, agents cross-review</span><span class="gf">Experienced users with good tests</span></div>
+          <div class="mrow"><b>Background agents</b><span>Agent works unattended, opens a PR</span><span>You review the PR</span><span class="gf">Well-specified, well-tested tasks</span></div>
+          <div class="mrow"><b>Pure vibe coding</b><span>Model</span><span>Nobody</span><span class="gf">Prototypes, personal tools, throwaways</span></div>
+          <div class="mrow"><b>Fully autonomous pipeline</b><span>Agents</span><span>Other agents</span><span class="gf">Contested</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>The modes differ in who writes the code and who reads it. With hand-coding, you write and read everything. In a fully autonomous pipeline, agents write the code and other agents read it. Whether that last mode can be trusted is still contested, and lesson 10 covers the argument.</p><p>Most of this course covers supervised agents. The agent edits your repository and you review every diff. That mode fits most professional work today.</p><p>Parallel supervised agents means several agents on separate tasks. You still review, and the agents review each other. It suits experienced users who have good tests.</p><p>Background agents work unattended and open a pull request for you to review. They do well on tasks that are well specified and well tested.</p><p class="inclass">Have each person name the row they work in most days, and the row they want to reach.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Human in charge</p>
+        <h2>Whoever merges the change owns it</h2>
+        <p>Accountability doesn't transfer to a model. That's true in a classroom, at work and in law, and it stays true as agents improve.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#why-the-human-stays-in-charge-isnt-just-caution" target="_blank" rel="noopener">Go deeper: why the human stays in charge</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>A model can't be</h3>
+            <div class="cant"><s>fired</s><s>sued</s><s>paged at 3 a.m.</s></div>
+          </div>
+          <div class="panel">
+            <h3>Whoever merges</h3>
+            <div class="node hl">Owns the change</div>
+            <p class="note">In a classroom that's academic integrity. At work it's on-call. In law it's licensing, security and privacy.</p>
+          </div>
+        </div>
+        <div class="reasons">
+          <div><b>The productivity evidence is mixed</b><p>In METR's 2025 trial, experienced developers took 19% longer with AI while believing it had sped them up. Its February 2026 follow-up estimates modest speedups with wide error bars. <span class="lz">Lessons 07, 10</span></p></div>
+          <div><b>Learning takes effort</b><p>Studies of students and new developers find that letting AI do the work can reduce what you learn, even when the output is better. <span class="lz">Lesson 18</span></p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>This course keeps a human in charge, for three reasons that hold even as agents get better.</p><p>A model can't be fired, sued, or paged at three in the morning. Whoever merges the change owns it. In a class that means academic integrity. At work it means being on call. It also covers licensing, security and privacy.</p><p>In a 2025 trial by METR, an independent evaluator, experienced developers took 19 percent longer with AI tools while believing the tools had sped them up. METR now calls that result out of date. Its February 2026 follow-up estimates modest speedups with wide error bars. Neither study shows a gain that holds for everyone.</p><p>Studies of students and new developers find that letting AI do the work can reduce what you learn, even when the output is better. If you're a student, the skill you build is the point of the assignment.</p><p class="inclass">Watch for "the tools will soon be good enough that nobody needs to review." Accountability stays with the person who merges, whatever the tool can do.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">How fast this moves</p>
+        <h2>Model names and tools go stale in months</h2>
+        <p>Between February and November 2026, Anthropic shipped twelve generally available models across four tiers. Roo Code, a popular open-source agent, shut down in May. SpaceX acquired Cursor in August.</p>
+        <p>You don't need to memorize the lineup. Learn mental models that still work when every name here is out of date, and get used to checking what's current.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#how-fast-this-moves" target="_blank" rel="noopener">Go deeper: how fast this moves</a></p>
+      </div>
+      <div class="vis">
+        <div class="scale" role="img" aria-label="Doubling time of METR's time horizon: about 7 months for 2019 to 2025 in the 2025 paper, 89 days for models since 2024 in the January 2026 update.">
+          <p class="sub">Time to double agent task length</p>
+          <div class="srow"><div class="lab"><b>2019 to 2025</b><span>about 7 months</span></div><div class="strack"><i style="width:100%"></i></div></div>
+          <div class="srow"><div class="lab"><b>Models since 2024</b><span>89 days</span></div><div class="strack"><i style="width:45%"></i></div></div>
+        </div>
+        <p class="cap">METR, an independent evaluator, reports the task length an agent can finish half the time, measured in human working time. A shorter bar means faster progress.</p>
+        <p class="sub">Four new terms since June 2025</p>
+        <div class="chips vocab"><span class="chip c1">prompt engineering</span><span class="to">→</span><span class="chip c2">context engineering</span><span class="to">→</span><span class="chip c3">harness engineering</span><span class="to">→</span><span class="chip c4">loop engineering</span><span class="to">→</span><span class="chip c5">graph engineering</span></div>
+      </div>
+      <div class="talk" hidden><p>This field changes monthly. Between February and November 2026, Anthropic shipped twelve generally available models across four tiers. OpenAI and Google kept a similar pace.</p><p>METR measures task length in the time a skilled person would need, and reports the length an agent can finish half the time. Its 2025 paper found that length doubling about every seven months since 2019. Its January 2026 update put the doubling at 89 days for models released since 2024.</p><p>The vocabulary churns as well. Four new terms for the work have followed prompt engineering since June 2025. Tools come and go too. Roo Code, a popular open-source agent, shut down in May 2026. SpaceX bought Cursor in August.</p><p>You don't need to memorize the lineup. The lessons put a date on anything perishable, and lesson 17 covers how to check what's current.</p><p class="inclass">Ask which tool or model people relied on a year ago and have since dropped.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Six ideas</p>
+        <h2>Six ideas outlast the model names</h2>
+        <p>Every lesson builds on at least one of them.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#six-ideas-that-outlast-the-hype" target="_blank" rel="noopener">Go deeper: six ideas</a></p>
+      </div>
+      <div class="vis">
+        <ol class="ideas">
+          <li><b>A language model predicts the next token</b><p>It has no built-in sense of what's true, so it can be confidently wrong.</p><span class="lz">Lesson 01</span></li>
+          <li><b>Context is the model's working memory</b><p>Your prompt, the files it read, the tool output it saw.</p><span class="lz">Lesson 09</span></li>
+          <li><b>You can delegate the checking but not the responsibility</b><p>An agent stops when it thinks it's done.</p><span class="lz">Lessons 10, 13</span></li>
+          <li><b>Agent = model + harness</b><p>The same model scores very differently in different tools.</p><span class="lz">Lessons 07, 08</span></li>
+          <li><b>Anything the model reads can give it orders</b><p>This is prompt injection, and it isn't solved.</p><span class="lz">Lesson 14</span></li>
+          <li><b>Cost follows context processed and output generated</b><p>Agents often resend the whole conversation on every turn.</p><span class="lz">Lesson 15</span></li>
+        </ol>
+      </div>
+      <div class="talk" hidden><p>Six ideas run through the whole course. Every lesson builds on at least one of them.</p><p>A language model predicts the next token. Chat, reasoning and coding agents are all built on that, and the model has no built-in sense of what's true. Context is its working memory. Most of the skill in using agents is controlling what goes into it.</p><p>You can hand the checking to tests, builds and other agents. The responsibility stays with you. An agent is a model plus a harness, which is the program wrapped around the model. The same model scores very differently in different harnesses.</p><p>Anything the model reads can give it orders. A README, a web page or a tool result can carry instructions, and the model can't reliably tell data from commands. That is prompt injection, and it isn't solved. Cost follows the context processed and the output generated, and agents often resend the whole conversation on every turn.</p><p class="inclass">Ask which of the six is most likely to be wrong in two years, and why.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The five stages</p>
+        <h2>Five stages go from one model to many agents</h2>
+        <p>Machine learning theory stays at the level of intuition.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#how-the-modules-fit-together" target="_blank" rel="noopener">Go deeper: how the modules fit together</a></p>
+      </div>
+      <div class="vis">
+        <div class="stg">
+          <div><span class="chip c1">1</span><div><b>How the machine works</b><p>What a model is, the hardware it runs on, how it's trained, how labs try to make it safe.</p></div><span class="lz">01 to 04</span></div>
+          <div><span class="chip c2">2</span><div><b>Choosing a model</b><p>Who makes the models, open and closed weights, how to judge them.</p></div><span class="lz">05 to 07</span></div>
+          <div><span class="chip c3">3</span><div><b>Working with agents</b><p>Agent tools, context and workflows.</p></div><span class="lz">08 to 10</span></div>
+          <div><span class="chip c4">4</span><div><b>Trusting the output</b><p>Verification, multiple agents, review and security.</p></div><span class="lz">11 to 14</span></div>
+          <div><span class="chip c5">5</span><div><b>Practice for the long run</b><p>Costs, the ecosystem, staying current, learning and careers.</p></div><span class="lz">15 to 18</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>You'll start with what a model is, the hardware it runs on, how it's trained, and how labs try to make it safe. Then you'll look at who makes the models, open and closed weights, and how to judge one.</p><p>From there you'll work with agent tools, context and day-to-day workflows. After that come verification, multiple agents, code review and security. The last stage covers costs, the open-source ecosystem, staying current, and what all this means for learning and careers.</p><p>Later stages lean on earlier ones, and every one of them leans on lesson 01. The theory stays at the level of intuition throughout.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Ground rules</p>
+        <h2>Every exercise assumes six habits</h2>
+        <p>They're also a decent starting policy for a team.</p>
+        <p>Start by reading every diff. You earn the right to read less by building tests and review.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#ground-rules-we-assume-throughout" target="_blank" rel="noopener">Go deeper: ground rules</a></p>
+      </div>
+      <div class="vis">
+        <ol class="rules">
+          <li><b>You own what you ship</b>"The AI wrote it" is never an excuse, in a class or in a postmortem.</li>
+          <li><b>Read every diff you merge</b>Or have a check you trust read it for you.</li>
+          <li><b>Keep secrets and private data out</b>No credentials or other people's data in a tool your organization hasn't approved for that data.</li>
+          <li><b>Disclose AI use</b>Where your course, employer or open-source project asks you to.</li>
+          <li><b>A human approves anything irreversible</b>Deploying, deleting, sending, paying, force-pushing.</li>
+          <li><b>When a tool surprises you, write it down</b>That log is the start of your own evaluation set.</li>
+        </ol>
+      </div>
+      <div class="talk" hidden><p>Every exercise in the course assumes these six habits. They also work as a starting policy for a team.</p><p>You own what you ship, in a class or in a postmortem. Read every diff you merge, or have a check you trust read it. Start by reading everything, and read less once you've built tests and review you trust.</p><p>Keep secrets, credentials and other people's private data out of any tool your organization hasn't approved for that data. Disclose AI use where your course, your employer or an open-source project asks you to.</p><p>Keep a human approval step before anything you can't undo, such as deploying, deleting, sending, paying or force-pushing. And when a tool surprises you, write it down. A short log of "the model did this when I expected that" is the start of your own evaluation set.</p><p class="inclass">Ask which of the six the room's teams already have written down.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Setup</p>
+        <h2>You need a terminal, git, an editor and one coding agent</h2>
+        <p>A $20 a month individual plan from Anthropic or OpenAI is a fine place to start (as of November 2026). Usage limits may mean spreading exercises over several days.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#what-you-need-to-follow-along" target="_blank" rel="noopener">Go deeper: what you need</a></p>
+      </div>
+      <div class="vis">
+        <div class="kit">
+          <div>
+            <p class="k">Need</p>
+            <div class="body">
+              <div class="chips"><span class="chip pill c1">Terminal</span><span class="chip pill c1">git</span><span class="chip pill c1">Code editor</span><span class="chip pill c3">One frontier coding agent</span></div>
+            </div>
+          </div>
+          <div>
+            <p class="k">Optional</p>
+            <div class="body">
+              <div class="chips"><span class="chip pill c4">A second agent from a different lab</span></div>
+              <p class="note">Cross-review · Lesson 13</p>
+            </div>
+          </div>
+          <div>
+            <p class="k">Not needed</p>
+            <div class="body">
+              <div class="chips"><span class="chip pill"><s>GPU</s></span><span class="chip pill"><s>Downloaded model weights</s></span></div>
+              <p class="note">Local models · Lesson 06</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>The kit is small. You need a computer with a terminal, git and a code editor. You also need access to one frontier coding agent.</p><p>As of November 2026, a twenty-dollar-a-month individual plan from Anthropic or OpenAI is a fine place to start. Usage limits on those plans may mean spreading the exercises over several days. Student and education discounts change often, so check what's current.</p><p>A second agent from a different lab is optional. It's for the cross-review exercises in lesson 13.</p><p>You don't need a GPU, and nothing in the course requires downloading model weights. Lesson 06 explains what it takes if you want to run a model locally.</p><p class="inclass">Check that everyone can open a terminal and start an agent before the next session.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Studying with AI</p>
+        <h2>Ask a model to test you on this material</h2>
+        <p>Paste a module into whatever assistant you use. Ask it to quiz you, explain a section a different way, or argue with one of the author's notes.</p>
+        <p>Models have training cutoffs, and many of the 2026 facts here postdate the models you'll use. Trust the cited sources over the model's memory.</p>
+        <p class="deeper"><a href="../modules/00-orientation/#reading-this-material-with-an-ai" target="_blank" rel="noopener">Go deeper: reading with an AI</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Asks for a summary</h3>
+            <div class="chat"><div class="msg user">Summarize this module for me.</div></div>
+          </div>
+          <div class="panel">
+            <h3>Asks to be tested</h3>
+            <div class="chat"><div class="msg user">Quiz me on this module, one question at a time. Wait for my answer before you tell me if I'm right.</div></div>
+          </div>
+        </div>
+        <span class="tag">Illustrative prompts</span>
+        <div class="cut" role="img" aria-label="A timeline split at the model's training cutoff. Before it: could be in the training data. After it: many of this course's 2026 facts.">
+          <div class="cut-bar"><span class="known">Could be in the training data</span><span class="after">Many of this course's 2026 facts</span></div>
+          <div class="cut-l"><span>Training cutoff ↑</span><span></span></div>
+        </div>
+        <p class="cap">Asked about anything after its cutoff, a model may make up plausible details.</p>
+      </div>
+      <div class="talk" hidden><p>Use an AI to study this course. Paste a module into whatever assistant you use. Ask it to quiz you, explain a section a different way, or argue with one of the author's notes.</p><p>Asking to be tested beats asking for a summary. Lesson 18 covers the research on how the two differ for learning.</p><p>Every model has a training cutoff. Many of the 2026 facts in this course come after the cutoff of the models you'll use. Ask about them and a model may make up plausible details. When the model and a cited source disagree, go with the source.</p><p class="inclass">Live demo. Ask a model about a 2026 event from this course without pasting the text, then compare its answer with the cited source.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 00 done</p>
+        <h2>Next: what is an LLM?</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-01">Lesson 01</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="../modules/00-orientation/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is the orientation. Lesson 01 starts with the first of the six ideas: what a large language model does with the text you give it.</p></div>
+    </article>
+</section>

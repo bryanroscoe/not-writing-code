@@ -225,11 +225,11 @@ Without a real verification step, a multi-agent system can produce confident, wr
 - Do models from different labs actually fail differently on code, or have they converged on similar training data? Panel results suggest some independence, but code-specific evidence is thin.
 - How far does extreme decomposition reach? MAKER worked on a task with a perfectly known decomposition. Real software rarely has one.
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** Multi-agent *review* is where I get the most value: several agents, and ideally several models, reviewing each other's work. Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time.
+> **Author's note:** Multi-agent *review* is where I get the most value: several agents, and ideally several models, reviewing each other's work. Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time.
 
-> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 05](./05-model-landscape.md) for the current landscape.
+> **Author's note:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 05](./05-model-landscape.md) for the current landscape.
 
 ## Try it
 

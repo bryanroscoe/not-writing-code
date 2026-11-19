@@ -1,0 +1,623 @@
+<section class="lesson" data-lesson="15" data-title="Costs: subscriptions vs API" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="15"] .hero15 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 22px; font: 600 clamp(34px, 5cqi, 68px)/1 var(--mono); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .lesson[data-lesson="15"] .hero15 s { color: var(--muted); text-decoration-thickness: 3px; text-decoration-color: var(--bad); }
+    .lesson[data-lesson="15"] .hero15 .to { font-size: .6em; }
+    .lesson[data-lesson="15"] .panel ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="15"] .panel li b { display: block; font: 600 11px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="15"] .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .lesson[data-lesson="15"] .rc { display: flex; flex-direction: column; gap: 10px; }
+    .lesson[data-lesson="15"] .rc > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 14px; align-items: baseline; font-size: 15px; line-height: 1.35; }
+    .lesson[data-lesson="15"] .rc b { font-weight: 700; }
+    .lesson[data-lesson="15"] .rc small { grid-column: 1; display: block; font: 500 12.5px/1.45 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="15"] .rc .a { grid-column: 2; grid-row: 1; font: 600 15px/1.35 var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+    .lesson[data-lesson="15"] .rc .tot { border-top: 2px solid var(--ink); padding-top: 10px; font: 720 19px/1.2 var(--display); }
+    .lesson[data-lesson="15"] .rc .tot .a { font-size: 19px; }
+    .lesson[data-lesson="15"] .rc .tot.win .a { background: var(--mark); color: var(--on-mark); border-radius: 5px; padding: 2px 7px; }
+    .lesson[data-lesson="15"] .ctx { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px 12px; align-items: center; font-size: 14px; }
+    .lesson[data-lesson="15"] .seg { display: flex; height: 24px; border-radius: 4px; overflow: hidden; background: var(--sunk); }
+    .lesson[data-lesson="15"] .seg i { display: block; height: 100%; width: var(--w); flex: none; }
+    .lesson[data-lesson="15"] .s-base, .lesson[data-lesson="15"] .sw.s-base { background: var(--ink); }
+    .lesson[data-lesson="15"] .s-read, .lesson[data-lesson="15"] .sw.s-read { background: var(--accent-mid); }
+    .lesson[data-lesson="15"] .s-new, .lesson[data-lesson="15"] .sw.s-new { background: var(--mark); }
+    .lesson[data-lesson="15"] .seg.tall { height: 34px; }
+    .lesson[data-lesson="15"] .callrow { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="15"] .callrow .lab { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; font-weight: 700; }
+    .lesson[data-lesson="15"] .callrow .lab span { font: 600 15px/1.3 var(--mono); }
+    .lesson[data-lesson="15"] .plans { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 0; font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="15"] .plans > * { padding: 7px 14px 7px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="15"] .plans .h { grid-column: 1 / -1; border-top: 0; padding: 8px 0 2px; font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="15"] .plans b { font-weight: 700; }
+    .lesson[data-lesson="15"] .plans .p { font: 600 14px/1.4 var(--mono); white-space: nowrap; }
+    .lesson[data-lesson="15"] .plans .c { color: var(--muted); }
+    .lesson[data-lesson="15"] .tl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0; font-size: 14.5px; line-height: 1.4; }
+    .lesson[data-lesson="15"] .tl > * { padding: 8px 16px 8px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="15"] .tl > :nth-child(-n+2) { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="15"] .tl time { font: 600 13px/1.5 var(--mono); color: var(--muted); white-space: nowrap; }
+    .lesson[data-lesson="15"] .who { font: 600 11px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: 3px 6px; border-radius: 4px; margin-right: 6px; border: 1px solid var(--t2b); background: var(--t2); }
+    .lesson[data-lesson="15"] .who.o { border-color: var(--t3b); background: var(--t3); }
+    .lesson[data-lesson="15"] .take { margin: 0; border-left: 5px solid var(--accent); padding: 4px 0 4px 16px; font: 650 clamp(19px, 1.9cqi, 25px)/1.3 var(--display); letter-spacing: -.01em; }
+    .lesson[data-lesson="15"] .take cite { display: block; margin-bottom: 8px; font: 600 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; font-style: normal; color: var(--muted); }
+    .lesson[data-lesson="15"] .cmp { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr); gap: 0; font-size: 14px; line-height: 1.35; }
+    .lesson[data-lesson="15"] .cmp > * { padding: 8px 12px 8px 0; border-top: 1px solid var(--line); }
+    .lesson[data-lesson="15"] .cmp > :nth-child(-n+3) { border-top: 0; padding-top: 0; font: 700 15px/1.25 var(--display); }
+    .lesson[data-lesson="15"] .cmp .v { font: 600 14px/1.35 var(--mono); font-variant-numeric: tabular-nums; }
+    .lesson[data-lesson="15"] .cmp .k { color: var(--muted); }
+    .lesson[data-lesson="15"] .cmp .big { font-size: 20px; }
+    .lesson[data-lesson="15"] .cmp .big mark { padding: 1px 5px; }
+    .lesson[data-lesson="15"] .term { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin: 0; font: 500 14px/1.7 var(--mono); white-space: pre-wrap; word-break: break-word; }
+    .lesson[data-lesson="15"] .term .c { color: var(--muted); }
+    .lesson[data-lesson="15"] .rc > .gap { display: flex; align-items: center; gap: 10px; font: 600 13px/1.3 var(--mono); color: var(--muted); }
+    .lesson[data-lesson="15"] .gap::before, .lesson[data-lesson="15"] .gap::after { content: ""; flex: 1; border-top: 2px dashed var(--line); }
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="15"] .three { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="15"] .tl { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="15"] .tl > * { border-top: 0; padding: 0; }
+      .lesson[data-lesson="15"] .plans .p { white-space: normal; }
+      .lesson[data-lesson="15"] .tl time { padding-top: 10px; }
+      .lesson[data-lesson="15"] .cmp { font-size: 13px; }
+      .lesson[data-lesson="15"] .cmp .v { font-size: 13px; }
+      .lesson[data-lesson="15"] .cmp .big { font-size: 17px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bccusage\\b", "C C usage"], ["\\bnpx\\b", "N P X"], ["\\bMTok\\b", "million tokens"], ["\\bMETR\\b", "meter"]]</script>
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 5 · Practice for the long run</p>
+        <h1>Costs: subscriptions vs API</h1>
+        <p class="meta">Lesson 15 · 20 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero15" role="img" aria-label="24 dollars 30 crossed out, then 3 dollars 73."><s>$24.30</s><span class="to">→</span><span>$3.73</span></div>
+        <p class="cap">One hour of agent work at API prices, without and with prompt caching. Claude Opus 5.5, November 2026.</p>
+      </div>
+      <div class="talk" hidden><p>This lesson is about what agent work costs and how you pay for it. You will see where the tokens go, what a bill is made of, and when a flat subscription beats paying per token.</p><p>The two numbers on screen are the same hour of work with a coding agent. The first is without prompt caching and the second is with it. We will build that calculation step by step.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Three ways to pay</p>
+        <h2>Subscribe to a lab or a tool vendor, or pay per token</h2>
+        <p>A chat subscription and a tool subscription are flat monthly fees with usage caps. An API key bills you per token for exactly what you use.</p>
+        <p>Prices on these screens were checked on November 18, 2026. They change often, so learn the method and look up the numbers.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#three-ways-to-pay" target="_blank" rel="noopener">Go deeper: three ways to pay</a></p>
+      </div>
+      <div class="vis">
+        <div class="three">
+          <div class="panel">
+            <h3>Lab subscription</h3>
+            <ul>
+              <li><b>Paid to</b>Anthropic or OpenAI</li>
+              <li><b>Price</b>$20 to $200 a month, with one tier at $500</li>
+              <li><b>You get</b>The chat app and the lab's coding agent</li>
+              <li><b>Limit</b>A weekly cap, and on most plans a rolling window of a few hours</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Tool subscription</h3>
+            <ul>
+              <li><b>Paid to</b>Cursor, GitHub Copilot and others</li>
+              <li><b>Price</b>A monthly fee with an allowance</li>
+              <li><b>You get</b>Models the vendor buys from the labs and resells</li>
+              <li><b>Limit</b>Past the allowance you pay as you go</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>API key</h3>
+            <ul>
+              <li><b>Paid to</b>The lab, per token</li>
+              <li><b>Price</b>Metered</li>
+              <li><b>You get</b>Any harness, your own tools, CI, features for customers</li>
+              <li><b>Limit</b>Rate limits and account spending limits</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>There are three ways to pay for a model. The first is a subscription to a lab, such as a Claude plan or a ChatGPT plan. You pay a flat monthly fee, roughly 20 to 200 dollars with one tier at 500, and you get the chat app plus the lab's own coding agent.</p><p>The second is a subscription to a tool vendor such as Cursor or GitHub Copilot. The vendor buys model access from the labs and resells it inside its product. The fee includes an allowance, and past that you pay as you go.</p><p>The third is an API key. You pay per token for exactly what you use. You can run any harness, build your own tools, run in CI and ship features to customers.</p><p>Every price in this lesson was checked on November 18, 2026. Prices move month to month, so keep the cost model and look up the numbers when you budget.</p><p class="inclass">Ask the room who pays for their agent today and which of the three it is.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The token bill</p>
+        <h2>An API bill has four lines that count</h2>
+        <p>Input is everything you send. Output is everything the model writes, and it usually costs four to six times as much per token.</p>
+        <p>The two cache lines are how agent work gets affordable. Storing a prompt prefix costs a little extra, and reusing it costs a small fraction of the input price.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#what-a-token-bill-is-made-of" target="_blank" rel="noopener">Go deeper: what a token bill is made of</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Claude Opus 5.5, per million tokens</p>
+        <div class="rc">
+          <div><b>Input</b><small>system prompt, tool definitions, history, files, tool results</small><span class="a">$4.00</span></div>
+          <div><b>Output</b><small>the reply and the thinking before it</small><span class="a">$20.00</span></div>
+          <div><b>Cache write</b><small>store a prefix for 5 minutes, 1.25 × input</small><span class="a">$5.00</span></div>
+          <div><b>Cache read</b><small>reuse a stored prefix, 0.05 × input</small><span class="a">$0.20</span></div>
+        </div>
+        <p class="cap">Different tokenizers cut the same text into different numbers of tokens. Anthropic says its tokenizer for Claude 4.7 and later produces about 30% more tokens than its older one, so compare bills, never per-token prices alone.</p>
+        <span class="tag">Prices as of November 18, 2026</span>
+      </div>
+      <div class="talk" hidden><p>API prices are quoted per million tokens. A bill has four lines you need to know. The screen shows them for Claude Opus 5.5, a frontier model, as of November 2026.</p><p>Input is everything you send on a call: the system prompt, the tool definitions, the conversation history, files and tool results. It costs 4 dollars per million. Output is everything the model writes, and it costs 20 dollars. Output costs more to serve because each output token takes its own pass through the model, while input tokens are processed in parallel.</p><p>The last two lines are prompt caching. Writing a prefix into the cache costs a quarter more than plain input. Reading it back costs 20 cents per million, which is one twentieth of the input price.</p><p>One trap when you compare vendors. The same text becomes a different number of tokens on different tokenizers. A lower price per token on a tokenizer that produces more tokens can cost the same.</p><p class="inclass">Ask which line they expect to dominate an agent's bill. Most people say output. Hold the answer until the worked example.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The token bill</p>
+        <h2>Thinking tokens bill as output</h2>
+        <p>A reasoning model that thinks for 5,000 tokens and then writes a 300-token answer bills you for 5,300 output tokens.</p>
+        <p>So the effort or thinking-budget setting changes your cost directly, at the most expensive rate on the bill.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#what-a-token-bill-is-made-of" target="_blank" rel="noopener">Go deeper: what a token bill is made of</a></p>
+      </div>
+      <div class="vis">
+        <div class="callrow">
+          <div class="lab">What you read<span>300 tokens</span></div>
+          <div class="seg tall" aria-hidden="true"><i class="s-new" style="--w:5.66%"></i></div>
+        </div>
+        <div class="callrow">
+          <div class="lab">What you pay for<span>5,300 output tokens</span></div>
+          <div class="seg tall" role="img" aria-label="5,000 thinking tokens followed by a 300 token answer."><i class="s-read" style="--w:94.34%"></i><i class="s-new" style="--w:5.66%"></i></div>
+        </div>
+        <div class="legend"><span><i class="sw s-read"></i>thinking, 5,000 tokens</span><span><i class="sw s-new"></i>answer, 300 tokens</span></div>
+        <div class="rc">
+          <div><b>Answer only</b><small>300 × $20 per million</small><span class="a">$0.006</span></div>
+          <div><b>With thinking</b><small>5,300 × $20 per million</small><span class="a">$0.106</span></div>
+        </div>
+        <span class="tag">Illustrative, at Claude Opus 5.5 prices, November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Lesson 01 covered thinking tokens: text a reasoning model writes for itself before the answer. On the bill, those tokens are output.</p><p>The screen shows one reply. You read a 300 token answer. The model wrote 5,000 thinking tokens first, so you pay for 5,300 output tokens. At 20 dollars per million, the answer alone is about half a cent. With the thinking it is about ten and a half cents.</p><p>That is one call. An agent makes dozens of calls an hour, and it thinks on every one. The effort setting in your harness is a price setting too.</p><p>More thinking is not always more expensive overall. It often means fewer turns. Try the same task at two effort levels and compare the total cost of each run.</p><p class="inclass">Watch for the belief that hidden thinking is free because you can't see it. You pay for all of it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Why agents eat tokens</p>
+        <h2>Every call sends the whole history again</h2>
+        <p>The model needs the conversation so far on each call. In a simple agent loop, every tool result goes back along with everything before it.</p>
+        <p>The first call here sends 20,000 tokens. Each call adds 2,500. By call 60 the agent is sending 167,500 tokens to get one more step.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: why agentic coding eats tokens</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Input tokens sent on one call</p>
+        <div class="ctx" role="img" aria-label="Input tokens per call: call 1 sends 20,000, call 20 sends 67,500, call 40 sends 117,500, call 60 sends 167,500.">
+          <span>Call 1</span><div class="seg"><i class="s-base" style="--w:11.94%"></i></div><span class="num">20,000</span>
+          <span>Call 20</span><div class="seg"><i class="s-base" style="--w:11.94%"></i><i class="s-read" style="--w:28.36%"></i></div><span class="num">67,500</span>
+          <span>Call 40</span><div class="seg"><i class="s-base" style="--w:11.94%"></i><i class="s-read" style="--w:58.21%"></i></div><span class="num">117,500</span>
+          <span>Call 60</span><div class="seg"><i class="s-base" style="--w:11.94%"></i><i class="s-read" style="--w:88.06%"></i></div><span class="num">167,500</span>
+        </div>
+        <div class="legend"><span><i class="sw s-base"></i>system prompt, tool definitions, project instructions</span><span><i class="sw s-read"></i>history: tool results and the model's own output</span></div>
+        <p class="cap">One big tool result, such as a full test log or a web page, can add 10,000 to 100,000 tokens in a single step.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Agent work uses far more tokens than chat, and the reason is the loop. On every call the model needs the history so far. The model asks for a tool, the harness runs it, and the result goes back along with everything that came before.</p><p>The bars show one session. The dark part is the fixed start: system prompt, tool definitions and project instructions, 20,000 tokens. The lighter part is history. Each call adds 2,500 tokens of tool results and model output. Call 20 sends 67,500 tokens. Call 60 sends 167,500.</p><p>Several things make it worse. A full test log or a large file can add tens of thousands of tokens in one step. Retries and dead ends send everything again. Each subagent starts its own context and often reads the same files.</p><p>Real harnesses trim or compact the history at some point. This picture assumes they haven't yet.</p><p class="inclass">Ask what in their last session was the biggest single tool result. It is usually a test log.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Why agents eat tokens</p>
+        <h2>Input tokens grow with the square of the session</h2>
+        <p>Each call is bigger than the last, so the total climbs faster than the call count. If every turn adds a fixed amount, total input grows roughly with the number of turns squared.</p>
+        <p>Doubling the calls more than triples total input here. As sessions get longer, that multiplier approaches four.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: why agentic coding eats tokens</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Total input tokens for the whole session</p>
+        <div class="bars" role="img" aria-label="Total input tokens: 30 calls is 1.69 million, 60 calls is 5.63 million, 120 calls is 20.25 million.">
+          <span>30 calls</span><div class="track"><i style="--w:8.3%"></i></div><span class="num">1.69M</span>
+          <span>60 calls</span><div class="track"><i style="--w:27.8%"></i></div><span class="num">5.63M</span>
+          <span>120 calls</span><div class="track"><i style="--w:100%"></i></div><span class="num">20.25M</span>
+        </div>
+        <div class="rc">
+          <div><b>30 to 60 calls</b><small>2 × the calls</small><span class="a">3.3 × the input</span></div>
+          <div><b>60 to 120 calls</b><small>2 × the calls</small><span class="a">3.6 × the input</span></div>
+        </div>
+        <p class="cap">20,000 tokens to start, 2,500 added per call, no compaction.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Add up the input sent on every call to get the session total.</p><p>Thirty calls send 1.69 million input tokens in total. Sixty calls send 5.63 million. A hundred and twenty calls send just over 20 million. Each time the session doubles, the input more than triples.</p><p>The shape is a triangle. Every call is a little taller than the one before, and the total is the area. Double the base of a triangle and the area goes up four times. The fixed 20,000 token start softens that in short sessions, which is why you see 3.3 and 3.6 here.</p><p>For your own work, this means one long session costs much more than two short ones covering the same ground. Start a fresh session when the task changes. Compact when the harness offers it. Keep big tool outputs out of the context.</p><p class="inclass">Ask the room: why does doubling a session more than double its cost? Answer: every later call re-sends everything earlier, so the total is an area.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Prompt caching</p>
+        <h2>Caching cuts the price of repeated input</h2>
+        <p>Each call's prompt starts with the previous call's exact text. The provider can keep the processed state of that prefix and charge a small fraction of the input price to reuse it.</p>
+        <p>Claude Code and Codex do this for you. If you build your own agent on the API, put the stable parts of the prompt first.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#why-agentic-coding-eats-tokens" target="_blank" rel="noopener">Go deeper: prompt caching</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Call 31 of the session: 95,000 input tokens</p>
+        <div class="callrow">
+          <div class="lab">Without caching<span>$0.38</span></div>
+          <div class="seg tall" role="img" aria-label="All 95,000 tokens billed at the input price."><i class="s-base" style="--w:100%"></i></div>
+          <p class="note">95,000 at $4 per million</p>
+        </div>
+        <div class="callrow">
+          <div class="lab">With caching<span>$0.03</span></div>
+          <div class="seg tall" role="img" aria-label="92,500 tokens read from cache, 2,500 new tokens written."><i class="s-read" style="--w:97.37%"></i><i class="s-new" style="--w:2.63%"></i></div>
+          <p class="note">92,500 read at $0.20 per million, plus 2,500 written at $5 per million</p>
+        </div>
+        <div class="legend"><span><i class="sw s-base"></i>full input price</span><span><i class="sw s-read"></i>cache read: seen on the last call</span><span><i class="sw s-new"></i>cache write: new since the last call</span></div>
+        <span class="tag">Illustrative, at Claude Opus 5.5 prices, November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Prompt caching is what makes that growth affordable. Each call's prompt begins with the exact text of the call before it. Only the end is new. The provider can keep the processed state of the repeated part and charge much less to reuse it.</p><p>The screen shows call 31 of our session. It sends 95,000 input tokens. Without caching, all of them bill at the full input price, which comes to 38 cents. With caching, 92,500 of them were already seen on the last call, so they bill as cache reads. Only the 2,500 new tokens are written. The call costs about 3 cents.</p><p>Harnesses such as Claude Code and Codex handle this automatically. If you build your own agent on the API, it is your job. Put the stable content first. On Anthropic's API you also mark cache breakpoints or turn on automatic caching.</p><p class="inclass">Watch for the idea that caching returns a saved answer. The model still runs and writes a fresh reply. Only the repeated input is cheaper.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Worked example</p>
+        <h2>One hour of agent work is 5.6 million input tokens</h2>
+        <p>Take one call a minute for an hour, with the same growth as before and 1,500 output tokens per call, thinking included.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Assumptions</p>
+        <div class="chips"><span class="chip pill c1">60 calls in the hour</span><span class="chip pill c1">first call sends 20,000 tokens</span><span class="chip pill c1">each call adds 2,500</span><span class="chip pill c1">each call writes 1,500 output tokens</span><span class="chip pill">no compaction</span><span class="chip pill">no break over 5 minutes</span></div>
+        <p class="sub">Token counts</p>
+        <div class="rc">
+          <div><b>Fixed start, sent 60 times</b><small>60 × 20,000</small><span class="a">1,200,000</span></div>
+          <div><b>Growing history</b><small>2,500 × (0 + 1 + … + 59) = 2,500 × 1,770</small><span class="a">4,425,000</span></div>
+          <div class="tot"><span>Input</span><span class="a">5,625,000</span></div>
+          <div class="tot"><span>Output<small>60 × 1,500</small></span><span class="a">90,000</span></div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Now price an hour. The agent makes 60 calls, about one a minute. The first sends 20,000 tokens. Each call adds 2,500 to the context and writes 1,500 output tokens, thinking included. Nothing gets compacted, and you never step away for more than five minutes.</p><p>Count the tokens first. The fixed start is sent 60 times, which is 1.2 million. The growing history adds 2,500 tokens times the sum of zero through 59. That sum is 1,770, so the history comes to about 4.4 million. Total input is 5,625,000 tokens.</p><p>Output is much smaller. Sixty calls at 1,500 tokens is 90,000.</p><p>So input is more than sixty times output by count.</p><p class="inclass">Have people guess the input to output ratio for an hour of agent work before you show this screen.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Worked example</p>
+        <h2>Caching takes that hour from $24 to under $4</h2>
+        <p>Without caching, input is 93% of the bill. With caching, most input becomes cache reads and the hour costs 85% less.</p>
+        <p>Once caching is on, output is the largest line.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Without caching</h3>
+            <div class="rc">
+              <div><b>Input</b><small>5.625M × $4</small><span class="a">$22.50</span></div>
+              <div><b>Output</b><small>0.09M × $20</small><span class="a">$1.80</span></div>
+              <div class="tot"><span>Hour</span><span class="a">$24.30</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>With caching</h3>
+            <div class="rc">
+              <div><b>Cache writes</b><small>0.1675M × $5</small><span class="a">$0.84</span></div>
+              <div><b>Cache reads</b><small>5.4575M × $0.20</small><span class="a">$1.09</span></div>
+              <div><b>Output</b><small>0.09M × $20</small><span class="a">$1.80</span></div>
+              <div class="tot win"><span>Hour</span><span class="a">$3.73</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Each call reads the previous prefix from cache and writes only the new part: 20,000 tokens on the first call, then 2,500 on each of the next 59.</p>
+        <span class="tag">Illustrative, at Claude Opus 5.5 prices, November 2026</span>
+      </div>
+      <div class="talk" hidden><p>Put prices on those counts, using the frontier prices from earlier. Without caching, 5.6 million input tokens at 4 dollars per million is 22 dollars 50. Output is 1 dollar 80. The hour costs 24 dollars 30.</p><p>With caching, split the input in two. Every token is written to the cache once, the first time it appears. That is 167,500 tokens, or 84 cents. Every other time it is a cache read. That is about 5.5 million tokens at 20 cents per million, or 1 dollar 9. Output is unchanged. The hour costs 3 dollars 73, which is 85 percent less.</p><p>Output is now the largest line at 1 dollar 80, almost half the bill. A wordy model, or one set to think hard on every call, costs more than its price list suggests.</p><p>When you compare models for agent work, read the cache read price first. Most of your input tokens are billed at that rate.</p><p class="inclass">Go back to the earlier question about which line dominates. Without caching it is input. With caching it is output.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Worked example</p>
+        <h2>Full-time use runs hundreds of dollars a month on the API</h2>
+        <p>Run that cached hour 8 hours a day for 21 working days and a frontier model costs about $630 a month. A top-tier model costs about 1.7 times that, and three agents at once roughly triples it.</p>
+        <p>A subscription costs less than that until you hit its cap.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#worked-example-one-hour-of-agentic-coding" target="_blank" rel="noopener">Go deeper: the worked example</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">One month, one agent at a time</p>
+        <div class="bars" role="img" aria-label="Monthly cost: API with a frontier model about 630 dollars, API with a mid-tier model about 310 dollars, top subscription 200 dollars, middle subscription 100 dollars, entry subscription 20 dollars.">
+          <span>API, frontier model</span><div class="track"><i style="--w:100%"></i></div><span class="num">~$630</span>
+          <span>API, mid-tier model</span><div class="track"><i style="--w:49.2%"></i></div><span class="num">~$310</span>
+          <span>$200 plan</span><div class="track rest"><i style="--w:31.7%"></i></div><span class="num">$200</span>
+          <span>$100 plan</span><div class="track rest"><i style="--w:15.9%"></i></div><span class="num">$100</span>
+          <span>$20 plan</span><div class="track rest"><i style="--w:3.2%"></i></div><span class="num">$20</span>
+        </div>
+        <div class="legend"><span><i class="sw"></i>metered: 168 cached hours</span><span><i class="sw x"></i>flat fee, capped</span></div>
+        <p class="cap">Frontier is $4 in and $20 out per million tokens, mid-tier $2 and $10, top tier $8 and $40. Anthropic's light-use example sends 50,000 input and 15,000 output tokens and costs well under a dollar on the API.</p>
+        <span class="tag">Illustrative, prices as of November 18, 2026</span>
+      </div>
+      <div class="talk" hidden><p>Scale the hour up to a month. Eight hours a day for 21 working days is 168 hours. At 3 dollars 73 an hour, a frontier model comes to about 630 dollars a month. A mid-tier model at half the price is about 310. The top-tier model, at 8 dollars in and 40 out, costs about 1.7 times as much as the frontier model, around 1,070 dollars a month. Run three agents in parallel and you roughly triple whichever number applies.</p><p>The hatched bars are subscriptions at 200, 100 and 20 dollars. They are flat fees, and they come with caps. Use only a little of it and you overpay compared with the API. Use all of it and you can get several times the fee in API-equivalent usage. Whether the labs make or lose money on those heavy users is not public.</p><p>Light users are in the opposite position. Anthropic's docs use an example session of 50,000 input tokens and 15,000 output tokens. That is well under a dollar on a frontier model. A few short tasks a week can cost less on pay-as-you-go than on a 20 dollar plan.</p><p class="inclass">Ask each person to place themselves on this chart. How many agent hours do they really run in a week?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Cache misses</p>
+        <h2>A coffee break can cost 75 cents</h2>
+        <p>Anthropic's default cache lasts five minutes. Step away longer and the next call writes the whole prefix again at the write price.</p>
+        <p>Caches match from the start of the prompt, so one change near the top throws away everything after it.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#cache-economics" target="_blank" rel="noopener">Go deeper: cache economics</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">The next call on a 150,000-token context</p>
+        <div class="rc">
+          <div><b>Within 5 minutes</b><small>cache read: 150,000 × $0.20 per million</small><span class="a">$0.03</span></div>
+          <div class="gap">6 minutes away</div>
+          <div><b>After the break</b><small>cache write: 150,000 × $5 per million</small><span class="a">$0.75</span></div>
+        </div>
+        <div class="two">
+          <div class="panel">
+            <h3>Breaks the cache</h3>
+            <ul>
+              <li>A timestamp in the system prompt</li>
+              <li>A reordered tool list</li>
+              <li>Changing the system prompt, tools or settings mid-session</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Stable content first</h3>
+            <div class="stack"><span>1 tools</span><span>2 system instructions</span><span>3 project docs</span><span>4 conversation</span></div>
+          </div>
+        </div>
+        <span class="tag">Illustrative, at Claude Opus 5.5 prices, November 2026</span>
+      </div>
+      <div class="talk" hidden><p>A cache entry expires. Anthropic's default lifetime is five minutes, refreshed each time the prefix is read. If you step away for six minutes, the entry is gone, and the next call has to write the whole prefix again.</p><p>The screen prices that for a 150,000 token context. Inside five minutes, the next call reads the prefix for about 3 cents. After the break it writes it again for 75 cents. Harnesses can ask for a one hour cache instead. That costs twice the input price to write.</p><p>The cache matches from the very start of the prompt. Change anything early and everything after it misses. A timestamp in the system prompt does it. So does a tool list that comes back in a different order, or switching settings in the middle of a session.</p><p>If you build an agent, order the prompt from most stable to least: tools, then system instructions, then project docs, then the conversation.</p><p class="inclass">Ask who has put the current time in a system prompt. That one line makes every call a cache miss.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Subscriptions</p>
+        <h2>Subscription caps are sold as multiples, with no token count</h2>
+        <p>A plan says "5x Pro usage". It doesn't say how many tokens Pro is, so you can't compute what you're buying.</p>
+        <p>Most plans have a weekly cap plus a rolling window of a few hours. You find yours by hitting it.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#price-snapshot-as-of-2026-11-08" target="_blank" rel="noopener">Go deeper: price snapshot</a></p>
+      </div>
+      <div class="vis">
+        <div class="plans">
+          <div class="h">Anthropic</div>
+          <b>Pro</b><span class="p">$20</span><span class="c">More usage than Free. Claude Code included.</span>
+          <b>Max</b><span class="p">$100</span><span class="c">5x Pro usage per 5 hours and per week</span>
+          <b>Ultra</b><span class="p">$200</span><span class="c">10x Pro usage per week. No 5-hour limit for verified accounts.</span>
+          <div class="h">OpenAI</div>
+          <b>Plus</b><span class="p">$20</span><span class="c">Codex on web, CLI and IDE</span>
+          <b>Pro</b><span class="p">$100, $200, $500</span><span class="c">Higher limits. The $500 tier adds an "Ultrafast" mode.</span>
+        </div>
+        <p class="cap">In 2025, reporters calculated that Anthropic's "20x" plan gave about 6x Pro's Claude Code hours under the new weekly limits.</p>
+        <span class="tag">Individual plans, per month, as of November 18, 2026</span>
+      </div>
+      <div class="talk" hidden><p>Here are the individual plans from the two big labs as of November 18, 2026. Both start at 20 dollars a month and go to 200 or more.</p><p>The caps are stated as multiples. Max is five times Pro usage. Ultra is ten times Pro usage per week. Nothing tells you how many tokens Pro is. On the API you can calculate a bill in advance. On a subscription you cannot.</p><p>The multiples have not always matched reality. In 2025 Anthropic added weekly limits, and reporters worked out that the plan sold as 20 times gave about 6 times Pro's Claude Code hours.</p><p>In practice you learn your cap by running into it. Usage is limited by a weekly total, and on most plans by a rolling window of a few hours as well. Ultra and OpenAI's Pro plans currently have no five-hour limit. Thinking effort and parallel agents both use it up faster, for the same reasons they raise an API bill.</p><p class="inclass">Ask who has hit a weekly limit, and what day of the week it happened.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Subscriptions</p>
+        <h2>Subscription limits and terms keep changing</h2>
+        <p>In about fifteen months the two labs between them added weekly caps and new tiers, cut an allowance at an existing price, and rewrote the rules for third-party tools.</p>
+        <p>API prices are published per token. Plan as if today's subscription value isn't guaranteed next year.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#the-subscription-subsidy-and-its-limits" target="_blank" rel="noopener">Go deeper: the subscription subsidy and its limits</a></p>
+      </div>
+      <div class="vis">
+        <div class="tl">
+          <time>Aug 28, 2025</time><div><span class="who">Anthropic</span>Weekly limits start for Pro and Max, on top of the 5-hour windows</div>
+          <time>Jan 2026</time><div><span class="who">Anthropic</span>Starts blocking third-party tools that posed as Claude Code</div>
+          <time>Feb 2026</time><div><span class="who">Anthropic</span>Spells out that subscription sign-in is for its own apps</div>
+          <time>Apr 9, 2026</time><div><span class="who o">OpenAI</span>Adds a $100 Pro tier</div>
+          <time>Sep 2026</time><div><span class="who o">OpenAI</span>Lists a $500 Pro tier and documents "Sign in with ChatGPT" for third-party apps</div>
+          <time>Oct 29, 2026</time><div><span class="who o">OpenAI</span>The $200 tier's old, larger allowance ends for existing subscribers</div>
+          <time>Oct 30, 2026</time><div><span class="who">Anthropic</span>Renames its $200 tier Ultra and describes it by weekly allowance</div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Between August 2025 and October 2026, both big labs changed their subscriptions several times.</p><p>Anthropic added weekly limits in August 2025. It said some people were running Claude Code around the clock and sharing accounts, and it estimated fewer than 5 percent of subscribers would be affected. In early 2026 it began blocking third-party tools that posed as Claude Code, then wrote the rule down.</p><p>OpenAI added a 100 dollar tier in April 2026 and a 500 dollar tier by late September. New 200 dollar subscriptions got a smaller allowance, and existing subscribers lost the old one on October 29. A day later Anthropic renamed its 200 dollar tier Ultra.</p><p>Nobody outside the labs knows the unit economics, so nobody can tell you where this settles. Caps have tightened more often than they have loosened. If a workflow depends on one subscription, know what you would switch to.</p><p class="inclass">Ask team leads how much they would rely on subscription pricing in a two-year plan.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Subscriptions</p>
+        <h2>A subscription login isn't an API key for your product</h2>
+        <p>The rules for using a plan outside the vendor's own tools differ by vendor and changed during 2026.</p>
+        <p>Use API keys for your own production service. For hosted agents and automation, read the vendor's current rules first.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#the-subscription-subsidy-and-its-limits" target="_blank" rel="noopener">Go deeper: the subscription subsidy and its limits</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Anthropic</h3>
+            <ul>
+              <li><b>Plan sign-in is for</b>Claude Code and Anthropic's own apps</li>
+              <li><b>Allowed</b>The unmodified Claude Code binary with your own subscription, including where a platform hosts it</li>
+              <li><b>Needs API keys</b>Products you build, including with the Agent SDK</li>
+              <li><b>Not allowed</b>Third parties routing requests through subscription credentials</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>OpenAI</h3>
+            <ul>
+              <li><b>Codex sign-in</b>A ChatGPT plan for subscription access, or an API key for metered access</li>
+              <li><b>Third-party apps</b>"Sign in with ChatGPT" lets eligible Plus and Pro users grant an open-source or local personal app access to their plan usage</li>
+              <li><b>CI</b>API keys. Enterprise workspaces can also issue access tokens for private CI runners.</li>
+            </ul>
+          </div>
+        </div>
+        <span class="tag">As of November 18, 2026</span>
+      </div>
+      <div class="talk" hidden><p>The rules for using a subscription in another tool or your own product depend on the vendor. They changed during 2026.</p><p>Anthropic says sign-in from its subscription plans is for Claude Code and its own apps. Running the unmodified Claude Code program on your own subscription is fine. If you build a product, including with the Agent SDK, you need API keys. Third parties may not route requests through subscription credentials.</p><p>OpenAI is more open here. You can sign into Codex with a ChatGPT plan or with an API key. Since September 2026 it also documents "Sign in with ChatGPT" for third-party apps. Eligible Plus and Pro users can grant an open-source or locally run personal app access to their plan usage. Paid and hosted apps have to apply. For CI it recommends API keys, and Enterprise workspaces can issue access tokens for private runners.</p><p>Both sets of rules moved several times in one year. Check the current page before you build on either.</p><p class="inclass">Watch for "automation on a subscription is always banned." It depends on the vendor and the tool.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Author's note</p>
+        <h2>Subscriptions make daily agent work affordable, with limits</h2>
+        <p>The worked example backs this for full-time use of frontier models. Caps and the other limits can change that.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#authors-note" target="_blank" rel="noopener">Go deeper: author's note</a></p>
+      </div>
+      <div class="vis">
+        <blockquote class="take"><cite>Author's note</cite>API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.</blockquote>
+        <ul class="dos">
+          <li>A subscription is cheap until you hit the weekly limit on a Thursday.</li>
+          <li>Subscription terms change. API prices are published per token.</li>
+          <li>Most of its value is locked to the vendor's own tools. On the API you can switch models and route cheap work to cheap models.</li>
+          <li>Light users overpay. A few short tasks a week can cost less than $20 a month on pay-as-you-go.</li>
+          <li>For a team with uneven usage, pooled API spend with caching and routing can beat top-tier seats for everyone.</li>
+        </ul>
+      </div>
+      <div class="talk" hidden><p>This one is the author's opinion: API pricing is too expensive for heavy agent use, and subscriptions are what make it affordable to work this way every day.</p><p>The worked example supports that for someone using a frontier model full time. Even with caching, that person can spend several hundred dollars a month on the API, and parallel agents multiply it.</p><p>You may hit the cap before the week ends. The terms keep changing. Most of the value sits inside the vendor's own tools. Light users pay for capacity they never use.</p><p>Teams are a different calculation. When a few people are heavy users and most are not, pooled API spending with good caching and routing can cost less than a top seat for everyone.</p><p class="inclass">Ask who disagrees, and what their usage looks like.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Cost per task</p>
+        <h2>A cheaper model can cost more per finished task</h2>
+        <p>The number to judge is what it costs to get a correct, merged change. A model at a quarter of the price that needs three times the calls sends about seven times the input tokens.</p>
+        <p>It also takes three times as many calls for you to supervise.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#cost-per-task-not-cost-per-token" target="_blank" rel="noopener">Go deeper: cost per task</a></p>
+      </div>
+      <div class="vis">
+        <div class="cmp">
+          <span></span><span>Frontier model</span><span>Budget model</span>
+          <span class="k">Input / output price per million</span><span class="v">$4 / $20</span><span class="v">$1 / $5</span>
+          <span class="k">Cache write / read price per million</span><span class="v">$5 / $0.20</span><span class="v">$1.25 / $0.10</span>
+          <span class="k">Calls to finish</span><span class="v">30</span><span class="v">90</span>
+          <span class="k">Total input tokens</span><span class="v">1.69M</span><span class="v">11.81M</span>
+          <span class="k">Final context size</span><span class="v">92,500</span><span class="v">242,500</span>
+          <span class="k">Cost with caching</span><span class="v big"><mark>$1.68</mark></span><span class="v big">$2.14</span>
+          <span class="k">Cost without caching</span><span class="v">$7.65</span><span class="v">$12.49</span>
+        </div>
+        <p class="cap">The budget model's prices are made up and match no product. On well-specified, repetitive work, a small model takes the same number of calls and costs less.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Compare models by the cost of one correct, merged change.</p><p>The table runs one task on two models with the same growth assumptions as before. The budget model's prices are invented for the example. Its input and output cost a quarter as much per token, and its cache reads half as much. It also takes more wrong turns, so it needs 90 calls where the frontier model needs 30.</p><p>Three times the calls means about seven times the input tokens, because the context grows on every call. With caching, the frontier model finishes for 1 dollar 68. The budget model costs 2 dollars 14. It also ran three times as many calls for you to watch.</p><p>The reverse happens too. On clear, repetitive work, such as the same refactor across 200 files, a small model takes the same number of calls and the price gap wins.</p><p class="inclass">Ask the room: a model costs 75 percent less per token but takes three times the turns. When is it still the right choice? Answer: on short tasks nobody has to watch. With these numbers the budget model is still cheaper when the frontier model needs about ten calls or fewer.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Model routing</p>
+        <h2>Route easy work to a small model</h2>
+        <p>Small models cost 20 to 100 times less per token than the bigger ones. Many harnesses let you set a different model for subagents.</p>
+        <p>Give the small model the rote work and keep the frontier model for planning, hard debugging and review.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#cheaper-alternatives" target="_blank" rel="noopener">Go deeper: cheaper alternatives</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Small model</h3>
+            <div class="rc"><div><b>Claude Haiku 5.5</b><small>input / output per million</small><span class="a">$0.10 / $0.50</span></div></div>
+            <div class="chips"><span class="chip pill c3">renaming</span><span class="chip pill c3">boilerplate</span><span class="chip pill c3">summarizing logs</span><span class="chip pill c3">classifying issues</span></div>
+          </div>
+          <div class="panel">
+            <h3>Frontier model</h3>
+            <div class="rc"><div><b>Claude Opus 5.5</b><small>input / output per million</small><span class="a">$4 / $20</span></div></div>
+            <div class="chips"><span class="chip pill c4">planning</span><span class="chip pill c4">hard debugging</span><span class="chip pill c4">review</span></div>
+          </div>
+        </div>
+        <p class="cap">Haiku 5.5's price applies to prompts up to 100,000 tokens and is 5 times higher above that.</p>
+        <span class="tag">Prices as of November 18, 2026</span>
+      </div>
+      <div class="talk" hidden><p>Model routing means sending each piece of work to the cheapest model that can do it well. On screen are a small model and a frontier model from the same vendor, at November 2026 prices. On prompts up to 100,000 tokens, the frontier model costs 40 times as much per token.</p><p>The small model gets the rote work: renames, boilerplate, summarizing a log, classifying issues. The frontier model gets planning, hard debugging and review. Many harnesses let you choose a different model for subagents, which is the easiest place to start.</p><p>A small model that flails costs more than it saves. Route by how well specified the task is.</p><p>There are also flat-rate coding plans from labs that release open-weight models. One starts at 18 dollars a month and plugs into the popular harnesses. For many tasks they cost much less per unit of work. They usually trail the frontier on the hardest coding, and your code goes to a different provider in a different jurisdiction, so read the data terms.</p><p class="inclass">Ask which of their subagent jobs could run on the smallest model today.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">API billing</p>
+        <h2>Use the API for services, automation and batch jobs</h2>
+        <p>Subscriptions fit your own interactive work. Anything that serves other people or runs unattended belongs on metered API keys, where usage can be attributed and limited.</p>
+        <p>A metered bill has no ceiling unless you set one. Put the controls in on day one.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#when-api-billing-is-the-right-choice" target="_blank" rel="noopener">Go deeper: when API billing is the right choice</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>Belongs on the API</h3>
+            <ul>
+              <li>Your own model-backed production service</li>
+              <li>CI and automation: review bots, issue triage, nightly jobs</li>
+              <li>Batch jobs that can wait a few hours, at 50% off</li>
+              <li>Multi-user apps</li>
+              <li>Work that needs zero data retention</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Controls on day one</h3>
+            <ul>
+              <li>Spend limits that stop requests. An alert doesn't cap spending.</li>
+              <li>A separate key per app, environment and team</li>
+              <li>Caching on, stable content first</li>
+              <li>A cap on output tokens, thinking and turns per run</li>
+              <li>Tool outputs trimmed before they enter the context</li>
+              <li>A weekly cost review for the first month</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Some work belongs on the API whatever the price comparison says. Your own production service is the clear case. CI and automation, such as review bots and nightly jobs, default to API keys too. Apps with many users need each user's usage to be attributed and limited.</p><p>Batch jobs get a discount. Anthropic, OpenAI and Google all take half off for requests that can finish within hours. Migrations, labeling and evaluation runs fit that well. Commercial API terms also default to no training on your data, and zero data retention is only available on commercial terms.</p><p>Check which of your provider's settings stop requests and which only send an email. An alert does not cap anything.</p><p>Use separate keys so you can see who spent what. Cap output tokens, thinking and the number of turns per agent run. Review the cost weekly for the first month of any new workflow.</p><p class="inclass">Ask what would happen tonight if one of their agents looped until morning. Is there a hard stop?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Measure it</p>
+        <h2>Your agent already logs what you spend</h2>
+        <p>Claude Code, Codex and many other agent CLIs store usage data locally. ccusage reads it and prints token counts by day, week, month and session, with the API-equivalent cost.</p>
+        <p>Run it after a normal week and compare the total with your subscription price.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+      </div>
+      <div class="vis">
+        <pre class="term"><span class="c"># Claude Code usage by day, with estimated API cost</span>
+npx ccusage@latest claude daily
+
+<span class="c"># the same for Codex</span>
+npx ccusage@latest codex daily</pre>
+        <ul class="dos">
+          <li>Record input, cache-read, cache-write and output tokens.</li>
+          <li>Recompute the cost for a model one tier cheaper.</li>
+          <li>Find your most expensive session and name the cause: length, big tool outputs, retries or parallel agents.</li>
+        </ul>
+      </div>
+      <div class="talk" hidden><p>You can measure most of this. Agent command-line tools such as Claude Code and Codex keep usage records on your machine. An open-source tool called ccusage reads those records. It prints token counts by day, week, month and session, along with what the same usage would have cost on the API.</p><p>After a normal week of use, run the command for your agent.</p><p>Write down the four token lines from earlier: input, cache reads, cache writes and output. Compare the API-equivalent cost with what your subscription costs. Then price the same tokens on a model one tier down.</p><p>Last, find your most expensive session and work out why. It is usually one of four things: a very long session, large tool outputs, retries, or parallel agents. Pick one habit that would have halved it.</p><p class="inclass">Live demo. Run it on your own machine and show the most expensive day. Then ask the room to guess what happened that day.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Team budgeting</p>
+        <h2>A $200 seat costs about two engineer-hours a month</h2>
+        <p>Price the tools in engineer time and show the assumptions, so leadership can change them.</p>
+        <p>The return side needs evidence. In METR's 2025 study, experienced developers using early-2025 tools took 19% longer while believing they were 20% faster.</p>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/#team-budgeting" target="_blank" rel="noopener">Go deeper: team budgeting</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">One engineer-hour</p>
+        <div class="rc">
+          <div><b>US median developer pay</b><small>BLS, May 2025</small><span class="a">$135,980</span></div>
+          <div><b>Loaded cost</b><small>assume 1.4 × salary for benefits, taxes, overhead</small><span class="a">~$190,000</span></div>
+          <div class="tot"><span>Per hour<small>assume 1,800 productive hours a year</small></span><span class="a">~$105</span></div>
+        </div>
+        <p class="sub">Tools, in engineer-hours a month</p>
+        <div class="rc">
+          <div><b>$20 seat</b><span class="a">12 minutes</span></div>
+          <div><b>$200 seat</b><span class="a">2 hours</span></div>
+          <div><b>Heavy API user, about $630</b><span class="a">6 hours</span></div>
+        </div>
+        <p class="cap">Measure cycle time, review turnaround, escaped defects and rework before and after.</p>
+      </div>
+      <div class="talk" hidden><p>For a team, turn the tool price into engineer time. Start with the US median pay for a software developer, about 136,000 dollars in May 2025. Assume benefits, taxes and overhead bring the loaded cost to 1.4 times that, about 190,000 dollars. Divide by 1,800 productive hours and one engineer-hour is about 105 dollars. Round it to 100.</p><p>A 200 dollar seat then costs about two engineer-hours a month. A 20 dollar seat costs about twelve minutes. The heavy API user from the worked example costs about six hours.</p><p>That makes the cost side look easy. The gain is harder to prove. In the METR study from Lesson 07, experienced open-source developers using early-2025 tools took 19 percent longer on their tasks. They believed they were 20 percent faster. Tools have changed a lot since then, but self-reports still need checking.</p><p>Measure things you can count, before and after: cycle time, review turnaround, escaped defects and rework. Get the vendor's data terms in writing before a rollout.</p><p class="inclass">Ask what they would measure to decide whether a 200 dollar seat is paying for itself.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>Without compaction, agent input grows roughly with the square of the session. Caching, shorter sessions and trimmed tool output keep the bill down.</li>
+          <li>Subscriptions fit your own interactive work until you hit the cap. Use the API for services, automation and batch.</li>
+          <li>Judge cost per finished task, and measure your own usage before you budget.</li>
+        </ul>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/" target="_blank" rel="noopener">Go deeper: the full module</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things. First, without compaction an agent's input tokens grow roughly with the square of the session length. Prompt caching, shorter sessions and smaller tool outputs are what keep that affordable.</p><p>Second, a subscription is a flat fee with a cap. It fits your own interactive work until you reach the cap. Production services, automation and batch jobs go on the API, with spending limits set from the first day.</p><p>Third, judge a model by what a finished task costs. Then measure your own usage. These prices will be out of date soon. Rerun the calculation when you budget.</p><p class="inclass">Have each person run the usage report this week and bring one number back.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 15 done</p>
+        <h2>Next: the open-source ecosystem</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-16">Lesson 16</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="../modules/15-costs-subscriptions-and-apis/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson fifteen. Lesson sixteen covers the open-source ecosystem: the harnesses, frameworks, MCP servers and skills you can read and run yourself.</p></div>
+    </article>
+</section>

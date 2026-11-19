@@ -384,9 +384,9 @@ One more caution. Instruction files and skills are loaded as trusted context, so
 
 <!-- _class: take -->
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** Big `CLAUDE.md` and `AGENTS.md` files were popular, and now they're not.
+> **Author's note:** Big `CLAUDE.md` and `AGENTS.md` files were popular, and now they're not.
 
 <!--
 That's my view of the shift in Part 3. The evidence needs care, though. The ETH study found developer-written files helped a little, about 2.4%, though not significantly, and recommended keeping human-written files minimal rather than dropping them. Short files with non-standard information are what survived.
@@ -396,9 +396,9 @@ That's my view of the shift in Part 3. The evidence needs care, though. The ETH 
 
 <!-- _class: take -->
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows/#bryans-take).)
+> **Author's note:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows/#authors-note).)
 
 <!--
 There's evidence against my view. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These results depend on heavy investment in harnesses, tests and verification, and come from companies selling the tools.
@@ -410,9 +410,9 @@ Module 10 discusses how much autonomy works in practice. Module 11 quotes this s
 
 <!-- _class: take -->
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** Context management is important. Once context gets stale, that's bad. Don't keep the same thread around for a long time. Models get dumber the larger the context gets and the longer a session has been going. Start fresh sessions often.
+> **Author's note:** Context management is important. Once context gets stale, that's bad. Don't keep the same thread around for a long time. Models get dumber the larger the context gets and the longer a session has been going. Start fresh sessions often.
 
 <!--
 The research we covered in Part 2 supports this. Lost in the Middle, RULER, NoLiMa and Context Rot all found performance falling as input grows. Long sessions accumulate exactly that, plus the stale and contradictory context from the marathon-session mistake. Claude Code's own docs still recommend /clear between tasks. Keep state in files. Use a session per task, and hand noisy work to subagents.

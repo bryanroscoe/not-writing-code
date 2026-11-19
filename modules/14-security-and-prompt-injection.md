@@ -257,9 +257,9 @@ These lists are good for a shared vocabulary and threat modeling sessions. They'
 - What about multi-agent systems? More agents passing messages means more places for injected text to spread, which is why OWASP's ASI07 and ASI08 exist ([module 12](./12-multi-agent-systems.md)).
 - Who's liable? When an agent with your credentials does something harmful because a stranger's text told it to, the responsibility questions are mostly unsettled. Inside an organization, the answer has to be the human who granted the access ([module 18](./18-learning-careers-and-responsibility.md)).
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work ([module 10](./10-agentic-workflows.md#bryans-take)).
+> **Author's note:** I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work ([module 10](./10-agentic-workflows.md#authors-note)).
 
 That way of working fits the security picture in this module, whatever you think of autonomy in general. Human approval is an oversight measure when all three Rule of Two properties are needed; it doesn't remove one of them. A second model reviewing a diff is one more layer. It doesn't replace the sandbox. Teams running long autonomous loops first set up sandboxes, scoped tokens, required review, and no production access, then widen autonomy within those limits.
 

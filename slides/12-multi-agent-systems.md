@@ -397,7 +397,7 @@ Industry reports fit the same picture. Anthropic's research system "outperformed
 
 ## On multi-agent review
 
-> **Bryan's take:** Multi-agent *review* is where I get the most value: several agents, and ideally several models, reviewing each other's work. Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time.
+> **Author's note:** Multi-agent *review* is where I get the most value: several agents, and ideally several models, reviewing each other's work. Building in parallel works for me when the tasks are truly independent. Reviewing in parallel works almost every time.
 
 <!--
 This slide and the next are my opinions, quoted from the module. Take them as one practitioner's experience.
@@ -411,7 +411,7 @@ Review and building differ here too, as in part 1. Parallel review is read-heavy
 
 ## On which models
 
-> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 05](../modules/05-model-landscape/) for the current landscape.
+> **Author's note:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 05](../modules/05-model-landscape/) for the current landscape.
 
 <!--
 That opinion is dated, and it says so. Model rankings change fast, so check module 05 instead of treating this as a permanent recommendation. Keep the practice from Recipe 2: one lab's model writes, a different lab's model reviews.

@@ -432,7 +432,7 @@ Some open questions:
 
 ## On multi-agent review
 
-> **Bryan's take:** Multi-agent review is one of the most valuable things you can do with these tools: several agents, and ideally several models, reviewing each other's work. Having a different agent review the work is good. It isn't the only thing to take away from this module, but it's an easy place to start.
+> **Author's note:** Multi-agent review is one of the most valuable things you can do with these tools: several agents, and ideally several models, reviewing each other's work. Having a different agent review the work is good. It isn't the only thing to take away from this module, but it's an easy place to start.
 
 <!--
 This slide and the next are my opinions, quoted from the module. Take them as one practitioner's view.
@@ -446,7 +446,7 @@ Cross-agent review still needs verification, triage, the human checklist, and ow
 
 ## On which models review
 
-> **Bryan's take:** For code, Claude and Codex are the two I trust right now, so they review each other: whichever one wrote the change, the other one reviews it. Model rankings change fast; see [module 05](../modules/05-model-landscape/).
+> **Author's note:** For code, Claude and Codex are the two I trust right now, so they review each other: whichever one wrote the change, the other one reviews it. Model rankings change fast; see [module 05](../modules/05-model-landscape/).
 
 <!--
 The model picks are dated, and the take says so. Keep the practice from module 12: a different lab's model reviews, and every finding gets verified before anyone acts on it.

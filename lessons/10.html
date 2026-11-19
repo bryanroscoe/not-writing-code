@@ -1,0 +1,654 @@
+<section class="lesson" data-lesson="10" data-title="Agentic workflows" data-minutes="22" hidden>
+  <style>
+    .lesson[data-lesson="10"] .loop3 { display: grid; grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr) 26px minmax(0, 1fr); }
+    .lesson[data-lesson="10"] .loopback { grid-column: 1 / -1; margin: 5px calc((100% - 52px) / 6) 0; min-height: 36px; border: 2px solid var(--accent); border-top: 0; border-radius: 0 0 10px 10px; position: relative; display: grid; place-items: center; padding: 6px 12px 8px; font-size: 13px; font-weight: 700; color: var(--accent); text-align: center; line-height: 1.3; }
+    .lesson[data-lesson="10"] .loopback::before { content: ""; position: absolute; top: -3px; left: -7px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 10px solid var(--accent); }
+    .lesson[data-lesson="10"] .exit { display: grid; grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr); }
+    .lesson[data-lesson="10"] .flow { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="10"] .down small { font: 500 13px/1.3 var(--body); margin-left: 6px; }
+
+    .lesson[data-lesson="10"] .term { margin: 0; font: 500 13px/1.6 var(--mono); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .lesson[data-lesson="10"] .term .bad { color: var(--bad); font-weight: 700; }
+    .lesson[data-lesson="10"] .term .ok { color: var(--accent); font-weight: 700; }
+    .lesson[data-lesson="10"] .term .cm { color: var(--muted); }
+    .lesson[data-lesson="10"] .msg ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 4px; }
+    .lesson[data-lesson="10"] .msg .term { background: var(--surface); }
+    .lesson[data-lesson="10"] .who { font: 600 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+    .lesson[data-lesson="10"] .rows { display: flex; flex-direction: column; }
+    .lesson[data-lesson="10"] .row { display: grid; gap: 3px 14px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; align-items: baseline; }
+    .lesson[data-lesson="10"] .row:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="10"] .row .n { font: 700 13px/1.4 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="10"] .row b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="10"] .row .dim { color: var(--muted); }
+    .lesson[data-lesson="10"] .row code { font-size: 12.5px; overflow-wrap: anywhere; }
+    .lesson[data-lesson="10"] .row.head > * { font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .lesson[data-lesson="10"] .g2 .row { grid-template-columns: 1.6em minmax(0, 1fr); }
+    .lesson[data-lesson="10"] .g3 .row { grid-template-columns: 1.6em minmax(0, 1fr) minmax(0, 1fr); }
+    .lesson[data-lesson="10"] .g4 .row { grid-template-columns: 1.6em 8.5em minmax(0, 1.25fr) minmax(0, 1fr); }
+    .lesson[data-lesson="10"] .t3 .row { grid-template-columns: 8.5em minmax(0, 1.3fr) minmax(0, 1fr); }
+
+    .lesson[data-lesson="10"] .steps5 { display: grid; grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr) 16px minmax(0, 1fr) 16px minmax(0, 1fr) 16px minmax(0, 1fr); }
+    .lesson[data-lesson="10"] .steps5 .node { padding: 10px 8px; font-size: 14px; }
+    .lesson[data-lesson="10"] .steps5 .ar { font-size: 14px; }
+    .lesson[data-lesson="10"] .q { border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; margin: 0; font-size: 15px; line-height: 1.45; }
+    .lesson[data-lesson="10"] .q small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .lesson[data-lesson="10"] .take { border: 1px solid var(--mark); border-left-width: 4px; border-radius: 8px; padding: 10px 12px; margin: 0; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="10"] .take b { font: 600 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+    .lesson[data-lesson="10"] .cmds { display: flex; flex-direction: column; gap: 10px; }
+    .lesson[data-lesson="10"] .cmds div { display: flex; flex-direction: column; gap: 3px; }
+    .lesson[data-lesson="10"] .cmds code { font-size: 13.5px; font-weight: 500; overflow-wrap: anywhere; }
+    .lesson[data-lesson="10"] .cmds small { font-size: 13px; color: var(--muted); }
+    .lesson[data-lesson="10"] .stack span { line-height: 1.35; }
+    .lesson[data-lesson="10"] .stack .bad { color: var(--bad); border-color: var(--bad); }
+    .lesson[data-lesson="10"] .stack .new { background: var(--accent-soft); border-color: var(--accent-mid); }
+    .lesson[data-lesson="10"] .stops3 code { font-size: 13px; }
+
+    .lesson[data-lesson="10"] .wt3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .lesson[data-lesson="10"] .wt3.arrows { text-align: center; color: var(--muted); font: 600 16px/1 var(--mono); }
+    .lesson[data-lesson="10"] .wt3 .panel { gap: 8px; padding: 12px; }
+    .lesson[data-lesson="10"] .wt3 code { font-size: 12.5px; overflow-wrap: anywhere; }
+    .lesson[data-lesson="10"] .wt3 .chip { font-size: 12.5px; white-space: normal; overflow-wrap: anywhere; align-self: flex-start; }
+
+    .lesson[data-lesson="10"] .not b { font: 720 16px/1.25 var(--display); }
+    .lesson[data-lesson="10"] .jobs .panel { gap: 6px; padding: 12px; }
+    .lesson[data-lesson="10"] .jobs code { font-size: 12.5px; overflow-wrap: anywhere; }
+    .lesson[data-lesson="10"] .warn { margin: 0; font-size: 14px; line-height: 1.4; font-weight: 700; }
+
+    .lesson[data-lesson="10"] .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; }
+    .lesson[data-lesson="10"] .stat b { display: block; font: 720 22px/1.1 var(--display); letter-spacing: -.01em; }
+    .lesson[data-lesson="10"] .stat span { font-size: 13px; color: var(--muted); line-height: 1.3; display: block; margin-top: 2px; }
+
+    .lesson[data-lesson="10"] .dv { display: flex; flex-direction: column; gap: 14px; }
+    .lesson[data-lesson="10"] .dvrow { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="10"] .dvrow .lab { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; flex-wrap: wrap; }
+    .lesson[data-lesson="10"] .dvrow .lab b { font: 700 15px/1.3 var(--mono); }
+    .lesson[data-lesson="10"] .axis { position: relative; height: 22px; border-radius: 4px; background: linear-gradient(90deg, var(--sunk) 0 calc(50% - 1px), var(--ink) calc(50% - 1px) calc(50% + 1px), var(--sunk) calc(50% + 1px)); }
+    .lesson[data-lesson="10"] .axis i { position: absolute; top: 3px; bottom: 3px; width: calc(var(--v) / 30 * 50%); }
+    .lesson[data-lesson="10"] .axis i.fast { left: calc(50% + 1px); background: var(--accent-mid); border-radius: 0 4px 4px 0; }
+    .lesson[data-lesson="10"] .axis i.slow { right: calc(50% + 1px); background: var(--bad); border-radius: 4px 0 0 4px; }
+    .lesson[data-lesson="10"] .axis i.range { left: calc(50% + 4 / 30 * 50%); width: calc(14 / 30 * 50%); border-radius: 4px; border: 1px solid var(--accent); background: repeating-linear-gradient(135deg, var(--accent) 0 2px, transparent 2px 6px); }
+    .lesson[data-lesson="10"] .axlab { display: flex; justify-content: space-between; font: 500 11px/1 var(--mono); color: var(--muted); }
+
+    .lesson[data-lesson="10"] .strip { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; }
+    .lesson[data-lesson="10"] .strip span { text-align: center; font: 700 15px/1 var(--mono); padding: 10px 0; border-radius: 6px; border: 1px solid var(--line); background: var(--sunk); }
+    .lesson[data-lesson="10"] .strip .on { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+    .lesson[data-lesson="10"] .hero-tokens { align-items: center; }
+    .lesson[data-lesson="10"] .hop { display: inline-flex; align-items: center; gap: 8px; }
+    .lesson[data-lesson="10"] .hero-tokens .chip { font-size: clamp(24px, 3.4cqi, 46px); }
+
+    @container page (max-width: 880px) {
+      .lesson[data-lesson="10"] .not b { grid-column: 1 / -1; }
+    }
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="10"] .g3 .row, .lesson[data-lesson="10"] .g4 .row { grid-template-columns: 1.6em minmax(0, 1fr); }
+      .lesson[data-lesson="10"] .g3 .row > :nth-child(n+3), .lesson[data-lesson="10"] .g4 .row > :nth-child(n+3) { grid-column: 2; }
+      .lesson[data-lesson="10"] .t3 .row { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="10"] .row.head { display: none; }
+      .lesson[data-lesson="10"] .row.head + .row { border-top: 0; padding-top: 0; }
+      .lesson[data-lesson="10"] .steps5 { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="10"] .steps5 .ar { transform: rotate(90deg); height: 20px; }
+      .lesson[data-lesson="10"] .wt3 { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="10"] .wt3.arrows { display: none; }
+      .lesson[data-lesson="10"] .loopback { margin-inline: calc((100% - 52px) / 6); font-size: 12px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bMETR\\b", "meter"], ["\\bYegge\\b", "Yeggie"], ["\\bEsc\\b", "escape"], ["/clear", "slash clear"], ["/rewind", "slash rewind"], ["AGENTS\\.md", "agents dot M D"], ["SPEC\\.md", "spec dot M D"], ["\\bStrongDM\\b", "Strong D M"], ["\\bReAct\\b", "react"], ["\\bYOLO\\b", "yolo"], ["\\bGCC\\b", "G C C"], ["\\bSQL\\b", "sequel"]]</script>
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 3 · Working with agents</p>
+        <h1>Agentic workflows</h1>
+        <p class="meta">Lesson 10 · 22 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="hero-tokens" aria-hidden="true"><span class="chip c1">explore</span><span class="hop"><span class="sp">→</span><span class="chip c2">plan</span></span><span class="hop"><span class="sp">→</span><span class="chip c3">implement</span></span><span class="hop"><span class="sp">→</span><span class="chip c4">verify</span></span><span class="hop"><span class="sp">→</span><span class="chip c5">commit</span></span></div>
+      </div>
+      <div class="talk" hidden><p>This lesson is about working with a coding agent day to day. It covers the loop every agent runs, the workflow that holds up in practice, and how much autonomy to hand over.</p><p>The five words on screen are that workflow. By the end you will know what each step is for, and what the evidence says about agents that run with nobody watching.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The agent loop</p>
+        <h2>An agent is a model in a loop</h2>
+        <p>A chat assistant answers once and waits. An agent keeps going: it thinks, calls a tool, reads the result, and thinks again.</p>
+        <p>Lesson 08 showed this loop as code and named the pattern, ReAct. Every coding agent you'll use is a version of it with tools for files, shells and the web.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-agent-loop" target="_blank" rel="noopener">Go deeper: the agent loop</a></p>
+      </div>
+      <div class="vis">
+        <div class="flow" role="img" aria-label="Your task enters a loop of think, act and observe. The observation feeds the next thinking step. When the model decides it is done, it reports back and you verify.">
+          <div class="box">Your task</div>
+          <div class="down">↓</div>
+          <div class="loop3">
+            <div class="node" style="grid-area:1/1">Think<small>decide the next step</small></div>
+            <div class="ar" style="grid-area:1/2">→</div>
+            <div class="node" style="grid-area:1/3">Act<small>call a tool: read, search, edit, run tests</small></div>
+            <div class="ar" style="grid-area:1/4">→</div>
+            <div class="node" style="grid-area:1/5">Observe<small>tool output goes into the context</small></div>
+            <div class="loopback" style="grid-row:2">and think again</div>
+          </div>
+          <div class="down">↓<small>when the model decides it's done</small></div>
+          <div class="exit">
+            <div class="node" style="grid-area:1/1">Reports back</div>
+            <div class="ar" style="grid-area:1/2">→</div>
+            <div class="node hl" style="grid-area:1/3">You verify<small>not done: back to the top</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>A chat assistant answers once and waits for you. An agent keeps going. It is a language model in a loop that can take actions and see what happened.</p><p>Follow the three boxes in the middle. The model thinks and decides the next step. It acts by calling a tool, such as reading a file, searching, editing or running the tests. Then it observes, which means the tool's output goes into its context. The line underneath runs back to the start, and it thinks again.</p><p>Lesson 08 showed this loop as code and gave it its name, ReAct, short for reason plus act. Claude Code, Codex, Cursor's agent and Copilot's agent mode are all versions of it.</p><p>Lesson 08 looked at the loop from the harness side. This lesson looks at it from your side: what you ask for, what you check, and how much you hand over.</p><p class="inclass">Live demo. Give an agent a one-line task and have the room call out think, act or observe for each line of its log.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The key fact</p>
+        <h2>The loop stops when the model thinks it's done</h2>
+        <p>The agent stops when the work looks done to the model. Without a check it can run, you become the test suite.</p>
+        <p>Give it a check that returns pass or fail: a test, a build, a linter, a screenshot. Then ask for the evidence.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done" target="_blank" rel="noopener">Go deeper: when the loop stops</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>No check</h3>
+            <div class="chat"><div class="msg bot"><p>Done! All tests pass.</p><span class="flag">It ran a subset, or none.</span></div></div>
+            <p class="note strong">You find out by testing it yourself.</p>
+          </div>
+          <div class="panel">
+            <h3>A check it can run</h3>
+            <pre class="term">$ npm test -- rateLimit
+<span class="bad">FAIL</span>  expected 200, received 429
+<span class="cm">…keeps working…</span>
+$ npm test
+<span class="ok">PASS</span>  42 suites, 318 tests</pre>
+            <p class="note strong">The failure goes into its context, so the loop continues.</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>The loop has no finish line built in. It ends when the model decides the work is done, and the model decides that when the work looks done.</p><p>In the left panel the agent reports that all tests pass. It may not have run them, or it ran a subset. Nothing in the loop forces that claim to be true. So you test the change by hand, and you have become the test suite.</p><p>The right panel is the same task with a check the agent can run. The test fails. The failure lands in the agent's context, so it keeps working until the command passes. A test, a build, a linter or a screenshot can all do this job.</p><p>This is the biggest lever in the lesson. Lesson 11 is all about it.</p><p class="inclass">Ask who has had an agent say "done" on something broken. What check would have caught it?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">What you control</p>
+        <h2>You control four things, whatever the tool</h2>
+        <p>What the agent knows, what it can do, how it knows it's done, and how long it may run.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#what-you-control" target="_blank" rel="noopener">Go deeper: what you control</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>What it knows</h3>
+            <div class="chips"><span class="chip pill c1">your prompt</span><span class="chip pill c1">a spec file</span><span class="chip pill c1"><code>CLAUDE.md</code>, <code>AGENTS.md</code></span></div>
+          </div>
+          <div class="panel">
+            <h3>What it can do</h3>
+            <div class="chips"><span class="chip pill c2">tools</span><span class="chip pill c2">permissions</span><span class="chip pill c2">sandbox</span><span class="chip pill c2">the branch it may push to</span></div>
+          </div>
+          <div class="panel">
+            <h3>How it knows it's done</h3>
+            <div class="chips"><span class="chip pill c3">tests</span><span class="chip pill c3">typechecks</span><span class="chip pill c3">builds</span><span class="chip pill c3">screenshots</span><span class="chip pill c3">a reviewer</span></div>
+          </div>
+          <div class="panel">
+            <h3>How long and how much</h3>
+            <div class="chips"><span class="chip pill c5">turn limits</span><span class="chip pill c5">spend limits</span><span class="chip pill c5">time limits</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Whatever tool you use, you control the same four things.</p><p>First, what the agent knows. That is your prompt, a spec file, and repository instruction files such as CLAUDE.md and AGENTS.md. Second, what it can do. That is its tools, its permissions, its sandbox, and which branch it may push to.</p><p>Third, how it knows it is done. Tests, type checks, builds, screenshots or a reviewer. Fourth, how long it runs and how much it spends, set with turn limits, spend limits and time limits.</p><p>Lesson 09 covered the first. Lessons 08 and 14 cover the second, lesson 11 the third, and lesson 15 the fourth. This lesson is about using all four in a working day.</p><p class="inclass">Ask the room which of the four they set on purpose last week, and which they left at the default.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The autonomy spectrum</p>
+        <h2>Each level of autonomy moves your check further from the edit</h2>
+        <p>"Using AI to code" covers very different amounts of delegation. Six levels cover it, from autocomplete to a pipeline where no human reads the code.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-autonomy-spectrum" target="_blank" rel="noopener">Go deeper: the autonomy spectrum</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows g4">
+          <div class="row head"><span></span><span>Level</span><span>What it looks like</span><span>Who checks each change</span></div>
+          <div class="row"><span class="n">1</span><b>Autocomplete</b><span class="dim">The editor suggests the next line</span><span>You, as you type</span></div>
+          <div class="row"><span class="n">2</span><b>Chat</b><span class="dim">You paste code in and copy answers back</span><span>You, line by line</span></div>
+          <div class="row"><span class="n">3</span><b>Supervised agent</b><span class="dim">One agent edits and runs commands in your repo while you watch</span><span>You, per step or per diff</span></div>
+          <div class="row"><span class="n">4</span><b>Parallel agents</b><span class="dim">Several agents, each on its own task and checkout</span><span>You, per branch, before merge</span></div>
+          <div class="row"><span class="n">5</span><b>Background agents</b><span class="dim">You hand off a task and get a pull request later</span><span>You or a reviewer, at the PR</span></div>
+          <div class="row"><span class="n">6</span><b>Autonomous pipeline</b><span class="dim">Specs in, software out</span><span><mark>Automated checks only</mark></span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>"Using AI to code" covers very different amounts of delegation. This table names six levels.</p><p>Read the right-hand column, which says who checks each change. At autocomplete, you check as you type. In chat, you check line by line as you paste. With one supervised agent in your repo, you check each step or each diff. With several agents in parallel, you check each branch before it merges. With background agents, you or a reviewer check at the pull request, some time later.</p><p>At level six, specs go in and software comes out. No human reads the code, so automated checks are all that stand between the agent and production. People call these software factories or dark factories, after lights-out factories that run without people.</p><p>Dan Shapiro drew a similar map in January 2026 using self-driving cars. His top levels are a Waymo with a safety driver, a robotaxi, and the dark factory.</p><p class="inclass">Ask each person which level they worked at yesterday, and whether it was the same for every task.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Yegge's eight stages</p>
+        <h2>Yegge's chart measures how much you delegate</h2>
+        <p>Steve Yegge published "Welcome to Gas Town" on January 1, 2026, and asked readers to "locate yourself on the chart" of eight stages. They've become common shorthand.</p>
+        <p>The chart says nothing about quality. A stage 3 engineer with strong tests can ship better software than a stage 7 engineer without them.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#steve-yegges-eight-stages" target="_blank" rel="noopener">Go deeper: Yegge's eight stages</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows g3">
+          <div class="row head"><span></span><span>Yegge's words</span><span>What it feels like</span></div>
+          <div class="row"><span class="n">1</span><b>"Zero or Near-Zero AI"</b><span class="dim">AI is a smarter search box.</span></div>
+          <div class="row"><span class="n">2</span><b>"Coding agent in IDE, permissions turned on."</b><span class="dim">Lots of approve buttons.</span></div>
+          <div class="row"><span class="n">3</span><b>"Agent in IDE, YOLO mode"</b><span class="dim">Faster, and a little nervous.</span></div>
+          <div class="row"><span class="n">4</span><b>"In IDE, wide agent"</b><span class="dim">You review diffs instead of typing code.</span></div>
+          <div class="row"><span class="n">5</span><b>"CLI, single agent. YOLO."</b><span class="dim">The agent drives and you steer.</span></div>
+          <div class="row"><span class="n">6</span><b>"CLI, multi-agent, YOLO."</b><span class="dim">Like running a small team. Your attention is the bottleneck.</span></div>
+          <div class="row"><span class="n">7</span><b>"10+ agents, hand-managed."</b><span class="dim">Lost work, merge conflicts, agents you forgot about.</span></div>
+          <div class="row"><span class="n">8</span><b>"Building your own orchestrator."</b><span class="dim">You build infrastructure for agents.</span></div>
+        </div>
+        <p class="cap">YOLO mode means permission prompts are off. The right-hand column is this course's gloss.</p>
+      </div>
+      <div class="talk" hidden><p>Steve Yegge is a long-time engineer and blogger, and co-author of the book Vibe Coding with Gene Kim. On January 1, 2026 he published "Welcome to Gas Town", a post introducing his open-source agent orchestrator. In it he asks readers to locate themselves on a chart of eight stages.</p><p>The left column is in Yegge's words. Stages one to four happen in the IDE. You go from completions, to an agent that asks permission, to permissions off, to an agent that fills the screen. Stages five to seven move to the terminal, with one agent, then three to five in parallel, then ten or more managed by hand. At stage eight you build your own orchestrator.</p><p>Yegge is blunt about the top of the chart. He calls Gas Town "100% vibe coded" and "expensive as hell". He says some bugs get fixed two or three times, and other fixes get lost.</p><p>The chart measures delegation. It does not measure the quality of what ships.</p><p class="inclass">Have everyone mark their stage. Then ask what a chart that measured outcomes would look like.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Yegge's eight stages</p>
+        <h2>Move up one stage at a time, and down when the task calls for it</h2>
+        <p>Yegge assumes permissions off from stage 3 up. Sandboxes, deny rules and worktrees get you most of the speed without that exposure.</p>
+        <p>Many experienced engineers switch stages by task: stage 6 for a batch of independent chores, stage 4 for a delicate change to payment code.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#steve-yegges-eight-stages" target="_blank" rel="noopener">Go deeper: moving up safely</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">What to have in place at each stage</p>
+        <div class="rows g2">
+          <div class="row"><span class="n">2</span><span>Allowlist the safe commands you approve without reading. Commit before each task so you can revert.</span></div>
+          <div class="row"><span class="n">3</span><span>A sandbox or a classifier-based auto mode in place of "no permissions", plus hard deny rules for secrets, pushes and production.</span></div>
+          <div class="row"><span class="n">4</span><span>Tests are the contract. Ask for command output, never just "done".</span></div>
+          <div class="row"><span class="n">5</span><span>Review moves from every edit to every pull request. Add an independent review step.</span></div>
+          <div class="row"><span class="n">6</span><span>One worktree per agent, non-overlapping tasks, a written task list, review before every merge.</span></div>
+          <div class="row"><span class="n">7</span><span>An issue list agents can read and update, and a merge discipline. Step back to stage 6 if quality slips.</span></div>
+          <div class="row"><span class="n">8</span><span>The orchestrator is production software, with its own tests, budgets and kill switches.</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>The list on screen is what to have in place at each stage. Each row replaces something you used to watch by hand.</p><p>At stage two you approve every command. When you catch yourself approving the same safe ones without reading, allowlist those, and only those. At stage three, Yegge turns permissions off. A sandbox, plus hard deny rules for secrets, pushes and production, gets you most of that speed. Lesson 14 covers how.</p><p>From stage four, tests are the contract and you ask for command output. From stage five, review moves from every edit to every pull request, and you never skip it. Stage six needs one worktree per agent and a written task list.</p><p>You are allowed to move down. Many experienced engineers pick the stage by task. A batch of independent chores can run at stage six. A delicate change to payment code goes back to stage four.</p><p class="inclass">Ask the room: when should you move down a stage? Collect two real examples.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The core loop</p>
+        <h2>Explore, plan, implement, verify, commit</h2>
+        <p>Anthropic's and OpenAI's docs recommend close to the same workflow. If the task is complex or hard to describe, have the agent plan before it codes.</p>
+        <p>Then give it a check to run, and have someone who didn't write the code review it.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-core-loop-explore--plan--implement--verify--commit" target="_blank" rel="noopener">Go deeper: the core loop</a></p>
+      </div>
+      <div class="vis">
+        <div class="steps5" role="img" aria-label="Five steps in order: explore read-only, plan and read the plan, implement with a failing test first, verify with the command and its output, commit small.">
+          <div class="node">Explore<small>read-only</small></div>
+          <div class="ar">→</div>
+          <div class="node">Plan<small>read it before any edit</small></div>
+          <div class="ar">→</div>
+          <div class="node">Implement<small>failing test first</small></div>
+          <div class="ar">→</div>
+          <div class="node hl">Verify<small>the command and its output</small></div>
+          <div class="ar">→</div>
+          <div class="node">Commit<small>small, test and fix apart</small></div>
+        </div>
+        <p class="q">"Codex can do this loop for you, but only if it knows what 'good' looks like."<small>OpenAI, Codex best practices</small></p>
+      </div>
+      <div class="talk" hidden><p>Anthropic and OpenAI recommend close to the same workflow. Anthropic's April 2025 post on Claude Code called it explore, plan, code, commit, with a test-driven variant.</p><p>Here are the five steps. Explore read-only, so the agent builds a picture before it touches anything. Plan, and read the plan, because that is the cheapest place to catch a wrong idea. Implement with a failing test first. Verify by asking for evidence. Commit in small pieces, with the test and the fix in separate commits.</p><p>The quote under the steps is from OpenAI's Codex guide. The agent can run this loop for you, but only if it knows what good looks like. That is the runnable check from earlier in this lesson.</p><p>Anthropic's current docs stress the same points. Write a spec, give the agent a check to run, and have someone who did not write the code review it. The next two screens walk one bug through all five steps.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Explore and plan</p>
+        <h2>Read-only exploration catches the wrong idea before any edit</h2>
+        <p>Have the agent build a picture first, then ask for a plan and read it. It's the cheapest place to catch a mistake.</p>
+        <p>Plan mode enforces this. In Claude Code, the agent "reads files and proposes a plan but makes no edits until you approve". Codex has a Plan mode too.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#a-sample-session" target="_blank" rel="noopener">Go deeper: a sample session</a></p>
+      </div>
+      <div class="vis">
+        <div class="chat">
+          <div class="msg user">Users behind our load balancer all get rate-limited together. Explore first. Don't change anything.</div>
+          <div class="msg bot"><p>The limiter keys on <code>req.ip</code>. The app never sets "trust proxy", so behind the load balancer every user shares one bucket.</p><p><mark>How many proxy hops sit in front of the app?</mark></p></div>
+          <div class="msg user">Exactly one, the load balancer. Plan before coding.</div>
+          <div class="msg bot"><span class="who">Plan mode</span><ol><li>Add a failing test: two clients through one proxy hop get separate buckets.</li><li>Set trust proxy to 1 hop in <code>src/server.ts</code>. Not "true".</li><li>No change to the limiter. No new dependencies.</li></ol></div>
+          <div class="msg user">Approved. Don't modify existing tests.</div>
+        </div>
+        <span class="tag">Illustrative, abbreviated</span>
+      </div>
+      <div class="talk" hidden><p>This session is illustrative. It was written to show the shape of a good run. The bug is that everyone behind a load balancer gets rate-limited together.</p><p>The first message says to explore and change nothing. The agent reads the limiter, the server setup and the tests. It finds that the limiter keys on the request's IP address, and behind the balancer that is always the balancer's own address. Then it asks how many proxy hops sit in front of the app.</p><p>The highlighted question is the payoff of exploring first. The safe setting depends on the network layout, and only the human knows the layout. An agent that had started editing would have had to guess.</p><p>Then comes the plan. A failing test, a one-line setting, and nothing else touched. In Claude Code, plan mode makes this a rule. The agent reads and proposes, and makes no edits until you approve.</p><p>If you do not know yet what you want, ask the agent to interview you and write the answers to a spec file. Then start a fresh session and build from that file.</p><p class="inclass">Ask what the agent would have done here with the prompt "fix the rate limiter".</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Implement and verify</p>
+        <h2>Ask for the failing test first, then the passing output</h2>
+        <p>A test that fails before the fix and passes after it is the contract the agent works to. Tell it not to modify the test.</p>
+        <p>"All tests pass" on its own "tells you very little", in Anthropic's words. Ask for the command and what it printed, then get a review from a fresh session.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the contract</a></p>
+      </div>
+      <div class="vis">
+        <pre class="term"><span class="cm">Added test "separate buckets per client behind one proxy"</span>
+$ npm test -- rateLimit
+<span class="bad">FAIL</span>  tests/rateLimit.test.ts
+  x separate buckets per client behind one proxy
+    expected 200, received 429
+<span class="cm">Committed: "test: reproduce shared rate-limit bucket behind proxy"</span>
+
+<span class="cm">Set app.set("trust proxy", 1)</span>
+$ npm test
+<span class="ok">PASS</span>  42 suites, 318 tests
+$ npm run lint &amp;&amp; npx tsc --noEmit
+<span class="cm">(no output, exit 0)</span>
+
+$ git diff --stat
+src/server.ts            |  1 +
+tests/rateLimit.test.ts  | 24 ++++++
+2 files changed, 25 insertions(+)</pre>
+        <span class="tag">Illustrative, abbreviated</span>
+      </div>
+      <div class="talk" hidden><p>The same session continues. The agent adds the test and runs it. It fails. The test expected a 200 and received a 429. That failure shows the test catches the bug, and it gets a commit of its own.</p><p>Then comes the one-line fix and the full run. 42 suites, 318 tests, then lint and the type checker. The human asks for the diff stat. Two files changed, 25 lines added.</p><p>Every claim on this screen arrives with the command and what it printed.</p><p>One more step is not on screen. A fresh session that never saw this conversation reviews the diff. In the full transcript it raises a real future risk about adding a second proxy, and a missing test for IPv6 addresses. If there is a user interface, look at it yourself too.</p><p class="inclass">Live demo. Run this loop on a planted bug. Save the failing output, the passing output and the diff stat.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Prototype first</p>
+        <h2>When you don't know what you want, build a draft to find out</h2>
+        <p>A throwaway version used to cost weeks, so teams argued over specs. An agent can build one in minutes, and you react to it.</p>
+        <p>A prototype looks finished. People start treating it as the real thing before anyone has checked error handling, security or tests.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#prototype-first-draft-driven-development" target="_blank" rel="noopener">Go deeper: prototype first</a></p>
+      </div>
+      <div class="vis">
+        <p class="q">"Plan to throw one away; you will, anyhow."<small>Fred Brooks, The Mythical Man-Month, 1975</small></p>
+        <div class="rows g2">
+          <div class="row"><span class="n">1</span><span><b>Timebox it and call it a draft.</b> A <code>spike/</code> branch or a scratch folder.</span></div>
+          <div class="row"><span class="n">2</span><span><b>Write what you learned into a short spec.</b> Decisions, surprises, what users said.</span></div>
+          <div class="row"><span class="n">3</span><span><b>Rebuild or harden it on purpose.</b> Start fresh with the core loop, or review the prototype line by line as production code.</span></div>
+        </div>
+        <p class="take"><b>Author's note</b>I like draft-driven or prototype-driven development, and you can do it with AI now. From a coding point of view or an application point of view, it's easier to comment on something you can see than to conceptualize it from scratch.</p>
+      </div>
+      <div class="talk" hidden><p>The core loop assumes you know what you want. When you don't, build a prototype to find out.</p><p>The idea is old. Fred Brooks wrote in 1975, plan to throw one away, you will anyhow. What changed is the price. A throwaway version used to cost weeks, so teams argued over specs. Now an agent builds one in minutes and you react to something real.</p><p>You can do it at two levels. For an application, put a clickable mockup in front of the people who will use it. For code, run a spike. Try two shapes of an API, read the real code, and pick one.</p><p>The risk comes from the same place as the benefit. A prototype looks finished. So follow the three steps on screen. Timebox it and say out loud that it is a draft. Write down what you learned. Then rebuild it or harden it on purpose. Brooks himself later called throw-one-away too simple and argued for growing software in increments.</p><p>The box at the bottom is the author's opinion, quoted. The appeal is that it is easier to comment on something you can see.</p><p class="inclass">Watch for the spike that drifts into production because nobody decided otherwise.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Small diffs</p>
+        <h2>Git is your undo button</h2>
+        <p>Small diffs are easier to review and cheaper to throw away. Ask for the smallest change that satisfies the spec, and split big work into steps that each leave the build green.</p>
+        <p>Harness checkpoints help, but they only cover files the agent changed with its own edit tools.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#small-diffs-git-as-the-safety-net-checkpoints" target="_blank" rel="noopener">Go deeper: small diffs and checkpoints</a></p>
+      </div>
+      <div class="vis">
+        <div class="cmds">
+          <div><code>git switch -c fix/session-timeout</code><small>One branch per task.</small></div>
+          <div><code>git add -p</code><small>Stage hunk by hunk, reading as you go.</small></div>
+          <div><code>git commit -m "test: reproduce refresh failure after timeout"</code><small>The test gets its own commit.</small></div>
+          <div><code>git diff --stat main</code><small>Which files did the agent touch?</small></div>
+          <div><code>git restore --source=HEAD -- src/unrelated/</code><small>Throw away an edit you didn't ask for.</small></div>
+        </div>
+        <p class="cap">Claude Code's <code>/rewind</code> (or <code>Esc</code> twice) restores code, conversation or both, as of November 2026. Changes made through shell commands aren't restored.</p>
+      </div>
+      <div class="talk" hidden><p>Small diffs are easier to review, for you and for a bot, and cheaper to throw away. Ask for the smallest change that satisfies the spec. Split big work into steps that each leave the build green.</p><p>Git is the undo button, and these five commands cover most of it. Make one branch per task. Stage hunk by hunk with the patch flag, reading as you go. Commit the test on its own. Run the diff stat against main to see which files the agent touched. Use restore to throw away an edit you did not ask for.</p><p>Harnesses also keep checkpoints, which are snapshots you can roll back to. In Claude Code, the rewind command, or pressing escape twice, restores the code, the conversation, or both.</p><p>Checkpoints have two limits. They cover only the files the agent changed with its own edit tools, so a change made through a shell command is not restored. And the docs say they work alongside git rather than replacing it.</p><p class="inclass">Live demo. Let an agent make a change through a shell command, then try to rewind it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Steering a session</p>
+        <h2>After two failed corrections, clear the session and write a better prompt</h2>
+        <p>Anthropic's advice: "Watch the first minute, press <code>Esc</code> the moment Claude drifts, and after two failed corrections run <code>/clear</code> and write a better prompt instead of a third."</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#steering-a-session" target="_blank" rel="noopener">Go deeper: steering a session</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>A third correction</h3>
+            <div class="stack"><span>your prompt</span><span class="bad">attempt 1, failed</span><span>your correction</span><span class="bad">attempt 2, failed</span><span>your second correction</span><span>your third correction</span></div>
+            <p class="note strong">The model re-reads both failed attempts on every turn.</p>
+          </div>
+          <div class="panel">
+            <h3><code>/clear</code>, then one better prompt</h3>
+            <div class="stack"><span class="new">a prompt that says what the first one missed</span></div>
+            <p class="note strong">Nothing stale in the context.</p>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Anthropic's advice on steering is short enough to memorize. Watch the first minute. Press escape the moment the agent drifts. After two failed corrections, run /clear and write a better prompt in place of a third correction.</p><p>The two panels show why. On the left, the session holds two failed attempts and your corrections. All of that is still in the context, and the model re-reads it on every turn. On the right, a fresh session holds one prompt, written with what the two failures taught you. That usually wins.</p><p>The same thing shows up at larger scale. Cursor found that its long-running agents still needed periodic fresh starts to fight drift and tunnel vision.</p><p>The everyday habits are one task per session, a progress file for longer work, and a clear between tasks.</p><p class="inclass">Ask who has sent a fifth correction in one session, and how that session ended.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Parallel agents</p>
+        <h2>Give each parallel agent its own worktree</h2>
+        <p>A git worktree is another checkout of the same repository in another folder, on its own branch. Agents can edit at once without overwriting each other's files.</p>
+        <p>Pick tasks that touch different files, keep a written task list, and review every branch before merging.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#worktrees-and-parallel-agents" target="_blank" rel="noopener">Go deeper: worktrees and parallel agents</a></p>
+      </div>
+      <div class="vis">
+        <pre class="term">$ git worktree add ../.worktrees/myapp/rate-limit -b feat/rate-limit</pre>
+        <div class="box">One repository, one shared <code>.git</code> history</div>
+        <div class="wt3 arrows" aria-hidden="true"><span>↓</span><span>↓</span><span>↓</span></div>
+        <div class="wt3">
+          <div class="panel"><h3>Agent 1</h3><code>myapp/</code><span class="chip c1">main checkout</span><p class="note">Session timeout fix</p></div>
+          <div class="panel"><h3>Agent 2</h3><code>.worktrees/myapp/rate-limit/</code><span class="chip c3">feat/rate-limit</span><p class="note">Rate limiting</p></div>
+          <div class="panel"><h3>Agent 3</h3><code>.worktrees/myapp/logger/</code><span class="chip c4">chore/logger</span><p class="note">Logger migration</p></div>
+        </div>
+        <p class="cap">One task, one agent, one worktree, one branch. Each worktree needs its own dependencies and build output, so remove it once its branch merges.</p>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>A git worktree is another checkout of the same repository, in another folder, on its own branch. Every worktree shares one git history. That is how several agents can edit at once without overwriting each other's files.</p><p>The command at the top creates one. OpenAI's guide lists running live tasks on the same files without worktrees as a common mistake. Claude Code can create worktrees itself. As of November 2026 its batch command splits a large mechanical change into 5 to 30 units, each with its own worktree and pull request.</p><p>The rule is one task, one agent, one worktree, one branch. Pick tasks that touch different files. Two agents editing the same module give you a merge conflict, or worse, two inconsistent designs.</p><p>Keep a written task list that you and the agents can see. Review every branch before merging, because parallel agents multiply unreviewed code as fast as they multiply output. And watch the disk and the bill. Each worktree needs its own dependencies, and each agent spends tokens.</p><p class="inclass">Ask the room for two tasks from their backlog that could run in parallel, and one pair that could not.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Unattended runs</p>
+        <h2>Answer five questions before you walk away</h2>
+        <p>Most of the risk comes in when "I watch" becomes "I come back later". Anthropic's docs list five questions for any unattended run.</p>
+        <p>For a scripted loop, the docs say: "Try it on three files first, see what goes wrong, fix the prompt, then run the rest."</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#background-and-unattended-runs" target="_blank" rel="noopener">Go deeper: unattended runs</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows g3">
+          <div class="row"><span class="n">1</span><b>Does it know what done looks like?</b><span class="dim">A goal, a spec file, or a failing test to turn green</span></div>
+          <div class="row"><span class="n">2</span><b>Can it check its own work?</b><span class="dim">Tests, a review step, a <code>Stop</code> hook that blocks finishing until a check passes</span></div>
+          <div class="row"><span class="n">3</span><b>What is it allowed to touch?</b><span class="dim">Permissions, a sandbox, a worktree, one branch it may push to</span></div>
+          <div class="row"><span class="n">4</span><b>What stops it?</b><span class="dim"><code>--max-turns</code>, <code>--max-budget-usd</code>, a spend limit</span></div>
+          <div class="row"><span class="n">5</span><b>Where does the result go, and who signs off?</b><span class="dim">A pull request, then a person approving the merge</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Most of the risk comes in when "I watch" becomes "I come back later". Anthropic's docs list five questions to answer before any unattended run.</p><p>One, does the agent know what done looks like. That can be a goal, a spec file, or a failing test to turn green. Two, can it check its own work. Tests, a review step, or a Stop hook, which blocks the agent from finishing until a check passes. Three, what is it allowed to touch. Permissions, a sandbox, a worktree, and one branch it may push to.</p><p>Four, what stops it. A turn limit or a spend limit. Five, where does the result go and who signs off. Usually a pull request, then a person approving the merge.</p><p>The simplest unattended run is a shell loop that hands the agent one file at a time, with a short list of allowed tools and a turn cap. The docs' advice for that loop is to try it on three files first, see what goes wrong, fix the prompt, then run the rest.</p><p class="inclass">Pick a real chore from someone's backlog. Have the room answer the five questions for it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Failure modes</p>
+        <h2>Agents fail in known ways, and each has a counter-move</h2>
+        <p>In one 2024 study, at least 5.2% of packages suggested by commercial models and 21.7% by open models didn't exist. Attackers register those names.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#failure-modes-and-counter-moves" target="_blank" rel="noopener">Go deeper: failure modes</a></p>
+      </div>
+      <div class="vis">
+        <div class="nots">
+          <div class="not"><b>Vague task</b><p>Builds something reasonable that isn't what you meant.</p><p class="do">Name the file, the symptom, and what "fixed" looks like.</p></div>
+          <div class="not"><b>Hallucinated packages</b><p>Imports a package or calls a method that doesn't exist.</p><p class="do">Compile and typecheck every step. Verify each new dependency by hand.</p></div>
+          <div class="not"><b>Fake tests</b><p>Asserts a mock returns what the mock was told to return. Failing tests deleted or skipped.</p><p class="do">Make tests fail first. Review the test diff.</p></div>
+          <div class="not"><b>Declaring victory early</b><p>"Done! All tests pass." It didn't run them, or ran a subset.</p><p class="do">Require the command and its output.</p></div>
+          <div class="not"><b>Silent scope creep</b><p>"While I was there" refactors in files you never mentioned.</p><p class="do">State the scope. Check <code>git diff --stat</code>. Reject unrelated changes.</p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Agents fail in recognizable ways, and each has a counter-move. Five of the nine in the full notes are on screen.</p><p>A vague task gets you something reasonable that is not what you meant. Name the file, the symptom, and what fixed looks like. Anthropic's example replaces "fix the login bug" with this. Users report login fails after the session times out. Look at token refresh in the auth folder, write a failing test that reproduces it, then fix it.</p><p>Hallucinated packages are a security problem as well as a bug. In a 2024 study, at least 5.2 percent of packages suggested by commercial models did not exist, and 21.7 percent for open models. Attackers register those names. Verify every new dependency by hand.</p><p>A fake test asserts that a mock returns what it was told to return. Make tests fail first and read the test diff. Early victory and scope creep both give way to evidence, which is the command with its output and the diff stat.</p><p>The other four are over-engineering, sycophancy, context drift and reward hacking, where the agent games the check itself. Lesson 11 covers that last one.</p><p class="inclass">Ask which of the five the room has seen this month. Have one person describe what it looked like.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Beyond writing code</p>
+        <h2>Work that isn't feature code is often the safest place to start</h2>
+        <p>Many engineers first trust agents with reading, debugging and chores, where the risk is often lower and the checks are clearer.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#ai-first-beyond-writing-code" target="_blank" rel="noopener">Go deeper: beyond writing code</a></p>
+      </div>
+      <div class="vis">
+        <div class="two jobs">
+          <div class="panel"><h3>Reading unfamiliar code</h3><p class="note">"Trace a request from the HTTP handler to the database."</p><p class="warn">Ask for file paths and line references.</p></div>
+          <div class="panel"><h3>Debugging with logs</h3><p class="note"><code>cat error.log | claude -p "what's going on here"</code></p><p class="warn">Ask for a failing test before the fix.</p></div>
+          <div class="panel"><h3>Migrations</h3><p class="note">One file per run in a loop, or a batch split across worktrees.</p><p class="warn">Run the full suite after each unit.</p></div>
+          <div class="panel"><h3>SQL</h3><p class="note">Explaining a slow query plan, drafting a migration.</p><p class="warn">Read-only credentials and a copy of the data.</p></div>
+          <div class="panel"><h3>Tickets</h3><p class="note">Meeting notes into issues with acceptance criteria.</p><p class="warn">You approve the final text.</p></div>
+          <div class="panel"><h3>Incident timelines</h3><p class="note">Deploy logs, alerts and chat exports merged with sources.</p><p class="warn">Verify every timestamp.</p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Many engineers first trust agents with work that is not feature code. The risk is often lower there and the checks are clearer.</p><p>Six examples are on screen, each with the thing to watch. For reading unfamiliar code, ask the agent to trace a request from the handler to the database and list the files in order. Ask for file paths and line references, because it will confidently explain code it never opened. For debugging, pipe the log in. It may fix the symptom, so ask for a failing test first.</p><p>Migrations go one file per run, with the full suite after each unit. For SQL, never give the agent write access to production. Use read-only credentials and a copy of the data.</p><p>Turning meeting notes into tickets works well, but it invents requirements, so you approve the final text. For incident timelines, verify every timestamp, and check that sensitive data is not leaving your environment.</p><p class="inclass">Ask which task in the room's week is safe to hand to a background agent today, and which is not.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The case for full autonomy</p>
+        <h2>Unattended agents have built a C compiler and a web browser</h2>
+        <p>Both ran in early 2026, with many agents in parallel for days or weeks.</p>
+        <p>StrongDM's AI team runs a "software factory" on two rules: "Code must not be written by humans" and "Code must not be reviewed by humans."</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-case-for-full-autonomy" target="_blank" rel="noopener">Go deeper: the case for full autonomy</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>C compiler in Rust</h3>
+            <p class="note">Nicholas Carlini, Anthropic, February 2026</p>
+            <div class="stats">
+              <div class="stat"><b>16</b><span>parallel agents, no orchestrator</span></div>
+              <div class="stat"><b>~2,000</b><span>sessions over about two weeks</span></div>
+              <div class="stat"><b>~100,000</b><span>lines</span></div>
+              <div class="stat"><b>&lt; $20,000</b><span>in API costs</span></div>
+            </div>
+            <p class="note">Compiles Linux 6.9, SQLite, PostgreSQL and Doom.</p>
+          </div>
+          <div class="panel">
+            <h3>Web browser</h3>
+            <p class="note">Wilson Lin, Cursor, January 2026</p>
+            <div class="stats">
+              <div class="stat"><b>Hundreds</b><span>of concurrent agents</span></div>
+              <div class="stat"><b>~1 week</b><span>of running</span></div>
+              <div class="stat"><b>1 million+</b><span>lines</span></div>
+              <div class="stat"><b>1,000</b><span>files</span></div>
+            </div>
+            <p class="note">Built from scratch.</p>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Fully autonomous runs have produced substantial results.</p><p>In February 2026, Nicholas Carlini of Anthropic described 16 parallel Claude agents building a C compiler in Rust from scratch. It took nearly 2,000 sessions, about two weeks, and just under 20,000 dollars. The result is roughly 100,000 lines that compile the Linux kernel, along with SQLite, PostgreSQL and Doom. There was no orchestrator. Each agent claimed a task by writing a lock file in a shared repository.</p><p>A few weeks earlier, Cursor's Wilson Lin described hundreds of concurrent agents that ran for close to a week and wrote over a million lines, building a web browser from scratch.</p><p>StrongDM's AI team published a charter with two rules. No human writes the code, and no human reviews it. Correctness comes from end-to-end scenarios kept outside the codebase, and from behavioral clones of the third-party services they depend on.</p><p>Behind all of this is the trend from lesson 07. METR measures the length of task a model can finish with 50 percent reliability. That length doubled roughly every seven months from 2019 to 2025, and faster since.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The case against</p>
+        <h2>Developers felt 20% faster while measuring 19% slower</h2>
+        <p>METR ran a randomized trial in early 2025: 16 experienced open-source developers, 246 real tasks in their own repositories.</p>
+        <p>METR now calls those results out of date. Its 2026 follow-up points to modest speedups with wide error bars.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-case-against-or-at-least-not-yet" target="_blank" rel="noopener">Go deeper: the case against</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">Effect of AI tools on task time</p>
+        <div class="dv" role="img" aria-label="Early 2025 trial: developers expected a 24 percent speedup, afterward believed they got a 20 percent speedup, and tasks actually took 19 percent longer. The February 2026 follow-up estimated tasks about 4 to 18 percent faster, with confidence intervals that include zero.">
+          <div class="dvrow"><div class="lab"><span>Expected, before starting</span><b>24% faster</b></div><div class="axis"><i class="fast" style="--v:24"></i></div></div>
+          <div class="dvrow"><div class="lab"><span>Believed, afterward</span><b>20% faster</b></div><div class="axis"><i class="fast" style="--v:20"></i></div></div>
+          <div class="dvrow"><div class="lab"><span>Measured, early 2025</span><b>19% longer</b></div><div class="axis"><i class="slow" style="--v:19"></i></div></div>
+          <div class="dvrow"><div class="lab"><span>Follow-up estimate, February 2026</span><b>about 4% to 18% faster</b></div><div class="axis"><i class="range"></i></div></div>
+          <div class="axlab"><span>← slower</span><span>no change</span><span>faster →</span></div>
+        </div>
+        <p class="cap">The follow-up's confidence intervals include zero. METR thinks it underestimates the real effect, because more developers refused to join a study that might make them work without AI.</p>
+      </div>
+      <div class="talk" hidden><p>The productivity evidence is mixed and still moving. In early 2025, METR ran a randomized controlled trial. Sixteen experienced open-source developers did 246 real tasks in their own repositories, some with AI tools allowed and some without.</p><p>Look at the top three bars. Before starting, the developers expected AI to make them 24 percent faster. Afterward, they believed it had made them 20 percent faster. The measured result runs the other way. With AI allowed, tasks took 19 percent longer.</p><p>METR now labels those results out of date. The hatched bar is its February 2026 follow-up. It estimated modest speedups, about 4 to 18 percent depending on the group, with confidence intervals that include zero. METR thinks that understates the real effect, because more and more developers refused to join a study that might make them work without AI.</p><p>So the felt speedup is bigger than the measured one, and the measured one is probably growing.</p><p class="inclass">Ask why the gap between felt and measured speed might exist. Then ask how the room would measure its own team's real speedup.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The case against</p>
+        <h2>The successes come with asterisks</h2>
+        <p>The authors list the limits themselves. Carlini writes that "the thought of programmers deploying software they've never personally verified is a real concern."</p>
+        <p>Agents also cheat when they can. A pipeline that grades itself with tests the agent can see is grading on the honor system.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#the-case-against-or-at-least-not-yet" target="_blank" rel="noopener">Go deeper: the asterisks</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>C compiler, in Carlini's words</h3>
+            <ul class="dos">
+              <li>The Rust is "nowhere near the quality of what an expert Rust programmer might produce".</li>
+              <li>Even optimized, it "outputs less efficient code than GCC with all optimizations disabled".</li>
+              <li>"Not yet a drop-in replacement for a real compiler".</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Cursor's browser</h3>
+            <ul class="dos">
+              <li>Within days, critics reported that a fresh clone failed to build.</li>
+              <li>Jason Gorman pointed to an 88% CI job failure rate.</li>
+              <li>Cursor's own post calls the system "nowhere near optimal".</li>
+            </ul>
+          </div>
+        </div>
+        <p class="q">"If you haven't spent at least $1,000 on tokens today per human engineer, your software factory has room for improvement."<small>StrongDM's own benchmark</small></p>
+      </div>
+      <div class="talk" hidden><p>The authors of the big successes list the limits themselves. Carlini says the compiler's Rust is nowhere near what an expert would write. It has no assembler or linker of its own. Even optimized, its output is less efficient than GCC with all optimizations disabled. He also writes that programmers deploying software they have never personally verified is a real concern.</p><p>Cursor's browser drew sharp criticism. Within days, critics reported that a fresh clone failed to build, and one pointed to an 88 percent failure rate in its CI jobs. Simon Willison later built it and found pages legible and mostly correct, with visible glitches. Cursor's own post calls the system nowhere near optimal.</p><p>Then there is cost. The quote at the bottom is StrongDM's own benchmark, a thousand dollars of tokens per engineer per day.</p><p>And agents cheat when they can. Frontier models have rewritten timers, patched evaluators and exposed hidden tests to post a passing score. Telling them not to often does not stop it.</p><p class="inclass">Ask: if the rule is that no human reviews the code, who is accountable when it ships a security bug?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">What the successes share</p>
+        <h2>Every autonomous success had a strong automated oracle</h2>
+        <p>They also had greenfield code, a harness humans built, and a high tolerance for waste. Ordinary product work rarely has all four.</p>
+        <p>Stronger oracles allow more autonomy. A C compiler is close to the best case.</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#what-the-successes-have-in-common" target="_blank" rel="noopener">Go deeper: what the successes have in common</a></p>
+      </div>
+      <div class="vis">
+        <div class="rows t3">
+          <div class="row head"><span>Project</span><span>Automated oracle</span><span>Cost and waste</span></div>
+          <div class="row"><b>C compiler</b><span>GCC as a known-good reference, plus public compiler test suites</span><span class="dim">About $20,000. Many sessions spent on dead ends.</span></div>
+          <div class="row"><b>Cursor browser</b><span>Web standards specs vendored in the repo. Build and tests.</span><span class="dim">Trillions of tokens across experiments. Quality disputed.</span></div>
+          <div class="row"><b>StrongDM factory</b><span>Holdout scenarios and digital twins of third-party services</span><span class="dim">$1,000 or more per engineer per day.</span></div>
+          <div class="row"><b>Gas Town</b><span>Yegge's own tests and judgment</span><span class="dim">"Some work gets lost". Multiple subscriptions.</span></div>
+        </div>
+        <p class="cap">An oracle is a check that can say whether the output is right without a person reading it.</p>
+      </div>
+      <div class="talk" hidden><p>Put the autonomous successes side by side and they share four things. A strong automated oracle, greenfield code, a harness that humans built, and a high tolerance for waste.</p><p>Read the middle column. The compiler had GCC as a known-good reference to compare against, plus decades of public test suites. The browser had the web standards specs in its repo. StrongDM built holdout scenarios and digital twins of the services it depends on. Gas Town leans on Yegge's own tests and judgment.</p><p>Stronger oracles allow more autonomy, and a C compiler is close to the best case. Most product work has neither a reference implementation nor conformance tests. Its real spec lives in product managers' heads, in customer contracts, and in the behavior users depend on.</p><p>Until that spec is written down as checks an agent cannot game, full autonomy means shipping whatever passes the tests you happened to write.</p><p class="inclass">Ask what the closest thing to an oracle is in the codebase each person works on, and what it would take to build a better one.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Author's note</p>
+        <h2>Full autonomy doesn't work reliably today</h2>
+        <p>Credible people disagree. The trend lines are steep, and Anthropic reports that as of May 2026 "more than 80% of the code we merge into Anthropic's codebase was authored by Claude".</p>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#authors-note" target="_blank" rel="noopener">Go deeper: author's note</a></p>
+      </div>
+      <div class="vis">
+        <div class="strip" role="img" aria-label="Yegge's eight stages, with stages 6 and 7 highlighted."><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span class="on">6</span><span class="on">7</span><span>8</span></div>
+        <p class="take"><b>Author's note</b>On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, each on its own task, managed by hand. I haven't built my own orchestrator. I still decide what gets merged, though honestly that's emergent to an extent. There are projects I mostly just vibe code. For work, I actually read the code.</p>
+        <p class="take"><b>Author's note</b>I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.</p>
+        <p class="cap">A reasonable position in late 2026: full autonomy works today for well-specified, oracle-rich, greenfield problems, and the edge of that set is moving.</p>
+      </div>
+      <div class="talk" hidden><p>Both boxes on screen are the author's opinions, quoted. On Yegge's chart the author is at about stage six or seven. That means several command-line agents in parallel, each on its own task, managed by hand. The author hasn't built a custom orchestrator and still decides what gets merged. Some personal projects get mostly vibe coded. For work, the author reads the code.</p><p>The second box says fully autonomous workflows don't work reliably today. Gas Town in particular did not work.</p><p>The strongest counter-argument is that the trend lines are steep, and the people closest to the frontier already work this way. Anthropic says more than 80 percent of the code it merged was authored by Claude, as of May 2026. That number counts who typed the code. It does not say whether a human directed and reviewed it. METR's measured horizons have grown from minutes to more than a working day in about two years.</p><p>A reasonable position in late 2026 is that full autonomy works today for well-specified, greenfield problems with a strong oracle, and that the edge of that set is moving. Check the evidence again in six months.</p><p class="inclass">Ask who in the room disagrees with the author, and what result they have seen that supports it.</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>An agent is a loop that stops when the model thinks it's done. Give it a check it can run and ask for the evidence.</li>
+          <li>Explore, plan, implement, verify, commit. Keep diffs small and give each parallel agent its own worktree.</li>
+          <li>Turn autonomy up one notch at a time, and only when your automated checks can catch what you'll no longer see yourself.</li>
+        </ul>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, an agent is a loop that stops when the model thinks it is done. Give it a check it can run, and ask for the evidence.</p><p>Second, the workflow. Explore, plan, implement, verify, commit. Keep the diffs small, and give each parallel agent its own worktree.</p><p>Third, autonomy is a dial. Turn it up one notch at a time, and only when your automated checks can catch what you will no longer see yourself.</p><p class="inclass">Exercise from the full notes. Fix one small real bug with the full loop and save the plan, the failing output, the passing output and the diff stat. Then start a second agent in its own worktree and write down where your attention went.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 10 done</p>
+        <h2>Next: verification</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-11">Lesson 11</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="../modules/10-agentic-workflows/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson ten. Lesson eleven covers verification: how to give an agent a check that returns pass or fail, and how to keep the agent from gaming it.</p></div>
+    </article>
+</section>

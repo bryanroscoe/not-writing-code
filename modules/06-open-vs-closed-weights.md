@@ -324,9 +324,9 @@ Self-hosting removes one risk (data leaving) and adds others:
 
 An open-weight model running an agent with shell access is as exposed to prompt injection as a closed one, sometimes more ([module 14](14-security-and-prompt-injection.md)).
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** For coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain.
+> **Author's note:** For coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain.
 
 When you compare a self-hosted or per-token open model against a flat-rate plan, remember Bryan's view that subscriptions, not API billing, are what make heavy agentic use affordable ([module 15](15-costs-subscriptions-and-apis.md)).
 

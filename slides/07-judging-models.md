@@ -443,9 +443,9 @@ On point 6, "it over-engineers small fixes" counts and "it feels dumber" doesn't
 
 <!-- _class: take -->
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
+> **Author's note:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
 
 <!--
 This is my opinion from daily use.

@@ -366,9 +366,9 @@ The trend through 2026 has been toward hybrids. Harnesses load tool definitions 
 
 The permission system is where the harness meets [module 14](./14-security-and-prompt-injection.md). An agent that can read untrusted input, access private data, and communicate externally has all three parts of Simon Willison's "lethal trifecta." Permission modes, network allowlists, credential scoping and sandboxes are how you break at least one leg. Anthropic's [How we contain Claude across products](https://www.anthropic.com/engineering/how-we-contain-claude) (May 2026) shows how one vendor layers these defenses.
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** My daily setup is several CLI agents running in parallel, each in its own worktree, which I manage by hand. I drive them through T3 Code, which lets me run Claude and Codex side by side, the two model families I think are best for code ([module 05](./05-model-landscape.md)). That puts me at roughly stage 6–7 on Yegge's eight-stage ladder ([module 10](./10-agentic-workflows.md)). I'm not running a fully autonomous orchestrator, because I haven't gotten reliable results from one.
+> **Author's note:** My daily setup is several CLI agents running in parallel, each in its own worktree, which I manage by hand. I drive them through T3 Code, which lets me run Claude and Codex side by side, the two model families I think are best for code ([module 05](./05-model-landscape.md)). That puts me at roughly stage 6–7 on Yegge's eight-stage ladder ([module 10](./10-agentic-workflows.md)). I'm not running a fully autonomous orchestrator, because I haven't gotten reliable results from one.
 
 A harness's cost model matters as much as its features. Bryan's view that subscriptions are what make heavy agentic use affordable is in [module 15](./15-costs-subscriptions-and-apis.md).
 

@@ -12,7 +12,7 @@ Output: site/ (the deployable site). build/ holds the assembled sources.
 The repo keeps Markdown where it reads well on GitHub. This script copies it into
 build/docs/ in the shape MkDocs wants (README.md becomes the home page), renders
 each Marp deck in slides/ into build/docs/slides/, writes a slides index page,
-then runs `mkdocs build --strict`.
+then runs `mkdocs build --strict`. Last, scripts/build_lessons.py writes the lesson player to site/lessons/.
 """
 import argparse
 import pathlib
@@ -189,6 +189,7 @@ def main():
         build_slides(formats)
     subprocess.run([sys.executable, "-m", "mkdocs", "build", "--strict", "-f", str(ROOT / "mkdocs.yml")],
                    check=True, cwd=ROOT)
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "build_lessons.py")], check=True, cwd=ROOT)
     print("site built in", ROOT / "site")
 
 

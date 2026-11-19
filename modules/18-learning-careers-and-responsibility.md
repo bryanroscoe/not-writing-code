@@ -175,7 +175,7 @@ When agents write more of the code, the parts of a CS degree that felt least lik
 - An agent can write a heap from memory. You still need algorithms and data structures to recognize when you need one, notice when its solution is accidentally quadratic, and, for now, pass interviews that test this directly.
 - Communication and product classes teach clear specs, demos, and understanding what users actually need.
 
-> **Bryan's take:** Ultimately the engineer is much more in product now. Some of the classes software engineers take, the ones they don't think will be useful, turn out to be among the most important. I used Gantt charts and quoted *The Mythical Man-Month* far more in my career than I expected. You still need to know the algorithms to pass the interviews, at least for now. Having good system design chops helps a lot too. You need to know what questions to talk to the agent about.
+> **Author's note:** Ultimately the engineer is much more in product now. Some of the classes software engineers take, the ones they don't think will be useful, turn out to be among the most important. I used Gantt charts and quoted *The Mythical Man-Month* far more in my career than I expected. You still need to know the algorithms to pass the interviews, at least for now. Having good system design chops helps a lot too. You need to know what questions to talk to the agent about.
 
 #### Portfolios in the AI era
 
@@ -278,9 +278,9 @@ Imposter feelings are common too. Some people feel they aren't "real" engineers 
 
 Being AI-first means reaching for the tool by default and knowing how to use it well, while still being able to work without it. Keep skills you can use when the tools are down, wrong, or not allowed.
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
+> **Author's note:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 A human in charge must understand what ships, protect other people's data, and answer for the result. Yegge's stages are in [module 10](./10-agentic-workflows.md).
 

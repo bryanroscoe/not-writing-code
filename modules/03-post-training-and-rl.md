@@ -545,9 +545,9 @@ The case for caution:
 - If user data can change weights, data poisoning like the Souly et al. attack becomes a direct attack path.
 - Every self-edit in SEAL requires a training run and an evaluation, about 30–45 seconds each at the paper's small scale. AIDE²'s loop ran for eight days. Direct weight editing used a frontier model plus up to 50 test runs to fix one flaw in a 0.8B-parameter model. None of it would be cheap to run for every user.
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?
+> **Author's note:** Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?
 
 Each demonstration so far shows improvement on one skill, inside a loop people designed, against a test people wrote. The results are real, but they're small-scale and supervised, and a long way from recursive self-improvement, where the gains compound. [Is that self-improvement?](#is-that-self-improvement) has the full answer.
 

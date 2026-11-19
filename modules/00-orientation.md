@@ -7,7 +7,7 @@
 - This isn't a vibe coding course. Vibe coding means you never really read the code. This is AI-accelerated coding: the AI does a lot of the typing, and you still read it, test it, and answer for what you ship.
 - This stuff changes monthly. So the durable ideas (how models work, context, verification, security, cost) come first, and the perishable details (model names, prices, leaderboards) are dated and kept in a few places.
 - Every module has three depth levels: Foundations (no background assumed), In practice (what working engineers do), and Going deeper (research and open debates). Pick your path in [`paths/`](../paths/).
-- Opinions are labelled **Bryan's take**. Everything else should be sourced. If you find something unsourced or stale, that's a bug.
+- Opinions are labelled **Author's note**. Everything else should be sourced. If you find something unsourced or stale, that's a bug.
 
 ## Foundations
 
@@ -30,7 +30,7 @@ That's useful for throwaway projects, personal tools, and prototypes. It's a bad
 
 People now use "vibe coding" loosely for any coding with AI. This course doesn't. When it says vibe coding, it means Karpathy's version: not reading the code. What the course teaches is AI-accelerated coding. The title, *A Brief Introduction to Not Writing Code*, is a joke with a point: you'll type a lot less code by hand, which makes the engineering around it matter more.
 
-> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
+> **Author's note:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 We'll return to this spectrum throughout the course:
 
@@ -178,7 +178,7 @@ These are the habits every exercise in this course expects. They're also a decen
 
 ### Reading this material with an AI
 
-Go ahead. Paste a module into whatever assistant you use and ask it to quiz you, explain a section a different way, or argue with one of Bryan's takes. Two cautions:
+Go ahead. Paste a module into whatever assistant you use and ask it to quiz you, explain a section a different way, or argue with one of the author's notes. Two cautions:
 
 - Models have training cutoffs. Ask about anything after the cutoff and a model may make up plausible details. Many of the 2026 facts here postdate the models you'll use, so trust the cited sources over the model's memory.
 - Ask it to *test* you, not just summarize for you. [Module 18](18-learning-careers-and-responsibility.md) covers the research on why that difference matters for learning.

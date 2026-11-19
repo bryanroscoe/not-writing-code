@@ -197,7 +197,7 @@ Day-to-day reception was much more mixed. In a roundup of reactions, Zvi Mowshow
 
 Opus 5.5 followed on September 22, 2026. Anthropic said it had made "major improvements to the way Opus 5.5 writes and communicates," which it called "one of the most common areas of feedback we heard about Opus 5" ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5)). Zvi called the reactions to it "the most consistently positive set of reactions I have ever seen" ([Zvi, Sep 26, 2026](https://thezvi.wordpress.com/2026/09/26/claude-opus-5-5-should-raise-your-ambitions/)).
 
-> **Bryan's take:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
+> **Author's note:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
 
 No public evidence shows Opus 5 was trained on benchmark answers. One researcher, quoted by Zvi, alleged genre-specific training based on a private benchmark, but that's a single claim. The stronger evidence concerns what the benchmarks measured: task completion. Users also cared about communication, scope discipline and judgment, which benchmarks barely score. A model can be "maxed" on what's measured without anyone cheating. Some evals do catch it: FrontierCode penalizes unrequested extra work, and Opus 5's curve there reportedly showed the over-engineering.
 
@@ -407,7 +407,7 @@ Several studies find a gap between perceived and measured gains. In METR's 2025 
 - LLM judges are cheap and scale well, but they share biases with the models they grade, such as favoring length and their own style. Use them for triage and validate them against human scores on a sample.
 - "Time horizon" is the best single trend line available, but METR itself warns it's sensitive to task mix and modelling choices ([METR, Mar 2026](https://metr.org/notes/2026-03-20-impact-of-modelling-assumptions-on-time-horizon-results/)).
 
-## Bryan's take
+## Author's note
 
 Bryan's Opus 5 take is in the [benchmark-maxing example](#a-recent-example-opus-5-to-opus-55). His model picks (Claude and Codex for code; Grok or Gemini only for specific non-coding jobs) are in [module 05](./05-model-landscape.md), and his case for having several models review each other is in [module 13](./13-ai-code-review.md).
 

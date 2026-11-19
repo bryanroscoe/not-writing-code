@@ -133,7 +133,7 @@ If it fails, say what would have caught it: a test, the plan review, the indepen
 
 Then say: "So I'm not going to promise you a number. We're going to build the habits and measure ourselves."
 
-> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
+> **Author's note:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 **Objections (12 minutes).** Write every objection on the board. Answer the ones you can from the [objections guide](objections.md), and concede what's true first. Put the rest in the objections log with a promise to follow up.
 
@@ -427,7 +427,7 @@ Ask each pair: Where did the agent drift? What did the plan review catch? Did it
    ```
    Show one confirmed and, if you get one, one refuted. Explain why this step matters. AI critics hallucinate bugs, and fixing every finding bloats the code.
 
-> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion. Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
+> **Author's note:** For coding, Claude and Codex are the best right now, in my opinion. Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
 Whichever pair you use, every finding still gets verified before anyone acts on it.
 
@@ -504,9 +504,9 @@ Everyone runs their tool's usage report, for example `npx ccusage@latest daily` 
 3. Write one habit change that would have halved it (a fresh session between tasks, trimming tool output, a smaller model for easy work).
 4. Share a few anonymized numbers with the room.
 
-> **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
+> **Author's note:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
-Mention the counterpoint. Subscriptions have caps and changing terms, and CI or shared automation must use API keys with budgets ([module 15](../modules/15-costs-subscriptions-and-apis.md#bryans-take)).
+Mention the counterpoint. Subscriptions have caps and changing terms, and CI or shared automation must use API keys with budgets ([module 15](../modules/15-costs-subscriptions-and-apis.md#authors-note)).
 
 ### The policy in five minutes
 
@@ -558,7 +558,7 @@ Walk through the three parts people most need: which data classes may go into wh
    git worktree remove ../.worktrees/example-repo/add-tests
    ```
 
-> **Bryan's take:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, managed by hand.
+> **Author's note:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, managed by hand.
 
 ### Hands-on: your two tasks in parallel (25 minutes)
 
@@ -575,9 +575,9 @@ Discuss three questions:
 - Which chores could a background agent do for us? Only ones with a strong automated check ([module 11](../modules/11-verification.md#problems-an-agent-can-loop-on)), a small reversible diff, and a normal PR review ([playbook Phase 3](ai-first-playbook.md#phase-3-advanced-use)).
 - What stays on Hold? Auto-merging agent PRs, agents with production access, and fully autonomous pipelines on our existing product code, until our own evidence says otherwise.
 
-> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
+> **Author's note:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-Give the counterpoint its due. The successful autonomous projects all had a strong automated oracle, and that boundary is moving ([module 10](../modules/10-agentic-workflows.md#bryans-take)).
+Give the counterpoint its due. The successful autonomous projects all had a strong automated oracle, and that boundary is moving ([module 10](../modules/10-agentic-workflows.md#authors-note)).
 
 ### Close the series (3 minutes)
 

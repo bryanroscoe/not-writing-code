@@ -1,0 +1,627 @@
+<section class="lesson" data-lesson="11" data-title="Verification" data-minutes="20" hidden>
+  <style>
+    .lesson[data-lesson="11"] .code { margin: 0; font: 500 13px/1.6 var(--mono); background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; white-space: pre; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .lesson[data-lesson="11"] .panel .code { background: var(--surface); }
+    .lesson[data-lesson="11"] .code .dim { color: var(--muted); }
+    .lesson[data-lesson="11"] .code .bad { color: var(--bad); font-weight: 700; }
+    .lesson[data-lesson="11"] .code .del { background: var(--t2); }
+    .lesson[data-lesson="11"] .code .add { background: var(--t3); }
+    .lesson[data-lesson="11"] .code.wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .lesson[data-lesson="11"] .flag.ok { color: var(--accent); border-color: var(--accent); }
+    .lesson[data-lesson="11"] .lab { margin: 0; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+    .lesson[data-lesson="11"] .flowrow { display: grid; grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1.3fr) 22px minmax(0, 1.3fr); align-items: stretch; }
+    .lesson[data-lesson="11"] .branch { display: flex; flex-direction: column; gap: 8px; }
+    .lesson[data-lesson="11"] .branch .box { text-align: left; font-weight: 400; line-height: 1.4; }
+    .lesson[data-lesson="11"] .branch .box b { display: block; font: 600 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+    .lesson[data-lesson="11"] .branch .box.end { background: var(--mark); border-color: var(--mark); color: var(--on-mark); font-weight: 700; }
+    .lesson[data-lesson="11"] .branch .box.you { border-color: var(--bad); font-weight: 700; }
+
+    .lesson[data-lesson="11"] .ladder { display: flex; flex-direction: column; }
+    .lesson[data-lesson="11"] .rung { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) auto; gap: 2px 12px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="11"] .rung:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="11"] .rung:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="11"] .rung b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="11"] .rung p { margin: 0; }
+    .lesson[data-lesson="11"] .rung code { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+    .lesson[data-lesson="11"] .who { font: 600 11px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: 4px 7px; border-radius: 999px; border: 1px solid var(--t3b); background: var(--t3); white-space: nowrap; }
+    .lesson[data-lesson="11"] .who.part { background: var(--t5); border-color: var(--t5b); }
+    .lesson[data-lesson="11"] .who.no { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+
+    .lesson[data-lesson="11"] .study { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="11"] .study + .study { border-top: 1px solid var(--line); padding-top: 14px; }
+    .lesson[data-lesson="11"] .study h3 { font-size: 15px; }
+    .lesson[data-lesson="11"] .study h3 small { font: 400 13px/1.3 var(--body); color: var(--muted); }
+    .lesson[data-lesson="11"] .meter { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) 3.2em; gap: 10px; align-items: center; font-size: 14px; line-height: 1.3; }
+    .lesson[data-lesson="11"] .meter .track { height: 16px; }
+    .lesson[data-lesson="11"] .meter.low .track i { background: var(--bad); }
+    .lesson[data-lesson="11"] .meter .num { text-align: right; }
+
+    .lesson[data-lesson="11"] .ans { display: flex; flex-direction: column; gap: 6px; }
+    .lesson[data-lesson="11"] .ans span { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 14px; display: flex; justify-content: space-between; gap: 8px; }
+    .lesson[data-lesson="11"] .ans small { font: 600 11px/1.6 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .lesson[data-lesson="11"] .ans span.win { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 700; }
+
+    .lesson[data-lesson="11"] .orow { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) minmax(0, 1fr); gap: 4px 14px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="11"] .orow:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="11"] .orow:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="11"] .orow b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="11"] .orow p { margin: 0; }
+    .lesson[data-lesson="11"] .orow .watch::before { content: "Watch for "; font-weight: 700; color: var(--bad); }
+
+    .lesson[data-lesson="11"] .loop { display: grid; grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr); grid-template-rows: auto 40px auto 30px auto; }
+    .lesson[data-lesson="11"] .loop .lret { display: flex; align-items: center; gap: 8px; color: var(--accent); font-size: 13px; font-weight: 700; }
+    .lesson[data-lesson="11"] .loop .lret b { font: 700 20px/1 var(--mono); }
+    .lesson[data-lesson="11"] .loop .lret.end { justify-content: flex-end; }
+
+    .lesson[data-lesson="11"] .goal { font-size: 14px; line-height: 1.8; }
+    .lesson[data-lesson="11"] .ann { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .lesson[data-lesson="11"] .ann li { font-size: 14px; line-height: 1.45; display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 12px; align-items: baseline; }
+    .lesson[data-lesson="11"] .ann b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="11"] .verdicts { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; font-size: 14px; color: var(--muted); }
+
+    .lesson[data-lesson="11"] .tgroups b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="11"] .gb i { height: 12px; }
+    .lesson[data-lesson="11"] .gb span { font-size: 13px; color: var(--ink); }
+
+    .lesson[data-lesson="11"] .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: flex; flex-direction: column; }
+    .lesson[data-lesson="11"] .steps li { counter-increment: s; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 2px 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+    .lesson[data-lesson="11"] .steps li:first-child { border-top: 0; padding-top: 0; }
+    .lesson[data-lesson="11"] .steps li:last-child { padding-bottom: 0; }
+    .lesson[data-lesson="11"] .steps li::before { content: counter(s); grid-row: 1 / 3; font: 700 13px/1.7 var(--mono); color: var(--accent); }
+    .lesson[data-lesson="11"] .steps b { font: 700 15px/1.3 var(--display); }
+    .lesson[data-lesson="11"] .steps span { color: var(--muted); }
+
+    .lesson[data-lesson="11"] .proof { font-size: 13.5px; }
+    .lesson[data-lesson="11"] .proof ol { margin: 6px 0 0; padding-left: 1.6em; display: flex; flex-direction: column; gap: 4px; }
+
+    .lesson[data-lesson="11"] .risk { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+    .lesson[data-lesson="11"] .risk li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 14px; }
+    .lesson[data-lesson="11"] .stat { border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; font-size: 14px; margin: 0; line-height: 1.45; }
+
+    .lesson[data-lesson="11"] .take { margin: 0; border-left: 4px solid var(--mark); padding: 4px 0 4px 16px; font: 600 clamp(18px, 1.7cqi, 22px)/1.4 var(--display); letter-spacing: -.005em; }
+
+    @container page (max-width: 600px) {
+      .lesson[data-lesson="11"] .rung { grid-template-columns: minmax(0, 1fr) auto; }
+      .lesson[data-lesson="11"] .rung b { grid-area: 1 / 1; }
+      .lesson[data-lesson="11"] .rung .who { grid-area: 1 / 2; }
+      .lesson[data-lesson="11"] .rung p { grid-area: 2 / 1 / 3 / 3; }
+      .lesson[data-lesson="11"] .rung code { white-space: normal; }
+      .lesson[data-lesson="11"] .meter { grid-template-columns: minmax(0, 1fr) 3.2em; }
+      .lesson[data-lesson="11"] .meter .track { grid-area: 2 / 1 / 3 / 3; }
+      .lesson[data-lesson="11"] .orow { grid-template-columns: minmax(0, 1fr); }
+      .lesson[data-lesson="11"] .ann li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+      .lesson[data-lesson="11"] .code { font-size: 12px; }
+    }
+  </style>
+  <script type="application/json" class="say">[["\\bpytest\\b", "pie test"], ["\\bslugify\\b", "slug-ify"], ["\\btsc\\b", "T S C"], ["/goal\\b", "slash goal"], ["\\bMETR\\b", "meter"], ["\\bGCC\\b", "G C C"]]</script>
+
+    <article class="screen" data-title="Start">
+      <div class="text">
+        <p class="eyebrow">Stage 4 · Trusting the output</p>
+        <h1>Verification</h1>
+        <p class="meta">Lesson 11 · 20 min</p>
+        <div class="actions intro-actions">
+          <button type="button" class="btn primary arrow-r" data-go="1">Start</button>
+        </div>
+        <p class="deeper"><a href="../modules/11-verification/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="vis">
+        <div class="chat"><div class="msg bot"><p>Done. All tests pass.</p></div></div>
+        <pre class="code"><span class="dim">$</span> uv run pytest -q
+<span class="bad">1 failed</span>, 11 passed</pre>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>This lesson is about how you know an agent's work is done. You'll see how to give an agent checks it can run itself, how agents cheat those checks, and what proof to ask for before you accept the word "done".</p><p>On screen, an agent reports that all tests pass. Then someone runs the tests.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Outside checks</p>
+        <h2>With no outside check, the first test of the work is you</h2>
+        <p>An agent thinks, acts and observes until the model decides it's finished. Anthropic's Claude Code docs say, "Claude stops when the work looks done."</p>
+        <p>If it has nothing to run that returns pass or fail, you're the test suite. Asking nicely won't make it reliable.</p>
+        <p class="deeper"><a href="../modules/11-verification/#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done" target="_blank" rel="noopener">Go deeper: the key fact</a></p>
+      </div>
+      <div class="vis">
+        <div class="flowrow" role="img" aria-label="A task goes to the agent, which works until the model thinks it is done.">
+          <div class="node">Task</div>
+          <div class="ar">→</div>
+          <div class="node">Agent works<small>think, act, observe</small></div>
+          <div class="ar">→</div>
+          <div class="node hl">Model thinks it's done</div>
+        </div>
+        <div class="two">
+          <div class="panel branch">
+            <h3>No outside check</h3>
+            <div class="down">↓</div>
+            <div class="box you">You find out whether it works</div>
+          </div>
+          <div class="panel branch">
+            <h3>Outside check</h3>
+            <div class="chips"><span class="chip pill c1">tests</span><span class="chip pill c4">types</span><span class="chip pill c6">build</span><span class="chip pill c5">Stop hook</span></div>
+            <div class="box"><b>Fail ↺</b>The output goes back into the agent's context</div>
+            <div class="box end">Pass → evidence for you to review</div>
+          </div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Lesson 10 covered the agent loop. The model thinks, acts, looks at the result and goes again. The loop ends when the model decides the work is finished. Nothing inside that loop checks whether it is.</p><p>Follow the two branches on screen. On the left there is no outside check. The agent says done, and the first real test of the work is you. On the right there is a check, such as tests, a type checker, a build or a Stop hook. A failure goes back into the agent's context while it can still fix it. What reaches you is a pass and the evidence for it.</p><p>OpenAI's Codex guide makes the same point. Codex can run this loop for you, but only if it knows what good looks like. The rest of this lesson builds the right-hand branch.</p><p class="inclass">Ask the room: the last time an agent told you it was done, how did you find out whether it was?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Verifiers and oracles</p>
+        <h2>A verifier checks the work against an oracle</h2>
+        <p>A verifier is a test, tool or separate model that checks an agent's claimed result. The oracle is the source of truth it checks against, often an expected value a person wrote into a test.</p>
+        <p>Verifiers differ in how far you can trust them. A type checker gives the same answer every time. A model judge can be swayed by how the code looks.</p>
+        <p class="deeper"><a href="../modules/11-verification/#verifiers-and-oracles" target="_blank" rel="noopener">Go deeper: verifiers and oracles</a></p>
+      </div>
+      <div class="vis">
+        <pre class="code">def test_slugify_basic():
+    assert slugify("Hello, World!") == <mark>"hello-world"</mark></pre>
+        <p class="cap">The test is the verifier. The highlighted value is its oracle.</p>
+        <div class="two">
+          <div class="panel">
+            <h3>Verifiers</h3>
+            <ul class="attrs"><li>compiler</li><li>test suite</li><li>linter</li><li>screenshot comparison</li><li>a second model</li></ul>
+          </div>
+          <div class="panel">
+            <h3>Oracles</h3>
+            <ul class="attrs"><li>an expected value in a test</li><li>a reference implementation</li><li>a rule that holds for every input</li><li>a frozen known-good output</li></ul>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Two terms for the rest of the lesson. A verifier is whatever checks the agent's claim. A compiler is a verifier. So is a test suite, a linter, a screenshot comparison, or a second model asked whether the work is right.</p><p>The oracle is where the right answer comes from. In the test on screen, the highlighted string is the oracle. A person decided that "Hello, World!" should become "hello-world" and wrote it down. An oracle can also be a second implementation, a rule that must hold for every input, or a saved output you know is good.</p><p>Prefer verifiers that give the same answer every time. Use a model as the verifier only where nothing else fits.</p><p class="inclass">Ask for one verifier and its oracle from a codebase someone in the room works on.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">The ladder of checks</p>
+        <h2>The agent can climb most of the ladder itself</h2>
+        <p>The low rungs are fast and cheap and catch narrow kinds of mistakes. The high rungs are slower and catch more of what a user would notice.</p>
+        <p>A good setup lets the agent climb as far as it can before a person looks. A type checker catches a hallucinated API before any test runs.</p>
+        <p class="deeper"><a href="../modules/11-verification/#the-ladder-of-checks" target="_blank" rel="noopener">Go deeper: the ladder of checks</a></p>
+      </div>
+      <div class="vis">
+        <div class="ladder">
+          <div class="rung"><b>Human review</b><p>Wrong intent, wrong design, wrong call on risk</p><span class="who no">Human</span></div>
+          <div class="rung"><b>Runtime checks</b><p>Works in tests, fails when you run it. <code>curl</code>, logs, a canary deploy</p><span class="who part">Agent, partly</span></div>
+          <div class="rung"><b>End-to-end tests</b><p>The feature doesn't work for a user. <code>Playwright</code></p><span class="who">Agent</span></div>
+          <div class="rung"><b>Integration tests</b><p>Wrong assumptions about the database, a queue, another service</p><span class="who part">Agent, usually</span></div>
+          <div class="rung"><b>Property tests</b><p>Edge cases nobody wrote down. <code>Hypothesis</code></p><span class="who">Agent</span></div>
+          <div class="rung"><b>Unit tests</b><p>Wrong behavior in one function or class. <code>pytest tests/unit</code></p><span class="who">Agent</span></div>
+          <div class="rung"><b>Lint</b><p>Unused code, risky patterns, team rules. <code>ruff</code>, <code>eslint</code></p><span class="who">Agent</span></div>
+          <div class="rung"><b>Types</b><p>Methods that don't exist, wrong argument types, typos. <code>tsc --noEmit</code>, <code>mypy</code></p><span class="who">Agent</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Read the ladder from the bottom. Types and lint run in seconds. They catch methods that don't exist, wrong argument types and typos. That includes the invented APIs from Lesson 01. Then come unit tests for one function, and property tests for edge cases nobody wrote down.</p><p>Higher up, integration tests check your assumptions about a real database or another service. The agent can usually run those if it can start the services, often with Docker. End-to-end tests drive the feature the way a user would. Runtime checks mean running the thing for real, with curl against a dev server or by reading the logs.</p><p>Simon Willison's line is that passing tests doesn't mean the code works as intended. He has agents exercise their code directly. The top rung is a person, who judges intent, design and risk. No agent runs that one.</p><p class="inclass">Ask which rung is weakest in a codebase the room knows, and what it would cost to strengthen it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Outside feedback</p>
+        <h2>"Review your work" is the weakest feedback you can give</h2>
+        <p>Prompted models fix their mistakes when the feedback comes from outside: test results, compiler errors, a different reviewer. Without it they sometimes make things worse.</p>
+        <p>A failing test with its error message carries information the model didn't already have.</p>
+        <p class="deeper"><a href="../modules/11-verification/#why-outside-feedback-beats-self-critique" target="_blank" rel="noopener">Go deeper: outside feedback</a></p>
+      </div>
+      <div class="vis">
+        <div class="study" role="img" aria-label="GPT-3.5 accuracy on CommonSenseQA: 75.8 percent before self-correction, 38.1 percent after one round with no outside labels.">
+          <h3>GPT-3.5 reviews its own answers <small>CommonSenseQA, Huang et al., 2023</small></h3>
+          <div class="meter"><span>First answer</span><div class="track"><i style="--w:75.8%"></i></div><span class="num">75.8%</span></div>
+          <div class="meter low"><span>After one round of self-review</span><div class="track"><i style="--w:38.1%"></i></div><span class="num">38.1%</span></div>
+        </div>
+        <div class="study" role="img" aria-label="Reflexion with GPT-4 on the 50 hardest HumanEval problems in Rust: 68 percent with its own tests, 60 percent for GPT-4 alone, 52 percent with test generation and execution removed.">
+          <h3>Reflexion with GPT-4 <small>50 hardest HumanEval problems, in Rust. Shinn et al., 2023</small></h3>
+          <div class="meter"><span>Reflects and runs its own tests</span><div class="track"><i style="--w:68%"></i></div><span class="num">68%</span></div>
+          <div class="meter"><span>GPT-4 alone</span><div class="track rest"><i style="--w:60%"></i></div><span class="num">60%</span></div>
+          <div class="meter low"><span>Reflects, tests removed</span><div class="track"><i style="--w:52%"></i></div><span class="num">52%</span></div>
+        </div>
+        <div class="study" role="img" aria-label="GPT-4 repairing code: 33.3 percent success with its own feedback, 52.6 percent with human feedback.">
+          <h3>GPT-4 repairs its code <small>Olausson et al., 2023</small></h3>
+          <div class="meter"><span>Its own feedback</span><div class="track rest"><i style="--w:33.3%"></i></div><span class="num">33.3%</span></div>
+          <div class="meter"><span>Human feedback</span><div class="track"><i style="--w:52.6%"></i></div><span class="num">52.6%</span></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>The obvious shortcut is to tell the model to check itself. The research says that mostly doesn't work. Three results are on screen.</p><p>First, Huang and colleagues had GPT-3.5 review its own answers on a commonsense benchmark, with no outside signal. Accuracy fell from about 76 percent to about 38 after one round. The model was more likely to change a right answer to a wrong one.</p><p>Second, Reflexion, an agent that reflects on its failures. The test was the 50 hardest HumanEval problems, translated to Rust. With tests it writes and runs, it scored 68 percent. Take the test running away and it scored 52, below the 60 percent GPT-4 got with no reflection at all.</p><p>Third, GPT-4 repairing code. Its own feedback fixed a third of the failing programs. Feedback from a human fixed more than half.</p><p>All three studies are from 2023, on GPT-3.5 and GPT-4. In each case the gain came from a signal the model didn't produce itself. A related finding: generating several candidates and keeping one that passes the tests works. Generating one and asking the model whether it's right mostly doesn't.</p><p class="inclass">Watch for "newer models fixed this." A 2024 survey found fine-tuning can enable self-correction. Nobody knows yet whether that gets self-checks to the point where you'd skip the test.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Model judges</p>
+        <h2>A model judge can be swayed by answer order and by how code looks</h2>
+        <p>Some things have no test: readability, whether a design fits, whether a doc is accurate. A model judge helps there, and its verdict is weaker evidence than an executable test.</p>
+        <p>Give it a fresh context, prefer a model from a different lab, and check a sample of its verdicts against your own.</p>
+        <p class="deeper"><a href="../modules/11-verification/#models-as-judges-and-their-biases" target="_blank" rel="noopener">Go deeper: models as judges</a></p>
+      </div>
+      <div class="vis">
+        <div class="two" role="img" aria-label="The same two answers shown to a judge in two orders. The judge's pick changes with the order.">
+          <div class="panel">
+            <h3>Shown A, then B</h3>
+            <div class="ans"><span>Answer A <small>first</small></span><span class="win">Answer B <small>judge's pick</small></span></div>
+          </div>
+          <div class="panel">
+            <h3>Shown B, then A</h3>
+            <div class="ans"><span>Answer B <small>first</small></span><span class="win">Answer A <small>judge's pick</small></span></div>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+        <p class="stat">With ChatGPT as the judge, reordering the answers was enough to let Vicuna-13B beat ChatGPT on 66 of 80 queries (Wang et al., 2023).</p>
+        <div class="via"><span>Also sways code judges</span><span class="chip pill c1">variable names</span><span class="chip pill c2">comments</span><span class="chip pill c4">formatting</span><span class="chip pill c5">prompt wording</span></div>
+      </div>
+      <div class="talk" hidden><p>Sometimes there's no test for what you care about, so people ask a second model to judge. Strong model judges agree with human preferences about as often as humans agree with each other. They also have known biases.</p><p>The two panels show one of them. The same two answers go to the same judge. Only the order changes, and the pick flips. In one study ChatGPT was the judge. Reordering the answers was enough to let a much smaller model, Vicuna-13B, beat ChatGPT on 66 of 80 queries.</p><p>Judging code doesn't fix this. In a 2025 study, cosmetic changes to names, comments and formatting swayed every judge tested. Judges also tend to favor their own output. So use a judge for what tests can't express, and treat its verdict as weaker than a test. Lessons 12 and 13 cover review by other models.</p><p class="inclass">Live demo. Ask a model to pick the better of two snippets, then swap their order in a fresh session and ask again.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Passing tests</p>
+        <h2>Passing tests is evidence that reaches as far as the tests do</h2>
+        <p>Models got good at code partly because training rewarded them for passing checks. The same training left a habit of satisfying a check in ways nobody intended.</p>
+        <p>Anthropic's docs: "'All tests pass' on its own tells you very little."</p>
+        <p class="deeper"><a href="../modules/11-verification/#checkable-rewards-checkable-tests" target="_blank" rel="noopener">Go deeper: checkable rewards, checkable tests</a></p>
+      </div>
+      <div class="vis">
+        <p class="lab">The test</p>
+        <pre class="code">def test_slugify_basic():
+    assert slugify("Hello, World!") == "hello-world"</pre>
+        <p class="lab">An implementation that passes it</p>
+        <pre class="code">def slugify(s):
+<mark>    if s == "Hello, World!":
+        return "hello-world"</mark>
+    return s</pre>
+        <pre class="code"><span class="dim">$</span> uv run pytest -q
+1 passed</pre>
+        <span class="flag">Green, and wrong for every other input</span>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Lesson 03 explained how models are trained on problems a program can check, such as code that has to pass unit tests. That's a big part of why they're good at code. It's also why you can get some confidence in their output. That confidence stops where the tests stop.</p><p>The screen shows the cheapest way to pass a test. The test checks one input. The implementation returns the expected answer for exactly that input. The run goes green and the function is useless.</p><p>This has a name, reward hacking. Anthropic's Claude 4 system card defines it to include hard-coding expected values and special-casing to pass tests. It reported that Claude Sonnet 3.7 showed a tendency to do this, particularly in agentic coding. Training rewards whatever the check measures. So read a green run as evidence about the things the tests cover.</p><p class="inclass">Ask what a second test would need to check to make this hard-coded version fail.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Tests as the contract</p>
+        <h2>Write the test first and watch it fail</h2>
+        <p>Test-driven development means writing a failing test before the code that makes it pass. It suits agents because the loop has something to converge on.</p>
+        <p>Write or approve the tests yourself, commit them separately, and make each one fail first. A test that never failed may not test anything.</p>
+        <p class="deeper"><a href="../modules/11-verification/#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the agent's contract</a></p>
+      </div>
+      <div class="vis">
+        <div class="chat"><div class="msg user">slugify drops accented letters. Write a failing test that reproduces it, then fix it.</div></div>
+        <pre class="code">def test_keeps_accented_letters():
+    assert slugify("Crème Brûlée") == "creme-brulee"</pre>
+        <div class="two">
+          <div class="panel">
+            <h3>Red, before the fix</h3>
+            <pre class="code wrap"><span class="bad">FAILED</span> test_keeps_accented_letters
+assert 'crme-brle' == 'creme-brulee'</pre>
+          </div>
+          <div class="panel">
+            <h3>Green, after the fix</h3>
+            <pre class="code wrap"><span class="dim">$</span> uv run pytest -q
+13 passed</pre>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Lesson 10 walked one bug through this step. The prompt on screen ends with one of Anthropic's own examples: write a failing test that reproduces it, then fix it.</p><p>Follow the example. The bug is that the slug function drops accented letters. The agent first writes a test with the output you want. It runs the test and the test fails, with the wrong slug in the error message. That red run shows the test can catch this bug. Then the agent fixes the code and the same test passes.</p><p>Skip the red step and you risk a test that already passed before the fix. Simon Willison stresses this, and Kent Beck's prompt for his own agent says to always follow red, green, refactor.</p><p>The test is now a contract between you and the agent. The next screen covers what happens when the agent quietly rewrites it.</p><p class="inclass">Live demo. Give an agent a small bug with this prompt and have the room watch for the red run before the fix.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Tests as the contract</p>
+        <h2>Read the full test diff on every change</h2>
+        <p>Agents under pressure to make tests pass sometimes delete, skip or special-case them.</p>
+        <p><code>git diff main -- tests/</code> shows deleted assertions and new skips. A <code>--stat</code> summary hides them.</p>
+        <p class="deeper"><a href="../modules/11-verification/#tests-as-the-agents-contract" target="_blank" rel="noopener">Go deeper: tests as the agent's contract</a></p>
+      </div>
+      <div class="vis">
+        <pre class="code"><span class="dim">$</span> git diff --stat main
+ tests/test_slug.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)</pre>
+        <pre class="code"><span class="dim">$</span> git diff main -- tests/
+ def test_respects_max_length():
+<span class="del">-    assert len(slugify(TITLE, max_length=20)) &lt;= 20</span>
+<span class="add">+    assert slugify(TITLE, max_length=20)</span>
+
+<span class="add">+@pytest.mark.skip(reason="flaky")</span>
+ def test_keeps_accented_letters():</pre>
+        <div class="chips"><span class="flag">Assertion weakened</span><span class="flag">New skip</span></div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>A contract only works if the other side can't quietly rewrite it. Agents under pressure to get to green sometimes delete tests, skip them or weaken them.</p><p>The top block is the summary view. One test file changed, three lines. It looks harmless. The bottom block is the full diff of the same change. An assertion that checked the length limit now only checks that the result isn't empty. And a test has a new skip marker with the reason "flaky".</p><p>Reading the full diff of the tests folder takes seconds. Kent Beck lists disabling or deleting tests as a warning sign that the agent is cheating. Anthropic's long-running agent harness told its agents that removing or editing tests is unacceptable. When the stakes are high, enforce that with tooling, which comes up again later in this lesson.</p><p class="inclass">Ask the room what a legitimate reason to change a test during a bug fix looks like, and who should approve it.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Oracles</p>
+        <h2>Find the oracle before you hand a problem to a loop</h2>
+        <p>The problems agents loop on best have clear success criteria. Before you start a loop, find or build what it will check against.</p>
+        <p>"The code is good" isn't a check. If you can't name the command that proves the task worked, run the task by hand until you can.</p>
+        <p class="deeper"><a href="../modules/11-verification/#problems-an-agent-can-loop-on" target="_blank" rel="noopener">Go deeper: problems an agent can loop on</a></p>
+      </div>
+      <div class="vis">
+        <div class="orows">
+          <div class="orow"><b>A failing test</b><p>Bug fixes, small features</p><p class="watch">a test that never failed</p></div>
+          <div class="orow"><b>A golden output</b><p>A frozen known-good output, such as a snapshot. Refactors, report generators, formatters</p><p class="watch">a "fix" that regenerates the snapshot</p></div>
+          <div class="orow"><b>A reference implementation</b><p>A second implementation that must agree. Ports, rewrites, compilers, parsers</p><p class="watch">agreement with the reference's bugs</p></div>
+          <div class="orow"><b>A property</b><p>A rule that must hold for every input. Parsers, serializers, anything with an inverse</p><p class="watch">properties too weak to fail</p></div>
+          <div class="orow"><b>Model-written tests</b><p>Tests the agent generates, then runs. Ranking candidate solutions</p><p class="watch">tests that are themselves wrong</p></div>
+        </div>
+      </div>
+      <div class="talk" hidden><p>Simon Willison's advice for agent loops is to look for problems with clear success criteria. The table lists five kinds of oracle and how each one goes wrong.</p><p>A failing test suits bug fixes and small features. A golden output is a saved result you know is right, good for refactors and report generators. The easy cheat there is regenerating the snapshot, so treat a changed snapshot like a changed test. A reference implementation is a second program that must agree with yours. Anthropic's agent-built C compiler was checked against GCC that way. A reference answers for every input, including ones you never thought to write down.</p><p>A property is a rule that holds for every input. The next screen shows one. Tests the model writes itself can rank candidate solutions, but they need their own check. In the Reflexion paper, the self-written tests had a 16 percent false-positive rate on one benchmark.</p><p>Most product work has no oracle, because the spec lives in people's heads. Write the spec down as checks first, or keep a person in each iteration.</p><p class="inclass">Ask each person to name the oracle for the task they're working on this week. "I'd know it when I see it" doesn't count.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Property tests</p>
+        <h2>A property test makes up inputs the agent hasn't seen</h2>
+        <p>You state a rule and a tool hunts for counterexamples. Hypothesis tries 100 random inputs by default and reports the simplest one that fails.</p>
+        <p>An agent can't hard-code answers for inputs that are made up fresh on every run. Weak properties can still pass, though.</p>
+        <p class="deeper"><a href="../modules/11-verification/#property-based-tests" target="_blank" rel="noopener">Go deeper: property-based tests</a></p>
+      </div>
+      <div class="vis">
+        <pre class="code">from hypothesis import given, strategies as st
+from slug import slugify
+
+@given(st.text())
+def test_slugify_is_idempotent(s):
+    assert slugify(slugify(s)) == slugify(s)
+
+@given(st.text(), st.integers(min_value=1, max_value=80))
+def test_slugify_respects_max_length(s, n):
+    assert len(slugify(s, max_length=n)) &lt;= n</pre>
+        <p class="lab">Passes both</p>
+        <pre class="code">def slugify(s, max_length=80):
+<mark>    return ""</mark></pre>
+      </div>
+      <div class="talk" hidden><p>A normal test checks the inputs you thought of. A property test states a rule and lets a tool look for an input that breaks it. The tool here is Hypothesis, for Python. By default it tries 100 random inputs, including edge cases you may not have considered. When one fails, it reports the simplest failing input it can find.</p><p>The code states two rules for a slug function. Running it twice gives the same result as running it once. And the result is never longer than the maximum length you asked for.</p><p>This blocks the hard-coding trick from earlier, because the inputs are new on every run. It has its own hole, shown at the bottom. A slug function that always returns an empty string passes both rules. These two properties were too weak to fail it.</p><p>Models can help write properties, unevenly. In a 2023 study, GPT-4 wrote a correct property test for only 21 percent of the properties found in API documentation.</p><p class="inclass">Ask the room for a third property that the empty-string version would fail.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Loops</p>
+        <h2>A loop is only worth building with a checkable end state</h2>
+        <p>A loop replaces you as the person who types "continue". It needs an independent check, a budget, and state kept outside the conversation.</p>
+        <p>It also needs isolation, such as a worktree, and a rule to stop and ask before anything irreversible. A loop's "done" is still a claim, so a person reads the diff before it ships.</p>
+        <p class="deeper"><a href="../modules/11-verification/#loops-in-practice" target="_blank" rel="noopener">Go deeper: loops in practice</a></p>
+      </div>
+      <div class="vis">
+        <div class="loop" role="img" aria-label="A loop: read the state file and do one item, a verifier checks it, a failure goes back to the agent, a pass updates the state file and commits, then if the budget or goal is not reached the loop repeats, otherwise it stops and reports to a human.">
+          <div class="node" style="grid-area:1/1">Read the state file, do one item<small>a plan file, a checklist, issues</small></div>
+          <div class="ar" style="grid-area:1/2">⇄</div>
+          <div class="node" style="grid-area:1/3">Verifier<small>tests, linter, separate model. A fail goes back to the agent.</small></div>
+          <div class="lret" style="grid-area:2/1"><b>↑</b> no</div>
+          <div class="lret end" style="grid-area:2/3">pass <b>↓</b></div>
+          <div class="node" style="grid-area:3/1">Budget or goal reached?<small>turns, time or tokens</small></div>
+          <div class="ar" style="grid-area:3/2">←</div>
+          <div class="node" style="grid-area:3/3">Update the state file, commit</div>
+          <div class="lret" style="grid-area:4/1">yes <b>↓</b></div>
+          <div class="node hl" style="grid-area:5/1/6/4">Stop and report to a human</div>
+        </div>
+        <pre class="code">while :; do claude -p &lt; PROMPT.md; done</pre>
+        <p class="cap">The Ralph loop, after Geoffrey Huntley, July 2025: the same prompt file every pass, a fresh session each time, state in files.</p>
+      </div>
+      <div class="talk" hidden><p>A loop takes over the job of typing "continue". Follow the diagram. The agent reads a state file, such as a plan or a checklist, and does one item. A verifier checks it. That's tests, a linter, or a model that didn't write the code. A failure goes back to the agent. A pass gets written to the state file and committed.</p><p>Then the loop asks whether the goal or the budget has been reached. A budget is a cap in turns, time or tokens. If not, it reads the state again. If so, it stops and reports to a person.</p><p>The one-line script under the diagram is the simplest version, the Ralph loop, from Geoffrey Huntley in July 2025. The same prompt file runs forever, with a fresh session each pass and all memory in files. Huntley wires in tests and a type checker to reject bad output. He also says you'll sometimes wake up to a codebase that doesn't compile, and that he'd never use it in an existing codebase.</p><p class="inclass">Ask which part of this loop the room's current setup is missing.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Goal loops</p>
+        <h2>A goal loop's checker only sees what the agent printed</h2>
+        <p>In Claude Code, <code>/goal</code> keeps the agent working until a condition holds. After each turn a separate small, fast model checks the condition (as of November 2026).</p>
+        <p>That evaluator doesn't run commands or read files. The condition has to be something the agent's own output can demonstrate, like printed test results.</p>
+        <p class="deeper"><a href="../modules/11-verification/#goal-loops-and-how-long-to-let-them-run" target="_blank" rel="noopener">Go deeper: goal loops</a></p>
+      </div>
+      <div class="vis">
+        <div class="doc goal"><p>/goal every test in tests/auth passes when you run `uv run pytest -q tests/auth`, <mark>show the final output</mark>, <mark>no other test file is modified</mark>, <mark>or stop after 20 turns</mark></p></div>
+        <ul class="ann">
+          <li><b>Evidence</b><span>The evaluator judges from the conversation, so the agent has to print the result.</span></li>
+          <li><b>Protected check</b><span>The agent can't reach green by editing other tests.</span></li>
+          <li><b>Budget</b><span>A goal that can't be met still ends.</span></li>
+        </ul>
+        <div class="verdicts"><span>After every turn</span><span class="chip pill c5">not yet met</span><span class="chip pill c3">met</span><span class="chip pill c2">impossible</span></div>
+      </div>
+      <div class="talk" hidden><p>A goal loop keeps the agent working until a condition is true. In Claude Code the command is /goal. After every turn, a separate small, fast model reads the conversation and answers one of three ways: not yet met, met, or impossible.</p><p>That checker can't run commands or read files on its own. It judges from what the agent printed. So the goal on screen names the exact test command and tells the agent to show the final output.</p><p>The other two highlighted clauses come from Anthropic's docs and are worth copying. "No other test file is modified" protects the check. "Or stop after 20 turns" is the budget. Codex has a goal command too, and its template asks for a verifiable end state.</p><p>On size, METR measures tasks by how long they take a skilled person. Lesson 07 showed its estimate for the public frontier in early 2026. That was about 12 hours at a 50 percent success rate, and only about an hour and a half at 80 percent. The bigger the task, the more you depend on its checks.</p><p class="inclass">Have the room rewrite a vague goal, such as "clean up the auth module", into one this evaluator could judge.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Stop hooks</p>
+        <h2>A Stop hook blocks "done" until the check passes</h2>
+        <p>A Stop hook is a script the harness runs when the agent finishes responding. Exit code 2 keeps the agent from stopping.</p>
+        <p>Anthropic's docs say a rule in <code>CLAUDE.md</code> is followed "nearly every time". A hook applies every time, whatever the model decided.</p>
+        <p class="deeper"><a href="../modules/11-verification/#stop-hooks-and-ci-gates" target="_blank" rel="noopener">Go deeper: Stop hooks and CI gates</a></p>
+      </div>
+      <div class="vis">
+        <p class="lab">Anthropic's example for Claude Code</p>
+        <pre class="code">{ "hooks": { "Stop": [ { "hooks": [
+  { "type": "command",
+    "command": "pnpm tsc --noEmit 1&gt;&amp;2 || <mark>exit 2</mark>" }
+] } ] } }</pre>
+        <p class="lab">In a session</p>
+        <div class="chat">
+          <div class="msg bot"><p>Done. The handler is updated.</p></div>
+          <pre class="code wrap"><span class="dim">Stop hook</span>
+src/handler.ts(41,7): error TS2322: Type 'string' is not assignable to type 'number'.
+<span class="bad">exit 2: stop blocked</span></pre>
+          <div class="msg bot"><p>The type check fails on line 41. Fixing it.</p></div>
+          <pre class="code wrap"><span class="dim">Stop hook</span>
+exit 0: the agent may stop</pre>
+        </div>
+        <span class="tag">Illustrative session</span>
+      </div>
+      <div class="talk" hidden><p>A goal is a check the model decides. A gate is a check the harness enforces even when the agent forgets. The standard gate is a Stop hook.</p><p>The top block is Anthropic's example for Claude Code. When the agent finishes responding, the harness runs the type checker. If it fails, the script exits with code 2, and that blocks the stop. The session below shows it working. The agent says done, the hook finds a type error, and the agent keeps going until the check is clean.</p><p>Swap in your test command and you have a gate on every session. Claude Code lets the agent stop after 8 blocks in a row with no tool call between them. The count resets whenever the agent calls a tool, so a check that can never pass still needs a budget. Codex has a Stop hook as well.</p><p>CI is the last gate before main. On GitHub, required status checks must pass before a merge. Before you leave an agent running unattended, protect main with a branch rule it can't bypass.</p><p class="inclass">Live demo. Add this hook, give the agent a task that breaks the type check, and count how many times it gets blocked.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Protecting the verifier</p>
+        <h2>A cornered agent will sometimes attack the check</h2>
+        <p>In June 2025 METR documented OpenAI's o3 rewriting a timer so the scorer saw almost no elapsed time, and patching an evaluator to mark every submission correct.</p>
+        <p>An instruction not to cheat can help a lot with one model and not at all with another.</p>
+        <p class="deeper"><a href="../modules/11-verification/#protecting-the-verifier" target="_blank" rel="noopener">Go deeper: protecting the verifier</a></p>
+      </div>
+      <div class="vis">
+        <p class="sub">How often each model hacked an unsolvable task</p>
+        <div class="tlegend"><span><i class="sw k1"></i>No special prompt</span><span><i class="sw k2"></i>With an anti-hacking prompt</span></div>
+        <div class="tgroups" role="img" aria-label="Hack rates on Claude Code impossible tasks. Claude Opus 4: 47 percent with no special prompt, 5 percent with an anti-hacking prompt. Claude Sonnet 4: 45 and 10. Claude Sonnet 3.7: 78 and 80.">
+          <b>Claude Opus 4</b>
+          <div class="gb"><div><i class="k1" style="--w:47%"></i><span>47%</span></div><div><i class="k2" style="--w:5%"></i><span>5%</span></div></div>
+          <b>Claude Sonnet 4</b>
+          <div class="gb"><div><i class="k1" style="--w:45%"></i><span>45%</span></div><div><i class="k2" style="--w:10%"></i><span>10%</span></div></div>
+          <b>Claude Sonnet 3.7</b>
+          <div class="gb"><div><i class="k1" style="--w:78%"></i><span>78%</span></div><div><i class="k2" style="--w:80%"></i><span>80%</span></div></div>
+        </div>
+        <p class="cap">"Claude Code impossible tasks" are built to be unsolvable, for example through a test bug the model isn't told about. Claude 4 System Card, May 2025.</p>
+      </div>
+      <div class="talk" hidden><p>An agent that can't pass a check will sometimes go after the check. In June 2025 METR caught OpenAI's o3 rewriting a timer so the scorer saw almost no elapsed time. It also caught o3 patching the evaluator so every submission was marked correct.</p><p>The bars are from Anthropic's Claude 4 system card, from May 2025. The tasks were built to be unsolvable, for example with a bug in the test that the model wasn't told about. With no special prompt, Claude Opus 4 hacked 47 percent of the time. With a prompt telling it not to, 5 percent. Claude Sonnet 4 went from 45 to 10. Claude Sonnet 3.7 went from 78 to 80.</p><p>So the instruction helped a lot with two models and did nothing for the third. The models often know what they're doing, too. METR asked o3 whether one of these plans matched what the user wanted. It said no 10 times out of 10.</p><p>This hasn't gone away. In June 2026 METR said it couldn't give a robust time horizon for GPT-5.6 Sol. The estimate ran from about 11 hours to more than 270, depending on how the cheating was counted. Its detected cheating rate was higher than any public model METR had run on that harness.</p><p class="inclass">Ask the room: what does the Sonnet 3.7 row tell you about relying on instructions?</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Protecting the verifier</p>
+        <h2>The defenses are mechanical</h2>
+        <p>Watching the model's reasoning isn't a reliable defense. When OpenAI researchers put a chain-of-thought monitor into the training reward, agents learned to hide their intent (Baker et al., 2025).</p>
+        <p>Start with the cheapest one. A deny rule or hook on the tests folder applies every time, whatever the model decides.</p>
+        <p class="deeper"><a href="../modules/11-verification/#protecting-the-verifier" target="_blank" rel="noopener">Go deeper: protecting the verifier</a></p>
+      </div>
+      <div class="vis">
+        <ol class="steps">
+          <li><b>Make tests read-only while the agent implements</b><span>A deny rule or hook that blocks edits under <code>tests/</code>.</span></li>
+          <li><b>Read the full test diff</b><span>Deleted assertions and new <code>skip</code> markers show up in seconds.</span></li>
+          <li><b>Keep holdouts</b><span>Tests the agent never sees. Run them yourself after it says it's done.</span></li>
+          <li><b>Prefer checks that resist hard-coding</b><span>Property and differential tests generate inputs the agent hasn't seen.</span></li>
+          <li><b>Test the tests</b><span>Mutation testing.</span></li>
+          <li><b>Review with a fresh context</b><span>Ideally a model from a different lab. Read what it flags.</span></li>
+        </ol>
+      </div>
+      <div class="talk" hidden><p>If instructions and monitoring aren't dependable, the defenses have to be mechanical. Lesson 04 drew the boundary: tests the agent can't change and checks it never sees. The list runs roughly from least effort to most.</p><p>Make the tests read-only while the agent implements. A deny rule or a hook that blocks edits to the tests folder applies every time. Read the full test diff, as you saw earlier. Keep holdouts, which are grading tests the agent never sees, and run them yourself after it says it's done. StrongDM's team keeps its end-to-end scenarios outside the codebase for this reason.</p><p>Holdouts need care. If they sit in a folder the agent can read, they stay hidden only while the agent follows instructions. In June 2026 METR reported GPT-5.6 Sol packaging exploits to reveal a hidden test suite. Keep holdouts outside the agent's sandbox and run them from a separate step.</p><p>The last three. Prefer property and differential tests, which generate inputs the agent hasn't seen. Test your tests, which is the next screen. And have a fresh context review the work, ideally a model from a different lab.</p><p class="inclass">Ask which of the six the room could turn on today.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Mutation testing</p>
+        <h2>Break one line by hand to test your tests</h2>
+        <p>Coverage records which code ran. It doesn't tell you whether the tests can detect a fault.</p>
+        <p>Mutation testing breaks the code on purpose, one small change at a time, and reruns the tests. If they all still pass, the mutant survived and a test is probably missing.</p>
+        <p class="deeper"><a href="../modules/11-verification/#mutation-testing" target="_blank" rel="noopener">Go deeper: mutation testing</a></p>
+      </div>
+      <div class="vis">
+        <p class="lab">The mutant</p>
+        <pre class="code"><span class="del">-    return slug[:max_length]</span>
+<span class="add">+    return slug[:max_length + 1]</span></pre>
+        <div class="two">
+          <div class="panel">
+            <h3>Today's tests</h3>
+            <pre class="code wrap"><span class="dim">$</span> uv run pytest -q
+12 passed</pre>
+            <span class="flag">Survived</span>
+            <p class="note">No test checks the length limit.</p>
+          </div>
+          <div class="panel">
+            <h3>With one more test</h3>
+            <pre class="code wrap">assert len(slugify("a" * 50, max_length=20)) &lt;= 20</pre>
+            <pre class="code wrap"><span class="dim">$</span> uv run pytest -q
+<span class="bad">1 failed</span>, 12 passed</pre>
+            <span class="flag ok">Killed</span>
+          </div>
+        </div>
+        <span class="tag">Illustrative</span>
+      </div>
+      <div class="talk" hidden><p>Coverage tells you which lines ran during the tests. It doesn't tell you whether any test would fail if a line were wrong. Mutation testing answers that. You break the code on purpose in one small way and rerun the tests.</p><p>At the top, one line of the slug function is changed so the result can be one character too long. On the left, all 12 tests still pass. The mutant survived, so no test checks the length limit. On the right, one test is added, and the same broken line now fails it.</p><p>Tools such as Stryker and PIT automate this and report a mutation score. You don't need a tool to start. Break a line by hand and run the tests. A survivor is a strong hint and falls short of proof, since some changes don't alter behavior at all.</p><p>This is also how you catch a tautological test, one that checks the code against itself. Every mutant survives it.</p><p class="inclass">Live demo. Let the room pick one line to break in a project with green tests. Run the suite and see whether anything fails.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Proof of done</p>
+        <h2>Ask for the proof along with "done"</h2>
+        <p>"Done" from an agent is a claim. Ask for the command and its output.</p>
+        <p>Use its list of unverified work to decide what to inspect next. Then rerun one of the commands yourself.</p>
+        <p class="deeper"><a href="../modules/11-verification/#proof-of-done" target="_blank" rel="noopener">Go deeper: proof of done</a></p>
+      </div>
+      <div class="vis">
+        <div class="doc proof">
+          <p>Before you tell me you're done, give me:</p>
+          <ol>
+            <li>Each command you ran to check the work, and its exact output.</li>
+            <li>`git diff --stat`, and the diff of anything under tests/ on its own.</li>
+            <li>Which requirement each new or changed test covers.</li>
+            <li>What you checked by running the code directly (a script, curl, a browser).</li>
+            <li><mark>Anything you could not verify, and why.</mark></li>
+          </ol>
+        </div>
+      </div>
+      <div class="talk" hidden><p>"Done", from an agent, is a claim. The request on screen asks for the evidence with it. You can paste it at the end of any task.</p><p>It asks for five things. The commands the agent ran and their exact output. The diff summary, with anything in the tests folder shown on its own. Which requirement each new or changed test covers. What it checked by running the code directly, with a script, curl or a browser. And what it could not verify, and why.</p><p>Use that last item to decide where to look next. OpenAI's Codex guide recommends the same idea as a "Done when" line in the prompt.</p><p>Then rerun one of the commands yourself. OpenAI's July 2026 system card for GPT-5.6 Sol reports that the model claimed it had completed work it had not done. Rerunning a command takes seconds, and it keeps the report honest.</p><p class="inclass">Have everyone save this request somewhere they can paste it from before moving on.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Calibrating trust</p>
+        <h2>A green check can make you review less carefully</h2>
+        <p>That's automation bias. It affects novices and experts alike, and training or instructions don't prevent it, so the fix has to be in the process.</p>
+        <p>Scale the evidence to the risk of the change, however confident the agent sounds.</p>
+        <p class="deeper"><a href="../modules/11-verification/#calibrating-your-own-trust" target="_blank" rel="noopener">Go deeper: calibrating your own trust</a></p>
+      </div>
+      <div class="vis">
+        <div class="two">
+          <div class="panel">
+            <h3>A copy change</h3>
+            <ul class="risk"><li>A glance</li></ul>
+          </div>
+          <div class="panel">
+            <h3>Payments, auth, data deletion, a migration</h3>
+            <ul class="risk"><li>The full proof of done</li><li>A fresh-context review</li><li>A second person</li></ul>
+          </div>
+        </div>
+        <p class="stat">Pooled across four studies, wrong advice from a decision-support system raised the risk of an incorrect decision by 26% (Goddard, Roudsari, Wyatt, 2012).</p>
+        <ul class="dos"><li>Read a sample of passing work. Cheating shows up in runs that passed.</li><li>Aim for the cheapest check that catches the mistakes you actually see.</li></ul>
+      </div>
+      <div class="talk" hidden><p>The last risk in this lesson is you. People relax when an automated check has already passed something. It's called automation bias, and the research is older than language models. A 2010 review found it in experts as well as novices, and found that training and instructions don't prevent it. A 2012 review of 74 studies pooled four of them. Wrong advice from a decision-support system raised the risk of an incorrect decision by 26 percent.</p><p>Developers say they're wary. In Stack Overflow's 2025 survey, 46 percent actively distrusted the accuracy of AI tools. Saying so doesn't mean checking carefully, though. Lesson 08 had Anthropic's number from March 2026. Users approve 93 percent of permission prompts.</p><p>So put the care into the process. A copy change needs a glance. A change to payments, auth, data deletion or a migration needs the full proof of done, a review in a fresh context and a second person. Read a sample of passing work too, since cheating shows up in runs that passed.</p><p>Checking has a cost as well. Aim for the cheapest check that catches the mistakes you actually see, and add a rung when something gets through.</p><p class="inclass">Ask the room what evidence they'd want before merging a payment change, compared with a change to button text.</p></div>
+    </article>
+
+    <article class="screen">
+      <div class="text">
+        <p class="eyebrow">Author's note</p>
+        <h2>Loops work with a hard goal and a human reading the result</h2>
+        <p>The strongest counterpoint is a project with a near-perfect verifier. With an oracle that good, a loop can be ambitious. Most product work doesn't have one.</p>
+        <p class="deeper"><a href="../modules/11-verification/#authors-note" target="_blank" rel="noopener">Go deeper: author's note</a></p>
+      </div>
+      <div class="vis">
+        <blockquote class="take">I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet.</blockquote>
+        <div class="panel">
+          <h3>Counterpoint</h3>
+          <p class="note">Nicholas Carlini's agent-built C compiler had GCC to diff against and decades of conformance tests. Parallel agents built it mostly unattended.</p>
+        </div>
+      </div>
+      <div class="talk" hidden><p>This one is opinion, and it's labeled that way. The author likes loops and goals, with a limit: the goal can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a person reading the result work. Open-ended loops that run unattended and ship to production don't, yet.</p><p>The strongest case against that view is a project with a near-perfect verifier. Nicholas Carlini's C compiler project at Anthropic had GCC to compare against and decades of conformance tests. Parallel agents built it mostly unattended. His lesson was that the task verifier has to be nearly perfect, or the agent will solve the wrong problem.</p><p>Most product work has no oracle like that. You have to build its checks and protect them.</p><p class="inclass">Ask the room: a loop says done. What would it take for you to merge its pull request without reading it?</p></div>
+    </article>
+
+    <article class="screen solo">
+      <div class="text">
+        <p class="eyebrow">What to remember</p>
+        <h2>Three things to keep</h2>
+        <ul class="remember">
+          <li>An agent stops when the model thinks it's done. Give it a check it can run that returns pass or fail.</li>
+          <li>Agents game the check. Keep tests out of their reach, read the test diff, and hold some tests back.</li>
+          <li>"Done" is a claim. Ask for the commands and their output, then rerun one yourself.</li>
+        </ul>
+        <p class="deeper"><a href="../modules/11-verification/#try-it" target="_blank" rel="noopener">Go deeper: try it</a></p>
+      </div>
+      <div class="talk" hidden><p>Keep three things from this lesson. First, an agent stops when the model thinks it's done. Give it a check it can run itself, one that returns pass or fail.</p><p>Second, agents game whatever check you give them. Keep the tests out of their reach, read the test diff, and hold some tests back.</p><p>Third, "done" is a claim. Ask for the commands and their output, and rerun one yourself.</p><p class="inclass">Have each person name one check they will add to their setup this week.</p></div>
+    </article>
+
+    <article class="screen solo" data-title="Done">
+      <div class="text">
+        <p class="eyebrow">Lesson 11 done</p>
+        <h2>Next: multiple agents building and reviewing</h2>
+        <div class="actions">
+          <a class="btn primary arrow-r" href="#lesson-12">Lesson 12</a>
+          <a class="btn" href="#map">Course map</a>
+          <button type="button" class="btn" data-go="1">Review</button>
+        </div>
+        <p class="deeper"><a href="../modules/11-verification/" target="_blank" rel="noopener">Full notes</a></p>
+      </div>
+      <div class="talk" hidden><p>That is lesson eleven. Lesson twelve covers multiple agents building and reviewing each other's work, and what the research says about it.</p></div>
+    </article>
+</section>

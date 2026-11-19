@@ -422,7 +422,7 @@ The module has more rows. If closed-model safeguards block security research, go
 
 ## Where open models sit
 
-> **Bryan's take:** For coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain.
+> **Author's note:** For coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain.
 
 <!--
 "A different place in the chain" is the pipeline in module 05: closed frontier first, open-weight leaders months later, then community derivatives.

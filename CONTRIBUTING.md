@@ -53,6 +53,7 @@ Modules are numbered in reading order and grouped into five stages. Link between
 | `reference/timeline.md` | Dated history, 2017 to now |
 | `paths/*.md` | Reading paths per audience |
 | `slides/*.md` | One Marp slide deck per module (conventions in `slides/README.md`) |
+| `lessons/` | One slide-style lesson per module, served at `/lessons/` (spec in `lessons/CONTRIBUTING.md`) |
 | `course/` | A course built from the modules, in units that follow the stages, with labs |
 | `workplace/` | AI-first adoption playbook for engineering teams |
 
@@ -78,7 +79,7 @@ checklists, failure modes, war stories.
 ## Going deeper
 Research, internals, open debates, edge cases. Optional for beginners.
 
-## Bryan's take
+## Author's note
 Opinions, clearly labelled (see below). Optional per module.
 
 ## Try it
@@ -113,7 +114,7 @@ The author, Bryan Roscoe, has strong opinions from daily use. They are valuable
 and they are opinions. Mark them:
 
 ```markdown
-> **Bryan's take:** I don't trust fully autonomous agent pipelines yet. ...
+> **Author's note:** I don't trust fully autonomous agent pipelines yet. ...
 ```
 
 - Never state an opinion as a fact in the main text.
@@ -157,7 +158,8 @@ CI runs all of these on every pull request.
 
 - `python3 scripts/check_links.py` checks that every relative link and heading anchor resolves.
 - `python3 scripts/build_reference.py` regenerates the generated halves of `reference/glossary.md` (from each module's "Terms introduced") and `reference/papers.md` (from each module's "Sources and further reading"). Text above the `BEGIN GENERATED` marker is hand-written and kept. Write terms as `- **Term**: definition`.
-- `python3 scripts/build_site.py` builds the website (MkDocs Material) and the slide decks (Marp) into `site/`. It needs `pip install -r requirements-site.txt` and Node.js. Add `--pdf --pptx` for downloadable decks (needs Chrome), or `--no-slides` to skip Node. Merges to `main` deploy the site to GitHub Pages.
+- `python3 scripts/build_site.py` builds the website (MkDocs Material) and the slide decks (Marp) into `site/`. It needs `pip install -r requirements-site.txt` and Node.js. Add `--pdf --pptx` for downloadable decks (needs Chrome), or `--no-slides` to skip the decks. Merges to `main` deploy the site to GitHub Pages.
+- `python3 scripts/build_lessons.py` checks every lesson and writes the lesson player to `site/lessons/`. `build_site.py` runs it last. `--only NN` checks one lesson.
 
 ## Privacy
 
