@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "08: Agentic workflows"
+title: "10: Agentic workflows"
 description: "How much autonomy actually works"
-footer: "A Brief Introduction to Not Writing Code · 08 Agentic workflows"
+footer: "A Brief Introduction to Not Writing Code · 10 Agentic workflows"
 ---
 
 <!-- _class: lead -->
@@ -14,7 +14,7 @@ footer: "A Brief Introduction to Not Writing Code · 08 Agentic workflows"
 How much autonomy actually works
 
 <!--
-Today we cover what a coding agent actually is, the daily workflow that holds up, and what the evidence says about letting agents run on their own. The reading is module 08. About 40 minutes, then discussion.
+Today we cover what a coding agent actually is, the daily workflow that holds up, and what the evidence says about letting agents run on their own. The reading is module 10. About 40 minutes, then discussion.
 
 Products and numbers are as of November 2026 unless a slide gives another date.
 -->
@@ -107,7 +107,7 @@ Steve Yegge is a long-time engineer and blogger, and co-author with Gene Kim of 
 His full wording for these four stages:
 1. "Zero or Near-Zero AI: maybe code completions, sometimes ask Chat questions." AI feels like a smarter search box, and you own every keystroke.
 2. "Coding agent in IDE, permissions turned on. A narrow coding agent in a sidebar asks your permission to run tools." Lots of approve buttons, and you learn what agents try to do. Commit before each task so you can revert.
-3. "Agent in IDE, YOLO mode: Trust goes up. You turn off permissions, agent gets wider." Faster, and a little nervous. Instead of no permissions, use a sandbox or a classifier-based auto mode, plus hard deny rules for secrets, pushes, and production. Module 11 covers why.
+3. "Agent in IDE, YOLO mode: Trust goes up. You turn off permissions, agent gets wider." Faster, and a little nervous. Instead of no permissions, use a sandbox or a classifier-based auto mode, plus hard deny rules for secrets, pushes, and production. Module 14 covers why.
 4. "In IDE, wide agent: Your agent gradually grows to fill the screen. Code is just for diffs." You review diffs instead of typing code.
 
 Place yourself on the chart, silently. We'll come back to it at the end.
@@ -149,7 +149,7 @@ You don't have to climb this ladder.
 
 First, a stage 3 engineer with strong tests can ship better software than a stage 7 engineer without them. The chart says how much you hand off, not how good the result is.
 
-Second, Yegge assumes permissions are off from stage 3 up. You don't have to take on that exposure to get the speed; sandboxes, deny rules, and worktrees cover most of it. Module 11 explains the risk of running without permissions on your main machine.
+Second, Yegge assumes permissions are off from stage 3 up. You don't have to take on that exposure to get the speed; sandboxes, deny rules, and worktrees cover most of it. Module 14 explains the risk of running without permissions on your main machine.
 
 Third, plenty of experienced engineers move between stages depending on the task: stage 6 for a batch of independent chores, stage 4 for a delicate change to payment code. Which tasks in your week would you run at stage 4, and which at stage 6?
 -->
@@ -233,7 +233,7 @@ A prototype *looks* finished. That's the risk.
 These steps come from the module.
 
 1. Timebox it and say out loud that it's a draft. Build it on a spike/ branch or in a scratch folder, with a banner in the README.
-2. Put what you learned in a short spec: the decisions, the surprises, what users said. Module 07 covers spec-driven development.
+2. Put what you learned in a short spec: the decisions, the surprises, what users said. Module 09 covers spec-driven development.
 3. Rebuild or harden on purpose. Either start fresh with the core loop, tests first, or keep the prototype and review it as production code, line by line. Don't let it drift into production by default.
 
 A prototype looks finished, so people (you included) start treating it as the real thing before anyone has checked error handling, security, or tests.
@@ -299,7 +299,7 @@ A git worktree is another checkout of the same repo, in its own folder, on its o
 Worktrees share one .git history, so several agents can edit at once without overwriting each other's files. OpenAI's guide lists "Running live tasks on the same files without using Git worktrees" as a common mistake. Claude Code can create worktrees itself (claude -w), and its /batch command splits a large mechanical change into 5 to 30 units, each with its own worktree and pull request.
 
 The rules address common problems:
-- Two agents editing the same module produce a merge conflict or, worse, two inconsistent designs. Module 09 explains why read-heavy work parallelizes far better than write-heavy work.
+- Two agents editing the same module produce a merge conflict or, worse, two inconsistent designs. Module 12 explains why read-heavy work parallelizes far better than write-heavy work.
 - At stage 7, losing track is the main failure, so the task list isn't optional.
 - Parallelism multiplies output, and it multiplies unreviewed code just as fast.
 - Each worktree needs its own dependencies and build output, and each agent spends tokens.
@@ -349,7 +349,7 @@ The extreme version is Geoffrey Huntley's "Ralph Wiggum" technique (July 2025): 
 Talk through two or three rows, depending on the audience.
 
 - On vague tasks, Anthropic's example is not "fix the login bug" but "users report login fails after the session times out. look at token refresh in src/auth/, write a failing test that reproduces it, then fix it."
-- Hallucinated packages are common. In one study, at least 5.2% of packages suggested by commercial models and 21.7% by open models didn't exist (Spracklen et al., 2024). Attackers register those names. Module 11 covers this.
+- Hallucinated packages are common. In one study, at least 5.2% of packages suggested by commercial models and 21.7% by open models didn't exist (Spracklen et al., 2024). Attackers register those names. Module 14 covers this.
 - Tautological tests check a mock against its own setup. Mutation testing (break the code on purpose and see if a test notices) catches them.
 - On over-engineering, Anthropic warns that if you fix every finding a reviewer raises, "you end up with extra abstraction layers and tests for cases that can't happen."
 - Sycophancy is measured and trained-in (Sharma et al., 2023). OpenAI rolled back a GPT-4o update in April 2025 for being overly agreeable.
@@ -458,7 +458,7 @@ Where did you place yourself earlier? Does your stage change between personal an
 <!--
 There is a strong counter-argument. The trend lines are steep, and the people closest to the frontier already work this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons grew from minutes to a working day in about two years. StrongDM's holdout scenarios plus digital twins are a serious answer to "tests can be gamed."
 
-As of late 2026, full autonomy works today for well-specified, oracle-rich, greenfield problems, and the edge of that set is moving. Check the evidence again in six months (module 14).
+As of late 2026, full autonomy works today for well-specified, oracle-rich, greenfield problems, and the edge of that set is moving. Check the evidence again in six months (module 17).
 -->
 
 ---
@@ -500,11 +500,11 @@ If question 3 stalls: waiting on an agent feels like rest, not work. Time spent 
 
 ## Read more
 
-- [Module 08: Agentic workflows](../modules/08-agentic-workflows/)
+- [Module 10: Agentic workflows](../modules/10-agentic-workflows/)
 - Anthropic, [Best practices for Claude Code](https://code.claude.com/docs/en/best-practices)
 - Steve Yegge, [Welcome to Gas Town](https://yegge.ai/essays/welcome-to-gas-town/) (January 1, 2026)
 - Becker et al. (METR), [the early-2025 developer productivity trial](https://arxiv.org/abs/2507.09089) (2025)
 
 <!--
-The module has the full source list, including the C compiler and Cursor browser write-ups, METR's time-horizon and reward-hacking posts, and Huntley's Ralph post. Next time, module 09 picks up the read/write asymmetry and multi-agent review.
+The module has the full source list, including the C compiler and Cursor browser write-ups, METR's time-horizon and reward-hacking posts, and Huntley's Ralph post. Next time, module 12 picks up the read/write asymmetry and multi-agent review.
 -->

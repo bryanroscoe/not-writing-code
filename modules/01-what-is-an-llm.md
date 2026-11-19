@@ -72,7 +72,7 @@ Each token ID is turned into a list of thousands of numbers called an **embeddin
 
 The classic demonstration came from **word2vec** ([Mikolov et al., 2013](https://arxiv.org/abs/1301.3781)), where vector arithmetic like *king − man + woman* lands near *queen*. In a transformer, that first embedding is just a starting point. Each layer refines every token's vector using its context, so "bank" in "river bank" and "bank account" ends up in different places.
 
-Embeddings are also a product on their own. Embedding models turn documents into vectors for semantic search, which is the basis of **retrieval-augmented generation (RAG)**, covered in [module 07](07-context-engineering.md).
+Embeddings are also a product on their own. Embedding models turn documents into vectors for semantic search, which is the basis of **retrieval-augmented generation (RAG)**, covered in [module 09](09-context-engineering.md).
 
 ### Before transformers: a short prehistory
 
@@ -144,7 +144,7 @@ Today's chat and coding models are almost all decoder-only.
 | Sep 2024 | [o1](https://openai.com/index/learning-to-reason-with-llms/) | First widely released **reasoning model**. |
 | Jan 2025 | [DeepSeek-R1](https://arxiv.org/abs/2501.12948) | Open-weight reasoning model that showed how to train reasoning with reinforcement learning. |
 
-Current lineups are in [module 03](03-model-landscape.md), and the dated history is in the [timeline](../reference/timeline.md).
+Current lineups are in [module 05](05-model-landscape.md), and the dated history is in the [timeline](../reference/timeline.md).
 
 ### Scaling laws: why bigger kept working
 
@@ -164,7 +164,7 @@ A base model continues documents. Ask it "What is the capital of France?" and it
 - In **reinforcement learning from human feedback (RLHF)**, people compare pairs of responses. A **reward model** learns to predict their preferences. Then reinforcement learning nudges the LLM toward responses the reward model scores well ([Christiano et al., 2017](https://arxiv.org/abs/1706.03741); [InstructGPT, Ouyang et al., 2022](https://arxiv.org/abs/2203.02155)).
 - With **Constitutional AI**, Anthropic replaced much of the human labeling for harmlessness with AI feedback guided by a written list of principles ([Bai et al., 2022](https://arxiv.org/abs/2212.08073)). In January 2026, Anthropic published a much longer [constitution](https://www.anthropic.com/news/claude-new-constitution) that explains its reasoning instead of listing rules.
 
-Post-training also teaches the **chat format**: special tokens that mark the system prompt, user turns, assistant turns, and tool calls. To the model, a conversation is still one long document. [Module 02](02-training-and-tuning.md) covers post-training in depth.
+Post-training also teaches the **chat format**: special tokens that mark the system prompt, user turns, assistant turns, and tool calls. To the model, a conversation is still one long document. [Module 03](03-post-training-and-rl.md) covers post-training in depth.
 
 ### Prompting-era discoveries
 
@@ -183,19 +183,19 @@ In September 2024, OpenAI released **o1**. It was trained with reinforcement lea
 
 In January 2025, DeepSeek released **R1** with open weights and a paper explaining the recipe ([DeepSeek-AI, 2025](https://arxiv.org/abs/2501.12948)). The key ingredient was **reinforcement learning with verifiable rewards**: give the model math problems whose answers can be checked automatically and coding problems whose solutions can be run against tests, then reward correct outcomes. A variant trained with RL alone (R1-Zero) learned to write long reasoning, check its work, and backtrack, without being shown examples of doing so. A peer-reviewed version appeared in [Nature](https://www.nature.com/articles/s41586-025-09422-z) in September 2025. Reporting on that paper put the reasoning-training stage at about $294,000, on top of the roughly $6 million base model. Those figures exclude research, staff, and failed runs.
 
-By late 2026, most frontier models have "thinking" or "adaptive thinking" modes: the model decides how long to reason, often with an effort or budget setting you control. More thinking costs more tokens, money, and time. It usually helps on debugging, design, math, and multi-step tasks, and it's wasted on boilerplate. Current models are in [module 03](03-model-landscape.md), costs in [module 12](12-costs-subscriptions-and-apis.md).
+By late 2026, most frontier models have "thinking" or "adaptive thinking" modes: the model decides how long to reason, often with an effort or budget setting you control. More thinking costs more tokens, money, and time. It usually helps on debugging, design, math, and multi-step tasks, and it's wasted on boilerplate. Current models are in [module 05](05-model-landscape.md), costs in [module 15](15-costs-subscriptions-and-apis.md).
 
 ### Context windows and the KV cache
 
-The **context window** is everything the model can see at once: the system prompt, the conversation, pasted files, tool outputs, and its own thinking. It's measured in tokens. GPT-3 had 2,048. As of November 2026, frontier models offer hundreds of thousands to about a million tokens ([module 03](03-model-landscape.md)).
+The **context window** is everything the model can see at once: the system prompt, the conversation, pasted files, tool outputs, and its own thinking. It's measured in tokens. GPT-3 had 2,048. As of November 2026, frontier models offer hundreds of thousands to about a million tokens ([module 05](05-model-landscape.md)).
 
 The weights are long-term memory: broad, fuzzy, and frozen at the training cutoff. The context window is working memory: precise and current, but limited, and gone when the session ends.
 
-A model only "knows" what's in its weights plus what's in its context right now. Product features like "memory" and files like `CLAUDE.md` work by saving notes and putting them back into the context next time ([module 07](07-context-engineering.md)).
+A model only "knows" what's in its weights plus what's in its context right now. Product features like "memory" and files like `CLAUDE.md` work by saving notes and putting them back into the context next time ([module 09](09-context-engineering.md)).
 
-Bigger windows aren't uniformly better. Models are worse at using information buried in the middle of a long context than at the start or end ([Liu et al., 2023, "Lost in the Middle"](https://arxiv.org/abs/2307.03172)). Chroma's 2025 ["Context Rot"](https://research.trychroma.com/context-rot) report found performance degrading as inputs grow, even on simple tasks. Curating what goes into the window is the whole discipline of **context engineering** ([module 07](07-context-engineering.md)).
+Bigger windows aren't uniformly better. Models are worse at using information buried in the middle of a long context than at the start or end ([Liu et al., 2023, "Lost in the Middle"](https://arxiv.org/abs/2307.03172)). Chroma's 2025 ["Context Rot"](https://research.trychroma.com/context-rot) report found performance degrading as inputs grow, even on simple tasks. Curating what goes into the window is the whole discipline of **context engineering** ([module 09](09-context-engineering.md)).
 
-When the model generates token 1,001, it needs the keys and values for tokens 1 through 1,000. Recomputing them for every new token would be wasteful, so inference servers store them in a **KV cache** in GPU memory. The cache grows with every token in the conversation, which is why long contexts are expensive to serve. It's also why providers offer **prompt caching**. If many requests start with the same long prefix (a system prompt, a codebase summary), the server can reuse the stored cache and charge you less ([module 12](12-costs-subscriptions-and-apis.md)).
+When the model generates token 1,001, it needs the keys and values for tokens 1 through 1,000. Recomputing them for every new token would be wasteful, so inference servers store them in a **KV cache** in GPU memory. The cache grows with every token in the conversation, which is why long contexts are expensive to serve. It's also why providers offer **prompt caching**. If many requests start with the same long prefix (a system prompt, a codebase summary), the server can reuse the stored cache and charge you less ([module 15](15-costs-subscriptions-and-apis.md)).
 
 ### Sampling, temperature, and determinism
 
@@ -205,7 +205,7 @@ The model outputs a probability for every token. A **sampler** chooses one.
 - **Top-p (nucleus) sampling** samples only from the smallest set of tokens whose probabilities add up to p, cutting off the long tail of unlikely choices ([Holtzman et al., 2019](https://arxiv.org/abs/1904.09751)).
 - **Greedy decoding** (temperature 0) always takes the top token.
 
-Temperature 0 should be deterministic in theory. Hosted models often vary from run to run anyway. A September 2025 investigation by Thinking Machines traced much of this to batching: the server groups your request with other people's, and the results of floating-point math change slightly with batch size ([He, 2025](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)). Some reasoning models also fix or ignore sampling settings. So don't expect identical outputs, run evaluations more than once, and record model versions ([module 05](05-judging-models.md)).
+Temperature 0 should be deterministic in theory. Hosted models often vary from run to run anyway. A September 2025 investigation by Thinking Machines traced much of this to batching: the server groups your request with other people's, and the results of floating-point math change slightly with batch size ([He, 2025](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)). Some reasoning models also fix or ignore sampling settings. So don't expect identical outputs, run evaluations more than once, and record model versions ([module 07](07-judging-models.md)).
 
 ### Mixture of experts
 
@@ -213,7 +213,7 @@ A dense model runs every parameter for every token. A **mixture-of-experts (MoE)
 
 It's like a hospital with a triage nurse. Every patient gets seen, but each one visits two or three specialists instead of the whole staff.
 
-That separates **total parameters** (how much the model can store) from **active parameters** (how much compute each token costs). [Shazeer et al. (2017)](https://arxiv.org/abs/1701.06538) introduced the modern sparse version. [Switch Transformers](https://arxiv.org/abs/2101.03961) and [Mixtral](https://arxiv.org/abs/2401.04088) made it mainstream. [DeepSeek-V3](https://arxiv.org/abs/2412.19437) has 671B total parameters but activates about 37B per token. Many leading open-weight models in 2025–2026 are MoE. Closed labs generally don't disclose architectures. A "trillion-parameter" MoE can be cheaper per token than its headline number suggests, but you still need the memory to hold all of it ([module 04](04-open-vs-closed-weights.md)).
+That separates **total parameters** (how much the model can store) from **active parameters** (how much compute each token costs). [Shazeer et al. (2017)](https://arxiv.org/abs/1701.06538) introduced the modern sparse version. [Switch Transformers](https://arxiv.org/abs/2101.03961) and [Mixtral](https://arxiv.org/abs/2401.04088) made it mainstream. [DeepSeek-V3](https://arxiv.org/abs/2412.19437) has 671B total parameters but activates about 37B per token. Many leading open-weight models in 2025–2026 are MoE. Closed labs generally don't disclose architectures. A "trillion-parameter" MoE can be cheaper per token than its headline number suggests, but you still need the memory to hold all of it ([module 06](06-open-vs-closed-weights.md)).
 
 ### Multimodality
 
@@ -230,7 +230,7 @@ An LLM on its own can't run code, read your files, browse, or do exact math. **T
 
 [Toolformer](https://arxiv.org/abs/2302.04761) (Schick et al., 2023) showed a model could teach itself when to call APIs like a calculator or search engine. [ReAct](https://arxiv.org/abs/2210.03629) (Yao et al., 2022) interleaved reasoning steps with actions. OpenAI shipped function calling in its API in June 2023. The **Model Context Protocol (MCP)**, released by Anthropic in November 2024, standardized how tools plug into models.
 
-An **agent** is a model plus tools plus a loop that keeps going until the task is done. [Module 06](06-harnesses-and-tools.md) covers harnesses and MCP, and [module 08](08-agentic-workflows.md) covers agentic workflows.
+An **agent** is a model plus tools plus a loop that keeps going until the task is done. [Module 08](08-harnesses-and-tools.md) covers harnesses and MCP, and [module 10](10-agentic-workflows.md) covers agentic workflows.
 
 ### Hallucination, and why it happens
 
@@ -243,7 +243,7 @@ Four things cause it:
 3. Evaluations reward guessing. That's the same paper's central argument. Most benchmarks grade like a multiple-choice exam with no credit for "I don't know," so guessing scores better than admitting uncertainty. Models trained and selected on those scores learn to bluff. The authors propose changing mainstream benchmark scoring to reward appropriate abstention.
 4. The "I know this" signal can misfire. Anthropic's interpretability work found a default "can't answer" circuit in Claude 3.5 Haiku when studying factual questions about entities. A "known entity" signal switches off that default when the model recognizes something. When that signal fires for something only half-familiar, the model confabulates ([Anthropic, 2025](https://www.anthropic.com/research/tracing-thoughts-language-model)).
 
-In code, hallucinations show up as invented APIs, nonexistent package names (which attackers can register, as [module 11](11-security-and-prompt-injection.md) explains), wrong library versions, and confident descriptions of files the model never opened. The defenses are context (give it the real docs), tools (let it run the code), and checks (tests, type checkers, your review).
+In code, hallucinations show up as invented APIs, nonexistent package names (which attackers can register, as [module 14](14-security-and-prompt-injection.md) explains), wrong library versions, and confident descriptions of files the model never opened. The defenses are context (give it the real docs), tools (let it run the code), and checks (tests, type checkers, your review).
 
 ### Sycophancy
 
@@ -251,7 +251,7 @@ In code, hallucinations show up as invented APIs, nonexistent package names (whi
 
 It comes partly from training on human preferences. People tend to rate agreeable, flattering answers highly. [Sharma et al. (2023)](https://arxiv.org/abs/2310.13548) found sycophancy across several assistants and showed that both humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In April 2025, OpenAI rolled back a GPT-4o update in ChatGPT that had become noticeably flattering. In its May 2 follow-up, OpenAI's early assessment was that combined changes, including a new reward signal from users' thumbs-up and thumbs-down ratings, weakened its main check on sycophancy ([OpenAI, April 2025](https://openai.com/index/sycophancy-in-gpt-4o/); [OpenAI, May 2025](https://openai.com/index/expanding-on-sycophancy/)).
 
-A lot of the mitigation is in how you ask. Request critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work ([module 10](10-ai-code-review.md)).
+A lot of the mitigation is in how you ask. Request critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work ([module 13](13-ai-code-review.md)).
 
 ## In practice
 
@@ -278,7 +278,7 @@ When you work with a model, remember:
 | Arithmetic slightly off | No exact arithmetic | Use a tool or code; never trust mental math in production paths |
 | "You're absolutely right!" to a wrong idea | Sycophancy | Ask it to argue the other side; get a second model's review |
 | Confident summary of a file it didn't read | Plausible continuation | Require file paths and line numbers; check the tool log |
-| Forgets constraints from earlier in a long session | Context degradation | Restart with a short summary; keep standing rules in a project file ([module 07](07-context-engineering.md)) |
+| Forgets constraints from earlier in a long session | Context degradation | Restart with a short summary; keep standing rules in a project file ([module 09](09-context-engineering.md)) |
 | Different answer each time | Sampling and server-side nondeterminism | Lower temperature where you control it; pin the model; evaluate over several runs |
 
 ### Matching effort to the task
@@ -289,14 +289,14 @@ Reasoning effort is now a dial you can turn.
 - Medium for typical feature work with clear specs.
 - High for debugging intermittent failures, concurrency, security review, architecture, and anything where a wrong answer is expensive.
 
-Higher effort costs more and takes longer. On a subscription that cost shows up as rate limits; on an API it shows up on the bill ([module 12](12-costs-subscriptions-and-apis.md)).
+Higher effort costs more and takes longer. On a subscription that cost shows up as rate limits; on an API it shows up on the bill ([module 15](15-costs-subscriptions-and-apis.md)).
 
 ### Reading model announcements with this module in mind
 
 - Parameter counts matter less than they used to. MoE separates total from active parameters, and closed labs don't publish them.
 - A context window size is a ceiling, not a promise of quality across the whole window.
 - "Reasoning" means the model was trained to spend tokens thinking. It doesn't guarantee correct logic.
-- Benchmark numbers need care, and [module 05](05-judging-models.md) covers how to read them.
+- Benchmark numbers need care, and [module 07](07-judging-models.md) covers how to read them.
 
 ## Going deeper
 
@@ -358,7 +358,7 @@ Researchers keep probing alternatives and hybrids: state-space models such as Ma
 
 ## Bryan's take
 
-This course is about AI-accelerated coding, not vibe coding: a person reads, tests, and owns what ships ([module 00](00-orientation.md#ai-accelerated-coding-not-vibe-coding)). The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it. Bryan's views on which models suit which jobs are in [module 03](03-model-landscape.md).
+This course is about AI-accelerated coding, not vibe coding: a person reads, tests, and owns what ships ([module 00](00-orientation.md#ai-accelerated-coding-not-vibe-coding)). The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it. Bryan's views on which models suit which jobs are in [module 05](05-model-landscape.md).
 
 ## Try it
 

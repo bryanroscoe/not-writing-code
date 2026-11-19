@@ -4,7 +4,7 @@ This path is for working software engineers who ship code daily, from "I tried C
 
 ## The pitch, in one paragraph
 
-If your last serious try was chat-and-paste or autocomplete, repository-aware agents are worth a fresh look. A modern coding agent reads your repository, runs your tests, and iterates until they pass. Prompt wording matters less than it used to. What matters now is controlling context, giving the agent checks it can run, reviewing efficiently, and knowing where it breaks. The evidence on productivity is mixed ([module 05](../modules/05-judging-models.md#real-world-productivity-evidence)), and results depend on the task, tool, and workflow. This path gives you habits to test on your own work.
+If your last serious try was chat-and-paste or autocomplete, repository-aware agents are worth a fresh look. A modern coding agent reads your repository, runs your tests, and iterates until they pass. Prompt wording matters less than it used to. What matters now is controlling context, giving the agent checks it can run, reviewing efficiently, and knowing where it breaks. The evidence on productivity is mixed ([module 07](../modules/07-judging-models.md#real-world-productivity-evidence)), and results depend on the task, tool, and workflow. This path gives you habits to test on your own work.
 
 ## How to read each module
 
@@ -17,35 +17,35 @@ Skim Foundations and read the parts you don't already know. Read In practice clo
 | Module | Focus on |
 | --- | --- |
 | [00 Orientation](../modules/00-orientation.md) | TL;DR, "AI-accelerated coding, not vibe coding," the six durable ideas |
-| [06 Harnesses, tools, and MCP](../modules/06-harnesses-and-tools.md) | What a harness is, MCP, the rest of the toolkit, how to choose a harness, a sane baseline setup |
-| [07 Context engineering](../modules/07-context-engineering.md) | The buzzword ladder (so you can decode it), context limits in practice, the rise and fall of giant `CLAUDE.md` files |
-| [08 Agentic workflows](../modules/08-agentic-workflows.md) | All of In practice; Yegge's eight stages to locate yourself; the case for and against full autonomy |
+| [08 Harnesses, tools, and MCP](../modules/08-harnesses-and-tools.md) | What a harness is, MCP, the rest of the toolkit, how to choose a harness, a sane baseline setup |
+| [09 Context engineering](../modules/09-context-engineering.md) | The buzzword ladder (so you can decode it), context limits in practice, the rise and fall of giant `CLAUDE.md` files |
+| [10 Agentic workflows](../modules/10-agentic-workflows.md) | All of In practice; Yegge's eight stages to locate yourself; the case for and against full autonomy |
 
 ### Day 2: doing it safely and affordably (about 2 hours)
 
 | Module | Focus on |
 | --- | --- |
-| [10 AI code review](../modules/10-ai-code-review.md) | The layered review workflow, how to review AI-written PRs, accountability |
-| [11 Security and prompt injection](../modules/11-security-and-prompt-injection.md) | Why coding agents are the hard case, real incidents, risks specific to coding agents, team checklist |
-| [12 Costs](../modules/12-costs-subscriptions-and-apis.md) | Why agentic coding eats tokens, the worked example, cost per task vs cost per token |
+| [13 AI code review](../modules/13-ai-code-review.md) | The layered review workflow, how to review AI-written PRs, accountability |
+| [14 Security and prompt injection](../modules/14-security-and-prompt-injection.md) | Why coding agents are the hard case, real incidents, risks specific to coding agents, team checklist |
+| [15 Costs](../modules/15-costs-subscriptions-and-apis.md) | Why agentic coding eats tokens, the worked example, cost per task vs cost per token |
 
 ### Day 3: choosing and judging models (about 2 hours)
 
 | Module | Focus on |
 | --- | --- |
-| [03 The model landscape](../modules/03-model-landscape.md) | Current lineups, different places in the chain, best model for the job, how to pick next month |
-| [05 How to tell if a model is good](../modules/05-judging-models.md) | The benchmark-claim checklist, harness matters, benchmark-maxing, build your own eval |
-| [14 Keeping up](../modules/14-keeping-up.md) | Is it the model, the task, or the harness? When to switch tools; a sustainable routine |
+| [05 The model landscape](../modules/05-model-landscape.md) | Current lineups, different places in the chain, best model for the job, how to pick next month |
+| [07 How to tell if a model is good](../modules/07-judging-models.md) | The benchmark-claim checklist, harness matters, benchmark-maxing, build your own eval |
+| [17 Keeping up](../modules/17-keeping-up.md) | Is it the model, the task, or the harness? When to switch tools; a sustainable routine |
 
 ### Optional, by interest
 
 | If you want to… | Read |
 | --- | --- |
 | Understand what's under the hood | [01 What is an LLM?](../modules/01-what-is-an-llm.md), Going deeper |
-| Fine-tune or self-host | [02 Training and tuning](../modules/02-training-and-tuning.md), [04 Open vs closed weights](../modules/04-open-vs-closed-weights.md) |
-| Run several agents at once | [09 Multiple agents](../modules/09-multi-agent-systems.md) |
-| Use or contribute to open-source tools | [13 Open-source ecosystem](../modules/13-open-source-ecosystem.md) |
-| Mentor juniors, or worry about your career | [15 Learning, careers, and responsibility](../modules/15-learning-careers-and-responsibility.md) |
+| Fine-tune or self-host | [03 Post-training and RL](../modules/03-post-training-and-rl.md), [06 Open vs closed weights](../modules/06-open-vs-closed-weights.md) |
+| Run several agents at once | [12 Multiple agents](../modules/12-multi-agent-systems.md) |
+| Use or contribute to open-source tools | [16 Open-source ecosystem](../modules/16-open-source-ecosystem.md) |
+| Mentor juniors, or worry about your career | [18 Learning, careers, and responsibility](../modules/18-learning-careers-and-responsibility.md) |
 
 ## Two-week practice plan
 
@@ -55,20 +55,20 @@ Practice on tasks from your actual backlog.
 
 | Day | Do this |
 | --- | --- |
-| 1 | Set up one CLI or IDE agent on your main repo ([module 06](../modules/06-harnesses-and-tools.md#a-sane-baseline-setup)). Ask it to explain the architecture of a part you don't know well. Check its answer against the code. |
+| 1 | Set up one CLI or IDE agent on your main repo ([module 08](../modules/08-harnesses-and-tools.md#a-sane-baseline-setup)). Ask it to explain the architecture of a part you don't know well. Check its answer against the code. |
 | 2 | Give it a small bug with a reproducible failure. Make it write a failing test first, then fix it. Read the diff line by line. |
 | 3 | Use plan mode (or ask for a plan before edits) on a medium task. Edit the plan before you approve it. Note what you changed and why. |
-| 4 | Write a *short* project instruction file: build/test commands, two or three gotchas, nothing else ([module 07](../modules/07-context-engineering.md)). Rerun day 2's kind of task and compare. |
-| 5 | Use the agent for a non-coding chore: reading logs for an incident, writing a migration script, drafting a ticket breakdown ([module 08](../modules/08-agentic-workflows.md#ai-first-beyond-writing-code)). |
+| 4 | Write a *short* project instruction file: build/test commands, two or three gotchas, nothing else ([module 09](../modules/09-context-engineering.md)). Rerun day 2's kind of task and compare. |
+| 5 | Use the agent for a non-coding chore: reading logs for an incident, writing a migration script, drafting a ticket breakdown ([module 10](../modules/10-agentic-workflows.md#ai-first-beyond-writing-code)). |
 
 ### Week 2: verification, review, and a second agent
 
 | Day | Do this |
 | --- | --- |
-| 6 | Before every PR, have a *fresh* agent session review your diff. Verify each finding before you act on it ([module 10](../modules/10-ai-code-review.md)). |
-| 7 | Install a second agent from a different lab. Cross-review: one writes, the other reviews ([module 09](../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)). |
-| 8 | Run two agents in parallel on two independent tasks, each in its own git worktree ([module 08](../modules/08-agentic-workflows.md#worktrees-and-parallel-agents)). Notice where your attention becomes the bottleneck. |
-| 9 | Start your golden-task file: three to five real tasks from your repo with known-good outcomes ([module 05](../modules/05-judging-models.md#build-your-own-eval)). |
+| 6 | Before every PR, have a *fresh* agent session review your diff. Verify each finding before you act on it ([module 13](../modules/13-ai-code-review.md)). |
+| 7 | Install a second agent from a different lab. Cross-review: one writes, the other reviews ([module 12](../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)). |
+| 8 | Run two agents in parallel on two independent tasks, each in its own git worktree ([module 10](../modules/10-agentic-workflows.md#worktrees-and-parallel-agents)). Notice where your attention becomes the bottleneck. |
+| 9 | Start your golden-task file: three to five real tasks from your repo with known-good outcomes ([module 07](../modules/07-judging-models.md#build-your-own-eval)). |
 | 10 | Retro: write down three things that sped you up, three that wasted time, and one rule you'll keep. Share it with your team. |
 
 ## Common traps for experienced engineers
@@ -77,8 +77,8 @@ Practice on tasks from your actual backlog.
 - Over-specifying in prose. Long instruction files cost more context than they're worth. Prefer runnable checks and short, specific rules.
 - Under-specifying the goal. "Fix the flaky test" can lead to deleted tests. "Make this test pass reliably without changing its assertions" gives a clearer constraint, which you still need to verify.
 - Reviewing less because the agent seems confident. Confidence is a writing style, not evidence.
-- Turning on full autonomy too early. Turn the dial up one notch at a time, only as fast as your automated checks can catch what you stop looking at ([module 08](../modules/08-agentic-workflows.md#the-autonomy-spectrum)).
-- Switching tools every week. Keep one primary tool and one backup you use occasionally ([module 14](../modules/14-keeping-up.md#when-to-switch-tools)).
+- Turning on full autonomy too early. Turn the dial up one notch at a time, only as fast as your automated checks can catch what you stop looking at ([module 10](../modules/10-agentic-workflows.md#the-autonomy-spectrum)).
+- Switching tools every week. Keep one primary tool and one backup you use occasionally ([module 17](../modules/17-keeping-up.md#when-to-switch-tools)).
 
 ## Where to go next
 

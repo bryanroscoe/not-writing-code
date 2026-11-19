@@ -1,4 +1,4 @@
-# 13: The open-source ecosystem
+# 16: The open-source ecosystem
 
 *About a 35-minute read. Last checked November 8, 2026.*
 
@@ -16,7 +16,7 @@
 
 Two kinds of openness get mixed up:
 
-- **Open-weight models** publish the trained weights so you can run or fine-tune them yourself. [Module 04](./04-open-vs-closed-weights.md) covers them.
+- **Open-weight models** publish the trained weights so you can run or fine-tune them yourself. [Module 06](./06-open-vs-closed-weights.md) covers them.
 - **Open-source software** publishes the source code of a tool under a license that lets you read, modify and redistribute it. This module is about the software.
 
 The two are independent. Codex CLI is open-source software that by default calls OpenAI's closed models. OpenCode or Aider can drive a closed frontier model or a local open-weight model. A closed IDE can run an open-weight model.
@@ -39,7 +39,7 @@ Open source also offers some protection against vendor churn. You can still run 
 
 ```mermaid
 flowchart TB
-    M["Models<br/>(open-weight or API; modules 03–04)"]
+    M["Models<br/>(open-weight or API; modules 05–06)"]
     I["Inference runtimes<br/>llama.cpp · Ollama · vLLM · SGLang · MLX"]
     F["Frameworks and SDKs<br/>LangGraph · Pydantic AI · DSPy · OpenAI Agents SDK · Claude Agent SDK · ..."]
     H["Harnesses<br/>OpenCode · Aider · Cline · Kilo Code · goose · OpenHands · Codex CLI · ..."]
@@ -72,11 +72,11 @@ Statuses and star counts are as of November 2026. Stars measure attention, not q
 | [goose](https://github.com/aaif-goose/goose) | Block, now part of the Agentic AI Foundation | Desktop app, CLI, API | Apache-2.0 | A general-purpose local agent, not only for code. Built around MCP extensions. A founding AAIF project |
 | [OpenHands](https://github.com/OpenHands/OpenHands) | All Hands AI | Web UI ("Agent Canvas"), CLI, cloud, SDK | MIT | Formerly OpenDevin ([Wang et al., 2024](https://arxiv.org/abs/2407.16741)). Now also a control center that can run Claude Code, Codex, Gemini CLI and OpenCode |
 | [Crush](https://github.com/charmbracelet/crush) | Charm | Terminal UI | FSL-1.1-MIT | LSP-aware, MCP support, switch models mid-session |
-| [T3 Code](https://github.com/pingdotgg/t3code) | Ping (Theo Browne) | Desktop, web and mobile GUI over CLI agents | MIT | Not an agent itself; drives the agent CLIs you already have ([module 06](./06-harnesses-and-tools.md)) |
+| [T3 Code](https://github.com/pingdotgg/t3code) | Ping (Theo Browne) | Desktop, web and mobile GUI over CLI agents | MIT | Not an agent itself; drives the agent CLIs you already have ([module 08](./08-harnesses-and-tools.md)) |
 | [Roo Code](https://github.com/RooCodeInc/Roo-Code) | Roo Code Inc. | VS Code | Apache-2.0 | A fork of Cline. **Shut down May 15, 2026**; repository archived. The team pivoted to a cloud product and pointed users to Cline or the community fork ZooCode |
 | [Continue](https://github.com/continuedev/continue) | Continue Dev | VS Code, JetBrains, CLI | Apache-2.0 | **Archived and read-only** in 2026 after a final 2.0 release |
 
-Other labs ship open-source CLIs too. Alibaba's Qwen Code, for example, was one of the three agents in the ETH Zurich `AGENTS.md` study ([module 07](./07-context-engineering.md)).
+Other labs ship open-source CLIs too. Alibaba's Qwen Code, for example, was one of the three agents in the ETH Zurich `AGENTS.md` study ([module 09](./09-context-engineering.md)).
 
 For one terminal agent that works with any model, start with OpenCode or Aider. If you live in VS Code and want to approve each diff, try Cline or Kilo Code. goose is the general desktop agent, and OpenHands or T3 Code let you run and compare several agents. Whichever you pick, check its last release date and open-issue count first.
 
@@ -97,7 +97,7 @@ It grew faster than almost any project before it, passing 247,000 GitHub stars b
 OpenClaw exposed several demands and risks:
 
 - People want an agent that lives where they already talk, keeps memory between sessions, and can act across their accounts. That's a different product from a coding agent.
-- A personal agent is the lethal trifecta in one package. It reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous ([module 11](./11-security-and-prompt-injection.md)).
+- A personal agent is the lethal trifecta in one package. It reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous ([module 14](./14-security-and-prompt-injection.md)).
 - Deployment configuration is security policy. Security researchers reported tens of thousands of OpenClaw instances exposed to the internet in late January and early February 2026. [Censys counted 21,639 on January 31](https://censys.com/blog/openclaw-in-the-wild-mapping-the-public-exposure-of-a-viral-ai-assistant/), while [Bitsight counted more than 30,000 across January 27–February 8](https://www.bitsight.com/blog/openclaw-ai-security-risks-exposed-instances). Censys explicitly says the default listener was localhost, so the public exposure came from deployment choices, not an all-interfaces default.
 - A skill registry is a software supply chain. [Koi Security's archived audit](https://web.archive.org/web/20260210212946/https://www.koi.ai/blog/clawhavoc-341-malicious-clawedbot-skills-found-by-the-bot-they-were-targeting) examined 2,857 skills on the public ClawHub registry and flagged 341 as malicious, 335 tied to one campaign that delivered password-stealing malware to macOS and Windows users. The maintainers responded with reporting tools, malware scanning, and minimum account ages for uploaders.
 - Institutions noticed. In March 2026 Chinese authorities reportedly restricted state agencies and state-owned firms from running OpenClaw on office computers. Reviewers of the 2.0 release still criticized it for not enabling its sandbox by default and not encrypting stored secrets.
@@ -106,7 +106,7 @@ An agent that can do everything on your behalf needs sandboxing, least-privilege
 
 ### Inference runtimes (running models yourself)
 
-These run open-weight models on your own hardware. [Module 04](./04-open-vs-closed-weights.md) covers which models to run and how much hardware you need.
+These run open-weight models on your own hardware. [Module 06](./06-open-vs-closed-weights.md) covers which models to run and how much hardware you need.
 
 | Runtime | What it is | Reach for it when |
 | --- | --- | --- |
@@ -124,7 +124,7 @@ A **framework** gives you building blocks for agents: model clients, tool defini
 
 | Project | One line | Reach for it when |
 | --- | --- | --- |
-| [LangChain / LangGraph](https://github.com/langchain-ai/langgraph) | LangChain provides integrations and building blocks. LangGraph builds stateful graphs with checkpoints and human-approval steps | You need explicit, durable, resumable workflows ([module 07](./07-context-engineering.md)) |
+| [LangChain / LangGraph](https://github.com/langchain-ai/langgraph) | LangChain provides integrations and building blocks. LangGraph builds stateful graphs with checkpoints and human-approval steps | You need explicit, durable, resumable workflows ([module 09](./09-context-engineering.md)) |
 | [LlamaIndex](https://github.com/run-llama/llama_index) | A data framework: ingest, index and query your documents, with agents on top | Your agent's main job is answering from your data |
 | [DSPy](https://github.com/stanfordnlp/dspy) | Declarative modules plus optimizers that tune prompts (or weights) against a metric ([Khattab et al., 2023](https://arxiv.org/abs/2310.03714)) | You have an eval set and want to optimize prompts systematically instead of by hand |
 | [Pydantic AI](https://github.com/pydantic/pydantic-ai) | Type-safe Python agents from the Pydantic team, with validated structured outputs | You want typed inputs and outputs in a Python service |
@@ -145,7 +145,7 @@ import os, subprocess
 import anthropic
 
 client = anthropic.Anthropic()
-MODEL = os.environ["AGENT_MODEL"]  # choose a current model; see module 03
+MODEL = os.environ["AGENT_MODEL"]  # choose a current model; see module 05
 
 TOOLS = [{
     "name": "bash",
@@ -177,13 +177,13 @@ for turn in range(30):  # a budget, so it can't run forever
     ]})
 ```
 
-This teaching example has no sandbox, total-context limit, or error recovery, and the shell tool runs whatever command you approve, so run it only in a disposable environment without real credentials. A production harness adds controls such as sandboxing, compaction, hooks, and recovery ([module 06](./06-harnesses-and-tools.md)).
+This teaching example has no sandbox, total-context limit, or error recovery, and the shell tool runs whatever command you approve, so run it only in a disposable environment without real credentials. A production harness adds controls such as sandboxing, compaction, hooks, and recovery ([module 08](./08-harnesses-and-tools.md)).
 
 A plain loop is enough when there's one agent, a handful of tools, and short sessions. Move to a framework or SDK when you need state that survives restarts, tracing and observability in production, many tools or many agents, human approval steps in the middle of a workflow, or systematic prompt optimization (DSPy). If what you want is "a coding agent, but scripted," use an existing harness such as the Claude Agent SDK, Codex CLI in headless mode, or OpenCode.
 
 ### MCP servers worth knowing
 
-For background on MCP, read [module 06](./06-harnesses-and-tools.md). Some servers to know:
+For background on MCP, read [module 08](./08-harnesses-and-tools.md). Some servers to know:
 
 - The reference servers in [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers): Everything (a test server), Fetch, Filesystem, Git, Memory, Sequential Thinking and Time. Many earlier reference servers (GitHub, Slack, Postgres, Puppeteer and others) moved to an archive repository as vendors shipped official ones. The README calls the reference servers educational examples, "not production-ready solutions."
 - [GitHub's official MCP server](https://github.com/github/github-mcp-server) covers issues, pull requests, code search and Actions, and runs locally or as a hosted server.
@@ -203,13 +203,13 @@ A skill is instructions, often with scripts your agent will run. The ClawHub inc
 
 ### Orchestration projects
 
-- [Gas Town](https://github.com/steveyegge/gastown) (Steve Yegge, January 2026, MIT) is a workspace manager for running 20–30 coding agents at once, with a deliberately colorful vocabulary. A Mayor agent takes your request and assigns work. Polecats are worker agents, Rigs wrap repositories, and a Witness watches for stuck agents. A Refinery batches and verifies finished work before merging. Claude Code is the default runtime, and Gas Town also supports Codex, Gemini, Cursor, Amp, OpenCode and others. Yegge's eight-stage ladder of AI coding workflows, from the same launch essay, is in [module 08](./08-agentic-workflows.md).
+- [Gas Town](https://github.com/steveyegge/gastown) (Steve Yegge, January 2026, MIT) is a workspace manager for running 20–30 coding agents at once, with a deliberately colorful vocabulary. A Mayor agent takes your request and assigns work. Polecats are worker agents, Rigs wrap repositories, and a Witness watches for stuck agents. A Refinery batches and verifies finished work before merging. Claude Code is the default runtime, and Gas Town also supports Codex, Gemini, Cursor, Amp, OpenCode and others. Yegge's eight-stage ladder of AI coding workflows, from the same launch essay, is in [module 10](./10-agentic-workflows.md).
 - [Beads](https://github.com/steveyegge/beads) (Steve Yegge, MIT) is a graph issue tracker for agents, backed by the version-controlled database Dolt. Agents create tasks, record dependencies, find unblocked work, claim it and close it. It replaces sprawling markdown plan files with structured memory that many agents can share, and Gas Town depends on it.
 - [OpenHands Agent Canvas](https://github.com/OpenHands/OpenHands) and [T3 Code](https://github.com/pingdotgg/t3code) sit one level down. They're GUIs for running and supervising several agents, without Gas Town's autonomous coordination.
 
 ### Evaluation tooling
 
-[Module 05](./05-judging-models.md) explains benchmarks and how to build your own evals. These open tools run them:
+[Module 07](./07-judging-models.md) explains benchmarks and how to build your own evals. These open tools run them:
 
 - The [SWE-bench](https://github.com/SWE-bench/SWE-bench) harness ([Jimenez et al., 2023](https://arxiv.org/abs/2310.06770)) runs an agent's patch against a real repository's tests in Docker. Use it to reproduce published numbers or to test changes to your own harness.
 - [Inspect](https://github.com/UKGovernmentBEIS/inspect_ai) (UK AI Security Institute, MIT) is a Python framework for evaluations including tool use, multi-turn dialogue and model-graded scoring, with more than 200 ready-made evaluations.
@@ -257,16 +257,16 @@ Contributing to open source is one of the best ways for a student to learn real 
 4. Choose an issue and say you're working on it before you write code. Some projects, LLVM for example, ask that newcomer "good first issues" be done without AI, because they exist to teach.
 5. Reproduce the bug by hand, and write a failing test before you fix anything.
 6. Write or heavily revise the fix yourself. If an agent drafts it, rework it until you could have written it, then delete what you can't defend.
-7. Ask a different model or a classmate to review your diff before sending it to maintainers ([module 10](./10-ai-code-review.md)).
+7. Ask a different model or a classmate to review your diff before sending it to maintainers ([module 13](./13-ai-code-review.md)).
 8. Write the PR description in your own words, and disclose how you used AI.
 9. Handle review feedback yourself. Answer questions from your own understanding, and if you don't know, say so and go find out.
-10. Keep a log of what you learned. For a course, that log, not the merged PR, is the evidence of learning ([module 15](./15-learning-careers-and-responsibility.md)).
+10. Keep a log of what you learned. For a course, that log, not the merged PR, is the evidence of learning ([module 18](./18-learning-careers-and-responsibility.md)).
 
 ## Going deeper
 
 ### Open source as the field's R&D lab
 
-Many harness ideas that are now standard appeared first in open projects or public experiments. Aider's repository map (a compact summary of a codebase's symbols) showed that agents need a map rather than whole files. The Ralph loop showed how far a dumb outer loop with fresh contexts can go. Beads and Gas Town pushed git-backed, structured memory for many agents. The skills format began in Anthropic's public repository, and within a year a growing list of other agent products had adopted it ([client showcase](https://agentskills.io/clients)). Vendors watch these projects closely, and good ideas show up in commercial products within months ([module 06](./06-harnesses-and-tools.md)).
+Many harness ideas that are now standard appeared first in open projects or public experiments. Aider's repository map (a compact summary of a codebase's symbols) showed that agents need a map rather than whole files. The Ralph loop showed how far a dumb outer loop with fresh contexts can go. Beads and Gas Town pushed git-backed, structured memory for many agents. The skills format began in Anthropic's public repository, and within a year a growing list of other agent products had adopted it ([client showcase](https://agentskills.io/clients)). Vendors watch these projects closely, and good ideas show up in commercial products within months ([module 08](./08-harnesses-and-tools.md)).
 
 ### Churn and capture
 
@@ -283,11 +283,11 @@ The pattern is familiar from earlier open-source eras. Venture-funded companies 
 
 ### Open client, closed model
 
-Several of the most-starred harnesses, such as Codex CLI and Gemini CLI, are open-source clients for closed models. Claude Code itself isn't open source, although its SDK wrappers are published on GitHub. With an open client you can read every prompt and tool, but the model is still a remote service with its own terms, rate limits and data policies. You can audit what's sent, fork the client, and swap in a different model where the harness allows it. The stack still depends on a closed model. For that, combine a model-agnostic harness, an open-weight model and a local runtime ([module 04](./04-open-vs-closed-weights.md)).
+Several of the most-starred harnesses, such as Codex CLI and Gemini CLI, are open-source clients for closed models. Claude Code itself isn't open source, although its SDK wrappers are published on GitHub. With an open client you can read every prompt and tool, but the model is still a remote service with its own terms, rate limits and data policies. You can audit what's sent, fork the client, and swap in a different model where the harness allows it. The stack still depends on a closed model. For that, combine a model-agnostic harness, an open-weight model and a local runtime ([module 06](./06-open-vs-closed-weights.md)).
 
 ### Extensions are dependencies
 
-MCP servers, skills and plugins run with your agent's permissions. Treat them like any other dependency: check the maintainer, read the code, pin versions, prefer official vendor packages, and watch for updates that change behavior. The OpenClaw skill-registry malware and the MCP "tool poisoning" research are early examples of a supply-chain problem that will grow ([module 11](./11-security-and-prompt-injection.md)).
+MCP servers, skills and plugins run with your agent's permissions. Treat them like any other dependency: check the maintainer, read the code, pin versions, prefer official vendor packages, and watch for updates that change behavior. The OpenClaw skill-registry malware and the MCP "tool poisoning" research are early examples of a supply-chain problem that will grow ([module 14](./14-security-and-prompt-injection.md)).
 
 ## Bryan's take
 
@@ -344,7 +344,7 @@ The instructor prepares ten pull requests against a small project the class know
 ## Terms introduced
 
 - **Open-source software:** software whose source code is published under a license allowing use, modification and redistribution.
-- **Open-weight model:** a model whose trained weights are published (see module 04); distinct from open-source software.
+- **Open-weight model:** a model whose trained weights are published (see module 06); distinct from open-source software.
 - **MIT / Apache-2.0:** permissive open-source licenses; Apache-2.0 adds an explicit patent grant.
 - **FSL (Functional Source License):** a source-available license that forbids competing commercial use and converts to a permissive license after two years.
 - **Source-available:** code you can read but not freely reuse, unlike open source.

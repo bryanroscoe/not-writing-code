@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "09: Multiple agents"
+title: "12: Multiple agents"
 description: "Building and reviewing with more than one agent"
-footer: "A Brief Introduction to Not Writing Code · 09 Multiple agents"
+footer: "A Brief Introduction to Not Writing Code · 12 Multiple agents"
 ---
 
 <!-- _class: lead -->
@@ -14,7 +14,7 @@ footer: "A Brief Introduction to Not Writing Code · 09 Multiple agents"
 Building and reviewing with more than one agent
 
 <!--
-Today is about when several agents beat one, when they just cost more, and the one multi-agent recipe with strong support behind it, a review swarm. The reading is module 09. It builds on module 08: the agent loop, worktrees, Yegge's stages.
+Today is about when several agents beat one, when they just cost more, and the one multi-agent recipe with strong support behind it, a review swarm. The reading is module 12. It builds on module 10: the agent loop, worktrees, Yegge's stages.
 
 Tool details are as of November 2026.
 -->
@@ -213,7 +213,7 @@ This pattern has the best evidence and the lowest risk, because reviewers only r
 The module uses this reviewer brief:
 "You are reviewing a change you did not write. Focus only on SECURITY. Inputs: the diff, SPEC.md, and read-only repo access. For each finding give: file:line, a concrete failure scenario (specific input or state, then wrong behavior), and severity (high/medium/low). Report only issues that would cause real harm. Skip style. If you find nothing, say so. Do not invent findings to seem useful."
 
-Give the human a short ranked list rather than 40 comments. Module 10 covers review in depth.
+Give the human a short ranked list rather than 40 comments. Module 13 covers review in depth.
 -->
 
 ---
@@ -255,7 +255,7 @@ Panickssery et al. (2024) found that out-of-the-box models can tell their own ou
 
 Write with Claude Code and review with Codex (/review locally or @codex review on the PR), or the other way around. Panels drawn from "disjoint model families" show "less intra-model bias" than a single judge (Verga et al., 2024).
 
-Diversity doesn't help if the reviewer is much weaker than the author. Module 03 tracks which models are strong at code right now.
+Diversity doesn't help if the reviewer is much weaker than the author. Module 05 tracks which models are strong at code right now.
 -->
 
 ---
@@ -272,7 +272,7 @@ Diversity doesn't help if the reviewer is much weaker than the author. Module 03
 Sometimes you do want several writers: a large migration, a greenfield project with clear modules, or a backlog of independent chores.
 
 1. Types, API contracts, or function signatures go in a shared file first. Then split work by module.
-2. Worktrees are covered in module 08.
+2. Worktrees are covered in module 10.
 3. As the C compiler showed, independent failures make independent work.
 4. Gas Town has a dedicated "Refinery" agent for merging because parallel workers otherwise end up in "a monkey knife fight over rebasing/merging" (Yegge, 2026).
 5. For one hard task, run two or three agents on the same task in separate worktrees and keep the best result. It costs N×, but there's nothing to merge.
@@ -297,7 +297,7 @@ Also stop when the budget is hit, or when two rounds of review-and-fix produce n
 
 Anthropic's docs warn that "A reviewer that's asked to find problems will always find something," and fixing everything leads to "extra abstraction layers and tests for cases that can't happen."
 
-A swarm that costs 10× and finds the same bugs as one reviewer isn't worth it. Module 12 covers costs.
+A swarm that costs 10× and finds the same bugs as one reviewer isn't worth it. Module 15 covers costs.
 -->
 
 ---
@@ -411,10 +411,10 @@ Review and building differ here too, as in part 1. Parallel review is read-heavy
 
 ## On which models
 
-> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 03](../modules/03-model-landscape/) for the current landscape.
+> **Bryan's take:** For coding, Claude and Codex are the best right now, in my opinion, so they're the pair I cross-review with: one writes, the other reviews. That's a dated opinion; check [module 05](../modules/05-model-landscape/) for the current landscape.
 
 <!--
-That opinion is dated, and it says so. Model rankings change fast, so check module 03 instead of treating this as a permanent recommendation. Keep the practice from Recipe 2: one lab's model writes, a different lab's model reviews.
+That opinion is dated, and it says so. Model rankings change fast, so check module 05 instead of treating this as a permanent recommendation. Keep the practice from Recipe 2: one lab's model writes, a different lab's model reviews.
 -->
 
 ---
@@ -458,11 +458,11 @@ On question 1, push for a writing task that does parallelize well, and what make
 
 ## Read more
 
-- [Module 09: Multiple agents building and reviewing](../modules/09-multi-agent-systems/)
+- [Module 12: Multiple agents building and reviewing](../modules/12-multi-agent-systems/)
 - Anthropic, [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) (June 13, 2025)
 - Walden Yan, [Don't Build Multi-Agents](https://cognition.com/blog/dont-build-multi-agents) (Cognition, June 12, 2025)
 - Cemri et al., [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657) (2025)
 
 <!--
-Read the Anthropic and Cognition posts back to back. They came out a day apart and argue opposite sides, and the read/write asymmetry explains both. Next time, module 10 goes deeper on AI code review.
+Read the Anthropic and Cognition posts back to back. They came out a day apart and argue opposite sides, and the read/write asymmetry explains both. Next time, module 13 goes deeper on AI code review.
 -->

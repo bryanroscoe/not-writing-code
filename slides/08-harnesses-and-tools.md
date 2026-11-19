@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "06: Harnesses, tools, and MCP"
+title: "08: Harnesses, tools, and MCP"
 description: "Agent = model + harness: the loop, tools, MCP, and the shared toolkit"
-footer: "A Brief Introduction to Not Writing Code · 06 Harnesses, tools, and MCP"
+footer: "A Brief Introduction to Not Writing Code · 08 Harnesses, tools, and MCP"
 ---
 
 <!-- _class: lead -->
@@ -14,7 +14,7 @@ footer: "A Brief Introduction to Not Writing Code · 06 Harnesses, tools, and MC
 Agent = model + harness
 
 <!--
-Plan for 40 to 50 minutes in three parts: how coding tools got from autocomplete to orchestrators; tools and MCP; and the toolkit every major harness now shares, ending with how to choose one. The reading is module 06.
+Plan for 40 to 50 minutes in three parts: how coding tools got from autocomplete to orchestrators; tools and MCP; and the toolkit every major harness now shares, ending with how to choose one. The reading is module 08.
 
 If you can, keep a terminal open with a CLI agent so you can show its context breakdown live (/context in Claude Code; other harnesses have similar views).
 -->
@@ -75,7 +75,7 @@ All three were reverted or fixed. Evaluate a model in the harness you'll actuall
 <!--
 This is the clearest recent example that the harness, not the model, can be the problem.
 
-Other harness choices change results too. On tool design, the SWE-agent paper (Yang et al., 2024) gave a model compact file viewers, a search tool, and an editor that lints on save, and the same model got much better at fixing real GitHub issues than with a raw shell. How a harness compacts history, loads instruction files and returns tool output decides what the model sees (module 07). Asking permission on every command trains you to click yes without reading, while never asking can do damage. And agentic benchmark scores depend on the scaffold (module 05).
+Other harness choices change results too. On tool design, the SWE-agent paper (Yang et al., 2024) gave a model compact file viewers, a search tool, and an editor that lints on save, and the same model got much better at fixing real GitHub issues than with a raw shell. How a harness compacts history, loads instruction files and returns tool output decides what the model sees (module 09). Asking permission on every command trains you to click yes without reading, while never asking can do damage. And agentic benchmark scores depend on the scaffold (module 07).
 
 Before you switch models, check the harness version, the effort setting, recent instruction-file edits, and connected servers.
 -->
@@ -132,7 +132,7 @@ Orchestrators like Conductor and T3 Code are not agents themselves. They drive t
 
 T3 Code describes itself as an "agent harness control surface." It's MIT-licensed, comes from Theo Browne's company (the pingdotgg GitHub organization), and supports Claude Code, Codex, Cursor, OpenCode, Antigravity and others. Its README calls it "very very early." Conductor, from Melty Labs, is a Mac app that runs parallel Claude Code, Codex and Cursor agents in isolated workspaces.
 
-Gas Town (Steve Yegge, January 2026) is an orchestrator for 20 to 30 agents with named roles: a "Mayor" coordinator, "polecat" workers, and a "Refinery" merge queue. It sits at the top of Yegge's eight-stage ladder of AI coding workflows, covered in module 08.
+Gas Town (Steve Yegge, January 2026) is an orchestrator for 20 to 30 agents with named roles: a "Mayor" coordinator, "polecat" workers, and a "Refinery" merge queue. It sits at the top of Yegge's eight-stage ladder of AI coding workflows, covered in module 10.
 -->
 
 ---
@@ -256,7 +256,7 @@ For contrast, Google's Agent2Agent (A2A) protocol, announced April 2025 and give
 <!--
 The bloat figure is Anthropic's typical five-server setup, from its advanced tool use post (November 2025): 58 tools, about 55K tokens, "before the conversation even starts." It also reported seeing 134K tokens of tool definitions internally before optimization. Large tool lists also make tool selection less accurate.
 
-On security, a malicious or compromised server can lie in its tool descriptions ("tool poisoning"), change behavior after you approve it, or exfiltrate data. Hou et al. (2025) survey the threats; module 11 covers defenses.
+On security, a malicious or compromised server can lie in its tool descriptions ("tool poisoning"), change behavior after you approve it, or exfiltrate data. Hou et al. (2025) survey the threats; module 14 covers defenses.
 
 Many community servers are thin API wrappers with poor descriptions and huge outputs. A popular server can still be unsafe. In early 2026, hundreds of malicious skills appeared on OpenClaw's public skill registry.
 
@@ -301,7 +301,7 @@ About 15 minutes on the features every major harness now has, three of them in d
 
 | Feature | Use it for | Watch out for |
 | --- | --- | --- |
-| Instruction files | Commands, conventions, gotchas | Bloat (module 07) |
+| Instruction files | Commands, conventions, gotchas | Bloat (module 09) |
 | Skills | Repeatable procedures | They can run code |
 | Subagents | Exploring, reviewing, noisy work | Extra tokens; lossy summaries |
 | Hooks | Deterministic enforcement | A buggy hook blocks all work |
@@ -314,7 +314,7 @@ About 15 minutes on the features every major harness now has, three of them in d
 <!--
 Names differ slightly between products; the ideas are the same. The module uses Claude Code's terms because its docs are detailed. Codex, Cursor, OpenCode and others have close equivalents.
 
-Two more rows from the module: slash commands, saved prompts you trigger by name, which Claude Code has folded into skills; and scheduling and loops (/loop, /goal, cloud schedules), covered in module 07.
+Two more rows from the module: slash commands, saved prompts you trigger by name, which Claude Code has folded into skills; and scheduling and loops (/loop, /goal, cloud schedules), covered in module 09.
 
 They converged because features are cheap to copy, and good ideas are visible in open-source projects. Aider's repository map, the Ralph loop, worktree-per-agent orchestration and skills all spread within months. Your skills transfer between tools, and no harness keeps a feature lead for long. Durable advantages come from the model, the integration with where work already happens, and the price.
 -->
@@ -352,7 +352,7 @@ Anthropic was candid that auto mode is "not a drop-in replacement for careful hu
 
 Permission modes run from plan-only, through ask-every-time and auto-accept edits, to classifier-approved auto mode and full bypass. Approval fatigue is clicking yes on the fortieth prompt without reading it. Allowlists and sandboxes keep the remaining prompts meaningful.
 
-Permissions are a security boundary, not a UX detail. An agent that can read untrusted input, access private data, and communicate externally has all three parts of Simon Willison's "lethal trifecta." Permission modes, network allowlists, credential scoping and sandboxes are how you break at least one leg. Module 11 goes further; Anthropic's "How we contain Claude across products" (May 2026) shows how one vendor layers these defenses.
+Permissions are a security boundary, not a UX detail. An agent that can read untrusted input, access private data, and communicate externally has all three parts of Simon Willison's "lethal trifecta." Permission modes, network allowlists, credential scoping and sandboxes are how you break at least one leg. Module 14 goes further; Anthropic's "How we contain Claude across products" (May 2026) shows how one vendor layers these defenses.
 -->
 
 ---
@@ -374,11 +374,11 @@ Convenient, but you can't see inside, swap parts, or stop them changing.
 <!--
 Two cautions apply to all of them.
 
-Browser and computer-use agents are the riskiest category. They read untrusted web content while holding your logged-in sessions. Anthropic's Chrome launch post reported a 23.6% prompt-injection attack success rate without mitigations and 11.2% with them in its tests. Better, and still not zero. Read module 11 before pointing one at your email or bank.
+Browser and computer-use agents are the riskiest category. They read untrusted web content while holding your logged-in sessions. Anthropic's Chrome launch post reported a 23.6% prompt-injection attack success rate without mitigations and 11.2% with them in its tests. Better, and still not zero. Read module 14 before pointing one at your email or bank.
 
 Bundled products change underneath you. The vendor can change the model, the prompts or the limits at any time. That's fine for prototypes. For a workflow a team depends on, prefer tools whose configuration you can see and version.
 
-If asked, Claude Design can apply a team's design system, export to Canva, PDF, PPTX or HTML, and package a handoff bundle for Claude Code. The module also lists Claude Code itself, Claude Cowork and Artifacts. Model tiers behind each product change often; see module 03.
+If asked, Claude Design can apply a team's design system, export to Canva, PDF, PPTX or HTML, and package a handoff bundle for Claude Code. The module also lists Claude Code itself, Claude Cowork and Artifacts. Model tiers behind each product change often; see module 05.
 -->
 
 ---
@@ -388,7 +388,7 @@ If asked, Claude Design can apply a team's design system, export to Canva, PDF, 
 | Question | Look for |
 | --- | --- |
 | Model access | One vendor's models, or bring any model? |
-| Cost model | Subscription, per-token API, or seats (module 12) |
+| Cost model | Subscription, per-token API, or seats (module 15) |
 | Team standards | Reads `AGENTS.md`? Supports Agent Skills and MCP? |
 | Privacy | Retention terms, zero data retention, local or self-hosted |
 | Extensibility | Hooks, skills, plugins, MCP, an SDK |
@@ -424,7 +424,7 @@ Someone running many tasks at once: a CLI agent plus a worktree-based GUI or orc
 <!--
 The module's list has eight steps; this folds two in.
 
-Keep AGENTS.md well under 200 lines (module 07). Good first hooks: a formatter after edits, a guard against destructive commands, and a check that tests pass before the agent says "done." Check each MCP server's context cost in your harness's context view, and prefer an existing CLI when the agent already knows it. Move repeated procedures into skills instead of pasting them into the instruction file. Checkpoints are convenient; git is the real safety net.
+Keep AGENTS.md well under 200 lines (module 09). Good first hooks: a formatter after edits, a guard against destructive commands, and a check that tests pass before the agent says "done." Check each MCP server's context cost in your harness's context view, and prefer an existing CLI when the agent already knows it. Move repeated procedures into skills instead of pasting them into the instruction file. Checkpoints are convenient; git is the real safety net.
 
 Too many MCP servers waste context. A popular server or skill can still be unsafe. Approval fatigue, blaming the model for a harness problem, and accidental vendor lock-in cause problems too. Clean up worktrees and sandboxes after parallel work.
 -->
@@ -435,14 +435,14 @@ Too many MCP servers waste context. A popular server or skill can still be unsaf
 
 ## Bryan's take
 
-> **Bryan's take:** My daily setup is several CLI agents running in parallel, each in its own worktree, which I manage by hand. I drive them through T3 Code, which lets me run Claude and Codex side by side, the two model families I think are best for code ([module 03](../modules/03-model-landscape/)). That puts me at roughly stage 6–7 on Yegge's eight-stage ladder ([module 08](../modules/08-agentic-workflows/)). I'm not running a fully autonomous orchestrator, because I haven't gotten reliable results from one.
+> **Bryan's take:** My daily setup is several CLI agents running in parallel, each in its own worktree, which I manage by hand. I drive them through T3 Code, which lets me run Claude and Codex side by side, the two model families I think are best for code ([module 05](../modules/05-model-landscape/)). That puts me at roughly stage 6–7 on Yegge's eight-stage ladder ([module 10](../modules/10-agentic-workflows/)). I'm not running a fully autonomous orchestrator, because I haven't gotten reliable results from one.
 
 <!--
 This is my setup and my opinion.
 
-It maps onto Part 1. T3 Code is one of the generation-6 GUIs that drive installed CLI agents, with a worktree per agent. Gas Town, Yegge's own fully orchestrated system, sits at the top of the ladder the take mentions; module 08 covers the ladder and how much autonomy works in practice.
+It maps onto Part 1. T3 Code is one of the generation-6 GUIs that drive installed CLI agents, with a worktree per agent. Gas Town, Yegge's own fully orchestrated system, sits at the top of the ladder the take mentions; module 10 covers the ladder and how much autonomy works in practice.
 
-The module adds one related point. A harness's cost model matters as much as its features, and my view that subscriptions are what make heavy agentic use affordable is in module 12.
+The module adds one related point. A harness's cost model matters as much as its features, and my view that subscriptions are what make heavy agentic use affordable is in module 15.
 -->
 
 ---
@@ -475,7 +475,7 @@ For the class version, give every group the same well-specified task, such as ad
 4. Tools were acquired, pivoted, or shut down in 2026. How does a team protect itself?
 
 <!--
-For 1, the April 2026 postmortem and module 05's harness comparisons show the harness can move results a lot. The module also argues that durable advantages come from the model, the integration with where work already happens, and the price.
+For 1, the April 2026 postmortem and module 07's harness comparisons show the harness can move results a lot. The module also argues that durable advantages come from the model, the integration with where work already happens, and the price.
 
 For 2, use the three-ways table. Building for others favors MCP; your own agent favors trying the CLI first; multi-step data work favors code in a sandbox.
 
@@ -488,7 +488,7 @@ For 4, portable formats (AGENTS.md, Agent Skills, MCP), open licenses, foundatio
 
 ## Read more
 
-- Module: [06 Harnesses, tools, and MCP](../modules/06-harnesses-and-tools/)
+- Module: [08 Harnesses, tools, and MCP](../modules/08-harnesses-and-tools/)
 - [MCP documentation](https://modelcontextprotocol.io/docs/getting-started/intro)
 - [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) (Anthropic, November 2025)
 - [April 23 postmortem](https://www.anthropic.com/engineering/april-23-postmortem) (Anthropic, April 2026)
@@ -496,5 +496,5 @@ For 4, portable formats (AGENTS.md, Agent Skills, MCP), open licenses, foundatio
 <!--
 The module has the full MCP config examples, the ten-line Python server, both hook examples, and the closed-products table. The MCP docs are the place to start building a server. "Code execution with MCP" explains the context-cost problem and one fix. The postmortem is a short, concrete read on how harness changes look like model regressions.
 
-Next session, module 07, covers what goes into the context window and the buzzwords around it.
+Next session, module 09, covers what goes into the context window and the buzzwords around it.
 -->

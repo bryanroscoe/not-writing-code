@@ -1,6 +1,6 @@
 # Agent instructions
 
-This repo is a Markdown knowledge base, not code. Keep this file short ([module 07](modules/07-context-engineering.md) explains why).
+This repo is a Markdown knowledge base, not code. Keep this file short ([module 09](modules/09-context-engineering.md) explains why).
 
 - Follow [CONTRIBUTING.md](CONTRIBUTING.md): module template, voice, opinion callouts, sourcing.
 - Opinions belong only in `> **Bryan's take:**` callouts. Don't invent new ones. Ask.

@@ -6,7 +6,7 @@ This lab runs in week 7 of the [syllabus](../syllabus.md) and is due in week 8. 
 
 ## Goal
 
-Find real bugs in plausible AI-written code, first by hand and then with AI reviewers, and measure which reviewer catches what. You'll verify each finding before acting on it ([module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting)).
+Find real bugs in plausible AI-written code, first by hand and then with AI reviewers, and measure which reviewer catches what. You'll verify each finding before acting on it ([module 13](../../modules/13-ai-code-review.md#verify-findings-before-acting)).
 
 You work in pairs. Each of you prepares a pull request with five planted bugs and reviews the other's.
 
@@ -21,20 +21,20 @@ Part A (your hand review) is **AI-free**: no chat, no agent, no AI review bot, a
 - For Part B, optionally, access to a second lab's model. A free tier, a second plan, or a classmate running their own tool on the shared diff (no account or credential sharing) all work.
 
 > [!WARNING]
-> **Never install the dependencies a pull request adds in this lab.** One planted bug is a misspelled package that shouldn't exist. Attackers register names that models and people commonly misspell ("slopsquatting"), so a misspelled name can turn out to be real malware ([module 11](../../modules/11-security-and-prompt-injection.md#risks-specific-to-coding-agents)). Check names on the registry's website. Don't run `pip install`, `npm install`, or similar on the PR branch.
+> **Never install the dependencies a pull request adds in this lab.** One planted bug is a misspelled package that shouldn't exist. Attackers register names that models and people commonly misspell ("slopsquatting"), so a misspelled name can turn out to be real malware ([module 14](../../modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents)). Check names on the registry's website. Don't run `pip install`, `npm install`, or similar on the PR branch.
 
 ## Background reading
 
-- [Module 10](../../modules/10-ai-code-review.md): [What they are good and bad at](../../modules/10-ai-code-review.md#what-they-are-good-and-bad-at), [A layered review workflow](../../modules/10-ai-code-review.md#a-layered-review-workflow), [Verify findings before acting](../../modules/10-ai-code-review.md#verify-findings-before-acting), [Severity triage](../../modules/10-ai-code-review.md#severity-triage), [False-positive fatigue](../../modules/10-ai-code-review.md#false-positive-fatigue), [How humans should review AI-written PRs](../../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs), [Configure the reviewer](../../modules/10-ai-code-review.md#configure-the-reviewer)
-- [Module 09](../../modules/09-multi-agent-systems.md): [Recipe 2: cross-model review](../../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)
-- [Module 08](../../modules/08-agentic-workflows.md): the hallucinated-packages row in [Failure modes and counter-moves](../../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)
+- [Module 13](../../modules/13-ai-code-review.md): [What they are good and bad at](../../modules/13-ai-code-review.md#what-they-are-good-and-bad-at), [A layered review workflow](../../modules/13-ai-code-review.md#a-layered-review-workflow), [Verify findings before acting](../../modules/13-ai-code-review.md#verify-findings-before-acting), [Severity triage](../../modules/13-ai-code-review.md#severity-triage), [False-positive fatigue](../../modules/13-ai-code-review.md#false-positive-fatigue), [How humans should review AI-written PRs](../../modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs), [Configure the reviewer](../../modules/13-ai-code-review.md#configure-the-reviewer)
+- [Module 12](../../modules/12-multi-agent-systems.md): [Recipe 2: cross-model review](../../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)
+- [Module 10](../../modules/10-agentic-workflows.md): the hallucinated-packages row in [Failure modes and counter-moves](../../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)
 
 ## Instructions
 
 ### Prep: build a seeded pull request for your partner (60 minutes, before the swap)
 
 1. On a branch called `feature`, have your agent implement the feature your instructor assigns (for example "list a user's orders with pagination, and an admin-only endpoint to refund an order"), with tests. Aim for 100 to 300 changed lines.
-2. Plant five bugs, the set from [module 10's Try it](../../modules/10-ai-code-review.md#try-it):
+2. Plant five bugs, the set from [module 13's Try it](../../modules/13-ai-code-review.md#try-it):
 
    | Bug | Example |
    | --- | --- |
@@ -45,7 +45,7 @@ Part A (your hand review) is **AI-free**: no chat, no agent, no AI review bot, a
    | Misspelled, nonexistent dependency | A plausible package name added to the dependency file, without importing it at startup (so other bugs remain testable) |
 
    For the dependency, **look the name up on the registry website** (for example pypi.org or npmjs.com). It must not exist. If it does, pick another name. Don't install it.
-3. Make the plants look natural, with no comments pointing at them and no odd formatting. Real AI-written bugs are tidy and plausible ([module 10](../../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs)).
+3. Make the plants look natural, with no comments pointing at them and no odd formatting. Real AI-written bugs are tidy and plausible ([module 13](../../modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs)).
 4. Squash everything into one commit with a neutral message, so `git log` doesn't give the plants away:
 
    ```bash
@@ -67,7 +67,7 @@ git diff --stat main...review-me    # what changed? read this first
 git diff main...review-me           # then every line
 ```
 
-Work through the [module 10 checklist](../../modules/10-ai-code-review.md#how-humans-should-review-ai-written-prs): intent, hallucinated APIs, new dependencies, tests that test nothing, swallowed errors, unnecessary abstraction, dead code, security, consistency.
+Work through the [module 13 checklist](../../modules/13-ai-code-review.md#how-humans-should-review-ai-written-prs): intent, hallucinated APIs, new dependencies, tests that test nothing, swallowed errors, unnecessary abstraction, dead code, security, consistency.
 
 You can run the test suite in the environment you built from the base branch. Don't install anything the PR adds.
 
@@ -82,14 +82,14 @@ Stop at 45 minutes, even if you think you've missed something. Record what you f
 
 Run two AI reviewers on the same branch. Each starts in a **fresh** session that has never seen any conversation about this code.
 
-1. Reviewer 1 is your harness's review command, for example `/code-review` in Claude Code or `/review` in Codex ([module 10](../../modules/10-ai-code-review.md#the-tools-as-of-november-2026)).
-2. Reviewer 2 is a model from a different lab, if you can get one. Models tend to rate their own output higher, and different families have different blind spots ([module 09](../../modules/09-multi-agent-systems.md#recipe-2-cross-model-review)). Export the diff with `git diff main...review-me > pr.diff` and give it to the second model along with the reviewer brief from [module 09's Recipe 1](../../modules/09-multi-agent-systems.md#recipe-1-a-review-swarm), with the focus line changed to "correctness, security, and tests." If you have no second lab, use a different model tier from the same lab in a fresh session, and note the limitation.
+1. Reviewer 1 is your harness's review command, for example `/code-review` in Claude Code or `/review` in Codex ([module 13](../../modules/13-ai-code-review.md#the-tools-as-of-november-2026)).
+2. Reviewer 2 is a model from a different lab, if you can get one. Models tend to rate their own output higher, and different families have different blind spots ([module 12](../../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)). Export the diff with `git diff main...review-me > pr.diff` and give it to the second model along with the reviewer brief from [module 12's Recipe 1](../../modules/12-multi-agent-systems.md#recipe-1-a-review-swarm), with the focus line changed to "correctness, security, and tests." If you have no second lab, use a different model tier from the same lab in a fresh session, and note the limitation.
 
 Tell both reviewers not to install dependencies or make network requests. Use a read-only or plan mode if your harness has one. Save each reviewer's full output, and record how long it took and roughly how much quota it used.
 
 ### Part C: verify every finding (45 minutes)
 
-Merge the findings from you, Reviewer 1, and Reviewer 2 into one list, deduplicated by location and root cause. Then verify each one. For code findings, use the prompt from [module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting):
+Merge the findings from you, Reviewer 1, and Reviewer 2 into one list, deduplicated by location and root cause. Then verify each one. For code findings, use the prompt from [module 13](../../modules/13-ai-code-review.md#verify-findings-before-acting):
 
 ```text
 The reviewer says: "<finding>". Don't fix it yet. First, write a test that
@@ -118,15 +118,15 @@ Get your partner's answer key from the instructor. Fill in:
 | Reviewer 1 | | | | | |
 | Reviewer 2 | | | | | |
 
-Report planted-bug recall as bugs found / 5. Count only Refuted findings as false positives, and report Plausible findings separately. Then triage the confirmed findings with [module 10's severity levels](../../modules/10-ai-code-review.md#severity-triage): High, Medium, Low, or Noise.
+Report planted-bug recall as bugs found / 5. Count only Refuted findings as false positives, and report Plausible findings separately. Then triage the confirmed findings with [module 13's severity levels](../../modules/13-ai-code-review.md#severity-triage): High, Medium, Low, or Noise.
 
 ### Part E: write-up (20 minutes)
 
 Write one page, in your own words:
 
 1. Which planted bugs did humans catch that the AI reviewers missed, and the reverse? Why do you think so?
-2. Which reviewer would you trust as Layer 2 in a [layered workflow](../../modules/10-ai-code-review.md#a-layered-review-workflow), and why?
-3. Write a three-rule review instruction file for this repository that would make that reviewer more useful ([module 10](../../modules/10-ai-code-review.md#configure-the-reviewer)).
+2. Which reviewer would you trust as Layer 2 in a [layered workflow](../../modules/13-ai-code-review.md#a-layered-review-workflow), and why?
+3. Write a three-rule review instruction file for this repository that would make that reviewer more useful ([module 13](../../modules/13-ai-code-review.md#configure-the-reviewer)).
 4. What did checking the dependency name teach you?
 
 ## What to submit
@@ -150,7 +150,7 @@ Write one page, in your own words:
 
 - Plant a sixth, harder bug in your own copy: a timezone mistake, a race between two requests, or a migration with no down step. Rerun both AI reviewers. Who catches it?
 - Split Reviewer 1 into a swarm of three focused reviewers (correctness, security, tests) and compare with the single review. This previews [Lab 7](lab-07-multi-agent-review.md).
-- Pilot a review bot on your term project for two weeks, labelling every comment as acted on, dismissed as wrong, or dismissed as not worth it ([module 10 Try it](../../modules/10-ai-code-review.md#try-it)).
+- Pilot a review bot on your term project for two weeks, labelling every comment as acted on, dismissed as wrong, or dismissed as not worth it ([module 13 Try it](../../modules/13-ai-code-review.md#try-it)).
 
 ## Instructor notes
 
@@ -158,5 +158,5 @@ Write one page, in your own words:
 - Collect answer keys before the swap so nobody adjusts their key afterward.
 - Watch for plants given away by comments, odd style, or a commit history that wasn't squashed.
 - **The dependency plant is a safety exercise.** Repeat the warning in class and ask students to show you the registry lookup. If a student's chosen name turns out to exist, use it as a live lesson.
-- Treat [module 10's table](../../modules/10-ai-code-review.md#what-they-are-good-and-bad-at) as a hypothesis to test, not a prediction to share. It says AI reviewers are good at local logic errors and security smells such as missing authorization checks, and weak at intent and at staying quiet. Don't tell students in advance. Tally the class's results by bug type and compare them with the table in week 8.
+- Treat [module 13's table](../../modules/13-ai-code-review.md#what-they-are-good-and-bad-at) as a hypothesis to test, not a prediction to share. It says AI reviewers are good at local logic errors and security smells such as missing authorization checks, and weak at intent and at staying quiet. Don't tell students in advance. Tally the class's results by bug type and compare them with the table in week 8.
 - Students under-count AI false positives because they don't want to look like they missed something. Ask for the evidence behind each "Refuted."

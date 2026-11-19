@@ -6,7 +6,7 @@ This lab runs in week 5 of the [syllabus](../syllabus.md) and is due in week 6. 
 
 ## Goal
 
-Run the full explore → plan → implement → verify → commit loop on a small feature, with acceptance tests **you** wrote as the contract the agent must satisfy ([module 08](../../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Your feature is graded against hidden tests you never see, so your own tests need to be good. In a course, the instructor writes them. Working alone, see [Self-paced: hidden tests](#self-paced-hidden-tests).
+Run the full explore → plan → implement → verify → commit loop on a small feature, with acceptance tests **you** wrote as the contract the agent must satisfy ([module 10](../../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Your feature is graded against hidden tests you never see, so your own tests need to be good. In a course, the instructor writes them. Working alone, see [Self-paced: hidden tests](#self-paced-hidden-tests).
 
 Part A (spec and acceptance tests) is AI-as-tutor. An agent may interview you, point out gaps, and explain the test framework, but it may not write the spec text or the tests you submit. Part B (plan, implementation, review) is AI-accelerated.
 
@@ -26,9 +26,9 @@ Part A (spec and acceptance tests) is AI-as-tutor. An agent may interview you, p
 
 ## Background reading
 
-- [Module 08](../../modules/08-agentic-workflows.md): [The key fact](../../modules/08-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done), [The core loop](../../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit), [Tests as the agent's contract](../../modules/08-agentic-workflows.md#tests-as-the-agents-contract), [Small diffs](../../modules/08-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints), [Steering a session](../../modules/08-agentic-workflows.md#steering-a-session), [Failure modes and counter-moves](../../modules/08-agentic-workflows.md#failure-modes-and-counter-moves), [A sample session](../../modules/08-agentic-workflows.md#a-sample-session)
-- [Module 07](../../modules/07-context-engineering.md): [Spec-driven development in practice](../../modules/07-context-engineering.md#spec-driven-development-in-practice)
-- [Module 10](../../modules/10-ai-code-review.md): [Verify findings before acting](../../modules/10-ai-code-review.md#verify-findings-before-acting)
+- [Module 10](../../modules/10-agentic-workflows.md): [The key fact](../../modules/10-agentic-workflows.md#the-key-fact-the-loop-stops-when-the-model-thinks-it-is-done), [The core loop](../../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit), [Tests as the agent's contract](../../modules/10-agentic-workflows.md#tests-as-the-agents-contract), [Small diffs](../../modules/10-agentic-workflows.md#small-diffs-git-as-the-safety-net-checkpoints), [Steering a session](../../modules/10-agentic-workflows.md#steering-a-session), [Failure modes and counter-moves](../../modules/10-agentic-workflows.md#failure-modes-and-counter-moves), [A sample session](../../modules/10-agentic-workflows.md#a-sample-session)
+- [Module 09](../../modules/09-context-engineering.md): [Spec-driven development in practice](../../modules/09-context-engineering.md#spec-driven-development-in-practice)
+- [Module 13](../../modules/13-ai-code-review.md): [Verify findings before acting](../../modules/13-ai-code-review.md#verify-findings-before-acting)
 
 ## Instructions
 
@@ -44,7 +44,7 @@ I should follow when adding a module. Cite file paths.
 
 Check at least one claim against the files.
 
-**2. Spec interview (30 minutes).** This prompt comes from Anthropic's docs, quoted in [module 08](../../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit). Adapt it:
+**2. Spec interview (30 minutes).** This prompt comes from Anthropic's docs, quoted in [module 10](../../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit). Adapt it:
 
 ```text
 I want to add <feature> but haven't thought it through.
@@ -70,11 +70,11 @@ git add SPEC.md tests/ && git commit -m "test: acceptance tests for <feature>"
 git rev-parse HEAD > evidence/test-commit.txt   # remember this commit
 ```
 
-A test that has never failed may not test anything ([module 08](../../modules/08-agentic-workflows.md#tests-as-the-agents-contract)).
+A test that has never failed may not test anything ([module 10](../../modules/10-agentic-workflows.md#tests-as-the-agents-contract)).
 
 ### Part B: plan, build, verify (AI-accelerated)
 
-**4. Plan in a fresh session (20 minutes).** Start a new session so the build begins with a clean context and a written definition of done ([module 08](../../modules/08-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Use plan mode if your harness has one.
+**4. Plan in a fresh session (20 minutes).** Start a new session so the build begins with a clean context and a written definition of done ([module 10](../../modules/10-agentic-workflows.md#the-core-loop-explore--plan--implement--verify--commit)). Use plan mode if your harness has one.
 
 ```text
 Read SPEC.md and <test file>. Propose a plan: the files you'll create or
@@ -93,7 +93,7 @@ modifying them. Then run the full test suite and lint, and show me the
 exact commands and their output.
 ```
 
-To steer, watch the first minute, press `Esc` if it drifts, and after two failed corrections start a fresh session with a better prompt ([module 08](../../modules/08-agentic-workflows.md#steering-a-session)).
+To steer, watch the first minute, press `Esc` if it drifts, and after two failed corrections start a fresh session with a better prompt ([module 10](../../modules/10-agentic-workflows.md#steering-a-session)).
 
 **6. Verify (30 minutes).** Check the evidence yourself. Don't trust the summary.
 
@@ -105,16 +105,16 @@ git diff --stat main > evidence/diffstat.txt
 
 If the test diff isn't empty, inspect it and revert any unauthorized change to the contract. Tests you add later for mutation gaps or confirmed review findings are allowed. Commit them separately, explain them, and keep the original acceptance assertions intact.
 
-Then do a **mutation check by hand**: break the implementation on purpose in two different ways (flip a comparison, drop an edge-case branch, return early). Run the tests after each break. Record which test caught it. Revert. If no test catches a break, add a test that does, and note it ([module 08](../../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)).
+Then do a **mutation check by hand**: break the implementation on purpose in two different ways (flip a comparison, drop an edge-case branch, return early). Run the tests after each break. Record which test caught it. Revert. If no test catches a break, add a test that does, and note it ([module 10](../../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)).
 
-**7. Independent review (30 minutes).** In a **fresh** session that never saw the build conversation, run your harness's review command (for example `/code-review` in Claude Code or `/review` in Codex), or give a fresh session the reviewer brief from [module 09](../../modules/09-multi-agent-systems.md#recipe-1-a-review-swarm).
+**7. Independent review (30 minutes).** In a **fresh** session that never saw the build conversation, run your harness's review command (for example `/code-review` in Claude Code or `/review` in Codex), or give a fresh session the reviewer brief from [module 12](../../modules/12-multi-agent-systems.md#recipe-1-a-review-swarm).
 
-For each finding, decide whether it's real. Use the verify-first prompt from [module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting): ask for a failing test that demonstrates it, or an explanation of why it can't happen. Record each finding in a table:
+For each finding, decide whether it's real. Use the verify-first prompt from [module 13](../../modules/13-ai-code-review.md#verify-findings-before-acting): ask for a failing test that demonstrates it, or an explanation of why it can't happen. Record each finding in a table:
 
 | # | Finding | Severity | Real? | Evidence | Action |
 | --- | --- | --- | --- | --- | --- |
 
-Fix only confirmed findings, each with a test. Acting on unverified findings can bloat the code ([module 10](../../modules/10-ai-code-review.md#verify-findings-before-acting)).
+Fix only confirmed findings, each with a test. Acting on unverified findings can bloat the code ([module 13](../../modules/13-ai-code-review.md#verify-findings-before-acting)).
 
 **8. Commit (10 minutes).** Make small, separate commits: tests (already done), implementation, and each review fix. Write or check every message.
 
@@ -163,7 +163,7 @@ If the transcript or a walkthrough shows that an agent wrote your spec or tests,
 
 ## If you finish early
 
-- Go up one stage ([module 08 Try it](../../modules/08-agentic-workflows.md#try-it)). While the main agent works, start a second agent in its own worktree on an unrelated task. Afterward, write three sentences on where your attention went and what you nearly missed.
+- Go up one stage ([module 10 Try it](../../modules/10-agentic-workflows.md#try-it)). While the main agent works, start a second agent in its own worktree on an unrelated task. Afterward, write three sentences on where your attention went and what you nearly missed.
 
   ```bash
   git worktree add ../.worktrees/lab3/side -b lab3-side
@@ -171,7 +171,7 @@ If the transcript or a walkthrough shows that an agent wrote your spec or tests,
   git worktree remove ../.worktrees/lab3/side    # clean up when done
   ```
 
-- Enforce the contract with a hook or deny rule that blocks edits under `tests/` during implementation, and show it firing. A line in an instruction file is followed "nearly every time"; a hook applies every time ([module 08](../../modules/08-agentic-workflows.md#tests-as-the-agents-contract)).
+- Enforce the contract with a hook or deny rule that blocks edits under `tests/` during implementation, and show it firing. A line in an instruction file is followed "nearly every time"; a hook applies every time ([module 10](../../modules/10-agentic-workflows.md#tests-as-the-agents-contract)).
 - Try a second feature from the menu at a higher autonomy level, with a turn cap, and compare the hidden-test results.
 
 ## Instructor notes
@@ -179,7 +179,7 @@ If the transcript or a walkthrough shows that an agent wrote your spec or tests,
 - Always provide the feature menu, since the hidden-test criterion depends on it. The fallback table in the setup section is for self-paced learners. If you use those features, write hidden tests that cover the required behaviors plus the edge cases students most often leave out of their specs.
 - Write hidden tests to cover the edge cases students most often miss. Keep them out of the student repository and run them after the deadline. Share aggregate results in class, including which kinds of cases the class missed.
 - Agent-written tests are the most common integrity problem in this lab. The planning transcript, the commit order, and a quick walkthrough question ("why does this test expect an error rather than an empty result?") usually settle it.
-- Agents under pressure to pass sometimes loosen or skip tests ([module 08](../../modules/08-agentic-workflows.md#failure-modes-and-counter-moves)). The empty test-diff check catches it, so make students show you that check instead of claiming it.
+- Agents under pressure to pass sometimes loosen or skip tests ([module 10](../../modules/10-agentic-workflows.md#failure-modes-and-counter-moves)). The empty test-diff check catches it, so make students show you that check instead of claiming it.
 - Expect plans with config objects, base classes, or plugin systems for a 40-line function. Reward the student who pushed back.
 - Some students will apply every review suggestion. Deduct when unverified fixes add complexity.
 - Students who skip the spec interview spend longer in implementation. Point this out after grading.

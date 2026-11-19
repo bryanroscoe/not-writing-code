@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "12: Costs: subscriptions vs API"
+title: "15: Costs: subscriptions vs API"
 description: "What an hour with a coding agent really costs, and how to pay for it"
-footer: "A Brief Introduction to Not Writing Code · 12 Costs"
+footer: "A Brief Introduction to Not Writing Code · 15 Costs"
 ---
 
 <!-- _class: lead -->
@@ -18,7 +18,7 @@ We'll estimate what an agent session costs, explain why prompt caching matters s
 
 Every price here comes from the vendors' own pages, checked on 8 November 2026. Prices change often, sometimes monthly. The arithmetic still works when the prices change.
 
-The reading is module 12. Students, read Foundations, the price snapshot, and the worked example. Engineers, all of In practice. Leads, the worked example, cost per task, team budgeting, and the counterpoints to my take.
+The reading is module 15. Students, read Foundations, the price snapshot, and the worked example. Engineers, all of In practice. Leads, the worked example, cost per task, team budgeting, and the counterpoints to my take.
 -->
 
 ---
@@ -294,11 +294,11 @@ These policies changed several times in a year. If your workflow depends on a co
 | Local models | No per-token cost | Hardware and power; well behind for agentic coding |
 
 <!--
-Z.ai's GLM Coding Plan starts at $18 a month for the Lite tier, with 5-hour and weekly credit limits and half-price off-peak usage. Moonshot's Kimi Code Plan runs its Kimi K3-series models. MiniMax sells an M Plan for its M3-series models. They plug into popular harnesses through API-compatible endpoints. Read the data terms. The "open" part only helps you if you might self-host later (module 04).
+Z.ai's GLM Coding Plan starts at $18 a month for the Lite tier, with 5-hour and weekly credit limits and half-price off-peak usage. Moonshot's Kimi Code Plan runs its Kimi K3-series models. MiniMax sells an M Plan for its M3-series models. They plug into popular harnesses through API-compatible endpoints. Read the data terms. The "open" part only helps you if you might self-host later (module 06).
 
 With routing, send renaming, boilerplate, log summaries, and issue classification to a small, cheap model; keep planning, hard debugging, and review on the frontier model. Many harnesses let you set a different model for subagents.
 
-Local models have zero marginal token cost but real hardware and electricity cost, and today's local models are well behind the frontier for agentic coding (module 04).
+Local models have zero marginal token cost but real hardware and electricity cost, and today's local models are well behind the frontier for agentic coding (module 06).
 -->
 
 ---
@@ -494,7 +494,7 @@ Two more if time allows: As a team lead, how much should you rely on subscriptio
 
 # Read more
 
-- [Module 12: Costs: subscriptions vs API](../modules/12-costs-subscriptions-and-apis/)
+- [Module 15: Costs: subscriptions vs API](../modules/15-costs-subscriptions-and-apis/)
 - [Anthropic API pricing docs](https://platform.claude.com/docs/en/about-claude/pricing): caching, batch, fast mode
 - [ccusage](https://github.com/ryoppippi/ccusage): local usage and cost reports for agent CLIs
 - [Becker et al., 2025](https://arxiv.org/abs/2507.09089): METR's study of AI and developer speed

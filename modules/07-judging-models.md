@@ -1,4 +1,4 @@
-# 05: How to tell if a model is good
+# 07: How to tell if a model is good
 
 *About a 40-minute read. Last checked November 8, 2026.*
 
@@ -38,7 +38,7 @@ flowchart LR
   A["Attempts<br/>pass@1, pass@k, best-of-N"] --> S
 ```
 
-- The **harness** (also called scaffold or agent) is the program that wraps the model. It sends the prompt, exposes tools such as a shell or file editor, runs the loop, and decides when to stop. Claude Code, Codex CLI, and the research harness Terminus-2 are harnesses ([module 06](./06-harnesses-and-tools.md)).
+- The **harness** (also called scaffold or agent) is the program that wraps the model. It sends the prompt, exposes tools such as a shell or file editor, runs the loop, and decides when to stop. Claude Code, Codex CLI, and the research harness Terminus-2 are harnesses ([module 08](./08-harnesses-and-tools.md)).
 - The **grader** decides pass or fail. For code it's usually hidden unit tests. For writing it might be a rubric scored by humans or by another model (an **LLM judge**).
 - **pass@1** is the share of tasks solved on the first try. Most headline numbers are pass@1, sometimes averaged over several runs.
 
@@ -86,7 +86,7 @@ Even the labs now say the margins mislead. Anthropic's Opus 5.5 announcement not
 
 ### The benchmark families
 
-These are the benchmarks you'll see most often, what each measures, and where each falls short. The leaders change monthly; [module 03](./03-model-landscape.md) and the live leaderboards linked here have who's on top right now.
+These are the benchmarks you'll see most often, what each measures, and where each falls short. The leaders change monthly; [module 05](./05-model-landscape.md) and the live leaderboards linked here have who's on top right now.
 
 #### Knowledge and expert Q&A
 
@@ -103,7 +103,7 @@ None of these tell you much about coding. They're good for spotting big capabili
 
 | Benchmark | What it measures | Weaknesses |
 | --- | --- | --- |
-| AIME (American Invitational Mathematics Examination) | 30 competition problems per year with integer answers | Tiny; each year's problems leak quickly; labs use majority-vote settings (see the Grok 3 episode in [module 14](./14-keeping-up.md)) |
+| AIME (American Invitational Mathematics Examination) | 30 competition problems per year with integer answers | Tiny; each year's problems leak quickly; labs use majority-vote settings (see the Grok 3 episode in [module 17](./17-keeping-up.md)) |
 | [FrontierMath](https://arxiv.org/abs/2411.04872) (Glazer et al., 2024) | Hundreds of unpublished, research-grade math problems with checkable answers | Funding conflict: Epoch AI [disclosed in January 2025](https://epoch.ai/blog/openai-and-frontiermath) that OpenAI commissioned and owns the problems and has most of the problems and solutions, except a holdout set whose solutions it doesn't receive |
 | ARC-AGI-1/2/3 ([Chollet, 2019](https://arxiv.org/abs/1911.01547); [ARC-AGI-2](https://arxiv.org/abs/2505.11831), 2025; [ARC-AGI-3](https://arcprize.org/blog/arc-agi-3-launch), 2026) | Novel visual puzzles that humans find easy and models find hard. ARC-AGI-3 (March 2026) is interactive: turn-based games with no instructions, testing exploration and planning | Abstract puzzles, far from software work. ARC Prize reports cost per task, which matters because high-compute runs can buy scores |
 
@@ -175,7 +175,7 @@ The same model gets different scores in different harnesses. Examples from prima
 - Leaderboards tell you the harness. Terminal-Bench lists model *and* agent for each entry. Anthropic's Opus 5.5 post notes the public Terminal-Bench 4.0 leaderboard showed Opus 5 at 51.8% in the Claude Code harness, and Anthropic's own setup reproduced 52.3%. Google's October 2026 Gemini 4 table reports Terminal-Bench 4.0 "(AA)," meaning Artificial Analysis's run with its standard mini-swe-agent setup. That number isn't comparable to a vendor's best-agent submission.
 - Effort and budget count as harness settings. [McFadyen et al. (2026)](https://arxiv.org/abs/2606.17930) varied token budgets, compaction, and retries across 12 frontier models. They concluded that "benchmark scores are protocol-dependent," and that fixed budgets understate newer models. Going the other way, reviewers reported that Opus 5 could do *worse* at its highest effort settings, spinning in circles ([Zvi Mowshowitz, Jul 2026](https://thezvi.wordpress.com/2026/07/28/claude-opus-5-is-highly-capable-but-is-no-mythos/)).
 
-So compare models in the harness you'll actually use, at the settings you'll actually use. A model that wins in someone else's agent may lose in yours. [Module 06](./06-harnesses-and-tools.md) covers harnesses and [module 07](./07-context-engineering.md) covers the context you feed them.
+So compare models in the harness you'll actually use, at the settings you'll actually use. A model that wins in someone else's agent may lose in yours. [Module 08](./08-harnesses-and-tools.md) covers harnesses and [module 09](./09-context-engineering.md) covers the context you feed them.
 
 ### Benchmark-maxing
 
@@ -186,7 +186,7 @@ Benchmark-maxing means optimizing a model, or how it's presented, for benchmark 
 3. Eval-specific tuning. A variant is tuned to please a grader or audience, as with the Llama 4 Arena variant.
 4. Reward hacking that leaks into behavior. Reinforcement learning on coding tasks rewards "tests pass," so a model can learn to special-case tests, over-verify, or over-engineer. System cards now report this.
 5. Cherry-picked harnesses and settings. Report the agent, effort level, and benchmark version that look best, and quietly drop the benchmark that looked bad.
-6. Best-of-N or majority-vote scores reported without saying so, like the Grok 3 chart in [module 14](./14-keeping-up.md).
+6. Best-of-N or majority-vote scores reported without saying so, like the Grok 3 chart in [module 17](./17-keeping-up.md).
 7. Selective private testing. Test many variants and publish only the winner (The Leaderboard Illusion).
 
 #### A recent example: Opus 5 to Opus 5.5
@@ -374,10 +374,10 @@ For each configuration, report pass rate (with a rough error bar), pass^3, mean 
 #### 6. Rerun on every change
 
 - New model or version? Rerun the set before you switch your team's default.
-- Harness update? Rerun a 5-task smoke subset. Harness changes have caused real regressions ([module 14](./14-keeping-up.md)).
+- Harness update? Rerun a 5-task smoke subset. Harness changes have caused real regressions ([module 17](./17-keeping-up.md)).
 - Pin versions in the results file. If you use APIs, pin dated model snapshots instead of "latest" aliases.
 - Retire leaked tasks. If a task's fix is now public and models start acing it, replace it.
-- Keep the eval in the repo next to the code, and review changes to it like code. [Module 10](./10-ai-code-review.md) covers using several models to review each other's output, which pairs well with blind grading.
+- Keep the eval in the repo next to the code, and review changes to it like code. [Module 13](./13-ai-code-review.md) covers using several models to review each other's output, which pairs well with blind grading.
 
 ## Going deeper
 
@@ -394,7 +394,7 @@ As agents get stronger, they get better at gaming graders. METR reported "well o
 
 Terminal-Bench's [leaderboard integrity update](https://www.tbench.ai/news/leaderboard-integrity-update) removed submissions that modified timeouts, hid encrypted solutions in the agent binary, or uploaded the tasks' test folders. It zeroed the trials where one agent fetched solutions from the internet into its `AGENTS.md` file. It now requires full trajectories for every passing trial and reviews them with an agent judge.
 
-For your own evals, hide the tests, diff the test directory, and actually *read* a sample of passing transcripts. Reward hacking ties into the training dynamics in [module 02](./02-training-and-tuning.md) and the safety concerns in [module 11](./11-security-and-prompt-injection.md).
+For your own evals, hide the tests, diff the test directory, and actually *read* a sample of passing transcripts. Reward hacking ties into the training dynamics in [module 03](./03-post-training-and-rl.md) and the safety concerns in [module 14](./14-security-and-prompt-injection.md).
 
 ### Self-report vs measurement
 
@@ -409,9 +409,9 @@ Several studies find a gap between perceived and measured gains. In METR's 2025 
 
 ## Bryan's take
 
-Bryan's Opus 5 take is in the [benchmark-maxing example](#a-recent-example-opus-5-to-opus-55). His model picks (Claude and Codex for code; Grok or Gemini only for specific non-coding jobs) are in [module 03](./03-model-landscape.md), and his case for having several models review each other is in [module 10](./10-ai-code-review.md).
+Bryan's Opus 5 take is in the [benchmark-maxing example](#a-recent-example-opus-5-to-opus-55). His model picks (Claude and Codex for code; Grok or Gemini only for specific non-coding jobs) are in [module 05](./05-model-landscape.md), and his case for having several models review each other is in [module 13](./13-ai-code-review.md).
 
-His view that Grok and Gemini fall behind for coding is the most contested of these. Public benchmarks in late 2026 put Google's newest models near or at the top on some coding evals ([module 14](./14-keeping-up.md#lab-track-records)). That's a good reason to check your own golden tasks instead of taking anyone's word for it, Bryan's included.
+His view that Grok and Gemini fall behind for coding is the most contested of these. Public benchmarks in late 2026 put Google's newest models near or at the top on some coding evals ([module 17](./17-keeping-up.md#lab-track-records)). That's a good reason to check your own golden tasks instead of taking anyone's word for it, Bryan's included.
 
 ## Try it
 

@@ -206,7 +206,7 @@ A base model continues documents. Ask "What is the capital of France?" and it ma
 <!--
 For instruction tuning, or supervised fine-tuning, the reference is FLAN (Wei et al., 2021). In RLHF, people compare pairs of responses, a reward model learns to predict their preferences, and reinforcement learning nudges the model toward what the reward model scores well (Christiano et al., 2017; InstructGPT, 2022). Constitutional AI replaced much of the human labeling for harmlessness with AI feedback (Bai et al., 2022). In January 2026 Anthropic published a much longer constitution that explains its reasoning instead of listing rules.
 
-Post-training also teaches the chat format, meaning special tokens that mark the system prompt, user turns, assistant turns, and tool calls. To the model, a conversation is still one long document. Module 02 goes deeper.
+Post-training also teaches the chat format, meaning special tokens that mark the system prompt, user turns, assistant turns, and tool calls. To the model, a conversation is still one long document. Module 03 goes deeper.
 -->
 
 ---
@@ -230,7 +230,7 @@ DeepSeek-R1 came with open weights and a paper explaining the recipe, reinforcem
 
 Writing out steps helps because each generated token is one more pass through the whole network, and the written steps are a scratchpad the model can read back.
 
-By late 2026 most frontier models have thinking or adaptive thinking modes with an effort setting. On a subscription, high effort costs you rate limits. On an API, it shows up on the bill (module 12).
+By late 2026 most frontier models have thinking or adaptive thinking modes with an effort setting. On a subscription, high effort costs you rate limits. On an API, it shows up on the bill (module 15).
 -->
 
 ---
@@ -262,9 +262,9 @@ Bigger isn't uniformly better.
 <!--
 The context window is everything the model can see at once: system prompt, conversation, pasted files, tool output, and its own thinking. A model only "knows" what's in its weights plus what's in its context right now. Product "memory" features and files like CLAUDE.md work by saving notes and putting them back into the context next time.
 
-Models are worse at using information buried in the middle of a long context than at the start or end ("Lost in the Middle," Liu et al., 2023). Chroma's 2025 "Context Rot" report found performance degrading as inputs grow, even on simple tasks. Curating what goes into the window is context engineering, module 07.
+Models are worse at using information buried in the middle of a long context than at the start or end ("Lost in the Middle," Liu et al., 2023). Chroma's 2025 "Context Rot" report found performance degrading as inputs grow, even on simple tasks. Curating what goes into the window is context engineering, module 09.
 
-Briefly, the KV cache. To generate token 1,001, the model needs keys and values for tokens 1 to 1,000, so servers store them in GPU memory. That cache grows with every token, which is why long contexts are expensive, and why providers discount repeated prefixes with prompt caching (module 12).
+Briefly, the KV cache. To generate token 1,001, the model needs keys and values for tokens 1 to 1,000, so servers store them in GPU memory. That cache grows with every token, which is why long contexts are expensive, and why providers discount repeated prefixes with prompt caching (module 15).
 -->
 
 ---
@@ -304,7 +304,7 @@ On its own, an LLM can't run code, read your files, browse, or do exact math. To
 
 ReAct (Yao et al., 2022) interleaved reasoning steps with actions. Toolformer (Schick et al., 2023) showed a model could teach itself when to call tools like a calculator or search engine. OpenAI shipped function calling in its API in June 2023. Anthropic released the Model Context Protocol (MCP) in November 2024 to standardize how tools plug into models.
 
-Coding agents are exactly this. Module 06 covers harnesses and MCP, and module 08 covers agentic workflows.
+Coding agents are exactly this. Module 08 covers harnesses and MCP, and module 10 covers agentic workflows.
 -->
 
 ---
@@ -348,7 +348,7 @@ Two and three come from OpenAI researchers (Kalai et al., 2025, "Why Language Mo
 
 Four comes from Anthropic's 2025 interpretability work. In Claude, declining to answer is the default. A "known entity" signal switches that default off when the model recognizes something. When the signal fires for something only half-familiar, the model confabulates.
 
-Nonexistent package names matter for security: attackers can register them (module 11). The defenses are context (give it the real docs), tools (let it run the code), and checks (tests, type checkers, your review).
+Nonexistent package names matter for security: attackers can register them (module 14). The defenses are context (give it the real docs), tools (let it run the code), and checks (tests, type checkers, your review).
 -->
 
 ---
@@ -366,7 +366,7 @@ This is sycophancy, the tendency to tell you what you want to hear. It agrees wi
 
 Sharma et al. (2023) found it across several assistants and showed that humans and preference models sometimes prefer a convincing sycophantic answer over a correct one. In its [May 2 follow-up on the GPT-4o rollback](https://openai.com/index/expanding-on-sycophancy/), OpenAI's early assessment was that combined changes, including a new reward signal from user ratings, weakened its main check on sycophancy.
 
-So ask for critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work. Module 10 builds on this.
+So ask for critique instead of approval, ask what evidence would prove you wrong, and have a different model or a fresh session review the work. Module 13 builds on this.
 -->
 
 ---
@@ -422,7 +422,7 @@ From module 00
 <!--
 Module 01 points back to this definition from module 00. We've just covered why it fits. The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it.
 
-My views on which models suit which jobs are in module 03.
+My views on which models suit which jobs are in module 05.
 -->
 
 ---

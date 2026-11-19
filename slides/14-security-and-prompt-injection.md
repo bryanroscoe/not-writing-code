@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "11: Security and prompt injection"
+title: "14: Security and prompt injection"
 description: "Why agents follow strangers' text, and the defenses that hold"
-footer: "A Brief Introduction to Not Writing Code · 11 Security and prompt injection"
+footer: "A Brief Introduction to Not Writing Code · 14 Security and prompt injection"
 ---
 
 <!-- _class: lead -->
@@ -14,7 +14,7 @@ footer: "A Brief Introduction to Not Writing Code · 11 Security and prompt inje
 Design as if an injected instruction will get followed
 
 <!--
-Today is about defending yourself and your team when you work with coding agents: what prompt injection is, why it's still unsolved, real incidents from 2025 and 2026, and the controls that hold up. The reading is module 11.
+Today is about defending yourself and your team when you work with coding agents: what prompt injection is, why it's still unsolved, real incidents from 2025 and 2026, and the controls that hold up. The reading is module 14.
 
 Everything here is defensive. The exercises run in throwaway environments with fake secrets. Incident details and advisory counts are as of November 2026.
 -->
@@ -251,7 +251,7 @@ Separate from injection, there's the code itself. Agents write code in the style
 - Veracode's 2025 GenAI Code Security Report tested more than 100 models on 80 tasks. Over 70% for Java, and cross-site scripting defenses failed 86% of the time. It reported security hadn't improved with newer, larger models even as functional correctness did. It's a vendor report, not peer-reviewed.
 - BaxBench (Vero et al., ICML 2025): 392 backend tasks.
 
-Newer models have improved on many of these measures, and the numbers age quickly. Run the same static analysis, dependency scanning, and review you'd run on a stranger's pull request. Module 10 covers review, including a second model reviewing for security.
+Newer models have improved on many of these measures, and the numbers age quickly. Run the same static analysis, dependency scanning, and review you'd run on a stranger's pull request. Module 13 covers review, including a second model reviewing for security.
 -->
 
 ---
@@ -271,7 +271,7 @@ With Glasswing, Anthropic gave an unreleased model, Claude Mythos Preview, to a 
 
 The [GPT-5.3-Codex system card](https://openai.com/index/gpt-5-3-codex-system-card/) described OpenAI's first launch treated as High capability in cybersecurity under its Preparedness Framework. Extra safeguards were precautionary: OpenAI lacked definitive evidence that it reached the threshold, but could not rule it out.
 
-Current model names and access tiers are in module 03.
+Current model names and access tiers are in module 05.
 -->
 
 ---
@@ -335,7 +335,7 @@ For Codex, the lower-risk local combination in the config file is sandbox mode w
 | 10. No untrusted text in privileged CI prompts | Read-only tokens, no secrets, isolated caches |
 
 <!--
-6. Hooks run your code at fixed points (before a tool call, after an edit). Use them to block commands, scan diffs for secrets, or log every tool call. Module 06 covers hooks.
+6. Hooks run your code at fixed points (before a tool call, after an edit). Use them to block commands, scan diffs for secrets, or log every tool call. Module 08 covers hooks.
 7. One agent with no secrets and no write access reads issues, web pages, or emails and produces a structured summary. A second agent, which never sees the raw untrusted text, acts on that summary. This is the "dual LLM" idea, formalized in part 3.
 8. Commit lockfiles and install with npm ci or the equivalent. Consider disabling install scripts or waiting a few days before adopting brand-new releases: most worm-infected versions were caught within hours or days. Verify that an AI-suggested package exists and is the real one.
 9. Turn on push protection and secret scanning in your git host. Keep secrets in a manager, not in .env files in the repo.
@@ -404,7 +404,7 @@ We still don't know whether training can fix it (attacks get more expensive, but
 
 ## On autonomy and security
 
-> **Bryan's take:** I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work ([module 08](../modules/08-agentic-workflows/#bryans-take)).
+> **Bryan's take:** I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work ([module 10](../modules/10-agentic-workflows/#bryans-take)).
 
 <!--
 This is my opinion, quoted from the module. It's one practitioner's view of autonomy in general.
@@ -454,11 +454,11 @@ For question 1, ask what a "parameterized prompt" would need to guarantee. For q
 
 ## Read more
 
-- [Module 11: Security and prompt injection](../modules/11-security-and-prompt-injection/)
+- [Module 14: Security and prompt injection](../modules/14-security-and-prompt-injection/)
 - Simon Willison, [The lethal trifecta for AI agents](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) (June 16, 2025)
 - Meta, [Agents Rule of Two](https://ai.meta.com/blog/practical-ai-agent-security/) (October 31, 2025)
 - Beurer-Kellner et al., [Design Patterns for Securing LLM Agents against Prompt Injections](https://arxiv.org/abs/2506.08837) (2025)
 
 <!--
-The module links the primary source for every incident in the tables. For the tool you use, read its security docs and subscribe to its security advisories. Next time, module 12 covers costs.
+The module links the primary source for every incident in the tables. For the tool you use, read its security docs and subscribe to its security advisories. Next time, module 15 covers costs.
 -->

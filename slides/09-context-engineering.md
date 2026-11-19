@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "07: Context engineering and the buzzwords"
+title: "09: Context engineering and the buzzwords"
 description: "Prompt, context, harness, loop, and graph engineering, and what belongs in the context window"
-footer: "A Brief Introduction to Not Writing Code · 07 Context engineering and the buzzwords"
+footer: "A Brief Introduction to Not Writing Code · 09 Context engineering and the buzzwords"
 ---
 
 <!-- _class: lead -->
@@ -16,7 +16,7 @@ Prompt → context → harness → loop → graph
 <!--
 Plan for 40 to 50 minutes in three parts. Part 1 is the buzzword ladder: what each "___ engineering" term means and which ones are mostly new names. Part 2 is what actually fills an agent's context window and why long contexts degrade. Part 3 is the rise and fall of giant CLAUDE.md and AGENTS.md files, the clearest case study of all of it.
 
-The reading is module 07, "From prompt engineering to context, loop, and graph engineering." If you can, have a harness open to show its context breakdown live.
+The reading is module 09, "From prompt engineering to context, loop, and graph engineering." If you can, have a harness open to show its context breakdown live.
 -->
 
 ---
@@ -121,7 +121,7 @@ Context engineering. Six days after Lütke, Andrej Karpathy added "+1," calling 
 
 Harness engineering. Hashimoto, co-founder of HashiCorp and author of the Ghostty terminal, described it as step 5 of his adoption path. Sometimes the fix is a line in AGENTS.md; he writes that "each line in that file is based on a bad agent behavior." Sometimes it's a script, such as a screenshot tool or a filtered test runner.
 
-Six days later OpenAI's "Harness engineering" post (Ryan Lopopolo, February 11, 2026) reported three engineers driving Codex, later seven, and about a million lines across code, infrastructure, tooling and documentation after five months, with no hand-written code. One large instruction file didn't work. They replaced it with a roughly 100-line AGENTS.md that acts as a map into a docs/ directory, with linters and structural tests keeping docs and architecture consistent. Module 06 covers the harness itself.
+Six days later OpenAI's "Harness engineering" post (Ryan Lopopolo, February 11, 2026) reported three engineers driving Codex, later seven, and about a million lines across code, infrastructure, tooling and documentation after five months, with no hand-written code. One large instruction file didn't work. They replaced it with a roughly 100-line AGENTS.md that acts as a map into a docs/ directory, with linters and structural tests keeping docs and architecture consistent. Module 08 covers the harness itself.
 -->
 
 ---
@@ -171,7 +171,7 @@ This redraws the module's loop diagram. Here's the full checklist for any loop.
 4. State outside the conversation: a plan file, a checklist, or issues.
 5. Isolation in a worktree or sandbox, so a bad pass can't damage your main checkout.
 6. Escalation when stuck, or before anything irreversible: pushing, deleting, spending money.
-7. A human reads the output before it ships (module 10).
+7. A human reads the output before it ships (module 13).
 
 From simplest up, the loop patterns are a Ralph loop; an interval loop such as "/loop 5m check the deploy"; a goal loop such as "/goal all tests in test/auth pass and lint is clean"; a Stop hook that blocks finishing until a check passes; and scheduled cloud tasks for nightly triage.
 -->
@@ -197,7 +197,7 @@ Within hours of Steinberger's post, [Hamel Husain posted an X article](https://x
 
 The idea underneath is real and older than the name. A graph is a set of steps (nodes) joined by transitions (edges) with shared state; a loop is a graph whose path returns to an earlier node. Anthropic's "Building effective agents" (Erik Schluntz and Barry Zhang, December 19, 2024) separated workflows, "systems where LLMs and tools are orchestrated through predefined code paths," from agents that direct their own process. LangGraph (2024) made these graphs explicit in code, with checkpoints and human-approval nodes. In August 2026 a 35-author survey (Feng et al.) placed graph engineering after the other four rungs.
 
-Most coding work needs one or two of these patterns at most. Anthropic's 2024 advice still applies: find "the simplest solution possible," because each extra node is another place for errors to compound and more tokens to pay for. Module 09 covers multi-agent research.
+Most coding work needs one or two of these patterns at most. Anthropic's 2024 advice still applies: find "the simplest solution possible," because each extra node is another place for errors to compound and more tokens to pay for. Module 12 covers multi-agent research.
 -->
 
 ---
@@ -275,7 +275,7 @@ Lost in the Middle (Liu et al., 2023) found a U-shaped curve. The popular needle
 
 At a high level, attention spreads a fixed budget of focus across every token. More tokens, especially plausible but irrelevant ones, mean each relevant token gets a smaller share.
 
-What changed in 2026 is that with million-token windows and automatic compaction, running out of space is rare. Claude Code's docs now list "manage the context window aggressively" as outdated advice, while still recommending /clear between tasks "because a focused context gets you better answers and costs less." You also pay for every token on every call. Prompt caching cuts the price but not the distraction (module 12).
+What changed in 2026 is that with million-token windows and automatic compaction, running out of space is rare. Claude Code's docs now list "manage the context window aggressively" as outdated advice, while still recommending /clear between tasks "because a focused context gets you better answers and costs less." You also pay for every token on every call. Prompt caching cuts the price but not the distraction (module 15).
 -->
 
 ---
@@ -294,7 +294,7 @@ The two common mistakes are preloading "just in case" and running one marathon s
 <!--
 The four buckets come from LangChain's "Context Engineering for Agents" (July 2025).
 
-Claude Code's auto memory loads the first 200 lines or 25KB of its MEMORY.md. Code mode, from module 06, is a compress technique for tool results. Isolate also covers parallel agents in worktrees, and a reviewer that didn't watch the code being written.
+Claude Code's auto memory loads the first 200 lines or 25KB of its MEMORY.md. Code mode, from module 08, is a compress technique for tool results. Isolate also covers parallel agents in worktrees, and a reviewer that didn't watch the code being written.
 
 Preloading means pasting the whole architecture doc, or connecting every MCP server you might need. The agent can search when it needs something. In a marathon session, twenty tasks in one conversation leave stale, contradictory context behind. Start fresh between unrelated tasks, and keep state in files.
 -->
@@ -410,7 +410,7 @@ The module includes a good file of about 25 lines: commands, "things the code wo
 
 On the other side, Agentic Context Engineering (Zhang et al., October 2025) treats contexts as evolving playbooks and reported about 10% benchmark gains. The views fit once you separate always-loaded context, which should be small and index-like, from retrievable knowledge, which can be large if the agent fetches it only when relevant. Anthropic's November 2026 memory post describes that layering.
 
-One more caution. Instruction files and skills are loaded as trusted context, so a malicious edit to AGENTS.md is a prompt-injection channel. Review changes to them like CI configuration (module 11).
+One more caution. Instruction files and skills are loaded as trusted context, so a malicious edit to AGENTS.md is a prompt-injection channel. Review changes to them like CI configuration (module 14).
 -->
 
 ---
@@ -431,12 +431,12 @@ That's my view of the shift in Part 3. The evidence needs care, though. The ETH 
 
 ## Bryan's take
 
-> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 08](../modules/08-agentic-workflows/#bryans-take).)
+> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows/#bryans-take).)
 
 <!--
 There's evidence against my view. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These are real results from strong teams. They also come with heavy investment in harnesses, tests and verification, and from the companies selling the tools.
 
-Connect it to the loop checklist: a checkable end state, an independent verifier, a budget, and a human reading the diff. Module 08 discusses how much autonomy works in practice.
+Connect it to the loop checklist: a checkable end state, an independent verifier, a budget, and a human reading the diff. Module 10 discusses how much autonomy works in practice.
 -->
 
 ---
@@ -485,7 +485,7 @@ For 1, point to the "substance or relabel" column and the "Substance or relabel?
 
 For 2, the ETH authors' own advice is a starting point: no LLM-generated files for now, minimal human-written ones, and test any file before relying on it.
 
-For 3, tie back to the loop checklist and module 10. "Done" from a loop is a claim, not a proof.
+For 3, tie back to the loop checklist and module 13. "Done" from a loop is a claim, not a proof.
 
 For 4, the module's view is that emphasis tricks, architecture overviews and "think harder" phrases have already stopped helping. What remains is information the model can't get any other way, such as a decision your team made in a meeting or which legacy directory is a trap.
 -->
@@ -494,7 +494,7 @@ For 4, the module's view is that emphasis tricks, architecture overviews and "th
 
 ## Read more
 
-- Module: [07 From prompt engineering to context, loop, and graph engineering](../modules/07-context-engineering/)
+- Module: [09 From prompt engineering to context, loop, and graph engineering](../modules/09-context-engineering/)
 - [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) (Anthropic, September 2025)
 - [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988) (Gloaguen et al., 2026)
 - [Context Rot](https://www.trychroma.com/research/context-rot) (Chroma, July 2025)
@@ -502,5 +502,5 @@ For 4, the module's view is that emphasis tricks, architecture overviews and "th
 <!--
 The module has the full good and bloated instruction-file examples, the loop patterns table, and the graph patterns table with "use when" and "skip when" columns. Anthropic's post is the clearest single statement of context engineering. The ETH paper is the main evidence on instruction files. Context Rot is a readable study of long-context degradation.
 
-Next session, module 08, covers day-to-day agentic workflows and how much autonomy actually works.
+Next session, module 10, covers day-to-day agentic workflows and how much autonomy actually works.
 -->

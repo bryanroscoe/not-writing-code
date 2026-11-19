@@ -1,4 +1,4 @@
-# 04: Open weight vs closed weight
+# 06: Open weight vs closed weight
 
 *About a 30-minute read. Last checked November 8, 2026.*
 
@@ -7,7 +7,7 @@
 - "Open weight" isn't "open source." The OSI's Open Source AI Definition (October 2024) also requires the training code and detailed information about the training data. Only a few "fully open" models, such as AI2's OLMo, meet that bar.
 - Licenses vary a lot. Apache 2.0 and MIT are simple. Many 2026 frontier open models (Kimi K3, Qwen3.8-Max, GLM-5.3, Mistral Large 4, Muse Spark Open, MiniMax M3) use custom licenses with revenue thresholds, attribution rules, or default non-commercial terms. Read the license before shipping.
 - Memory needed ≈ **parameters × bytes per parameter**, plus room for context. At 4-bit, a 30B model needs about 17 GB. That's comfortable on a 36 GB Mac or a 24 GB GPU and too big for an 18 GB Mac. Frontier open models (roughly 750B to 2.8T parameters) need a server rack, not a laptop.
-- Open models give you control, privacy and customization. Cost and capability depend on the model and the task, and the measured open–closed gap varies by domain ([module 03](03-model-landscape.md)).
+- Open models give you control, privacy and customization. Cost and capability depend on the model and the task, and the measured open–closed gap varies by domain ([module 05](05-model-landscape.md)).
 - Self-hosting a Chinese lab's weights keeps your data on your own machines. Calling a hosted API sends it to the provider, so check that service's actual hosting region and terms. They're different risk decisions.
 
 ## Foundations
@@ -85,7 +85,7 @@ Giving away a model that cost tens of millions of dollars sounds odd. The reason
 - Many open labs earn money from their own hosted API. Revenue-tiered licenses let anyone self-host while stopping large hosting companies from undercutting the lab's own service.
 - Researchers want to publish, so releasing weights helps recruiting.
 - Geopolitics plays a part. Chinese labs gain global adoption despite US chip export controls. The US government's 2025 AI Action Plan encouraged American open models ([White House](https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf)). Mistral pitches Large 4 as European "AI sovereignty," trained and run under European law ([Mistral](https://mistral.ai/news/mistral-large-4)).
-- A good-enough open model sets a price floor that closed labs have to answer ([module 03](03-model-landscape.md)).
+- A good-enough open model sets a price floor that closed labs have to answer ([module 05](05-model-landscape.md)).
 
 ### The safety debate
 
@@ -101,7 +101,7 @@ The case against:
 
 - Release can't be undone, and safeguards can be removed. Research showed LoRA fine-tuning cheaply strips safety training ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624); [Gade et al., 2023](https://arxiv.org/abs/2311.00117)). Refusal behavior is often controlled by a single direction in the model's activations, which can be edited out ("abliteration") ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)). An "abliterated" copy of Muse Spark Open was on Hugging Face two days after its release ([Hugging Face](https://huggingface.co/BoldingBuilds/Muse-Spark-Open-816B-A42B-Abliterated-UD-IQ1_S-GGUF)).
 - Dangerous capability spreads with a lag. Epoch estimates open models trail the closed frontier by 6–7 months on cyber tasks ([Epoch AI](https://epoch.ai/data-insights/open-closed-cyber-eci-gap)). That historical lag doesn't guarantee when any particular gated capability will become downloadable.
-- Agent security varies. In 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting alone doesn't remove that vulnerability. The harness and defenses also affect attack success ([module 11](11-security-and-prompt-injection.md)).
+- Agent security varies. In 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting alone doesn't remove that vulnerability. The harness and defenses also affect attack success ([module 14](14-security-and-prompt-injection.md)).
 
 People disagree about where to draw the line. Most current policy treats today's open models as acceptable while monitoring the frontier.
 
@@ -210,7 +210,7 @@ The "same" open model can behave differently across hosts because of quantizatio
 
 ### Using open models in coding harnesses
 
-Most coding harnesses can now talk to more than one provider ([module 06](06-harnesses-and-tools.md)).
+Most coding harnesses can now talk to more than one provider ([module 08](08-harnesses-and-tools.md)).
 
 OpenCode is an MIT-licensed, open-source coding agent with terminal, desktop and SDK interfaces. It reaches more than 200 providers through the Models.dev catalog ([OpenCode](https://opencode.ai/)). You connect a provider with `/connect` and choose a model with `/models`. It auto-detects local Ollama (`127.0.0.1:11434`), LM Studio (`:1234`) and vLLM (`:8000`) servers ([OpenCode docs](https://opencode.ai/docs/providers/)). OpenCode also sells a curated-model subscription, OpenCode Go, from $10 per month.
 
@@ -228,7 +228,7 @@ You can also point Claude Code at an Anthropic-compatible endpoint. Several open
 }
 ```
 
-Moonshot describes its Messages API as compatible with "the Anthropic SDK, Claude Code, and similar tools" ([Kimi docs](https://platform.kimi.ai/docs/guide/agent-support)). DeepSeek's V4 API accepts both OpenAI and Anthropic formats ([DeepSeek](https://api-docs.deepseek.com/news/news260424)). MiniMax sells an "M Plan" subscription for its models in coding and assistant tools ([MiniMax docs](https://platform.minimax.io/docs/guides/text-ai-coding-tools)). These flat-rate **coding plans** compete with Claude and ChatGPT subscriptions on price ([module 12](12-costs-subscriptions-and-apis.md)).
+Moonshot describes its Messages API as compatible with "the Anthropic SDK, Claude Code, and similar tools" ([Kimi docs](https://platform.kimi.ai/docs/guide/agent-support)). DeepSeek's V4 API accepts both OpenAI and Anthropic formats ([DeepSeek](https://api-docs.deepseek.com/news/news260424)). MiniMax sells an "M Plan" subscription for its models in coding and assistant tools ([MiniMax docs](https://platform.minimax.io/docs/guides/text-ai-coding-tools)). These flat-rate **coding plans** compete with Claude and ChatGPT subscriptions on price ([module 15](15-costs-subscriptions-and-apis.md)).
 
 > [!IMPORTANT]
 > Anthropic's docs say it "doesn't support routing Claude Code to non-Claude models through any gateway" ([Claude Code docs](https://code.claude.com/docs/en/llm-gateway)). It often works, but features built around Claude's API can break or behave differently: thinking blocks, tool formats, caching, effort settings. Kimi's docs, for example, say you must pass back the full assistant message, including `reasoning_content`, for multi-turn tool use ([Kimi docs](https://platform.kimi.ai/docs/guide/agent-support)). Test before you depend on it.
@@ -272,7 +272,7 @@ Other points to check:
 - Model behavior travels with the weights. CAISI found DeepSeek models repeated inaccurate Chinese Communist Party narratives four times as often as US reference models ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting fixes data flow, not model bias or prompt-injection susceptibility.
 - Market access cuts both ways. Anthropic doesn't sell commercial Claude access in China or to Chinese-owned subsidiaries abroad ([Anthropic](https://www.anthropic.com/research/detecting-and-preventing-distillation-attacks)). Some licenses withhold rights in some regions (Llama 4 multimodal in the EU).
 - Download weights only from the publisher's official repository, and check hashes. Watch for "uncensored" or "abliterated" re-uploads that remove safety behavior.
-- Self-hosting gives you a frozen model that never changes under you, while closed APIs can be updated or retired ([module 14](14-keeping-up.md)). That matters for regulated workflows.
+- Self-hosting gives you a frozen model that never changes under you, while closed APIs can be updated or retired ([module 17](17-keeping-up.md)). That matters for regulated workflows.
 
 ### Tuning open models (briefly)
 
@@ -282,13 +282,13 @@ Common ways to change open weights include:
 - **QLoRA** does the same on top of a 4-bit base, so a single GPU can fine-tune a large model ([Dettmers et al., 2023](https://arxiv.org/abs/2305.14314)).
 - **Distillation** trains a small model on a big model's outputs ([Hinton et al., 2015](https://arxiv.org/abs/1503.02531)).
 
-Common tools include [Unsloth](https://github.com/unslothai/unsloth), [Hugging Face TRL](https://github.com/huggingface/trl) and mlx-lm on Macs. Closed models can only be tuned through whatever fine-tuning service the lab offers, if any. [Module 02](02-training-and-tuning.md) covers tuning in depth, including research on models that update their own weights.
+Common tools include [Unsloth](https://github.com/unslothai/unsloth), [Hugging Face TRL](https://github.com/huggingface/trl) and mlx-lm on Macs. Closed models can only be tuned through whatever fine-tuning service the lab offers, if any. [Module 03](03-post-training-and-rl.md) covers tuning in depth, including research on models that update their own weights.
 
 ### When to choose open vs closed
 
 | Situation | Lean toward | Why |
 | --- | --- | --- |
-| Hardest agentic coding, large refactors, "just make it work" | **Closed frontier** | Strong candidates for demanding tasks; compare them against current open models in your harness ([module 03](03-model-landscape.md)) |
+| Hardest agentic coding, large refactors, "just make it work" | **Closed frontier** | Strong candidates for demanding tasks; compare them against current open models in your harness ([module 05](05-model-landscape.md)) |
 | Code or data can't leave your network (regulated, classified, client contracts) | **Open, self-hosted** | Data never leaves your infrastructure |
 | High-volume bulk jobs (tagging, extraction) at millions of calls | **Open (hosted or self-hosted)**, or a cheap closed tier | Price per token. Compare against Haiku 5.5 or GPT-6 Luna at $0.10 / $0.50. |
 | You need to fine-tune on proprietary data or change behavior deeply | **Open** | You control the weights |
@@ -307,7 +307,7 @@ Almost every frontier open model of 2026 is a sparse MoE with roughly 2–6% of 
 
 ### Benchmark gaps may understate real gaps
 
-Epoch notes "some evidence that open-weight models tend to optimize on benchmarks more aggressively," so the measured gap "could be understated" ([Epoch AI](https://epoch.ai/benchmarks/eci)). Model cards also often compare against closed models using numbers from the rivals' own reports, with different harnesses and effort levels. Treat cross-lab tables on open-model cards as marketing until reproduced ([module 05](05-judging-models.md)).
+Epoch notes "some evidence that open-weight models tend to optimize on benchmarks more aggressively," so the measured gap "could be understated" ([Epoch AI](https://epoch.ai/benchmarks/eci)). Model cards also often compare against closed models using numbers from the rivals' own reports, with different harnesses and effort levels. Treat cross-lab tables on open-model cards as marketing until reproduced ([module 07](07-judging-models.md)).
 
 ### The licensing trend: open, but not for your competitors
 
@@ -322,13 +322,13 @@ Self-hosting removes one risk (data leaving) and adds others:
 - Model files from unofficial mirrors.
 - No vendor abuse monitoring.
 
-An open-weight model running an agent with shell access is as exposed to prompt injection as a closed one, sometimes more ([module 11](11-security-and-prompt-injection.md)).
+An open-weight model running an agent with shell access is as exposed to prompt injection as a closed one, sometimes more ([module 14](14-security-and-prompt-injection.md)).
 
 ## Bryan's take
 
 > **Bryan's take:** For coding, Claude and Codex are the best in my opinion. Open models like Kimi sit at a different place in the chain.
 
-When you compare a self-hosted or per-token open model against a flat-rate plan, remember Bryan's view that subscriptions, not API billing, are what make heavy agentic use affordable ([module 12](12-costs-subscriptions-and-apis.md)).
+When you compare a self-hosted or per-token open model against a flat-rate plan, remember Bryan's view that subscriptions, not API billing, are what make heavy agentic use affordable ([module 15](15-costs-subscriptions-and-apis.md)).
 
 ## Try it
 

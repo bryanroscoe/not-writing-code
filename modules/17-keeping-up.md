@@ -1,4 +1,4 @@
-# 14: Keeping up without drowning
+# 17: Keeping up without drowning
 
 *About a 30-minute read. Last checked November 8, 2026.*
 
@@ -8,7 +8,7 @@
 - When something feels worse, check in order: status page, your tool's changelog and settings, your golden tasks, then whether today's task is simply harder.
 - Weigh launch claims by who made them, what they compared against, and how the lab's past claims held up. Every lab has a mixed record.
 - Spend 30 minutes a week reading, run your golden tasks against anything new once a month, and review your tools every quarter. A team "AI radar" spreads the load.
-- When something new ships, spend one afternoon testing it on your own tasks ([template in module 05](./05-judging-models.md#build-your-own-eval)), then decide whether to adopt, trial, or wait.
+- When something new ships, spend one afternoon testing it on your own tasks ([template in module 07](./07-judging-models.md#build-your-own-eval)), then decide whether to adopt, trial, or wait.
 
 ## Foundations
 
@@ -24,7 +24,7 @@ Here's one three-month window in 2026. The [timeline](../reference/timeline.md) 
 
 Meanwhile the harnesses ship constantly. OpenAI's Codex CLI was at version 0.167 by November 6, 2026 ([changelog](https://learn.chatgpt.com/docs/changelog)). Claude Code's [changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) moves just as quickly. Artificial Analysis also revised its Intelligence Index twelve times between August 2025 and November 2026, eight of them changing which evaluations it includes ([version history](https://artificialanalysis.ai/methodology/intelligence-benchmarking)).
 
-[Module 03](./03-model-landscape.md) covers specific models and who leads where right now. This module is about coping with the pace.
+[Module 05](./05-model-landscape.md) covers specific models and who leads where right now. This module is about coping with the pace.
 
 ### What stays stable
 
@@ -32,12 +32,12 @@ Most of what makes you effective doesn't change with a release:
 
 | Durable skill | Why it survives | Where it's covered |
 | --- | --- | --- |
-| Giving the model the right context | Every model is limited by what you show it | [Module 07](./07-context-engineering.md) |
-| Verifying output (tests, review, running the code) | Models remain confidently wrong some of the time | [Module 10](./10-ai-code-review.md) |
-| Security habits (sandboxing, least privilege, injection awareness) | Attacks target the agent pattern, not a specific model | [Module 11](./11-security-and-prompt-injection.md) |
-| Breaking work into checkable steps | Reliability falls with task length for every model ([module 05](./05-judging-models.md#long-horizons)) | [Module 08](./08-agentic-workflows.md) |
-| Your own eval set | Tells you what *any* new release means for *your* work | [Module 05](./05-judging-models.md#build-your-own-eval) |
-| Cost awareness | Prices and limits change; the habit of measuring doesn't | [Module 12](./12-costs-subscriptions-and-apis.md) |
+| Giving the model the right context | Every model is limited by what you show it | [Module 09](./09-context-engineering.md) |
+| Verifying output (tests, review, running the code) | Models remain confidently wrong some of the time | [Module 13](./13-ai-code-review.md) |
+| Security habits (sandboxing, least privilege, injection awareness) | Attacks target the agent pattern, not a specific model | [Module 14](./14-security-and-prompt-injection.md) |
+| Breaking work into checkable steps | Reliability falls with task length for every model ([module 07](./07-judging-models.md#long-horizons)) | [Module 10](./10-agentic-workflows.md) |
+| Your own eval set | Tells you what *any* new release means for *your* work | [Module 07](./07-judging-models.md#build-your-own-eval) |
+| Cost awareness | Prices and limits change; the habit of measuring doesn't | [Module 15](./15-costs-subscriptions-and-apis.md) |
 
 For any new technique, ask: *will this still matter after the next model?* "Write a clear spec and a test first" passes. "Use this magic phrase to make Model X behave" usually doesn't.
 
@@ -63,15 +63,15 @@ People usually blame the bottom layer ("they nerfed the model"). In the document
 
 | When | What users saw | Cause, per the company | Lesson |
 | --- | --- | --- | --- |
-| Apr 2025 | A GPT-4o update in ChatGPT became sycophantic: flattering, agreeing with bad ideas. OpenAI rolled it back within days ([OpenAI](https://openai.com/index/sycophancy-in-gpt-4o/)) | Training put too much weight on short-term user feedback | Expert testers' unease was a better signal than A/B metrics ([module 05](./05-judging-models.md#vibes-are-data-too)) |
-| Jul–Aug 2025 | Anthropic announced weekly usage limits for Claude subscriptions, starting Aug 28 ([TechCrunch](https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/)) | Round-the-clock heavy use of Claude Code | Plans and quotas are part of your tool, and they change ([module 12](./12-costs-subscriptions-and-apis.md)) |
+| Apr 2025 | A GPT-4o update in ChatGPT became sycophantic: flattering, agreeing with bad ideas. OpenAI rolled it back within days ([OpenAI](https://openai.com/index/sycophancy-in-gpt-4o/)) | Training put too much weight on short-term user feedback | Expert testers' unease was a better signal than A/B metrics ([module 07](./07-judging-models.md#vibes-are-data-too)) |
+| Jul–Aug 2025 | Anthropic announced weekly usage limits for Claude subscriptions, starting Aug 28 ([TechCrunch](https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/)) | Round-the-clock heavy use of Claude Code | Plans and quotas are part of your tool, and they change ([module 15](./15-costs-subscriptions-and-apis.md)) |
 | Aug 2025 | GPT-5 launched and older models vanished from ChatGPT's model picker. After a backlash, OpenAI restored GPT-4o for paid users within days; Sam Altman called suddenly deprecating old models a mistake ([The Register](https://www.theregister.com/2025/08/11/openai_tweaks_gpt5_after_user/)) | Product decision | Don't build workflows that depend on one model staying available in an app |
 | Aug–Sep 2025 | Some Claude users got noticeably worse answers for weeks | Three infrastructure bugs: a context-window routing error, output corruption from a misconfiguration, and a TPU compiler miscompilation ([Anthropic postmortem, Sep 17, 2025](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues)) | The lab's own evals missed it; user reports were right |
 | Sep–Oct 2025 | Reports that Codex "got worse" after GPT-5-Codex launched | No single cause: some older hardware, long sessions degraded by repeated compaction, a sampling bug, and changing usage patterns such as more MCP tools ([OpenAI Codex team, Oct 31, 2025](https://docs.google.com/document/d/1fDJc1e0itJdh0MXMFJtkRiBcxGEFtye6Xc6Ui7eMX4o/mobilebasic)) | Long, cluttered sessions hurt; keep conversations short and focused |
 | Mar–Apr 2026 | About six weeks of Claude Code quality complaints | Three product-layer changes: a lower default reasoning effort, a bug that wiped the model's reasoning history every turn, and a verbosity-limiting system prompt. API and weights were unaffected ([Anthropic, Apr 23, 2026](https://www.anthropic.com/engineering/april-23-postmortem)) | The harness can regress while the model doesn't |
 | May 2026 | [GPT-5.5 degradation in Codex](https://x.com/thsottiaux/status/2055446089957036402). Tibo Sottiaux said two fixed issues could explain the preceding ~48 hours of degradation; he later [confirmed a usage-limit reset](https://x.com/thsottiaux/status/2055707616605835333) | Fixes acknowledged; their effect was still being monitored in the initial statement. No detailed public postmortem found | Same pattern, different vendor |
 | Jun–Jul 2026 | Claude Fable 5 was suspended for *all* users from June 12 to July 1 ([Anthropic](https://www.anthropic.com/news/redeploying-fable-5)) | US export controls applied immediately, and Anthropic had no real-time way to verify nationality | Access can disappear overnight for reasons that have nothing to do with quality |
-| Jul–Sep 2026 | Opus 5 posted strong benchmarks but got mixed daily-use reviews. Opus 5.5, about two months later, was widely liked ([module 05](./05-judging-models.md#a-recent-example-opus-5-to-opus-55)) | Model behavior: verbosity, scope, communication | Newer isn't always better *for you*. Test before switching |
+| Jul–Sep 2026 | Opus 5 posted strong benchmarks but got mixed daily-use reviews. Opus 5.5, about two months later, was widely liked ([module 07](./07-judging-models.md#a-recent-example-opus-5-to-opus-55)) | Model behavior: verbosity, scope, communication | Newer isn't always better *for you*. Test before switching |
 
 The labs' own monitoring often missed what users noticed. Anthropic's 2025 postmortem said "the evaluations we ran simply didn't capture the degradation users were reporting." Its 2026 one said the issues "were challenging to distinguish from normal variation in user feedback at first." And the stated causes were rarely "we made the model worse on purpose." Anthropic wrote that it "never reduce[s] model quality due to demand, time of day, or server load." You can't independently verify a statement like that. You *can* verify your own golden tasks.
 
@@ -120,18 +120,18 @@ Bad reasons:
 - A viral thread.
 - Fear of missing out.
 
-Keep a second tool installed, configured, and used at least occasionally. The Fable 5 suspension and the 2025–2026 regressions all hit people who had only one option. Using more than one vendor gives you a fallback and makes multi-model review possible ([module 10](./10-ai-code-review.md)).
+Keep a second tool installed, configured, and used at least occasionally. The Fable 5 suspension and the 2025–2026 regressions all hit people who had only one option. Using more than one vendor gives you a fallback and makes multi-model review possible ([module 13](./13-ai-code-review.md)).
 
 ### Weighing launch claims
 
 A launch post is marketing written by people who also do science. Read it the way you'd read any vendor's claims:
 
-1. Ask who ran the self-reported benchmarks, and with what harness and settings. Are competitors' numbers run the same way, or copied from *their* launch posts? [Module 05](./05-judging-models.md#reading-a-benchmark-claim-a-checklist) has a checklist.
+1. Ask who ran the self-reported benchmarks, and with what harness and settings. Are competitors' numbers run the same way, or copied from *their* launch posts? [Module 07](./07-judging-models.md#reading-a-benchmark-claim-a-checklist) has a checklist.
 2. Look at the chosen comparisons. Which benchmarks were reported last time but not this time? Which competitor model is missing from the chart?
 3. A demo may show a selected successful run. Ask whether it was live, edited, or sped up.
 4. Check availability. "Available today" may mean a limited set of organizations, one tier, or the API only. OpenAI's GPT-6 Astra launch in September 2026 started with "a limited set of organizations" ([OpenAI](https://openai.com/index/gpt-6-astra/)).
 5. Customer quotes are testimonials, usually from partners with early access, and launch posts rarely say whether anyone checked the figures in them. Treat lab-run numbers the same way. Anthropic's Opus 5 post labels its headline Frontier-Bench results as "an internal run."
-6. Wait for independent numbers. Artificial Analysis, Epoch AI, Arena, and others usually post results within days ([module 05](./05-judging-models.md#independent-evaluators)).
+6. Wait for independent numbers. Artificial Analysis, Epoch AI, Arena, and others usually post results within days ([module 07](./07-judging-models.md#independent-evaluators)).
 
 ### Lab track records
 
@@ -154,11 +154,11 @@ Some evidence against trusting Google's claims:
 For Google:
 - Its July 2025 International Mathematical Olympiad gold-medal result was "officially graded and certified by IMO coordinators" ([Google DeepMind](https://deepmind.google/discover/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/)). That's a higher bar of verification than many lab claims get.
 - Gemini 3 Pro topped Arena at launch in November 2025 ([Google](https://blog.google/products-and-platforms/products/gemini/gemini-3/)).
-- As of November 8, 2026, Gemini 4 Carbon (High) is #1 on [Arena's text leaderboard](https://arena.ai/leaderboard/text), with its rating still marked preliminary, even though only vetted cyber defenders can use it so far. Labs can test models on Arena before a broad release, which is part of the private-testing debate in [module 05](./05-judging-models.md). Google also reports a 65.2% Terminal-Bench 4.0 score for it, run by Artificial Analysis ([Google DeepMind](https://deepmind.google/models/gemini/)). Anthropic's own runs put Sonnet 5.5 higher on the same benchmark, which is a reminder that who runs the test matters.
+- As of November 8, 2026, Gemini 4 Carbon (High) is #1 on [Arena's text leaderboard](https://arena.ai/leaderboard/text), with its rating still marked preliminary, even though only vetted cyber defenders can use it so far. Labs can test models on Arena before a broad release, which is part of the private-testing debate in [module 07](./07-judging-models.md). Google also reports a 65.2% Terminal-Bench 4.0 score for it, run by Artificial Analysis ([Google DeepMind](https://deepmind.google/models/gemini/)). Anthropic's own runs put Sonnet 5.5 higher on the same benchmark, which is a reminder that who runs the test matters.
 
 An afternoon with your golden tasks will tell you whether that shows up in *your* coding work.
 
-**Meta.** For the Llama 4 launch in April 2025, Meta promoted an Arena ranking earned by an experimental variant tuned for chat, not the released model. Arena said Meta's interpretation of its policy didn't match what it expects from providers ([TechCrunch](https://techcrunch.com/2025/04/11/metas-vanilla-maverick-ai-model-ranks-below-rivals-on-a-popular-chat-benchmark/); [module 05](./05-judging-models.md#human-preference-arena)).
+**Meta.** For the Llama 4 launch in April 2025, Meta promoted an Arena ranking earned by an experimental variant tuned for chat, not the released model. Arena said Meta's interpretation of its policy didn't match what it expects from providers ([TechCrunch](https://techcrunch.com/2025/04/11/metas-vanilla-maverick-ai-model-ranks-below-rivals-on-a-popular-chat-benchmark/); [module 07](./07-judging-models.md#human-preference-arena)).
 
 **xAI.**
 - In February 2025, xAI's Grok 3 launch chart compared its models with OpenAI's o3-mini-high but left out o3-mini-high's majority-vote ("cons@64") score. An OpenAI employee argued that omission made the comparison misleading, and xAI disputed it ([TechCrunch](https://techcrunch.com/2025/02/22/did-xai-lie-about-grok-3s-benchmarks/)).
@@ -167,7 +167,7 @@ An afternoon with your golden tasks will tell you whether that shows up in *your
 
 **OpenAI.**
 - The GPT-4o sycophancy rollback and the GPT-5 model-picker reversal from the field guide.
-- On the other side, OpenAI publicly retired SWE-bench Verified, a benchmark it had created, after [auditing 138 tasks o3 did not consistently solve](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) and finding material flaws in 59.4% of that subset, alongside contamination evidence (February 23, 2026, [module 05](./05-judging-models.md#the-state-of-coding-benchmarks-november-2026-high-level)).
+- On the other side, OpenAI publicly retired SWE-bench Verified, a benchmark it had created, after [auditing 138 tasks o3 did not consistently solve](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) and finding material flaws in 59.4% of that subset, alongside contamination evidence (February 23, 2026, [module 07](./07-judging-models.md#the-state-of-coding-benchmarks-november-2026-high-level)).
 - Its Codex team published a detailed degradation investigation, [Ghosts in the Codex Machine](https://docs.google.com/document/d/1fDJc1e0itJdh0MXMFJtkRiBcxGEFtye6Xc6Ui7eMX4o/mobilebasic) (October 2025). The May 2026 episode above got no comparable write-up.
 
 **Anthropic.**
@@ -193,7 +193,7 @@ You need a few good sources, not many. Pick two or three from this list, plus th
 | [METR](https://metr.org/) | Time horizons, productivity RCTs, pre-deployment evaluations | Risk-focused; works directly with labs |
 | Lab changelogs and status pages: [Anthropic release notes](https://docs.anthropic.com/en/release-notes/claude-apps), [Claude Code changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md), [ChatGPT & Codex changelog](https://learn.chatgpt.com/docs/changelog), [Gemini API changelog](https://ai.google.dev/gemini-api/docs/changelog), [Claude status](https://status.claude.com/), [OpenAI status](https://status.openai.com/) | What actually shipped, when; the first place to look when behavior changes | Silent about what got worse; changelogs can omit prompt or default changes |
 | [Hacker News](https://news.ycombinator.com/) | Launch-day threads with technical skeptics and occasional insiders | Contrarian; loud minorities; startup lens |
-| [r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/) | Open-weight releases, quantization, running models locally ([module 04](./04-open-vs-closed-weights.md)) | Open-weight enthusiasm; anecdotal benchmarks; occasional astroturfing |
+| [r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/) | Open-weight releases, quantization, running models locally ([module 06](./06-open-vs-closed-weights.md)) | Open-weight enthusiasm; anecdotal benchmarks; occasional astroturfing |
 | [AI Engineer](https://www.ai.engineer/) conference talks ([YouTube](https://www.youtube.com/@aiDotEngineer)) | Practitioners showing real systems and failure modes | Vendor talks mixed in with practitioner talks |
 | [Andrej Karpathy](https://karpathy.ai/) ([YouTube](https://www.youtube.com/@AndrejKarpathy)) | Clear explainers of how LLMs work; coined "vibe coding" (Feb 2025) | Infrequent; big-picture; his coinages spread faster than their caveats |
 
@@ -209,14 +209,14 @@ Every source type has a bias:
 | Cadence | Time | What to do |
 | --- | --- | --- |
 | **Weekly** | 30 min | 10 min: changelogs for the two or three tools you use. 15 min: one or two newsletters from the list. 5 min: add at most one item to a "try list." |
-| **Monthly** | 60–90 min | Pick the one or two releases from the try list most relevant to your work. Run your [golden tasks](./05-judging-models.md#build-your-own-eval) on them. Write down the result, even if it's "no change." Remove one tool, plugin, or MCP server you no longer use. |
-| **Quarterly** | Half a day | Tool review: what you pay vs. what you get ([module 12](./12-costs-subscriptions-and-apis.md)). Refresh the golden tasks (retire leaked ones, add recent work). Review security settings ([module 11](./11-security-and-prompt-injection.md)). Update the team radar. |
+| **Monthly** | 60–90 min | Pick the one or two releases from the try list most relevant to your work. Run your [golden tasks](./07-judging-models.md#build-your-own-eval) on them. Write down the result, even if it's "no change." Remove one tool, plugin, or MCP server you no longer use. |
+| **Quarterly** | Half a day | Tool review: what you pay vs. what you get ([module 15](./15-costs-subscriptions-and-apis.md)). Refresh the golden tasks (retire leaked ones, add recent work). Review security settings ([module 14](./14-security-and-prompt-injection.md)). Update the team radar. |
 
 Rules that prevent churn:
 - Follow the **two-week rule**. Unless a release solves a problem you have today, wait two weeks. Launch-week bugs get fixed, capacity improves, and the reaction settles. Opus 5's reputation looked very different at week two than on day one.
 - Change one thing at a time. Swap model, harness, and configuration in the same week and you won't know what helped.
 - Adopt a release when it performs better on your tasks.
-- Ignore small benchmark moves. A few points on a public benchmark is usually noise for your purposes ([module 05](./05-judging-models.md#the-statistics-of-small-evals)).
+- Ignore small benchmark moves. A few points on a public benchmark is usually noise for your purposes ([module 07](./07-judging-models.md#the-statistics-of-small-evals)).
 - Mute freely. If a source mostly makes you anxious, drop it. You'll hear about anything big anyway.
 
 As for FOMO (fear of missing out), most releases don't change how you work. The few that do will still be there in two weeks, with better documentation and fewer bugs.
@@ -251,7 +251,7 @@ For leads, the radar doubles as the record of *why* the team uses what it uses, 
 
 ### Evaluating a brand-new release in an afternoon
 
-The plan is time-boxed to four hours. You'll need the golden-task set from [module 05](./05-judging-models.md#build-your-own-eval).
+The plan is time-boxed to four hours. You'll need the golden-task set from [module 07](./07-judging-models.md#build-your-own-eval).
 
 | Time | Step |
 | --- | --- |
@@ -259,7 +259,7 @@ The plan is time-boxed to four hours. You'll need the golden-task set from [modu
 | 0:20–0:40 | **Check independent signals.** Artificial Analysis, Arena, Epoch AI, and reactions from two or three people you trust. If nothing independent exists yet, note that and lower your confidence. |
 | 0:40–2:30 | **Run your golden subset.** 10 tasks, in the harness you actually use, same settings as your current default. Run the current default on the same tasks if you don't have recent results. Blind the outputs and grade with the rubric. |
 | 2:30–3:15 | **One real task.** Something from this week's backlog. Watch how it works: does it stay in scope, ask good questions, explain itself honestly? Add notes to your vibes log. |
-| 3:15–3:45 | **Cost and limits.** Tokens or quota used per task, and speed. Compare with your current default ([module 12](./12-costs-subscriptions-and-apis.md)). |
+| 3:15–3:45 | **Cost and limits.** Tokens or quota used per task, and speed. Compare with your current default ([module 15](./15-costs-subscriptions-and-apis.md)). |
 | 3:45–4:00 | **Decide and record.** Adopt, Trial, Assess again in two weeks, or Hold. Write three sentences with the evidence and a revisit date. Update the radar. |
 
 If the result is close, wait and revisit in two weeks.
@@ -282,7 +282,7 @@ Apps and subscription tools change system prompts, default effort, routing, and 
 - APIs usually offer dated model snapshots. Use those for anything automated, and upgrade deliberately.
 - CLIs let you pin a version and turn off auto-update. Upgrade on your schedule, after a smoke test.
 - Anthropic publishes [system prompt release notes](https://docs.anthropic.com/en/release-notes/system-prompts) for its apps. Read them when behavior shifts.
-- Your own configuration (`AGENTS.md`, `CLAUDE.md`, MCP servers) belongs in version control, so you can tell what *you* changed ([module 07](./07-context-engineering.md)).
+- Your own configuration (`AGENTS.md`, `CLAUDE.md`, MCP servers) belongs in version control, so you can tell what *you* changed ([module 09](./09-context-engineering.md)).
 
 ### The attention economy around AI
 
@@ -290,13 +290,13 @@ Launch days are built for attention: leaks, countdowns, charts, viral demos. Ben
 
 ### How durable is your knowledge?
 
-Look back at 2023–2024 advice. "Prompt tricks" mostly aged badly. "Give the model examples, context, and a way to check its work" aged well. The specific tools on your radar will turn over every year or two. You can keep improving how you evaluate tools, verify output, and recognize model failures. [Module 15](./15-learning-careers-and-responsibility.md) covers what that means for learning and careers.
+Look back at 2023–2024 advice. "Prompt tricks" mostly aged badly. "Give the model examples, context, and a way to check its work" aged well. The specific tools on your radar will turn over every year or two. You can keep improving how you evaluate tools, verify output, and recognize model failures. [Module 18](./18-learning-careers-and-responsibility.md) covers what that means for learning and careers.
 
 ## Bryan's take
 
 > **Bryan's take:** The rapidly changing nature of all this is interesting too.
 
-The takes on Claude's and Codex's ups and downs and on Google's launch claims sit next to the evidence earlier, and the Opus 5 example is in [module 05](./05-judging-models.md#a-recent-example-opus-5-to-opus-55).
+The takes on Claude's and Codex's ups and downs and on Google's launch claims sit next to the evidence earlier, and the Opus 5 example is in [module 07](./07-judging-models.md#a-recent-example-opus-5-to-opus-55).
 
 You don't have to share the opinions to use this. One bad release doesn't mean a lab has lost its way, and one great benchmark chart doesn't mean a model is better to work with. Both are reasons to test on your own tasks before switching.
 

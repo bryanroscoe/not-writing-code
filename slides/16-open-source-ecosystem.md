@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "13: The open-source ecosystem"
+title: "16: The open-source ecosystem"
 description: "Harnesses, runtimes, frameworks, extensions, and the maintainers behind them"
-footer: "A Brief Introduction to Not Writing Code · 13 Open-source ecosystem"
+footer: "A Brief Introduction to Not Writing Code · 16 Open-source ecosystem"
 ---
 
 <!-- _class: lead -->
@@ -18,7 +18,7 @@ We'll place AI tools in the stack, pick an open-source harness to try, explain w
 
 Project statuses and star counts are as of November 2026, and this part of the field churns fast.
 
-The reading is module 13. Students, read Foundations, the harness table, and the section on contributing responsibly. Engineers, all of In practice. Leads, the stack map, churn and capture, and the AI-contribution policies.
+The reading is module 16. Students, read Foundations, the harness table, and the section on contributing responsibly. Engineers, all of In practice. Leads, the stack map, churn and capture, and the AI-contribution policies.
 -->
 
 ---
@@ -55,7 +55,7 @@ Open source publishes the **code**. Open weight publishes the **model**. They're
 | FSL-1.1-MIT | Source-available: no competing product; MIT after two years | Crush |
 
 <!--
-Some examples. Codex CLI is open-source software that by default calls OpenAI's closed models. OpenCode or Aider can drive a closed frontier model or a local open-weight model. A closed IDE can run an open-weight model. Module 04 covers open-weight models; this session is about the software.
+Some examples. Codex CLI is open-source software that by default calls OpenAI's closed models. OpenCode or Aider can drive a closed frontier model or a local open-weight model. A closed IDE can run an open-weight model. Module 06 covers open-weight models; this session is about the software.
 
 MIT is also the license on Gas Town, Beads, and Inspect.
 
@@ -74,7 +74,7 @@ Some projects mix licenses. Cline's JetBrains plugin isn't open source even thou
 | Harnesses, plus extensions | OpenCode · Aider · Cline · goose · Codex CLI · MCP servers · skills |
 | Frameworks and SDKs | LangGraph · Pydantic AI · DSPy · OpenAI Agents SDK · Claude Agent SDK |
 | Inference runtimes | llama.cpp · Ollama · vLLM · SGLang · MLX |
-| Models | Open-weight or API (modules 03–04) |
+| Models | Open-weight or API (modules 05–06) |
 
 Evaluation tools (SWE-bench harness, Inspect, promptfoo) measure harnesses and models.
 
@@ -214,7 +214,7 @@ The January renames come from [OpenClaw's own naming history](https://docs.openc
 <!--
 People want an agent that keeps memory between sessions and can act across their accounts. That's a different product from a coding agent.
 
-A personal agent reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous (module 11).
+A personal agent reads untrusted content (emails, messages, web pages), holds private data, and can send messages and take actions. Those three together make prompt injection dangerous (module 14).
 
 [Censys counted 21,639 exposed instances on January 31](https://censys.com/blog/openclaw-in-the-wild-mapping-the-public-exposure-of-a-viral-ai-assistant/). [Bitsight counted more than 30,000 across January 27–February 8](https://www.bitsight.com/blog/openclaw-ai-security-risks-exposed-instances). These are different observation windows. Censys says the default listener was localhost; public exposure came from deployment choices.
 
@@ -250,7 +250,7 @@ SGLang does fast serving with prefix caching (RadixAttention) and structured gen
 
 MLX is Apple's array framework for Apple Silicon, with mlx-lm for running and fine-tuning models.
 
-Module 04 covers which models to run and how much hardware you need.
+Module 06 covers which models to run and how much hardware you need.
 -->
 
 ---
@@ -274,7 +274,7 @@ Anthropic's "Building effective agents" warns that frameworks "often create extr
 
 The full version in the module uses the Anthropic Python SDK. It defines one tool, bash. Its run function asks the user y/N before running each command (that's the permission system) and keeps only the last 10,000 characters of output (crude context management). The 30-turn loop is the budget, so it can't run forever. On this slide, tool_results stands in for the few lines in the module that build the tool-result message. Other providers' SDKs look very similar.
 
-Everything a harness adds, such as better tools, sandboxing, compaction, hooks, and a UI, is an improvement on these 30 lines. Writing it once is the fastest way to understand module 06, and it's the first step of the Try it.
+Everything a harness adds, such as better tools, sandboxing, compaction, hooks, and a UI, is an improvement on these 30 lines. Writing it once is the fastest way to understand module 08, and it's the first step of the Try it.
 -->
 
 ---
@@ -330,7 +330,7 @@ Prefer servers maintained by the vendor of the service. Read the tool descriptio
 
 anthropics/skills (about 190K stars) has Anthropic's examples, including the document skills behind Claude's file features, a template, and the specification. obra/superpowers, by Jesse Vincent, is a popular community library of workflow skills such as test-driven development and systematic debugging. The Agent Skills spec is now governed by the Agentic AI Foundation, so a skill written for one harness works in others.
 
-A skill is instructions plus, often, scripts your agent will run. The ClawHub malware shows what happens when people install skills like browser bookmarks. MCP "tool poisoning" research is in module 11.
+A skill is instructions plus, often, scripts your agent will run. The ClawHub malware shows what happens when people install skills like browser bookmarks. MCP "tool poisoning" research is in module 14.
 -->
 
 ---
@@ -350,7 +350,7 @@ Gas Town (Steve Yegge, January 2026) runs 20–30 coding agents at once
 Beads is a graph issue tracker, backed by Dolt, that agents share as memory
 
 <!--
-Gas Town is MIT-licensed. Its vocabulary is deliberately colorful. Claude Code is the default runtime, and it supports Codex, Gemini, Cursor, Amp, OpenCode, and others. Yegge's eight-stage ladder of AI coding workflows comes from the same launch essay and is covered in module 08.
+Gas Town is MIT-licensed. Its vocabulary is deliberately colorful. Claude Code is the default runtime, and it supports Codex, Gemini, Cursor, Amp, OpenCode, and others. Yegge's eight-stage ladder of AI coding workflows comes from the same launch essay and is covered in module 10.
 
 Beads, also by Yegge and MIT-licensed, is backed by the version-controlled database Dolt. Agents create tasks, record dependencies, find unblocked work, claim it, and close it. It replaces sprawling markdown plan files with structured memory many agents can share. Gas Town depends on it.
 
@@ -370,7 +370,7 @@ Next is my experience with two projects from this deck.
 <!--
 That's my report as one user, not a review of either project.
 
-The module itself doesn't rate Gas Town. If you want to follow up, module 08 covers how much autonomy works day to day.
+The module itself doesn't rate Gas Town. If you want to follow up, module 10 covers how much autonomy works day to day.
 -->
 
 ---
@@ -480,9 +480,9 @@ Some projects, LLVM for example, ask that newcomer "good first issues" be done w
 
 If an agent drafts the fix, rework it until you could have written it, then delete what you can't defend.
 
-The module adds: get a second opinion before the maintainers' opinion (a different model or a classmate; module 10), write the PR description in your own words with disclosure, and handle review feedback yourself. If you don't know an answer, say so and go find out.
+The module adds: get a second opinion before the maintainers' opinion (a different model or a classmate; module 13), write the PR description in your own words with disclosure, and handle review feedback yourself. If you don't know an answer, say so and go find out.
 
-For a course, use the log to assess learning (module 15). A merged PR alone doesn't show it.
+For a course, use the log to assess learning (module 18). A merged PR alone doesn't show it.
 -->
 
 ---
@@ -494,7 +494,7 @@ For a course, use the log to assess learning (module 15). A merged PR alone does
 > **Bryan's take:** Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.
 
 <!--
-My opinion from daily use. It ties back to module 10 (AI code review) and to the student checklist on the previous slide: get a second opinion before the maintainers' opinion.
+My opinion from daily use. It ties back to module 13 (AI code review) and to the student checklist on the previous slide: get a second opinion before the maintainers' opinion.
 -->
 
 ---
@@ -539,7 +539,7 @@ More if time allows: What would a "safe by default" personal agent have to do di
 
 # Read more
 
-- [Module 13: The open-source ecosystem](../modules/13-open-source-ecosystem/)
+- [Module 16: The open-source ecosystem](../modules/16-open-source-ecosystem/)
 - [Building effective agents](https://www.anthropic.com/research/building-effective-agents) (Anthropic, December 2024)
 - [The end of the curl bug bounty](https://daniel.haxx.se/blog/2026/01/26/the-end-of-the-curl-bug-bounty/) (Daniel Stenberg, January 2026)
 - [LLVM AI tool use policy](https://llvm.org/docs/AIToolPolicy.html)

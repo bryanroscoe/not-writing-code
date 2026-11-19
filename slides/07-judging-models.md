@@ -2,9 +2,9 @@
 marp: true
 theme: not-writing-code
 paginate: true
-title: "05: How to tell if a model is good"
+title: "07: How to tell if a model is good"
 description: "Benchmarks, benchmark-maxing, vibes, and building your own eval"
-footer: "A Brief Introduction to Not Writing Code · 05 How to tell if a model is good"
+footer: "A Brief Introduction to Not Writing Code · 07 How to tell if a model is good"
 ---
 
 <!-- _class: lead -->
@@ -14,7 +14,7 @@ footer: "A Brief Introduction to Not Writing Code · 05 How to tell if a model i
 Benchmarks, user impressions, and testing models on your own work
 
 <!--
-Plan for 40 to 50 minutes. Part 1 is reading other people's numbers: benchmark scores, launch posts, evaluators. Part 2 is evidence closer to your work: productivity studies and a small eval built from your own repos. Part 3 is what happens when benchmarks and users disagree, with Opus 5 as the case study. The reading is module 05.
+Plan for 40 to 50 minutes. Part 1 is reading other people's numbers: benchmark scores, launch posts, evaluators. Part 2 is evidence closer to your work: productivity studies and a small eval built from your own repos. Part 3 is what happens when benchmarks and users disagree, with Opus 5 as the case study. The reading is module 07.
 
 Open by asking who picked the model they use now because of a benchmark chart. Come back to the answer at the end.
 -->
@@ -73,7 +73,7 @@ Change any line and the number moves.
 <!--
 This replaces the diagram in the module. Walk down the list.
 
-The harness, also called the scaffold or agent, is the program around the model. It sends the prompt, exposes tools such as a shell or file editor, runs the loop, and decides when to stop. Claude Code, Codex CLI and the research harness Terminus-2 are harnesses. Module 06 covers them.
+The harness, also called the scaffold or agent, is the program around the model. It sends the prompt, exposes tools such as a shell or file editor, runs the loop, and decides when to stop. Claude Code, Codex CLI and the research harness Terminus-2 are harnesses. Module 08 covers them.
 
 The grader decides pass or fail. For code it's usually hidden unit tests. For writing it might be a rubric scored by humans or by another model, called an LLM judge.
 
@@ -268,7 +268,7 @@ grading:
 ```
 
 <!--
-This is an excerpt; the full task-file template is in module 05.
+This is an excerpt; the full task-file template is in module 07.
 
 Source tasks from merged PRs in the last 3 to 12 months. Use the commit before the PR as the starting state, and the PR's tests, plus any you write, as the grader. Recent PRs are less likely to be in any model's training data. Private repos never should be.
 
@@ -338,7 +338,7 @@ Agents game graders more as they get stronger. METR reported "well over 100 dist
 
 Terminal-Bench's leaderboard integrity update removed submissions that modified timeouts, hid encrypted solutions in the agent binary, or uploaded the tasks' test folders. It now requires full trajectories for every passing trial.
 
-Harness changes have caused real regressions (module 14), which is why a harness update earns a smoke run. Module 10 covers having several models review each other's output, which pairs well with blind grading.
+Harness changes have caused real regressions (module 17), which is why a harness update earns a smoke run. Module 13 covers having several models review each other's output, which pairs well with blind grading.
 -->
 
 ---
@@ -375,7 +375,7 @@ For item 3, Meta's April 2025 Llama 4 launch highlighted an Arena rank of #2 for
 
 On item 4, reinforcement learning on coding tasks rewards "tests pass." A model can learn to special-case tests, over-verify, or over-engineer. System cards now report this.
 
-For item 6, The Leaderboard Illusion (Singh et al., 2025) saw as many as 27 private Meta variants tested in the month before Llama 4. Module 14 covers the Grok 3 majority-vote chart.
+For item 6, The Leaderboard Illusion (Singh et al., 2025) saw as many as 27 private Meta variants tested in the month before Llama 4. Module 17 covers the Grok 3 majority-vote chart.
 -->
 
 ---
@@ -450,7 +450,7 @@ This is my opinion from daily use.
 
 It's a vibe in exactly the sense of the last slide, a dated, specific impression that matched what many other users reported. The evidence has limits. No public evidence shows Opus 5 trained on benchmark answers. The better-supported story is that benchmarks scored task completion and barely scored communication or scope.
 
-My model picks (Claude and Codex for code; Grok or Gemini only for specific non-coding jobs) are in module 03. The module flags the Grok and Gemini view as the most contested: late-2026 public benchmarks put Google's newest models near or at the top on some coding evals. That's the argument for checking your own golden tasks rather than taking anyone's word for it, mine included.
+My model picks (Claude and Codex for code; Grok or Gemini only for specific non-coding jobs) are in module 05. The module flags the Grok and Gemini view as the most contested: late-2026 public benchmarks put Google's newest models near or at the top on some coding evals. That's the argument for checking your own golden tasks rather than taking anyone's word for it, mine included.
 -->
 
 ---
@@ -498,7 +498,7 @@ For 3, pair surveys with something measured, such as cycle time, golden-task tim
 
 ## Read more
 
-- Module: [05 How to tell if a model is good](../modules/05-judging-models/)
+- Module: [07 How to tell if a model is good](../modules/07-judging-models/)
 - [Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity](https://arxiv.org/abs/2507.09089) (Becker et al., 2025)
 - [Harbor-Index](https://www.tbench.ai/news/harbor-index) (Terminal-Bench team, June 2026)
 - [Adding Error Bars to Evals](https://arxiv.org/abs/2411.00640) (Miller, 2024)
@@ -506,5 +506,5 @@ For 3, pair surveys with something measured, such as cycle time, golden-task tim
 <!--
 The module has the full task-file template, rubric and results-log format, plus tables of every major benchmark family and their weaknesses. The METR paper is the study behind "felt faster, measured slower." Harbor-Index is the clearest short read on harness effects. Miller's paper explains error bars for evals.
 
-Next session, module 06, is about the harness itself.
+Next session, module 08, is about the harness itself.
 -->
