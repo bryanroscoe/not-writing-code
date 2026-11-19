@@ -318,7 +318,7 @@ The module has more rows: real-time social data (Grok, built-in access to X post
 
 ## Which models for coding?
 
-> **Bryan's take:** For coding, Claude and Codex are the best. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding, because they fall far behind there. Different models are better for different use cases.
+> **Author's note:** For coding, Claude and Codex are the best. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding, because they fall far behind there. Different models are better for different use cases.
 
 <!--
 This is my opinion from daily use, and like everything in this deck it's dated November 2026. It lines up with the agentic coding row on the previous slide. The long-documents and real-time-data rows are the kind of "very specific cases" it allows for.
@@ -356,7 +356,7 @@ Not every regression is real. In August and September 2025, users suspected Anth
 
 ## On Opus 5 and Opus 5.5
 
-> **Bryan's take:** Opus 5 felt benchmark-maxed. Great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5, people really liked.
+> **Author's note:** Opus 5 felt benchmark-maxed. Great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5, people really liked.
 
 <!--
 Here's the evidence the module puts next to this take. Opus 5 led the Artificial Analysis leaderboard at launch, ahead of Fable 5, and early hands-on reviews were positive. Simon Willison called it "a good new default for Claude Code if you don't want to burn through your Fable allowance too fast."
@@ -374,7 +374,7 @@ Module 07 covers benchmark-maxing.
 
 ## On trusting labs
 
-> **Bryan's take:** I don't trust some labs much. Google in particular tends to overhype its models, and they underperform in my use.
+> **Author's note:** I don't trust some labs much. Google in particular tends to overhype its models, and they underperform in my use.
 
 <!--
 That's my opinion. The module pairs it with the strongest evidence against it.

@@ -150,7 +150,7 @@ To do it well:
 
 The risk comes from the same place as the benefit. A prototype *looks* finished, so people (you included) start treating it as the real thing before anyone has checked error handling, security, or tests. In the 20th-anniversary edition (1995), Brooks himself called his throw-one-away advice too simple and argued for growing software incrementally. You can build something concrete quickly, then improve it incrementally.
 
-> **Bryan's take:** I like draft-driven or prototype-driven development, and you can do it with AI now. From a coding point of view or an application point of view, it's easier to comment on something you can see than to conceptualize it from scratch.
+> **Author's note:** I like draft-driven or prototype-driven development, and you can do it with AI now. From a coding point of view or an application point of view, it's easier to comment on something you can see than to conceptualize it from scratch.
 
 ### Tests as the agent's contract
 
@@ -368,11 +368,11 @@ Stronger automated oracles allow more autonomy. A C compiler is close to the bes
 - Who's accountable for code nobody reviewed? Law, audits and incident reviews assume a person looked at the change.
 - Where is the real productivity frontier? Self-reports run ahead of measurements. Watch for well-designed field studies, not vendor surveys ([module 17](./17-keeping-up.md)).
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, each on its own task, managed by hand. I haven't built my own orchestrator. I still decide what gets merged, though honestly that's emergent to an extent. There are projects I mostly just vibe code. For work, I actually read the code.
+> **Author's note:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, each on its own task, managed by hand. I haven't built my own orchestrator. I still decide what gets merged, though honestly that's emergent to an extent. There are projects I mostly just vibe code. For work, I actually read the code.
 
-> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.
+> **Author's note:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.
 
 The strongest counter-argument is that the trend lines are steep and the people closest to the frontier already work this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons have grown from minutes to more than a working day in about two years. StrongDM's holdout scenarios plus digital twins are a serious answer to "tests can be gamed." A reasonable position in late 2026 is that full autonomy works today for well-specified, oracle-rich, greenfield problems, and that the edge of that set is moving. Check the evidence again in six months ([module 17](./17-keeping-up.md)).
 

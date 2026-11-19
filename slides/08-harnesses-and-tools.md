@@ -433,9 +433,9 @@ Too many MCP servers waste context. A popular server or skill can still be unsaf
 
 <!-- _class: take -->
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** My daily setup is several CLI agents running in parallel, each in its own worktree, which I manage by hand. I drive them through T3 Code, which lets me run Claude and Codex side by side, the two model families I think are best for code ([module 05](../modules/05-model-landscape/)). That puts me at roughly stage 6–7 on Yegge's eight-stage ladder ([module 10](../modules/10-agentic-workflows/)). I'm not running a fully autonomous orchestrator, because I haven't gotten reliable results from one.
+> **Author's note:** My daily setup is several CLI agents running in parallel, each in its own worktree, which I manage by hand. I drive them through T3 Code, which lets me run Claude and Codex side by side, the two model families I think are best for code ([module 05](../modules/05-model-landscape/)). That puts me at roughly stage 6–7 on Yegge's eight-stage ladder ([module 10](../modules/10-agentic-workflows/)). I'm not running a fully autonomous orchestrator, because I haven't gotten reliable results from one.
 
 <!--
 This is my setup and my opinion.

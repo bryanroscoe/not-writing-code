@@ -356,7 +356,7 @@ A reasoning model's visible thinking may not reflect how it reached its answer. 
 
 Researchers keep probing alternatives and hybrids: state-space models such as Mamba, linear-attention layers mixed with standard attention, and diffusion-style text generation that refines a whole passage at once instead of one token at a time. As of November 2026, the leading models, as far as public details show, are still built mainly from transformer layers, sometimes mixed with these other layer types and usually with MoE. So the mental model in this module still applies.
 
-## Bryan's take
+## Author's note
 
 This course is about AI-accelerated coding, not vibe coding: a person reads, tests, and owns what ships ([module 00](00-orientation.md#ai-accelerated-coding-not-vibe-coding)). The model is a capable next-token predictor with no stake in whether your code works, so a person has to stay accountable for it. Bryan's views on which models suit which jobs are in [module 05](05-model-landscape.md).
 

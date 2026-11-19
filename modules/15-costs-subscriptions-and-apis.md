@@ -282,9 +282,9 @@ Two trends pull in opposite directions. The price of a *given level of capabilit
 
 Nobody outside the labs knows the unit economics. Vendors may treat heavy-user subscriptions as customer acquisition, may have lower serving costs than API prices imply, or may be losing money on their heaviest users. What you can see is that caps have tightened more often than loosened, top tiers have been added above old ones, and third-party access has been restricted (Anthropic) or channeled through partnerships (OpenAI). Plan as if today's subscription value isn't guaranteed next year.
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
+> **Author's note:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
 The arithmetic in this module backs that up for full-time use of frontier models. Even with caching, one heavy user can spend several hundred dollars a month at API prices, and parallel agents multiply it. There are limits to that advantage:
 

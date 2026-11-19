@@ -174,7 +174,7 @@ In response, Anthropic committed to broader per-model evals for every system-pro
 
 ## Claude and Codex
 
-> **Bryan's take:** Claude and Codex have both had ups and downs.
+> **Author's note:** Claude and Codex have both had ups and downs.
 
 <!--
 That's from daily use, and the documented record backs it up for both vendors: see the Claude and Codex rows in the field guide.
@@ -295,7 +295,7 @@ The module is explicit about bias here: my opinions come from daily use, mostly 
 
 ## Google's launch claims
 
-> **Bryan's take:** I don't trust Google's launch claims much. In my experience they overhype Gemini, and it underperforms what was promised, especially for coding. I'll use Gemini for some specific tasks, but not as my coding agent.
+> **Author's note:** I don't trust Google's launch claims much. In my experience they overhype Gemini, and it underperforms what was promised, especially for coding. I'll use Gemini for some specific tasks, but not as my coding agent.
 
 <!--
 That's from my own use. The module follows it right away with the documented record, which cuts both ways, on the next slide.
@@ -442,7 +442,7 @@ Record the decision in three sentences, with the evidence and a revisit date. Up
 
 ## The pace itself
 
-> **Bryan's take:** The rapidly changing nature of all this is interesting too.
+> **Author's note:** The rapidly changing nature of all this is interesting too.
 
 <!--
 My other takes for this module, on Claude's and Codex's ups and downs and on Google's launch claims, came earlier, next to the evidence.

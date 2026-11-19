@@ -365,7 +365,7 @@ Next is my experience with two projects from this deck.
 
 ## OpenClaw and Gas Town
 
-> **Bryan's take:** OpenClaw had a couple of issues, but it was Gas Town that really did not work for me.
+> **Author's note:** OpenClaw had a couple of issues, but it was Gas Town that really did not work for me.
 
 <!--
 That's my report as one user, not a review of either project.
@@ -491,7 +491,7 @@ For a course, use the log to assess learning (module 18). A merged PR alone does
 
 ## Review before the maintainer does
 
-> **Bryan's take:** Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.
+> **Author's note:** Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.
 
 <!--
 My opinion from daily use. It ties back to module 13 (AI code review) and to the student checklist on the previous slide: get a second opinion before the maintainers' opinion.

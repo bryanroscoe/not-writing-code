@@ -582,7 +582,7 @@ Claude Code: the user was on v2.0.22 under WSL2 (GitHub issue anthropics/claude-
 
 ## On loops
 
-> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows/#bryans-take).)
+> **Author's note:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows/#authors-note).)
 
 <!--
 This is my opinion, the same one module 09 quotes. Match it to the loop checklist: a checkable end state, an independent check, a budget, and a human reading the result.

@@ -26,7 +26,7 @@ On an **AI-first** team, the first question on any task is "how would an agent h
 | Some work stays deliberately agent-free | Nobody can debug production when the tool is down |
 | The team measures outcomes and shares failures openly | Ranking engineers by tokens used or PRs merged |
 
-> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
+> **Author's note:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 This playbook assumes the [ground rules in module 00](../modules/00-orientation.md#ground-rules-we-assume-throughout), which make a decent starting team policy by themselves. The [policy template](policy-template.md) turns them into something you can get approved.
 
@@ -69,9 +69,9 @@ Phase 0 makes sure nobody's first serious experience with these tools is on a fr
 
 **2. Pick the approved tools.** A good default is one primary agent plus a second from a different lab. Everyone learns the primary. The second keeps you off a single vendor and makes cross-model review possible ([module 08](../modules/08-harnesses-and-tools.md#how-to-choose-a-harness), [module 17](../modules/17-keeping-up.md#when-to-switch-tools)). Score candidates on model access, cost model, privacy terms, team standardization (does it read `AGENTS.md`, support skills, MCP, and managed settings?), and safety features (permission modes, sandboxing, audit logs).
 
-> **Bryan's take:** For coding, Claude and Codex are the best in my opinion. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding. Different models are better for different use cases.
+> **Author's note:** For coding, Claude and Codex are the best in my opinion. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding. Different models are better for different use cases.
 
-That opinion is contested and dated. Public benchmarks in late 2026 put some Google models near or at the top on some coding evals ([module 07](../modules/07-judging-models.md#bryans-take)). Decide with your own golden tasks, which you'll build in Phase 1.
+That opinion is contested and dated. Public benchmarks in late 2026 put some Google models near or at the top on some coding evals ([module 07](../modules/07-judging-models.md#authors-note)). Decide with your own golden tasks, which you'll build in Phase 1.
 
 **3. Buy paid seats.** Free tiers and personal accounts are a data risk and a bad first impression. Free plans have tight usage limits, and some run on a smaller model. Team or business plans add admin controls, no-training defaults, and spend limits ([module 15](../modules/15-costs-subscriptions-and-apis.md#price-snapshot-as-of-2026-11-08)).
 
@@ -208,7 +208,7 @@ Phase 2 turns the pilot's learnings into shared practice: everyone gets the same
 
 **4. Set up cross-model review.** At minimum, a fresh context reviews every change before a human looks at it. Better, a model from a different lab reviews it, because models tend to rate their own output higher ([module 12](../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)). Licensing the second tool at least for review is usually cheap.
 
-> **Bryan's take:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
+> **Author's note:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
 **5. Run the training series.** The [session series](session-series.md) has eight sessions of 45–60 minutes each, from "what an LLM actually is" to parallel agents. Champions facilitate, and every hands-on exercise uses your own repository.
 
@@ -260,7 +260,7 @@ In Phase 3 the speed gains get bigger, and so does the risk. Not everyone has to
 - Review every branch before merging. Parallelism multiplies unreviewed code as fast as it multiplies output.
 - Run only as many agents as you can actually review ([module 18](../modules/18-learning-careers-and-responsibility.md#the-human-side)).
 
-> **Bryan's take:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, managed by hand.
+> **Author's note:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, managed by hand.
 
 **2. Background agents for well-tested chores.** You hand off a task and get a PR back later. Good candidates have a strong automated check, a small and reversible diff, a low blast radius, and a normal human review at the PR. For example:
 - Dependency updates with a full test run (plus your dependency policy for new packages).
@@ -286,9 +286,9 @@ Keep these on hold until your own evidence says otherwise:
 - Agents with production write access.
 - Fully autonomous pipelines ("software factories") on your existing product codebase.
 
-> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
+> **Author's note:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-The strongest counterpoint is in [module 10](../modules/10-agentic-workflows.md#bryans-take). The trend lines are steep, Anthropic reports that Claude writes more than 80% of the code it merges, and the reported case studies offer answers to "tests can be gamed." A fair position for late 2026 is that full autonomy works for well-specified, oracle-rich, greenfield problems, and that the boundary is moving. Recheck in six months.
+The strongest counterpoint is in [module 10](../modules/10-agentic-workflows.md#authors-note). The trend lines are steep, Anthropic reports that Claude writes more than 80% of the code it merges, and the reported case studies offer answers to "tests can be gamed." A fair position for late 2026 is that full autonomy works for well-specified, oracle-rich, greenfield problems, and that the boundary is moving. Recheck in six months.
 
 ### Exit criteria (per workflow, not per phase)
 
@@ -500,9 +500,9 @@ By default, split it like this:
 - API keys with budgets for CI, automation, batch jobs, and anything shared or unattended. Use an automation offering the vendor's current terms permit; this playbook defaults to budgeted API access for CI and shared workloads ([module 15](../modules/15-costs-subscriptions-and-apis.md#the-subscription-subsidy-and-its-limits)).
 - Pay-as-you-go for light users who run a few short tasks a week, since it may be cheaper.
 
-> **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
+> **Author's note:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
-[Module 15](../modules/15-costs-subscriptions-and-apis.md#bryans-take) lists the counterpoints. Caps and throttling are the price of a subscription. Vendors have tightened caps and changed terms several times in a year. Not every plan permits shared automation. And for a team with uneven usage, pooled API credits plus good caching and routing can beat buying top-tier seats for everyone.
+[Module 15](../modules/15-costs-subscriptions-and-apis.md#authors-note) lists the counterpoints. Caps and throttling are the price of a subscription. Vendors have tightened caps and changed terms several times in a year. Not every plan permits shared automation. And for a team with uneven usage, pooled API credits plus good caching and routing can beat buying top-tier seats for everyone.
 
 For ROI, module 15 assumes a loaded cost of about $100 per engineer-hour, so a $200-a-month seat costs about two engineer-hours a month, and a 10-person team on $200 seats is about $24,000 a year, roughly 13% of one loaded engineer ([team budgeting](../modules/15-costs-subscriptions-and-apis.md#team-budgeting)). The weak link is always the assumed productivity gain, so show your assumptions and replace them with measured numbers after Phase 2.
 
@@ -650,7 +650,7 @@ A few rules keep churn down:
 - Keep a second tool warm. When Anthropic suspended Claude Fable 5 for all users for nearly three weeks in 2026 over export controls, people with a configured second tool kept working ([module 17](../modules/17-keeping-up.md#when-to-switch-tools)).
 - Diagnose before you switch. When the tool feels worse, check the status page, then your harness version and settings, then your golden tasks, then whether today's task is just harder ([module 17](../modules/17-keeping-up.md#is-it-the-model-the-task-or-the-harness)).
 
-> **Bryan's take:** Claude and Codex have both had ups and downs.
+> **Author's note:** Claude and Codex have both had ups and downs.
 
 The incidents documented in [module 17](../modules/17-keeping-up.md#a-field-guide-to-recent-ups-and-downs) back that up for both vendors. Keep a configured backup and golden tasks you can rerun in an afternoon.
 

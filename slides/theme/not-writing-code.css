@@ -51,7 +51,7 @@ section.divider { background: var(--accent); color: #fff; place-content: safe ce
 section.divider footer, section.divider::after { color: rgba(255, 255, 255, 0.85); }
 section.divider h1, section.divider h2 { color: #fff; border-bottom-color: #fff; }
 
-/* Bryan's take: <!-- _class: take --> */
+/* Author's note: <!-- _class: take --> */
 section.take { place-content: safe center center; }
 section.take blockquote { font-size: 34px; line-height: 1.4; }
 section.take h2 { color: var(--accent); }

@@ -79,7 +79,7 @@ checklists, failure modes, war stories.
 ## Going deeper
 Research, internals, open debates, edge cases. Optional for beginners.
 
-## Bryan's take
+## Author's note
 Opinions, clearly labelled (see below). Optional per module.
 
 ## Try it
@@ -114,7 +114,7 @@ The author, Bryan Roscoe, has strong opinions from daily use. They are valuable
 and they are opinions. Mark them:
 
 ```markdown
-> **Bryan's take:** I don't trust fully autonomous agent pipelines yet. ...
+> **Author's note:** I don't trust fully autonomous agent pipelines yet. ...
 ```
 
 - Never state an opinion as a fact in the main text.

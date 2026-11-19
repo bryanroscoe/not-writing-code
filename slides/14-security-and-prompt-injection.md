@@ -409,7 +409,7 @@ We still don't know whether training can fix it (attacks get more expensive, but
 
 ## On autonomy and security
 
-> **Bryan's take:** I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work ([module 10](../modules/10-agentic-workflows/#bryans-take)).
+> **Author's note:** I don't trust fully autonomous workflows yet. I run several CLI agents in parallel, manage them by hand, and find it valuable to have multiple agents and models review each other's work ([module 10](../modules/10-agentic-workflows/#authors-note)).
 
 <!--
 This is my opinion, quoted from the module. It's one practitioner's view of autonomy in general.

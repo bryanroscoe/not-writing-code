@@ -44,7 +44,7 @@ AI-first means reaching for AI by default and knowing when not to, without manda
 - Wins and failures get shared in the open, including the embarrassing ones.
 - Skeptics' objections get answered with evidence from your own repo, not with launch posts ([objections and answers](../workplace/objections.md)).
 
-> **Bryan's take:** I'm one or two steps from the top of Yegge's ladder, running several agents in parallel and managing them by hand. I don't believe fully autonomous pipelines work reliably yet. For a team, that means the realistic goal right now is "every engineer is a confident supervisor of agents," not "agents replace the review process."
+> **Author's note:** I'm one or two steps from the top of Yegge's ladder, running several agents in parallel and managing them by hand. I don't believe fully autonomous pipelines work reliably yet. For a team, that means the realistic goal right now is "every engineer is a confident supervisor of agents," not "agents replace the review process."
 
 ## Next
 

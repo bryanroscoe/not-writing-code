@@ -83,7 +83,7 @@ footer: "A Brief Introduction to Not Writing Code · 10 Agentic workflows"
 1. Title slide, with `<!-- _class: lead -->`: module number and title, one-line subtitle.
 2. "Why this matters": one slide, the stakes in plain language.
 3. The core ideas: one idea per slide, usually 8–20 slides. Use `<!-- _class: divider -->` slides to split a deck into two or three parts.
-4. Bryan's take slides, with `<!-- _class: take -->`. Quote the module's callouts word for word, as `> **Bryan's take:** …`. Never write new opinions.
+4. Author's note slides, with `<!-- _class: take -->`. Quote the module's callouts word for word, as `> **Author's note:** …`. Never write new opinions.
 5. "Try it": the module's exercise, condensed.
 6. Discussion: two to four questions from the module.
 7. "Read more": a link to the module on the site (`../modules/NN-slug/`) and two or three key sources.

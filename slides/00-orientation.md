@@ -126,10 +126,10 @@ The title, A Brief Introduction to Not Writing Code, is a joke with a point. You
 
 ## AI-accelerated coding, not vibe coding
 
-> **Bryan's take:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
+> **Author's note:** Vibe coding means you're not really ever reading the code. We're talking about AI-accelerated coding here. Vibe coding is worth knowing about and calling out, but it's not what this course is about.
 
 <!--
-These "Bryan's take" callouts are where my opinions go. Everything else should be sourced, so an unsourced or stale claim is a bug.
+These "Author's note" callouts are where my opinions go. Everything else should be sourced, so an unsourced or stale claim is a bug.
 
 You can disagree with this. Discussion question 1 asks when not reading the code is the right choice.
 -->

@@ -414,7 +414,7 @@ If there's time, some open questions. Do long time horizons transfer to messy re
 
 ## On prototypes
 
-> **Bryan's take:** I like draft-driven or prototype-driven development, and you can do it with AI now. From a coding point of view or an application point of view, it's easier to comment on something you can see than to conceptualize it from scratch.
+> **Author's note:** I like draft-driven or prototype-driven development, and you can do it with AI now. From a coding point of view or an application point of view, it's easier to comment on something you can see than to conceptualize it from scratch.
 
 <!--
 This slide and the next two are my opinions, quoted from the module. Take them as one practitioner's view, not findings.
@@ -428,7 +428,7 @@ The prototypes in part 2 help you get feedback. Reacting to something concrete i
 
 ## On Yegge's chart
 
-> **Bryan's take:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, each on its own task, managed by hand. I haven't built my own orchestrator. I still decide what gets merged, though honestly that's emergent to an extent. There are projects I mostly just vibe code. For work, I actually read the code.
+> **Author's note:** On Yegge's chart I'm one or two from the top, roughly stage 6–7: several CLI agents running in parallel, each on its own task, managed by hand. I haven't built my own orchestrator. I still decide what gets merged, though honestly that's emergent to an extent. There are projects I mostly just vibe code. For work, I actually read the code.
 
 <!--
 This goes back to the "Reading the chart" slide: the stage depends on the project. Look at the split at the end. Personal projects get a looser touch, and work code gets read. That's "moving down is allowed" in practice.
@@ -442,7 +442,7 @@ Where did you place yourself earlier? Does your stage change between personal an
 
 ## On full autonomy
 
-> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.
+> **Author's note:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work. Gas Town, in particular, really did not work for me.
 
 <!--
 There is a strong counter-argument. The trend lines are steep, and the people closest to the frontier already work this way. Anthropic says most of its merged code is written by Claude. METR's measured horizons have grown from minutes to more than a working day in about two years. StrongDM's holdout scenarios plus digital twins are a serious answer to "tests can be gamed."

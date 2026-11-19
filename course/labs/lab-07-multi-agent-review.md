@@ -12,7 +12,7 @@ With the capstone, you'll do this on a real pull request from your capstone proj
 
 Reading parallelizes well, while writing on one codebase usually doesn't ([module 12](../../modules/12-multi-agent-systems.md#building-vs-reviewing-the-readwrite-asymmetry)).
 
-> **Bryan's take:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
+> **Author's note:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
 Agents do the reviewing and verifying. You set it up, check the verifiers, decide what to fix, and write the analysis yourself.
 

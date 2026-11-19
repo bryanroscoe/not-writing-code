@@ -156,7 +156,7 @@ Agree, discount them, and look at independent work instead. Published field stud
 
 Benchmarks are narrow, age quickly, and can be selectively reported. Benchmarks are good for spotting large generational gaps and trends. They're poor for choosing between two frontier models a few points apart, especially in a harness different from yours. Cross-check with independent evaluators, and decide with your own golden tasks ([module 07](../modules/07-judging-models.md#independent-evaluators)).
 
-> **Bryan's take:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
+> **Author's note:** Opus 5 felt benchmark-maxed to me. It posted great numbers and kind of sucked in daily use, and people didn't like it. Opus 5.5 is the one people really liked.
 
 No public evidence shows that model was trained on benchmark answers. The better-supported story is that benchmarks scored task completion, while users also cared about communication and scope, which benchmarks barely measure ([module 07](../modules/07-judging-models.md#a-recent-example-opus-5-to-opus-55)).
 
@@ -170,7 +170,7 @@ No public evidence shows that model was trained on benchmark answers. The better
 
 You don't need to believe in full autonomy to get value. Most of it is in supervised agents and parallel supervised agents, where a human reviews every merge. Treat autonomy as a dial and turn it up one notch at a time, only as fast as your automated checks can catch what you stop looking at ([module 10](../modules/10-agentic-workflows.md#the-autonomy-spectrum)).
 
-> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
+> **Author's note:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
 The strongest counterpoint is that the trend lines are steep, Anthropic reports that Claude writes more than 80% of the code it merges, and some teams build serious software with holdout tests and digital twins of their dependencies ([module 10](../modules/10-agentic-workflows.md#the-case-for-full-autonomy)). A fair position is that full autonomy works for well-specified, oracle-rich, greenfield problems, and that boundary is moving.
 
@@ -270,7 +270,7 @@ Manage it like other IP risk, and get your legal team's view (this isn't legal a
 
 For interactive work, subscriptions change the math: roughly $20 to $200 a month for individuals (more for some tiers), and team seats with admin controls (as of November 2026; [module 15](../modules/15-costs-subscriptions-and-apis.md#price-snapshot-as-of-2026-11-08)). At a loaded cost of about $100 per engineer-hour, a $200 seat costs about two engineer-hours a month ([module 15](../modules/15-costs-subscriptions-and-apis.md#team-budgeting)). Use the API for CI and automation, with spend limits. Judge cost per finished task, not per token, since a cheaper model that takes three times the turns can cost more ([module 15](../modules/15-costs-subscriptions-and-apis.md#cost-per-task-not-cost-per-token)).
 
-> **Bryan's take:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
+> **Author's note:** API pricing is too expensive for heavy agentic use. Subscriptions are what make it affordable to work this way every day.
 
 Concede the downsides. Subscriptions have caps that bite at the worst time, vendors have changed limits and terms several times in a year, and the ROI depends entirely on whether the tools actually help your team, which you have to measure.
 
@@ -286,7 +286,7 @@ The concepts transfer even when the tools don't. By late 2026 nearly every major
 - Run a team AI radar and apply the two-week rule to new releases ([module 17](../modules/17-keeping-up.md#team-ai-radar)).
 - Switch only when your golden tasks say so, by more than the error bar.
 
-> **Bryan's take:** For coding, Claude and Codex are the best. Claude and Codex have both had ups and downs.
+> **Author's note:** For coding, Claude and Codex are the best. Claude and Codex have both had ups and downs.
 
 **Try this.** Run the [afternoon evaluation](../modules/17-keeping-up.md#evaluating-a-brand-new-release-in-an-afternoon) on the next release that tempts you. Decide adopt, trial, or wait.
 

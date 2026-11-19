@@ -300,7 +300,7 @@ This table mixes verifiable facts with judgment, and the Basis column says which
 | **Research and deep research** | ChatGPT deep research, Gemini Deep Research, Claude Research; Kimi K3.1 Pro (open) | All search, read and cite. Kimi reports a leading BrowseComp score (vendor-reported) | Opinion |
 | **Security research** | Mythos 5.1 or GPT-6-Cyber through verification programs | General releases route or refuse this work | Fact (access rules) |
 
-> **Bryan's take:** For coding, Claude and Codex are the best. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding, because they fall far behind there. Different models are better for different use cases.
+> **Author's note:** For coding, Claude and Codex are the best. For certain other tasks you might use Grok or Gemini for very specific cases, but not for coding, because they fall far behind there. Different models are better for different use cases.
 
 ### Reception stories: launches don't always land
 
@@ -320,9 +320,9 @@ Gemini 3.5 Pro never shipped. At I/O on May 19, 2026, Google released Gemini 3.5
 
 In August and September 2025, users suspected Anthropic had quietly "nerfed" Claude. Anthropic's postmortem traced the problems to three infrastructure bugs: a context-window routing error, output corruption on some servers, and a compiler bug in token selection. It stated: "We never reduce model quality due to demand, time of day, or server load" ([Anthropic](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues)). OpenAI had its own rollback in April 2025, when a GPT-4o update became sycophantic ([OpenAI](https://openai.com/index/sycophancy-in-gpt-4o/)).
 
-> **Bryan's take:** Opus 5 felt benchmark-maxed. Great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5, people really liked.
+> **Author's note:** Opus 5 felt benchmark-maxed. Great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5, people really liked.
 
-> **Bryan's take:** I don't trust some labs much. Google in particular tends to overhype its models, and they underperform in my use.
+> **Author's note:** I don't trust some labs much. Google in particular tends to overhype its models, and they underperform in my use.
 
 There is evidence against that second take:
 
@@ -377,7 +377,7 @@ With Fable, a classifier decides whether your request goes to Fable or to an Opu
 
 Google reorganized DeepMind's leadership in August 2026. Meta replaced Llama with MSL and Muse. Anthropic filed for an IPO in October 2026 ([Anthropic](https://www.anthropic.com/news/s1-sec)). OpenAI hired OpenClaw's creator in February 2026, and the Agentic AI Foundation took over MCP, AGENTS.md and Agent Skills. Both reshaped the tool ecosystem ([module 16](16-open-source-ecosystem.md)). These changes can affect pricing, openness and roadmaps as much as a benchmark result.
 
-## Bryan's take
+## Author's note
 
 Bryan's views on coding models, Opus 5 and Google appear above, next to the evidence they respond to. His take on Claude's and Codex's ups and downs is in [module 17](17-keeping-up.md), and his take on subscription pricing is in [module 15](15-costs-subscriptions-and-apis.md).
 

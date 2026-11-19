@@ -79,7 +79,7 @@ Every module has the same layers: Foundations (no background assumed), In practi
 
 ## Conventions
 
-- Bryan's take callouts are the author's opinions from daily use, clearly labelled. Everything else should be sourced. When credible people disagree, the module says so.
+- Author's notes are opinions from daily use, clearly labelled. Everything else should be sourced. When credible people disagree, the module says so.
 - Each module has a Last checked date at the top. Specific model names, prices, and benchmark numbers are kept mostly in [module 05](modules/05-model-landscape.md), [module 15](modules/15-costs-subscriptions-and-apis.md), and the [timeline](reference/timeline.md) so they're easy to refresh.
 - Papers are linked wherever a claim rests on research.
 

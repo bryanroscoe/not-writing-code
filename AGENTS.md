@@ -3,7 +3,7 @@
 This repo is a Markdown knowledge base, not code. Keep this file short ([module 09](modules/09-context-engineering.md) explains why).
 
 - Follow [CONTRIBUTING.md](CONTRIBUTING.md): module template, voice, opinion callouts, sourcing.
-- Opinions belong only in `> **Bryan's take:**` callouts. Don't invent new ones. Ask.
+- Opinions belong only in `> **Author's note:**` callouts. Don't invent new ones. Ask.
 - Verify 2025+ facts against primary sources. Don't cite SEO or auto-generated "AI news" sites.
 - Update the module's "Last checked" date when you re-check its facts.
 - After editing any module's "Terms introduced" or "Sources" section, regenerate `reference/glossary.md` and the paper lists in `reference/papers.md`.

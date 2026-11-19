@@ -75,7 +75,7 @@ People usually blame the bottom layer ("they nerfed the model"). In the document
 
 The labs' own monitoring often missed what users noticed. Anthropic's 2025 postmortem said "the evaluations we ran simply didn't capture the degradation users were reporting." Its 2026 one said the issues "were challenging to distinguish from normal variation in user feedback at first." And the stated causes were rarely "we made the model worse on purpose." Anthropic wrote that it "never reduce[s] model quality due to demand, time of day, or server load." You can't independently verify a statement like that. You *can* verify your own golden tasks.
 
-> **Bryan's take:** Claude and Codex have both had ups and downs.
+> **Author's note:** Claude and Codex have both had ups and downs.
 
 The documented record backs that up for both vendors, and the practical response is to keep more than one tool usable.
 
@@ -145,7 +145,7 @@ Some documented episodes:
 
 **Google.**
 
-> **Bryan's take:** I don't trust Google's launch claims much. In my experience they overhype Gemini, and it underperforms what was promised, especially for coding. I'll use Gemini for some specific tasks, but not as my coding agent.
+> **Author's note:** I don't trust Google's launch claims much. In my experience they overhype Gemini, and it underperforms what was promised, especially for coding. I'll use Gemini for some specific tasks, but not as my coding agent.
 
 Some evidence against trusting Google's claims:
 - In December 2023 its "Hands-on with Gemini" video turned out to be staged. Google acknowledged it had fed the model still frames and text prompts rather than live video and voice ([TechCrunch](https://techcrunch.com/2023/12/07/googles-best-gemini-demo-was-faked/)).
@@ -292,9 +292,9 @@ Launch days are built for attention: leaks, countdowns, charts, viral demos. Ben
 
 Look back at 2023–2024 advice. "Prompt tricks" mostly aged badly. "Give the model examples, context, and a way to check its work" aged well. The specific tools on your radar will turn over every year or two. You can keep improving how you evaluate tools, verify output, and recognize model failures. [Module 18](./18-learning-careers-and-responsibility.md) covers what that means for learning and careers.
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** The rapidly changing nature of all this is interesting too.
+> **Author's note:** The rapidly changing nature of all this is interesting too.
 
 The takes on Claude's and Codex's ups and downs and on Google's launch claims sit next to the evidence earlier, and the Opus 5 example is in [module 07](./07-judging-models.md#a-recent-example-opus-5-to-opus-55).
 

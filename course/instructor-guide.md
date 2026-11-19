@@ -131,7 +131,7 @@ Students learn the RL loop well enough to see why coding improved fastest, and w
 - Most teams shouldn't fine-tune first ([module 03](../modules/03-post-training-and-rl.md#should-you-fine-tune-at-all)).
 - For self-tuning, separate demonstrated, deployed, and speculation. As of November 2026, the module found no deployed frontier model that updates its weights continuously from use ([module 03](../modules/03-post-training-and-rl.md#demonstrated-deployed-or-speculation)).
 
-> **Bryan's take:** Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?
+> **Author's note:** Models that can tune their own weights are exciting. I don't know a ton about it yet, but that's self-improvement, right?
 
 Pair that with the module's caution that the results are real, small-scale, and supervised ([module 03](../modules/03-post-training-and-rl.md#why-it-matters-and-why-caution)).
 
@@ -191,7 +191,7 @@ Students learn to read names, claims, benchmarks, and licenses without memorizin
 - The eight-question benchmark claim checklist ([module 07](../modules/07-judging-models.md#reading-a-benchmark-claim-a-checklist)).
 - Benchmark-maxing, with the Opus 5 to Opus 5.5 example ([module 07](../modules/07-judging-models.md#a-recent-example-opus-5-to-opus-55)).
 
-> **Bryan's take:** Opus 5 felt benchmark-maxed: great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5 people really liked.
+> **Author's note:** Opus 5 felt benchmark-maxed: great numbers, and it kind of sucked in daily use. People didn't like it. Opus 5.5 people really liked.
 
 For the live demo, take the most recent launch post from a major lab and go through the checklist on the projector. Ask which harness and effort they used, who ran the competitor numbers, and what's missing since last time.
 
@@ -307,9 +307,9 @@ Teach the core loop and tests as the contract. Show how to adjust autonomy.
 - Yegge's stages measure delegation. They don't measure quality ([module 10](../modules/10-agentic-workflows.md#steve-yegges-eight-stages)).
 - On the autonomy debate, the famous autonomous successes share a strong oracle, greenfield code, a human-built harness, and tolerance for waste ([module 10](../modules/10-agentic-workflows.md#what-the-successes-have-in-common)).
 
-> **Bryan's take:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
+> **Author's note:** I don't believe fully autonomous agentic workflows work reliably today. Maybe I'm just too dumb; I haven't had good results, but some people claim they work.
 
-Present the counterclaims just as carefully. OpenAI's harness team reports a million-line product without hand-written code. Cursor reports a week-long multi-agent run that built a web browser. Critics disputed Cursor's result: they reported that a fresh clone failed to build and that most CI jobs failed ([module 10's critique](../modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet)). Anthropic reports that Claude writes most of its merged code ([module 09](../modules/09-context-engineering.md#bryans-take), [module 10](../modules/10-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
+Present the counterclaims just as carefully. OpenAI's harness team reports a million-line product without hand-written code. Cursor reports a week-long multi-agent run that built a web browser. Critics disputed Cursor's result: they reported that a fresh clone failed to build and that most CI jobs failed ([module 10's critique](../modules/10-agentic-workflows.md#the-case-against-or-at-least-not-yet)). Anthropic reports that Claude writes most of its merged code ([module 09](../modules/09-context-engineering.md#authors-note), [module 10](../modules/10-agentic-workflows.md#the-case-for-full-autonomy)). Ask students what evidence would settle it.
 
 For the live demo, run a version of module 10's [sample session](../modules/10-agentic-workflows.md#a-sample-session) on a toy bug. Before it runs the tests, ask "is it done?" and let the class watch it claim success. Then ask for the command and output.
 
@@ -347,9 +347,9 @@ Students learn to give an agent something outside itself to check against, and t
 - Agents game whatever check you give them, so protect it with tests the agent can't edit, holdouts it can't see, a test diff you read, and mutation testing ([module 11](../modules/11-verification.md#protecting-the-verifier)). Connect this to the reward hacking from Unit 1.
 - Passing checks is evidence, not proof. Scale the evidence to the risk of the change, and use automated gates to catch mistakes, since automation bias "cannot be prevented by training or instructions" ([module 11](../modules/11-verification.md#calibrating-your-own-trust)).
 
-> **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows.md#bryans-take).)
+> **Author's note:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows.md#authors-note).)
 
-Give the module's counterpoint too: with a near-perfect verifier, like the conformance tests and GCC behind Carlini's C compiler, a loop can be ambitious ([module 11](../modules/11-verification.md#bryans-take)).
+Give the module's counterpoint too: with a near-perfect verifier, like the conformance tests and GCC behind Carlini's C compiler, a loop can be ambitious ([module 11](../modules/11-verification.md#authors-note)).
 
 For the live demo, run the module's individual exercise on the projector ([11 Try it](../modules/11-verification.md#try-it)). Add a `Stop` hook that blocks "done" until the tests pass, and watch it push the agent back. Then change one test so it contradicts the spec, without telling the agent, and have the class predict whether it reports the conflict or edits the test. Finish by blocking edits under `tests/` and running it again.
 
@@ -383,7 +383,7 @@ Agents parallelize reading well but usually struggle to write on one codebase.
 - Models prefer their own output, so review in a fresh context at minimum and with another lab's model when it matters ([module 12](../modules/12-multi-agent-systems.md#recipe-2-cross-model-review)).
 - Set budgets and stop conditions before you start ([module 12](../modules/12-multi-agent-systems.md#budgets-and-stop-conditions)).
 
-> **Bryan's take:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
+> **Author's note:** Multi-agent review is valuable: several agents, and ideally several models, reviewing each other's work.
 
 For the live demo, run a three-reviewer swarm on a small diff, then a verifier on the top two findings. Try to show at least one finding the verifier refutes.
 

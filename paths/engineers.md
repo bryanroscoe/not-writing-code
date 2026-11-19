@@ -8,7 +8,7 @@ If your last serious try was chat-and-paste or autocomplete, repository-aware ag
 
 ## How to read each module
 
-Skim Foundations and read the parts you don't already know. Read In practice closely, since it's written for you. Read Going deeper for the modules you care most about, because that's where the open debates are. Read Bryan's take as one experienced practitioner's opinion, not gospel. Several are contested, and the modules say so.
+Skim Foundations and read the parts you don't already know. Read In practice closely, since it's written for you. Read Going deeper for the modules you care most about, because that's where the open debates are. Read the author's notes as one experienced practitioner's opinion, not gospel. Several are contested, and the modules say so.
 
 ## The path
 

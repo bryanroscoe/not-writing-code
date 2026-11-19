@@ -289,11 +289,11 @@ Several of the most-starred harnesses, such as Codex CLI and Gemini CLI, are ope
 
 MCP servers, skills and plugins run with your agent's permissions. Treat them like any other dependency: check the maintainer, read the code, pin versions, prefer official vendor packages, and watch for updates that change behavior. The OpenClaw skill-registry malware and the MCP "tool poisoning" research are early examples of a supply-chain problem that will grow ([module 14](./14-security-and-prompt-injection.md)).
 
-## Bryan's take
+## Author's note
 
-> **Bryan's take:** OpenClaw had a couple of issues, but it was Gas Town that really did not work for me.
+> **Author's note:** OpenClaw had a couple of issues, but it was Gas Town that really did not work for me.
 
-> **Bryan's take:** Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.
+> **Author's note:** Having several agents or models review each other's work is valuable, and that includes before you open a pull request on someone else's project. I already do this, though not perfectly. Get a second reviewer on your diff before a maintainer has to look at it.
 
 ## Try it
 
