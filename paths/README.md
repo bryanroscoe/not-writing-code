@@ -10,4 +10,4 @@ Pick the path that fits you. Each one says what to read in full, what to skim, a
 
 Everyone should start with [00: Orientation](../modules/00-orientation.md).
 
-The [modules](../modules/README.md) come in five stages: how the machine works (01–03), choosing a model (05–07), working with agents (08–10), trusting the output (12–14), and practice for the long run (15–18). Each path picks from them in the order that suits its audience.
+The [modules](../modules/README.md) come in five stages: how the machine works (01–04), choosing a model (05–07), working with agents (08–10), trusting the output (11–14), and practice for the long run (15–18). Each path picks from them in the order that suits its audience.

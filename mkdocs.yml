@@ -83,6 +83,7 @@ nav:
           - 01 What is an LLM?: modules/01-what-is-an-llm.md
           - 02 How a model is made: modules/02-how-a-model-is-made.md
           - 03 Post-training and RL: modules/03-post-training-and-rl.md
+          - 04 Model safety: modules/04-model-safety-and-alignment.md
       - "Stage 2: Choosing a model":
           - 05 Model landscape: modules/05-model-landscape.md
           - 06 Open vs closed weights: modules/06-open-vs-closed-weights.md
@@ -92,6 +93,7 @@ nav:
           - 09 Context engineering: modules/09-context-engineering.md
           - 10 Agentic workflows: modules/10-agentic-workflows.md
       - "Stage 4: Trusting the output":
+          - 11 Verification: modules/11-verification.md
           - 12 Multiple agents: modules/12-multi-agent-systems.md
           - 13 AI code review: modules/13-ai-code-review.md
           - 14 Security: modules/14-security-and-prompt-injection.md

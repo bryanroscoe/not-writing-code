@@ -91,7 +91,7 @@ Giving away a model that cost tens of millions of dollars sounds odd. The reason
 
 The case for open weights:
 
-- Security researchers and defenders can use them without permission. In July 2026 Hugging Face responded to an intrusion by an autonomous OpenAI test agent that had escaped its sandbox. Its team found commercial model APIs blocked their incident-analysis requests, so they used a self-hosted open-weight model instead ([Simon Willison](https://simonw.substack.com/p/openais-accidental-cyberattack-against)).
+- Security researchers and defenders can use them without permission. In July 2026 Hugging Face responded to an attack by autonomous agents from an OpenAI cyber evaluation ([module 04](04-model-safety-and-alignment.md#two-2026-incidents-outside-contrived-setups)). Its team found commercial model APIs blocked their incident-analysis requests, so they used a self-hosted open-weight model instead ([Simon Willison](https://simonw.substack.com/p/openais-accidental-cyberattack-against)).
 - Self-hosting lets you keep data on your machines, provided your application and tools also stay local.
 - You can study the internals, which interpretability and safety research need.
 - No single point of control over a widely used technology.
@@ -101,7 +101,7 @@ The case against:
 
 - Release can't be undone, and safeguards can be removed. Research showed LoRA fine-tuning cheaply strips safety training ([Lermen et al., 2023](https://arxiv.org/abs/2310.20624); [Gade et al., 2023](https://arxiv.org/abs/2311.00117)). Refusal behavior is often controlled by a single direction in the model's activations, which can be edited out ("abliteration") ([Arditi et al., 2024](https://arxiv.org/abs/2406.11717)). An "abliterated" copy of Muse Spark Open was on Hugging Face two days after its release ([Hugging Face](https://huggingface.co/BoldingBuilds/Muse-Spark-Open-816B-A42B-Abliterated-UD-IQ1_S-GGUF)).
 - Dangerous capability spreads with a lag. Epoch estimates open models trail the closed frontier by 6–7 months on cyber tasks ([Epoch AI](https://epoch.ai/data-insights/open-closed-cyber-eci-gap)). That historical lag doesn't guarantee when any particular gated capability will become downloadable.
-- Agent security varies. In 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting alone doesn't remove that vulnerability. The harness and defenses also affect attack success ([module 14](14-security-and-prompt-injection.md)).
+- Agent security varies. In 2025, NIST's CAISI found agents built on DeepSeek R1-0528 were on average 12 times more likely than US frontier models to follow hijacking instructions ([NIST](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks)). Self-hosting alone doesn't remove that vulnerability. The harness and defenses also affect attack success ([module 14](14-security-and-prompt-injection.md)). (As of November 16, 2026, the heading of [NIST's center page](https://www.nist.gov/caisi) reads "Center for Advancing Innovation and Standards for Super Intelligence (CAISSI)," while other items on the same page still say CAISI.)
 
 People disagree about where to draw the line. Most current policy treats today's open models as acceptable while monitoring the frontier.
 
@@ -119,7 +119,7 @@ People disagree about where to draw the line. Most current policy treats today's
 | 4-bit (Q4_K_M, MXFP4, NVFP4, MLX 4-bit) | ~0.55–0.6 | ~4.7 GB | ~17 GB | ~65 GB |
 | ~3-bit | ~0.4 | ~3.5 GB | ~13 GB | ~50 GB |
 
-**Quantization** stores each weight with fewer bits. 8-bit is usually close to lossless. 4-bit is the common local default with modest quality loss. Coding and long reasoning tend to suffer before casual chat does. Below about 3 bits, quality drops noticeably. Some models are trained with quantization in mind (**quantization-aware training**), so their 4-bit release loses little. Both gpt-oss and Kimi K3 ship natively in 4-bit MXFP4 ([gpt-oss card](https://huggingface.co/openai/gpt-oss-120b); [Kimi K3 card](https://huggingface.co/moonshotai/Kimi-K3)). The research is in [GPTQ](https://arxiv.org/abs/2210.17323), [LLM.int8()](https://arxiv.org/abs/2208.07339) and [QLoRA](https://arxiv.org/abs/2305.14314).
+**Quantization** stores each weight with fewer bits. 8-bit is usually close to lossless. 4-bit is the common local default with modest quality loss. Coding and long reasoning tend to suffer before casual chat does. Below about 3 bits, quality drops noticeably. Some models are trained with quantization in mind (**quantization-aware training**), so their 4-bit release loses little. gpt-oss ships its MoE weights in 4-bit MXFP4, with the remaining weights in BF16, and Kimi K3 ships natively in MXFP4 ([gpt-oss card](https://huggingface.co/openai/gpt-oss-120b); [Kimi K3 card](https://huggingface.co/moonshotai/Kimi-K3)). The research is in [GPTQ](https://arxiv.org/abs/2210.17323), [LLM.int8()](https://arxiv.org/abs/2208.07339) and [QLoRA](https://arxiv.org/abs/2305.14314).
 
 #### Step 2: add room for context (the KV cache)
 

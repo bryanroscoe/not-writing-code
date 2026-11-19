@@ -66,7 +66,7 @@ One analogy for the whole process: read the entire library (pretraining), study 
 
 Pretraining is next-token prediction over trillions of tokens. Most data comes from web crawls such as Common Crawl, filtered hard for duplicates, spam, and quality. Hugging Face's open FineWeb project produced about 15 trillion tokens from Common Crawl. Published counts: Llama 3, more than 15 trillion; DeepSeek-V3, 14.8 trillion; Qwen3, about 36 trillion. Closed labs mostly don't publish theirs.
 
-For cost, think in orders of magnitude. Karpathy's nanochat trains a toy chat model for about $100. DeepSeek reported about $5.6 million for DeepSeek-V3's final training run, excluding research, failed runs, and staff. Frontier closed models cost hundreds of millions of dollars, and Epoch AI projected the largest runs passing $1 billion by 2027.
+For cost, think in orders of magnitude. Karpathy's nanochat trains a toy chat model for about $100. DeepSeek reported about $5.6 million for DeepSeek-V3's official training run at a $2/GPU-hour rental price, excluding prior research and ablation experiments. Frontier closed models cost hundreds of millions of dollars, and Epoch AI projected the largest runs passing $1 billion by 2027.
 
 The output of pretraining is a base model. It completes documents. It doesn't follow instructions or refuse harmful requests yet. Mid-training is a loosely defined phase with higher-quality data, longer context, and a slowly lowered learning rate.
 -->

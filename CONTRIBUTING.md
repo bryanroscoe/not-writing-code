@@ -27,8 +27,9 @@ Modules are numbered in reading order and grouped into five stages. Link between
 | `modules/00-orientation.md` | AI-accelerated coding vs vibe coding, how to use this, why it moves so fast |
 | **Stage 1: How the machine works** | |
 | `modules/01-what-is-an-llm.md` | Tokens, transformers, pretraining, post-training, reasoning models, limits |
-| `modules/02-how-a-model-is-made.md` | How models are made: data, pretraining, mid-training, distillation, quantization |
+| `modules/02-how-a-model-is-made.md` | How models are made: data, pretraining, mid-training, hardware, distillation, quantization |
 | `modules/03-post-training-and-rl.md` | Post-training and RL, fine-tuning (LoRA etc.), and how models now tune themselves |
+| `modules/04-model-safety-and-alignment.md` | Alignment, safety frameworks, dangerous-capability evals, observed behaviors and their settings |
 | **Stage 2: Choosing a model** | |
 | `modules/05-model-landscape.md` | The labs, the current lineups, who leads where, the best model for the job |
 | `modules/06-open-vs-closed-weights.md` | Open weight vs closed, licenses, running locally, where open models sit in the chain |
@@ -38,6 +39,7 @@ Modules are numbered in reading order and grouped into five stages. Link between
 | `modules/09-context-engineering.md` | Prompt → context → harness → loop → graph engineering; CLAUDE.md/AGENTS.md history |
 | `modules/10-agentic-workflows.md` | Day-to-day workflows, Yegge's levels, parallel agents, how much autonomy works |
 | **Stage 4: Trusting the output** | |
+| `modules/11-verification.md` | Verifiers and oracles, the ladder of checks, loops, Stop hooks and CI gates, protecting the verifier |
 | `modules/12-multi-agent-systems.md` | Multiple agents building and reviewing; what the research says |
 | `modules/13-ai-code-review.md` | Review tools, multi-model review, keeping humans accountable |
 | `modules/14-security-and-prompt-injection.md` | Prompt injection, the lethal trifecta, sandboxing, supply chain |
