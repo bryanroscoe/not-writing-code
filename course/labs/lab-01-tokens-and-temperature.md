@@ -1,6 +1,6 @@
 # Lab 1: Tokens and temperature
 
-This lab runs in week 2 of the [syllabus](../syllabus.md) and is due in week 3. It's an AI-as-tutor assignment and takes about 3 hours.
+This lab goes with Unit 1 of the [syllabus](../syllabus.md) and is due at the start of Unit 2. It's an AI-as-tutor assignment and takes about 3 hours.
 
 *Last checked November 8, 2026.*
 
@@ -164,7 +164,7 @@ Write one page, in your own words:
 2. What temperature does, using your Part B numbers as evidence.
 3. What happened in your hallucination probes, with and without search. Which of [module 01's causes of hallucination](../../modules/01-what-is-an-llm.md#hallucination-and-why-it-happens) best explains what you saw?
 4. Pick two items from [module 01's working mental model](../../modules/01-what-is-an-llm.md#a-working-mental-model) that this lab gave you evidence for, and say what the evidence was.
-5. One habit you'll change when you use a coding agent next week, because of this lab.
+5. One habit you'll change when you start using a coding agent in Unit 3, because of this lab.
 
 ## What to submit
 

@@ -1,12 +1,12 @@
 # Lab 6: Build your own eval
 
-This lab runs in week 10 of the [syllabus](../syllabus.md) and is due in week 12. It's a team lab with individual parts, done on your term project, and it doubles as your project's eval set. Use AI freely for tooling; task selection, hidden tests, and scoring are yours. Expect about 5 hours of your own work over two weeks, plus your share of the team's agent runs (about 12 runs each for a team of three; several more hours, mostly unattended if you script them).
+This lab goes with Unit 3 of the [syllabus](../syllabus.md). Module 07 in Unit 2 describes the eval, but running one takes the agent skills from Labs 2 and 3, so the lab opens at the end of Unit 3 and is due early in Unit 4. It's a team lab with individual parts. When the course runs the capstone, you do it on your capstone project and it doubles as the project's eval set. Without the capstone, the instructor forms the teams and supplies tasks from the eval starter. Use AI freely for tooling; task selection, hidden tests, and scoring are yours. Expect about 5 hours of your own work over two weeks, plus your share of the team's agent runs (about 12 runs each for a team of three; several more hours, mostly unattended if you script them).
 
 *Last checked November 8, 2026.*
 
 ## Goal
 
-Public benchmarks answer "is this model generally strong?" Your own eval answers "should *we* use it, in *our* tool, on *our* code?" ([module 07](../../modules/07-judging-models.md#build-your-own-eval)). Your team builds a set of golden tasks from your term project's own history, runs two agent configurations on them, scores the results blind, and reports what it found with honest error bars. Then you pick the configuration you'll use for the final sprint.
+Public benchmarks answer "is this model generally strong?" Your own eval answers "should *we* use it, in *our* tool, on *our* code?" ([module 07](../../modules/07-judging-models.md#build-your-own-eval)). Your team builds a set of golden tasks from your capstone project's own history, runs two agent configurations on them, scores the results blind, and reports what it found with honest error bars. Then you pick the configuration you'll use for the final sprint.
 
 This lab fulfills the project eval-set deliverable ([syllabus](../syllabus.md#deliverables)).
 
@@ -21,7 +21,7 @@ An agent may help write the runner and blinding scripts. You choose the tasks, w
 ## Prerequisites and setup
 
 - [Labs 2–3](lab-03-plan-test-build.md) done. You're comfortable with fresh sessions, turn limits, and git worktrees ([module 10](../../modules/10-agentic-workflows.md#worktrees-and-parallel-agents)).
-- Your project's history is the task source. By week 10 it has a deployed vertical slice and a few weeks of real, recent commits. Keep it private and turn off vendor training, since recency alone doesn't prove it's absent from training data. If your history is too thin, the instructor can supply tasks from the eval starter: `[link to Lab 6 eval starter]`. Never use another team's or student's work.
+- Your project's history is the task source. By the time this lab opens, it has a deployed vertical slice (the capstone's end-of-Unit-3 milestone) and a few weeks of real, recent commits. Keep it private and turn off vendor training, since recency alone doesn't prove it's absent from training data. If your history is too thin, the instructor can supply tasks from the eval starter: `[link to Lab 6 eval starter]`. Never use another team's or student's work.
 - Two configurations that differ in exactly one thing. Options that work on a single plan:
   - Two models in the same harness, for example the top tier and the workhorse tier.
   - The same model at two effort levels.
@@ -337,4 +337,4 @@ From each student:
 - Teams whose projects started late may not have enough tasks. Supplement from the eval starter rather than letting them invent tasks.
 - Scripted runs that crash can leave worktrees and build output behind. Ask students to show an empty `git worktree list` (apart from the main checkout).
 - For individual credit, the task, run, and scoring logs show who did what. A walkthrough question ("why does this hidden test check the empty case?") confirms authorship.
-- The trap task is the hardest to grade and the most interesting. Discuss the class's trap results in week 13.
+- The trap task is the hardest to grade and the most interesting. Discuss the class's trap results in Unit 4.

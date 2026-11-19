@@ -12,7 +12,7 @@ This is the first full draft (November 2026). Facts are dated in each module's h
 
 | You are | Read this | Then |
 | --- | --- | --- |
-| A **student** or new to AI coding tools | [Student path](paths/students.md) | The [semester course](course/syllabus.md) and its [labs](course/labs/) |
+| A **student** or new to AI coding tools | [Student path](paths/students.md) | The [course](course/syllabus.md) and its [labs](course/labs/) |
 | A **working engineer** | [Engineer path](paths/engineers.md) | The two-week practice plan at the end of it |
 | A **lead or AI champion** bringing a team along | [Leads path](paths/leads.md) | The [workplace playbook](workplace/ai-first-playbook.md) |
 
@@ -71,7 +71,7 @@ Every module has the same layers: Foundations (no background assumed), In practi
 
 ## Also in this repo
 
-- A 15-week [course](course/) proposal with a [syllabus](course/syllabus.md), an [instructor guide](course/instructor-guide.md), and eight labs.
+- A [course](course/) proposal in six units that follow the stages, with a [syllabus](course/syllabus.md), an [instructor guide](course/instructor-guide.md), eight labs, and an optional capstone.
 - [Workplace](workplace/) material with an [AI-first rollout playbook](workplace/ai-first-playbook.md), [honest answers to common objections](workplace/objections.md), a ready-to-run [internal session series](workplace/session-series.md), and a [team policy template](workplace/policy-template.md).
 - [Reference](reference/) pages with a [glossary](reference/glossary.md) of 300+ terms, an annotated [reading list](reference/papers.md) of 180+ research papers (start with the short list of eighteen), and a dated [timeline](reference/timeline.md) from 2017 to now.
 

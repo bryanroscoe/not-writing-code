@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 17 Keeping up"
 
 <!-- _class: lead -->
 
-# 14: Keeping up without drowning
+# 17: Keeping up without drowning
 
 How to follow a field that ships every week, and when to ignore it
 

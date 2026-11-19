@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 12 Multiple agents"
 
 <!-- _class: lead -->
 
-# 09: Multiple agents
+# 12: Multiple agents
 
 Building and reviewing with more than one agent
 
@@ -339,14 +339,14 @@ Part 3 covers the research. The module's Going deeper section has more, includin
 - Sampling several answers and taking the majority is a strong, early baseline
 - "Majority Voting alone accounts for most of the performance gains" (Choi et al., 2025)
 - Debate can *lower* accuracy as agents abandon right answers (Wynn et al., 2025)
-- Self-correction without outside feedback can degrade (Huang et al., 2023)
+- Self-critique alone rarely fixes mistakes; outside feedback does (deck 11)
 
 <!--
 Self-consistency (Wang et al., 2022) samples several reasoning paths and takes the majority answer. "More Agents Is All You Need" (Li et al., 2024) found plain sampling-and-voting performance "scales with the number of agents instantiated."
 
 "Debate or Vote" split multi-agent debate into its parts and found that voting alone "accounts for most of the performance gains typically attributed to" debate. "Talk Isn't Always Cheap" found that "models frequently shift from correct to incorrect answers in response to peer reasoning, favoring agreement over challenging flawed reasoning." That's sycophancy between agents.
 
-Huang et al.: "LLMs struggle to self-correct their responses without external feedback, and at times, their performance even degrades." So feedback works best from outside the model: test results, compiler errors, or a different reviewer. Reflexion's coding gains (91% on HumanEval) relied on running tests.
+Early work had a model critique and retry its own output, but later research found models rarely fix their own mistakes without feedback from outside, such as test results or compiler errors. Module 11 covers that research, and judge biases too.
 
 The 2023 wave (CAMEL, Generative Agents, MetaGPT, ChatDev, AutoGen, AgentVerse) mostly evaluated small, self-contained programs. They're ancestors of today's tools, not evidence that role-play teams beat a strong single agent on real codebases. And simple often beats elaborate. Agentless, a fixed localize-repair-validate pipeline, scored 32% on SWE-bench Lite at $0.70 per issue, the best open-source result at the time.
 -->

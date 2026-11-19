@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 09 Context engineering and 
 
 <!-- _class: lead -->
 
-# 07: Context engineering and the buzzwords
+# 09: Context engineering and the buzzwords
 
 Prompt → context → harness → loop → graph
 
@@ -128,52 +128,19 @@ Six days later OpenAI's "Harness engineering" post (Ryan Lopopolo, February 11, 
 
 ## Loop engineering replaces typing "continue"
 
-```bash
-while :; do cat PROMPT.md | claude-code ; done
-```
-
-Geoffrey Huntley's "Ralph" loop (July 2025): a fresh context each pass, a plan file as memory.
-
 > "You shouldn't be prompting coding agents anymore. You should be designing loops that prompt your agents."
 > Peter Steinberger, quoted by Addy Osmani, June 2026
+
+Precursor: Geoffrey Huntley's "Ralph" loop (July 2025), one shell loop feeding an agent the same prompt forever.
 
 Osmani warns that "done" from a loop is "a claim and not a proof."
 
 <!--
-The one-liner is how Huntley's post writes it; the actual Claude Code binary is claude. The prompt tells the agent to read a plan file, do the single most important remaining item, update the plan, and exit. The next pass starts with a fresh context window. Huntley was blunt about the limits: one thing per loop, expect broken builds, use it for greenfield projects ("There's no way in heck would I use Ralph in an existing code base"), and keep senior engineers steering.
+Osmani's essay popularized the name, though it doesn't say who coined "loop engineering." It also quotes Boris Cherny, who leads Claude Code at Anthropic: "I don't prompt Claude anymore. I have loops running that prompt Claude and figuring out what to do." Osmani lists the parts: scheduled automations, worktrees, skills, plugins and connectors, verifier subagents, and state that lives outside the conversation, like a markdown file or an issue board. He also warns that loops invite "cognitive surrender."
 
-Osmani's essay doesn't say who coined "loop engineering." It also quotes Boris Cherny, who leads Claude Code at Anthropic: "I don't prompt Claude anymore. I have loops running that prompt Claude and figuring out what to do." Osmani lists the parts: scheduled automations, worktrees, skills, plugins and connectors, verifier subagents, and state that lives outside the conversation. He warns that loops invite "cognitive surrender."
+Harnesses shipped features for this: Claude Code's /loop (re-run a prompt on an interval, or let the agent pick one) and /goal (keep going until a condition holds, judged after every turn by a separate small model), plus cloud scheduled tasks, which used to be called "routines." The Codex app has Automations and a /goal command.
 
-Harnesses shipped features for this: Claude Code's /loop (re-run on an interval) and /goal (keep going until a condition holds, judged after every turn by a separate small model), plus cloud scheduled tasks. The Codex app has Automations and a /goal command.
--->
-
----
-
-## A loop worth building has a checkable end state
-
-```text
-read state → do one item → verify: tests, linter, another model
-   fail → do the item again
-   pass → update state, commit → goal or budget reached?
-            no  → read the state again
-            yes → stop and report to a human
-```
-
-- An independent check, because a model grading its own work is optimistic.
-- A budget of turns, wall-clock time, or tokens.
-- A human reads the diff. "Done" is a claim.
-
-<!--
-This redraws the module's loop diagram. Here's the full checklist for any loop.
-1. A verifiable end state. "All tests in test/auth pass" works; "the code is good" doesn't. Claude Code's /goal evaluator can't run commands itself; it judges from what the agent printed, so the agent must show the evidence.
-2. An independent check: tests, a type checker, or a model that didn't write the code.
-3. A budget. Claude Code suggests adding "or stop after 20 turns" to a goal, and its session loops expire after seven days.
-4. State outside the conversation: a plan file, a checklist, or issues.
-5. Isolation in a worktree or sandbox, so a bad pass can't damage your main checkout.
-6. Escalation when stuck, or before anything irreversible: pushing, deleting, spending money.
-7. A human reads the output before it ships (module 13).
-
-From simplest up, the loop patterns are a Ralph loop; an interval loop such as "/loop 5m check the deploy"; a goal loop such as "/goal all tests in test/auth pass and lint is clean"; a Stop hook that blocks finishing until a check passes; and scheduled cloud tasks for nightly triage.
+A loop is only worth building when the task has a checkable end state, an independent check, a budget, and a human who reads the result. The loop patterns, what every loop needs, and how Ralph actually works are in module 11 and its deck. Today we only need the name and where it came from.
 -->
 
 ---
@@ -434,9 +401,9 @@ That's my view of the shift in Part 3. The evidence needs care, though. The ETH 
 > **Bryan's take:** I like loop engineering and setting goals, but the goals can't be too ambitious or the agent goes off the rails. Loops with a hard, checkable goal and a human in the loop reading the result work for me. Open-ended loops that run unattended and ship to production don't, yet. (My broader skepticism about fully autonomous workflows is in [module 10](../modules/10-agentic-workflows/#bryans-take).)
 
 <!--
-There's evidence against my view. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These are real results from strong teams. They also come with heavy investment in harnesses, tests and verification, and from the companies selling the tools.
+There's evidence against my view. OpenAI's harness team reports building a million-line product without hand-written code, with most review handled agent-to-agent. Cursor reports a week-long multi-agent run that built a working web browser. Boris Cherny and Peter Steinberger describe loop-first daily workflows. These results depend on heavy investment in harnesses, tests and verification, and come from companies selling the tools.
 
-Connect it to the loop checklist: a checkable end state, an independent verifier, a budget, and a human reading the diff. Module 10 discusses how much autonomy works in practice.
+Module 10 discusses how much autonomy works in practice. Module 11 quotes this same take next to the loop checklist.
 -->
 
 ---
@@ -455,20 +422,18 @@ The research we covered in Part 2 supports this. Lost in the Middle, RULER, NoLi
 
 ## Try it
 
-**Individual (60–90 minutes)**
+**On your own: audit and measure an instruction file (60–90 minutes)**
 - Take a repo's `CLAUDE.md` or `AGENTS.md`; count its lines and tokens.
 - Sort every line into the "where it belongs" table, then trim.
 - Run three tasks with each version in fresh sessions; compare.
+- Write a half-page note on what you found.
 
-**Class or team (one session)**
-- Break 10 tests in a toy project.
-- Groups build a Ralph loop, a `/goal`, and a Stop hook.
-- Compare: did it finish, at what cost, and did any weaken a test?
+The class exercise, building a loop with a verifier, is in deck 11.
 
 <!--
 For the individual version, if the repo has no instruction file, have an agent generate one with /init or the equivalent. Count tokens with the harness's context view. Delete what's discoverable, move enforceable rules to hooks or linter config, and move procedures into a skill. Run each of three small tasks twice, once with the original file and once with the trimmed one, and record success, number of steps, and tokens used. Finish with a half-page note: did the trimmed file do as well, and what did you learn that the ETH study did or didn't predict?
 
-In the class version, the instructor breaks the tests on purpose. Give each loop a turn or time budget. Check the diffs to see whether any loop "passed" by weakening a test, then discuss which verifier you'd trust in a real codebase.
+The class exercise moved to module 11's Try it, next to the verification material it depends on. If you're teaching both sessions, run it there.
 -->
 
 ---
@@ -477,7 +442,7 @@ In the class version, the instructor breaks the tests on purpose. Give each loop
 
 1. Which rung adds the most substance? Which is mostly a new name? Show evidence.
 2. Hand-written context files helped a little; generated ones didn't; both cost more. Team policy?
-3. A loop says "done." What would let you merge its pull request unread?
+3. Agents follow instructions closely, bad ones too. Who may edit `AGENTS.md`?
 4. As models improve, which parts of context engineering disappear, and which remain?
 
 <!--
@@ -485,7 +450,7 @@ For 1, point to the "substance or relabel" column and the "Substance or relabel?
 
 For 2, the ETH authors' own advice is a starting point: no LLM-generated files for now, minimal human-written ones, and test any file before relying on it.
 
-For 3, tie back to the loop checklist and module 13. "Done" from a loop is a claim, not a proof.
+For 3, tie back to Part 3 and module 14. Instruction files load as trusted context, so a malicious pull request that edits AGENTS.md is a prompt-injection channel. Review changes to them as carefully as changes to CI configuration.
 
 For 4, the module's view is that emphasis tricks, architecture overviews and "think harder" phrases have already stopped helping. What remains is information the model can't get any other way, such as a decision your team made in a meeting or which legacy directory is a trap.
 -->
@@ -500,7 +465,7 @@ For 4, the module's view is that emphasis tricks, architecture overviews and "th
 - [Context Rot](https://www.trychroma.com/research/context-rot) (Chroma, July 2025)
 
 <!--
-The module has the full good and bloated instruction-file examples, the loop patterns table, and the graph patterns table with "use when" and "skip when" columns. Anthropic's post is the clearest single statement of context engineering. The ETH paper is the main evidence on instruction files. Context Rot is a readable study of long-context degradation.
+The module has the full good and bloated instruction-file examples and the graph patterns table with "use when" and "skip when" columns. Anthropic's post is the clearest single statement of context engineering. The ETH paper is the main evidence on instruction files. Context Rot is a readable study of long-context degradation.
 
 Next session, module 10, covers day-to-day agentic workflows and how much autonomy actually works.
 -->

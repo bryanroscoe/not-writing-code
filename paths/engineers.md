@@ -21,10 +21,11 @@ Skim Foundations and read the parts you don't already know. Read In practice clo
 | [09 Context engineering](../modules/09-context-engineering.md) | The buzzword ladder (so you can decode it), context limits in practice, the rise and fall of giant `CLAUDE.md` files |
 | [10 Agentic workflows](../modules/10-agentic-workflows.md) | All of In practice; Yegge's eight stages to locate yourself; the case for and against full autonomy |
 
-### Day 2: doing it safely and affordably (about 2 hours)
+### Day 2: doing it safely and affordably (about 2.5 hours)
 
 | Module | Focus on |
 | --- | --- |
+| [11 Verification](../modules/11-verification.md) | Tests as the agent's contract, problems an agent can loop on, Stop hooks and CI gates, protecting the verifier |
 | [13 AI code review](../modules/13-ai-code-review.md) | The layered review workflow, how to review AI-written PRs, accountability |
 | [14 Security and prompt injection](../modules/14-security-and-prompt-injection.md) | Why coding agents are the hard case, real incidents, risks specific to coding agents, team checklist |
 | [15 Costs](../modules/15-costs-subscriptions-and-apis.md) | Why agentic coding eats tokens, the worked example, cost per task vs cost per token |
@@ -41,7 +42,8 @@ Skim Foundations and read the parts you don't already know. Read In practice clo
 
 | If you want to… | Read |
 | --- | --- |
-| Understand what's under the hood | [01 What is an LLM?](../modules/01-what-is-an-llm.md), Going deeper |
+| Understand what's under the hood | [01 What is an LLM?](../modules/01-what-is-an-llm.md), Going deeper; then [02 How a model is made](../modules/02-how-a-model-is-made.md) for the hardware and [03 Post-training and RL](../modules/03-post-training-and-rl.md) for why agents got good at code and why they game tests |
+| Know what labs mean by safety, and how to weigh an alarming headline | [04 Model safety and alignment](../modules/04-model-safety-and-alignment.md), especially "Always ask where" and why your coding agent sometimes cheats |
 | Fine-tune or self-host | [03 Post-training and RL](../modules/03-post-training-and-rl.md), [06 Open vs closed weights](../modules/06-open-vs-closed-weights.md) |
 | Run several agents at once | [12 Multiple agents](../modules/12-multi-agent-systems.md) |
 | Use or contribute to open-source tools | [16 Open-source ecosystem](../modules/16-open-source-ecosystem.md) |
@@ -56,7 +58,7 @@ Practice on tasks from your actual backlog.
 | Day | Do this |
 | --- | --- |
 | 1 | Set up one CLI or IDE agent on your main repo ([module 08](../modules/08-harnesses-and-tools.md#a-sane-baseline-setup)). Ask it to explain the architecture of a part you don't know well. Check its answer against the code. |
-| 2 | Give it a small bug with a reproducible failure. Make it write a failing test first, then fix it. Read the diff line by line. |
+| 2 | Give it a small bug with a reproducible failure. Make it write a failing test first, then fix it ([module 11](../modules/11-verification.md#tests-as-the-agents-contract)). Read the diff line by line. |
 | 3 | Use plan mode (or ask for a plan before edits) on a medium task. Edit the plan before you approve it. Note what you changed and why. |
 | 4 | Write a *short* project instruction file: build/test commands, two or three gotchas, nothing else ([module 09](../modules/09-context-engineering.md)). Rerun day 2's kind of task and compare. |
 | 5 | Use the agent for a non-coding chore: reading logs for an incident, writing a migration script, drafting a ticket breakdown ([module 10](../modules/10-agentic-workflows.md#ai-first-beyond-writing-code)). |

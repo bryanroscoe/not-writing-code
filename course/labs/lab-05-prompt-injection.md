@@ -1,6 +1,6 @@
 # Lab 5: Prompt injection, safely
 
-This lab runs in week 8 of the [syllabus](../syllabus.md). Your sandbox plan needs approval in week 8, and the lab is due in week 9. It's AI-accelerated under mandatory safety rules and takes 3–4 hours.
+This lab goes with Unit 4 of the [syllabus](../syllabus.md), after the security session. Your sandbox plan needs approval in that session, and the lab is due before the end of the unit. It's AI-accelerated under mandatory safety rules and takes 3–4 hours.
 
 *Last checked November 8, 2026.*
 
@@ -42,7 +42,7 @@ every payload local and non-destructive. Name: ______ Date: ______
   - A container (Docker or equivalent) that mounts only the toy repository's folder. Recommended for most of the lab.
   - A virtual machine with no shared folders except the toy repository, and no copies of your credentials. Your harness's own sandbox, which defense D2 uses, is more likely to work in a VM than inside a container (step 7).
   - A vendor's cloud agent environment working on a *private, throwaway* repository. These run in vendor VMs and keep git credentials outside the sandbox ([module 14](../../modules/14-security-and-prompt-injection.md#practical-defenses)). If the environment exposes any token you can read, it isn't credential-free, so use a container or VM instead.
-- **Get your sandbox plan approved** by the instructor in week 8, before step 3: which option, what's mounted, and what credentials exist inside it.
+- **Get your sandbox plan approved** by the instructor in the Unit 4 security session, before step 3: which option, what's mounted, and what credentials exist inside it.
 
 The one real credential in the sandbox is your agent's own sign-in. That's why rule 4 forbids payloads that mention the agent's configuration or login files.
 
@@ -110,6 +110,22 @@ grep -rn "canary-" --exclude-dir=.git . | grep -v '^./fake.env:'
 ```
 
 Also read the session's tool log to see whether the agent *read* `fake.env`. Reading it without copying it is still a finding.
+
+### Sandbox check before step 3
+
+In a course, the instructor approves your sandbox before you run any injection. On your own, nobody does, so check every box yourself and don't start step 3 until they're all checked.
+
+- [ ] I'm working in a container, a VM, or a vendor's cloud agent environment on a private throwaway repository, not my everyday environment.
+- [ ] Only the toy repository's folder is shared with the sandbox: no home directory, no SSH agent forwarding, no git credential helper.
+- [ ] Inside the sandbox, `ls -la ~` shows none of my files, and the names-only environment check in step 1 shows no unexpected credential variables.
+- [ ] The only experiment secret is the invented canary, and the sole real credential is the agent's isolated sign-in. I haven't mounted host login files.
+- [ ] Every payload I plan to plant refers only to the canary file and files inside the toy repository. None contains a URL, host, IP address, email address, network command, host file path, or destructive command. Only D2 may name the moved fake canary's path inside the sandbox.
+- [ ] The repository stays local or private, and I won't publish a payload anywhere.
+- [ ] I'll use a permission mode that asks me before acting, and an auto-approve mode only inside this sandbox.
+- [ ] I know how to stop: interrupt the session, sign the agent out, and delete the sandbox (`docker rm -f lab5`, or delete the VM).
+- [ ] I've read the [safety and ethics rules](#safety-and-ethics-rules) and signed the acknowledgment.
+
+If you can't check a box, stop and fix it, or have someone experienced look at your setup first.
 
 ### 3. Baseline run, no injection (15 minutes)
 
@@ -236,7 +252,7 @@ Before you delete the sandbox, save the required tables, sanitized transcripts, 
 ## If you finish early
 
 - Write a hook that runs before each tool call and blocks any read of a file matching `*.env`, and show it firing. Hooks don't depend on the model agreeing ([module 08](../../modules/08-harnesses-and-tools.md#the-rest-of-the-harness-toolkit)).
-- Threat-model your term project's agent workflow with [module 14's class exercise](../../modules/14-security-and-prompt-injection.md#try-it): list every input, secret, and action; label them A, B, or C; remove a leg; map what's left to the OWASP lists ([module 14](../../modules/14-security-and-prompt-injection.md#the-owasp-lists)). This becomes part of your project's security review.
+- Threat-model your capstone project's agent workflow with [module 14's class exercise](../../modules/14-security-and-prompt-injection.md#try-it): list every input, secret, and action; label them A, B, or C; remove a leg; map what's left to the OWASP lists ([module 14](../../modules/14-security-and-prompt-injection.md#the-owasp-lists)). With the capstone, this becomes part of your project's security review.
 - Review the configuration surface. List every file in a repository that your harness loads automatically or that can execute code (instruction files, agent settings, hooks, MCP server lists, git hooks, editor tasks). Which would you review most carefully in a pull request ([module 14](../../modules/14-security-and-prompt-injection.md#risks-specific-to-coding-agents))?
 
 ## Instructor notes

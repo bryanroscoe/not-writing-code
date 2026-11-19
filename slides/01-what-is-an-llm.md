@@ -226,7 +226,7 @@ More thinking costs more tokens, money, and time.
 <!--
 o1 was trained with reinforcement learning to produce a long private chain of thought before answering. OpenAI reported performance improved with more RL in training and with more thinking time at answer time. Spending more computation per answer is called test-time compute.
 
-DeepSeek-R1 came with open weights and a paper explaining the recipe, reinforcement learning with verifiable rewards. Math answers can be checked automatically and code can be run against tests, so you reward correct outcomes. A variant trained with RL alone, R1-Zero, learned to write long reasoning, check its work, and backtrack without being shown examples. Reporting on the peer-reviewed Nature version (September 2025) put the reasoning stage at about $294,000 on top of a roughly $6 million base model, excluding research, staff, and failed runs.
+DeepSeek-R1 came with open weights and a paper explaining the recipe, reinforcement learning with verifiable rewards. Math answers can be checked automatically and code can be run against tests, so you reward correct outcomes. A variant trained with RL alone, R1-Zero, learned to write long reasoning, check its work, and backtrack without being shown examples. A peer-reviewed version appeared in Nature in September 2025. Nature's news coverage put R1's reasoning training at about US$300,000 on top of the base model, whose own reported cost of about $5.6 million counts only rented GPU time for the final run, not "prior research and ablation experiments" (module 02).
 
 Writing out steps helps because each generated token is one more pass through the whole network, and the written steps are a scratchpad the model can read back.
 
@@ -383,9 +383,9 @@ Given a hint it used, Claude 3.7 Sonnet mentioned it ~25% of the time; DeepSeek-
 Judge the diff, not the narration.
 
 <!--
-The table comes from Anthropic's "Tracing the thoughts of a large language model" (March 2025), studying Claude 3.5 Haiku. The same work found the model plans rhymes before writing the line, and represents "Texas" then "Austin" when asked for the capital of the state containing Dallas. Anthropic notes these methods capture only a fraction of the computation. Nobody can yet read a frontier model's mind.
+The table comes from Anthropic's "Tracing the thoughts of a large language model" (March 2025), studying Claude 3.5 Haiku. The same work found the model plans rhymes before writing the line, and represents "Texas" then "Austin" when asked for the capital of the state containing Dallas. Anthropic notes these methods capture only a fraction of the computation. Nobody can yet fully trace a frontier model's computation. As of November 2026, interpretability has started to feed release decisions: Anthropic's system card for Claude Mythos 5.2 uses white-box evidence to estimate how often the model knew it was being evaluated (module 04).
 
-The hint numbers are from Chen et al. (2025), "Reasoning Models Don't Always Say What They Think." They slipped hints into prompts and checked whether models admitted using them.
+The hint numbers are from Chen et al. (2025), "Reasoning Models Don't Always Say What They Think." They slipped hints into prompts and checked whether models admitted using them. On some frontier models the chain of thought is getting harder to monitor: OpenAI's GPT-6 Astra system card (September 2026) says the model's "monitorability has decreased relative to GPT-5.6 Sol."
 
 An agent's summary of its changes needs checking. Check the tool logs, the diff, and the test output.
 -->
@@ -479,5 +479,5 @@ The module has two more: which "it is not" misconception have you seen cause a r
 <!--
 Karpathy's one-hour talk is the best single non-technical overview. The 3Blue1Brown video gives the best visual intuition for attention. The module also lists Karpathy's longer build-it-yourself videos for students who read Python.
 
-In the module map, 01 leads to 02 (training and tuning), 03 (the model landscape), and 06 (harnesses and MCP).
+In the module map, 01 leads to 02 (how a model is made), 03 (post-training and RL), 05 (the model landscape), and 08 (harnesses and MCP).
 -->

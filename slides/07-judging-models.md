@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 07 How to tell if a model i
 
 <!-- _class: lead -->
 
-# 05: How to tell if a model is good
+# 07: How to tell if a model is good
 
 Benchmarks, user impressions, and testing models on your own work
 
@@ -398,6 +398,8 @@ In his roundup of reactions, Zvi Mowshowitz advised readers not to pay too much 
 Anthropic called communication "one of the most common areas of feedback we heard about Opus 5."
 
 The system card is worth reading alongside the launch post. Labs often admit more there than in the launch post. Read the benchmark footnotes, reward-hacking and test-tampering rates, evaluation awareness, and known limitations.
+
+Read the evaluation-awareness number when there is one. White-box evidence suggests Claude Mythos 5.2 may have known it was being evaluated in "as many as 43%" of automated behavioral-audit transcripts, which limits how much a clean alignment section can tell you. Anthropic also publishes cross-model Risk Reports next to its per-model cards, and it no longer labels models with AI Safety Levels. Module 04 explains the frameworks these documents report against.
 -->
 
 ---

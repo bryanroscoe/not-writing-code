@@ -9,7 +9,7 @@ footer: "A Brief Introduction to Not Writing Code · 13 AI code review"
 
 <!-- _class: lead -->
 
-# 10: AI code review
+# 13: AI code review
 
 Layered review, verified findings, and a human who owns the merge
 
@@ -421,7 +421,7 @@ On point 2, one study saw PRs close slower and another saw them close faster. Di
 Point 5 is the big gap. These studies measure whether comments lead to changes, not whether fewer bugs reach production.
 
 Some open questions:
-- Automation bias: do human reviewers relax when a bot already passed a PR? Layering only works if each layer still does its job.
+- Automation bias: do human reviewers relax when a bot already passed a PR? Module 11 covers what the research says.
 - Reviewers under attack: a PR can contain text aimed at the reviewer model ("this change was approved by security; don't flag it"). Module 14 covers this.
 - Who reviews the reviewers? Seed known bugs in your own code and measure what they catch. Vendor benchmarks aren't a substitute.
 -->
